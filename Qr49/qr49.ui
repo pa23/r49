@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Qr49</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="qr49.qrc">
+    <normaloff>:/icons/toxic.png</normaloff>:/icons/toxic.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout_9">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QComboBox" name="comboBox_task">
+        <property name="toolTip">
+         <string>Calculation task:
+
+points - Cycle Points
+emissions - Cycle Specific Emissions
+ReducedPower - Reduced Power</string>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>points</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>emissions</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ReducedPower</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_Vh">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Capacity, litres</string>
+        </property>
+        <property name="inputMask">
+         <string/>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_standard">
+        <property name="toolTip">
+         <string>Standard</string>
+        </property>
+        <property name="currentIndex">
+         <number>2</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>EU6</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>EU0</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>OST</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>GOST</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96E8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96F8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96G8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96D8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96E5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96F5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96G5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96D5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96H8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96I8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96J8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96K8</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96H5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96I5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96J5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>r96K5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>C1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>D1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>D2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>E1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>E2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>E3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>E5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>F</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>G1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>G2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>FreeCalc</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_FuelType">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Fuel type:
+
+diesel
+motor
+mazut</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>diesel</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>motor</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mazut</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_NOxSample">
+        <property name="toolTip">
+         <string>NOx sample type:
+
+wet - Wet Sample
+dry - Dry Sample</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>wet</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>dry</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_PTcalc">
+        <property name="toolTip">
+         <string>gPT calculation method:
+
+ThroughSmoke - Through Smoke
+ThroughPTmass - Through PT mass
+no - Don't Calculate PT</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>ThroughSmoke</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ThroughPTmass</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>no</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_PTmass">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>PT mass, mg</string>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_EnterPTmass">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>PT filter masses</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_AddPointsCalc">
+        <property name="toolTip">
+         <string>Additional points calculation:
+
+yes
+no</string>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>yes</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>no</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_reports">
+        <property name="text">
+         <string>Create reports</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QTabWidget" name="tabWidget_Data">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab_SrcData">
+         <attribute name="title">
+          <string>Source Data</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QGroupBox" name="groupBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>140</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>140</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>OST..EU2, r96**, GOST 30574 Cycle Points Calculation</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QTableWidget" name="tableWidget_SrcDataEU0">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="contextMenuPolicy">
+                    <enum>Qt::DefaultContextMenu</enum>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::ContiguousSelection</enum>
+                   </property>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>100</number>
+                   </attribute>
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>idle
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>n_interim
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>n_rated
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>N_fan_rated
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_interim
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_rated
+[kW]</string>
+                    </property>
+                   </column>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>140</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>140</height>
+                 </size>
+                </property>
+                <property name="title">
+                 <string>EU3..EU6 Cycle Points Calculation</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QTableWidget" name="tableWidget_SrcDataEU3">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::ContiguousSelection</enum>
+                   </property>
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>n_hi
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>n_lo
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>idle
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>n_rated
+[min-1]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>N_fan_rated
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_A
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_B
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_C
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_a1
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_a2
+[kW]</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ne_a3
+[kW]</string>
+                    </property>
+                   </column>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>Specific Emissions Calculation</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QTableWidget" name="tableWidget_SrcDataPoints">
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::ContiguousSelection</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>80</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>true</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>Point
+[-]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>n
+[min-1]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Me_b
+[Nm]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Ne_b
+[kW]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>N_fan
+[kW]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>w
+[-]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>t0
+[oC]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>B0
+[kPa]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Ra
+[%]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>dPn
+[mmH2O]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Gair
+[kg/h]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Gfuel
+[kg/h]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CNOx
+[ppm]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>gNOx
+[g/kWh]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CCO
+[ppm]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CCH
+[ppm]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CCO2in
+[%]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CCO2out
+[%]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CO2
+[%]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Ka
+[m-1]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Ka
+[%]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>FSN
+[-]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Pr
+[kPa]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>ts
+[oC]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>tauf
+[s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>qmdw
+[g/s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>qmdew
+[g/s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>rd
+[-]</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_Reports">
+         <attribute name="title">
+          <string>Reports</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QComboBox" name="comboBox_OpenedReports"/>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="plainTextEdit_Report">
+            <property name="lineWrapMode">
+             <enum>QPlainTextEdit::NoWrap</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_RedPower">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <attribute name="title">
+          <string>Reduced Power</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QSplitter" name="splitter">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string>Full Load Curve</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::ContiguousSelection</enum>
+                </property>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>Point
+[-]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>n
+[min-1]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Me_b
+[Nm]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>t0
+[oC]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>B0
+[kPa]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Ra
+[%]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>S
+[kPa]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>pk
+[kPa]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Gfuel
+[kg/h]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>N_k
+[kW]</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>N_fan
+[kW]</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="action_ReportToPDF"/>
+    </widget>
+    <addaction name="action_LoadSourceData"/>
+    <addaction name="action_SaveSourceData"/>
+    <addaction name="action_SaveSourceDataAs"/>
+    <addaction name="separator"/>
+    <addaction name="action_LoadCalculationOptions"/>
+    <addaction name="action_SaveCalculationOptionsAs"/>
+    <addaction name="separator"/>
+    <addaction name="action_OpenReport"/>
+    <addaction name="action_SaveReportAs"/>
+    <addaction name="action_CloseReport"/>
+    <addaction name="separator"/>
+    <addaction name="menuExport"/>
+    <addaction name="action_PrintReport"/>
+    <addaction name="separator"/>
+    <addaction name="action_Preferences"/>
+    <addaction name="separator"/>
+    <addaction name="action_Quit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="action_StandardsDescription"/>
+    <addaction name="separator"/>
+    <addaction name="action_AboutQr49"/>
+    <addaction name="action_AboutQt"/>
+    <addaction name="separator"/>
+    <addaction name="action_CheckForUpdates"/>
+   </widget>
+   <widget class="QMenu" name="menuCalculation">
+    <property name="title">
+     <string>Calculation</string>
+    </property>
+    <addaction name="action_Execute"/>
+    <addaction name="separator"/>
+    <addaction name="action_ABCspeeds"/>
+    <addaction name="action_ELRsmoke"/>
+    <addaction name="separator"/>
+    <addaction name="action_CheckoutData"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="action_UndoTable"/>
+    <addaction name="action_RedoTable"/>
+    <addaction name="separator"/>
+    <addaction name="action_CutFromTable"/>
+    <addaction name="action_CopyFromTable"/>
+    <addaction name="action_PasteToTable"/>
+    <addaction name="action_DeleteFromTable"/>
+    <addaction name="separator"/>
+    <addaction name="action_Add"/>
+    <addaction name="action_Multiply"/>
+    <addaction name="action_Divide"/>
+    <addaction name="action_Equal"/>
+    <addaction name="separator"/>
+    <addaction name="action_AddRow"/>
+    <addaction name="action_DeleteRow"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="action_Toolbar"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuCalculation"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_LoadSourceData"/>
+   <addaction name="action_LoadCalculationOptions"/>
+   <addaction name="separator"/>
+   <addaction name="action_OpenReport"/>
+   <addaction name="action_SaveReportAs"/>
+   <addaction name="action_ReportToPDF"/>
+   <addaction name="action_PrintReport"/>
+   <addaction name="separator"/>
+   <addaction name="action_UndoTable"/>
+   <addaction name="action_RedoTable"/>
+   <addaction name="separator"/>
+   <addaction name="action_CutFromTable"/>
+   <addaction name="action_CopyFromTable"/>
+   <addaction name="action_PasteToTable"/>
+   <addaction name="action_DeleteFromTable"/>
+   <addaction name="separator"/>
+   <addaction name="action_Add"/>
+   <addaction name="action_Multiply"/>
+   <addaction name="action_Divide"/>
+   <addaction name="action_Equal"/>
+   <addaction name="separator"/>
+   <addaction name="action_Execute"/>
+  </widget>
+  <action name="action_Quit">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/application-exit.png</normaloff>:/icons/application-exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_PrintReport">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/document-print.png</normaloff>:/icons/document-print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print Report...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Execute">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/execute.png</normaloff>:/icons/execute.png</iconset>
+   </property>
+   <property name="text">
+    <string>Execute</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_AboutQt">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="action_AboutQr49">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>About Qr49</string>
+   </property>
+  </action>
+  <action name="action_AddRow">
+   <property name="text">
+    <string>Add Row</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
+  </action>
+  <action name="action_DeleteRow">
+   <property name="text">
+    <string>Delete Row</string>
+   </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
+  </action>
+  <action name="action_SaveReportAs">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/document-save-as.png</normaloff>:/icons/document-save-as.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Report As...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_CopyFromTable">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-copy.png</normaloff>:/icons/edit-copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_PasteToTable">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-paste.png</normaloff>:/icons/edit-paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_DeleteFromTable">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-delete.png</normaloff>:/icons/edit-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_CutFromTable">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-cut.png</normaloff>:/icons/edit-cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Multiply">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/mult.png</normaloff>:/icons/mult.png</iconset>
+   </property>
+   <property name="text">
+    <string>Multiply...</string>
+   </property>
+   <property name="shortcut">
+    <string>*</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Divide">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/div.png</normaloff>:/icons/div.png</iconset>
+   </property>
+   <property name="text">
+    <string>Divide...</string>
+   </property>
+   <property name="shortcut">
+    <string>/</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Add">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/plus.png</normaloff>:/icons/plus.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add...</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Equal">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/eq.png</normaloff>:/icons/eq.png</iconset>
+   </property>
+   <property name="text">
+    <string>Equal...</string>
+   </property>
+   <property name="shortcut">
+    <string>=</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_SaveSourceData">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/document-save.png</normaloff>:/icons/document-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Source Data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_OpenReport">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/document-open.png</normaloff>:/icons/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Report...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_CloseReport">
+   <property name="text">
+    <string>Close Report</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="action_ABCspeeds">
+   <property name="text">
+    <string>ABC speeds</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_ELRsmoke">
+   <property name="text">
+    <string>ELR smoke</string>
+   </property>
+  </action>
+  <action name="action_ReportToPDF">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/gnome-mime-application-pdf.png</normaloff>:/icons/gnome-mime-application-pdf.png</iconset>
+   </property>
+   <property name="text">
+    <string>Report To PDF...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_UndoTable">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-undo.png</normaloff>:/icons/edit-undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo (0)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_RedoTable">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/edit-redo.png</normaloff>:/icons/edit-redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="toolTip">
+    <string>Redo (0)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Preferences">
+   <property name="text">
+    <string>Preferences...</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_CheckoutData">
+   <property name="text">
+    <string>Checkout data</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_StandardsDescription">
+   <property name="text">
+    <string>Standards Description</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_LoadCalculationOptions">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/loadCalcSerrings.png</normaloff>:/icons/loadCalcSerrings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Calculation Options...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_SaveCalculationOptionsAs">
+   <property name="text">
+    <string>Save Calculation Options As...</string>
+   </property>
+  </action>
+  <action name="action_LoadSourceData">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/changeSourceData.png</normaloff>:/icons/changeSourceData.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Source Data...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_SaveSourceDataAs">
+   <property name="text">
+    <string>Save Source Data As...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_Toolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toolbar</string>
+   </property>
+  </action>
+  <action name="action_OpenSolution">
+   <property name="text">
+    <string>Open Solution...</string>
+   </property>
+  </action>
+  <action name="action_CheckForUpdates">
+   <property name="text">
+    <string>Check For Updates...</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget_Data</tabstop>
+  <tabstop>tableWidget_SrcDataEU0</tabstop>
+  <tabstop>tableWidget_SrcDataEU3</tabstop>
+  <tabstop>tableWidget_SrcDataPoints</tabstop>
+  <tabstop>comboBox_OpenedReports</tabstop>
+  <tabstop>plainTextEdit_Report</tabstop>
+  <tabstop>tableWidget_FullLoadCurve</tabstop>
+ </tabstops>
+ <resources>
+  <include location="qr49.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>action_Quit</sender>
+   <signal>activated()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

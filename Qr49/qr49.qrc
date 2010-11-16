@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>edit-undo.png</file>
+        <file>edit-redo.png</file>
+        <file>toxic.png</file>
+        <file>application-exit.png</file>
+        <file>gnome-mime-application-pdf.png</file>
+        <file>view-refresh.png</file>
+        <file>edit-copy.png</file>
+        <file>edit-cut.png</file>
+        <file>edit-paste.png</file>
+        <file>edit-delete.png</file>
+        <file>div.png</file>
+        <file>eq.png</file>
+        <file>mult.png</file>
+        <file>plus.png</file>
+        <file>document-open.png</file>
+        <file>document-print.png</file>
+        <file>document-save-as.png</file>
+        <file>document-save.png</file>
+        <file>execute.png</file>
+        <file>changeSourceData.png</file>
+        <file>loadCalcSerrings.png</file>
+    </qresource>
+</RCC>
