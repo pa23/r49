@@ -18,7 +18,7 @@
 #include "newversions.h"
 #include "libtoxicconstants.h"
 #include "qr49constants.h"
-#include "../r49.h"
+#include "r49.h"
 
 #include <QHttp>
 #include <QByteArray>

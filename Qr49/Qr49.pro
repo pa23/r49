@@ -37,7 +37,7 @@ RC_FILE = qr49icon.rc
 TRANSLATIONS = qr49_ru.ts
 CONFIG += console
 unix: {
-    INCLUDEPATH += ../libtoxic/sources
+    INCLUDEPATH += ../libtoxic/sources ..
     LIBS += -L../libtoxic/build/unix/bin \
         -ltoxic \
         -Wl,-rpath,.
@@ -51,8 +51,8 @@ unix: {
     }
 }
 win32: {
-    INCLUDEPATH += c:\builds\libtoxic\sources
-    LIBS += -Lc:\builds\libtoxic\build\win\bin \
+    INCLUDEPATH += ..\libtoxic\sources ..
+    LIBS += -L..\libtoxic\build\win\bin \
         -ltoxic4 \
         -Wl,-rpath,.
     DESTDIR = build\win\bin

@@ -24,7 +24,7 @@
 #include "libtoxicparameters.h"
 #include "reducedpower.h"
 #include "commonparameters.h"
-#include "../r49.h"
+#include "r49.h"
 
 #include <iostream>
 #include <string>

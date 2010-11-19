@@ -26,6 +26,7 @@ HEADERS += sources/reducedpower.h \
     sources/double2darray.h \
     sources/stringoperations.h \
     ../r49.h
+INCLUDEPATH += ..
 unix: {
     DESTDIR = build/unix/bin
     CONFIG (debug, debug|release) {

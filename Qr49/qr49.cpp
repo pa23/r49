@@ -26,7 +26,7 @@
 #include "undoredotable.h"
 #include "newversions.h"
 
-#include "../r49.h"
+#include "r49.h"
 #include "qr49constants.h"
 #include "libtoxicparameters.h"
 #include "libtoxicconstants.h"
