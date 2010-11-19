@@ -1,7 +1,7 @@
 QT -= gui
 TARGET = toxic
 TEMPLATE = lib
-VERSION = 4.18.0
+VERSION = 4.18.1
 SOURCES += sources/reducedpower.cpp \
     sources/precalc.cpp \
     sources/libtoxicparameters.cpp \
@@ -24,7 +24,8 @@ HEADERS += sources/reducedpower.h \
     sources/csvread.h \
     sources/datetime.h \
     sources/double2darray.h \
-    sources/stringoperations.h
+    sources/stringoperations.h \
+    ../r49.h
 unix: {
     DESTDIR = build/unix/bin
     CONFIG (debug, debug|release) {

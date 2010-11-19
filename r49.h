@@ -1,5 +1,5 @@
 /*
-    qr49constants.h
+    r49.h
 
     Copyright (C) 2009, 2010 Artem Petrov <pa2311@gmail.com>
 
@@ -15,20 +15,11 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _QR49CONSTANTS_H
-#define	_QR49CONSTANTS_H
+#ifndef R49_H
+#define R49_H
 
 #include <QString>
 
-// constants
+const QString r49version = "10.38";
 
-const QString qr49version = "Qr49 v1.21.0";
-
-const QString oparandsDelimiter = "=";
-
-const QString configFileName = "r49.conf";
-const QString ServerForUpdates = "github.com";
-const QString PageUrl = "/pa23/r49/downloads";
-const QString FilesUrl = "/downloads/pa23/r49";
-
-#endif	/* _QR49CONSTANTS_H */
+#endif // R49_H

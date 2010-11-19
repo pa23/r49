@@ -22,8 +22,7 @@
 
 // constants
 
-const QString r49version = "10.37";
-const QString libtoxicVersion  = "4.18.0";
+const QString libtoxicVersion  = "4.18.1";
 
 const QString parameterValueDelimiter = "=";
 const QString commentPattern = "^//";

@@ -18,6 +18,7 @@
 #include "newversions.h"
 #include "libtoxicconstants.h"
 #include "qr49constants.h"
+#include "../r49.h"
 
 #include <QHttp>
 #include <QByteArray>
@@ -30,7 +31,7 @@
 
 NewVersions::NewVersions() : HtmlData("") {
 
-    http = new QHttp(ServerForUpdates);
+    http = new QHttp(ServerForUpdates, QHttp::ConnectionModeHttps);
     connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpFinished(int, bool)));
 }
 
@@ -45,7 +46,7 @@ void NewVersions::CheckAvailableVersions() {
     urls.clear();
     files.clear();
 
-    http->get(UrlForUpdates);
+    http->get(PageUrl);
 }
 
 void NewVersions::httpFinished(int id, bool error) {
@@ -68,8 +69,8 @@ void NewVersions::ParseHtmlData() {
 
     QStringList strs = HtmlData.split("\n", QString::SkipEmptyParts);
 
-    QString regexpstr1 = "(<a href=\"" + UrlForUpdates + "/r49-.+</a>)";
-    QString regexpstr2 = "(\"" + UrlForUpdates + "/r49-.+\")";
+    QString regexpstr1 = "(<a href=\"" + FilesUrl + "/r49-.+</a>)";
+    QString regexpstr2 = "(\"" + FilesUrl + "/r49-.+\")";
 
     QRegExp regExp1(regexpstr1);
     QRegExp regExp2(regexpstr2);
@@ -92,7 +93,7 @@ void NewVersions::ParseHtmlData() {
     for (ptrdiff_t i=0; i<urls.count(); i++) {
 
         templst = urls.at(i).split("\"");
-        tempstr = "http://" + ServerForUpdates + templst.at(1);
+        tempstr = "https://" + ServerForUpdates + templst.at(1);
         urls[i] = tempstr;
     }
 
@@ -113,6 +114,6 @@ void NewVersions::ParseHtmlData() {
         allfiles += files.at(i) + " (" + "<a href= \"" + urls.at(i) + "\" >" + tr("Download") + "</a>)<br>";
     }
 
-    QString msg = tr("You use ") + tr("r49 distribution version ") + r49version + ".<br><br>" + tr("Available distributions:<br><br>") + allfiles;
+    QString msg = tr("You use ") + tr("r49 distribution version ") + r49version + "<br><br>" + tr("Available distributions:<br><br>") + allfiles;
     QMessageBox::information(0, "Qr49", msg, 0, 0, 0);
 }

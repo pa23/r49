@@ -1,4 +1,4 @@
-
+---
 r49
 ---
 
@@ -25,5 +25,24 @@ Calculation of modes and specific emissions for stationary diesel engine cycles
  GOST 17.2.2.05-97,
  GOST 30574-98,
  GOST R 51249-99).
+
+--------------------------------------------------------------------------------
+
+Dependences:
+    Qt >=4.7.0 (Core, Gui, Network)
+    Monospace font excalib.ttf
+
+--------------------------------------------------------------------------------
+
+Compile and build:
+    git clone git://github.com/pa23/r49
+    cd r49
+    cd libtoxic
+    qmake libtoxic.pro
+    make
+    cd ..
+    cd Qr49
+    qmake Qr49.pro
+    make
 
 --------------------------------------------------------------------------------

@@ -33,6 +33,11 @@ private:
     Ui::PreferencesDialogClass ui;
 
 private slots:
+    void on_pushButton_dirnameReports_clicked();
+    void on_pushButton_filenamePowers_clicked();
+    void on_pushButton_filenamePoints_clicked();
+    void on_pushButton_filenameSourceEU0_clicked();
+    void on_pushButton_filenameSourceEU3_clicked();
     void on_pushButton_OK_clicked();
 
 };

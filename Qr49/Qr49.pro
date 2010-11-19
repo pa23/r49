@@ -22,7 +22,8 @@ HEADERS += preferencesdialog.h \
     filtermassdialog.h \
     qr49.h \
     helpdialog.h \
-    newversions.h
+    newversions.h \
+    ../r49.h
 FORMS += preferencesdialog.ui \
     checkoutdatadialog.ui \
     elrsmokecalcdialog.ui \

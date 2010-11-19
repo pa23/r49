@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>196</width>
-    <height>95</height>
+    <width>211</width>
+    <height>97</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -20,7 +20,7 @@
    <string>Qr49: </string>
   </property>
   <property name="windowIcon">
-   <iconset resource="checkoutdatadialog.qrc">
+   <iconset resource="qr49.qrc">
     <normaloff>:/icons/toxic.png</normaloff>:/icons/toxic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -87,7 +87,7 @@
   <tabstop>action_Cancel</tabstop>
  </tabstops>
  <resources>
-  <include location="checkoutdatadialog.qrc"/>
+  <include location="qr49.qrc"/>
  </resources>
  <connections>
   <connection>

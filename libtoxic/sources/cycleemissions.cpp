@@ -23,6 +23,7 @@
 #include "datetime.h"
 #include "emissionlimits.h"
 #include "precalc.h"
+#include "../r49.h"
 
 #include <string>
 #include <cmath>
@@ -1686,7 +1687,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
     QString dirnameReports = config->Get_dirnameReports();
     string csvdelimiter = (config->Get_csvDelimiter()).toStdString();
 
-    fullReportsPath = dirnameReports + std + "_" + QString::fromStdString(mytime);
+    fullReportsPath = dirnameReports + "/" + std + "_" + QString::fromStdString(mytime);
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 

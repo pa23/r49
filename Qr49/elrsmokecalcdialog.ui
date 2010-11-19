@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>547</width>
-    <height>383</height>
+    <width>456</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -45,6 +45,18 @@
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="lineEdit_fA">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -62,6 +74,18 @@
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="lineEdit_sA">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -79,6 +103,18 @@
             </item>
             <item row="2" column="1">
              <widget class="QLineEdit" name="lineEdit_tA">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -96,6 +132,18 @@
             </item>
             <item row="3" column="1">
              <widget class="QLineEdit" name="lineEdit_fB">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -113,6 +161,18 @@
             </item>
             <item row="4" column="1">
              <widget class="QLineEdit" name="lineEdit_sB">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -130,6 +190,18 @@
             </item>
             <item row="5" column="1">
              <widget class="QLineEdit" name="lineEdit_tB">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -147,6 +219,18 @@
             </item>
             <item row="6" column="1">
              <widget class="QLineEdit" name="lineEdit_fC">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -164,6 +248,18 @@
             </item>
             <item row="7" column="1">
              <widget class="QLineEdit" name="lineEdit_sC">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -181,6 +277,18 @@
             </item>
             <item row="8" column="1">
              <widget class="QLineEdit" name="lineEdit_tC">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>
@@ -224,6 +332,18 @@
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="lineEdit_ELRsmoke">
+              <property name="minimumSize">
+               <size>
+                <width>70</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string>0</string>
               </property>

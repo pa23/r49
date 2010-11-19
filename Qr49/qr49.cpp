@@ -26,6 +26,7 @@
 #include "undoredotable.h"
 #include "newversions.h"
 
+#include "../r49.h"
 #include "qr49constants.h"
 #include "libtoxicparameters.h"
 #include "libtoxicconstants.h"
@@ -52,6 +53,9 @@
 #include <QSettings>
 #include <QDebug>
 #include <QFontDatabase>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QDoubleSpinBox>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow),
                                           qr49settings("pa23software", "Qr49"),
@@ -416,6 +420,9 @@ bool MainWindow::LoadAllSourceData() {
 
 bool MainWindow::FillTableEU0(QString filename) {
 
+    ui->tableWidget_SrcDataEU0->setRowCount(1);
+    ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
+
     ptrdiff_t NumberOfPoints = 0;
 
     csvRead *ReaderSourceDataEU0 = new csvRead();
@@ -455,9 +462,6 @@ bool MainWindow::FillTableEU0(QString filename) {
         return false;
     }
 
-    ui->tableWidget_SrcDataEU0->setRowCount(1);
-    ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
-
     for (ptrdiff_t j=0; j<EU0SrcDataParamsNumber; j++) {
 
         ui->tableWidget_SrcDataEU0->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0[StrsNumberForColumnCaption][j], 'f', 3)));
@@ -471,6 +475,9 @@ bool MainWindow::FillTableEU0(QString filename) {
 }
 
 bool MainWindow::FillTableEU3(QString filename) {
+
+    ui->tableWidget_SrcDataEU3->setRowCount(1);
+    ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
     ptrdiff_t NumberOfPoints = 0;
 
@@ -510,9 +517,6 @@ bool MainWindow::FillTableEU3(QString filename) {
 
         return false;
     }
-
-    ui->tableWidget_SrcDataEU3->setRowCount(1);
-    ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
     for (ptrdiff_t j=0; j<EU3SrcDataParamsNumber; j++) {
 
@@ -1212,34 +1216,189 @@ void MainWindow::on_action_PrintReport_activated() {
 
 void MainWindow::on_action_Preferences_activated() {
 
-    QPlainTextEdit *myPlainTextEdit_Preferences = preferencesDialog->findChild<QPlainTextEdit *>("plainTextEdit_Preferences");
+    QComboBox *myComboBox_csvdelimiter = preferencesDialog->findChild<QComboBox *>("comboBox_csvdelimiter");
 
-    if (!myPlainTextEdit_Preferences) {
+    if (!myComboBox_csvdelimiter) {
 
         QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
-
         return;
     }
 
-    QFile preferencesFile(configFileName);
-    QString preferences;
+    QLineEdit *myLineEdit_filenameSourceEU3 = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
 
-    if (preferencesFile.open(QIODevice::ReadOnly)) {
+    if (!myLineEdit_filenameSourceEU3) {
 
-        preferences.append(preferencesFile.readAll());
-    }
-    else {
-
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: can not open file!"), 0, 0, 0);
-
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
         return;
     }
 
-    preferencesFile.close();
+    QLineEdit *myLineEdit_filenameSourceEU0 = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
 
-    string stdstrdata = preferences.toStdString();
+    if (!myLineEdit_filenameSourceEU0) {
 
-    myPlainTextEdit_Preferences->setPlainText(QString::fromLocal8Bit(stdstrdata.c_str()));
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QLineEdit *myLineEdit_filenamePoints = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
+
+    if (!myLineEdit_filenamePoints) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QLineEdit *myLineEdit_filenamePowers = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
+
+    if (!myLineEdit_filenamePowers) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QLineEdit *myLineEdit_dirnameReports = preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
+
+    if (!myLineEdit_dirnameReports) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_Dn = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
+
+    if (!myDoubleSpinBox_Dn) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_ConcO2air = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
+
+    if (!myDoubleSpinBox_ConcO2air) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_Rr = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
+
+    if (!myDoubleSpinBox_Rr) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_L0 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
+
+    if (!myDoubleSpinBox_L0) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_L = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
+
+    if (!myDoubleSpinBox_L) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_ConcCO2air = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
+
+    if (!myDoubleSpinBox_ConcCO2air) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_WH = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
+
+    if (!myDoubleSpinBox_WH) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_WO2 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
+
+    if (!myDoubleSpinBox_WO2) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_WN = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
+
+    if (!myDoubleSpinBox_WN) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_roAir = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_roAir");
+
+    if (!myDoubleSpinBox_roAir) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_muNO2 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
+
+    if (!myDoubleSpinBox_muNO2) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_muCO = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
+
+    if (!myDoubleSpinBox_muCO) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    QDoubleSpinBox *myDoubleSpinBox_muCH = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
+
+    if (!myDoubleSpinBox_muCH) {
+
+        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        return;
+    }
+
+    //
+
+    for (ptrdiff_t i=0; i<myComboBox_csvdelimiter->count(); i++) {
+
+        if (myComboBox_csvdelimiter->itemText(i) == config->Get_csvDelimiter()) {
+
+            myComboBox_csvdelimiter->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    myLineEdit_filenameSourceEU3->setText(config->Get_filenameSourceEU3());
+    myLineEdit_filenameSourceEU0->setText(config->Get_filenameSourceEU0());
+    myLineEdit_filenamePoints->setText(config->Get_filenamePoints());
+    myLineEdit_filenamePowers->setText(config->Get_filenamePowers());
+    myLineEdit_dirnameReports->setText(config->Get_dirnameReports());
+    myDoubleSpinBox_Dn->setValue(config->Get_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(config->Get_ConcO2air());
+    myDoubleSpinBox_Rr->setValue(config->Get_Rr());
+    myDoubleSpinBox_L0->setValue(config->Get_L0());
+    myDoubleSpinBox_L->setValue(config->Get_L());
+    myDoubleSpinBox_ConcCO2air->setValue(config->Get_ConcCO2air());
+    myDoubleSpinBox_WH->setValue(config->Get_WH());
+    myDoubleSpinBox_WO2->setValue(config->Get_WO2());
+    myDoubleSpinBox_WN->setValue(config->Get_WN());
+    myDoubleSpinBox_roAir->setValue(config->Get_roAir());
+    myDoubleSpinBox_muNO2->setValue(config->Get_muNO2());
+    myDoubleSpinBox_muCO->setValue(config->Get_muCO());
+    myDoubleSpinBox_muCH->setValue(config->Get_muCH());
+
+    //
 
     if (preferencesDialog->exec() == QDialog::Accepted) {
 
@@ -1675,10 +1834,9 @@ void MainWindow::on_action_StandardsDescription_activated() {
 void MainWindow::on_action_AboutQr49_activated() {
 
     QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + qr49version + ", libtoxic v" + libtoxicVersion +
-                  tr("<br><br>Program for calculating specific emissions of NOx, CO, CH and PT "
-                  "for stationary diesel engines test cycles."
+                  tr("<br><br>Calculation of modes and specific emissions for stationary diesel engine cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
                   "<br><br>Copyright (C) 2009, 2010 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
-                  "<br><br>Web site: <a href= \"http://sites.google.com/site/pa23r49/\" >http://sites.google.com/site/pa23r49/</a>"
+                  "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
                   "<br><br>This program is free software: you can redistribute it and/or modify"
                   "it under the terms of the GNU General Public License as published by"
                   "the Free Software Foundation, either version 3 of the License, or"
