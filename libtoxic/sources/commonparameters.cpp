@@ -22,14 +22,17 @@
 #include <QString>
 #include <QStringList>
 #include <QFile>
+#include <QFileInfo>
 #include <QRegExp>
+#include <QDir>
+#include <QIODevice>
 
 CommonParameters::CommonParameters() : csvDelimiter      (";"),
-                                       filenameSourceEU3 ("LastSourceData/SourceData1-EU3456.csv"),
-                                       filenameSourceEU0 ("LastSourceData/SourceData1-EU012-r96-GOST30574.csv"),
-                                       filenamePoints    ("LastSourceData/SourceData2-CyclePoints.csv"),
-                                       filenamePowers    ("LastSourceData/SourceData3-FullLoadCurve.csv"),
-                                       dirnameReports    ("Reports/"),
+                                       filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
+                                       filenameSourceEU0 ("TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
+                                       filenamePoints    ("TempSourceData/SourceData2-CyclePoints.csv"),
+                                       filenamePowers    ("TempSourceData/SourceData3-FullLoadCurve.csv"),
+                                       dirnameReports    ("Reports"),
                                        Dn         (90.0),
                                        ConcO2air  (20.8),
                                        Rr         (287.3),
@@ -113,6 +116,46 @@ bool CommonParameters::ReadConfigFile(QString configFileName) {
     elements.clear();
 
     configFile.close();
+
+    //
+
+    QDir dir;
+    QFileInfo fileinfo;
+
+    fileinfo.setFile(filenameSourceEU3);
+
+    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+
+        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+    }
+
+    fileinfo.setFile(filenameSourceEU0);
+
+    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+
+        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+    }
+
+    fileinfo.setFile(filenamePoints);
+
+    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+
+        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+    }
+
+    fileinfo.setFile(filenamePowers);
+
+    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+
+        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+    }
+
+    if (!dir.exists(dirnameReports)) {
+
+        dir.mkdir(dirnameReports);
+    }
+
+    //
 
     return true;
 }

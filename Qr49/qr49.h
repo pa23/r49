@@ -86,7 +86,7 @@ private:
     void SetComboIndex(QComboBox *, QString);
     void WriteProgramSettings();
     void ReadProgramSettings();
-    bool LoadAllSourceData();
+    void LoadAllSourceData();
     bool FillTableEU0(QString filename);
     bool FillTableEU3(QString filename);
     bool FillTablePoints(QString filename);

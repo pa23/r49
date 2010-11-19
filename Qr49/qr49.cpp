@@ -123,10 +123,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //
 
-    if (!LoadAllSourceData()) {
-
-        QMessageBox::warning(0, "Qr49", tr("Problem during loading source data!"), 0, 0, 0);
-    }
+    LoadAllSourceData();
 
     //
 
@@ -329,7 +326,7 @@ void MainWindow::ReadPreferences() {
     }
 }
 
-bool MainWindow::LoadAllSourceData() {
+void MainWindow::LoadAllSourceData() {
 
     QString filenameSourceEU0 = config->Get_filenameSourceEU0();
 
@@ -412,10 +409,6 @@ bool MainWindow::LoadAllSourceData() {
         QString msg = tr("LoadAllSourceData: file ") + filenamePowers + tr(" not found!");
         QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
     }
-
-    //
-
-    return true;
 }
 
 bool MainWindow::FillTableEU0(QString filename) {
