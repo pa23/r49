@@ -554,7 +554,7 @@ int main(int argc, char **argv) {
         QApplication a(argc, argv);
 
         QTranslator translator;
-        translator.load("qr49_ru.qm");
+        translator.load("qr49_" + QLocale::system().name());
         a.installTranslator(&translator);
 
         MainWindow w;

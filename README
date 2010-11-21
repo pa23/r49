@@ -1,8 +1,5 @@
-
 r49
-
 --------------------------------------------------------------------------------
-
 This program is free software: you can redistribute it and/or modifyit under
 the terms of the GNU General Public License as published bythe Free Software
 Foundation, either version 3 of the License, or(at your option) any later
@@ -11,9 +8,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty ofMERCHANTABILITY or
 FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more
 details.You should have received a copy of the GNU General Public Licensealong
 with this program. If not, see <http://www.gnu.org/licenses/>.
-
 --------------------------------------------------------------------------------
-
 Calculation of modes and specific emissions for stationary diesel engine cycles
 (UN ECE Regulation No. 49,
  UN ECE Regulation No. 96,
@@ -22,24 +17,25 @@ Calculation of modes and specific emissions for stationary diesel engine cycles
  GOST 17.2.2.05-97,
  GOST 30574-98,
  GOST R 51249-99).
-
 --------------------------------------------------------------------------------
-
-Dependences:
-    Qt >=4.7.0 (Core, Gui, Network)
+Dependences
+  GNU/Linux
+    Qt >=4.7.0 (libQtCore.so.4, libQtGui.so.4, libQtNetwork.so.4)
     Monospace font excalib.ttf
-
+  MS Windows
+    libgcc_s_dw2-1.dll
+    mingwm10.dll
+    Qt >=4.7.0 (QtCore4.dll, QtGui4.dll, QtNetwork4.dll)
+    Monospace font exalib.ttf
 --------------------------------------------------------------------------------
-
 Compile and build:
-    git clone git://github.com/pa23/r49
-    cd r49
-    cd libtoxic
-    qmake libtoxic.pro
-    make
-    cd ..
-    cd Qr49
-    qmake Qr49.pro
-    make
-
+  git clone git://github.com/pa23/r49
+  cd r49
+  cd libtoxic
+  qmake libtoxic.pro
+  make
+  cd ..
+  cd Qr49
+  qmake Qr49.pro
+  make
 --------------------------------------------------------------------------------
