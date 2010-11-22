@@ -20,7 +20,10 @@
 #include "qr49constants.h"
 #include "r49.h"
 
-#include <QHttp>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 #include <QByteArray>
 #include <QStringList>
 #include <QMessageBox>
@@ -31,13 +34,13 @@
 
 NewVersions::NewVersions() : HtmlData("") {
 
-    http = new QHttp(ServerForUpdates, QHttp::ConnectionModeHttps);
-    connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpFinished(int, bool)));
+    netmanager = new QNetworkAccessManager();
+    connect(netmanager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
 }
 
 NewVersions::~NewVersions() {
 
-    delete http;
+    delete netmanager;
 }
 
 void NewVersions::CheckAvailableVersions() {
@@ -46,20 +49,20 @@ void NewVersions::CheckAvailableVersions() {
     urls.clear();
     files.clear();
 
-    http->get(PageUrl);
+    netmanager->get(QNetworkRequest(QUrl(PageUrl)));
 }
 
-void NewVersions::httpFinished(int id, bool error) {
+void NewVersions::replyFinished(QNetworkReply *reply) {
 
-    if (error) {
+    if (reply->error()) {
 
-        QString msg = "http Request ID: " + QString::number(id) + ". " + http->errorString();
+        QString msg = "NewVersions: replyFinished: " + reply->errorString();
         QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
         return;
     }
 
-    QByteArray text = http->readAll();
+    QByteArray text = reply->readAll();
     HtmlData = text.data();
 
     ParseHtmlData();
@@ -82,27 +85,17 @@ void NewVersions::ParseHtmlData() {
 
             if (regExp2.indexIn(regExp1.cap(1)) != -1) {
 
-                urls << regExp2.cap(1);
+                if (regExp3.indexIn(regExp2.cap(1)) != -1) {
+
+                    files << regExp3.cap(1);
+                }
             }
         }
     }
 
-    QStringList templst;
-    QString tempstr;
+    for (ptrdiff_t i=0; i<files.count(); i++) {
 
-    for (ptrdiff_t i=0; i<urls.count(); i++) {
-
-        templst = urls.at(i).split("\"");
-        tempstr = "https://" + ServerForUpdates + templst.at(1);
-        urls[i] = tempstr;
-    }
-
-    for (ptrdiff_t i=0; i<urls.count(); i++) {
-
-        if (regExp3.indexIn(urls.at(i)) != -1) {
-
-            files << regExp3.cap(1);
-        }
+        urls << PageUrl + files.at(i);
     }
 
     //

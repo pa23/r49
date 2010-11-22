@@ -19,7 +19,8 @@
 #define NEWVERSIONS_H
 
 #include <QObject>
-#include <QHttp>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QStringList>
 
 class NewVersions : public QObject {
@@ -33,13 +34,13 @@ public:
 
 private:
     void ParseHtmlData();
-    QHttp *http;
+    QNetworkAccessManager *netmanager;
     QString HtmlData;
-    QStringList urls;
     QStringList files;
+    QStringList urls;
 
 private slots:
-    void httpFinished(int, bool);
+    void replyFinished(QNetworkReply *);
 
 };
 

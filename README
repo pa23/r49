@@ -21,11 +21,12 @@ Calculation of modes and specific emissions for stationary diesel engine cycles
 Dependences
   GNU/Linux
     Qt >=4.7.0 (libQtCore.so.4, libQtGui.so.4, libQtNetwork.so.4)
+    libssl >=0.9.8
     Monospace font excalib.ttf
-  MS Windows
-    libgcc_s_dw2-1.dll
-    mingwm10.dll
-    Qt >=4.7.0 (QtCore4.dll, QtGui4.dll, QtNetwork4.dll)
+  MS Windows x86
+    MinGW (libgcc_s_dw2-1.dll, mingwm10.dll)
+    Win32 OpenSSL (libssl32.dll, ssleay32.dll)
+    Qt x86 >=4.7.0 (QtCore4.dll, QtGui4.dll, QtNetwork4.dll)
     Monospace font exalib.ttf
 --------------------------------------------------------------------------------
 Compile and build:
@@ -39,3 +40,4 @@ Compile and build:
   qmake Qr49.pro
   make
 --------------------------------------------------------------------------------
+
