@@ -29,7 +29,7 @@ Dependences
     Qt x86 >=4.7.0 (QtCore4.dll, QtGui4.dll, QtNetwork4.dll)
     Monospace font exalib.ttf
 --------------------------------------------------------------------------------
-Compile and build:
+Compile and build
   git clone git://github.com/pa23/r49
   cd r49
   cd libtoxic
@@ -40,4 +40,3 @@ Compile and build:
   qmake Qr49.pro
   make
 --------------------------------------------------------------------------------
-

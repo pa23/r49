@@ -2740,7 +2740,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Problem during loading source data!</source>
-        <translation>Возникли проблемы во время загрузки исходных данных!</translation>
+        <translation type="obsolete">Возникли проблемы во время загрузки исходных данных!</translation>
     </message>
     <message>
         <source>Error</source>
