@@ -19,15 +19,16 @@ Calculation of modes and specific emissions for stationary diesel engine cycles
  GOST R 51249-99).
 --------------------------------------------------------------------------------
 Dependences
-  GNU/Linux
+  GNU/Linux (all necessary components are included in the binary package)
     Qt >=4.7.0 (libQtCore.so.4, libQtGui.so.4, libQtNetwork.so.4)
-    libssl >=0.9.8
     Monospace font excalib.ttf
-  MS Windows x86
-    MinGW (libgcc_s_dw2-1.dll, mingwm10.dll)
-    Win32 OpenSSL (libssl32.dll, ssleay32.dll)
+    libssl >=0.9.8
+  MS Windows x86 (all the necessary components are included in the binary
+                  package except Open SSL library)
     Qt x86 >=4.7.0 (QtCore4.dll, QtGui4.dll, QtNetwork4.dll)
     Monospace font exalib.ttf
+    MinGW (libgcc_s_dw2-1.dll, mingwm10.dll)
+    Win32 OpenSSL (http://www.slproweb.com/products/Win32OpenSSL.html)
 --------------------------------------------------------------------------------
 Compile and build
   git clone git://github.com/pa23/r49
