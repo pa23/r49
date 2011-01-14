@@ -25,15 +25,16 @@
 #include <QFile>
 #include <QRegExp>
 
-LibtoxicParameters::LibtoxicParameters() : task           ("emissions"   ),
-                                           Vh             (0             ),
-                                           standard       ("EU4"         ),
-                                           FuelType       ("diesel"      ),
-                                           NOxSample      ("wet"         ),
-                                           PTcalc         ("ThroughSmoke"),
-                                           PTmass         (0             ),
-                                           AddPointsCalc  ("no"          ),
-                                           CalcConfigFile ("_._"         ) {
+LibtoxicParameters::LibtoxicParameters() :
+        task           ("emissions"   ),
+        Vh             (0             ),
+        standard       ("EU4"         ),
+        FuelType       ("diesel"      ),
+        NOxSample      ("wet"         ),
+        PTcalc         ("ThroughSmoke"),
+        PTmass         (0             ),
+        AddPointsCalc  ("no"          ),
+        CalcConfigFile ("_._"         ) {
 }
 
 LibtoxicParameters::~LibtoxicParameters() {

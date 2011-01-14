@@ -42,14 +42,15 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) : GetDataFromCSV_OK (false),
-                                                                              ReducePower_OK    (false),
-                                                                              NumberOfPoints    (    0),
-                                                                              mytime            (  "_"),
-                                                                              fullReportsPath   (  "_"),
-                                                                              n_rated           (    0),
-                                                                              i_rated           (    0),
-                                                                              N_fan_rated       (    0) {
+ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
+        GetDataFromCSV_OK (false),
+        ReducePower_OK    (false),
+        NumberOfPoints    (    0),
+        mytime            (  "_"),
+        fullReportsPath   (  "_"),
+        n_rated           (    0),
+        i_rated           (    0),
+        N_fan_rated       (    0) {
 
     params = prms;
     config = cfg;

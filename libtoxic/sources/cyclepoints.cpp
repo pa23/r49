@@ -39,29 +39,30 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) : FillArrays_OK  (false),
-                                                                            NumberOfPoints     (0),
-                                                                            n_hi               (0),
-                                                                            n_lo               (0),
-                                                                            A                  (0),
-                                                                            B                  (0),
-                                                                            C                  (0),
-                                                                            a1                 (0),
-                                                                            a2                 (0),
-                                                                            a3                 (0),
-                                                                            n_ref              (0),
-                                                                            idle               (0),
-                                                                            n_rated            (0),
-                                                                            N_fan_rated        (0),
-                                                                            Ne_A               (0),
-                                                                            Ne_B               (0),
-                                                                            Ne_C               (0),
-                                                                            Ne_a1              (0),
-                                                                            Ne_a2              (0),
-                                                                            Ne_a3              (0),
-                                                                            n_interim          (0),
-                                                                            Ne_interim         (0),
-                                                                            Ne_rated           (0) {
+CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
+        FillArrays_OK  (false),
+        NumberOfPoints     (0),
+        n_hi               (0),
+        n_lo               (0),
+        A                  (0),
+        B                  (0),
+        C                  (0),
+        a1                 (0),
+        a2                 (0),
+        a3                 (0),
+        n_ref              (0),
+        idle               (0),
+        n_rated            (0),
+        N_fan_rated        (0),
+        Ne_A               (0),
+        Ne_B               (0),
+        Ne_C               (0),
+        Ne_a1              (0),
+        Ne_a2              (0),
+        Ne_a3              (0),
+        n_interim          (0),
+        Ne_interim         (0),
+        Ne_rated           (0) {
 
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file

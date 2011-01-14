@@ -27,25 +27,26 @@
 #include <QDir>
 #include <QIODevice>
 
-CommonParameters::CommonParameters() : csvDelimiter      (";"),
-                                       filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
-                                       filenameSourceEU0 ("TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
-                                       filenamePoints    ("TempSourceData/SourceData2-CyclePoints.csv"),
-                                       filenamePowers    ("TempSourceData/SourceData3-FullLoadCurve.csv"),
-                                       dirnameReports    ("Reports"),
-                                       Dn         (90.0),
-                                       ConcO2air  (20.8),
-                                       Rr         (287.3),
-                                       L0         (14.35),
-                                       L          (0.43),
-                                       ConcCO2air (0.06),
-                                       WH         (12.6),
-                                       WO2        (0.4),
-                                       WN         (0),
-                                       roAir      (1.184),
-                                       muNO2      (46.0),
-                                       muCO       (28.0),
-                                       muCH       (13.85) {
+CommonParameters::CommonParameters() :
+        csvDelimiter      (";"),
+        filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
+        filenameSourceEU0 ("TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
+        filenamePoints    ("TempSourceData/SourceData2-CyclePoints.csv"),
+        filenamePowers    ("TempSourceData/SourceData3-FullLoadCurve.csv"),
+        dirnameReports    ("Reports"),
+        Dn         (90.0),
+        ConcO2air  (20.8),
+        Rr         (287.3),
+        L0         (14.35),
+        L          (0.43),
+        ConcCO2air (0.06),
+        WH         (12.6),
+        WO2        (0.4),
+        WN         (0),
+        roAir      (1.184),
+        muNO2      (46.0),
+        muCO       (28.0),
+        muCH       (13.85) {
 }
 
 CommonParameters::~CommonParameters() {

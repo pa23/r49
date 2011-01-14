@@ -23,7 +23,9 @@
 #include <QVector>
 #include <QFile>
 
-csvRead::csvRead() {
+csvRead::csvRead() :
+        n(0),
+        m(0) {
 }
 
 csvRead::~csvRead() {
@@ -31,8 +33,7 @@ csvRead::~csvRead() {
     data.clear();
 }
 
-csvRead::csvRead(const csvRead &orig) : n(0),
-                                        m(0) {
+csvRead::csvRead(const csvRead &orig) {
 
     (void)(&orig);
 }

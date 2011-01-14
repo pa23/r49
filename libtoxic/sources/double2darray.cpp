@@ -17,7 +17,8 @@
 
 #include "double2darray.h"
 
-Double2DArray::Double2DArray(ptrdiff_t n1, ptrdiff_t m1) : n(0), m(0), a2d(0) {
+Double2DArray::Double2DArray(ptrdiff_t n1, ptrdiff_t m1) :
+        n(0), m(0), a2d(0) {
 
     n = n1; m = m1;
 
