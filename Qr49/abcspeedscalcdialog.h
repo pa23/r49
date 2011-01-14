@@ -28,14 +28,17 @@ class ABCspeedsCalcDialog : public QDialog {
     Q_OBJECT
 
 public:
-    ABCspeedsCalcDialog(QWidget *parent = 0);
+
+    explicit ABCspeedsCalcDialog(QWidget *parent = 0);
     ~ABCspeedsCalcDialog();
 
 private:
+
     Ui::ABCspeedsCalcDialogClass ui;
     QDoubleValidator *doubleValidator;
 
 private slots:
+
     void on_pushButton_CalcABCspeeds_clicked();
 
 };

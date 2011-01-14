@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef REDUCEDPOWER_H_
-#define REDUCEDPOWER_H_
+#ifndef REDUCEDPOWER_H
+#define REDUCEDPOWER_H
 
 #include "double2darray.h"
 #include "libtoxicconstants.h"
@@ -32,20 +32,26 @@ using std::string;
 class ReducedPower {
 
 public:
-    ReducedPower(LibtoxicParameters *, CommonParameters *);
+
+    explicit ReducedPower(LibtoxicParameters *, CommonParameters *);
     virtual ~ReducedPower();
+
     bool GetDataFromCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
     bool ReducePower();
     QString CreateReports();
     QString GetLastReportsDir();
 
 private:
+
     ReducedPower(const ReducedPower &orig);
     ReducedPower &operator =(const ReducedPower &);
+
     bool GetDataFromCSV_OK;
     bool ReducePower_OK;
+
     LibtoxicParameters *params;
     CommonParameters *config;
+
     Double2DArray *Array_DataForCalc;      double **array_DataForCalc;               //
     Double2DArray *Array_n;                double **array_n;
     Double2DArray *Array_Me_brutto;        double **array_Me_brutto;
@@ -69,14 +75,16 @@ private:
     Double2DArray *Array_Ne_netto_reduced; double **array_Ne_netto_reduced;
     Double2DArray *Array_Me_netto_reduced; double **array_Me_netto_reduced;
     Double2DArray *Array_ge_netto_reduced; double **array_ge_netto_reduced;
+
     ptrdiff_t NumberOfPoints;
     std::string mytime;
     QString fullReportsPath;
     double n_rated;
     ptrdiff_t i_rated;
     double N_fan_rated;
+
     void SetRate();
 
 };
 
-#endif /* REDUCEDPOWER_H_ */
+#endif /* REDUCEDPOWER_H */

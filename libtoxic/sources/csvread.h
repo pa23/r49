@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _CSVREAD_H
-#define	_CSVREAD_H
+#ifndef CSVREAD_H
+#define	CSVREAD_H
 
 #include <QString>
 #include <QStringList>
@@ -25,19 +25,24 @@
 class csvRead {
 
 public:
-    csvRead();
+
+    explicit csvRead();
     virtual ~csvRead();
+
     bool ReadData(QString, QString, ptrdiff_t *);
     bool CheckArrayDimension(ptrdiff_t);
     bool FillArray(double **) const;
 
 private:
+
     csvRead(const csvRead &orig);
     csvRead &operator =(const csvRead &);
+
     QVector<QStringList> data;
+
     ptrdiff_t n;
     ptrdiff_t m;
 
 };
 
-#endif	/* _CSVREAD_H */
+#endif	/* CSVREAD_H */

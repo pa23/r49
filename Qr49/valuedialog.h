@@ -28,10 +28,12 @@ class ValueDialog : public QDialog {
     Q_OBJECT
 
 public:
-    ValueDialog(QWidget *parent = 0);
+
+    explicit ValueDialog(QWidget *parent = 0);
     ~ValueDialog();
 
 private:
+
     Ui::ValueDialog ui;
     QDoubleValidator *doubleValidator;
 

@@ -28,10 +28,12 @@ class FilterMassDialog : public QDialog {
     Q_OBJECT
 
 public:
-    FilterMassDialog(QWidget *parent = 0);
+
+    explicit FilterMassDialog(QWidget *parent = 0);
     ~FilterMassDialog();
 
 private:
+
     Ui::FilterMassDialog ui;
     QDoubleValidator *doubleValidator;
 

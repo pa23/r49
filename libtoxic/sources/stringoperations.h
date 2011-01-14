@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _STRINGOPERATIONS_H
-#define	_STRINGOPERATIONS_H
+#ifndef STRINGOPERATIONS_H
+#define	STRINGOPERATIONS_H
 
 #include <string>
 #include <vector>
@@ -27,4 +27,4 @@ std::string NumberToString(ptrdiff_t);
 std::string NumberToString(double);
 double StringToDouble(std::string);
 
-#endif	/* _STRINGOPERATIONS_H */
+#endif	/* STRINGOPERATIONS_H */

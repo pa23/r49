@@ -15,17 +15,20 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef COMMONPARAMETERS_H_
-#define COMMONPARAMETERS_H_
+#ifndef COMMONPARAMETERS_H
+#define COMMONPARAMETERS_H
 
 #include <QString>
 
 class CommonParameters {
 
 public:
-    CommonParameters();
+
+    explicit CommonParameters();
     virtual ~CommonParameters();
+
     bool ReadConfigFile(QString);
+
     QString Get_csvDelimiter() const;
     QString Get_filenameSourceEU3() const;
     QString Get_filenameSourceEU0() const;
@@ -47,8 +50,10 @@ public:
     double Get_muCH() const;
 
 private:
+
     CommonParameters(const CommonParameters &orig);
     CommonParameters &operator =(const CommonParameters &);
+
     QString csvDelimiter;
     QString filenameSourceEU3;
     QString filenameSourceEU0;
@@ -71,4 +76,4 @@ private:
 
 };
 
-#endif /* COMMONPARAMETERS_H_ */
+#endif /* COMMONPARAMETERS_H */

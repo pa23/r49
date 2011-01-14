@@ -26,13 +26,16 @@ class CheckoutDataDialog : public QDialog {
     Q_OBJECT
 
 public:
-    CheckoutDataDialog(QWidget *parent = 0);
+
+    explicit CheckoutDataDialog(QWidget *parent = 0);
     ~CheckoutDataDialog();
 
 private:
+
     Ui::CheckoutDataDialogClass ui;
 
 private slots:
+
     void on_pushButton_SaveAs_clicked();
 
 };

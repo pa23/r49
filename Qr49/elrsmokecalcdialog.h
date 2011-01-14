@@ -28,14 +28,17 @@ class ELRsmokeCalcDialog : public QDialog {
     Q_OBJECT
 
 public:
-    ELRsmokeCalcDialog(QWidget *parent = 0);
+
+    explicit ELRsmokeCalcDialog(QWidget *parent = 0);
     ~ELRsmokeCalcDialog();
 
 private:
+
     Ui::ELRsmokeCalcDialogClass ui;
     QDoubleValidator *doubleValidator;
 
 private slots:
+
     void on_pushButton_CalcELRsmoke_clicked();
 
 };

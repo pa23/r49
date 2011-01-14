@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EMISSIONLIMITS_H_
-#define EMISSIONLIMITS_H_
+#ifndef EMISSIONLIMITS_H
+#define EMISSIONLIMITS_H
 
 #include <QString>
 
@@ -26,4 +26,4 @@ double GetCHLimit(QString);
 double GetPTLimit(QString);
 double GetNOxCHLimit(QString);
 
-#endif /* EMISSIONLIMITS_H_ */
+#endif /* EMISSIONLIMITS_H */

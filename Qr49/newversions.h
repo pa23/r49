@@ -28,18 +28,22 @@ class NewVersions : public QObject {
     Q_OBJECT
 
 public:
-    NewVersions();
+
+    explicit NewVersions();
     virtual ~NewVersions();
     void CheckAvailableVersions();
 
 private:
+
     void ParseHtmlData();
+
     QNetworkAccessManager *netmanager;
     QString HtmlData;
     QStringList files;
     QStringList urls;
 
 private slots:
+
     void replyFinished(QNetworkReply *);
 
 };

@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _CYCLEEMISSIONS_H
-#define	_CYCLEEMISSIONS_H
+#ifndef CYCLEEMISSIONS_H
+#define	CYCLEEMISSIONS_H
 
 #include "double2darray.h"
 #include "libtoxicconstants.h"
@@ -32,16 +32,20 @@ using std::string;
 class CycleEmissions {
 
 public:
-    CycleEmissions(LibtoxicParameters *, CommonParameters *);
+
+    explicit CycleEmissions(LibtoxicParameters *, CommonParameters *);
     virtual ~CycleEmissions();
+
     bool GetDataFromCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
     bool MakeCalculations();
     QString CreateReports(bool);
     QString GetLastReportsDir();
 
 private:
+
     CycleEmissions(const CycleEmissions &orig);
     CycleEmissions &operator =(const CycleEmissions &);
+
     bool GetDataFromCSV_OK;
     bool PreCalculate_OK;
     bool MakeCalculation_gNOx_OK;
@@ -50,6 +54,7 @@ private:
     bool MakeCalculation_gPT_OK;
     bool MakeCalculation_rEGR_OK;
     bool CompareAlpha_OK;
+
     bool NenCalcMethod;
     bool GairVals;
     bool NOxCalcMethod;
@@ -59,8 +64,10 @@ private:
     ptrdiff_t smoke;
     bool CheckMeas;
     bool qmdwVSrd; // )))
+
     LibtoxicParameters *params;
     CommonParameters *config;
+
     Double2DArray *Array_DataForCalc;  double **array_DataForCalc;               //
     Double2DArray *Array_n;            double **array_n;
     Double2DArray *Array_Me_brutto;    double **array_Me_brutto;
@@ -118,6 +125,7 @@ private:
     Double2DArray *Array_rEGR;         double **array_rEGR;                     //
     Double2DArray *Array_alpha_res;    double **array_alpha_res;
     Double2DArray *Array_diff_alpha;   double **array_diff_alpha;               //
+
     double gNOx;
     double gCO;
     double gCH;
@@ -144,7 +152,9 @@ private:
     double qmedfl;
     double msep;
     double mPT;
+
     ptrdiff_t NumberOfPoints;
+
     bool PreCalculate();
     bool MakeCalculation_gNOx(); // or CNOxs
     bool MakeCalculationAdditionalPoints();
@@ -154,9 +164,10 @@ private:
     bool MakeCalculation_rEGR();
     bool MakeCalculation_Means();
     bool CompareAlpha();
+
     std::string mytime;
     QString fullReportsPath;
 
 };
 
-#endif	/* _CYCLEEMISSIONS_H */
+#endif	/* CYCLEEMISSIONS_H */

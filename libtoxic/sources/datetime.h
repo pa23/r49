@@ -15,12 +15,12 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DATETIME_H_
-#define DATETIME_H_
+#ifndef DATETIME_H
+#define DATETIME_H
 
 #include <string>
 
 std::string AddZero(std::string);
 std::string GetDateTimeNow();
 
-#endif /* DATETIME_H_ */
+#endif /* DATETIME_H */

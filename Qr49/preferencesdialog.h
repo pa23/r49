@@ -26,13 +26,16 @@ class PreferencesDialog : public QDialog {
     Q_OBJECT
 
 public:
-    PreferencesDialog(QWidget *parent = 0);
+
+    explicit PreferencesDialog(QWidget *parent = 0);
     ~PreferencesDialog();
 
 private:
+
     Ui::PreferencesDialogClass ui;
 
 private slots:
+
     void on_pushButton_dirnameReports_clicked();
     void on_pushButton_filenamePowers_clicked();
     void on_pushButton_filenamePoints_clicked();

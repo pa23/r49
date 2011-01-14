@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UNDOREDOTABLE_H_
-#define UNDOREDOTABLE_H_
+#ifndef UNDOREDOTABLE_H
+#define UNDOREDOTABLE_H
 
 #include <QtCore/QVector>
 #include <QtCore/QString>
@@ -25,8 +25,10 @@
 class UndoRedoTable {
 
 public:
-    UndoRedoTable(QTableWidget *);
+
+    explicit UndoRedoTable(QTableWidget *);
     virtual ~UndoRedoTable();
+
     bool SaveState();
     bool UndoTable();
     bool RedoTable();
@@ -35,6 +37,7 @@ public:
     void FreeMemory();
 
 private:
+
     QTableWidget *table;
     QVector< QVector< QVector<QString> > > data;
     ptrdiff_t position;
@@ -42,4 +45,4 @@ private:
 
 };
 
-#endif /* UNDOREDOTABLE_H_ */
+#endif /* UNDOREDOTABLE_H */

@@ -15,16 +15,18 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _LIBTOXICPARAMETERS_H
-#define	_LIBTOXICPARAMETERS_H
+#ifndef LIBTOXICPARAMETERS_H
+#define	LIBTOXICPARAMETERS_H
 
 #include <QString>
 
 class LibtoxicParameters {
 
 public:
-    LibtoxicParameters();
+
+    explicit LibtoxicParameters();
     virtual ~LibtoxicParameters();
+
     void SetTask(QString);
     void SetVh(double *);
     void SetStandard(QString);
@@ -34,6 +36,7 @@ public:
     void SetPTmass(double *);
     void SetAddPointsCalc(QString);
     void SetCalcConfigFile(QString);
+
     QString GetTask() const;
     double GetVh() const;
     QString GetStandard() const;
@@ -47,8 +50,10 @@ public:
     bool ReadCalcConfigFile(QString);
 
 private:
+
     LibtoxicParameters(const LibtoxicParameters &orig);
     LibtoxicParameters &operator =(const LibtoxicParameters &);
+
     QString task;
     double Vh;
     QString standard;
@@ -61,4 +66,4 @@ private:
 
 };
 
-#endif	/* _LIBTOXICPARAMETERS_H */
+#endif	/* LIBTOXICPARAMETERS_H */

@@ -15,8 +15,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PRECALC_H
-#define	_PRECALC_H
+#ifndef PRECALC_H
+#define	PRECALC_H
 
 #include <iostream>
 
@@ -27,4 +27,4 @@ double CalcPa(double *);
 
 bool NonZeroArray(double **, ptrdiff_t *);
 
-#endif	/* _PRECALC_H */
+#endif	/* PRECALC_H */

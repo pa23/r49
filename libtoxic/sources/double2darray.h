@@ -15,25 +15,30 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _DOUBLE2DARRAY_H
-#define	_DOUBLE2DARRAY_H
+#ifndef DOUBLE2DARRAY_H
+#define	DOUBLE2DARRAY_H
 
 #include <iostream>
 
 class Double2DArray {
 
 public:
-    Double2DArray(ptrdiff_t, ptrdiff_t);
+
+    explicit Double2DArray(ptrdiff_t, ptrdiff_t);
     virtual ~Double2DArray();
+
     double **GetPointerOnArray() const;
 
 private:
+
     Double2DArray(const Double2DArray &orig);
     Double2DArray &operator =(const Double2DArray &);
+
     ptrdiff_t n;
     ptrdiff_t m;
+
     double **a2d;
 
 };
 
-#endif	/* _DOUBLE2DARRAY_H */
+#endif	/* DOUBLE2DARRAY_H */

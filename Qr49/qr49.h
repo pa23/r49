@@ -52,14 +52,18 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
+
     Ui::MainWindow *ui;
+
     QSettings qr49settings;
     QMenu *contextMenu;
     QTableWidget *table;
+
     FilterMassDialog *filterMassDialog;
     ValueDialog *valueDialog;
     PreferencesDialog *preferencesDialog;
@@ -67,8 +71,10 @@ private:
     ELRsmokeCalcDialog *elrSmokeCalcDialog;
     CheckoutDataDialog *checkoutDataDialog;
     HelpDialog *helpDialog;
+
     CommonParameters *config;
     LibtoxicParameters *params;
+
     ptrdiff_t tableRowHeight;
     QDoubleValidator *doubleValidator;
     QRegExp *regExp;
@@ -79,6 +85,7 @@ private:
     UndoRedoTable *undoRedo_TableFullLoadCurve;
     ptrdiff_t undoCount;
     ptrdiff_t redoCount;
+
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
     void SetDoubleValidators();
@@ -99,6 +106,7 @@ private:
     void SetUndoRedoButtonState();
     void SaveState();
     void SaveStateForAllTables();
+
     QDir lastReportsDir;
     QString lastCheckoutDataFileName;
     QString lastReportFileName;
@@ -107,6 +115,7 @@ private:
     NewVersions *newVersions;
 
 private slots:
+
     void on_action_LoadSourceData_activated();
     void on_action_SaveSourceData_activated();
     void on_action_SaveSourceDataAs_activated();
@@ -140,6 +149,7 @@ private slots:
     void on_action_AboutQr49_activated();
     void on_action_AboutQt_activated();
     void on_action_CheckForUpdates_activated();
+
     void on_pushButton_EnterPTmass_clicked();
     void TaskChanged(QString);
     void StandardChanged(QString);

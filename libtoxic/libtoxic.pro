@@ -1,7 +1,7 @@
 QT -= gui
 TARGET = toxic
 TEMPLATE = lib
-VERSION = 4.18.1
+VERSION = 5.0.0
 SOURCES += sources/reducedpower.cpp \
     sources/precalc.cpp \
     sources/libtoxicparameters.cpp \
