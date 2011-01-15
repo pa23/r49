@@ -11,7 +11,6 @@ SOURCES += sources/reducedpower.cpp \
     sources/commonparameters.cpp \
     sources/csvread.cpp \
     sources/datetime.cpp \
-    sources/double2darray.cpp \
     sources/stringoperations.cpp
 HEADERS += sources/reducedpower.h \
     sources/precalc.h \
@@ -23,7 +22,6 @@ HEADERS += sources/reducedpower.h \
     sources/commonparameters.h \
     sources/csvread.h \
     sources/datetime.h \
-    sources/double2darray.h \
     sources/stringoperations.h \
     ../r49.h
 INCLUDEPATH += ..
