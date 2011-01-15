@@ -59,10 +59,26 @@
 #include <QDoubleSpinBox>
 
 MainWindow::MainWindow(QWidget *parent) :
+
         QMainWindow(parent),
         ui(new Ui::MainWindow),
+
         qr49settings("pa23software", "Qr49"),
+
+        contextMenu(new QMenu()),
+
+        filterMassDialog(new FilterMassDialog()),
+        valueDialog(new ValueDialog()),
+        preferencesDialog(new PreferencesDialog()),
+        abcSpeedsCalcDialog(new ABCspeedsCalcDialog()),
+        elrSmokeCalcDialog(new ELRsmokeCalcDialog()),
+        checkoutDataDialog(new CheckoutDataDialog()),
+        helpDialog(new HelpDialog()),
+
         tableRowHeight(20),
+
+        regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
+
         undoCount(0),
         redoCount(0) {
 
@@ -71,8 +87,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //
 
     this->setWindowTitle(qr49version);
-
-    contextMenu = new QMenu();
 
     contextMenu->addMenu(ui->menuFile);
     contextMenu->addMenu(ui->menuEdit);
@@ -99,16 +113,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    filterMassDialog = new FilterMassDialog();
-    valueDialog = new ValueDialog();
-    preferencesDialog = new PreferencesDialog();
-    abcSpeedsCalcDialog = new ABCspeedsCalcDialog();
-    elrSmokeCalcDialog = new ELRsmokeCalcDialog();
-    checkoutDataDialog = new CheckoutDataDialog();
-    helpDialog = new HelpDialog();
-
-    //
-
     params = QSharedPointer<LibtoxicParameters>(new LibtoxicParameters());
     config = QSharedPointer<CommonParameters>(new CommonParameters());
 
@@ -117,11 +121,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //
 
     doubleValidator = new QDoubleValidator(this);
+
     doubleValidator->setBottom(0);
     doubleValidator->setDecimals(4);
 
-    regExp = new QRegExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?");
-    regExpValidator = new QRegExpValidator(*regExp, 0);
+    regExpValidator = new QRegExpValidator(regExp, 0);
 
     setDoubleValidators();
 
@@ -131,10 +135,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    undoRedo_TableEU0 = new UndoRedoTable(ui->tableWidget_SrcDataEU0);
-    undoRedo_TableEU3 = new UndoRedoTable(ui->tableWidget_SrcDataEU3);
-    undoRedo_TablePoints = new UndoRedoTable(ui->tableWidget_SrcDataPoints);
-    undoRedo_TableFullLoadCurve = new UndoRedoTable(ui->tableWidget_FullLoadCurve);
+    undoRedo_TableEU0 = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataEU0));
+    undoRedo_TableEU3 = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataEU3));
+    undoRedo_TablePoints = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataPoints));
+    undoRedo_TableFullLoadCurve = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_FullLoadCurve));
 
     saveStateForAllTables();
 
@@ -178,7 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    newVersions = new NewVersions();
+    newVersions = QSharedPointer<NewVersions>(new NewVersions());
 }
 
 MainWindow::~MainWindow() {
@@ -198,22 +202,6 @@ MainWindow::~MainWindow() {
     writeProgramSettings();
 
     delete ui;
-    delete contextMenu;
-    delete filterMassDialog;
-    delete valueDialog;
-    delete preferencesDialog;
-    delete abcSpeedsCalcDialog;
-    delete elrSmokeCalcDialog;
-    delete checkoutDataDialog;
-    delete helpDialog;
-    delete doubleValidator;
-    delete regExp;
-    delete regExpValidator;
-    delete undoRedo_TableEU0;
-    delete undoRedo_TableEU3;
-    delete undoRedo_TablePoints;
-    delete undoRedo_TableFullLoadCurve;
-    delete newVersions;
 }
 
 void MainWindow::writeProgramSettings() {
@@ -1712,7 +1700,7 @@ void MainWindow::on_action_AboutQt_activated() {
 
 void MainWindow::on_action_CheckForUpdates_activated() {
 
-    newVersions->checkAvailableVersions();
+    newVersions.data()->checkAvailableVersions();
 }
 
 void MainWindow::on_pushButton_EnterPTmass_clicked() {
@@ -2031,29 +2019,29 @@ void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {
 
     if (tbl == ui->tableWidget_SrcDataEU0) {
 
-        undoCount = undoRedo_TableEU0->undoTableNumber();
-        redoCount = undoRedo_TableEU0->redoTableNumber();
+        undoCount = undoRedo_TableEU0.data()->undoTableNumber();
+        redoCount = undoRedo_TableEU0.data()->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataEU3) {
 
-        undoCount = undoRedo_TableEU3->undoTableNumber();
-        redoCount = undoRedo_TableEU3->redoTableNumber();
+        undoCount = undoRedo_TableEU3.data()->undoTableNumber();
+        redoCount = undoRedo_TableEU3.data()->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataPoints) {
 
-        undoCount = undoRedo_TablePoints->undoTableNumber();
-        redoCount = undoRedo_TablePoints->redoTableNumber();
+        undoCount = undoRedo_TablePoints.data()->undoTableNumber();
+        redoCount = undoRedo_TablePoints.data()->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_FullLoadCurve) {
 
-        undoCount = undoRedo_TableFullLoadCurve->undoTableNumber();
-        redoCount = undoRedo_TableFullLoadCurve->redoTableNumber();
+        undoCount = undoRedo_TableFullLoadCurve.data()->undoTableNumber();
+        redoCount = undoRedo_TableFullLoadCurve.data()->redoTableNumber();
 
         setUndoRedoButtonState();
     }
@@ -2094,32 +2082,32 @@ void MainWindow::saveState() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->saveState();
+        undoRedo_TableEU0.data()->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->saveState();
+        undoRedo_TableEU3.data()->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->saveState();
+        undoRedo_TablePoints.data()->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->saveState();
+        undoRedo_TableFullLoadCurve.data()->saveState();
         getUndoRedoCounters(table);
     }
 }
 
 void MainWindow::saveStateForAllTables() {
 
-    undoRedo_TableEU0->saveState();
-    undoRedo_TableEU3->saveState();
-    undoRedo_TablePoints->saveState();
-    undoRedo_TableFullLoadCurve->saveState();
+    undoRedo_TableEU0.data()->saveState();
+    undoRedo_TableEU3.data()->saveState();
+    undoRedo_TablePoints.data()->saveState();
+    undoRedo_TableFullLoadCurve.data()->saveState();
 }
 
 void MainWindow::on_action_UndoTable_activated() {
@@ -2128,22 +2116,22 @@ void MainWindow::on_action_UndoTable_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->undoTable();
+        undoRedo_TableEU0.data()->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->undoTable();
+        undoRedo_TableEU3.data()->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->undoTable();
+        undoRedo_TablePoints.data()->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->undoTable();
+        undoRedo_TableFullLoadCurve.data()->undoTable();
         getUndoRedoCounters(table);
     }
 
@@ -2156,22 +2144,22 @@ void MainWindow::on_action_RedoTable_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->redoTable();
+        undoRedo_TableEU0.data()->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->redoTable();
+        undoRedo_TableEU3.data()->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->redoTable();
+        undoRedo_TablePoints.data()->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->redoTable();
+        undoRedo_TableFullLoadCurve.data()->redoTable();
         getUndoRedoCounters(table);
     }
 

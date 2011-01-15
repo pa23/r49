@@ -78,12 +78,13 @@ private:
 
     ptrdiff_t tableRowHeight;
     QDoubleValidator *doubleValidator;
-    QRegExp *regExp;
+    QRegExp regExp;
     QRegExpValidator *regExpValidator;
-    UndoRedoTable *undoRedo_TableEU0;
-    UndoRedoTable *undoRedo_TableEU3;
-    UndoRedoTable *undoRedo_TablePoints;
-    UndoRedoTable *undoRedo_TableFullLoadCurve;
+
+    QSharedPointer<UndoRedoTable> undoRedo_TableEU0;
+    QSharedPointer<UndoRedoTable> undoRedo_TableEU3;
+    QSharedPointer<UndoRedoTable> undoRedo_TablePoints;
+    QSharedPointer<UndoRedoTable> undoRedo_TableFullLoadCurve;
     ptrdiff_t undoCount;
     ptrdiff_t redoCount;
 
@@ -113,7 +114,8 @@ private:
     QString lastReportFileName;
     QFont monospacedFont_8;
     QFont monospacedFont_10;
-    NewVersions *newVersions;
+
+    QSharedPointer<NewVersions> newVersions;
 
 private slots:
 
