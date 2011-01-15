@@ -16,6 +16,7 @@
 */
 
 #include "csvread.h"
+#include "libtoxicconstants.h"
 
 #include <QDebug>
 #include <QString>
@@ -23,14 +24,10 @@
 #include <QVector>
 #include <QFile>
 
-csvRead::csvRead() :
-        n(0),
-        m(0) {
+csvRead::csvRead() {
 }
 
 csvRead::~csvRead() {
-
-    data.clear();
 }
 
 csvRead::csvRead(const csvRead &orig) {
@@ -44,7 +41,7 @@ csvRead &csvRead::operator =(const csvRead &x) {
     return *this;
 }
 
-bool csvRead::readData(QString filename, QString csvdelimiter, ptrdiff_t *stringsNumber) {
+QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimiter) {
 
     QFile dataFile(filename);
 
@@ -56,8 +53,6 @@ bool csvRead::readData(QString filename, QString csvdelimiter, ptrdiff_t *string
     }
 
     QString s;
-    n = 0;
-    m = 0;
 
     while ( !dataFile.atEnd() ) {
 
@@ -66,41 +61,28 @@ bool csvRead::readData(QString filename, QString csvdelimiter, ptrdiff_t *string
         if ( (!s.isEmpty()) && (!s.isNull()) ) {
 
             data.push_back(s.split(csvdelimiter, QString::SkipEmptyParts));
-
-            n++;
         }
     }
 
     dataFile.close();
 
-    *stringsNumber = n;
+    //
 
-    m = data.at(0).size();
+    QVector<double> row;
+    QVector< QVector<double> > doubleData;
 
-    return true;
-}
+    for (ptrdiff_t i=StrsNumberForColumnCaption; i<data.size(); i++) {
 
-bool csvRead::checkArrayDimension(ptrdiff_t m1) {
+        for (ptrdiff_t j=0; j<data.at(i).size(); j++) {
 
-    if (m1 == m) {
-
-        return true;
-    }
-    else {
-
-        return false;
-    }
-}
-
-bool csvRead::fillArray(double **array) const {
-
-    for (ptrdiff_t i=0; i<data.size(); i++) {
-
-        for (ptrdiff_t j=0; j<data[i].size(); j++) {
-
-            array[i][j] = data.at(i).at(j).toDouble();
+            row.push_back( data.at(i).at(j).toDouble() );
         }
+
+        doubleData.push_back(row);
+        row.clear();
     }
 
-    return true;
+    //
+
+    return doubleData;
 }

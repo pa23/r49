@@ -29,9 +29,7 @@ public:
     explicit csvRead();
     virtual ~csvRead();
 
-    bool readData(QString, QString, ptrdiff_t *);
-    bool checkArrayDimension(ptrdiff_t);
-    bool fillArray(double **) const;
+    QVector< QVector<double> > csvData(QString, QString);
 
 private:
 
@@ -39,9 +37,7 @@ private:
     csvRead &operator =(const csvRead &);
 
     QVector<QStringList> data;
-
-    ptrdiff_t n;
-    ptrdiff_t m;
+    QVector< QVector<double> > doubleData;
 
 };
 
