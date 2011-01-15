@@ -19,9 +19,10 @@
 #define	CYCLEPOINTS_H
 
 #include "libtoxicconstants.h"
-#include "double2darray.h"
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
+
+#include <QVector>
 
 class CyclePoints {
 
@@ -30,7 +31,7 @@ public:
     explicit CyclePoints(LibtoxicParameters *, CommonParameters *);
     virtual ~CyclePoints();
 
-    bool readCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
+    bool readCSV(QVector< QVector<double> >);
     bool fillArrays();
     QString createReport() const;
 
@@ -39,12 +40,8 @@ private:
     CyclePoints(const CyclePoints &orig);
     CyclePoints &operator =(const CyclePoints &);
 
-    bool FillArrays_OK;
-
     LibtoxicParameters *params;
     CommonParameters *config;
-
-    ptrdiff_t NumberOfPoints;
 
     double n_hi, n_lo;
     double A, B, C, a1, a2, a3, n_ref;
@@ -53,11 +50,11 @@ private:
     double Ne_A, Ne_B, Ne_C, Ne_a1, Ne_a2, Ne_a3;
     double n_interim, Ne_interim, Ne_rated;
 
-    Double2DArray *Array_n;            double **array_n;
-    Double2DArray *Array_Me_brutto;    double **array_Me_brutto;
-    Double2DArray *Array_Ne_brutto;    double **array_Ne_brutto;
-    Double2DArray *Array_N_fan;        double **array_N_fan;
-    Double2DArray *Array_w;            double **array_w;
+    QVector<double> array_n;
+    QVector<double> array_Me_brutto;
+    QVector<double> array_Ne_brutto;
+    QVector<double> array_N_fan;
+    QVector<double> array_w;
 
 };
 

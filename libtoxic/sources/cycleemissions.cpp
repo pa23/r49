@@ -177,7 +177,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
         array_DataForCalc = readerDataForCalc->csvData(filenamePoints, csvdelimiter);
 
-        if (data.at(0).size() != PointsFileColumnsNumber) {
+        if (array_DataForCalc.at(0).size() != PointsFileColumnsNumber) {
 
             delete readerDataForCalc;
 

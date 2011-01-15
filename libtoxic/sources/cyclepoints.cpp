@@ -17,7 +17,6 @@
 
 #include "cyclepoints.h"
 #include "libtoxicconstants.h"
-#include "double2darray.h"
 #include "precalc.h"
 #include "csvread.h"
 #include "libtoxicparameters.h"
@@ -29,6 +28,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QVector>
 
 using std::string;
 using std::endl;
@@ -40,8 +40,6 @@ using std::setprecision;
 using std::fixed;
 
 CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
-        FillArrays_OK  (false),
-        NumberOfPoints     (0),
         n_hi               (0),
         n_lo               (0),
         A                  (0),
@@ -74,15 +72,6 @@ CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
 }
 
 CyclePoints::~CyclePoints() {
-
-    if (FillArrays_OK) {
-
-        delete Array_n;
-        delete Array_Me_brutto;
-        delete Array_Ne_brutto;
-        delete Array_N_fan;
-        delete Array_w;
-    }
 }
 
 CyclePoints::CyclePoints(const CyclePoints &orig) {
@@ -96,18 +85,17 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
     return *this;
 }
 
-bool CyclePoints::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
     QString std = params->val_Standard();
     QString csvdelimiter = config->val_csvDelimiter();
     QString filenameSource = "";
 
-    Double2DArray  *SourceData;
-    double        **arraySourceData;
+    QVector< QVector<double> > arraySourceData;
 
-    if ( (n == 0) && (m == 0) ) {
+    if ( data.isEmpty() ) {
 
-        csvRead *ReaderSourceData = new csvRead();
+        csvRead *readerSourceData = new csvRead();
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
@@ -118,56 +106,34 @@ bool CyclePoints::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             filenameSource = config->val_filenameSourceEU0();
         }
 
-        if (!ReaderSourceData->readData(filenameSource, csvdelimiter, &NumberOfPoints)) {
-
-            delete ReaderSourceData;
-
-            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: readData function returns false!";
-
-            return false;
-        }
+        arraySourceData = readerSourceData->csvData(filenameSource, csvdelimiter);
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-            SourceData = new Double2DArray(NumberOfPoints, EU3SrcDataParamsNumber);
-            arraySourceData = SourceData->arrayPointer();
+            if (arraySourceData.at(0).size() != EU3SrcDataParamsNumber) {
 
-            if (!ReaderSourceData->checkArrayDimension(EU3SrcDataParamsNumber)) {
+                delete readerSourceData;
 
-                delete SourceData;
-                delete ReaderSourceData;
-
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: checkArrayDimension function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
 
                 return false;
             }
 
-            if (!ReaderSourceData->fillArray(arraySourceData)) {
-
-                delete SourceData;
-                delete ReaderSourceData;
-
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: fillArray function returns false!";
-
-                return false;
-            }
-
-            n_hi        = arraySourceData[StrsNumberForColumnCaption][ 0];
-            n_lo        = arraySourceData[StrsNumberForColumnCaption][ 1];
-            idle        = arraySourceData[StrsNumberForColumnCaption][ 2];
-            n_rated     = arraySourceData[StrsNumberForColumnCaption][ 3];
-            N_fan_rated = arraySourceData[StrsNumberForColumnCaption][ 4];
-            Ne_A        = arraySourceData[StrsNumberForColumnCaption][ 5];
-            Ne_B        = arraySourceData[StrsNumberForColumnCaption][ 6];
-            Ne_C        = arraySourceData[StrsNumberForColumnCaption][ 7];
-            Ne_a1       = arraySourceData[StrsNumberForColumnCaption][ 8];
-            Ne_a2       = arraySourceData[StrsNumberForColumnCaption][ 9];
-            Ne_a3       = arraySourceData[StrsNumberForColumnCaption][10];
+            n_hi        = arraySourceData[0][ 0];
+            n_lo        = arraySourceData[0][ 1];
+            idle        = arraySourceData[0][ 2];
+            n_rated     = arraySourceData[0][ 3];
+            N_fan_rated = arraySourceData[0][ 4];
+            Ne_A        = arraySourceData[0][ 5];
+            Ne_B        = arraySourceData[0][ 6];
+            Ne_C        = arraySourceData[0][ 7];
+            Ne_a1       = arraySourceData[0][ 8];
+            Ne_a2       = arraySourceData[0][ 9];
+            Ne_a3       = arraySourceData[0][10];
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                delete SourceData;
-                delete ReaderSourceData;
+                delete readerSourceData;
 
                 qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
 
@@ -183,103 +149,80 @@ bool CyclePoints::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
                   (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
                   (std == "F") || (std == "G1") || (std == "G2") ) {
 
-            SourceData = new Double2DArray(NumberOfPoints, EU0SrcDataParamsNumber);
-            arraySourceData = SourceData->arrayPointer();
+            if (arraySourceData.at(0).size() != EU0SrcDataParamsNumber) {
 
-            if (!ReaderSourceData->checkArrayDimension(EU0SrcDataParamsNumber)) {
+                delete readerSourceData;
 
-                delete SourceData;
-                delete ReaderSourceData;
-
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: checkArrayDimension function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
 
                 return false;
             }
 
-            if (!ReaderSourceData->fillArray(arraySourceData)) {
-
-                delete SourceData;
-                delete ReaderSourceData;
-
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: fillArray function returns false!";
-
-                return false;
-            }
-
-            idle        = arraySourceData[StrsNumberForColumnCaption][ 0];
-            n_interim   = arraySourceData[StrsNumberForColumnCaption][ 1];
-            n_rated     = arraySourceData[StrsNumberForColumnCaption][ 2];
-            N_fan_rated = arraySourceData[StrsNumberForColumnCaption][ 3];
-            Ne_interim  = arraySourceData[StrsNumberForColumnCaption][ 4];
-            Ne_rated    = arraySourceData[StrsNumberForColumnCaption][ 5];
+            idle        = arraySourceData[0][ 0];
+            n_interim   = arraySourceData[0][ 1];
+            n_rated     = arraySourceData[0][ 2];
+            N_fan_rated = arraySourceData[0][ 3];
+            Ne_interim  = arraySourceData[0][ 4];
+            Ne_rated    = arraySourceData[0][ 5];
         }
         else {
 
-            delete ReaderSourceData;
+            delete readerSourceData;
 
             qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
 
             return false;
         }
 
-        delete ReaderSourceData;
-        delete SourceData;
-    }
-    else if ( (n > 0) && (m > 0) ) {
-
-        arraySourceData = data;
-
-        NumberOfPoints = n;
-
-        if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
-
-            n_hi        = arraySourceData[StrsNumberForColumnCaption][ 0];
-            n_lo        = arraySourceData[StrsNumberForColumnCaption][ 1];
-            idle        = arraySourceData[StrsNumberForColumnCaption][ 2];
-            n_rated     = arraySourceData[StrsNumberForColumnCaption][ 3];
-            N_fan_rated = arraySourceData[StrsNumberForColumnCaption][ 4];
-            Ne_A        = arraySourceData[StrsNumberForColumnCaption][ 5];
-            Ne_B        = arraySourceData[StrsNumberForColumnCaption][ 6];
-            Ne_C        = arraySourceData[StrsNumberForColumnCaption][ 7];
-            Ne_a1       = arraySourceData[StrsNumberForColumnCaption][ 8];
-            Ne_a2       = arraySourceData[StrsNumberForColumnCaption][ 9];
-            Ne_a3       = arraySourceData[StrsNumberForColumnCaption][10];
-
-            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
-
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
-
-                return false;
-            }
-        }
-        else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ||
-                  (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                  (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                  (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                  (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ||
-                  (std == "C1") || (std == "D1") || (std == "D2") ||
-                  (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                  (std == "F") || (std == "G1") || (std == "G2") ) {
-
-            idle        = arraySourceData[StrsNumberForColumnCaption][ 0];
-            n_interim   = arraySourceData[StrsNumberForColumnCaption][ 1];
-            n_rated     = arraySourceData[StrsNumberForColumnCaption][ 2];
-            N_fan_rated = arraySourceData[StrsNumberForColumnCaption][ 3];
-            Ne_interim  = arraySourceData[StrsNumberForColumnCaption][ 4];
-            Ne_rated    = arraySourceData[StrsNumberForColumnCaption][ 5];
-        }
-        else {
-
-            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
-
-            return false;
-        }
+        delete readerSourceData;
     }
     else {
 
-        qDebug() << "libtoxic ERROR: CyclePoints: readCSV: Illegal data!";
+        arraySourceData = data;
 
-        return false;
+        if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+
+            n_hi        = arraySourceData[0][ 0];
+            n_lo        = arraySourceData[0][ 1];
+            idle        = arraySourceData[0][ 2];
+            n_rated     = arraySourceData[0][ 3];
+            N_fan_rated = arraySourceData[0][ 4];
+            Ne_A        = arraySourceData[0][ 5];
+            Ne_B        = arraySourceData[0][ 6];
+            Ne_C        = arraySourceData[0][ 7];
+            Ne_a1       = arraySourceData[0][ 8];
+            Ne_a2       = arraySourceData[0][ 9];
+            Ne_a3       = arraySourceData[0][10];
+
+            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
+
+                return false;
+            }
+        }
+        else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ||
+                  (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
+                  (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
+                  (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
+                  (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ||
+                  (std == "C1") || (std == "D1") || (std == "D2") ||
+                  (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
+                  (std == "F") || (std == "G1") || (std == "G2") ) {
+
+            idle        = arraySourceData[0][ 0];
+            n_interim   = arraySourceData[0][ 1];
+            n_rated     = arraySourceData[0][ 2];
+            N_fan_rated = arraySourceData[0][ 3];
+            Ne_interim  = arraySourceData[0][ 4];
+            Ne_rated    = arraySourceData[0][ 5];
+        }
+        else {
+
+            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
+
+            return false;
+        }
     }
 
     return true;
@@ -287,13 +230,11 @@ bool CyclePoints::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
 bool CyclePoints::fillArrays() {
 
-    FillArrays_OK = false;
-
     QString std = params->val_Standard();
 
-    if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+    ptrdiff_t n = 0;
 
-        ptrdiff_t n = 0;
+    if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
         if (params->val_AddPointsCalc() == "yes") {
 
@@ -304,147 +245,131 @@ bool CyclePoints::fillArrays() {
             n = TCyclePointsNumber - TCycleAddPointsNumber;
         }
 
-        Array_n = new Double2DArray(n, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(n);
+        array_Me_brutto.resize(n);
+        array_Ne_brutto.resize(n);
+        array_N_fan.resize(n);
+        array_w.resize(n);
 
-        Array_Me_brutto = new Double2DArray(n, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
-
-        Array_Ne_brutto = new Double2DArray(n, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(n, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(n, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = idle;
-        array_n[ 1][0] = A;
-        array_n[ 2][0] = B;
-        array_n[ 3][0] = B;
-        array_n[ 4][0] = A;
-        array_n[ 5][0] = A;
-        array_n[ 6][0] = A;
-        array_n[ 7][0] = B;
-        array_n[ 8][0] = B;
-        array_n[ 9][0] = C;
-        array_n[10][0] = C;
-        array_n[11][0] = C;
-        array_n[12][0] = C;
+        array_n[ 0] = idle;
+        array_n[ 1] = A;
+        array_n[ 2] = B;
+        array_n[ 3] = B;
+        array_n[ 4] = A;
+        array_n[ 5] = A;
+        array_n[ 6] = A;
+        array_n[ 7] = B;
+        array_n[ 8] = B;
+        array_n[ 9] = C;
+        array_n[10] = C;
+        array_n[11] = C;
+        array_n[12] = C;
 
         if (params->val_AddPointsCalc() == "yes") {
 
-            array_n[13][0] = a1;
-            array_n[14][0] = a2;
-            array_n[15][0] = a3;
+            array_n[13] = a1;
+            array_n[14] = a2;
+            array_n[15] = a3;
         }
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_N_fan[i][0] = N_fan_rated * pow(array_n[i][0] / n_rated, 3);
+            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
         }
 
-        array_Ne_brutto[ 0][0] = 0;
-        array_Ne_brutto[ 1][0] = Ne_A;
-        array_Ne_brutto[ 2][0] = 0.50  * (Ne_B - array_N_fan[2][0]) + array_N_fan[2][0];
-        array_Ne_brutto[ 3][0] = 0.75  * (Ne_B - array_N_fan[3][0]) + array_N_fan[3][0];
-        array_Ne_brutto[ 4][0] = 0.50  * (Ne_A - array_N_fan[4][0]) + array_N_fan[4][0];
-        array_Ne_brutto[ 5][0] = 0.75  * (Ne_A - array_N_fan[5][0]) + array_N_fan[5][0];
-        array_Ne_brutto[ 6][0] = 0.25  * (Ne_A - array_N_fan[6][0]) + array_N_fan[6][0];
-        array_Ne_brutto[ 7][0] = Ne_B;
-        array_Ne_brutto[ 8][0] = 0.25  * (Ne_B - array_N_fan[8][0]) + array_N_fan[8][0];
-        array_Ne_brutto[ 9][0] = Ne_C;
-        array_Ne_brutto[10][0] = 0.25  * (Ne_C - array_N_fan[10][0]) + array_N_fan[10][0];
-        array_Ne_brutto[11][0] = 0.75  * (Ne_C - array_N_fan[11][0]) + array_N_fan[11][0];
-        array_Ne_brutto[12][0] = 0.50  * (Ne_C - array_N_fan[12][0]) + array_N_fan[12][0];
+        array_Ne_brutto[ 0] = 0;
+        array_Ne_brutto[ 1] = Ne_A;
+        array_Ne_brutto[ 2] = 0.50  * (Ne_B - array_N_fan[2]) + array_N_fan[2];
+        array_Ne_brutto[ 3] = 0.75  * (Ne_B - array_N_fan[3]) + array_N_fan[3];
+        array_Ne_brutto[ 4] = 0.50  * (Ne_A - array_N_fan[4]) + array_N_fan[4];
+        array_Ne_brutto[ 5] = 0.75  * (Ne_A - array_N_fan[5]) + array_N_fan[5];
+        array_Ne_brutto[ 6] = 0.25  * (Ne_A - array_N_fan[6]) + array_N_fan[6];
+        array_Ne_brutto[ 7] = Ne_B;
+        array_Ne_brutto[ 8] = 0.25  * (Ne_B - array_N_fan[8]) + array_N_fan[8];
+        array_Ne_brutto[ 9] = Ne_C;
+        array_Ne_brutto[10] = 0.25  * (Ne_C - array_N_fan[10]) + array_N_fan[10];
+        array_Ne_brutto[11] = 0.75  * (Ne_C - array_N_fan[11]) + array_N_fan[11];
+        array_Ne_brutto[12] = 0.50  * (Ne_C - array_N_fan[12]) + array_N_fan[12];
 
         if (params->val_AddPointsCalc() == "yes") {
 
-            array_Ne_brutto[13][0] = 0.875 * (Ne_a1 - array_N_fan[13][0]) + array_N_fan[13][0];
-            array_Ne_brutto[14][0] = 0.625 * (Ne_a2 - array_N_fan[14][0]) + array_N_fan[14][0];
-            array_Ne_brutto[15][0] = 0.375 * (Ne_a3 - array_N_fan[15][0]) + array_N_fan[15][0];
+            array_Ne_brutto[13][0] = 0.875 * (Ne_a1 - array_N_fan[13][0]) + array_N_fan[13];
+            array_Ne_brutto[14][0] = 0.625 * (Ne_a2 - array_N_fan[14][0]) + array_N_fan[14];
+            array_Ne_brutto[15][0] = 0.375 * (Ne_a3 - array_N_fan[15][0]) + array_N_fan[15];
         }
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.15;
-        array_w[ 1][0] = 0.08;
-        array_w[ 2][0] = 0.10;
-        array_w[ 3][0] = 0.10;
-        array_w[ 4][0] = 0.05;
-        array_w[ 5][0] = 0.05;
-        array_w[ 6][0] = 0.05;
-        array_w[ 7][0] = 0.09;
-        array_w[ 8][0] = 0.10;
-        array_w[ 9][0] = 0.08;
-        array_w[10][0] = 0.05;
-        array_w[11][0] = 0.05;
-        array_w[12][0] = 0.05;
+        array_w[ 0] = 0.15;
+        array_w[ 1] = 0.08;
+        array_w[ 2] = 0.10;
+        array_w[ 3] = 0.10;
+        array_w[ 4] = 0.05;
+        array_w[ 5] = 0.05;
+        array_w[ 6] = 0.05;
+        array_w[ 7] = 0.09;
+        array_w[ 8] = 0.10;
+        array_w[ 9] = 0.08;
+        array_w[10] = 0.05;
+        array_w[11] = 0.05;
+        array_w[12] = 0.05;
 
         if (params->val_AddPointsCalc() == "yes") {
 
-            array_w[13][0] = 1.0;
-            array_w[14][0] = 1.0;
-            array_w[15][0] = 1.0;
+            array_w[13] = 1.0;
+            array_w[14] = 1.0;
+            array_w[15] = 1.0;
         }
     }
     else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") ) {
 
-        Array_n = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        n = TCyclePointsNumber - TCycleAddPointsNumber;
 
-        Array_Me_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n.resize(n);
+        array_Me_brutto.resize(n);
+        array_Ne_brutto.resize(n);
+        array_N_fan.resize(n);
+        array_w.resize(n);
 
-        Array_Ne_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
+        array_n[ 0] = idle;
+        array_n[ 1] = n_interim;
+        array_n[ 2] = n_interim;
+        array_n[ 3] = n_interim;
+        array_n[ 4] = n_interim;
+        array_n[ 5] = n_interim;
+        array_n[ 6] = idle;
+        array_n[ 7] = n_rated;
+        array_n[ 8] = n_rated;
+        array_n[ 9] = n_rated;
+        array_n[10] = n_rated;
+        array_n[11] = n_rated;
+        array_n[12] = idle;
 
-        Array_N_fan = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
+        for (ptrdiff_t i=0; i<n; i++) {
 
-        Array_w = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = idle;
-        array_n[ 1][0] = n_interim;
-        array_n[ 2][0] = n_interim;
-        array_n[ 3][0] = n_interim;
-        array_n[ 4][0] = n_interim;
-        array_n[ 5][0] = n_interim;
-        array_n[ 6][0] = idle;
-        array_n[ 7][0] = n_rated;
-        array_n[ 8][0] = n_rated;
-        array_n[ 9][0] = n_rated;
-        array_n[10][0] = n_rated;
-        array_n[11][0] = n_rated;
-        array_n[12][0] = idle;
-
-        for (ptrdiff_t i=0; i<(TCyclePointsNumber-TCycleAddPointsNumber); i++) {
-
-            array_N_fan[i][0] = N_fan_rated * pow(array_n[i][0] / n_rated, 3);
+            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
         }
 
-        array_Ne_brutto[ 0][0] = 0;
-        array_Ne_brutto[ 1][0] = 0.10 * (Ne_interim - array_N_fan[1][0]) + array_N_fan[1][0];
-        array_Ne_brutto[ 2][0] = 0.25 * (Ne_interim - array_N_fan[2][0]) + array_N_fan[2][0];
-        array_Ne_brutto[ 3][0] = 0.50 * (Ne_interim - array_N_fan[3][0]) + array_N_fan[3][0];
-        array_Ne_brutto[ 4][0] = 0.75 * (Ne_interim - array_N_fan[4][0]) + array_N_fan[4][0];
-        array_Ne_brutto[ 5][0] = Ne_interim;
-        array_Ne_brutto[ 6][0] = 0;
-        array_Ne_brutto[ 7][0] = Ne_rated;
-        array_Ne_brutto[ 8][0] = 0.75 * (Ne_rated - array_N_fan[8][0]) + array_N_fan[8][0];
-        array_Ne_brutto[ 9][0] = 0.50 * (Ne_rated - array_N_fan[9][0]) + array_N_fan[9][0];
-        array_Ne_brutto[10][0] = 0.25 * (Ne_rated - array_N_fan[10][0]) + array_N_fan[10][0];
-        array_Ne_brutto[11][0] = 0.10 * (Ne_rated - array_N_fan[11][0]) + array_N_fan[11][0];
-        array_Ne_brutto[12][0] = 0;
+        array_Ne_brutto[ 0] = 0;
+        array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1];
+        array_Ne_brutto[ 2] = 0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
+        array_Ne_brutto[ 3] = 0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
+        array_Ne_brutto[ 4] = 0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+        array_Ne_brutto[ 5] = Ne_interim;
+        array_Ne_brutto[ 6] = 0;
+        array_Ne_brutto[ 7] = Ne_rated;
+        array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
+        array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
+        array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
+        array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
+        array_Ne_brutto[12] = 0;
 
-        for (ptrdiff_t i=0; i<(TCyclePointsNumber-TCycleAddPointsNumber); i++) {
+        for (ptrdiff_t i=0; i<n; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
         array_w[ 0][0] = 0.0833;
@@ -463,568 +388,453 @@ bool CyclePoints::fillArrays() {
     }
     else if ( (std == "OST") || (std == "GOST") ) {
 
-        Array_n = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        n = TCyclePointsNumber - TCycleAddPointsNumber;
 
-        Array_Me_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n.resize(n);
+        array_Me_brutto.resize(n);
+        array_Ne_brutto.resize(n);
+        array_N_fan.resize(n);
+        array_w.resize(n);
 
-        Array_Ne_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
+        array_n[ 0] = idle;
+        array_n[ 1] = n_interim;
+        array_n[ 2] = n_interim;
+        array_n[ 3] = n_interim;
+        array_n[ 4] = n_interim;
+        array_n[ 5] = n_interim;
+        array_n[ 6] = idle;
+        array_n[ 7] = n_rated;
+        array_n[ 8] = n_rated;
+        array_n[ 9] = n_rated;
+        array_n[10] = n_rated;
+        array_n[11] = n_rated;
+        array_n[12] = idle;
 
-        Array_N_fan = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
+        for (ptrdiff_t i=0; i<n; i++) {
 
-        Array_w = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = idle;
-        array_n[ 1][0] = n_interim;
-        array_n[ 2][0] = n_interim;
-        array_n[ 3][0] = n_interim;
-        array_n[ 4][0] = n_interim;
-        array_n[ 5][0] = n_interim;
-        array_n[ 6][0] = idle;
-        array_n[ 7][0] = n_rated;
-        array_n[ 8][0] = n_rated;
-        array_n[ 9][0] = n_rated;
-        array_n[10][0] = n_rated;
-        array_n[11][0] = n_rated;
-        array_n[12][0] = idle;
-
-        for (ptrdiff_t i=0; i<(TCyclePointsNumber-TCycleAddPointsNumber); i++) {
-
-            array_N_fan[i][0] = N_fan_rated * pow(array_n[i][0] / n_rated, 3);
+            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
         }
 
-        array_Ne_brutto[ 0][0] = 0;
-        if (std == "OST") { array_Ne_brutto[ 1][0] = 0.02 * (Ne_interim - array_N_fan[1][0]) + array_N_fan[1][0]; }
-        else              { array_Ne_brutto[ 1][0] = 0.10 * (Ne_interim - array_N_fan[1][0]) + array_N_fan[1][0]; }
-        array_Ne_brutto[ 2][0] = 0.25 * (Ne_interim - array_N_fan[2][0]) + array_N_fan[2][0];
-        array_Ne_brutto[ 3][0] = 0.50 * (Ne_interim - array_N_fan[3][0]) + array_N_fan[3][0];
-        array_Ne_brutto[ 4][0] = 0.75 * (Ne_interim - array_N_fan[4][0]) + array_N_fan[4][0];
-        array_Ne_brutto[ 5][0] = Ne_interim;
-        array_Ne_brutto[ 6][0] = 0;
-        array_Ne_brutto[ 7][0] = Ne_rated;
-        array_Ne_brutto[ 8][0] = 0.75 * (Ne_rated - array_N_fan[8][0]) + array_N_fan[8][0];
-        array_Ne_brutto[ 9][0] = 0.50 * (Ne_rated - array_N_fan[9][0]) + array_N_fan[9][0];
-        array_Ne_brutto[10][0] = 0.25 * (Ne_rated - array_N_fan[10][0]) + array_N_fan[10][0];
-        if (std == "OST") { array_Ne_brutto[11][0] = 0.02 * (Ne_rated - array_N_fan[11][0]) + array_N_fan[11][0]; }
-        else              { array_Ne_brutto[11][0] = 0.10 * (Ne_rated - array_N_fan[11][0]) + array_N_fan[11][0]; }
+        array_Ne_brutto[ 0] = 0;
+        if (std == "OST") { array_Ne_brutto[ 1] = 0.02 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
+        else              { array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
+        array_Ne_brutto[ 2] = 0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
+        array_Ne_brutto[ 3] = 0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
+        array_Ne_brutto[ 4] = 0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+        array_Ne_brutto[ 5] = Ne_interim;
+        array_Ne_brutto[ 6] = 0;
+        array_Ne_brutto[ 7] = Ne_rated;
+        array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
+        array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
+        array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
+        if (std == "OST") { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+        else              { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
         array_Ne_brutto[12][0] = 0;
 
-        for (ptrdiff_t i=0; i<(TCyclePointsNumber-TCycleAddPointsNumber); i++) {
+        for (ptrdiff_t i=0; i<n; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
         if (std == "OST") {
 
-            array_w[ 0][0] = 0.066666667;
-            array_w[ 1][0] = 0.080;
-            array_w[ 2][0] = 0.080;
-            array_w[ 3][0] = 0.080;
-            array_w[ 4][0] = 0.080;
-            array_w[ 5][0] = 0.080;
-            array_w[ 6][0] = 0.066666667;
-            array_w[ 7][0] = 0.080;
-            array_w[ 8][0] = 0.080;
-            array_w[ 9][0] = 0.080;
-            array_w[10][0] = 0.080;
-            array_w[11][0] = 0.080;
-            array_w[12][0] = 0.066666667;
+            array_w[ 0] = 0.066666667;
+            array_w[ 1] = 0.080;
+            array_w[ 2] = 0.080;
+            array_w[ 3] = 0.080;
+            array_w[ 4] = 0.080;
+            array_w[ 5] = 0.080;
+            array_w[ 6] = 0.066666667;
+            array_w[ 7] = 0.080;
+            array_w[ 8] = 0.080;
+            array_w[ 9] = 0.080;
+            array_w[10] = 0.080;
+            array_w[11] = 0.080;
+            array_w[12] = 0.066666667;
         }
         else {
 
-            array_w[ 0][0] = 0.0833;
-            array_w[ 1][0] = 0.080;
-            array_w[ 2][0] = 0.080;
-            array_w[ 3][0] = 0.080;
-            array_w[ 4][0] = 0.080;
-            array_w[ 5][0] = 0.250;
-            array_w[ 6][0] = 0.0833;
-            array_w[ 7][0] = 0.100;
-            array_w[ 8][0] = 0.020;
-            array_w[ 9][0] = 0.020;
-            array_w[10][0] = 0.020;
-            array_w[11][0] = 0.020;
-            array_w[12][0] = 0.0833;
+            array_w[ 0] = 0.0833;
+            array_w[ 1] = 0.080;
+            array_w[ 2] = 0.080;
+            array_w[ 3] = 0.080;
+            array_w[ 4] = 0.080;
+            array_w[ 5] = 0.250;
+            array_w[ 6] = 0.0833;
+            array_w[ 7] = 0.100;
+            array_w[ 8] = 0.020;
+            array_w[ 9] = 0.020;
+            array_w[10] = 0.020;
+            array_w[11] = 0.020;
+            array_w[12] = 0.0833;
         }
     }
     else if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
               (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ) {
 
-        Array_n = new Double2DArray(ECyclePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(ECyclePointsNumber);
+        array_Me_brutto.resize(ECyclePointsNumber);
+        array_Ne_brutto.resize(ECyclePointsNumber);
+        array_N_fan.resize(ECyclePointsNumber);
+        array_w.resize(ECyclePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(ECyclePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
+        array_n[ 3] = n_rated;
+        array_n[ 4] = n_interim;
+        array_n[ 5] = n_interim;
+        array_n[ 6] = n_interim;
+        array_n[ 7] = idle;
 
-        Array_Ne_brutto = new Double2DArray(ECyclePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(ECyclePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(ECyclePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-        array_n[ 3][0] = n_rated;
-        array_n[ 4][0] = n_interim;
-        array_n[ 5][0] = n_interim;
-        array_n[ 6][0] = n_interim;
-        array_n[ 7][0] = idle;
-
-        array_Ne_brutto[ 0][0] =         Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75  * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.50  * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.10  * Ne_rated;
-        array_Ne_brutto[ 4][0] =         Ne_interim;
-        array_Ne_brutto[ 5][0] = 0.75  * Ne_interim;
-        array_Ne_brutto[ 6][0] = 0.50  * Ne_interim;
-        array_Ne_brutto[ 7][0] = 0;
+        array_Ne_brutto[ 0] =         Ne_rated;
+        array_Ne_brutto[ 1] = 0.75  * Ne_rated;
+        array_Ne_brutto[ 2] = 0.50  * Ne_rated;
+        array_Ne_brutto[ 3] = 0.10  * Ne_rated;
+        array_Ne_brutto[ 4] =         Ne_interim;
+        array_Ne_brutto[ 5] = 0.75  * Ne_interim;
+        array_Ne_brutto[ 6] = 0.50  * Ne_interim;
+        array_Ne_brutto[ 7] = 0;
 
         for (ptrdiff_t i=0; i<ECyclePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
-            array_N_fan[i][0] = N_fan_rated * pow(array_n[i][0] / n_rated, 3);
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
+            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
         }
 
-        array_w[ 0][0] = 0.15;
-        array_w[ 1][0] = 0.15;
-        array_w[ 2][0] = 0.15;
-        array_w[ 3][0] = 0.10;
-        array_w[ 4][0] = 0.10;
-        array_w[ 5][0] = 0.10;
-        array_w[ 6][0] = 0.10;
-        array_w[ 7][0] = 0.15;
+        array_w[ 0] = 0.15;
+        array_w[ 1] = 0.15;
+        array_w[ 2] = 0.15;
+        array_w[ 3] = 0.10;
+        array_w[ 4] = 0.10;
+        array_w[ 5] = 0.10;
+        array_w[ 6] = 0.10;
+        array_w[ 7] = 0.15;
     }
     else if ( (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
               (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
-        Array_n = new Double2DArray(FCyclePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(FCyclePointsNumber);
+        array_Me_brutto.resize(FCyclePointsNumber);
+        array_Ne_brutto.resize(FCyclePointsNumber);
+        array_N_fan.resize(FCyclePointsNumber);
+        array_w.resize(FCyclePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(FCyclePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
-
-        Array_Ne_brutto = new Double2DArray(FCyclePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(FCyclePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(FCyclePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_Ne_brutto[ 0][0] =         Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75  * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.50  * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.25  * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.10  * Ne_rated;
+        array_Ne_brutto[ 0] =         Ne_rated;
+        array_Ne_brutto[ 1] = 0.75  * Ne_rated;
+        array_Ne_brutto[ 2] = 0.50  * Ne_rated;
+        array_Ne_brutto[ 2] = 0.25  * Ne_rated;
+        array_Ne_brutto[ 3] = 0.10  * Ne_rated;
 
         for (ptrdiff_t i=0; i<FCyclePointsNumber; i++) {
 
-            array_n[i][0] = n_rated;
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
-            array_N_fan[i][0] = N_fan_rated;
+            array_n[i] = n_rated;
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
+            array_N_fan[i] = N_fan_rated;
         }
 
-        array_w[ 0][0] = 0.05;
-        array_w[ 1][0] = 0.25;
-        array_w[ 2][0] = 0.30;
-        array_w[ 3][0] = 0.30;
-        array_w[ 4][0] = 0.10;
+        array_w[ 0] = 0.05;
+        array_w[ 1] = 0.25;
+        array_w[ 2] = 0.30;
+        array_w[ 3] = 0.30;
+        array_w[ 4] = 0.10;
     }
     else if (std == "C1") {
 
-        Array_n = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GC1CylcePointsNumber);
+        array_Me_brutto.resize(GC1CylcePointsNumber);
+        array_Ne_brutto.resize(GC1CylcePointsNumber);
+        array_N_fan.resize(GC1CylcePointsNumber);
+        array_w.resize(GC1CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
+        array_n[ 3] = n_rated;
+        array_n[ 4] = n_interim;
+        array_n[ 5] = n_interim;
+        array_n[ 6] = n_interim;
+        array_n[ 7] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-        array_n[ 3][0] = n_rated;
-        array_n[ 4][0] = n_interim;
-        array_n[ 5][0] = n_interim;
-        array_n[ 6][0] = n_interim;
-        array_n[ 7][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.1 * Ne_rated;
-        array_Ne_brutto[ 4][0] = Ne_interim;
-        array_Ne_brutto[ 5][0] = 0.75 * Ne_interim;
-        array_Ne_brutto[ 6][0] = 0.5 * Ne_interim;
-        array_Ne_brutto[ 7][0] = 0;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.1 * Ne_rated;
+        array_Ne_brutto[ 4] = Ne_interim;
+        array_Ne_brutto[ 5] = 0.75 * Ne_interim;
+        array_Ne_brutto[ 6] = 0.5 * Ne_interim;
+        array_Ne_brutto[ 7] = 0;
 
         for (ptrdiff_t i=0; i<GC1CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.15;
-        array_w[ 1][0] = 0.15;
-        array_w[ 2][0] = 0.15;
-        array_w[ 3][0] = 0.1;
-        array_w[ 4][0] = 0.1;
-        array_w[ 5][0] = 0.1;
-        array_w[ 6][0] = 0.1;
-        array_w[ 7][0] = 0.15;
+        array_w[ 0] = 0.15;
+        array_w[ 1] = 0.15;
+        array_w[ 2] = 0.15;
+        array_w[ 3] = 0.1;
+        array_w[ 4] = 0.1;
+        array_w[ 5] = 0.1;
+        array_w[ 6] = 0.1;
+        array_w[ 7] = 0.15;
     }
     else if (std == "D1") {
 
-        Array_n = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GD1CylcePointsNumber);
+        array_Me_brutto.resize(GD1CylcePointsNumber);
+        array_Ne_brutto.resize(GD1CylcePointsNumber);
+        array_N_fan.resize(GD1CylcePointsNumber);
+        array_w.resize(GD1CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
 
-        Array_Ne_brutto = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
 
         for (ptrdiff_t i=0; i<GD1CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.3;
-        array_w[ 1][0] = 0.5;
-        array_w[ 2][0] = 0.2;
+        array_w[ 0] = 0.3;
+        array_w[ 1] = 0.5;
+        array_w[ 2] = 0.2;
     }
     else if (std == "D2") {
 
-        Array_n = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GD2CylcePointsNumber);
+        array_Me_brutto.resize(GD2CylcePointsNumber);
+        array_Ne_brutto.resize(GD2CylcePointsNumber);
+        array_N_fan.resize(GD2CylcePointsNumber);
+        array_w.resize(GD2CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
+        array_n[ 3] = n_rated;
+        array_n[ 4] = n_rated;
 
-        Array_Ne_brutto = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-        array_n[ 3][0] = n_rated;
-        array_n[ 4][0] = n_rated;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_rated;
-        array_Ne_brutto[ 4][0] = 0.1 * Ne_rated;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25 * Ne_rated;
+        array_Ne_brutto[ 4] = 0.1 * Ne_rated;
 
         for (ptrdiff_t i=0; i<GD2CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.05;
-        array_w[ 1][0] = 0.25;
-        array_w[ 2][0] = 0.3;
-        array_w[ 3][0] = 0.3;
-        array_w[ 4][0] = 0.1;
+        array_w[ 0] = 0.05;
+        array_w[ 1] = 0.25;
+        array_w[ 2] = 0.3;
+        array_w[ 3] = 0.3;
+        array_w[ 4] = 0.1;
     }
     else if (std == "E1") {
 
-        Array_n = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GE1CylcePointsNumber);
+        array_Me_brutto.resize(GE1CylcePointsNumber);
+        array_Ne_brutto.resize(GE1CylcePointsNumber);
+        array_N_fan.resize(GE1CylcePointsNumber);
+        array_w.resize(GE1CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_interim;
+        array_n[ 3] = n_interim;
+        array_n[ 4] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_interim;
-        array_n[ 3][0] = n_interim;
-        array_n[ 4][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.75 * Ne_interim;
-        array_Ne_brutto[ 3][0] = 0.5 * Ne_interim;
-        array_Ne_brutto[ 4][0] = 0;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.75 * Ne_interim;
+        array_Ne_brutto[ 3] = 0.5 * Ne_interim;
+        array_Ne_brutto[ 4] = 0;
 
         for (ptrdiff_t i=0; i<GE1CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.08;
-        array_w[ 1][0] = 0.11;
-        array_w[ 2][0] = 0.19;
-        array_w[ 3][0] = 0.32;
-        array_w[ 4][0] = 0.3;
+        array_w[ 0] = 0.08;
+        array_w[ 1] = 0.11;
+        array_w[ 2] = 0.19;
+        array_w[ 3] = 0.32;
+        array_w[ 4] = 0.3;
     }
     else if (std == "E2") {
 
-        Array_n = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GE2CylcePointsNumber);
+        array_Me_brutto.resize(GE2CylcePointsNumber);
+        array_Ne_brutto.resize(GE2CylcePointsNumber);
+        array_N_fan.resize(GE2CylcePointsNumber);
+        array_w.resize(GE2CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
+        array_n[ 3] = n_rated;
 
-        Array_Ne_brutto = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-        array_n[ 3][0] = n_rated;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_rated;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25 * Ne_rated;
 
         for (ptrdiff_t i=0; i<GE2CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.2;
-        array_w[ 1][0] = 0.5;
-        array_w[ 2][0] = 0.15;
-        array_w[ 3][0] = 0.15;
+        array_w[ 0] = 0.2;
+        array_w[ 1] = 0.5;
+        array_w[ 2] = 0.15;
+        array_w[ 3] = 0.15;
     }
     else if (std == "E3") {
 
-        Array_n = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GE3CylcePointsNumber);
+        array_Me_brutto.resize(GE3CylcePointsNumber);
+        array_Ne_brutto.resize(GE3CylcePointsNumber);
+        array_N_fan.resize(GE3CylcePointsNumber);
+        array_w.resize(GE3CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = 0.91 * n_rated;
+        array_n[ 2] = 0.8 * n_rated;
+        array_n[ 3] = 0.63 * n_rated;
 
-        Array_Ne_brutto = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25 * Ne_rated;
 
-        Array_N_fan = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = 0.91 * n_rated;
-        array_n[ 2][0] = 0.8 * n_rated;
-        array_n[ 3][0] = 0.63 * n_rated;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_rated;
-
-        array_w[ 0][0] = 0.2;
-        array_w[ 1][0] = 0.5;
-        array_w[ 2][0] = 0.15;
-        array_w[ 3][0] = 0.15;
+        array_w[ 0] = 0.2;
+        array_w[ 1] = 0.5;
+        array_w[ 2] = 0.15;
+        array_w[ 3] = 0.15;
     }
     else if (std == "E5") {
 
-        Array_n = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GE5CylcePointsNumber);
+        array_Me_brutto.resize(GE5CylcePointsNumber);
+        array_Ne_brutto.resize(GE5CylcePointsNumber);
+        array_N_fan.resize(GE5CylcePointsNumber);
+        array_w.resize(GE5CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = 0.91 * n_rated;
+        array_n[ 2] = 0.8 * n_rated;
+        array_n[ 3] = 0.63 * n_rated;
+        array_n[ 4] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25 * Ne_rated;
+        array_Ne_brutto[ 4] = 0;
 
-        Array_N_fan = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = 0.91 * n_rated;
-        array_n[ 2][0] = 0.8 * n_rated;
-        array_n[ 3][0] = 0.63 * n_rated;
-        array_n[ 4][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_rated;
-        array_Ne_brutto[ 4][0] = 0;
-
-        array_w[ 0][0] = 0.08;
-        array_w[ 1][0] = 0.13;
-        array_w[ 2][0] = 0.17;
-        array_w[ 3][0] = 0.32;
-        array_w[ 4][0] = 0.3;
+        array_w[ 0] = 0.08;
+        array_w[ 1] = 0.13;
+        array_w[ 2] = 0.17;
+        array_w[ 3] = 0.32;
+        array_w[ 4] = 0.3;
     }
     else if (std == "F") {
 
-        Array_n = new Double2DArray(GFCylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GFCylcePointsNumber);
+        array_Me_brutto.resize(GFCylcePointsNumber);
+        array_Ne_brutto.resize(GFCylcePointsNumber);
+        array_N_fan.resize(GFCylcePointsNumber);
+        array_w.resize(GFCylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GFCylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_interim;
+        array_n[ 2] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GFCylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GFCylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GFCylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_interim;
-        array_n[ 2][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.5 * Ne_interim;
-        array_Ne_brutto[ 2][0] = 0;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.5 * Ne_interim;
+        array_Ne_brutto[ 2] = 0;
 
         for (ptrdiff_t i=0; i<GFCylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.25;
-        array_w[ 1][0] = 0.15;
-        array_w[ 2][0] = 0.6;
+        array_w[ 0] = 0.25;
+        array_w[ 1] = 0.15;
+        array_w[ 2] = 0.6;
     }
     else if (std == "G1") {
 
-        Array_n = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GG1CylcePointsNumber);
+        array_Me_brutto.resize(GG1CylcePointsNumber);
+        array_Ne_brutto.resize(GG1CylcePointsNumber);
+        array_N_fan.resize(GG1CylcePointsNumber);
+        array_w.resize(GG1CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_interim;
+        array_n[ 1] = n_interim;
+        array_n[ 2] = n_interim;
+        array_n[ 3] = n_interim;
+        array_n[ 4] = n_interim;
+        array_n[ 5] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_interim;
-        array_n[ 1][0] = n_interim;
-        array_n[ 2][0] = n_interim;
-        array_n[ 3][0] = n_interim;
-        array_n[ 4][0] = n_interim;
-        array_n[ 5][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_interim;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_interim;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_interim;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_interim;
-        array_Ne_brutto[ 4][0] = 0.1 * Ne_interim;
-        array_Ne_brutto[ 5][0] = 0;
+        array_Ne_brutto[ 0] = Ne_interim;
+        array_Ne_brutto[ 1] = 0.75 * Ne_interim;
+        array_Ne_brutto[ 2] = 0.5 * Ne_interim;
+        array_Ne_brutto[ 3] = 0.25 * Ne_interim;
+        array_Ne_brutto[ 4] = 0.1 * Ne_interim;
+        array_Ne_brutto[ 5] = 0;
 
         for (ptrdiff_t i=0; i<GG1CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.09;
-        array_w[ 1][0] = 0.2;
-        array_w[ 2][0] = 0.29;
-        array_w[ 3][0] = 0.3;
-        array_w[ 4][0] = 0.07;
-        array_w[ 5][0] = 0.05;
+        array_w[ 0] = 0.09;
+        array_w[ 1] = 0.2;
+        array_w[ 2] = 0.29;
+        array_w[ 3] = 0.3;
+        array_w[ 4] = 0.07;
+        array_w[ 5] = 0.05;
     }
     else if (std == "G2") {
 
-        Array_n = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_n = Array_n->arrayPointer();
+        array_n.resize(GG2CylcePointsNumber);
+        array_Me_brutto.resize(GG2CylcePointsNumber);
+        array_Ne_brutto.resize(GG2CylcePointsNumber);
+        array_N_fan.resize(GG2CylcePointsNumber);
+        array_w.resize(GG2CylcePointsNumber);
 
-        Array_Me_brutto = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->arrayPointer();
+        array_n[ 0] = n_rated;
+        array_n[ 1] = n_rated;
+        array_n[ 2] = n_rated;
+        array_n[ 3] = n_rated;
+        array_n[ 4] = n_rated;
+        array_n[ 5] = idle;
 
-        Array_Ne_brutto = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-        Array_N_fan = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->arrayPointer();
-
-        Array_w = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_w = Array_w->arrayPointer();
-
-        array_n[ 0][0] = n_rated;
-        array_n[ 1][0] = n_rated;
-        array_n[ 2][0] = n_rated;
-        array_n[ 3][0] = n_rated;
-        array_n[ 4][0] = n_rated;
-        array_n[ 5][0] = idle;
-
-        array_Ne_brutto[ 0][0] = Ne_rated;
-        array_Ne_brutto[ 1][0] = 0.75 * Ne_rated;
-        array_Ne_brutto[ 2][0] = 0.5 * Ne_rated;
-        array_Ne_brutto[ 3][0] = 0.25 * Ne_rated;
-        array_Ne_brutto[ 4][0] = 0.1 * Ne_rated;
-        array_Ne_brutto[ 5][0] = 0;
+        array_Ne_brutto[ 0] = Ne_rated;
+        array_Ne_brutto[ 1] = 0.75 * Ne_rated;
+        array_Ne_brutto[ 2] = 0.5 * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25 * Ne_rated;
+        array_Ne_brutto[ 4] = 0.1 * Ne_rated;
+        array_Ne_brutto[ 5] = 0;
 
         for (ptrdiff_t i=0; i<GG2CylcePointsNumber; i++) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.09;
-        array_w[ 1][0] = 0.2;
-        array_w[ 2][0] = 0.29;
-        array_w[ 3][0] = 0.3;
-        array_w[ 4][0] = 0.07;
-        array_w[ 5][0] = 0.05;
+        array_w[ 0] = 0.09;
+        array_w[ 1] = 0.2;
+        array_w[ 2] = 0.29;
+        array_w[ 3] = 0.3;
+        array_w[ 4] = 0.07;
+        array_w[ 5] = 0.05;
     }
     else {
 
@@ -1032,8 +842,6 @@ bool CyclePoints::fillArrays() {
 
         return false;
     }
-
-    FillArrays_OK = true;
 
     return true;
 }
@@ -1087,6 +895,7 @@ QString CyclePoints::createReport() const {
     QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
+
     if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
         if (params->val_AddPointsCalc() == "yes") {
@@ -1157,11 +966,11 @@ QString CyclePoints::createReport() const {
     for (ptrdiff_t i=0; i<n; i++) {
 
         fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(        0) << (i + 1) << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_n[i][0] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i][0] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i][0] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_N_fan[i][0] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision+1) << array_w[i][0] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_n[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_N_fan[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision+1) << array_w[i] << csvdelimiter;
         fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
         fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
         fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
