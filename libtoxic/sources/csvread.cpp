@@ -43,13 +43,17 @@ csvRead &csvRead::operator =(const csvRead &x) {
 
 QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimiter) {
 
+    QVector< QVector<double> > doubleData;
+
+    //
+
     QFile dataFile(filename);
 
     if ( !(dataFile.open(QIODevice::ReadOnly)) ) {
 
         qDebug() << "libfuns ERROR: csvRead: readData:" << filename << "not found!";
 
-        return false;
+        return doubleData;
     }
 
     QString s;
@@ -69,7 +73,6 @@ QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimit
     //
 
     QVector<double> row;
-    QVector< QVector<double> > doubleData;
 
     for (ptrdiff_t i=StrsNumberForColumnCaption; i<data.size(); i++) {
 

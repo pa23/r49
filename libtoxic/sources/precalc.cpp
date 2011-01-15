@@ -18,6 +18,8 @@
 #include "precalc.h"
 #include "libtoxicconstants.h"
 
+#include <QVector>
+
 bool calcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double *a1, double *a2, double *a3, double *n_ref) {
 
     if (*n_hi < *n_lo) {
@@ -54,19 +56,19 @@ bool calcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
     return true;
 }
 
-double val_Pa(double *x) {
+double val_Pa(double x) {
 
     for (ptrdiff_t i=0; i<PaArraySize; i++) {
 
-        if ( (*x > arrayT0[i]) && (*x < arrayT0[i+1]) ) {
+        if ( (x > arrayT0[i]) && (x < arrayT0[i+1]) ) {
 
-            return arrayPa[i] + (arrayPa[i+1] - arrayPa[i]) * (*x - arrayT0[i]) / (arrayT0[i+1] - arrayT0[i]);
+            return arrayPa[i] + (arrayPa[i+1] - arrayPa[i]) * (x - arrayT0[i]) / (arrayT0[i+1] - arrayT0[i]);
         }
-        else if (*x == arrayT0[i]) {
+        else if (x == arrayT0[i]) {
 
             return arrayPa[i];
         }
-        else if (*x == arrayT0[i+1]) {
+        else if (x == arrayT0[i+1]) {
 
             return arrayPa[i+1];
         }
@@ -75,13 +77,13 @@ double val_Pa(double *x) {
     return 0;
 }
 
-bool nonZeroArray(double **data, ptrdiff_t *n) {
+bool nonZeroArray(QVector<double> data) {
 
     double sum = 0;
 
-    for (ptrdiff_t i=0; i<(*n); i++) {
+    for (QVector<double>::iterator it=data.begin(); it<data.end(); it++) {
 
-        sum += data[i][0];
+        sum += *it;
     }
 
     if (sum < 0.0000001) {

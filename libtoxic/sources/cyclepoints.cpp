@@ -293,9 +293,9 @@ bool CyclePoints::fillArrays() {
 
         if (params->val_AddPointsCalc() == "yes") {
 
-            array_Ne_brutto[13][0] = 0.875 * (Ne_a1 - array_N_fan[13][0]) + array_N_fan[13];
-            array_Ne_brutto[14][0] = 0.625 * (Ne_a2 - array_N_fan[14][0]) + array_N_fan[14];
-            array_Ne_brutto[15][0] = 0.375 * (Ne_a3 - array_N_fan[15][0]) + array_N_fan[15];
+            array_Ne_brutto[13] = 0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
+            array_Ne_brutto[14] = 0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
+            array_Ne_brutto[15] = 0.375 * (Ne_a3 - array_N_fan[15]) + array_N_fan[15];
         }
 
         for (ptrdiff_t i=0; i<n; i++) {
@@ -372,19 +372,19 @@ bool CyclePoints::fillArrays() {
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        array_w[ 0][0] = 0.0833;
-        array_w[ 1][0] = 0.080;
-        array_w[ 2][0] = 0.080;
-        array_w[ 3][0] = 0.080;
-        array_w[ 4][0] = 0.080;
-        array_w[ 5][0] = 0.250;
-        array_w[ 6][0] = 0.0833;
-        array_w[ 7][0] = 0.100;
-        array_w[ 8][0] = 0.020;
-        array_w[ 9][0] = 0.020;
-        array_w[10][0] = 0.020;
-        array_w[11][0] = 0.020;
-        array_w[12][0] = 0.0833;
+        array_w[ 0] = 0.0833;
+        array_w[ 1] = 0.080;
+        array_w[ 2] = 0.080;
+        array_w[ 3] = 0.080;
+        array_w[ 4] = 0.080;
+        array_w[ 5] = 0.250;
+        array_w[ 6] = 0.0833;
+        array_w[ 7] = 0.100;
+        array_w[ 8] = 0.020;
+        array_w[ 9] = 0.020;
+        array_w[10] = 0.020;
+        array_w[11] = 0.020;
+        array_w[12] = 0.0833;
     }
     else if ( (std == "OST") || (std == "GOST") ) {
 
@@ -429,7 +429,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
         if (std == "OST") { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
         else              { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
-        array_Ne_brutto[12][0] = 0;
+        array_Ne_brutto[12] = 0;
 
         for (ptrdiff_t i=0; i<n; i++) {
 

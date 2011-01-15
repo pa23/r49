@@ -20,11 +20,13 @@
 
 #include <iostream>
 
+#include <QVector>
+
 bool calcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
 bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
 
-double val_Pa(double *);
+double val_Pa(double);
 
-bool nonZeroArray(double **, ptrdiff_t *);
+bool nonZeroArray(QVector<double>);
 
 #endif	/* PRECALC_H */

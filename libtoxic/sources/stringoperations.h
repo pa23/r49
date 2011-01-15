@@ -21,8 +21,8 @@
 #include <string>
 #include <vector>
 
-bool replaceInString(std::string *, std::string *, std::string *);
-bool splitString(std::string *, std::vector<std::string> &, std::string);
+bool replaceInString(std::string*, std::string*, std::string*);
+bool splitString(std::string*, std::vector<std::string>&, std::string);
 std::string numberToString(ptrdiff_t);
 std::string numberToString(double);
 double stringToDouble(std::string);

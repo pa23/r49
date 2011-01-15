@@ -31,6 +31,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QVector>
 #include <QDir>
 
 using std::string;
@@ -43,8 +44,6 @@ using std::setprecision;
 using std::fixed;
 
 ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
-        GetDataFromCSV_OK (false),
-        ReducePower_OK    (false),
         NumberOfPoints    (    0),
         mytime            (  "_"),
         fullReportsPath   (  "_"),
@@ -62,37 +61,6 @@ ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
 }
 
 ReducedPower::~ReducedPower() {
-
-    if (GetDataFromCSV_OK) {
-
-        delete Array_DataForCalc;
-        delete Array_n;
-        delete Array_Me_brutto;
-        delete Array_t0;
-        delete Array_B0;
-        delete Array_Ra;
-        delete Array_S;
-        delete Array_pk;
-        delete Array_Gfuel;
-        delete Array_N_k;
-        delete Array_N_fan;
-    }
-
-    if (ReducePower_OK) {
-
-        delete Array_Ne_brutto;
-        delete Array_qcs;
-        delete Array_fm;
-        delete Array_pa;
-        delete Array_ps;
-        delete Array_fa;
-        delete Array_alphad;
-        delete Array_Ne_reduced;
-        delete Array_Ne_brake_reduced;
-        delete Array_Ne_netto_reduced;
-        delete Array_Me_netto_reduced;
-        delete Array_ge_netto_reduced;
-    }
 }
 
 ReducedPower::ReducedPower(const ReducedPower &orig) {
@@ -106,122 +74,71 @@ ReducedPower &ReducedPower::operator =(const ReducedPower &x) {
     return *this;
 }
 
-bool ReducedPower::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
-    GetDataFromCSV_OK = false;
-
-    if ( (n == 0) && (m == 0) ) {
+    if ( data.isEmpty() ) {
 
         QString filenamePowers = config->val_filenamePowers();
         QString csvdelimiter = config->val_csvDelimiter();
 
-        csvRead *ReaderDataForCalc = new csvRead();
+        csvRead *readerDataForCalc = new csvRead();
 
-        if (!ReaderDataForCalc->readData(filenamePowers, csvdelimiter, &NumberOfPoints)) {
+        array_DataForCalc = readerDataForCalc->csvData(filenamePowers, csvdelimiter);
 
-            delete ReaderDataForCalc;
+        if (array_DataForCalc.at(0).size() != PowersFileColumnsNumber) {
 
-            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: readData function returns 1!";
+            delete readerDataForCalc;
 
-            return false;
-        }
-
-        Array_DataForCalc = new Double2DArray(NumberOfPoints, PowersFileColumnsNumber);
-        array_DataForCalc = Array_DataForCalc->arrayPointer();
-
-        if (!ReaderDataForCalc->checkArrayDimension(PowersFileColumnsNumber)) {
-
-            delete ReaderDataForCalc;
-
-            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: checkArrayDimension function returns 1!";
+            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: incorrect source data!";
 
             return false;
         }
 
-        if (!ReaderDataForCalc->fillArray(array_DataForCalc)) {
-
-            delete ReaderDataForCalc;
-
-            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: fillArray function returns 1!";
-
-            return false;
-        }
-
-        NumberOfPoints -= StrsNumberForColumnCaption;
-
-        delete ReaderDataForCalc;
-    }
-    else if ( (n > 0) && (m > 0) ) {
-
-        Array_DataForCalc = new Double2DArray(1, 1);
-        array_DataForCalc = data;
-
-        NumberOfPoints = n;
+        delete readerDataForCalc;
     }
     else {
 
-        qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Illegal data!";
-
-        return false;
+        array_DataForCalc = data;
     }
 
-    Array_n = new Double2DArray(NumberOfPoints, 1);
-    array_n = Array_n->arrayPointer();
+    NumberOfPoints = array_DataForCalc.size();
 
-    Array_Me_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_brutto = Array_Me_brutto->arrayPointer();
-
-    Array_t0 = new Double2DArray(NumberOfPoints, 1);
-    array_t0 = Array_t0->arrayPointer();
-
-    Array_B0 = new Double2DArray(NumberOfPoints, 1);
-    array_B0 = Array_B0->arrayPointer();
-
-    Array_Ra = new Double2DArray(NumberOfPoints, 1);
-    array_Ra = Array_Ra->arrayPointer();
-
-    Array_S = new Double2DArray(NumberOfPoints, 1);
-    array_S = Array_S->arrayPointer();
-
-    Array_pk = new Double2DArray(NumberOfPoints, 1);
-    array_pk = Array_pk->arrayPointer();
-
-    Array_Gfuel = new Double2DArray(NumberOfPoints, 1);
-    array_Gfuel = Array_Gfuel->arrayPointer();
-
-    Array_N_k = new Double2DArray(NumberOfPoints, 1);
-    array_N_k = Array_N_k->arrayPointer();
-
-    Array_N_fan = new Double2DArray(NumberOfPoints, 1);
-    array_N_fan = Array_N_fan->arrayPointer();
+    array_n.resize(NumberOfPoints);
+    array_Me_brutto.resize(NumberOfPoints);
+    array_t0.resize(NumberOfPoints);
+    array_B0.resize(NumberOfPoints);
+    array_Ra.resize(NumberOfPoints);
+    array_S.resize(NumberOfPoints);
+    array_pk.resize(NumberOfPoints);
+    array_Gfuel.resize(NumberOfPoints);
+    array_N_k.resize(NumberOfPoints);
+    array_N_fan.resize(NumberOfPoints);
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        array_n        [i][0] = array_DataForCalc[i+1][ 1];
-        array_Me_brutto[i][0] = array_DataForCalc[i+1][ 2];
-        array_t0       [i][0] = array_DataForCalc[i+1][ 3];
-        array_B0       [i][0] = array_DataForCalc[i+1][ 4];
-        array_Ra       [i][0] = array_DataForCalc[i+1][ 5];
-        array_S        [i][0] = array_DataForCalc[i+1][ 6];
-        array_pk       [i][0] = array_DataForCalc[i+1][ 7];
-        array_Gfuel    [i][0] = array_DataForCalc[i+1][ 8];
-        array_N_k      [i][0] = array_DataForCalc[i+1][ 9];
-        array_N_fan    [i][0] = array_DataForCalc[i+1][10];
+        array_n        [i] = array_DataForCalc[i+1][ 1];
+        array_Me_brutto[i] = array_DataForCalc[i+1][ 2];
+        array_t0       [i] = array_DataForCalc[i+1][ 3];
+        array_B0       [i] = array_DataForCalc[i+1][ 4];
+        array_Ra       [i] = array_DataForCalc[i+1][ 5];
+        array_S        [i] = array_DataForCalc[i+1][ 6];
+        array_pk       [i] = array_DataForCalc[i+1][ 7];
+        array_Gfuel    [i] = array_DataForCalc[i+1][ 8];
+        array_N_k      [i] = array_DataForCalc[i+1][ 9];
+        array_N_fan    [i] = array_DataForCalc[i+1][10];
     }
 
     mytime = dateTimeNow();
 
-    GetDataFromCSV_OK = true;
-
     //
 
-    if ( !nonZeroArray(array_n, &NumberOfPoints) ||
-         !nonZeroArray(array_Me_brutto, &NumberOfPoints) ||
-         !nonZeroArray(array_t0, &NumberOfPoints) ||
-         !nonZeroArray(array_B0, &NumberOfPoints) ||
-         !nonZeroArray(array_Ra, &NumberOfPoints) ||
-         !nonZeroArray(array_pk, &NumberOfPoints) ||
-         !nonZeroArray(array_Gfuel, &NumberOfPoints) ||
+    if ( !nonZeroArray(array_n) ||
+         !nonZeroArray(array_Me_brutto) ||
+         !nonZeroArray(array_t0) ||
+         !nonZeroArray(array_B0) ||
+         !nonZeroArray(array_Ra) ||
+         !nonZeroArray(array_pk) ||
+         !nonZeroArray(array_Gfuel) ||
          (params->val_Vh() < 0.0000001) ) {
 
         qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Bad source data or calculation settings!";
@@ -233,89 +150,62 @@ bool ReducedPower::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
     return true;
 }
 
-void ReducedPower::SetRate() {
+void ReducedPower::setRate() {
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        if (array_n[i][0] > n_rated) { n_rated = array_n[i][0]; i_rated = i; }
+        if (array_n[i] > n_rated) { n_rated = array_n[i]; i_rated = i; }
     }
 
-    N_fan_rated = array_N_fan[i_rated][0];
+    N_fan_rated = array_N_fan[i_rated];
 }
 
 bool ReducedPower::reducePower() {
 
-    ReducePower_OK = false;
+    array_Ne_brutto.resize(NumberOfPoints);
+    array_qcs.resize(NumberOfPoints);
+    array_fm.resize(NumberOfPoints);
+    array_pa.resize(NumberOfPoints);
+    array_ps.resize(NumberOfPoints);
+    array_fa.resize(NumberOfPoints);
+    array_alphad.resize(NumberOfPoints);
+    array_Ne_reduced.resize(NumberOfPoints);
+    array_Ne_brake_reduced.resize(NumberOfPoints);
+    array_Ne_netto_reduced.resize(NumberOfPoints);
+    array_Me_netto_reduced.resize(NumberOfPoints);
+    array_ge_netto_reduced.resize(NumberOfPoints);
 
-    Array_Ne_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-    Array_qcs = new Double2DArray(NumberOfPoints, 1);
-    array_qcs = Array_qcs->arrayPointer();
-
-    Array_fm = new Double2DArray(NumberOfPoints, 1);
-    array_fm = Array_fm->arrayPointer();
-
-    Array_pa = new Double2DArray(NumberOfPoints, 1);
-    array_pa = Array_pa->arrayPointer();
-
-    Array_ps = new Double2DArray(NumberOfPoints, 1);
-    array_ps = Array_ps->arrayPointer();
-
-    Array_fa = new Double2DArray(NumberOfPoints, 1);
-    array_fa = Array_fa->arrayPointer();
-
-    Array_alphad = new Double2DArray(NumberOfPoints, 1);
-    array_alphad = Array_alphad->arrayPointer();
-
-    Array_Ne_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_reduced = Array_Ne_reduced->arrayPointer();
-
-    Array_Ne_brake_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brake_reduced = Array_Ne_brake_reduced->arrayPointer();
-
-    Array_Ne_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_netto_reduced = Array_Ne_netto_reduced->arrayPointer();
-
-    Array_Me_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Me_netto_reduced = Array_Me_netto_reduced->arrayPointer();
-
-    Array_ge_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_ge_netto_reduced = Array_ge_netto_reduced->arrayPointer();
-
-    SetRate();
+    setRate();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        array_Ne_brutto[i][0] = array_Me_brutto[i][0] * array_n[i][0] / 9550.0;
-        array_qcs[i][0] = ( (array_Gfuel[i][0] * 1000000.0)   / (30.0 * array_n[i][0] * params->val_Vh()) ) /
-                          ( (array_pk[i][0] + array_B0[i][0]) / (array_S[i][0] + array_B0[i][0])       );
+        array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
+        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * params->val_Vh()) ) /
+                       ( (array_pk[i] + array_B0[i]) / (array_S[i] + array_B0[i]) );
 
-        if      (array_qcs[i][0] < 40.0) { array_fm[i][0] = 0.3;                            }
-        else if (array_qcs[i][0] > 65.0) { array_fm[i][0] = 1.2;                            }
-        else                             { array_fm[i][0] = 0.036 * array_qcs[i][0] - 1.14; }
+        if      (array_qcs[i] < 40.0) { array_fm[i] = 0.3;                         }
+        else if (array_qcs[i] > 65.0) { array_fm[i] = 1.2;                         }
+        else                          { array_fm[i] = 0.036 * array_qcs[i] - 1.14; }
 
-        array_pa[i][0] = (0.506 + 0.1 * array_t0[i][0] - 0.00245 * pow(array_t0[i][0], 2) + 0.0001 * pow(array_t0[i][0], 3)) * (array_Ra[i][0] / 100.0);
-        array_ps[i][0] = array_B0[i][0] - array_pa[i][0];
-        array_fa[i][0] = pow(99.0/array_ps[i][0], 0.7) * pow((array_t0[i][0]+273.0)/298.0, 1.5);
-        array_alphad[i][0] = pow(array_fa[i][0], array_fm[i][0]);
+        array_pa[i] = (0.506 + 0.1 * array_t0[i] - 0.00245 * pow(array_t0[i], 2) + 0.0001 * pow(array_t0[i], 3)) * (array_Ra[i] / 100.0);
+        array_ps[i] = array_B0[i] - array_pa[i];
+        array_fa[i] = pow(99.0/array_ps[i], 0.7) * pow((array_t0[i]+273.0)/298.0, 1.5);
+        array_alphad[i] = pow(array_fa[i], array_fm[i]);
 
-        if ( (array_alphad[i][0] < 0.9) || (array_alphad[i][0] > 1.1) ) {
+        if ( (array_alphad[i] < 0.9) || (array_alphad[i] > 1.1) ) {
 
             qDebug() << "r49 ERROR: ReducedPower: reducePower: alphad is out-of-range (0.9..1.1)!";
 
             return false;
         }
 
-        array_Ne_reduced[i][0] = array_alphad[i][0] * array_Ne_brutto[i][0];
-        array_Ne_brake_reduced[i][0] = array_Ne_brutto[i][0] + array_N_k[i][0];
-        array_N_fan[i][0] = N_fan_rated * pow(array_n[i][0] / n_rated, 3);
-        array_Ne_netto_reduced[i][0] = array_Ne_reduced[i][0] - array_N_fan[i][0];
-        array_Me_netto_reduced[i][0] = array_Ne_netto_reduced[i][0] * 9550.0 / array_n[i][0];
-        array_ge_netto_reduced[i][0] = array_Gfuel[i][0] / array_Ne_netto_reduced[i][0] * 1000.0;
+        array_Ne_reduced[i] = array_alphad[i] * array_Ne_brutto[i];
+        array_Ne_brake_reduced[i] = array_Ne_brutto[i] + array_N_k[i];
+        array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+        array_Ne_netto_reduced[i] = array_Ne_reduced[i] - array_N_fan[i];
+        array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 / array_n[i];
+        array_ge_netto_reduced[i] = array_Gfuel[i] / array_Ne_netto_reduced[i] * 1000.0;
     }
-
-    ReducePower_OK = true;
 
     return true;
 }
@@ -374,28 +264,28 @@ QString ReducedPower::createReports() {
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << (i + 1) << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_n[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_t0[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_B0[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ra[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_S[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_pk[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Gfuel[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_k[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_fan[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_qcs[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_fm[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_pa[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ps[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+2) << array_fa[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+2) << array_alphad[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_reduced[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brake_reduced[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_netto_reduced[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_netto_reduced[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ge_netto_reduced[i][0] << csvdelimiter << endl;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_n[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_t0[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_B0[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ra[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_S[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_pk[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Gfuel[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_k[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_fan[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_qcs[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_fm[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_pa[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ps[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+2) << array_fa[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+2) << array_alphad[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_reduced[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brake_reduced[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_netto_reduced[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_netto_reduced[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ge_netto_reduced[i] << csvdelimiter << endl;
     }
 
     fout1.close();
