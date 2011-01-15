@@ -24,13 +24,11 @@ ValueDialog::ValueDialog(QWidget *parent) :
 
     ui.setupUi(this);
 
-    doubleValidator = new QDoubleValidator(this);
+    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_Value->setValidator(doubleValidator);
 }
 
 ValueDialog::~ValueDialog() {
-
-    delete doubleValidator;
 }

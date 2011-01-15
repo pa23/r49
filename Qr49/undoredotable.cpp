@@ -29,8 +29,6 @@ UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
 }
 
 UndoRedoTable::~UndoRedoTable() {
-
-    data.clear();
 }
 
 bool UndoRedoTable::saveState() {

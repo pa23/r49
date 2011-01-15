@@ -27,7 +27,7 @@ ELRsmokeCalcDialog::ELRsmokeCalcDialog(QWidget *parent) :
 
     ui.setupUi(this);
 
-    doubleValidator = new QDoubleValidator(this);
+    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_fA->setValidator(doubleValidator);
@@ -42,8 +42,6 @@ ELRsmokeCalcDialog::ELRsmokeCalcDialog(QWidget *parent) :
 }
 
 ELRsmokeCalcDialog::~ELRsmokeCalcDialog() {
-
-    delete doubleValidator;
 }
 
 void ELRsmokeCalcDialog::on_pushButton_CalcELRsmoke_clicked() {

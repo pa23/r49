@@ -24,7 +24,7 @@ FilterMassDialog::FilterMassDialog(QWidget *parent) :
 
     ui.setupUi(this);
 
-    doubleValidator = new QDoubleValidator(this);
+    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_1stFilterWeightClean->setValidator(doubleValidator);
@@ -34,6 +34,4 @@ FilterMassDialog::FilterMassDialog(QWidget *parent) :
 }
 
 FilterMassDialog::~FilterMassDialog() {
-
-    delete doubleValidator;
 }

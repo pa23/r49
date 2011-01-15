@@ -44,7 +44,7 @@ private:
 
 private slots:
 
-    void replyFinished(QNetworkReply *);
+    void replyFinished(QNetworkReply*);
 
 };
 

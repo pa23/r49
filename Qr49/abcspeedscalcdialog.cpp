@@ -27,7 +27,7 @@ ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) :
 
     ui.setupUi(this);
 
-    doubleValidator = new QDoubleValidator(this);
+    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_n_hi->setValidator(doubleValidator);
@@ -35,8 +35,6 @@ ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) :
 }
 
 ABCspeedsCalcDialog::~ABCspeedsCalcDialog() {
-
-    delete doubleValidator;
 }
 
 void ABCspeedsCalcDialog::on_pushButton_CalcABCspeeds_clicked() {

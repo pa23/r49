@@ -36,12 +36,10 @@ NewVersions::NewVersions() :
         htmlData("") {
 
     netmanager = new QNetworkAccessManager();
-    connect(netmanager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
+    connect(netmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
 
 NewVersions::~NewVersions() {
-
-    delete netmanager;
 }
 
 void NewVersions::checkAvailableVersions() {
@@ -53,7 +51,7 @@ void NewVersions::checkAvailableVersions() {
     netmanager->get(QNetworkRequest(QUrl(pageUrl)));
 }
 
-void NewVersions::replyFinished(QNetworkReply *reply) {
+void NewVersions::replyFinished(QNetworkReply* reply) {
 
     if (reply->error()) {
 

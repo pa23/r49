@@ -18,8 +18,8 @@
 #ifndef FILTERMASSDIALOG_H
 #define FILTERMASSDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleValidator>
+#include <QDialog>
+#include <QDoubleValidator>
 
 #include "ui_filtermassdialog.h"
 
