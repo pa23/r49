@@ -22,7 +22,8 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QDoubleValidator>
 
-ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) : QDialog(parent) {
+ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) :
+        QDialog(parent) {
 
     ui.setupUi(this);
 

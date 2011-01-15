@@ -19,7 +19,8 @@
 
 #include <QtGui/QDoubleValidator>
 
-ValueDialog::ValueDialog(QWidget *parent) : QDialog(parent) {
+ValueDialog::ValueDialog(QWidget *parent) :
+        QDialog(parent) {
 
     ui.setupUi(this);
 

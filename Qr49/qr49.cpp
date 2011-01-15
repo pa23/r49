@@ -30,13 +30,14 @@
 #include "qr49constants.h"
 #include "libtoxicparameters.h"
 #include "libtoxicconstants.h"
-#include "double2darray.h"
 #include "csvread.h"
 #include "cyclepoints.h"
 #include "cycleemissions.h"
 #include "reducedpower.h"
 #include "commonparameters.h"
 
+#include <QSharedPointer>
+#include <QVector>
 #include <QMessageBox>
 #include <QFile>
 #include <QDir>
@@ -57,10 +58,13 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow),
-                                          qr49settings("pa23software", "Qr49"),
-                                          tableRowHeight(20),
-                                          undoCount(0), redoCount(0) {
+MainWindow::MainWindow(QWidget *parent) :
+        QMainWindow(parent),
+        ui(new Ui::MainWindow),
+        qr49settings("pa23software", "Qr49"),
+        tableRowHeight(20),
+        undoCount(0),
+        redoCount(0) {
 
     ui->setupUi(this);
 
@@ -105,8 +109,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //
 
-    params = new LibtoxicParameters();
-    config = new CommonParameters();
+    params = QSharedPointer<LibtoxicParameters>(new LibtoxicParameters());
+    config = QSharedPointer<CommonParameters>(new CommonParameters());
 
     readPreferences();
 
@@ -137,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //
 
     readProgramSettings();
+
     taskChanged(ui->comboBox_task->currentText());
     standardChanged(ui->comboBox_standard->currentText());
     PTcalcChanged(ui->comboBox_PTcalc->currentText());
@@ -201,8 +206,6 @@ MainWindow::~MainWindow() {
     delete elrSmokeCalcDialog;
     delete checkoutDataDialog;
     delete helpDialog;
-    delete params;
-    delete config;
     delete doubleValidator;
     delete regExp;
     delete regExpValidator;
@@ -320,7 +323,7 @@ void MainWindow::setDoubleValidators() {
 
 void MainWindow::readPreferences() {
 
-    if (!config->readConfigFile(configFileName)) {
+    if (!config.data()->readConfigFile(configFileName)) {
 
         QMessageBox::warning(0, "Qr49", tr("readConfigFile function returns false! Default values will be used."), 0, 0, 0);
     }
@@ -328,7 +331,7 @@ void MainWindow::readPreferences() {
 
 void MainWindow::loadAllSourceData() {
 
-    QString filenameSourceEU0 = config->val_filenameSourceEU0();
+    QString filenameSourceEU0 = config.data()->val_filenameSourceEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -349,7 +352,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenameSourceEU3 = config->val_filenameSourceEU3();
+    QString filenameSourceEU3 = config.data()->val_filenameSourceEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -370,7 +373,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePoints = config->val_filenamePoints();
+    QString filenamePoints = config.data()->val_filenamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -391,7 +394,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePowers = config->val_filenamePowers();
+    QString filenamePowers = config.data()->val_filenamePowers();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -416,53 +419,22 @@ bool MainWindow::fillTableEU0(QString filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    ptrdiff_t NumberOfPoints = 0;
+    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead());
 
-    csvRead *ReaderSourceDataEU0 = new csvRead();
+    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData(filename, config.data()->val_csvDelimiter());
 
-    Double2DArray *SourceDataEU0;
-    double **arraySourceDataEU0;
+    if (arraySourceDataEU0.at(0).size() != EU0SrcDataParamsNumber) {
 
-    if (!ReaderSourceDataEU0->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
-
-        delete ReaderSourceDataEU0;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
 
         return false;
     }
 
-    SourceDataEU0 = new Double2DArray(NumberOfPoints, EU0SrcDataParamsNumber);
-    arraySourceDataEU0 = SourceDataEU0->arrayPointer();
+    for (ptrdiff_t j=0; j<arraySourceDataEU0.at(0).size(); j++) {
 
-    if (!ReaderSourceDataEU0->checkArrayDimension(EU0SrcDataParamsNumber)) {
-
-        delete SourceDataEU0;
-        delete ReaderSourceDataEU0;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    if (!ReaderSourceDataEU0->fillArray(arraySourceDataEU0)) {
-
-        delete SourceDataEU0;
-        delete ReaderSourceDataEU0;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    for (ptrdiff_t j=0; j<EU0SrcDataParamsNumber; j++) {
-
-        ui->tableWidget_SrcDataEU0->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0[StrsNumberForColumnCaption][j], 'f', 3)));
+        ui->tableWidget_SrcDataEU0->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0.at(0).at(j), 'f', 3)));
         ui->tableWidget_SrcDataEU0->item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
-
-    delete SourceDataEU0;
-    delete ReaderSourceDataEU0;
 
     return true;
 }
@@ -472,99 +444,40 @@ bool MainWindow::fillTableEU3(QString filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    ptrdiff_t NumberOfPoints = 0;
+    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead());
 
-    csvRead *ReaderSourceDataEU3 = new csvRead();
+    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData(filename, config.data()->val_csvDelimiter());
 
-    Double2DArray *SourceDataEU3;
-    double **arraySourceDataEU3;
+    if (arraySourceDataEU3.at(0).size() != EU3SrcDataParamsNumber) {
 
-    if (!ReaderSourceDataEU3->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
-
-        delete ReaderSourceDataEU3;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
 
         return false;
     }
 
-    SourceDataEU3 = new Double2DArray(NumberOfPoints, EU3SrcDataParamsNumber);
-    arraySourceDataEU3 = SourceDataEU3->arrayPointer();
+    for (ptrdiff_t j=0; j<arraySourceDataEU3.at(0).size(); j++) {
 
-    if (!ReaderSourceDataEU3->checkArrayDimension(EU3SrcDataParamsNumber)) {
-
-        delete SourceDataEU3;
-        delete ReaderSourceDataEU3;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    if (!ReaderSourceDataEU3->fillArray(arraySourceDataEU3)) {
-
-        delete SourceDataEU3;
-        delete ReaderSourceDataEU3;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    for (ptrdiff_t j=0; j<EU3SrcDataParamsNumber; j++) {
-
-        ui->tableWidget_SrcDataEU3->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3[StrsNumberForColumnCaption][j], 'f', 3)));
+        ui->tableWidget_SrcDataEU3->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3.at(0).at(j), 'f', 3)));
         ui->tableWidget_SrcDataEU3->item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
-
-    delete SourceDataEU3;
-    delete ReaderSourceDataEU3;
 
     return true;
 }
 
 bool MainWindow::fillTablePoints(QString filename) {
 
-    ptrdiff_t NumberOfPoints = 0;
+    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead());
 
-    csvRead *ReaderSourceDataPoints = new csvRead();
+    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData(filename, config.data()->val_csvDelimiter());
 
-    Double2DArray *SourceDataPoints;
-    double **arraySourceDataPoints;
+    if (arraySourceDataPoints.at(0).size() != PointsFileColumnsNumber) {
 
-    if (!ReaderSourceDataPoints->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
-
-        delete ReaderSourceDataPoints;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
 
         return false;
     }
 
-    SourceDataPoints = new Double2DArray(NumberOfPoints, PointsFileColumnsNumber);
-    arraySourceDataPoints = SourceDataPoints->arrayPointer();
-
-    if (!ReaderSourceDataPoints->checkArrayDimension(PointsFileColumnsNumber)) {
-
-        delete SourceDataPoints;
-        delete ReaderSourceDataPoints;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    if (!ReaderSourceDataPoints->fillArray(arraySourceDataPoints)) {
-
-        delete SourceDataPoints;
-        delete ReaderSourceDataPoints;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    NumberOfPoints -= StrsNumberForColumnCaption;
+    ptrdiff_t NumberOfPoints = arraySourceDataPoints.size();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -572,102 +485,68 @@ bool MainWindow::fillTablePoints(QString filename) {
         ui->tableWidget_SrcDataPoints->setRowHeight(i, tableRowHeight);
         ui->tableWidget_SrcDataPoints->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_SrcDataPoints->setItem(i, 0, new QTableWidgetItem(QString::number(arraySourceDataPoints[i+1][0], 'f', 0)));
+        ui->tableWidget_SrcDataPoints->setItem(i, 0, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][0], 'f', 0)));
         ui->tableWidget_SrcDataPoints->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_SrcDataPoints->setItem(i, 1, new QTableWidgetItem(QString::number(arraySourceDataPoints[i+1][1], 'f', 0)));
+        ui->tableWidget_SrcDataPoints->setItem(i, 1, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][1], 'f', 0)));
         ui->tableWidget_SrcDataPoints->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        for (ptrdiff_t j=2; j<PointsFileColumnsNumber; j++) {
+        for (ptrdiff_t j=2; j<arraySourceDataPoints.at(i).size(); j++) {
 
-            ui->tableWidget_SrcDataPoints->setItem(i, j, new QTableWidgetItem(QString::number(arraySourceDataPoints[i+1][j], 'f', 3)));
+            ui->tableWidget_SrcDataPoints->setItem(i, j, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][j], 'f', 3)));
             ui->tableWidget_SrcDataPoints->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         }
     }
-
-    delete SourceDataPoints;
-    delete ReaderSourceDataPoints;
 
     return true;
 }
 
 bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
-    ptrdiff_t NumberOfPoints = 0;
+    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead());
 
-    csvRead *ReaderFullLoadCurve = new csvRead();
+    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData(filename, config.data()->val_csvDelimiter());
 
-    Double2DArray *FullLoadCurve;
-    double **arrayFullLoadCurve;
+    if (arrayFullLoadCurve.at(0).size() != PowersFileColumnsNumber) {
 
-    if (!ReaderFullLoadCurve->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
-
-        delete ReaderFullLoadCurve;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
 
         return false;
     }
 
-    FullLoadCurve = new Double2DArray(NumberOfPoints, PowersFileColumnsNumber);
-    arrayFullLoadCurve = FullLoadCurve->arrayPointer();
-
-    if (!ReaderFullLoadCurve->checkArrayDimension(PowersFileColumnsNumber)) {
-
-        delete FullLoadCurve;
-        delete ReaderFullLoadCurve;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    if (!ReaderFullLoadCurve->fillArray(arrayFullLoadCurve)) {
-
-        delete FullLoadCurve;
-        delete ReaderFullLoadCurve;
-
-        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
-
-        return false;
-    }
-
-    NumberOfPoints -= StrsNumberForColumnCaption;
+    ptrdiff_t NumberOfPoints = arrayFullLoadCurve.size();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         ui->tableWidget_FullLoadCurve->setRowCount(i+1);
         ui->tableWidget_FullLoadCurve->setRowHeight(i, tableRowHeight);
 
-        ui->tableWidget_FullLoadCurve->setItem(i, 0, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i+1][0], 'f', 0)));
+        ui->tableWidget_FullLoadCurve->setItem(i, 0, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][0], 'f', 0)));
         ui->tableWidget_FullLoadCurve->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_FullLoadCurve->setItem(i, 1, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i+1][1], 'f', 0)));
+        ui->tableWidget_FullLoadCurve->setItem(i, 1, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][1], 'f', 0)));
         ui->tableWidget_FullLoadCurve->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        for (ptrdiff_t j=2; j<PowersFileColumnsNumber; j++) {
+        for (ptrdiff_t j=2; j<arrayFullLoadCurve.at(i).size(); j++) {
 
-            ui->tableWidget_FullLoadCurve->setItem(i, j, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i+1][j], 'f', 3)));
+            ui->tableWidget_FullLoadCurve->setItem(i, j, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][j], 'f', 3)));
             ui->tableWidget_FullLoadCurve->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         }
     }
-
-    delete FullLoadCurve;
-    delete ReaderFullLoadCurve;
 
     return true;
 }
 
 bool MainWindow::fillParameters() {
 
-    params->setTask(ui->comboBox_task->currentText());
-    double Vh = ui->lineEdit_Vh->text().toDouble(); params->setVh(&Vh);
-    params->setStandard(ui->comboBox_standard->currentText());
-    params->setFuelType(ui->comboBox_FuelType->currentText());
-    params->setNOxSample(ui->comboBox_NOxSample->currentText());
-    params->setPTcalc(ui->comboBox_PTcalc->currentText());
-    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params->setPTmass(&PTMass);
-    params->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentText());
+    params.data()->setTask(ui->comboBox_task->currentText());
+    double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(&Vh);
+    params.data()->setStandard(ui->comboBox_standard->currentText());
+    params.data()->setFuelType(ui->comboBox_FuelType->currentText());
+    params.data()->setNOxSample(ui->comboBox_NOxSample->currentText());
+    params.data()->setPTcalc(ui->comboBox_PTcalc->currentText());
+    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params.data()->setPTmass(&PTMass);
+    params.data()->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentText());
 
     return true;
 }
@@ -767,7 +646,7 @@ bool MainWindow::arithmeticOperation(QString operation) {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config.data()->val_dirnameReports());
 
     QString anotherSourceFile(QFileDialog::getOpenFileName(
             this,
@@ -855,7 +734,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        QString filenameSourceEU0 = config->val_filenameSourceEU0();
+        QString filenameSourceEU0 = config.data()->val_filenameSourceEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -881,7 +760,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        QString filenameSourceEU3 = config->val_filenameSourceEU3();
+        QString filenameSourceEU3 = config.data()->val_filenameSourceEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -907,7 +786,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        QString filenamePoints = config->val_filenamePoints();
+        QString filenamePoints = config.data()->val_filenamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -936,7 +815,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        QString filenamePowers = config->val_filenamePowers();
+        QString filenamePowers = config.data()->val_filenamePowers();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1021,7 +900,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config.data()->val_dirnameReports());
 
     QString anotherOptions(QFileDialog::getOpenFileName(
             this,
@@ -1033,16 +912,16 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
     if (!anotherOptions.isEmpty()) {
 
-        params->readCalcConfigFile(anotherOptions);
+        params.data()->readCalcConfigFile(anotherOptions);
 
-        setComboIndex(ui->comboBox_task, params->val_Task());
-        ui->lineEdit_Vh->setText(QString::number(params->val_Vh()));
-        setComboIndex(ui->comboBox_standard, params->val_Standard());
-        setComboIndex(ui->comboBox_FuelType, params->val_FuelType());
-        setComboIndex(ui->comboBox_NOxSample, params->val_NOxSample());
-        setComboIndex(ui->comboBox_PTcalc, params->val_PTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(params->val_PTmass()));
-        setComboIndex(ui->comboBox_AddPointsCalc, params->val_AddPointsCalc());
+        setComboIndex(ui->comboBox_task, params.data()->val_Task());
+        ui->lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));
+        setComboIndex(ui->comboBox_standard, params.data()->val_Standard());
+        setComboIndex(ui->comboBox_FuelType, params.data()->val_FuelType());
+        setComboIndex(ui->comboBox_NOxSample, params.data()->val_NOxSample());
+        setComboIndex(ui->comboBox_PTcalc, params.data()->val_PTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(params.data()->val_PTmass()));
+        setComboIndex(ui->comboBox_AddPointsCalc, params.data()->val_AddPointsCalc());
 
         taskChanged(ui->comboBox_task->currentText());
         standardChanged(ui->comboBox_standard->currentText());
@@ -1092,7 +971,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
         savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_PTcalc->currentText().toAscii());        savedOptions.write("\n");
         savedOptions.write("PTmass");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_PTmass->text().toAscii());               savedOptions.write("\n");
         savedOptions.write("AddPointsCalc");  savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_AddPointsCalc->currentText().toAscii()); savedOptions.write("\n");
-        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params->val_CalcConfigFile().toAscii());               savedOptions.write("\n");
+        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params.data()->val_CalcConfigFile().toAscii());               savedOptions.write("\n");
 
         savedOptions.close();
     }
@@ -1100,7 +979,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config.data()->val_dirnameReports());
 
     QString anotherReport(QFileDialog::getOpenFileName(
             this,
@@ -1365,31 +1244,31 @@ void MainWindow::on_action_Preferences_activated() {
 
     for (ptrdiff_t i=0; i<myComboBox_csvdelimiter->count(); i++) {
 
-        if (myComboBox_csvdelimiter->itemText(i) == config->val_csvDelimiter()) {
+        if (myComboBox_csvdelimiter->itemText(i) == config.data()->val_csvDelimiter()) {
 
             myComboBox_csvdelimiter->setCurrentIndex(i);
             break;
         }
     }
 
-    myLineEdit_filenameSourceEU3->setText(config->val_filenameSourceEU3());
-    myLineEdit_filenameSourceEU0->setText(config->val_filenameSourceEU0());
-    myLineEdit_filenamePoints->setText(config->val_filenamePoints());
-    myLineEdit_filenamePowers->setText(config->val_filenamePowers());
-    myLineEdit_dirnameReports->setText(config->val_dirnameReports());
-    myDoubleSpinBox_Dn->setValue(config->val_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(config->val_ConcO2air());
-    myDoubleSpinBox_Rr->setValue(config->val_Rr());
-    myDoubleSpinBox_L0->setValue(config->val_L0());
-    myDoubleSpinBox_L->setValue(config->val_L());
-    myDoubleSpinBox_ConcCO2air->setValue(config->val_ConcCO2air());
-    myDoubleSpinBox_WH->setValue(config->val_WH());
-    myDoubleSpinBox_WO2->setValue(config->val_WO2());
-    myDoubleSpinBox_WN->setValue(config->val_WN());
-    myDoubleSpinBox_roAir->setValue(config->val_roAir());
-    myDoubleSpinBox_muNO2->setValue(config->val_muNO2());
-    myDoubleSpinBox_muCO->setValue(config->val_muCO());
-    myDoubleSpinBox_muCH->setValue(config->val_muCH());
+    myLineEdit_filenameSourceEU3->setText(config.data()->val_filenameSourceEU3());
+    myLineEdit_filenameSourceEU0->setText(config.data()->val_filenameSourceEU0());
+    myLineEdit_filenamePoints->setText(config.data()->val_filenamePoints());
+    myLineEdit_filenamePowers->setText(config.data()->val_filenamePowers());
+    myLineEdit_dirnameReports->setText(config.data()->val_dirnameReports());
+    myDoubleSpinBox_Dn->setValue(config.data()->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(config.data()->val_ConcO2air());
+    myDoubleSpinBox_Rr->setValue(config.data()->val_Rr());
+    myDoubleSpinBox_L0->setValue(config.data()->val_L0());
+    myDoubleSpinBox_L->setValue(config.data()->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(config.data()->val_ConcCO2air());
+    myDoubleSpinBox_WH->setValue(config.data()->val_WH());
+    myDoubleSpinBox_WO2->setValue(config.data()->val_WO2());
+    myDoubleSpinBox_WN->setValue(config.data()->val_WN());
+    myDoubleSpinBox_roAir->setValue(config.data()->val_roAir());
+    myDoubleSpinBox_muNO2->setValue(config.data()->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(config.data()->val_muCO());
+    myDoubleSpinBox_muCH->setValue(config.data()->val_muCH());
 
     //
 
@@ -1582,18 +1461,18 @@ void MainWindow::on_action_Toolbar_activated() {
 
 void MainWindow::on_action_Execute_activated() {
 
-    ptrdiff_t n = table->rowCount();
-    ptrdiff_t m = table->columnCount();
+    QVector< QVector<double> > array_DataForCalc;
+    QVector<double> row;
 
-    Double2DArray *Array_DataForCalc = new Double2DArray(n+1, m);
-    double **array_DataForCalc = Array_DataForCalc->arrayPointer();
+    for (ptrdiff_t i=0; i<table->rowCount(); i++) {
 
-    for (ptrdiff_t i=1; i<n+1; i++) {
+        for (ptrdiff_t j=0; j<table->columnCount(); j++) {
 
-        for (ptrdiff_t j=0; j<m; j++) {
-
-            array_DataForCalc[i][j] = table->item(i-1, j)->text().toDouble();
+            row.push_back( table->item(i, j)->text().toDouble() );
         }
+
+        array_DataForCalc.push_back(row);
+        row.clear();
     }
 
     //
@@ -1604,33 +1483,27 @@ void MainWindow::on_action_Execute_activated() {
 
     if (ui->comboBox_task->currentText() == "points") {
 
-        CyclePoints *myPoints = new CyclePoints(params, config);
+        QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-        if (!myPoints->readCSV(array_DataForCalc, n, m)) {
-
-            delete myPoints;
+        if (!myPoints.data()->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myPoints->fillArrays()) {
-
-            delete myPoints;
+        if (!myPoints.data()->fillArrays()) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: fillArrays function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        message += myPoints->createReport();
-
-        delete myPoints;
+        message += myPoints.data()->createReport();
 
         //
 
-        QString filenamePoints = config->val_filenamePoints();
+        QString filenamePoints = config.data()->val_filenamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
@@ -1655,20 +1528,16 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if (ui->comboBox_task->currentText() == "emissions") {
 
-        CycleEmissions *myEmissions = new CycleEmissions(params, config);
+        QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-        if (!myEmissions->readCSV(array_DataForCalc, n, m)) {
-
-            delete myEmissions;
+        if (!myEmissions.data()->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myEmissions->calculate()) {
-
-            delete myEmissions;
+        if (!myEmissions.data()->calculate()) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: calculate function returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
 
@@ -1677,16 +1546,16 @@ void MainWindow::on_action_Execute_activated() {
 
         if (ui->checkBox_reports->isChecked()) {
 
-            message += myEmissions->createReports(true);
+            message += myEmissions.data()->createReports(true);
 
             //
 
-            //QDir ReportsDir(config->val_dirnameReports());
+            //QDir ReportsDir(config.data()->val_dirnameReports());
             //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
             //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-            lastReportsDir = myEmissions->lastReportsDir();
+            lastReportsDir = myEmissions.data()->lastReportsDir();
 
             QString csvfilter("*.csv");
             QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
@@ -1715,50 +1584,42 @@ void MainWindow::on_action_Execute_activated() {
         }
         else {
 
-            message += myEmissions->createReports(false);
+            message += myEmissions.data()->createReports(true);
         }
-
-        delete myEmissions;
     }
     else if (ui->comboBox_task->currentText() == "ReducedPower") {
 
-        ReducedPower *myReducedPower = new ReducedPower(params, config);
+        QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-        if (!myReducedPower->readCSV(array_DataForCalc, n, m)) {
-
-            delete myReducedPower;
+        if (!myReducedPower.data()->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myReducedPower->reducePower()) {
-
-            delete myReducedPower;
+        if (!myReducedPower.data()->reducePower()) {
 
             QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: ReducePower function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        message += myReducedPower->createReports();
+        message += myReducedPower.data()->createReports();
 
         //
 
-        //QDir ReportsDir(config->val_dirnameReports());
+        //QDir ReportsDir(config.data()->val_dirnameReports());
         //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
         //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-        lastReportsDir = myReducedPower->lastReportsDir();
+        lastReportsDir = myReducedPower.data()->lastReportsDir();
 
         QString csvfilter("*.csv");
         QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
 
         lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
-
-        delete myReducedPower;
     }
     else {
 

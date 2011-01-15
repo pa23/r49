@@ -22,7 +22,8 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QDoubleValidator>
 
-ELRsmokeCalcDialog::ELRsmokeCalcDialog(QWidget *parent) : QDialog(parent) {
+ELRsmokeCalcDialog::ELRsmokeCalcDialog(QWidget *parent) :
+        QDialog(parent) {
 
     ui.setupUi(this);
 

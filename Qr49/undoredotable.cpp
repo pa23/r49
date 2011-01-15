@@ -21,7 +21,9 @@
 #include <QtCore/QString>
 #include <QtGui/QTableWidget>
 
-UndoRedoTable::UndoRedoTable(QTableWidget *tbl) : position(-1), tableRowHeight(20) {
+UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
+        position(-1),
+        tableRowHeight(20) {
 
     table = tbl;
 }

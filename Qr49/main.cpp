@@ -29,12 +29,14 @@
 #include <iostream>
 #include <string>
 
+#include <QSharedPointer>
 #include <QDebug>
 #include <QString>
 #include <QStringList>
-#include <QtCore/QCoreApplication>
-#include <QtGui/QApplication>
-#include <QtCore/QTranslator>
+#include <QVector>
+#include <QCoreApplication>
+#include <QApplication>
+#include <QTranslator>
 
 using std::string;
 using std::cout;
@@ -148,7 +150,7 @@ void ShowHelp() {
             "\t   report files.\n\n";
 }
 
-bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
+bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char** argv) {
 
     QString operandstr;
     QStringList elements;
@@ -171,7 +173,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
                  (value == "emissions"   ) ||
                  (value == "ReducedPower") ||
                  (value == "ELRsmoke"    ) ||
-                 (value == "help"        ) ) { params->setTask(value); }
+                 (value == "help"        ) ) { params.data()->setTask(value); }
 
             else {
 
@@ -185,7 +187,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (val>0) && (val<666) ) {
 
-                params->setVh(&val);
+                params.data()->setVh(&val);
             }
             else {
 
@@ -233,7 +235,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
                  (value == "F" )  ||
                  (value == "G1" ) ||
                  (value == "G2" ) ||
-                 (value == "FreeCalc" ) ) { params->setStandard(value); }
+                 (value == "FreeCalc" ) ) { params.data()->setStandard(value); }
 
             else {
 
@@ -245,7 +247,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (value == "diesel") ||
                  (value == "motor" ) ||
-                 (value == "mazut" ) ) { params->setFuelType(value); }
+                 (value == "mazut" ) ) { params.data()->setFuelType(value); }
 
             else {
 
@@ -256,7 +258,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         else if (param == "NOxSample") {
 
             if ( (value == "wet") ||
-                 (value == "dry") ) { params->setNOxSample(value); }
+                 (value == "dry") ) { params.data()->setNOxSample(value); }
 
             else {
 
@@ -268,7 +270,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (value == "ThroughSmoke" ) ||
                  (value == "ThroughPTmass") ||
-                 (value == "no"           ) ) { params->setPTcalc(value); }
+                 (value == "no"           ) ) { params.data()->setPTcalc(value); }
 
             else {
 
@@ -282,7 +284,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (val>0) && (val<666000) ) {
 
-                params->setPTmass(&val);
+                params.data()->setPTmass(&val);
             }
             else {
 
@@ -296,7 +298,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         else if (param == "AddPointsCalc") {
 
             if ( (value == "yes") ||
-                 (value == "no" ) ) { params->setAddPointsCalc(value); }
+                 (value == "no" ) ) { params.data()->setAddPointsCalc(value); }
 
             else {
 
@@ -306,7 +308,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         }
         else if (param == "CalcConfigFile") {
 
-            params->setCalcConfigFile(value);
+            params.data()->setCalcConfigFile(value);
         }
         else {
 
@@ -327,11 +329,9 @@ int main(int argc, char **argv) {
 
     if (argc > 1) {
 
-        LibtoxicParameters *params = new LibtoxicParameters();
+        QSharedPointer<LibtoxicParameters> params(new LibtoxicParameters());
 
         if (!ParsingParameters(params, argc, argv)) {
-
-            delete params;
 
             qDebug() << "Qr49 ERROR: main: ParsingParameters function returns false!";
             cout << "Press Enter to exit...";
@@ -340,14 +340,16 @@ int main(int argc, char **argv) {
             return false;
         }
 
-        CommonParameters *config = new CommonParameters();
+        QSharedPointer<CommonParameters> config(new CommonParameters());
 
-        if (!config->readConfigFile(configFileName)) {
+        if (!config.data()->readConfigFile(configFileName)) {
 
             qDebug() << "Qr49 WARNING: main: readConfigFile function returns false! Default values will be used.";
         }
 
-        if (params->val_Task() == "ABCspeeds") {
+        QVector< QVector<double> > data;
+
+        if (params.data()->val_Task() == "ABCspeeds") {
 
             double n_hi = 0, n_lo = 0;
             double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
@@ -356,9 +358,6 @@ int main(int argc, char **argv) {
             cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
-
-                delete params;
-                delete config;
 
                 qDebug() << "Qr49 ERROR: main: CalcABC function returns false!";
                 cout << "Press Enter to exit...";
@@ -378,15 +377,11 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get(); cin.get();
         }
-        else if (params->val_Task() == "points") {
+        else if (params.data()->val_Task() == "points") {
 
-            CyclePoints *myPoints = new CyclePoints(params, config);
+            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-            if (!myPoints->readCSV()) {
-
-                delete myPoints;
-                delete params;
-                delete config;
+            if (!myPoints.data()->readCSV(data)) {
 
                 qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
@@ -395,11 +390,7 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            if (!myPoints->fillArrays()) {
-
-                delete myPoints;
-                delete params;
-                delete config;
+            if (!myPoints.data()->fillArrays()) {
 
                 qDebug() << "Qr49 ERROR: main: fillArrays function returns false!";
                 cout << "Press Enter to exit...";
@@ -408,22 +399,16 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            myPoints->createReport();
-
-            delete myPoints;
+            myPoints.data()->createReport();
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->val_Task() == "emissions") {
+        else if (params.data()->val_Task() == "emissions") {
 
-            CycleEmissions *myEmissions = new CycleEmissions(params, config);
+            QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-            if (!myEmissions->readCSV()) {
-
-                delete myEmissions;
-                delete params;
-                delete config;
+            if (!myEmissions.data()->readCSV(data)) {
 
                 qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
@@ -432,11 +417,7 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            if (!myEmissions->calculate()) {
-
-                delete myEmissions;
-                delete params;
-                delete config;
+            if (!myEmissions.data()->calculate()) {
 
                 qDebug() << "Qr49 ERROR: main: calculate function returns false!";
                 cout << "Press Enter to exit...";
@@ -445,22 +426,16 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            myEmissions->createReports(true);
-
-            delete myEmissions;
+            myEmissions.data()->createReports(true);
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->val_Task() == "ReducedPower") {
+        else if (params.data()->val_Task() == "ReducedPower") {
 
-            ReducedPower *myReducedPower = new ReducedPower(params, config);
+            QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-            if (!myReducedPower->readCSV()) {
-
-                delete myReducedPower;
-                delete params;
-                delete config;
+            if (!myReducedPower.data()->readCSV(data)) {
 
                 qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
@@ -469,11 +444,7 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            if (!myReducedPower->reducePower()) {
-
-                delete myReducedPower;
-                delete params;
-                delete config;
+            if (!myReducedPower.data()->reducePower()) {
 
                 qDebug() << "Qr49 ERROR: main: ReducePower function returns false!";
                 cout << "Press Enter to exit...";
@@ -482,14 +453,12 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            myReducedPower->createReports();
-
-            delete myReducedPower;
+            myReducedPower.data()->createReports();
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->val_Task() == "ELRsmoke") {
+        else if (params.data()->val_Task() == "ELRsmoke") {
 
             double smoke_A1 = 0, smoke_A2 = 0, smoke_A3 = 0;
             double smoke_B1 = 0, smoke_B2 = 0, smoke_B3 = 0;
@@ -514,9 +483,6 @@ int main(int argc, char **argv) {
                          &smoke_C1, &smoke_C2, &smoke_C3,
                          &smokeELR)) {
 
-                delete params;
-                delete config;
-
                 qDebug() << "Qr49 ERROR: main: CalcELR function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get(); cin.get();
@@ -529,7 +495,7 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get(); cin.get();
         }
-        else if (params->val_Task() == "help") {
+        else if (params.data()->val_Task() == "help") {
 
             ShowAbout();
             ShowHelp();
@@ -541,9 +507,6 @@ int main(int argc, char **argv) {
 
             qDebug() << "Qr49 ERROR: main: incorrect values in an array of operands!";
         }
-
-        delete params;
-        delete config;
 
         return 0;
     }

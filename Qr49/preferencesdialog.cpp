@@ -27,7 +27,8 @@
 
 using std::string;
 
-PreferencesDialog::PreferencesDialog(QWidget *parent) : QDialog(parent) {
+PreferencesDialog::PreferencesDialog(QWidget *parent) :
+        QDialog(parent) {
 
     ui.setupUi(this);
 }

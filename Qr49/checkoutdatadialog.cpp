@@ -24,7 +24,8 @@
 
 using std::string;
 
-CheckoutDataDialog::CheckoutDataDialog(QWidget *parent) : QDialog(parent) {
+CheckoutDataDialog::CheckoutDataDialog(QWidget *parent) :
+        QDialog(parent) {
 
     ui.setupUi(this);
 }

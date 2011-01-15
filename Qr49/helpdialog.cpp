@@ -25,7 +25,9 @@
 
 using std::string;
 
-HelpDialog::HelpDialog(QWidget *parent) : QDialog(parent), ui(new Ui::HelpDialog) {
+HelpDialog::HelpDialog(QWidget *parent) :
+        QDialog(parent),
+        ui(new Ui::HelpDialog) {
 
     ui->setupUi(this);
 }

@@ -18,12 +18,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
-#include <QtGui/QTableWidget>
-#include <QtGui/QDoubleValidator>
-#include <QtGui/QRegExpValidator>
-#include <QtCore/QObject>
-#include <QtCore/QEvent>
+#include <QSharedPointer>
+#include <QMainWindow>
+#include <QTableWidget>
+#include <QDoubleValidator>
+#include <QRegExpValidator>
+#include <QObject>
+#include <QEvent>
 #include <QComboBox>
 #include <QSettings>
 #include <QDir>
@@ -72,8 +73,8 @@ private:
     CheckoutDataDialog *checkoutDataDialog;
     HelpDialog *helpDialog;
 
-    CommonParameters *config;
-    LibtoxicParameters *params;
+    QSharedPointer<LibtoxicParameters> params;
+    QSharedPointer<CommonParameters> config;
 
     ptrdiff_t tableRowHeight;
     QDoubleValidator *doubleValidator;

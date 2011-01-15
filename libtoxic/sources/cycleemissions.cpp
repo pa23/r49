@@ -359,33 +359,33 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        array_n        [i] = array_DataForCalc[i+1][ 1];
-        array_Me_brutto[i] = array_DataForCalc[i+1][ 2];
-        array_Ne_brutto[i] = array_DataForCalc[i+1][ 3];
-        array_N_fan    [i] = array_DataForCalc[i+1][ 4];
-        array_w        [i] = array_DataForCalc[i+1][ 5];
-        array_t0       [i] = array_DataForCalc[i+1][ 6];
-        array_B0       [i] = array_DataForCalc[i+1][ 7];
-        array_Ra       [i] = array_DataForCalc[i+1][ 8];
-        array_dPn      [i] = array_DataForCalc[i+1][ 9];
-        array_Gair     [i] = array_DataForCalc[i+1][10];
-        array_Gfuel    [i] = array_DataForCalc[i+1][11];
-        array_CNOx     [i] = array_DataForCalc[i+1][12];
-        array_gNOx     [i] = array_DataForCalc[i+1][13];
-        array_CCO      [i] = array_DataForCalc[i+1][14];
-        array_CCH      [i] = array_DataForCalc[i+1][15];
-        array_CCO2in   [i] = array_DataForCalc[i+1][16];
-        array_CCO2out  [i] = array_DataForCalc[i+1][17];
-        array_CO2      [i] = array_DataForCalc[i+1][18];
-        array_Ka1m     [i] = array_DataForCalc[i+1][19];
-        array_KaPerc   [i] = array_DataForCalc[i+1][20];
-        array_FSN      [i] = array_DataForCalc[i+1][21];
-        array_Pr       [i] = array_DataForCalc[i+1][22];
-        array_ts       [i] = array_DataForCalc[i+1][23];
-        array_tauf     [i] = array_DataForCalc[i+1][24];
-        array_qmdw     [i] = array_DataForCalc[i+1][25];
-        array_qmdew    [i] = array_DataForCalc[i+1][26];
-        array_rd       [i] = array_DataForCalc[i+1][27];
+        array_n        [i] = array_DataForCalc[i][ 1];
+        array_Me_brutto[i] = array_DataForCalc[i][ 2];
+        array_Ne_brutto[i] = array_DataForCalc[i][ 3];
+        array_N_fan    [i] = array_DataForCalc[i][ 4];
+        array_w        [i] = array_DataForCalc[i][ 5];
+        array_t0       [i] = array_DataForCalc[i][ 6];
+        array_B0       [i] = array_DataForCalc[i][ 7];
+        array_Ra       [i] = array_DataForCalc[i][ 8];
+        array_dPn      [i] = array_DataForCalc[i][ 9];
+        array_Gair     [i] = array_DataForCalc[i][10];
+        array_Gfuel    [i] = array_DataForCalc[i][11];
+        array_CNOx     [i] = array_DataForCalc[i][12];
+        array_gNOx     [i] = array_DataForCalc[i][13];
+        array_CCO      [i] = array_DataForCalc[i][14];
+        array_CCH      [i] = array_DataForCalc[i][15];
+        array_CCO2in   [i] = array_DataForCalc[i][16];
+        array_CCO2out  [i] = array_DataForCalc[i][17];
+        array_CO2      [i] = array_DataForCalc[i][18];
+        array_Ka1m     [i] = array_DataForCalc[i][19];
+        array_KaPerc   [i] = array_DataForCalc[i][20];
+        array_FSN      [i] = array_DataForCalc[i][21];
+        array_Pr       [i] = array_DataForCalc[i][22];
+        array_ts       [i] = array_DataForCalc[i][23];
+        array_tauf     [i] = array_DataForCalc[i][24];
+        array_qmdw     [i] = array_DataForCalc[i][25];
+        array_qmdew    [i] = array_DataForCalc[i][26];
+        array_rd       [i] = array_DataForCalc[i][27];
     }
 
     mytime = dateTimeNow();
@@ -1657,7 +1657,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         for (ptrdiff_t j=0; j<PointsFileColumnsNumber; j++) {
 
-            fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_DataForCalc[i+1][j] << csvdelimiter;
+            fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_DataForCalc[i][j] << csvdelimiter;
         }
 
         fout4 << endl;

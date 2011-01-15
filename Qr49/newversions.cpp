@@ -32,7 +32,8 @@
 #include <QStringList>
 #include <QDebug>
 
-NewVersions::NewVersions() : htmlData("") {
+NewVersions::NewVersions() :
+        htmlData("") {
 
     netmanager = new QNetworkAccessManager();
     connect(netmanager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
