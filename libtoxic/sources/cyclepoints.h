@@ -22,13 +22,14 @@
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
 
+#include <QSharedPointer>
 #include <QVector>
 
 class CyclePoints {
 
 public:
 
-    explicit CyclePoints(LibtoxicParameters *, CommonParameters *);
+    explicit CyclePoints(QSharedPointer<LibtoxicParameters>, QSharedPointer<CommonParameters>);
     virtual ~CyclePoints();
 
     bool readCSV(QVector< QVector<double> >);
@@ -40,8 +41,8 @@ private:
     CyclePoints(const CyclePoints &orig);
     CyclePoints &operator =(const CyclePoints &);
 
-    LibtoxicParameters *params;
-    CommonParameters *config;
+    QSharedPointer<LibtoxicParameters> params;
+    QSharedPointer<CommonParameters> config;
 
     double n_hi, n_lo;
     double A, B, C, a1, a2, a3, n_ref;

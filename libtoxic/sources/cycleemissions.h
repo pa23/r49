@@ -24,6 +24,7 @@
 
 #include <string>
 
+#include <QSharedPointer>
 #include <QString>
 #include <QVector>
 
@@ -33,7 +34,7 @@ class CycleEmissions {
 
 public:
 
-    explicit CycleEmissions(LibtoxicParameters *, CommonParameters *);
+    explicit CycleEmissions(QSharedPointer<LibtoxicParameters>, QSharedPointer<CommonParameters>);
     virtual ~CycleEmissions();
 
     bool readCSV(QVector< QVector<double> >);
@@ -56,8 +57,8 @@ private:
     bool CheckMeas;
     bool qmdwVSrd; // )))
 
-    LibtoxicParameters *params;
-    CommonParameters *config;
+    QSharedPointer<LibtoxicParameters> params;
+    QSharedPointer<CommonParameters> config;
 
     QVector< QVector<double> > array_DataForCalc;   //
     QVector<double> array_n;

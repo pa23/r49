@@ -39,7 +39,7 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
+CyclePoints::CyclePoints(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
         n_hi               (0),
         n_lo               (0),
         A                  (0),
@@ -65,9 +65,9 @@ CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params.data()->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        params.data()->readCalcConfigFile(params.data()->val_CalcConfigFile());
     }
 }
 
@@ -87,32 +87,30 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
 
 bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
-    QString std = params->val_Standard();
-    QString csvdelimiter = config->val_csvDelimiter();
+    QString std = params.data()->val_Standard();
+    QString csvdelimiter = config.data()->val_csvDelimiter();
     QString filenameSource = "";
 
     QVector< QVector<double> > arraySourceData;
 
     if ( data.isEmpty() ) {
 
-        csvRead *readerSourceData = new csvRead();
+        QSharedPointer<csvRead> readerSourceData(new csvRead());
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-            filenameSource = config->val_filenameSourceEU3();
+            filenameSource = config.data()->val_filenameSourceEU3();
         }
         else {
 
-            filenameSource = config->val_filenameSourceEU0();
+            filenameSource = config.data()->val_filenameSourceEU0();
         }
 
-        arraySourceData = readerSourceData->csvData(filenameSource, csvdelimiter);
+        arraySourceData = readerSourceData.data()->csvData(filenameSource, csvdelimiter);
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
             if (arraySourceData.at(0).size() != EU3SrcDataParamsNumber) {
-
-                delete readerSourceData;
 
                 qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
 
@@ -133,8 +131,6 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                delete readerSourceData;
-
                 qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
 
                 return false;
@@ -151,8 +147,6 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (arraySourceData.at(0).size() != EU0SrcDataParamsNumber) {
 
-                delete readerSourceData;
-
                 qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
 
                 return false;
@@ -167,14 +161,10 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            delete readerSourceData;
-
             qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
 
             return false;
         }
-
-        delete readerSourceData;
     }
     else {
 
@@ -230,13 +220,13 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
 bool CyclePoints::fillArrays() {
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
 
     if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-        if (params->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == "yes") {
 
             n = TCyclePointsNumber;
         }
@@ -265,7 +255,7 @@ bool CyclePoints::fillArrays() {
         array_n[11] = C;
         array_n[12] = C;
 
-        if (params->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == "yes") {
 
             array_n[13] = a1;
             array_n[14] = a2;
@@ -291,7 +281,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[11] = 0.75  * (Ne_C - array_N_fan[11]) + array_N_fan[11];
         array_Ne_brutto[12] = 0.50  * (Ne_C - array_N_fan[12]) + array_N_fan[12];
 
-        if (params->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == "yes") {
 
             array_Ne_brutto[13] = 0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
             array_Ne_brutto[14] = 0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
@@ -317,7 +307,7 @@ bool CyclePoints::fillArrays() {
         array_w[11] = 0.05;
         array_w[12] = 0.05;
 
-        if (params->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == "yes") {
 
             array_w[13] = 1.0;
             array_w[14] = 1.0;
@@ -850,8 +840,8 @@ QString CyclePoints::createReport() const {
 
     QString message = "";
 
-    QString filenamePoints = config->val_filenamePoints();
-    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
+    QString filenamePoints = config.data()->val_filenamePoints();
+    string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
 
     ofstream fout(filenamePoints.toAscii());
 
@@ -892,13 +882,13 @@ QString CyclePoints::createReport() const {
     fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
     fout << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << endl;
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
 
     if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-        if (params->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == "yes") {
 
             n = TCyclePointsNumber;
         }

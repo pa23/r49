@@ -24,6 +24,7 @@
 
 #include <string>
 
+#include <QSharedPointer>
 #include <QString>
 #include <QVector>
 
@@ -33,7 +34,7 @@ class ReducedPower {
 
 public:
 
-    explicit ReducedPower(LibtoxicParameters *, CommonParameters *);
+    explicit ReducedPower(QSharedPointer<LibtoxicParameters>, QSharedPointer<CommonParameters>);
     virtual ~ReducedPower();
 
     bool readCSV(QVector< QVector<double> >);
@@ -46,8 +47,8 @@ private:
     ReducedPower(const ReducedPower &orig);
     ReducedPower &operator =(const ReducedPower &);
 
-    LibtoxicParameters *params;
-    CommonParameters *config;
+    QSharedPointer<LibtoxicParameters> params;
+    QSharedPointer<CommonParameters> config;
 
     QVector< QVector<double> > array_DataForCalc;   //
     QVector<double> array_n;

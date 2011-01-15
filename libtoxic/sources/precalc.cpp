@@ -20,7 +20,7 @@
 
 #include <QVector>
 
-bool calcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double *a1, double *a2, double *a3, double *n_ref) {
+bool calcABC(double* n_hi, double* n_lo, double* A, double* B, double* C, double* a1, double* a2, double* a3, double* n_ref) {
 
     if (*n_hi < *n_lo) {
 
@@ -42,10 +42,10 @@ bool calcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double
     return true;
 }
 
-bool calcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
-             double *smoke_B1, double *smoke_B2, double *smoke_B3,
-             double *smoke_C1, double *smoke_C2, double *smoke_C3,
-             double *smokeELR) {
+bool calcELR(double* smoke_A1, double* smoke_A2, double* smoke_A3,
+             double* smoke_B1, double* smoke_B2, double* smoke_B3,
+             double* smoke_C1, double* smoke_C2, double* smoke_C3,
+             double* smokeELR) {
 
     double smoke_A_mean = (*smoke_A1 + *smoke_A2 + *smoke_A3) / 3.0;
     double smoke_B_mean = (*smoke_B1 + *smoke_B2 + *smoke_B3) / 3.0;

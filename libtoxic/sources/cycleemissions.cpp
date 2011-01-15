@@ -31,6 +31,7 @@
 #include <fstream>
 #include <iomanip>
 
+#include <QSharedPointer>
 #include <QDebug>
 #include <QString>
 #include <QVector>
@@ -47,7 +48,7 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-CycleEmissions::CycleEmissions(LibtoxicParameters *prms, CommonParameters *cfg) :
+CycleEmissions::CycleEmissions(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
         NenCalcMethod (true),
         GairVals      (true),
         NOxCalcMethod (true),
@@ -69,9 +70,9 @@ CycleEmissions::CycleEmissions(LibtoxicParameters *prms, CommonParameters *cfg) 
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params.data()->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        params.data()->readCalcConfigFile(params.data()->val_CalcConfigFile());
     }
 }
 
@@ -91,7 +92,7 @@ CycleEmissions &CycleEmissions::operator =(const CycleEmissions &x) {
 
 bool CycleEmissions::calculate() {
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     if (!preCalculate()) {
 
@@ -108,7 +109,7 @@ bool CycleEmissions::calculate() {
     }
 
     if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-           (params->val_AddPointsCalc() == "yes") && (NumberOfPoints == TCyclePointsNumber) ) {
+           (params.data()->val_AddPointsCalc() == "yes") && (NumberOfPoints == TCyclePointsNumber) ) {
 
         if (!calculateAdditionalPoints()) {
 
@@ -146,7 +147,7 @@ bool CycleEmissions::calculate() {
         return false;
     }
 
-    if (params->val_Standard() != "FreeCalc") {
+    if (params.data()->val_Standard() != "FreeCalc") {
 
         if (!calculate_Means()) {
 
@@ -170,23 +171,19 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePoints = config->val_filenamePoints();
-        QString csvdelimiter = config->val_csvDelimiter();
+        QString filenamePoints = config.data()->val_filenamePoints();
+        QString csvdelimiter = config.data()->val_csvDelimiter();
 
-        csvRead *readerDataForCalc = new csvRead();
+        QSharedPointer<csvRead> readerDataForCalc(new csvRead());
 
-        array_DataForCalc = readerDataForCalc->csvData(filenamePoints, csvdelimiter);
+        array_DataForCalc = readerDataForCalc.data()->csvData(filenamePoints, csvdelimiter);
 
         if (array_DataForCalc.at(0).size() != PointsFileColumnsNumber) {
-
-            delete readerDataForCalc;
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: incorrect source data!";
 
             return false;
         }
-
-        delete readerDataForCalc;
     }
     else {
 
@@ -195,8 +192,8 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     NumberOfPoints = array_DataForCalc.size();
 
-    QString std   = params->val_Standard();
-    QString addpc = params->val_AddPointsCalc();
+    QString std   = params.data()->val_Standard();
+    QString addpc = params.data()->val_AddPointsCalc();
 
     if (
             (
@@ -395,7 +392,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     //
 
-    if (params->val_Standard() != "FreeCalc") {
+    if (params.data()->val_Standard() != "FreeCalc") {
 
         if (!nonZeroArray(array_n)) {
 
@@ -505,7 +502,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             CheckMeas = false;
         }
 
-        if (params->val_PTcalc() != "no") {
+        if (params.data()->val_PTcalc() != "no") {
 
             if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
                  ( !nonZeroArray(array_Ka1m)   &&
@@ -516,7 +513,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
                 return false;
             }
 
-            if (params->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == "ThroughPTmass") {
 
                 if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
                      ( !nonZeroArray(array_qmdw) &&
@@ -578,13 +575,13 @@ bool CycleEmissions::preCalculate() {
     array_Kwr.resize(NumberOfPoints);
     array_Khd.resize(NumberOfPoints);
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
-    double L0    = config->val_L0();
-    double WH    = config->val_WH();
-    double WO2   = config->val_WO2();
-    double WN    = config->val_WN();
-    double roAir = config->val_roAir();
+    double L0    = config.data()->val_L0();
+    double WH    = config.data()->val_WH();
+    double WO2   = config.data()->val_WO2();
+    double WN    = config.data()->val_WN();
+    double roAir = config.data()->val_roAir();
 
     double Ffw = 0;
     double Ffd = 0;
@@ -593,7 +590,7 @@ bool CycleEmissions::preCalculate() {
          (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
          (std == "F") || (std == "G1") || (std == "G2") ) {
 
-        QString FuelType = params->val_FuelType();
+        QString FuelType = params.data()->val_FuelType();
 
         if (FuelType == "diesel") {
 
@@ -647,7 +644,7 @@ bool CycleEmissions::preCalculate() {
 
         if (!GairVals) {
 
-            double Dn = config->val_Dn();
+            double Dn = config.data()->val_Dn();
 
             if (Dn < 1) {
 
@@ -663,7 +660,7 @@ bool CycleEmissions::preCalculate() {
 
         if (CheckMeas) {
 
-            double ConcO2air = config->val_ConcO2air();
+            double ConcO2air = config.data()->val_ConcO2air();
 
             if (ConcO2air < 1) {
 
@@ -772,7 +769,7 @@ bool CycleEmissions::calculate_gNOx() {
 
     array_mNOx.resize(NumberOfPoints);
 
-    double muNO2 = config->val_muNO2();
+    double muNO2 = config.data()->val_muNO2();
 
     double summ_mNOx = 0;
     double summ_Ne_netto = 0;
@@ -780,10 +777,10 @@ bool CycleEmissions::calculate_gNOx() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -796,7 +793,7 @@ bool CycleEmissions::calculate_gNOx() {
          (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
          (std == "F") || (std == "G1") || (std == "G2") ) {
 
-        if (params->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == "dry") {
 
             for (ptrdiff_t i=0; i<n; i++) {
 
@@ -819,7 +816,7 @@ bool CycleEmissions::calculate_gNOx() {
 
         if (NOxCalcMethod) {
 
-            if (params->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == "dry") {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
@@ -860,7 +857,7 @@ bool CycleEmissions::calculate_gNOx() {
         }
         else if (!NOxCalcMethod) {
 
-            if (params->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == "dry") {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
@@ -928,11 +925,11 @@ bool CycleEmissions::calculateAdditionalPoints() {
      *            nrt       nus
      */
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     for (ptrdiff_t i=(NumberOfPoints - TCycleAddPointsNumber); i<NumberOfPoints; i++) {
 
-        if (params->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == "dry") {
 
             if (std == "OST") {
 
@@ -1046,7 +1043,7 @@ bool CycleEmissions::calculate_gCO() {
     array_mCO.resize(NumberOfPoints);
     array_gCO.resize(NumberOfPoints);
 
-    double muCO = config->val_muCO();
+    double muCO = config.data()->val_muCO();
 
     double summ_mCO = 0;
     double summ_Ne_netto = 0;
@@ -1054,10 +1051,10 @@ bool CycleEmissions::calculate_gCO() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1100,7 +1097,7 @@ bool CycleEmissions::calculate_gCH() {
     array_mCH.resize(NumberOfPoints);
     array_gCH.resize(NumberOfPoints);
 
-    double muCH = config->val_muCH();
+    double muCH = config.data()->val_muCH();
 
     double summ_mCH = 0;
     double summ_Ne_netto = 0;
@@ -1108,10 +1105,10 @@ bool CycleEmissions::calculate_gCH() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1159,7 +1156,7 @@ bool CycleEmissions::calculate_gCH() {
 
 bool CycleEmissions::calculate_gPT() {
 
-    mf = params->val_PTmass();
+    mf = params.data()->val_PTmass();
 
     array_ror.resize(NumberOfPoints);
     array_CPT.resize(NumberOfPoints);
@@ -1168,15 +1165,15 @@ bool CycleEmissions::calculate_gPT() {
     array_mPT.resize(NumberOfPoints);
     array_gPT.resize(NumberOfPoints);
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
-    if ( (params->val_PTcalc() != "no") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
-                                            (std != "C1") && (std != "D1") && (std != "D2") &&
-                                            (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                            (std != "F") && (std != "G1") && (std != "G2") ) ) {
+    if ( (params.data()->val_PTcalc() != "no") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
+                                                    (std != "C1") && (std != "D1") && (std != "D2") &&
+                                                    (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
+                                                    (std != "F") && (std != "G1") && (std != "G2") ) ) {
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -1185,8 +1182,8 @@ bool CycleEmissions::calculate_gPT() {
             n = NumberOfPoints;
         }
 
-        double L = config->val_L();
-        double Rr = config->val_Rr();
+        double L = config.data()->val_L();
+        double Rr = config.data()->val_Rr();
 
         double summ_mPT = 0;
         double summ_Ne_netto = 0;
@@ -1237,7 +1234,7 @@ bool CycleEmissions::calculate_gPT() {
         summ_mPT = 0;
         summ_Ne_netto = 0;
 
-        if (params->val_PTcalc() == "ThroughPTmass") {
+        if (params.data()->val_PTcalc() == "ThroughPTmass") {
 
             if (mf == 0) {
 
@@ -1289,7 +1286,7 @@ bool CycleEmissions::calculate_rEGR() {
     array_rEGR.resize(NumberOfPoints);
     array_alpha_res.resize(NumberOfPoints);
 
-    double CCO2air = config->val_ConcCO2air();
+    double CCO2air = config.data()->val_ConcCO2air();
 
     if (EGRcalc) {
 
@@ -1313,10 +1310,10 @@ bool CycleEmissions::calculate_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1353,7 +1350,7 @@ bool CycleEmissions::compareAlpha() {
         if (EGRcalc) {
 
             double ConcO2mix = 0;
-            double ConcO2air = config->val_ConcO2air();
+            double ConcO2air = config.data()->val_ConcO2air();
 
             if (ConcO2air < 1) {
 
@@ -1404,7 +1401,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params->val_PTcalc();
+        QString ptcalc = params.data()->val_PTcalc();
 
         if (ptcalc != "no") {
 
@@ -1423,10 +1420,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
         return message;
     }
 
-    QString std = params->val_Standard();
+    QString std = params.data()->val_Standard();
 
-    QString dirnameReports = config->val_dirnameReports();
-    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
+    QString dirnameReports = config.data()->val_dirnameReports();
+    string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
 
     fullReportsPath = dirnameReports + "/" + std + "_" + QString::fromStdString(mytime);
     QDir reportdir;
@@ -1675,10 +1672,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     if (std != "FreeCalc") {
 
-        if ( (params->val_PTcalc() == "ThroughPTmass") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
-                                                           (std != "C1") && (std != "D1") && (std != "D2") &&
-                                                           (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                                           (std != "F") && (std != "G1") && (std != "G2") ) ) {
+        if ( (params.data()->val_PTcalc() == "ThroughPTmass") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
+                                                                   (std != "C1") && (std != "D1") && (std != "D2") &&
+                                                                   (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
+                                                                   (std != "F") && (std != "G1") && (std != "G2") ) ) {
 
             string ReportFileNamePT;
 
@@ -1718,14 +1715,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (!GairVals) {
 
-                fout6 << "Gair meas by nozzle (Dn = " << config->val_Dn() << "); ";
+                fout6 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
             }
             else {
 
                 fout6 << "direct Gair meas; ";
             }
 
-            if (params->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == "dry") {
 
                 fout6 << "NOxSample type is dry; ";
             }
@@ -1734,11 +1731,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout6 << "NOxSample type is wet; ";
             }
 
-            if (params->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == "ThroughPTmass") {
 
                 fout6 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
             }
-            else if (params->val_PTcalc() == "no") {
+            else if (params.data()->val_PTcalc() == "no") {
 
                 fout6 << "PT was not calculated;\n";
             }
@@ -1749,7 +1746,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (CheckMeas) {
 
-                fout6 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->val_ConcO2air() << " %)";
+                fout6 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
             }
             else {
 
@@ -1791,7 +1788,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdew[g/s]" << endl;
 
             ptrdiff_t n = 0;
-            if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+            if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
                 n = NumberOfPoints - TCycleAddPointsNumber;
             }
@@ -1937,14 +1934,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         if (!GairVals) {
 
-            fout5 << "Gair meas by nozzle (Dn = " << config->val_Dn() << "); ";
+            fout5 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
         }
         else {
 
             fout5 << "direct Gair meas; ";
         }
 
-        if (params->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == "dry") {
 
             fout5 << "NOxSample type is dry; ";
         }
@@ -1953,11 +1950,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << "NOxSample type is wet; ";
         }
 
-        if (params->val_PTcalc() == "ThroughPTmass") {
+        if (params.data()->val_PTcalc() == "ThroughPTmass") {
 
             fout5 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
         }
-        else if (params->val_PTcalc() == "no") {
+        else if (params.data()->val_PTcalc() == "no") {
 
             fout5 << "PT was not calculated;\n";
         }
@@ -1968,7 +1965,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         if (CheckMeas) {
 
-            fout5 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->val_ConcO2air() << " %)";
+            fout5 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
         }
         else {
 
@@ -2017,7 +2014,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         fout5 << endl;
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
+        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -2104,7 +2101,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 }
             }
 
-            if (params->val_PTcalc() == "ThroughSmoke") {
+            if (params.data()->val_PTcalc() == "ThroughSmoke") {
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                      (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2150,7 +2147,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                if (params->val_PTcalc() == "ThroughSmoke") {
+                if (params.data()->val_PTcalc() == "ThroughSmoke") {
 
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2195,7 +2192,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 }
             }
 
-            if (params->val_PTcalc() == "ThroughSmoke") {
+            if (params.data()->val_PTcalc() == "ThroughSmoke") {
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                      (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2249,7 +2246,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                if (params->val_PTcalc() == "ThroughSmoke") {
+                if (params.data()->val_PTcalc() == "ThroughSmoke") {
 
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2276,7 +2273,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         fout5 << endl;
 
         if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-             (params->val_AddPointsCalc() == "yes") ) {
+             (params.data()->val_AddPointsCalc() == "yes") ) {
 
             fout5 << "Additional points:\n\n";
 
@@ -2600,12 +2597,12 @@ QString CycleEmissions::createReports(bool createrepdir) {
             }
         }
 
-        if ( (params->val_PTcalc() != "no") && ( (std != "GOST") && (std != "OST") && (std != "EU0") && (std != "C1") &&
-                                                (std != "D1") && (std != "D2") &&
-                                                (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                                (std != "F") && (std != "G1") && (std != "G2") ) ) {
+        if ( (params.data()->val_PTcalc() != "no") && ( (std != "GOST") && (std != "OST") && (std != "EU0") && (std != "C1") &&
+                                                        (std != "D1") && (std != "D2") &&
+                                                        (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
+                                                        (std != "F") && (std != "G1") && (std != "G2") ) ) {
 
-            if (params->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == "ThroughPTmass") {
 
                 fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
 
@@ -2653,15 +2650,15 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     string paramValDelim = parameterValueDelimiter.toStdString();
 
-    fout7 << "task"           << paramValDelim << params->val_Task().toStdString()           << endl;
-    fout7 << "Vh"             << paramValDelim << params->val_Vh()                           << endl;
-    fout7 << "standard"       << paramValDelim << params->val_Standard().toStdString()       << endl;
-    fout7 << "FuelType"       << paramValDelim << params->val_FuelType().toStdString()       << endl;
-    fout7 << "NOxSample"      << paramValDelim << params->val_NOxSample().toStdString()      << endl;
-    fout7 << "PTcalc"         << paramValDelim << params->val_PTcalc().toStdString()         << endl;
-    fout7 << "PTmass"         << paramValDelim << params->val_PTmass()                       << endl;
-    fout7 << "AddPointsCalc"  << paramValDelim << params->val_AddPointsCalc().toStdString()  << endl;
-    fout7 << "CalcConfigFile" << paramValDelim << params->val_CalcConfigFile().toStdString() << endl;
+    fout7 << "task"           << paramValDelim << params.data()->val_Task().toStdString()           << endl;
+    fout7 << "Vh"             << paramValDelim << params.data()->val_Vh()                           << endl;
+    fout7 << "standard"       << paramValDelim << params.data()->val_Standard().toStdString()       << endl;
+    fout7 << "FuelType"       << paramValDelim << params.data()->val_FuelType().toStdString()       << endl;
+    fout7 << "NOxSample"      << paramValDelim << params.data()->val_NOxSample().toStdString()      << endl;
+    fout7 << "PTcalc"         << paramValDelim << params.data()->val_PTcalc().toStdString()         << endl;
+    fout7 << "PTmass"         << paramValDelim << params.data()->val_PTmass()                       << endl;
+    fout7 << "AddPointsCalc"  << paramValDelim << params.data()->val_AddPointsCalc().toStdString()  << endl;
+    fout7 << "CalcConfigFile" << paramValDelim << params.data()->val_CalcConfigFile().toStdString() << endl;
 
     fout7.close();
 
@@ -2687,7 +2684,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params->val_PTcalc();
+        QString ptcalc = params.data()->val_PTcalc();
 
         if (ptcalc != "no") {
 

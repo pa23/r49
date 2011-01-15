@@ -29,6 +29,7 @@
 #include <fstream>
 #include <iomanip>
 
+#include <QSharedPointer>
 #include <QDebug>
 #include <QString>
 #include <QVector>
@@ -43,7 +44,7 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
+ReducedPower::ReducedPower(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
         NumberOfPoints    (    0),
         mytime            (  "_"),
         fullReportsPath   (  "_"),
@@ -54,9 +55,9 @@ ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
     params = prms;
     config = cfg;
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params.data()->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        params.data()->readCalcConfigFile(params.data()->val_CalcConfigFile());
     }
 }
 
@@ -78,23 +79,19 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePowers = config->val_filenamePowers();
-        QString csvdelimiter = config->val_csvDelimiter();
+        QString filenamePowers = config.data()->val_filenamePowers();
+        QString csvdelimiter = config.data()->val_csvDelimiter();
 
-        csvRead *readerDataForCalc = new csvRead();
+        QSharedPointer<csvRead> readerDataForCalc(new csvRead());
 
-        array_DataForCalc = readerDataForCalc->csvData(filenamePowers, csvdelimiter);
+        array_DataForCalc = readerDataForCalc.data()->csvData(filenamePowers, csvdelimiter);
 
         if (array_DataForCalc.at(0).size() != PowersFileColumnsNumber) {
-
-            delete readerDataForCalc;
 
             qDebug() << "libtoxic ERROR: ReducedPower: readCSV: incorrect source data!";
 
             return false;
         }
-
-        delete readerDataForCalc;
     }
     else {
 
@@ -139,7 +136,7 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
          !nonZeroArray(array_Ra) ||
          !nonZeroArray(array_pk) ||
          !nonZeroArray(array_Gfuel) ||
-         (params->val_Vh() < 0.0000001) ) {
+         (params.data()->val_Vh() < 0.0000001) ) {
 
         qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Bad source data or calculation settings!";
         return false;
@@ -180,7 +177,7 @@ bool ReducedPower::reducePower() {
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
-        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * params->val_Vh()) ) /
+        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * params.data()->val_Vh()) ) /
                        ( (array_pk[i] + array_B0[i]) / (array_S[i] + array_B0[i]) );
 
         if      (array_qcs[i] < 40.0) { array_fm[i] = 0.3;                         }
@@ -214,8 +211,8 @@ QString ReducedPower::createReports() {
 
     QString message = "";
 
-    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
-    QString dirnameReports = config->val_dirnameReports();
+    string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
+    QString dirnameReports = config.data()->val_dirnameReports();
 
     fullReportsPath = dirnameReports + "r85_" + QString::fromStdString(mytime);
     QDir reportdir;
