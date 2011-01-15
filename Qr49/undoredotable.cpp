@@ -31,7 +31,7 @@ UndoRedoTable::~UndoRedoTable() {
     data.clear();
 }
 
-bool UndoRedoTable::SaveState() {
+bool UndoRedoTable::saveState() {
 
     if ( (data.count() - position) > 1 ) {
 
@@ -63,7 +63,7 @@ bool UndoRedoTable::SaveState() {
     return true;
 }
 
-bool UndoRedoTable::UndoTable() {
+bool UndoRedoTable::undoTable() {
 
     position--;
 
@@ -97,27 +97,27 @@ bool UndoRedoTable::UndoTable() {
     return true;
 }
 
-bool UndoRedoTable::RedoTable() {
+bool UndoRedoTable::redoTable() {
 
     position++;
     position++;
 
-    UndoTable();
+    undoTable();
 
     return true;
 }
 
-ptrdiff_t UndoRedoTable::GetUndoTableNumber() {
+ptrdiff_t UndoRedoTable::undoTableNumber() {
 
     return position;
 }
 
-ptrdiff_t UndoRedoTable::GetRedoTableNumber() {
+ptrdiff_t UndoRedoTable::redoTableNumber() {
 
     return data.count() - position - 1;
 }
 
-void UndoRedoTable::FreeMemory() {
+void UndoRedoTable::freeMemory() {
 
     data.clear();
 }

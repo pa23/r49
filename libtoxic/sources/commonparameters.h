@@ -27,27 +27,27 @@ public:
     explicit CommonParameters();
     virtual ~CommonParameters();
 
-    bool ReadConfigFile(QString);
+    bool readConfigFile(QString);
 
-    QString Get_csvDelimiter() const;
-    QString Get_filenameSourceEU3() const;
-    QString Get_filenameSourceEU0() const;
-    QString Get_filenamePoints() const;
-    QString Get_filenamePowers() const;
-    QString Get_dirnameReports() const;
-    double Get_Dn() const;
-    double Get_ConcO2air() const;
-    double Get_Rr() const;
-    double Get_L0() const;
-    double Get_L() const;
-    double Get_ConcCO2air() const;
-    double Get_WH() const;
-    double Get_WO2() const;
-    double Get_WN() const;
-    double Get_roAir() const;
-    double Get_muNO2() const;
-    double Get_muCO() const;
-    double Get_muCH() const;
+    QString val_csvDelimiter() const;
+    QString val_filenameSourceEU3() const;
+    QString val_filenameSourceEU0() const;
+    QString val_filenamePoints() const;
+    QString val_filenamePowers() const;
+    QString val_dirnameReports() const;
+    double val_Dn() const;
+    double val_ConcO2air() const;
+    double val_Rr() const;
+    double val_L0() const;
+    double val_L() const;
+    double val_ConcCO2air() const;
+    double val_WH() const;
+    double val_WO2() const;
+    double val_WN() const;
+    double val_roAir() const;
+    double val_muNO2() const;
+    double val_muCO() const;
+    double val_muCH() const;
 
 private:
 

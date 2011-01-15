@@ -44,13 +44,13 @@ csvRead &csvRead::operator =(const csvRead &x) {
     return *this;
 }
 
-bool csvRead::ReadData(QString filename, QString csvdelimiter, ptrdiff_t *stringsNumber) {
+bool csvRead::readData(QString filename, QString csvdelimiter, ptrdiff_t *stringsNumber) {
 
     QFile dataFile(filename);
 
     if ( !(dataFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libfuns ERROR: csvRead: ReadData:" << filename << "not found!";
+        qDebug() << "libfuns ERROR: csvRead: readData:" << filename << "not found!";
 
         return false;
     }
@@ -80,7 +80,7 @@ bool csvRead::ReadData(QString filename, QString csvdelimiter, ptrdiff_t *string
     return true;
 }
 
-bool csvRead::CheckArrayDimension(ptrdiff_t m1) {
+bool csvRead::checkArrayDimension(ptrdiff_t m1) {
 
     if (m1 == m) {
 
@@ -92,7 +92,7 @@ bool csvRead::CheckArrayDimension(ptrdiff_t m1) {
     }
 }
 
-bool csvRead::FillArray(double **array) const {
+bool csvRead::fillArray(double **array) const {
 
     for (ptrdiff_t i=0; i<data.size(); i++) {
 

@@ -32,7 +32,7 @@
 #include <QStringList>
 #include <QDebug>
 
-NewVersions::NewVersions() : HtmlData("") {
+NewVersions::NewVersions() : htmlData("") {
 
     netmanager = new QNetworkAccessManager();
     connect(netmanager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
@@ -43,13 +43,13 @@ NewVersions::~NewVersions() {
     delete netmanager;
 }
 
-void NewVersions::CheckAvailableVersions() {
+void NewVersions::checkAvailableVersions() {
 
-    HtmlData = "";
+    htmlData = "";
     urls.clear();
     files.clear();
 
-    netmanager->get(QNetworkRequest(QUrl(PageUrl)));
+    netmanager->get(QNetworkRequest(QUrl(pageUrl)));
 }
 
 void NewVersions::replyFinished(QNetworkReply *reply) {
@@ -63,17 +63,17 @@ void NewVersions::replyFinished(QNetworkReply *reply) {
     }
 
     QByteArray text = reply->readAll();
-    HtmlData = text.data();
+    htmlData = text.data();
 
-    ParseHtmlData();
+    parseHtmlData();
 }
 
-void NewVersions::ParseHtmlData() {
+void NewVersions::parseHtmlData() {
 
-    QStringList strs = HtmlData.split("\n", QString::SkipEmptyParts);
+    QStringList strs = htmlData.split("\n", QString::SkipEmptyParts);
 
-    QString regexpstr1 = "(<a href=\"" + FilesUrl + "/r49-.+</a>)";
-    QString regexpstr2 = "(\"" + FilesUrl + "/r49-.+\")";
+    QString regexpstr1 = "(<a href=\"" + filesUrl + "/r49-.+</a>)";
+    QString regexpstr2 = "(\"" + filesUrl + "/r49-.+\")";
 
     QRegExp regExp1(regexpstr1);
     QRegExp regExp2(regexpstr2);
@@ -95,7 +95,7 @@ void NewVersions::ParseHtmlData() {
 
     for (ptrdiff_t i=0; i<files.count(); i++) {
 
-        urls << PageUrl + files.at(i);
+        urls << pageUrl + files.at(i);
     }
 
     //

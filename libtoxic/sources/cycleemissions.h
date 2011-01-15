@@ -36,10 +36,10 @@ public:
     explicit CycleEmissions(LibtoxicParameters *, CommonParameters *);
     virtual ~CycleEmissions();
 
-    bool GetDataFromCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
-    bool MakeCalculations();
-    QString CreateReports(bool);
-    QString GetLastReportsDir();
+    bool readCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
+    bool calculate();
+    QString createReports(bool);
+    QString lastReportsDir();
 
 private:
 
@@ -155,15 +155,15 @@ private:
 
     ptrdiff_t NumberOfPoints;
 
-    bool PreCalculate();
-    bool MakeCalculation_gNOx(); // or CNOxs
-    bool MakeCalculationAdditionalPoints();
-    bool MakeCalculation_gCO();
-    bool MakeCalculation_gCH();
-    bool MakeCalculation_gPT();
-    bool MakeCalculation_rEGR();
-    bool MakeCalculation_Means();
-    bool CompareAlpha();
+    bool preCalculate();
+    bool calculate_gNOx(); // or CNOxs
+    bool calculateAdditionalPoints();
+    bool calculate_gCO();
+    bool calculate_gCH();
+    bool calculate_gPT();
+    bool calculate_rEGR();
+    bool calculate_Means();
+    bool compareAlpha();
 
     std::string mytime;
     QString fullReportsPath;

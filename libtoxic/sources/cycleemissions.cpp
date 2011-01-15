@@ -76,9 +76,9 @@ CycleEmissions::CycleEmissions(LibtoxicParameters *prms, CommonParameters *cfg) 
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->GetCalcConfigFile() != "_._") {
+    if (params->val_CalcConfigFile() != "_._") {
 
-        params->ReadCalcConfigFile(params->GetCalcConfigFile());
+        params->readCalcConfigFile(params->val_CalcConfigFile());
     }
 }
 
@@ -185,76 +185,76 @@ CycleEmissions &CycleEmissions::operator =(const CycleEmissions &x) {
     return *this;
 }
 
-bool CycleEmissions::MakeCalculations() {
+bool CycleEmissions::calculate() {
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
-    if (!PreCalculate()) {
+    if (!preCalculate()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: PreCalculate function returns false!";
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: preCalculate function returns false!";
 
         return false;
     }
 
-    if (!MakeCalculation_gNOx()) {
+    if (!calculate_gNOx()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_gNOx function returns false!";
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gNOx function returns false!";
 
         return false;
     }
 
     if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-           (params->GetAddPointsCalc() == "yes") && (NumberOfPoints == TCyclePointsNumber) ) {
+           (params->val_AddPointsCalc() == "yes") && (NumberOfPoints == TCyclePointsNumber) ) {
 
-        if (!MakeCalculationAdditionalPoints()) {
+        if (!calculateAdditionalPoints()) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculationAdditionalPoints function returns false!";
-
-            return false;
-        }
-    }
-
-    if (!MakeCalculation_gCO()) {
-
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_gCO function returns false!";
-
-        return false;
-    }
-
-    if (!MakeCalculation_gCH()) {
-
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_gCH function returns false!";
-
-        return false;
-    }
-
-    if (!MakeCalculation_gPT()) {
-
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_gPT function returns false!";
-
-        return false;
-    }
-
-    if (!MakeCalculation_rEGR()) {
-
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_rEGR function returns false!";
-
-        return false;
-    }
-
-    if (params->GetStandard() != "FreeCalc") {
-
-        if (!MakeCalculation_Means()) {
-
-            qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: MakeCalculation_Means function returns false!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculateAdditionalPoints function returns false!";
 
             return false;
         }
     }
 
-    if (!CompareAlpha()) {
+    if (!calculate_gCO()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: MakeCalculations: CompareAlpha function returns false!";
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gCO function returns false!";
+
+        return false;
+    }
+
+    if (!calculate_gCH()) {
+
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gCH function returns false!";
+
+        return false;
+    }
+
+    if (!calculate_gPT()) {
+
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gPT function returns false!";
+
+        return false;
+    }
+
+    if (!calculate_rEGR()) {
+
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_rEGR function returns false!";
+
+        return false;
+    }
+
+    if (params->val_Standard() != "FreeCalc") {
+
+        if (!calculate_Means()) {
+
+            qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_Means function returns false!";
+
+            return false;
+        }
+    }
+
+    if (!compareAlpha()) {
+
+        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: compareAlpha function returns false!";
 
         return false;
     }
@@ -262,43 +262,43 @@ bool CycleEmissions::MakeCalculations() {
     return true;
 }
 
-bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
     GetDataFromCSV_OK = false;
 
     if ( (n == 0) && (m == 0) ) {
 
-        QString filenamePoints = config->Get_filenamePoints();
-        QString csvdelimiter = config->Get_csvDelimiter();
+        QString filenamePoints = config->val_filenamePoints();
+        QString csvdelimiter = config->val_csvDelimiter();
 
         csvRead *ReaderDataForCalc = new csvRead();
 
-        if (!ReaderDataForCalc->ReadData(filenamePoints, csvdelimiter, &NumberOfPoints)) {
+        if (!ReaderDataForCalc->readData(filenamePoints, csvdelimiter, &NumberOfPoints)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: ReadData function returns false!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: readData function returns false!";
 
             return false;
         }
 
         Array_DataForCalc = new Double2DArray(NumberOfPoints, PointsFileColumnsNumber);
-        array_DataForCalc = Array_DataForCalc->GetPointerOnArray();
+        array_DataForCalc = Array_DataForCalc->arrayPointer();
 
-        if (!ReaderDataForCalc->CheckArrayDimension(PointsFileColumnsNumber)) {
+        if (!ReaderDataForCalc->checkArrayDimension(PointsFileColumnsNumber)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: CheckArrayDimension function returns false!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: checkArrayDimension function returns false!";
 
             return false;
         }
 
-        if (!ReaderDataForCalc->FillArray(array_DataForCalc)) {
+        if (!ReaderDataForCalc->fillArray(array_DataForCalc)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: FillArray function returns false!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: fillArray function returns false!";
 
             return false;
         }
@@ -316,13 +316,13 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
     }
     else {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Illegal data!";
+        qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Illegal data!";
 
         return false;
     }
 
-    QString std   = params->GetStandard();
-    QString addpc = params->GetAddPointsCalc();
+    QString std   = params->val_Standard();
+    QString addpc = params->val_AddPointsCalc();
 
     if (
             (
@@ -453,91 +453,91 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             )
     ) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings!";
+        qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
 
         return false;
     }
 
     Array_n = new Double2DArray(NumberOfPoints, 1);
-    array_n = Array_n->GetPointerOnArray();
+    array_n = Array_n->arrayPointer();
 
     Array_Me_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+    array_Me_brutto = Array_Me_brutto->arrayPointer();
 
     Array_Ne_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+    array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
     Array_N_fan = new Double2DArray(NumberOfPoints, 1);
-    array_N_fan = Array_N_fan->GetPointerOnArray();
+    array_N_fan = Array_N_fan->arrayPointer();
 
     Array_w = new Double2DArray(NumberOfPoints, 1);
-    array_w = Array_w->GetPointerOnArray();
+    array_w = Array_w->arrayPointer();
 
     Array_t0 = new Double2DArray(NumberOfPoints, 1);
-    array_t0 = Array_t0->GetPointerOnArray();
+    array_t0 = Array_t0->arrayPointer();
 
     Array_B0 = new Double2DArray(NumberOfPoints, 1);
-    array_B0 = Array_B0->GetPointerOnArray();
+    array_B0 = Array_B0->arrayPointer();
 
     Array_Ra = new Double2DArray(NumberOfPoints, 1);
-    array_Ra = Array_Ra->GetPointerOnArray();
+    array_Ra = Array_Ra->arrayPointer();
 
     Array_dPn = new Double2DArray(NumberOfPoints, 1);
-    array_dPn = Array_dPn->GetPointerOnArray();
+    array_dPn = Array_dPn->arrayPointer();
 
     Array_Gair = new Double2DArray(NumberOfPoints, 1);
-    array_Gair = Array_Gair->GetPointerOnArray();
+    array_Gair = Array_Gair->arrayPointer();
 
     Array_Gfuel = new Double2DArray(NumberOfPoints, 1);
-    array_Gfuel = Array_Gfuel->GetPointerOnArray();
+    array_Gfuel = Array_Gfuel->arrayPointer();
 
     Array_CNOx = new Double2DArray(NumberOfPoints, 1);
-    array_CNOx = Array_CNOx->GetPointerOnArray();
+    array_CNOx = Array_CNOx->arrayPointer();
 
     Array_gNOx = new Double2DArray(NumberOfPoints, 1);
-    array_gNOx = Array_gNOx->GetPointerOnArray();
+    array_gNOx = Array_gNOx->arrayPointer();
 
     Array_CCO = new Double2DArray(NumberOfPoints, 1);
-    array_CCO = Array_CCO->GetPointerOnArray();
+    array_CCO = Array_CCO->arrayPointer();
 
     Array_CCH = new Double2DArray(NumberOfPoints, 1);
-    array_CCH = Array_CCH->GetPointerOnArray();
+    array_CCH = Array_CCH->arrayPointer();
 
     Array_CCO2in = new Double2DArray(NumberOfPoints, 1);
-    array_CCO2in = Array_CCO2in->GetPointerOnArray();
+    array_CCO2in = Array_CCO2in->arrayPointer();
 
     Array_CCO2out = new Double2DArray(NumberOfPoints, 1);
-    array_CCO2out = Array_CCO2out->GetPointerOnArray();
+    array_CCO2out = Array_CCO2out->arrayPointer();
 
     Array_CO2 = new Double2DArray(NumberOfPoints, 1);
-    array_CO2 = Array_CO2->GetPointerOnArray();
+    array_CO2 = Array_CO2->arrayPointer();
 
     Array_Ka1m = new Double2DArray(NumberOfPoints, 1);
-    array_Ka1m = Array_Ka1m->GetPointerOnArray();
+    array_Ka1m = Array_Ka1m->arrayPointer();
 
     Array_KaPerc = new Double2DArray(NumberOfPoints, 1);
-    array_KaPerc = Array_KaPerc->GetPointerOnArray();
+    array_KaPerc = Array_KaPerc->arrayPointer();
 
     Array_FSN = new Double2DArray(NumberOfPoints, 1);
-    array_FSN = Array_FSN->GetPointerOnArray();
+    array_FSN = Array_FSN->arrayPointer();
 
     Array_Pr = new Double2DArray(NumberOfPoints, 1);
-    array_Pr = Array_Pr->GetPointerOnArray();
+    array_Pr = Array_Pr->arrayPointer();
 
     Array_ts = new Double2DArray(NumberOfPoints, 1);
-    array_ts = Array_ts->GetPointerOnArray();
+    array_ts = Array_ts->arrayPointer();
 
     Array_tauf = new Double2DArray(NumberOfPoints, 1);
-    array_tauf = Array_tauf->GetPointerOnArray();
+    array_tauf = Array_tauf->arrayPointer();
 
     Array_qmdw = new Double2DArray(NumberOfPoints, 1);
-    array_qmdw = Array_qmdw->GetPointerOnArray();
+    array_qmdw = Array_qmdw->arrayPointer();
 
     Array_qmdew = new Double2DArray(NumberOfPoints, 1);
-    array_qmdew = Array_qmdew->GetPointerOnArray();
+    array_qmdew = Array_qmdew->arrayPointer();
 
     Array_rd = new Double2DArray(NumberOfPoints, 1);
-    array_rd = Array_rd->GetPointerOnArray();
+    array_rd = Array_rd->arrayPointer();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -570,87 +570,87 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
         array_rd       [i][0] = array_DataForCalc[i+1][27];
     }
 
-    mytime = GetDateTimeNow();
+    mytime = dateTimeNow();
 
     GetDataFromCSV_OK = true;
 
     //
 
-    if (params->GetStandard() != "FreeCalc") {
+    if (params->val_Standard() != "FreeCalc") {
 
-        if (!NonZeroArray(array_n, &NumberOfPoints)) {
+        if (!nonZeroArray(array_n, &NumberOfPoints)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (n)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (n)!";
             return false;
         }
 
-        if (NonZeroArray(array_Me_brutto, &NumberOfPoints)) {
+        if (nonZeroArray(array_Me_brutto, &NumberOfPoints)) {
 
             NenCalcMethod = true;
         }
-        else if (NonZeroArray(array_Ne_brutto, &NumberOfPoints)) {
+        else if (nonZeroArray(array_Ne_brutto, &NumberOfPoints)) {
 
             NenCalcMethod = false;
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (Me_b or Ne_b)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Me_b or Ne_b)!";
             return false;
         }
 
-        if (!NonZeroArray(array_t0, &NumberOfPoints)) {
+        if (!nonZeroArray(array_t0, &NumberOfPoints)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (t0)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (t0)!";
             return false;
         }
 
-        if (!NonZeroArray(array_B0, &NumberOfPoints)) {
+        if (!nonZeroArray(array_B0, &NumberOfPoints)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (B0)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (B0)!";
             return false;
         }
 
-        if (!NonZeroArray(array_Ra, &NumberOfPoints)) {
+        if (!nonZeroArray(array_Ra, &NumberOfPoints)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (Ra)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Ra)!";
             return false;
         }
 
-        if (NonZeroArray(array_Gair, &NumberOfPoints)) {
+        if (nonZeroArray(array_Gair, &NumberOfPoints)) {
 
             GairVals = true;
         }
-        else if (NonZeroArray(array_dPn, &NumberOfPoints)) {
+        else if (nonZeroArray(array_dPn, &NumberOfPoints)) {
 
             GairVals = false;
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (Gair or dPn)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Gair or dPn)!";
             return false;
         }
 
-        if (!NonZeroArray(array_Gfuel, &NumberOfPoints)) {
+        if (!nonZeroArray(array_Gfuel, &NumberOfPoints)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (Gfuel)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Gfuel)!";
             return false;
         }
 
-        if (NonZeroArray(array_CNOx, &NumberOfPoints)) {
+        if (nonZeroArray(array_CNOx, &NumberOfPoints)) {
 
             NOxCalcMethod = true;
         }
-        else if (NonZeroArray(array_gNOx, &NumberOfPoints)) {
+        else if (nonZeroArray(array_gNOx, &NumberOfPoints)) {
 
             NOxCalcMethod = false;
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings (CNOx or gNOx)!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (CNOx or gNOx)!";
             return false;
         }
 
-        if (NonZeroArray(array_CCO, &NumberOfPoints)) {
+        if (nonZeroArray(array_CCO, &NumberOfPoints)) {
 
             gCOcalc = true;
         }
@@ -659,7 +659,7 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             gCOcalc = false;
         }
 
-        if (NonZeroArray(array_CCH, &NumberOfPoints)) {
+        if (nonZeroArray(array_CCH, &NumberOfPoints)) {
 
             gCHcalc = true;
         }
@@ -668,7 +668,7 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             gCHcalc = false;
         }
 
-        if ( NonZeroArray(array_CCO2in, &NumberOfPoints) && NonZeroArray(array_CCO2out, &NumberOfPoints) ) {
+        if ( nonZeroArray(array_CCO2in, &NumberOfPoints) && nonZeroArray(array_CCO2out, &NumberOfPoints) ) {
 
             EGRcalc = true;
         }
@@ -677,7 +677,7 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             EGRcalc = false;
         }
 
-        if (NonZeroArray(array_CO2, &NumberOfPoints)) {
+        if (nonZeroArray(array_CO2, &NumberOfPoints)) {
 
             CheckMeas = true;
         }
@@ -686,47 +686,47 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             CheckMeas = false;
         }
 
-        if (params->GetPTcalc() != "no") {
+        if (params->val_PTcalc() != "no") {
 
-            if ( !NonZeroArray(array_Pr, &NumberOfPoints) || !NonZeroArray(array_ts, &NumberOfPoints) ||
-                 ( !NonZeroArray(array_Ka1m, &NumberOfPoints) &&
-                   !NonZeroArray(array_KaPerc, &NumberOfPoints) &&
-                   !NonZeroArray(array_FSN, &NumberOfPoints) ) ) {
+            if ( !nonZeroArray(array_Pr, &NumberOfPoints) || !nonZeroArray(array_ts, &NumberOfPoints) ||
+                 ( !nonZeroArray(array_Ka1m, &NumberOfPoints) &&
+                   !nonZeroArray(array_KaPerc, &NumberOfPoints) &&
+                   !nonZeroArray(array_FSN, &NumberOfPoints) ) ) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
                 return false;
             }
 
-            if (params->GetPTcalc() == "ThroughPTmass") {
+            if (params->val_PTcalc() == "ThroughPTmass") {
 
-                if ( !NonZeroArray(array_tauf, &NumberOfPoints) || !NonZeroArray(array_qmdew, &NumberOfPoints) ||
-                     ( !NonZeroArray(array_qmdw, &NumberOfPoints) &&
-                       !NonZeroArray(array_rd, &NumberOfPoints) ) ) {
+                if ( !nonZeroArray(array_tauf, &NumberOfPoints) || !nonZeroArray(array_qmdew, &NumberOfPoints) ||
+                     ( !nonZeroArray(array_qmdw, &NumberOfPoints) &&
+                       !nonZeroArray(array_rd, &NumberOfPoints) ) ) {
 
-                    qDebug() << "libtoxic ERROR: CycleEmissions: GetDataFromCSV: Bad source data or calculation settings!";
+                    qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
                     return false;
                 }
 
-                if (NonZeroArray(array_qmdw, &NumberOfPoints)) {
+                if (nonZeroArray(array_qmdw, &NumberOfPoints)) {
 
                     qmdwVSrd = true;
                 }
-                else if (NonZeroArray(array_rd, &NumberOfPoints)) {
+                else if (nonZeroArray(array_rd, &NumberOfPoints)) {
 
                     qmdwVSrd = false;
                 }
             }
         }
 
-        if (NonZeroArray(array_FSN, &NumberOfPoints)) {
+        if (nonZeroArray(array_FSN, &NumberOfPoints)) {
 
             smoke = 2;
         }
-        else if (NonZeroArray(array_Ka1m, &NumberOfPoints)) {
+        else if (nonZeroArray(array_Ka1m, &NumberOfPoints)) {
 
             smoke = 0;
         }
-        else if (NonZeroArray(array_KaPerc, &NumberOfPoints)) {
+        else if (nonZeroArray(array_KaPerc, &NumberOfPoints)) {
 
             smoke = 1;
         }
@@ -741,62 +741,62 @@ bool CycleEmissions::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
     return true;
 }
 
-bool CycleEmissions::PreCalculate() {
+bool CycleEmissions::preCalculate() {
 
     PreCalculate_OK = false;
 
     Array_Ne_netto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_netto = Array_Ne_netto->GetPointerOnArray();
+    array_Ne_netto = Array_Ne_netto->arrayPointer();
 
     Array_Me_netto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_netto = Array_Me_netto->GetPointerOnArray();
+    array_Me_netto = Array_Me_netto->arrayPointer();
 
     Array_alpha = new Double2DArray(NumberOfPoints, 1);
-    array_alpha = Array_alpha->GetPointerOnArray();
+    array_alpha = Array_alpha->arrayPointer();
 
     Array_alpha_O2 = new Double2DArray(NumberOfPoints, 1);
-    array_alpha_O2 = Array_alpha_O2->GetPointerOnArray();
+    array_alpha_O2 = Array_alpha_O2->arrayPointer();
 
     Array_Gexh = new Double2DArray(NumberOfPoints, 1);
-    array_Gexh = Array_Gexh->GetPointerOnArray();
+    array_Gexh = Array_Gexh->arrayPointer();
 
     Array_Gexhd = new Double2DArray(NumberOfPoints, 1);
-    array_Gexhd = Array_Gexhd->GetPointerOnArray();
+    array_Gexhd = Array_Gexhd->arrayPointer();
 
     Array_Pb = new Double2DArray(NumberOfPoints, 1);
-    array_Pb = Array_Pb->GetPointerOnArray();
+    array_Pb = Array_Pb->arrayPointer();
 
     Array_Pa = new Double2DArray(NumberOfPoints, 1);
-    array_Pa = Array_Pa->GetPointerOnArray();
+    array_Pa = Array_Pa->arrayPointer();
 
     Array_Ha = new Double2DArray(NumberOfPoints, 1);
-    array_Ha = Array_Ha->GetPointerOnArray();
+    array_Ha = Array_Ha->arrayPointer();
 
     Array_Gaird = new Double2DArray(NumberOfPoints, 1);
-    array_Gaird = Array_Gaird->GetPointerOnArray();
+    array_Gaird = Array_Gaird->arrayPointer();
 
     Array_Kw2 = new Double2DArray(NumberOfPoints, 1);
-    array_Kw2 = Array_Kw2->GetPointerOnArray();
+    array_Kw2 = Array_Kw2->arrayPointer();
 
     Array_Ffh = new Double2DArray(NumberOfPoints, 1);
-    array_Ffh = Array_Ffh->GetPointerOnArray();
+    array_Ffh = Array_Ffh->arrayPointer();
 
     Array_Kf = new Double2DArray(NumberOfPoints, 1);
-    array_Kf = Array_Kf->GetPointerOnArray();
+    array_Kf = Array_Kf->arrayPointer();
 
     Array_Kwr = new Double2DArray(NumberOfPoints, 1);
-    array_Kwr = Array_Kwr->GetPointerOnArray();
+    array_Kwr = Array_Kwr->arrayPointer();
 
     Array_Khd = new Double2DArray(NumberOfPoints, 1);
-    array_Khd = Array_Khd->GetPointerOnArray();
+    array_Khd = Array_Khd->arrayPointer();
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
-    double L0    = config->Get_L0();
-    double WH    = config->Get_WH();
-    double WO2   = config->Get_WO2();
-    double WN    = config->Get_WN();
-    double roAir = config->Get_roAir();
+    double L0    = config->val_L0();
+    double WH    = config->val_WH();
+    double WO2   = config->val_WO2();
+    double WN    = config->val_WN();
+    double roAir = config->val_roAir();
 
     double Ffw = 0;
     double Ffd = 0;
@@ -805,7 +805,7 @@ bool CycleEmissions::PreCalculate() {
          (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
          (std == "F") || (std == "G1") || (std == "G2") ) {
 
-        QString FuelType = params->GetFuelType();
+        QString FuelType = params->val_FuelType();
 
         if (FuelType == "diesel") {
 
@@ -824,7 +824,7 @@ bool CycleEmissions::PreCalculate() {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
             return false;
         }
@@ -859,11 +859,11 @@ bool CycleEmissions::PreCalculate() {
 
         if (!GairVals) {
 
-            double Dn = config->Get_Dn();
+            double Dn = config->val_Dn();
 
             if (Dn < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
                 return false;
             }
@@ -875,11 +875,11 @@ bool CycleEmissions::PreCalculate() {
 
         if (CheckMeas) {
 
-            double ConcO2air = config->Get_ConcO2air();
+            double ConcO2air = config->val_ConcO2air();
 
             if (ConcO2air < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
                 return false;
             }
@@ -908,7 +908,7 @@ bool CycleEmissions::PreCalculate() {
              (std != "F") && (std != "G1") && (std != "G2") ) {
 
             array_Pb[i][0] = array_B0[i][0];
-            array_Pa[i][0] = CalcPa(&(array_t0[i][0]));
+            array_Pa[i][0] = calcPa(&(array_t0[i][0]));
             array_Ha[i][0] = 6.22 * array_Ra[i][0] * array_Pa[i][0] / (array_Pb[i][0] - array_Pa[i][0] * array_Ra[i][0] * 0.01);
 
             if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") || (std == "FreeCalc") ||
@@ -925,7 +925,7 @@ bool CycleEmissions::PreCalculate() {
             }
             else {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
                 return false;
             }
@@ -970,7 +970,7 @@ bool CycleEmissions::PreCalculate() {
             }
             else {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
                 return false;
             }
@@ -982,14 +982,14 @@ bool CycleEmissions::PreCalculate() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_gNOx() {
+bool CycleEmissions::calculate_gNOx() {
 
     MakeCalculation_gNOx_OK = false;
 
     Array_mNOx = new Double2DArray(NumberOfPoints, 1);
-    array_mNOx = Array_mNOx->GetPointerOnArray();
+    array_mNOx = Array_mNOx->arrayPointer();
 
-    double muNO2 = config->Get_muNO2();
+    double muNO2 = config->val_muNO2();
 
     double summ_mNOx = 0;
     double summ_Ne_netto = 0;
@@ -997,10 +997,10 @@ bool CycleEmissions::MakeCalculation_gNOx() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1013,7 +1013,7 @@ bool CycleEmissions::MakeCalculation_gNOx() {
          (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
          (std == "F") || (std == "G1") || (std == "G2") ) {
 
-        if (params->GetNOxSample() == "dry") {
+        if (params->val_NOxSample() == "dry") {
 
             for (ptrdiff_t i=0; i<n; i++) {
 
@@ -1036,7 +1036,7 @@ bool CycleEmissions::MakeCalculation_gNOx() {
 
         if (NOxCalcMethod) {
 
-            if (params->GetNOxSample() == "dry") {
+            if (params->val_NOxSample() == "dry") {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
@@ -1077,7 +1077,7 @@ bool CycleEmissions::MakeCalculation_gNOx() {
         }
         else if (!NOxCalcMethod) {
 
-            if (params->GetNOxSample() == "dry") {
+            if (params->val_NOxSample() == "dry") {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
@@ -1125,7 +1125,7 @@ bool CycleEmissions::MakeCalculation_gNOx() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculationAdditionalPoints() {
+bool CycleEmissions::calculateAdditionalPoints() {
 
     /*
      *      Control Point (Z)
@@ -1147,11 +1147,11 @@ bool CycleEmissions::MakeCalculationAdditionalPoints() {
      *            nrt       nus
      */
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     for (ptrdiff_t i=(NumberOfPoints - TCycleAddPointsNumber); i<NumberOfPoints; i++) {
 
-        if (params->GetNOxSample() == "dry") {
+        if (params->val_NOxSample() == "dry") {
 
             if (std == "OST") {
 
@@ -1260,17 +1260,17 @@ bool CycleEmissions::MakeCalculationAdditionalPoints() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_gCO() {
+bool CycleEmissions::calculate_gCO() {
 
     MakeCalculation_gCO_OK = false;
 
     Array_mCO = new Double2DArray(NumberOfPoints, 1);
-    array_mCO = Array_mCO->GetPointerOnArray();
+    array_mCO = Array_mCO->arrayPointer();
 
     Array_gCO = new Double2DArray(NumberOfPoints, 1);
-    array_gCO = Array_gCO->GetPointerOnArray();
+    array_gCO = Array_gCO->arrayPointer();
 
-    double muCO = config->Get_muCO();
+    double muCO = config->val_muCO();
 
     double summ_mCO = 0;
     double summ_Ne_netto = 0;
@@ -1278,10 +1278,10 @@ bool CycleEmissions::MakeCalculation_gCO() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1321,17 +1321,17 @@ bool CycleEmissions::MakeCalculation_gCO() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_gCH() {
+bool CycleEmissions::calculate_gCH() {
 
     MakeCalculation_gCH_OK = false;
 
     Array_mCH = new Double2DArray(NumberOfPoints, 1);
-    array_mCH = Array_mCH->GetPointerOnArray();
+    array_mCH = Array_mCH->arrayPointer();
 
     Array_gCH = new Double2DArray(NumberOfPoints, 1);
-    array_gCH = Array_gCH->GetPointerOnArray();
+    array_gCH = Array_gCH->arrayPointer();
 
-    double muCH = config->Get_muCH();
+    double muCH = config->val_muCH();
 
     double summ_mCH = 0;
     double summ_Ne_netto = 0;
@@ -1339,10 +1339,10 @@ bool CycleEmissions::MakeCalculation_gCH() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1390,39 +1390,39 @@ bool CycleEmissions::MakeCalculation_gCH() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_gPT() {
+bool CycleEmissions::calculate_gPT() {
 
     MakeCalculation_gPT_OK = false;
 
-    mf = params->GetPTmass();
+    mf = params->val_PTmass();
 
     Array_ror = new Double2DArray(NumberOfPoints, 1);
-    array_ror = Array_ror->GetPointerOnArray();
+    array_ror = Array_ror->arrayPointer();
 
     Array_CPT = new Double2DArray(NumberOfPoints, 1);
-    array_CPT = Array_CPT->GetPointerOnArray();
+    array_CPT = Array_CPT->arrayPointer();
 
     Array_qmedf = new Double2DArray(NumberOfPoints, 1);
-    array_qmedf = Array_qmedf->GetPointerOnArray();
+    array_qmedf = Array_qmedf->arrayPointer();
 
     Array_msepi = new Double2DArray(NumberOfPoints, 1);
-    array_msepi = Array_msepi->GetPointerOnArray();
+    array_msepi = Array_msepi->arrayPointer();
 
     Array_mPT = new Double2DArray(NumberOfPoints, 1);
-    array_mPT = Array_mPT->GetPointerOnArray();
+    array_mPT = Array_mPT->arrayPointer();
 
     Array_gPT = new Double2DArray(NumberOfPoints, 1);
-    array_gPT = Array_gPT->GetPointerOnArray();
+    array_gPT = Array_gPT->arrayPointer();
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
-    if ( (params->GetPTcalc() != "no") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
+    if ( (params->val_PTcalc() != "no") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
                                             (std != "C1") && (std != "D1") && (std != "D2") &&
                                             (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
                                             (std != "F") && (std != "G1") && (std != "G2") ) ) {
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -1431,8 +1431,8 @@ bool CycleEmissions::MakeCalculation_gPT() {
             n = NumberOfPoints;
         }
 
-        double L = config->Get_L();
-        double Rr = config->Get_Rr();
+        double L = config->val_L();
+        double Rr = config->val_Rr();
 
         double summ_mPT = 0;
         double summ_Ne_netto = 0;
@@ -1483,7 +1483,7 @@ bool CycleEmissions::MakeCalculation_gPT() {
         summ_mPT = 0;
         summ_Ne_netto = 0;
 
-        if (params->GetPTcalc() == "ThroughPTmass") {
+        if (params->val_PTcalc() == "ThroughPTmass") {
 
             if (mf == 0) {
 
@@ -1532,17 +1532,17 @@ bool CycleEmissions::MakeCalculation_gPT() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_rEGR() {
+bool CycleEmissions::calculate_rEGR() {
 
     MakeCalculation_rEGR_OK = false;
 
     Array_rEGR = new Double2DArray(NumberOfPoints, 1);
-    array_rEGR = Array_rEGR->GetPointerOnArray();
+    array_rEGR = Array_rEGR->arrayPointer();
 
     Array_alpha_res = new Double2DArray(NumberOfPoints, 1);
-    array_alpha_res = Array_alpha_res->GetPointerOnArray();
+    array_alpha_res = Array_alpha_res->arrayPointer();
 
-    double CCO2air = config->Get_ConcCO2air();
+    double CCO2air = config->val_ConcCO2air();
 
     if (EGRcalc) {
 
@@ -1559,7 +1559,7 @@ bool CycleEmissions::MakeCalculation_rEGR() {
     return true;
 }
 
-bool CycleEmissions::MakeCalculation_Means() {
+bool CycleEmissions::calculate_Means() {
 
     double summ_Gfuel    = 0;
     double summ_Ne_netto = 0;
@@ -1568,10 +1568,10 @@ bool CycleEmissions::MakeCalculation_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1599,23 +1599,23 @@ bool CycleEmissions::MakeCalculation_Means() {
     return true;
 }
 
-bool CycleEmissions::CompareAlpha() {
+bool CycleEmissions::compareAlpha() {
 
     CompareAlpha_OK = false;
 
     Array_diff_alpha = new Double2DArray(NumberOfPoints, 1);
-    array_diff_alpha = Array_diff_alpha->GetPointerOnArray();
+    array_diff_alpha = Array_diff_alpha->arrayPointer();
 
     if (CheckMeas) {
 
         if (EGRcalc) {
 
             double ConcO2mix = 0;
-            double ConcO2air = config->Get_ConcO2air();
+            double ConcO2air = config->val_ConcO2air();
 
             if (ConcO2air < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: PreCalculate: Bad source data or calculation settings!";
+                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
 
                 return false;
             }
@@ -1643,7 +1643,7 @@ bool CycleEmissions::CompareAlpha() {
     return true;
 }
 
-QString CycleEmissions::CreateReports(bool createrepdir) {
+QString CycleEmissions::createReports(bool createrepdir) {
 
     QString message = "";
 
@@ -1664,7 +1664,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params->GetPTcalc();
+        QString ptcalc = params->val_PTcalc();
 
         if (ptcalc != "no") {
 
@@ -1683,10 +1683,10 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
         return message;
     }
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
-    QString dirnameReports = config->Get_dirnameReports();
-    string csvdelimiter = (config->Get_csvDelimiter()).toStdString();
+    QString dirnameReports = config->val_dirnameReports();
+    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
 
     fullReportsPath = dirnameReports + "/" + std + "_" + QString::fromStdString(mytime);
     QDir reportdir;
@@ -1702,8 +1702,8 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
     if (!fout1) {
 
-        message += "libtoxic ERROR: CycleEmissions: CreateReports: fout1 was not created!\n";
-        qDebug() << "\nlibtoxic ERROR: CycleEmissions: CreateReports: fout1 was not created!";
+        message += "libtoxic ERROR: CycleEmissions: createReports: fout1 was not created!\n";
+        qDebug() << "\nlibtoxic ERROR: CycleEmissions: createReports: fout1 was not created!";
 
         return message;
     }
@@ -1881,8 +1881,8 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
     if (!fout4) {
 
-        message += "libtoxic ERROR: CycleEmissions: CreateReports: fout4 was not created!\n";
-        qDebug() << "libtoxic ERROR: CycleEmissions: CreateReports: fout4 was not created!";
+        message += "libtoxic ERROR: CycleEmissions: createReports: fout4 was not created!\n";
+        qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout4 was not created!";
 
         return message;
     }
@@ -1935,7 +1935,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
     if (std != "FreeCalc") {
 
-        if ( (params->GetPTcalc() == "ThroughPTmass") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
+        if ( (params->val_PTcalc() == "ThroughPTmass") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
                                                            (std != "C1") && (std != "D1") && (std != "D2") &&
                                                            (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
                                                            (std != "F") && (std != "G1") && (std != "G2") ) ) {
@@ -1959,8 +1959,8 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
             if (!fout6) {
 
-                message += "libtoxic ERROR: CycleEmissions: CreateReports: fout6 was not created!\n";
-                qDebug() << "libtoxic ERROR: CycleEmissions: CreateReports: fout6 was not created!";
+                message += "libtoxic ERROR: CycleEmissions: createReports: fout6 was not created!\n";
+                qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout6 was not created!";
 
                 return message;
             }
@@ -1978,14 +1978,14 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
             if (!GairVals) {
 
-                fout6 << "Gair meas by nozzle (Dn = " << config->Get_Dn() << "); ";
+                fout6 << "Gair meas by nozzle (Dn = " << config->val_Dn() << "); ";
             }
             else {
 
                 fout6 << "direct Gair meas; ";
             }
 
-            if (params->GetNOxSample() == "dry") {
+            if (params->val_NOxSample() == "dry") {
 
                 fout6 << "NOxSample type is dry; ";
             }
@@ -1994,11 +1994,11 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
                 fout6 << "NOxSample type is wet; ";
             }
 
-            if (params->GetPTcalc() == "ThroughPTmass") {
+            if (params->val_PTcalc() == "ThroughPTmass") {
 
                 fout6 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
             }
-            else if (params->GetPTcalc() == "no") {
+            else if (params->val_PTcalc() == "no") {
 
                 fout6 << "PT was not calculated;\n";
             }
@@ -2009,7 +2009,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
             if (CheckMeas) {
 
-                fout6 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->Get_ConcO2air() << " %)";
+                fout6 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->val_ConcO2air() << " %)";
             }
             else {
 
@@ -2051,7 +2051,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdew[g/s]" << endl;
 
             ptrdiff_t n = 0;
-            if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+            if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
                 n = NumberOfPoints - TCycleAddPointsNumber;
             }
@@ -2118,7 +2118,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Conclusion\n";
 
             double gPTLimit = 0;
-            gPTLimit = GetPTLimit(std);
+            gPTLimit = val_PTLimit(std);
 
             fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
 
@@ -2178,8 +2178,8 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
         if (!fout5) {
 
-            message += "libtoxic ERROR: CycleEmissions: CreateReports: fout5 was not created!\n";
-            qDebug() << "libtoxic ERROR: CycleEmissions: CreateReports: fout5 was not created!";
+            message += "libtoxic ERROR: CycleEmissions: createReports: fout5 was not created!\n";
+            qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout5 was not created!";
 
             return message;
         }
@@ -2197,14 +2197,14 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
         if (!GairVals) {
 
-            fout5 << "Gair meas by nozzle (Dn = " << config->Get_Dn() << "); ";
+            fout5 << "Gair meas by nozzle (Dn = " << config->val_Dn() << "); ";
         }
         else {
 
             fout5 << "direct Gair meas; ";
         }
 
-        if (params->GetNOxSample() == "dry") {
+        if (params->val_NOxSample() == "dry") {
 
             fout5 << "NOxSample type is dry; ";
         }
@@ -2213,11 +2213,11 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             fout5 << "NOxSample type is wet; ";
         }
 
-        if (params->GetPTcalc() == "ThroughPTmass") {
+        if (params->val_PTcalc() == "ThroughPTmass") {
 
             fout5 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
         }
-        else if (params->GetPTcalc() == "no") {
+        else if (params->val_PTcalc() == "no") {
 
             fout5 << "PT was not calculated;\n";
         }
@@ -2228,7 +2228,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
         if (CheckMeas) {
 
-            fout5 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->Get_ConcO2air() << " %)";
+            fout5 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config->val_ConcO2air() << " %)";
         }
         else {
 
@@ -2277,7 +2277,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
         fout5 << endl;
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->GetAddPointsCalc() == "yes") ) {
+        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params->val_AddPointsCalc() == "yes") ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -2364,7 +2364,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
                 }
             }
 
-            if (params->GetPTcalc() == "ThroughSmoke") {
+            if (params->val_PTcalc() == "ThroughSmoke") {
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                      (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2410,7 +2410,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
                     }
                 }
 
-                if (params->GetPTcalc() == "ThroughSmoke") {
+                if (params->val_PTcalc() == "ThroughSmoke") {
 
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2455,7 +2455,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
                 }
             }
 
-            if (params->GetPTcalc() == "ThroughSmoke") {
+            if (params->val_PTcalc() == "ThroughSmoke") {
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                      (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2509,7 +2509,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
                     }
                 }
 
-                if (params->GetPTcalc() == "ThroughSmoke") {
+                if (params->val_PTcalc() == "ThroughSmoke") {
 
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2536,7 +2536,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
         fout5 << endl;
 
         if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-             (params->GetAddPointsCalc() == "yes") ) {
+             (params->val_AddPointsCalc() == "yes") ) {
 
             fout5 << "Additional points:\n\n";
 
@@ -2638,9 +2638,9 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
         if ( (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
              (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
-            gNOxCHLimit = GetNOxCHLimit(std);
-            gCOLimit = GetCOLimit(std);
-            gPTLimit = GetPTLimit(std);
+            gNOxCHLimit = val_NOxCHLimit(std);
+            gCOLimit = val_COLimit(std);
+            gPTLimit = val_PTLimit(std);
 
             fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gNOx+gCH[g/kWh]";
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxCHLimit;
@@ -2678,62 +2678,62 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
                 QString std1 = std + "old";
 
-                gNOxLimit1 = GetNOxLimit(std1);
-                gCOLimit1 = GetCOLimit(std1);
-                gCHLimit1 = GetCHLimit(std1);
+                gNOxLimit1 = val_NOxLimit(std1);
+                gCOLimit1 = val_COLimit(std1);
+                gCHLimit1 = val_CHLimit(std1);
 
                 QString std2 = std + "new";
 
-                gNOxLimit2 = GetNOxLimit(std2);
-                gCOLimit2 = GetCOLimit(std2);
-                gCHLimit2 = GetCHLimit(std2);
+                gNOxLimit2 = val_NOxLimit(std2);
+                gCOLimit2 = val_COLimit(std2);
+                gCHLimit2 = val_CHLimit(std2);
             }
             else if ( (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ) {
 
                 QString std1 = std + "old";
 
-                gNOxLimit1 = GetNOxLimit(std1, array_n[0][0]);
-                gCOLimit1 = GetCOLimit(std1);
-                gCHLimit1 = GetCHLimit(std1);
+                gNOxLimit1 = val_NOxLimit(std1, array_n[0][0]);
+                gCOLimit1 = val_COLimit(std1);
+                gCHLimit1 = val_CHLimit(std1);
 
                 QString std2 = std + "new";
 
-                gNOxLimit2 = GetNOxLimit(std2, array_n[0][0]);
-                gCOLimit2 = GetCOLimit(std2);
-                gCHLimit2 = GetCHLimit(std2);
+                gNOxLimit2 = val_NOxLimit(std2, array_n[0][0]);
+                gCOLimit2 = val_COLimit(std2);
+                gCHLimit2 = val_CHLimit(std2);
             }
             else if (std == "GOST") {
 
                 QString std1 = std + "ou";
 
-                gNOxLimit1 = GetNOxLimit(std1);
-                gCOLimit1 = GetCOLimit(std1);
-                gCHLimit1 = GetCHLimit(std1);
+                gNOxLimit1 = val_NOxLimit(std1);
+                gCOLimit1 = val_COLimit(std1);
+                gCHLimit1 = val_CHLimit(std1);
 
                 QString std2 = std + "ol";
 
-                gNOxLimit2 = GetNOxLimit(std2);
-                gCOLimit2 = GetCOLimit(std2);
-                gCHLimit2 = GetCHLimit(std2);
+                gNOxLimit2 = val_NOxLimit(std2);
+                gCOLimit2 = val_COLimit(std2);
+                gCHLimit2 = val_CHLimit(std2);
 
                 QString std3 = std + "nu";
 
-                gNOxLimit3 = GetNOxLimit(std3);
-                gCOLimit3 = GetCOLimit(std3);
-                gCHLimit3 = GetCHLimit(std3);
+                gNOxLimit3 = val_NOxLimit(std3);
+                gCOLimit3 = val_COLimit(std3);
+                gCHLimit3 = val_CHLimit(std3);
 
                 QString std4 = std + "nl";
 
-                gNOxLimit4 = GetNOxLimit(std4);
-                gCOLimit4 = GetCOLimit(std4);
-                gCHLimit4 = GetCHLimit(std4);
+                gNOxLimit4 = val_NOxLimit(std4);
+                gCOLimit4 = val_COLimit(std4);
+                gCHLimit4 = val_CHLimit(std4);
             }
             else {
 
-                gNOxLimit = GetNOxLimit(std);
-                gCOLimit = GetCOLimit(std);
-                gCHLimit = GetCHLimit(std);
-                gPTLimit = GetPTLimit(std);
+                gNOxLimit = val_NOxLimit(std);
+                gCOLimit = val_COLimit(std);
+                gCHLimit = val_CHLimit(std);
+                gPTLimit = val_PTLimit(std);
             }
 
             fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gNOx[g/kWh]";
@@ -2860,12 +2860,12 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             }
         }
 
-        if ( (params->GetPTcalc() != "no") && ( (std != "GOST") && (std != "OST") && (std != "EU0") && (std != "C1") &&
+        if ( (params->val_PTcalc() != "no") && ( (std != "GOST") && (std != "OST") && (std != "EU0") && (std != "C1") &&
                                                 (std != "D1") && (std != "D2") &&
                                                 (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
                                                 (std != "F") && (std != "G1") && (std != "G2") ) ) {
 
-            if (params->GetPTcalc() == "ThroughPTmass") {
+            if (params->val_PTcalc() == "ThroughPTmass") {
 
                 fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
 
@@ -2905,23 +2905,23 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
 
     if (!fout7) {
 
-        message += "libtoxic ERROR: CycleEmissions: CreateReports: fout7 was not created!\n";
-        qDebug() << "libtoxic ERROR: CycleEmissions: CreateReports: fout7 was not created!";
+        message += "libtoxic ERROR: CycleEmissions: createReports: fout7 was not created!\n";
+        qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout7 was not created!";
 
         return message;
     }
 
     string paramValDelim = parameterValueDelimiter.toStdString();
 
-    fout7 << "task"           << paramValDelim << params->GetTask().toStdString()           << endl;
-    fout7 << "Vh"             << paramValDelim << params->GetVh()                           << endl;
-    fout7 << "standard"       << paramValDelim << params->GetStandard().toStdString()       << endl;
-    fout7 << "FuelType"       << paramValDelim << params->GetFuelType().toStdString()       << endl;
-    fout7 << "NOxSample"      << paramValDelim << params->GetNOxSample().toStdString()      << endl;
-    fout7 << "PTcalc"         << paramValDelim << params->GetPTcalc().toStdString()         << endl;
-    fout7 << "PTmass"         << paramValDelim << params->GetPTmass()                       << endl;
-    fout7 << "AddPointsCalc"  << paramValDelim << params->GetAddPointsCalc().toStdString()  << endl;
-    fout7 << "CalcConfigFile" << paramValDelim << params->GetCalcConfigFile().toStdString() << endl;
+    fout7 << "task"           << paramValDelim << params->val_Task().toStdString()           << endl;
+    fout7 << "Vh"             << paramValDelim << params->val_Vh()                           << endl;
+    fout7 << "standard"       << paramValDelim << params->val_Standard().toStdString()       << endl;
+    fout7 << "FuelType"       << paramValDelim << params->val_FuelType().toStdString()       << endl;
+    fout7 << "NOxSample"      << paramValDelim << params->val_NOxSample().toStdString()      << endl;
+    fout7 << "PTcalc"         << paramValDelim << params->val_PTcalc().toStdString()         << endl;
+    fout7 << "PTmass"         << paramValDelim << params->val_PTmass()                       << endl;
+    fout7 << "AddPointsCalc"  << paramValDelim << params->val_AddPointsCalc().toStdString()  << endl;
+    fout7 << "CalcConfigFile" << paramValDelim << params->val_CalcConfigFile().toStdString() << endl;
 
     fout7.close();
 
@@ -2947,7 +2947,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params->GetPTcalc();
+        QString ptcalc = params->val_PTcalc();
 
         if (ptcalc != "no") {
 
@@ -2967,7 +2967,7 @@ QString CycleEmissions::CreateReports(bool createrepdir) {
     return message;
 }
 
-QString CycleEmissions::GetLastReportsDir() {
+QString CycleEmissions::lastReportsDir() {
 
     return fullReportsPath;
 }

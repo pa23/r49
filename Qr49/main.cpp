@@ -171,7 +171,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
                  (value == "emissions"   ) ||
                  (value == "ReducedPower") ||
                  (value == "ELRsmoke"    ) ||
-                 (value == "help"        ) ) { params->SetTask(value); }
+                 (value == "help"        ) ) { params->setTask(value); }
 
             else {
 
@@ -185,7 +185,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (val>0) && (val<666) ) {
 
-                params->SetVh(&val);
+                params->setVh(&val);
             }
             else {
 
@@ -233,7 +233,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
                  (value == "F" )  ||
                  (value == "G1" ) ||
                  (value == "G2" ) ||
-                 (value == "FreeCalc" ) ) { params->SetStandard(value); }
+                 (value == "FreeCalc" ) ) { params->setStandard(value); }
 
             else {
 
@@ -245,7 +245,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (value == "diesel") ||
                  (value == "motor" ) ||
-                 (value == "mazut" ) ) { params->SetFuelType(value); }
+                 (value == "mazut" ) ) { params->setFuelType(value); }
 
             else {
 
@@ -256,7 +256,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         else if (param == "NOxSample") {
 
             if ( (value == "wet") ||
-                 (value == "dry") ) { params->SetNOxSample(value); }
+                 (value == "dry") ) { params->setNOxSample(value); }
 
             else {
 
@@ -268,7 +268,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (value == "ThroughSmoke" ) ||
                  (value == "ThroughPTmass") ||
-                 (value == "no"           ) ) { params->SetPTcalc(value); }
+                 (value == "no"           ) ) { params->setPTcalc(value); }
 
             else {
 
@@ -282,7 +282,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
 
             if ( (val>0) && (val<666000) ) {
 
-                params->SetPTmass(&val);
+                params->setPTmass(&val);
             }
             else {
 
@@ -296,7 +296,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         else if (param == "AddPointsCalc") {
 
             if ( (value == "yes") ||
-                 (value == "no" ) ) { params->SetAddPointsCalc(value); }
+                 (value == "no" ) ) { params->setAddPointsCalc(value); }
 
             else {
 
@@ -306,7 +306,7 @@ bool ParsingParameters(LibtoxicParameters *params, int argc, char **argv) {
         }
         else if (param == "CalcConfigFile") {
 
-            params->SetCalcConfigFile(value);
+            params->setCalcConfigFile(value);
         }
         else {
 
@@ -342,12 +342,12 @@ int main(int argc, char **argv) {
 
         CommonParameters *config = new CommonParameters();
 
-        if (!config->ReadConfigFile(configFileName)) {
+        if (!config->readConfigFile(configFileName)) {
 
-            qDebug() << "Qr49 WARNING: main: ReadConfigFile function returns false! Default values will be used.";
+            qDebug() << "Qr49 WARNING: main: readConfigFile function returns false! Default values will be used.";
         }
 
-        if (params->GetTask() == "ABCspeeds") {
+        if (params->val_Task() == "ABCspeeds") {
 
             double n_hi = 0, n_lo = 0;
             double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
@@ -355,7 +355,7 @@ int main(int argc, char **argv) {
             cout << endl << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            if (!CalcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 delete params;
                 delete config;
@@ -378,98 +378,98 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get(); cin.get();
         }
-        else if (params->GetTask() == "points") {
+        else if (params->val_Task() == "points") {
 
             CyclePoints *myPoints = new CyclePoints(params, config);
 
-            if (!myPoints->GetDataFromCSV()) {
+            if (!myPoints->readCSV()) {
 
                 delete myPoints;
                 delete params;
                 delete config;
 
-                qDebug() << "Qr49 ERROR: main: GetDataFromCSV function returns false!";
+                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
                 return false;
             }
 
-            if (!myPoints->FillArrays()) {
+            if (!myPoints->fillArrays()) {
 
                 delete myPoints;
                 delete params;
                 delete config;
 
-                qDebug() << "Qr49 ERROR: main: FillArrays function returns false!";
+                qDebug() << "Qr49 ERROR: main: fillArrays function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
                 return false;
             }
 
-            myPoints->CreateReport();
+            myPoints->createReport();
 
             delete myPoints;
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->GetTask() == "emissions") {
+        else if (params->val_Task() == "emissions") {
 
             CycleEmissions *myEmissions = new CycleEmissions(params, config);
 
-            if (!myEmissions->GetDataFromCSV()) {
+            if (!myEmissions->readCSV()) {
 
                 delete myEmissions;
                 delete params;
                 delete config;
 
-                qDebug() << "Qr49 ERROR: main: GetDataFromCSV function returns false!";
+                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
                 return false;
             }
 
-            if (!myEmissions->MakeCalculations()) {
+            if (!myEmissions->calculate()) {
 
                 delete myEmissions;
                 delete params;
                 delete config;
 
-                qDebug() << "Qr49 ERROR: main: MakeCalculations function returns false!";
+                qDebug() << "Qr49 ERROR: main: calculate function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
                 return false;
             }
 
-            myEmissions->CreateReports(true);
+            myEmissions->createReports(true);
 
             delete myEmissions;
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->GetTask() == "ReducedPower") {
+        else if (params->val_Task() == "ReducedPower") {
 
             ReducedPower *myReducedPower = new ReducedPower(params, config);
 
-            if (!myReducedPower->GetDataFromCSV()) {
+            if (!myReducedPower->readCSV()) {
 
                 delete myReducedPower;
                 delete params;
                 delete config;
 
-                qDebug() << "Qr49 ERROR: main: GetDataFromCSV function returns false!";
+                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
                 return false;
             }
 
-            if (!myReducedPower->ReducePower()) {
+            if (!myReducedPower->reducePower()) {
 
                 delete myReducedPower;
                 delete params;
@@ -482,14 +482,14 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            myReducedPower->CreateReports();
+            myReducedPower->createReports();
 
             delete myReducedPower;
 
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params->GetTask() == "ELRsmoke") {
+        else if (params->val_Task() == "ELRsmoke") {
 
             double smoke_A1 = 0, smoke_A2 = 0, smoke_A3 = 0;
             double smoke_B1 = 0, smoke_B2 = 0, smoke_B3 = 0;
@@ -509,7 +509,7 @@ int main(int argc, char **argv) {
             cout         << "Second smoke peak at speed C: "; if(!(cin >> smoke_C2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Third  smoke peak at speed C: "; if(!(cin >> smoke_C3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            if (!CalcELR(&smoke_A1, &smoke_A2, &smoke_A3,
+            if (!calcELR(&smoke_A1, &smoke_A2, &smoke_A3,
                          &smoke_B1, &smoke_B2, &smoke_B3,
                          &smoke_C1, &smoke_C2, &smoke_C3,
                          &smokeELR)) {
@@ -529,7 +529,7 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get(); cin.get();
         }
-        else if (params->GetTask() == "help") {
+        else if (params->val_Task() == "help") {
 
             ShowAbout();
             ShowHelp();

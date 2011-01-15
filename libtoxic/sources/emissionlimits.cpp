@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <QString>
 
-double GetNOxLimit(QString stnd, double n_rated) {
+double val_NOxLimit(QString stnd, double n_rated) {
 
     if      (stnd == "EU6" ) { return  2.00; }
     else if (stnd == "EU5" ) { return  2.00; }
@@ -76,7 +76,7 @@ double GetNOxLimit(QString stnd, double n_rated) {
     }
     else {
 
-        qDebug() << "libtoxic WARNING: EmissionLimits: GetNOxLimit: emission limit is unknown!";
+        qDebug() << "libtoxic WARNING: EmissionLimits: val_NOxLimit: emission limit is unknown!";
 
         return 0;
     }
@@ -84,7 +84,7 @@ double GetNOxLimit(QString stnd, double n_rated) {
     return 0;
 }
 
-double GetCOLimit(QString stnd) {
+double val_COLimit(QString stnd) {
 
     if      (stnd == "EU6" ) { return  1.50; }
     else if (stnd == "EU5" ) { return  1.50; }
@@ -116,13 +116,13 @@ double GetCOLimit(QString stnd) {
               (stnd == "E1old") || (stnd == "E2old") || (stnd == "E3old") || (stnd == "E5old") ) { return 1.2 * 3.0; }
     else {
 
-        qDebug() << "libtoxic WARNING: EmissionLimits: GetCOLimit: emission limit is unknown!";
+        qDebug() << "libtoxic WARNING: EmissionLimits: val_COLimit: emission limit is unknown!";
 
         return 0;
     }
 }
 
-double GetCHLimit(QString stnd) {
+double val_CHLimit(QString stnd) {
 
     if      (stnd == "EU6" ) { return  0.25; }
     else if (stnd == "EU5" ) { return  0.46; }
@@ -150,13 +150,13 @@ double GetCHLimit(QString stnd) {
               (stnd == "E1old") || (stnd == "E2old") || (stnd == "E3old") || (stnd == "E5old") ) { return 1.25 * 1.0; }
     else {
 
-        qDebug() << "libtoxic WARNING: EmissionLimits: GetCHLimit: emission limit is unknown!";
+        qDebug() << "libtoxic WARNING: EmissionLimits: val_CHLimit: emission limit is unknown!";
 
         return 0;
     }
 }
 
-double GetPTLimit(QString stnd) {
+double val_PTLimit(QString stnd) {
 
     if      (stnd == "EU6" ) { return  0.02; }
     else if (stnd == "EU5" ) { return  0.02; }
@@ -174,13 +174,13 @@ double GetPTLimit(QString stnd) {
     else if ( (stnd == "r96K8") || (stnd == "r96K5") ) { return  0.60; }
     else {
 
-        qDebug() << "libtoxic WARNING: EmissionLimits: GetPTLimit: emission limit is unknown!";
+        qDebug() << "libtoxic WARNING: EmissionLimits: val_PTLimit: emission limit is unknown!";
 
         return 0;
     }
 }
 
-double GetNOxCHLimit(QString stnd) {
+double val_NOxCHLimit(QString stnd) {
 
     if      ( (stnd == "r96H8") || (stnd == "r96H5") ) { return  4.00; }
     else if ( (stnd == "r96I8") || (stnd == "r96I5") ) { return  4.00; }
@@ -188,7 +188,7 @@ double GetNOxCHLimit(QString stnd) {
     else if ( (stnd == "r96K8") || (stnd == "r96K5") ) { return  7.50; }
     else {
 
-        qDebug() << "libtoxic WARNING: EmissionLimits: GetNOxCHLimit: emission limit is unknown!";
+        qDebug() << "libtoxic WARNING: EmissionLimits: val_NOxCHLimit: emission limit is unknown!";
 
         return 0;
     }

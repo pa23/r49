@@ -27,27 +27,27 @@ public:
     explicit LibtoxicParameters();
     virtual ~LibtoxicParameters();
 
-    void SetTask(QString);
-    void SetVh(double *);
-    void SetStandard(QString);
-    void SetFuelType(QString);
-    void SetNOxSample(QString);
-    void SetPTcalc(QString);
-    void SetPTmass(double *);
-    void SetAddPointsCalc(QString);
-    void SetCalcConfigFile(QString);
+    void setTask(QString);
+    void setVh(double *);
+    void setStandard(QString);
+    void setFuelType(QString);
+    void setNOxSample(QString);
+    void setPTcalc(QString);
+    void setPTmass(double *);
+    void setAddPointsCalc(QString);
+    void setCalcConfigFile(QString);
 
-    QString GetTask() const;
-    double GetVh() const;
-    QString GetStandard() const;
-    QString GetFuelType() const;
-    QString GetNOxSample() const;
-    QString GetPTcalc() const;
-    double GetPTmass() const;
-    QString GetAddPointsCalc() const;
-    QString GetCalcConfigFile() const;
+    QString val_Task() const;
+    double val_Vh() const;
+    QString val_Standard() const;
+    QString val_FuelType() const;
+    QString val_NOxSample() const;
+    QString val_PTcalc() const;
+    double val_PTmass() const;
+    QString val_AddPointsCalc() const;
+    QString val_CalcConfigFile() const;
 
-    bool ReadCalcConfigFile(QString);
+    bool readCalcConfigFile(QString);
 
 private:
 

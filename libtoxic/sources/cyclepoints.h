@@ -30,9 +30,9 @@ public:
     explicit CyclePoints(LibtoxicParameters *, CommonParameters *);
     virtual ~CyclePoints();
 
-    bool GetDataFromCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
-    bool FillArrays();
-    QString CreateReport() const;
+    bool readCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
+    bool fillArrays();
+    QString createReport() const;
 
 private:
 

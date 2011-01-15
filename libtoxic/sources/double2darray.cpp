@@ -51,7 +51,7 @@ Double2DArray &Double2DArray::operator =(const Double2DArray &x) {
     return *this;
 }
 
-double **Double2DArray::GetPointerOnArray() const {
+double **Double2DArray::arrayPointer() const {
 
     return a2d;
 }

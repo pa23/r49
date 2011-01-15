@@ -20,10 +20,10 @@
 
 #include <QString>
 
-double GetNOxLimit(QString, double n_rated=0);
-double GetCOLimit(QString);
-double GetCHLimit(QString);
-double GetPTLimit(QString);
-double GetNOxCHLimit(QString);
+double val_NOxLimit(QString, double n_rated=0);
+double val_COLimit(QString);
+double val_CHLimit(QString);
+double val_PTLimit(QString);
+double val_NOxCHLimit(QString);
 
 #endif /* EMISSIONLIMITS_H */

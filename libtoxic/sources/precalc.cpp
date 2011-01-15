@@ -18,7 +18,7 @@
 #include "precalc.h"
 #include "libtoxicconstants.h"
 
-bool CalcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double *a1, double *a2, double *a3, double *n_ref) {
+bool calcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double *a1, double *a2, double *a3, double *n_ref) {
 
     if (*n_hi < *n_lo) {
 
@@ -40,7 +40,7 @@ bool CalcABC(double *n_hi, double *n_lo, double *A, double *B, double *C, double
     return true;
 }
 
-bool CalcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
+bool calcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
              double *smoke_B1, double *smoke_B2, double *smoke_B3,
              double *smoke_C1, double *smoke_C2, double *smoke_C3,
              double *smokeELR) {
@@ -54,7 +54,7 @@ bool CalcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
     return true;
 }
 
-double CalcPa(double *x) {
+double calcPa(double *x) {
 
     for (ptrdiff_t i=0; i<PaArraySize; i++) {
 
@@ -75,7 +75,7 @@ double CalcPa(double *x) {
     return 0;
 }
 
-bool NonZeroArray(double **data, ptrdiff_t *n) {
+bool nonZeroArray(double **data, ptrdiff_t *n) {
 
     double sum = 0;
 

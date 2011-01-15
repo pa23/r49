@@ -27,7 +27,7 @@ public:
     explicit Double2DArray(ptrdiff_t, ptrdiff_t);
     virtual ~Double2DArray();
 
-    double **GetPointerOnArray() const;
+    double **arrayPointer() const;
 
 private:
 

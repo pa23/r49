@@ -36,10 +36,10 @@ public:
     explicit ReducedPower(LibtoxicParameters *, CommonParameters *);
     virtual ~ReducedPower();
 
-    bool GetDataFromCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
-    bool ReducePower();
-    QString CreateReports();
-    QString GetLastReportsDir();
+    bool readCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
+    bool reducePower();
+    QString createReports();
+    QString lastReportsDir();
 
 private:
 

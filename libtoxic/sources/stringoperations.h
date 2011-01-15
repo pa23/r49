@@ -21,10 +21,10 @@
 #include <string>
 #include <vector>
 
-bool ReplaceInString(std::string *, std::string *, std::string *);
-bool SplitString(std::string *, std::vector<std::string> &, std::string);
-std::string NumberToString(ptrdiff_t);
-std::string NumberToString(double);
-double StringToDouble(std::string);
+bool replaceInString(std::string *, std::string *, std::string *);
+bool splitString(std::string *, std::vector<std::string> &, std::string);
+std::string numberToString(ptrdiff_t);
+std::string numberToString(double);
+double stringToDouble(std::string);
 
 #endif	/* STRINGOPERATIONS_H */

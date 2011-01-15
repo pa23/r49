@@ -29,12 +29,12 @@ public:
     explicit UndoRedoTable(QTableWidget *);
     virtual ~UndoRedoTable();
 
-    bool SaveState();
-    bool UndoTable();
-    bool RedoTable();
-    ptrdiff_t GetUndoTableNumber();
-    ptrdiff_t GetRedoTableNumber();
-    void FreeMemory();
+    bool saveState();
+    bool undoTable();
+    bool redoTable();
+    ptrdiff_t undoTableNumber();
+    ptrdiff_t redoTableNumber();
+    void freeMemory();
 
 private:
 

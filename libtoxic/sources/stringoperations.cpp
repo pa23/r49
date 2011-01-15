@@ -24,7 +24,7 @@ using std::vector;
 using std::ostringstream;
 using std::istringstream;
 
-bool ReplaceInString(string *str, string *str1, string *str2) {
+bool replaceInString(string *str, string *str1, string *str2) {
 
     size_t n;
 
@@ -36,7 +36,7 @@ bool ReplaceInString(string *str, string *str1, string *str2) {
     return true;
 }
 
-bool SplitString(string *fullstr, vector<string> &elements, string delimiter) {
+bool splitString(string *fullstr, vector<string> &elements, string delimiter) {
 
     string::size_type lastpos = (*fullstr).find_first_not_of(delimiter, 0);
     string::size_type pos     = (*fullstr).find_first_of(delimiter, lastpos);
@@ -52,7 +52,7 @@ bool SplitString(string *fullstr, vector<string> &elements, string delimiter) {
     return true;
 }
 
-string NumberToString(ptrdiff_t x) {
+string numberToString(ptrdiff_t x) {
 
     ostringstream stm;
     stm << x;
@@ -60,7 +60,7 @@ string NumberToString(ptrdiff_t x) {
     return stm.str();
 }
 
-string NumberToString(double x) {
+string numberToString(double x) {
 
     ostringstream stm;
     stm << x;
@@ -68,7 +68,7 @@ string NumberToString(double x) {
     return stm.str();
 }
 
-double StringToDouble(string str) {
+double stringToDouble(string str) {
 
     istringstream stm;
     double val = 0;

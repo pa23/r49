@@ -88,24 +88,24 @@ private:
 
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
-    void SetDoubleValidators();
-    void ReadPreferences();
-    void SetComboIndex(QComboBox *, QString);
-    void WriteProgramSettings();
-    void ReadProgramSettings();
-    void LoadAllSourceData();
-    bool FillTableEU0(QString filename);
-    bool FillTableEU3(QString filename);
-    bool FillTablePoints(QString filename);
-    bool FillTableFullLoadCurve(QString filename);
-    bool FillParameters();
-    bool ArithmeticOperation(QString);
-    void ArithmeticOperationIsAvailable(bool);
-    void TableCellChangedConnect(bool);
-    void GetUndoRedoCounters(QTableWidget *);
-    void SetUndoRedoButtonState();
-    void SaveState();
-    void SaveStateForAllTables();
+    void setDoubleValidators();
+    void readPreferences();
+    void setComboIndex(QComboBox *, QString);
+    void writeProgramSettings();
+    void readProgramSettings();
+    void loadAllSourceData();
+    bool fillTableEU0(QString filename);
+    bool fillTableEU3(QString filename);
+    bool fillTablePoints(QString filename);
+    bool fillTableFullLoadCurve(QString filename);
+    bool fillParameters();
+    bool arithmeticOperation(QString);
+    void arithmeticOperationIsAvailable(bool);
+    void tableCellChangedConnect(bool);
+    void getUndoRedoCounters(QTableWidget *);
+    void setUndoRedoButtonState();
+    void saveState();
+    void saveStateForAllTables();
 
     QDir lastReportsDir;
     QString lastCheckoutDataFileName;
@@ -151,12 +151,12 @@ private slots:
     void on_action_CheckForUpdates_activated();
 
     void on_pushButton_EnterPTmass_clicked();
-    void TaskChanged(QString);
-    void StandardChanged(QString);
+    void taskChanged(QString);
+    void standardChanged(QString);
     void PTcalcChanged(QString);
-    void ReportChanged(QString);
-    void TabChanged(int);
-    void TableCellChanged(int, int);
+    void reportChanged(QString);
+    void tabChanged(int);
+    void tableCellChanged(int, int);
 
 };
 

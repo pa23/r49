@@ -51,33 +51,33 @@ LibtoxicParameters &LibtoxicParameters::operator =(const LibtoxicParameters &x) 
     return *this;
 }
 
-void LibtoxicParameters::SetTask           (QString  task_)           { task           =  task_;           }
-void LibtoxicParameters::SetVh             (double  *Vh_)             { Vh             = *Vh_;             }
-void LibtoxicParameters::SetStandard       (QString  standart_)       { standard       =  standart_;       }
-void LibtoxicParameters::SetFuelType       (QString  FuelType_)       { FuelType       =  FuelType_;       }
-void LibtoxicParameters::SetNOxSample      (QString  NOxSample_)      { NOxSample      =  NOxSample_;      }
-void LibtoxicParameters::SetPTcalc         (QString  PTcalc_)         { PTcalc         =  PTcalc_;         }
-void LibtoxicParameters::SetPTmass         (double  *PTmass_)         { PTmass         = *PTmass_;         }
-void LibtoxicParameters::SetAddPointsCalc  (QString  AddPointsCalc_)  { AddPointsCalc  =  AddPointsCalc_;  }
-void LibtoxicParameters::SetCalcConfigFile (QString  CalcConfigFile_) { CalcConfigFile =  CalcConfigFile_; }
+void LibtoxicParameters::setTask           (QString  task_)           { task           =  task_;           }
+void LibtoxicParameters::setVh             (double  *Vh_)             { Vh             = *Vh_;             }
+void LibtoxicParameters::setStandard       (QString  standart_)       { standard       =  standart_;       }
+void LibtoxicParameters::setFuelType       (QString  FuelType_)       { FuelType       =  FuelType_;       }
+void LibtoxicParameters::setNOxSample      (QString  NOxSample_)      { NOxSample      =  NOxSample_;      }
+void LibtoxicParameters::setPTcalc         (QString  PTcalc_)         { PTcalc         =  PTcalc_;         }
+void LibtoxicParameters::setPTmass         (double  *PTmass_)         { PTmass         = *PTmass_;         }
+void LibtoxicParameters::setAddPointsCalc  (QString  AddPointsCalc_)  { AddPointsCalc  =  AddPointsCalc_;  }
+void LibtoxicParameters::setCalcConfigFile (QString  CalcConfigFile_) { CalcConfigFile =  CalcConfigFile_; }
 
-QString LibtoxicParameters::GetTask           () const { return task;           }
-double  LibtoxicParameters::GetVh             () const { return Vh;             }
-QString LibtoxicParameters::GetStandard       () const { return standard;       }
-QString LibtoxicParameters::GetFuelType       () const { return FuelType;       }
-QString LibtoxicParameters::GetNOxSample      () const { return NOxSample;      }
-QString LibtoxicParameters::GetPTcalc         () const { return PTcalc;         }
-double  LibtoxicParameters::GetPTmass         () const { return PTmass;         }
-QString LibtoxicParameters::GetAddPointsCalc  () const { return AddPointsCalc;  }
-QString LibtoxicParameters::GetCalcConfigFile () const { return CalcConfigFile; }
+QString LibtoxicParameters::val_Task           () const { return task;           }
+double  LibtoxicParameters::val_Vh             () const { return Vh;             }
+QString LibtoxicParameters::val_Standard       () const { return standard;       }
+QString LibtoxicParameters::val_FuelType       () const { return FuelType;       }
+QString LibtoxicParameters::val_NOxSample      () const { return NOxSample;      }
+QString LibtoxicParameters::val_PTcalc         () const { return PTcalc;         }
+double  LibtoxicParameters::val_PTmass         () const { return PTmass;         }
+QString LibtoxicParameters::val_AddPointsCalc  () const { return AddPointsCalc;  }
+QString LibtoxicParameters::val_CalcConfigFile () const { return CalcConfigFile; }
 
-bool LibtoxicParameters::ReadCalcConfigFile(QString calcConfigFileName) {
+bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
 
     QFile calcConfigFile(calcConfigFileName);
 
     if ( !(calcConfigFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libtoxic ERROR: LibtoxicParameters: ReadCalcConfigFile:" << calcConfigFileName << "not found!";
+        qDebug() << "libtoxic ERROR: LibtoxicParameters: readCalcConfigFile:" << calcConfigFileName << "not found!";
 
         return false;
     }
@@ -105,7 +105,7 @@ bool LibtoxicParameters::ReadCalcConfigFile(QString calcConfigFileName) {
             else if (elements[0] == "CalcConfigFile") { CalcConfigFile = elements[1]; }
             else                                      {
 
-                qDebug() << "libtoxic WARNING: LibtoxicParameters: ReadCalcConfigFile: unknown parameter" << elements[0] << "!";
+                qDebug() << "libtoxic WARNING: LibtoxicParameters: readCalcConfigFile: unknown parameter" << elements[0] << "!";
             }
 
             elements.clear();

@@ -59,7 +59,7 @@ void ELRsmokeCalcDialog::on_pushButton_CalcELRsmoke_clicked() {
 
     double ELRsmoke = 0;
 
-    if (!CalcELR(&fA, &sA, &tA, &fB, &sB, &tB, &fC, &sC, &tC, &ELRsmoke)) {
+    if (!calcELR(&fA, &sA, &tA, &fB, &sB, &tB, &fC, &sC, &tC, &ELRsmoke)) {
 
         QMessageBox::critical(0, "Qr49", tr("Error during calculation ELR smoke!"), 0, 0, 0);
     }

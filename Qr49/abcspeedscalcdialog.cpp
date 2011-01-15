@@ -51,7 +51,7 @@ void ABCspeedsCalcDialog::on_pushButton_CalcABCspeeds_clicked() {
     double a3 = 0;
     double n_ref = 0;
 
-    if (!CalcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+    if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
         QMessageBox::critical(0, "Qr49", tr("Error during calculation A, B, C speeds!"), 0, 0, 0);
     }

@@ -20,7 +20,7 @@
 
 #include <string>
 
-std::string AddZero(std::string);
-std::string GetDateTimeNow();
+std::string addZero(std::string);
+std::string dateTimeNow();
 
 #endif /* DATETIME_H */

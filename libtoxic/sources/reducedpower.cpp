@@ -55,9 +55,9 @@ ReducedPower::ReducedPower(LibtoxicParameters *prms, CommonParameters *cfg) :
     params = prms;
     config = cfg;
 
-    if (params->GetCalcConfigFile() != "_._") {
+    if (params->val_CalcConfigFile() != "_._") {
 
-        params->ReadCalcConfigFile(params->GetCalcConfigFile());
+        params->readCalcConfigFile(params->val_CalcConfigFile());
     }
 }
 
@@ -106,43 +106,43 @@ ReducedPower &ReducedPower::operator =(const ReducedPower &x) {
     return *this;
 }
 
-bool ReducedPower::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool ReducedPower::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
     GetDataFromCSV_OK = false;
 
     if ( (n == 0) && (m == 0) ) {
 
-        QString filenamePowers = config->Get_filenamePowers();
-        QString csvdelimiter = config->Get_csvDelimiter();
+        QString filenamePowers = config->val_filenamePowers();
+        QString csvdelimiter = config->val_csvDelimiter();
 
         csvRead *ReaderDataForCalc = new csvRead();
 
-        if (!ReaderDataForCalc->ReadData(filenamePowers, csvdelimiter, &NumberOfPoints)) {
+        if (!ReaderDataForCalc->readData(filenamePowers, csvdelimiter, &NumberOfPoints)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: ReducedPower: GetDataFromCSV: ReadData function returns 1!";
+            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: readData function returns 1!";
 
             return false;
         }
 
         Array_DataForCalc = new Double2DArray(NumberOfPoints, PowersFileColumnsNumber);
-        array_DataForCalc = Array_DataForCalc->GetPointerOnArray();
+        array_DataForCalc = Array_DataForCalc->arrayPointer();
 
-        if (!ReaderDataForCalc->CheckArrayDimension(PowersFileColumnsNumber)) {
+        if (!ReaderDataForCalc->checkArrayDimension(PowersFileColumnsNumber)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: ReducedPower: GetDataFromCSV: CheckArrayDimension function returns 1!";
+            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: checkArrayDimension function returns 1!";
 
             return false;
         }
 
-        if (!ReaderDataForCalc->FillArray(array_DataForCalc)) {
+        if (!ReaderDataForCalc->fillArray(array_DataForCalc)) {
 
             delete ReaderDataForCalc;
 
-            qDebug() << "libtoxic ERROR: ReducedPower: GetDataFromCSV: FillArray function returns 1!";
+            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: fillArray function returns 1!";
 
             return false;
         }
@@ -160,40 +160,40 @@ bool ReducedPower::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
     }
     else {
 
-        qDebug() << "libtoxic ERROR: ReducedPower: GetDataFromCSV: Illegal data!";
+        qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Illegal data!";
 
         return false;
     }
 
     Array_n = new Double2DArray(NumberOfPoints, 1);
-    array_n = Array_n->GetPointerOnArray();
+    array_n = Array_n->arrayPointer();
 
     Array_Me_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+    array_Me_brutto = Array_Me_brutto->arrayPointer();
 
     Array_t0 = new Double2DArray(NumberOfPoints, 1);
-    array_t0 = Array_t0->GetPointerOnArray();
+    array_t0 = Array_t0->arrayPointer();
 
     Array_B0 = new Double2DArray(NumberOfPoints, 1);
-    array_B0 = Array_B0->GetPointerOnArray();
+    array_B0 = Array_B0->arrayPointer();
 
     Array_Ra = new Double2DArray(NumberOfPoints, 1);
-    array_Ra = Array_Ra->GetPointerOnArray();
+    array_Ra = Array_Ra->arrayPointer();
 
     Array_S = new Double2DArray(NumberOfPoints, 1);
-    array_S = Array_S->GetPointerOnArray();
+    array_S = Array_S->arrayPointer();
 
     Array_pk = new Double2DArray(NumberOfPoints, 1);
-    array_pk = Array_pk->GetPointerOnArray();
+    array_pk = Array_pk->arrayPointer();
 
     Array_Gfuel = new Double2DArray(NumberOfPoints, 1);
-    array_Gfuel = Array_Gfuel->GetPointerOnArray();
+    array_Gfuel = Array_Gfuel->arrayPointer();
 
     Array_N_k = new Double2DArray(NumberOfPoints, 1);
-    array_N_k = Array_N_k->GetPointerOnArray();
+    array_N_k = Array_N_k->arrayPointer();
 
     Array_N_fan = new Double2DArray(NumberOfPoints, 1);
-    array_N_fan = Array_N_fan->GetPointerOnArray();
+    array_N_fan = Array_N_fan->arrayPointer();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -209,22 +209,22 @@ bool ReducedPower::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
         array_N_fan    [i][0] = array_DataForCalc[i+1][10];
     }
 
-    mytime = GetDateTimeNow();
+    mytime = dateTimeNow();
 
     GetDataFromCSV_OK = true;
 
     //
 
-    if ( !NonZeroArray(array_n, &NumberOfPoints) ||
-         !NonZeroArray(array_Me_brutto, &NumberOfPoints) ||
-         !NonZeroArray(array_t0, &NumberOfPoints) ||
-         !NonZeroArray(array_B0, &NumberOfPoints) ||
-         !NonZeroArray(array_Ra, &NumberOfPoints) ||
-         !NonZeroArray(array_pk, &NumberOfPoints) ||
-         !NonZeroArray(array_Gfuel, &NumberOfPoints) ||
-         (params->GetVh() < 0.0000001) ) {
+    if ( !nonZeroArray(array_n, &NumberOfPoints) ||
+         !nonZeroArray(array_Me_brutto, &NumberOfPoints) ||
+         !nonZeroArray(array_t0, &NumberOfPoints) ||
+         !nonZeroArray(array_B0, &NumberOfPoints) ||
+         !nonZeroArray(array_Ra, &NumberOfPoints) ||
+         !nonZeroArray(array_pk, &NumberOfPoints) ||
+         !nonZeroArray(array_Gfuel, &NumberOfPoints) ||
+         (params->val_Vh() < 0.0000001) ) {
 
-        qDebug() << "libtoxic ERROR: ReducedPower: GetDataFromCSV: Bad source data or calculation settings!";
+        qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Bad source data or calculation settings!";
         return false;
     }
 
@@ -243,52 +243,52 @@ void ReducedPower::SetRate() {
     N_fan_rated = array_N_fan[i_rated][0];
 }
 
-bool ReducedPower::ReducePower() {
+bool ReducedPower::reducePower() {
 
     ReducePower_OK = false;
 
     Array_Ne_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+    array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
     Array_qcs = new Double2DArray(NumberOfPoints, 1);
-    array_qcs = Array_qcs->GetPointerOnArray();
+    array_qcs = Array_qcs->arrayPointer();
 
     Array_fm = new Double2DArray(NumberOfPoints, 1);
-    array_fm = Array_fm->GetPointerOnArray();
+    array_fm = Array_fm->arrayPointer();
 
     Array_pa = new Double2DArray(NumberOfPoints, 1);
-    array_pa = Array_pa->GetPointerOnArray();
+    array_pa = Array_pa->arrayPointer();
 
     Array_ps = new Double2DArray(NumberOfPoints, 1);
-    array_ps = Array_ps->GetPointerOnArray();
+    array_ps = Array_ps->arrayPointer();
 
     Array_fa = new Double2DArray(NumberOfPoints, 1);
-    array_fa = Array_fa->GetPointerOnArray();
+    array_fa = Array_fa->arrayPointer();
 
     Array_alphad = new Double2DArray(NumberOfPoints, 1);
-    array_alphad = Array_alphad->GetPointerOnArray();
+    array_alphad = Array_alphad->arrayPointer();
 
     Array_Ne_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_reduced = Array_Ne_reduced->GetPointerOnArray();
+    array_Ne_reduced = Array_Ne_reduced->arrayPointer();
 
     Array_Ne_brake_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brake_reduced = Array_Ne_brake_reduced->GetPointerOnArray();
+    array_Ne_brake_reduced = Array_Ne_brake_reduced->arrayPointer();
 
     Array_Ne_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_netto_reduced = Array_Ne_netto_reduced->GetPointerOnArray();
+    array_Ne_netto_reduced = Array_Ne_netto_reduced->arrayPointer();
 
     Array_Me_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_Me_netto_reduced = Array_Me_netto_reduced->GetPointerOnArray();
+    array_Me_netto_reduced = Array_Me_netto_reduced->arrayPointer();
 
     Array_ge_netto_reduced = new Double2DArray(NumberOfPoints, 1);
-    array_ge_netto_reduced = Array_ge_netto_reduced->GetPointerOnArray();
+    array_ge_netto_reduced = Array_ge_netto_reduced->arrayPointer();
 
     SetRate();
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         array_Ne_brutto[i][0] = array_Me_brutto[i][0] * array_n[i][0] / 9550.0;
-        array_qcs[i][0] = ( (array_Gfuel[i][0] * 1000000.0)   / (30.0 * array_n[i][0] * params->GetVh()) ) /
+        array_qcs[i][0] = ( (array_Gfuel[i][0] * 1000000.0)   / (30.0 * array_n[i][0] * params->val_Vh()) ) /
                           ( (array_pk[i][0] + array_B0[i][0]) / (array_S[i][0] + array_B0[i][0])       );
 
         if      (array_qcs[i][0] < 40.0) { array_fm[i][0] = 0.3;                            }
@@ -302,7 +302,7 @@ bool ReducedPower::ReducePower() {
 
         if ( (array_alphad[i][0] < 0.9) || (array_alphad[i][0] > 1.1) ) {
 
-            qDebug() << "r49 ERROR: ReducedPower: ReducePower: alphad is out-of-range (0.9..1.1)!";
+            qDebug() << "r49 ERROR: ReducedPower: reducePower: alphad is out-of-range (0.9..1.1)!";
 
             return false;
         }
@@ -320,12 +320,12 @@ bool ReducedPower::ReducePower() {
     return true;
 }
 
-QString ReducedPower::CreateReports() {
+QString ReducedPower::createReports() {
 
     QString message = "";
 
-    string csvdelimiter = (config->Get_csvDelimiter()).toStdString();
-    QString dirnameReports = config->Get_dirnameReports();
+    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
+    QString dirnameReports = config->val_dirnameReports();
 
     fullReportsPath = dirnameReports + "r85_" + QString::fromStdString(mytime);
     QDir reportdir;
@@ -341,8 +341,8 @@ QString ReducedPower::CreateReports() {
 
     if (!fout1) {
 
-        message += "libtoxic ERROR: ReducedPower: CreateReports: fout1 was not created!\n";
-        qDebug() << "libtoxic ERROR: ReducedPower: CreateReports: fout1 was not created!";
+        message += "libtoxic ERROR: ReducedPower: createReports: fout1 was not created!\n";
+        qDebug() << "libtoxic ERROR: ReducedPower: createReports: fout1 was not created!";
 
         return message;
     }
@@ -412,8 +412,8 @@ QString ReducedPower::CreateReports() {
 
     if (!fout4) {
 
-        message += "libtoxic ERROR: ReducedPower: CreateReports: fout4 was not created!\n";
-        qDebug() << "libtoxic ERROR: ReducedPower: CreateReports: fout4 was not created!";
+        message += "libtoxic ERROR: ReducedPower: createReports: fout4 was not created!\n";
+        qDebug() << "libtoxic ERROR: ReducedPower: createReports: fout4 was not created!";
 
         return message;
     }
@@ -448,7 +448,7 @@ QString ReducedPower::CreateReports() {
     return message;
 }
 
-QString ReducedPower::GetLastReportsDir() {
+QString ReducedPower::lastReportsDir() {
 
     return fullReportsPath;
 }

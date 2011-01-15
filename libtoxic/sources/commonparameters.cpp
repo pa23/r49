@@ -63,13 +63,13 @@ CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
     return *this;
 }
 
-bool CommonParameters::ReadConfigFile(QString configFileName) {
+bool CommonParameters::readConfigFile(QString configFileName) {
 
     QFile configFile(configFileName);
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libtoxic ERROR: CommonParameters: ReadConfigFile:" << configFileName << "not found!";
+        qDebug() << "libtoxic ERROR: CommonParameters: readConfigFile:" << configFileName << "not found!";
 
         return false;
     }
@@ -107,7 +107,7 @@ bool CommonParameters::ReadConfigFile(QString configFileName) {
             else if (elements[0] == "muCH")              { muCH              = (elements[1]).toDouble(); }
             else                                         {
 
-                qDebug() << "libtoxic WARNING: CommonParameters: ReadConfigFile: unknown parameter" << elements[0] << "!";
+                qDebug() << "libtoxic WARNING: CommonParameters: readConfigFile: unknown parameter" << elements[0] << "!";
             }
 
             elements.clear();
@@ -161,22 +161,22 @@ bool CommonParameters::ReadConfigFile(QString configFileName) {
     return true;
 }
 
-QString CommonParameters::Get_csvDelimiter      () const { return csvDelimiter;      }
-QString CommonParameters::Get_filenameSourceEU3 () const { return filenameSourceEU3; }
-QString CommonParameters::Get_filenameSourceEU0 () const { return filenameSourceEU0; }
-QString CommonParameters::Get_filenamePoints    () const { return filenamePoints;    }
-QString CommonParameters::Get_filenamePowers    () const { return filenamePowers;    }
-QString CommonParameters::Get_dirnameReports    () const { return dirnameReports;    }
-double CommonParameters::Get_Dn                 () const { return Dn;                }
-double CommonParameters::Get_ConcO2air          () const { return ConcO2air;         }
-double CommonParameters::Get_Rr                 () const { return Rr;                }
-double CommonParameters::Get_L0                 () const { return L0;                }
-double CommonParameters::Get_L                  () const { return L;                 }
-double CommonParameters::Get_ConcCO2air         () const { return ConcCO2air;        }
-double CommonParameters::Get_WH                 () const { return WH;                }
-double CommonParameters::Get_WO2                () const { return WO2;               }
-double CommonParameters::Get_WN                 () const { return WN;                }
-double CommonParameters::Get_roAir              () const { return roAir;             }
-double CommonParameters::Get_muNO2              () const { return muNO2;             }
-double CommonParameters::Get_muCO               () const { return muCO;              }
-double CommonParameters::Get_muCH               () const { return muCH;              }
+QString CommonParameters::val_csvDelimiter      () const { return csvDelimiter;      }
+QString CommonParameters::val_filenameSourceEU3 () const { return filenameSourceEU3; }
+QString CommonParameters::val_filenameSourceEU0 () const { return filenameSourceEU0; }
+QString CommonParameters::val_filenamePoints    () const { return filenamePoints;    }
+QString CommonParameters::val_filenamePowers    () const { return filenamePowers;    }
+QString CommonParameters::val_dirnameReports    () const { return dirnameReports;    }
+double CommonParameters::val_Dn                 () const { return Dn;                }
+double CommonParameters::val_ConcO2air          () const { return ConcO2air;         }
+double CommonParameters::val_Rr                 () const { return Rr;                }
+double CommonParameters::val_L0                 () const { return L0;                }
+double CommonParameters::val_L                  () const { return L;                 }
+double CommonParameters::val_ConcCO2air         () const { return ConcCO2air;        }
+double CommonParameters::val_WH                 () const { return WH;                }
+double CommonParameters::val_WO2                () const { return WO2;               }
+double CommonParameters::val_WN                 () const { return WN;                }
+double CommonParameters::val_roAir              () const { return roAir;             }
+double CommonParameters::val_muNO2              () const { return muNO2;             }
+double CommonParameters::val_muCO               () const { return muCO;              }
+double CommonParameters::val_muCH               () const { return muCH;              }

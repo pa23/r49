@@ -21,26 +21,26 @@
 
 using std::string;
 
-string AddZero(string str) {
+string addZero(string str) {
 
     if (str.length() == 1) { str = "0" + str; }
 
     return str;
 }
 
-string GetDateTimeNow() {
+string dateTimeNow() {
 
     time_t timenow = time(NULL);
     struct tm *timeinfo = localtime(&timenow);
 
     string mytime = "";
 
-    mytime = AddZero(NumberToString((ptrdiff_t)timeinfo->tm_mday       )) + "-" +
-             AddZero(NumberToString((ptrdiff_t)timeinfo->tm_mon  +    1)) + "-" +
-                     NumberToString((ptrdiff_t)timeinfo->tm_year + 1900)  + "_" +
-             AddZero(NumberToString((ptrdiff_t)timeinfo->tm_hour       )) + "-" +
-             AddZero(NumberToString((ptrdiff_t)timeinfo->tm_min        )) + "-" +
-             AddZero(NumberToString((ptrdiff_t)timeinfo->tm_sec        ));
+    mytime = addZero(numberToString((ptrdiff_t)timeinfo->tm_mday       )) + "-" +
+             addZero(numberToString((ptrdiff_t)timeinfo->tm_mon  +    1)) + "-" +
+                     numberToString((ptrdiff_t)timeinfo->tm_year + 1900)  + "_" +
+             addZero(numberToString((ptrdiff_t)timeinfo->tm_hour       )) + "-" +
+             addZero(numberToString((ptrdiff_t)timeinfo->tm_min        )) + "-" +
+             addZero(numberToString((ptrdiff_t)timeinfo->tm_sec        ));
 
     return mytime;
 }

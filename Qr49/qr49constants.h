@@ -27,7 +27,7 @@ const QString qr49version = "Qr49 v1.22.0";
 const QString oparandsDelimiter = "=";
 
 const QString configFileName = "r49.conf";
-const QString PageUrl = "https://github.com/pa23/r49/downloads/";
-const QString FilesUrl = "/downloads/pa23/r49";
+const QString pageUrl = "https://github.com/pa23/r49/downloads/";
+const QString filesUrl = "/downloads/pa23/r49";
 
 #endif	/* QR49CONSTANTS_H */

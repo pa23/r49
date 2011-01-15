@@ -20,11 +20,11 @@
 
 #include <iostream>
 
-bool CalcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
-bool CalcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
+bool calcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
+bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
 
-double CalcPa(double *);
+double calcPa(double *);
 
-bool NonZeroArray(double **, ptrdiff_t *);
+bool nonZeroArray(double **, ptrdiff_t *);
 
 #endif	/* PRECALC_H */

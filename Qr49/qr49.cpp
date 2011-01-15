@@ -76,13 +76,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //
 
-    connect(ui->comboBox_task, SIGNAL(activated(QString)), this, SLOT(TaskChanged(QString)));
-    connect(ui->comboBox_standard, SIGNAL(activated(QString)), this, SLOT(StandardChanged(QString)));
+    connect(ui->comboBox_task, SIGNAL(activated(QString)), this, SLOT(taskChanged(QString)));
+    connect(ui->comboBox_standard, SIGNAL(activated(QString)), this, SLOT(standardChanged(QString)));
     connect(ui->comboBox_PTcalc, SIGNAL(activated(QString)), this, SLOT(PTcalcChanged(QString)));
-    connect(ui->comboBox_OpenedReports, SIGNAL(activated(QString)), this, SLOT(ReportChanged(QString)));
-    connect(ui->tabWidget_Data, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
+    connect(ui->comboBox_OpenedReports, SIGNAL(activated(QString)), this, SLOT(reportChanged(QString)));
+    connect(ui->tabWidget_Data, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
-    TableCellChangedConnect(true);
+    tableCellChangedConnect(true);
 
     //
 
@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     params = new LibtoxicParameters();
     config = new CommonParameters();
 
-    ReadPreferences();
+    readPreferences();
 
     //
 
@@ -119,11 +119,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     regExp = new QRegExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?");
     regExpValidator = new QRegExpValidator(*regExp, 0);
 
-    SetDoubleValidators();
+    setDoubleValidators();
 
     //
 
-    LoadAllSourceData();
+    loadAllSourceData();
 
     //
 
@@ -132,13 +132,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     undoRedo_TablePoints = new UndoRedoTable(ui->tableWidget_SrcDataPoints);
     undoRedo_TableFullLoadCurve = new UndoRedoTable(ui->tableWidget_FullLoadCurve);
 
-    SaveStateForAllTables();
+    saveStateForAllTables();
 
     //
 
-    ReadProgramSettings();
-    TaskChanged(ui->comboBox_task->currentText());
-    StandardChanged(ui->comboBox_standard->currentText());
+    readProgramSettings();
+    taskChanged(ui->comboBox_task->currentText());
+    standardChanged(ui->comboBox_standard->currentText());
     PTcalcChanged(ui->comboBox_PTcalc->currentText());
 
     //
@@ -190,7 +190,7 @@ MainWindow::~MainWindow() {
     table = ui->tableWidget_FullLoadCurve;
     on_action_SaveSourceData_activated();
 
-    WriteProgramSettings();
+    writeProgramSettings();
 
     delete ui;
     delete contextMenu;
@@ -213,7 +213,7 @@ MainWindow::~MainWindow() {
     delete newVersions;
 }
 
-void MainWindow::WriteProgramSettings() {
+void MainWindow::writeProgramSettings() {
 
     qr49settings.beginGroup("/Settings");
     qr49settings.setValue("/window_geometry", geometry());
@@ -234,7 +234,7 @@ void MainWindow::WriteProgramSettings() {
     qr49settings.endGroup();
 }
 
-void MainWindow::ReadProgramSettings() {
+void MainWindow::readProgramSettings() {
 
     qr49settings.beginGroup("/Settings");
     setGeometry(qr49settings.value("/window_geometry", QRect(20, 40, 0, 0)).toRect());
@@ -264,21 +264,21 @@ void MainWindow::ReadProgramSettings() {
     }
 }
 
-void MainWindow::TableCellChangedConnect(bool b) {
+void MainWindow::tableCellChangedConnect(bool b) {
 
     if (b) {
 
-        connect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        connect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        connect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        connect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
+        connect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        connect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        connect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        connect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
     }
     else {
 
-        disconnect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        disconnect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        disconnect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
-        disconnect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(TableCellChanged(int, int)));
+        disconnect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        disconnect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        disconnect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        disconnect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
     }
 }
 
@@ -312,106 +312,106 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *cme) {
     contextMenu->exec(cme->globalPos());
 }
 
-void MainWindow::SetDoubleValidators() {
+void MainWindow::setDoubleValidators() {
 
     ui->lineEdit_Vh->setValidator(doubleValidator);
     ui->lineEdit_PTmass->setValidator(doubleValidator);
 }
 
-void MainWindow::ReadPreferences() {
+void MainWindow::readPreferences() {
 
-    if (!config->ReadConfigFile(configFileName)) {
+    if (!config->readConfigFile(configFileName)) {
 
-        QMessageBox::warning(0, "Qr49", tr("ReadConfigFile function returns false! Default values will be used."), 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", tr("readConfigFile function returns false! Default values will be used."), 0, 0, 0);
     }
 }
 
-void MainWindow::LoadAllSourceData() {
+void MainWindow::loadAllSourceData() {
 
-    QString filenameSourceEU0 = config->Get_filenameSourceEU0();
+    QString filenameSourceEU0 = config->val_filenameSourceEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
-        if (!FillTableEU0(filenameSourceEU0)) {
+        if (!fillTableEU0(filenameSourceEU0)) {
 
-            QMessageBox::critical(0, "Qr49", tr("LoadAllSourceData: FillTableEU0 function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableEU0 function returns false!"), 0, 0, 0);
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("LoadAllSourceData: file ") + filenameSourceEU0 + tr(" not found!");
+        QString msg = tr("loadAllSourceData: file ") + filenameSourceEU0 + tr(" not found!");
         QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
     }
 
     //
 
-    QString filenameSourceEU3 = config->Get_filenameSourceEU3();
+    QString filenameSourceEU3 = config->val_filenameSourceEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
-        if (!FillTableEU3(filenameSourceEU3)) {
+        if (!fillTableEU3(filenameSourceEU3)) {
 
-            QMessageBox::critical(0, "Qr49", tr("LoadAllSourceData: FillTableEU3 function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableEU3 function returns false!"), 0, 0, 0);
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("LoadAllSourceData: file ") + filenameSourceEU3 + tr(" not found!");
+        QString msg = tr("loadAllSourceData: file ") + filenameSourceEU3 + tr(" not found!");
         QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
     }
 
     //
 
-    QString filenamePoints = config->Get_filenamePoints();
+    QString filenamePoints = config->val_filenamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
-        if (!FillTablePoints(filenamePoints)) {
+        if (!fillTablePoints(filenamePoints)) {
 
-            QMessageBox::critical(0, "Qr49", tr("LoadAllSourceData: FillTablePoints function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTablePoints function returns false!"), 0, 0, 0);
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("LoadAllSourceData: file ") + filenamePoints + tr(" not found!");
+        QString msg = tr("loadAllSourceData: file ") + filenamePoints + tr(" not found!");
         QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
     }
 
     //
 
-    QString filenamePowers = config->Get_filenamePowers();
+    QString filenamePowers = config->val_filenamePowers();
 
     if ( QFile::exists(filenamePowers) ) {
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
-        if (!FillTableFullLoadCurve(filenamePowers)) {
+        if (!fillTableFullLoadCurve(filenamePowers)) {
 
-            QMessageBox::critical(0, "Qr49", tr("LoadAllSourceData: FillTableFullLoadCurve function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableFullLoadCurve function returns false!"), 0, 0, 0);
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("LoadAllSourceData: file ") + filenamePowers + tr(" not found!");
+        QString msg = tr("loadAllSourceData: file ") + filenamePowers + tr(" not found!");
         QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
     }
 }
 
-bool MainWindow::FillTableEU0(QString filename) {
+bool MainWindow::fillTableEU0(QString filename) {
 
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
@@ -423,34 +423,34 @@ bool MainWindow::FillTableEU0(QString filename) {
     Double2DArray *SourceDataEU0;
     double **arraySourceDataEU0;
 
-    if (!ReaderSourceDataEU0->ReadData(filename, config->Get_csvDelimiter(), &NumberOfPoints)) {
+    if (!ReaderSourceDataEU0->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
 
         delete ReaderSourceDataEU0;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU0: libfuns: csvRead: ReadData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
 
         return false;
     }
 
     SourceDataEU0 = new Double2DArray(NumberOfPoints, EU0SrcDataParamsNumber);
-    arraySourceDataEU0 = SourceDataEU0->GetPointerOnArray();
+    arraySourceDataEU0 = SourceDataEU0->arrayPointer();
 
-    if (!ReaderSourceDataEU0->CheckArrayDimension(EU0SrcDataParamsNumber)) {
+    if (!ReaderSourceDataEU0->checkArrayDimension(EU0SrcDataParamsNumber)) {
 
         delete SourceDataEU0;
         delete ReaderSourceDataEU0;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU0: libfuns: csvRead: CheckArrayDimension function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
 
         return false;
     }
 
-    if (!ReaderSourceDataEU0->FillArray(arraySourceDataEU0)) {
+    if (!ReaderSourceDataEU0->fillArray(arraySourceDataEU0)) {
 
         delete SourceDataEU0;
         delete ReaderSourceDataEU0;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU0: libfuns: csvRead: FillArray function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
 
         return false;
     }
@@ -467,7 +467,7 @@ bool MainWindow::FillTableEU0(QString filename) {
     return true;
 }
 
-bool MainWindow::FillTableEU3(QString filename) {
+bool MainWindow::fillTableEU3(QString filename) {
 
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
@@ -479,34 +479,34 @@ bool MainWindow::FillTableEU3(QString filename) {
     Double2DArray *SourceDataEU3;
     double **arraySourceDataEU3;
 
-    if (!ReaderSourceDataEU3->ReadData(filename, config->Get_csvDelimiter(), &NumberOfPoints)) {
+    if (!ReaderSourceDataEU3->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
 
         delete ReaderSourceDataEU3;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU3: libfuns: csvRead: ReadData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
 
         return false;
     }
 
     SourceDataEU3 = new Double2DArray(NumberOfPoints, EU3SrcDataParamsNumber);
-    arraySourceDataEU3 = SourceDataEU3->GetPointerOnArray();
+    arraySourceDataEU3 = SourceDataEU3->arrayPointer();
 
-    if (!ReaderSourceDataEU3->CheckArrayDimension(EU3SrcDataParamsNumber)) {
+    if (!ReaderSourceDataEU3->checkArrayDimension(EU3SrcDataParamsNumber)) {
 
         delete SourceDataEU3;
         delete ReaderSourceDataEU3;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU3: libfuns: csvRead: CheckArrayDimension function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
 
         return false;
     }
 
-    if (!ReaderSourceDataEU3->FillArray(arraySourceDataEU3)) {
+    if (!ReaderSourceDataEU3->fillArray(arraySourceDataEU3)) {
 
         delete SourceDataEU3;
         delete ReaderSourceDataEU3;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableEU3: libfuns: csvRead: FillArray function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
 
         return false;
     }
@@ -523,7 +523,7 @@ bool MainWindow::FillTableEU3(QString filename) {
     return true;
 }
 
-bool MainWindow::FillTablePoints(QString filename) {
+bool MainWindow::fillTablePoints(QString filename) {
 
     ptrdiff_t NumberOfPoints = 0;
 
@@ -532,34 +532,34 @@ bool MainWindow::FillTablePoints(QString filename) {
     Double2DArray *SourceDataPoints;
     double **arraySourceDataPoints;
 
-    if (!ReaderSourceDataPoints->ReadData(filename, config->Get_csvDelimiter(), &NumberOfPoints)) {
+    if (!ReaderSourceDataPoints->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
 
         delete ReaderSourceDataPoints;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTablePoints: libfuns: csvRead: ReadData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
 
         return false;
     }
 
     SourceDataPoints = new Double2DArray(NumberOfPoints, PointsFileColumnsNumber);
-    arraySourceDataPoints = SourceDataPoints->GetPointerOnArray();
+    arraySourceDataPoints = SourceDataPoints->arrayPointer();
 
-    if (!ReaderSourceDataPoints->CheckArrayDimension(PointsFileColumnsNumber)) {
+    if (!ReaderSourceDataPoints->checkArrayDimension(PointsFileColumnsNumber)) {
 
         delete SourceDataPoints;
         delete ReaderSourceDataPoints;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTablePoints: libfuns: csvRead: CheckArrayDimension function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
 
         return false;
     }
 
-    if (!ReaderSourceDataPoints->FillArray(arraySourceDataPoints)) {
+    if (!ReaderSourceDataPoints->fillArray(arraySourceDataPoints)) {
 
         delete SourceDataPoints;
         delete ReaderSourceDataPoints;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTablePoints: libfuns: csvRead: FillArray function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
 
         return false;
     }
@@ -591,7 +591,7 @@ bool MainWindow::FillTablePoints(QString filename) {
     return true;
 }
 
-bool MainWindow::FillTableFullLoadCurve(QString filename) {
+bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
     ptrdiff_t NumberOfPoints = 0;
 
@@ -600,34 +600,34 @@ bool MainWindow::FillTableFullLoadCurve(QString filename) {
     Double2DArray *FullLoadCurve;
     double **arrayFullLoadCurve;
 
-    if (!ReaderFullLoadCurve->ReadData(filename, config->Get_csvDelimiter(), &NumberOfPoints)) {
+    if (!ReaderFullLoadCurve->readData(filename, config->val_csvDelimiter(), &NumberOfPoints)) {
 
         delete ReaderFullLoadCurve;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableFullLoadCurve: libfuns: csvRead: ReadData function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: readData function returns false!"), 0, 0, 0);
 
         return false;
     }
 
     FullLoadCurve = new Double2DArray(NumberOfPoints, PowersFileColumnsNumber);
-    arrayFullLoadCurve = FullLoadCurve->GetPointerOnArray();
+    arrayFullLoadCurve = FullLoadCurve->arrayPointer();
 
-    if (!ReaderFullLoadCurve->CheckArrayDimension(PowersFileColumnsNumber)) {
+    if (!ReaderFullLoadCurve->checkArrayDimension(PowersFileColumnsNumber)) {
 
         delete FullLoadCurve;
         delete ReaderFullLoadCurve;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableFullLoadCurve: libfuns: csvRead: CheckArrayDimension function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: checkArrayDimension function returns false!"), 0, 0, 0);
 
         return false;
     }
 
-    if (!ReaderFullLoadCurve->FillArray(arrayFullLoadCurve)) {
+    if (!ReaderFullLoadCurve->fillArray(arrayFullLoadCurve)) {
 
         delete FullLoadCurve;
         delete ReaderFullLoadCurve;
 
-        QMessageBox::critical(0, "Qr49", tr("FillTableFullLoadCurve: libfuns: csvRead: FillArray function returns false!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libfuns: csvRead: fillArray function returns false!"), 0, 0, 0);
 
         return false;
     }
@@ -658,27 +658,27 @@ bool MainWindow::FillTableFullLoadCurve(QString filename) {
     return true;
 }
 
-bool MainWindow::FillParameters() {
+bool MainWindow::fillParameters() {
 
-    params->SetTask(ui->comboBox_task->currentText());
-    double Vh = ui->lineEdit_Vh->text().toDouble(); params->SetVh(&Vh);
-    params->SetStandard(ui->comboBox_standard->currentText());
-    params->SetFuelType(ui->comboBox_FuelType->currentText());
-    params->SetNOxSample(ui->comboBox_NOxSample->currentText());
-    params->SetPTcalc(ui->comboBox_PTcalc->currentText());
-    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params->SetPTmass(&PTMass);
-    params->SetAddPointsCalc(ui->comboBox_AddPointsCalc->currentText());
+    params->setTask(ui->comboBox_task->currentText());
+    double Vh = ui->lineEdit_Vh->text().toDouble(); params->setVh(&Vh);
+    params->setStandard(ui->comboBox_standard->currentText());
+    params->setFuelType(ui->comboBox_FuelType->currentText());
+    params->setNOxSample(ui->comboBox_NOxSample->currentText());
+    params->setPTcalc(ui->comboBox_PTcalc->currentText());
+    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params->setPTmass(&PTMass);
+    params->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentText());
 
     return true;
 }
 
-bool MainWindow::ArithmeticOperation(QString operation) {
+bool MainWindow::arithmeticOperation(QString operation) {
 
     QLineEdit *value = valueDialog->findChild<QLineEdit *>("lineEdit_Value");
 
     if (!value) {
 
-        QMessageBox::critical(0, "Qr49", tr("ArithmeticOperation: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("arithmeticOperation: child object not found!"), 0, 0, 0);
 
         return false;
     }
@@ -704,7 +704,7 @@ bool MainWindow::ArithmeticOperation(QString operation) {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49", tr("ArithmeticOperation: unknown arithmetic operation!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("arithmeticOperation: unknown arithmetic operation!"), 0, 0, 0);
 
         return false;
     }
@@ -730,7 +730,7 @@ bool MainWindow::ArithmeticOperation(QString operation) {
             return false;
         }
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         for (ptrdiff_t i=0; i<selectedRange.rowCount(); i++) {
 
@@ -757,17 +757,17 @@ bool MainWindow::ArithmeticOperation(QString operation) {
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
     }
 
-    SaveState();
+    saveState();
 
     return true;
 }
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    QString dir(config->Get_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherSourceFile(QFileDialog::getOpenFileName(
             this,
@@ -781,73 +781,73 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         ui->tabWidget_Data->setCurrentIndex(0);
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         if (!anotherSourceFile.isEmpty()) {
 
-            if (!FillTableEU0(anotherSourceFile)) {
+            if (!fillTableEU0(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: FillTableEU0 returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableEU0 returns false!"), 0, 0, 0);
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
 
-        SaveState();
+        saveState();
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         if (!anotherSourceFile.isEmpty()) {
 
-            if (!FillTableEU3(anotherSourceFile)) {
+            if (!fillTableEU3(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: FillTableEU3 returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableEU3 returns false!"), 0, 0, 0);
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
 
-        SaveState();
+        saveState();
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         if (!anotherSourceFile.isEmpty()) {
 
-            if (!FillTablePoints(anotherSourceFile)) {
+            if (!fillTablePoints(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: FillTablePoints returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTablePoints returns false!"), 0, 0, 0);
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
 
-        SaveState();
+        saveState();
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
         ui->tabWidget_Data->setCurrentIndex(2);
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         if (!anotherSourceFile.isEmpty()) {
 
-            if (!FillTableFullLoadCurve(anotherSourceFile)) {
+            if (!fillTableFullLoadCurve(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: FillTableFullLoadCurve returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableFullLoadCurve returns false!"), 0, 0, 0);
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
 
-        SaveState();
+        saveState();
     }
 }
 
@@ -855,7 +855,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        QString filenameSourceEU0 = config->Get_filenameSourceEU0();
+        QString filenameSourceEU0 = config->val_filenameSourceEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -881,7 +881,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        QString filenameSourceEU3 = config->Get_filenameSourceEU3();
+        QString filenameSourceEU3 = config->val_filenameSourceEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -907,7 +907,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        QString filenamePoints = config->Get_filenamePoints();
+        QString filenamePoints = config->val_filenamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -936,7 +936,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        QString filenamePowers = config->Get_filenamePowers();
+        QString filenamePowers = config->val_filenamePowers();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1021,7 +1021,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    QString dir(config->Get_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherOptions(QFileDialog::getOpenFileName(
             this,
@@ -1033,24 +1033,24 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
     if (!anotherOptions.isEmpty()) {
 
-        params->ReadCalcConfigFile(anotherOptions);
+        params->readCalcConfigFile(anotherOptions);
 
-        SetComboIndex(ui->comboBox_task, params->GetTask());
-        ui->lineEdit_Vh->setText(QString::number(params->GetVh()));
-        SetComboIndex(ui->comboBox_standard, params->GetStandard());
-        SetComboIndex(ui->comboBox_FuelType, params->GetFuelType());
-        SetComboIndex(ui->comboBox_NOxSample, params->GetNOxSample());
-        SetComboIndex(ui->comboBox_PTcalc, params->GetPTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(params->GetPTmass()));
-        SetComboIndex(ui->comboBox_AddPointsCalc, params->GetAddPointsCalc());
+        setComboIndex(ui->comboBox_task, params->val_Task());
+        ui->lineEdit_Vh->setText(QString::number(params->val_Vh()));
+        setComboIndex(ui->comboBox_standard, params->val_Standard());
+        setComboIndex(ui->comboBox_FuelType, params->val_FuelType());
+        setComboIndex(ui->comboBox_NOxSample, params->val_NOxSample());
+        setComboIndex(ui->comboBox_PTcalc, params->val_PTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(params->val_PTmass()));
+        setComboIndex(ui->comboBox_AddPointsCalc, params->val_AddPointsCalc());
 
-        TaskChanged(ui->comboBox_task->currentText());
-        StandardChanged(ui->comboBox_standard->currentText());
+        taskChanged(ui->comboBox_task->currentText());
+        standardChanged(ui->comboBox_standard->currentText());
         PTcalcChanged(ui->comboBox_PTcalc->currentText());
     }
 }
 
-void MainWindow::SetComboIndex(QComboBox *combo, QString str) {
+void MainWindow::setComboIndex(QComboBox *combo, QString str) {
 
     for (ptrdiff_t i=0; i<combo->count(); i++) {
 
@@ -1092,7 +1092,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
         savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_PTcalc->currentText().toAscii());        savedOptions.write("\n");
         savedOptions.write("PTmass");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_PTmass->text().toAscii());               savedOptions.write("\n");
         savedOptions.write("AddPointsCalc");  savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_AddPointsCalc->currentText().toAscii()); savedOptions.write("\n");
-        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params->GetCalcConfigFile().toAscii());               savedOptions.write("\n");
+        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params->val_CalcConfigFile().toAscii());               savedOptions.write("\n");
 
         savedOptions.close();
     }
@@ -1100,7 +1100,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    QString dir(config->Get_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherReport(QFileDialog::getOpenFileName(
             this,
@@ -1114,7 +1114,7 @@ void MainWindow::on_action_OpenReport_activated() {
 
         ui->comboBox_OpenedReports->insertItem(0, anotherReport);
         ui->comboBox_OpenedReports->setCurrentIndex(0);
-        ReportChanged(anotherReport);
+        reportChanged(anotherReport);
         ui->tabWidget_Data->setCurrentIndex(1);
     }
 }
@@ -1151,7 +1151,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
         ui->comboBox_OpenedReports->removeItem(ui->comboBox_OpenedReports->currentIndex());
         ui->comboBox_OpenedReports->insertItem(0, newReportFileName);
         ui->comboBox_OpenedReports->setCurrentIndex(0);
-        ReportChanged(newReportFileName);
+        reportChanged(newReportFileName);
         ui->tabWidget_Data->setCurrentIndex(1);
     }
 }
@@ -1163,7 +1163,7 @@ void MainWindow::on_action_CloseReport_activated() {
         ui->comboBox_OpenedReports->removeItem(ui->comboBox_OpenedReports->currentIndex());
     }
 
-    ReportChanged(ui->comboBox_OpenedReports->currentText());
+    reportChanged(ui->comboBox_OpenedReports->currentText());
     ui->tabWidget_Data->setCurrentIndex(1);
 }
 
@@ -1365,37 +1365,37 @@ void MainWindow::on_action_Preferences_activated() {
 
     for (ptrdiff_t i=0; i<myComboBox_csvdelimiter->count(); i++) {
 
-        if (myComboBox_csvdelimiter->itemText(i) == config->Get_csvDelimiter()) {
+        if (myComboBox_csvdelimiter->itemText(i) == config->val_csvDelimiter()) {
 
             myComboBox_csvdelimiter->setCurrentIndex(i);
             break;
         }
     }
 
-    myLineEdit_filenameSourceEU3->setText(config->Get_filenameSourceEU3());
-    myLineEdit_filenameSourceEU0->setText(config->Get_filenameSourceEU0());
-    myLineEdit_filenamePoints->setText(config->Get_filenamePoints());
-    myLineEdit_filenamePowers->setText(config->Get_filenamePowers());
-    myLineEdit_dirnameReports->setText(config->Get_dirnameReports());
-    myDoubleSpinBox_Dn->setValue(config->Get_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(config->Get_ConcO2air());
-    myDoubleSpinBox_Rr->setValue(config->Get_Rr());
-    myDoubleSpinBox_L0->setValue(config->Get_L0());
-    myDoubleSpinBox_L->setValue(config->Get_L());
-    myDoubleSpinBox_ConcCO2air->setValue(config->Get_ConcCO2air());
-    myDoubleSpinBox_WH->setValue(config->Get_WH());
-    myDoubleSpinBox_WO2->setValue(config->Get_WO2());
-    myDoubleSpinBox_WN->setValue(config->Get_WN());
-    myDoubleSpinBox_roAir->setValue(config->Get_roAir());
-    myDoubleSpinBox_muNO2->setValue(config->Get_muNO2());
-    myDoubleSpinBox_muCO->setValue(config->Get_muCO());
-    myDoubleSpinBox_muCH->setValue(config->Get_muCH());
+    myLineEdit_filenameSourceEU3->setText(config->val_filenameSourceEU3());
+    myLineEdit_filenameSourceEU0->setText(config->val_filenameSourceEU0());
+    myLineEdit_filenamePoints->setText(config->val_filenamePoints());
+    myLineEdit_filenamePowers->setText(config->val_filenamePowers());
+    myLineEdit_dirnameReports->setText(config->val_dirnameReports());
+    myDoubleSpinBox_Dn->setValue(config->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(config->val_ConcO2air());
+    myDoubleSpinBox_Rr->setValue(config->val_Rr());
+    myDoubleSpinBox_L0->setValue(config->val_L0());
+    myDoubleSpinBox_L->setValue(config->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(config->val_ConcCO2air());
+    myDoubleSpinBox_WH->setValue(config->val_WH());
+    myDoubleSpinBox_WO2->setValue(config->val_WO2());
+    myDoubleSpinBox_WN->setValue(config->val_WN());
+    myDoubleSpinBox_roAir->setValue(config->val_roAir());
+    myDoubleSpinBox_muNO2->setValue(config->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(config->val_muCO());
+    myDoubleSpinBox_muCH->setValue(config->val_muCH());
 
     //
 
     if (preferencesDialog->exec() == QDialog::Accepted) {
 
-        ReadPreferences();
+        readPreferences();
     }
 }
 
@@ -1459,7 +1459,7 @@ void MainWindow::on_action_PasteToTable_activated() {
         return;
     }
 
-    TableCellChangedConnect(false);
+    tableCellChangedConnect(false);
 
     for (ptrdiff_t i=0; i<numRows; i++) {
 
@@ -1471,9 +1471,9 @@ void MainWindow::on_action_PasteToTable_activated() {
         }
     }
 
-    TableCellChangedConnect(true);
+    tableCellChangedConnect(true);
 
-    SaveState();
+    saveState();
 }
 
 void MainWindow::on_action_DeleteFromTable_activated() {
@@ -1482,7 +1482,7 @@ void MainWindow::on_action_DeleteFromTable_activated() {
 
         QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
 
-        TableCellChangedConnect(false);
+        tableCellChangedConnect(false);
 
         for (ptrdiff_t i=0; i<selectedRange.rowCount(); i++) {
 
@@ -1492,15 +1492,15 @@ void MainWindow::on_action_DeleteFromTable_activated() {
             }
         }
 
-        TableCellChangedConnect(true);
+        tableCellChangedConnect(true);
 
-        SaveState();
+        saveState();
     }
 }
 
 void MainWindow::on_action_Add_activated() {
 
-    if (!ArithmeticOperation("add")) {
+    if (!arithmeticOperation("add")) {
 
         QMessageBox::critical(0, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
     }
@@ -1508,7 +1508,7 @@ void MainWindow::on_action_Add_activated() {
 
 void MainWindow::on_action_Multiply_activated() {
 
-    if (!ArithmeticOperation("multiply")) {
+    if (!arithmeticOperation("multiply")) {
 
         QMessageBox::critical(0, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
     }
@@ -1516,7 +1516,7 @@ void MainWindow::on_action_Multiply_activated() {
 
 void MainWindow::on_action_Divide_activated() {
 
-    if (!ArithmeticOperation("divide")) {
+    if (!arithmeticOperation("divide")) {
 
         QMessageBox::critical(0, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
     }
@@ -1524,7 +1524,7 @@ void MainWindow::on_action_Divide_activated() {
 
 void MainWindow::on_action_Equal_activated() {
 
-    if (!ArithmeticOperation("equal")) {
+    if (!arithmeticOperation("equal")) {
 
         QMessageBox::critical(0, "Qr49", tr("Operation is impossible!"), 0, 0, 0);
     }
@@ -1532,7 +1532,7 @@ void MainWindow::on_action_Equal_activated() {
 
 void MainWindow::on_action_AddRow_activated() {
 
-    TableCellChangedConnect(false);
+    tableCellChangedConnect(false);
 
     if ( (table != ui->tableWidget_SrcDataEU0) && (table != ui->tableWidget_SrcDataEU3) ) {
 
@@ -1553,9 +1553,9 @@ void MainWindow::on_action_AddRow_activated() {
         }
     }
 
-    TableCellChangedConnect(true);
+    tableCellChangedConnect(true);
 
-    SaveState();
+    saveState();
 }
 
 void MainWindow::on_action_DeleteRow_activated() {
@@ -1565,7 +1565,7 @@ void MainWindow::on_action_DeleteRow_activated() {
         table->setRowCount(table->rowCount()-1);
     }
 
-    SaveState();
+    saveState();
 }
 
 void MainWindow::on_action_Toolbar_activated() {
@@ -1586,7 +1586,7 @@ void MainWindow::on_action_Execute_activated() {
     ptrdiff_t m = table->columnCount();
 
     Double2DArray *Array_DataForCalc = new Double2DArray(n+1, m);
-    double **array_DataForCalc = Array_DataForCalc->GetPointerOnArray();
+    double **array_DataForCalc = Array_DataForCalc->arrayPointer();
 
     for (ptrdiff_t i=1; i<n+1; i++) {
 
@@ -1600,48 +1600,48 @@ void MainWindow::on_action_Execute_activated() {
 
     QString message("\nCalculation completed!\n\n");
 
-    FillParameters();
+    fillParameters();
 
     if (ui->comboBox_task->currentText() == "points") {
 
         CyclePoints *myPoints = new CyclePoints(params, config);
 
-        if (!myPoints->GetDataFromCSV(array_DataForCalc, n, m)) {
+        if (!myPoints->readCSV(array_DataForCalc, n, m)) {
 
             delete myPoints;
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: GetDataFromCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myPoints->FillArrays()) {
+        if (!myPoints->fillArrays()) {
 
             delete myPoints;
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: FillArrays function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: fillArrays function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        message += myPoints->CreateReport();
+        message += myPoints->createReport();
 
         delete myPoints;
 
         //
 
-        QString filenamePoints = config->Get_filenamePoints();
+        QString filenamePoints = config->val_filenamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
-            TableCellChangedConnect(false);
+            tableCellChangedConnect(false);
 
-            if (!FillTablePoints(filenamePoints)) {
+            if (!fillTablePoints(filenamePoints)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: FillTablePoints function returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: fillTablePoints function returns false!"), 0, 0, 0);
             }
 
-            TableCellChangedConnect(true);
+            tableCellChangedConnect(true);
         }
         else {
 
@@ -1657,36 +1657,36 @@ void MainWindow::on_action_Execute_activated() {
 
         CycleEmissions *myEmissions = new CycleEmissions(params, config);
 
-        if (!myEmissions->GetDataFromCSV(array_DataForCalc, n, m)) {
+        if (!myEmissions->readCSV(array_DataForCalc, n, m)) {
 
             delete myEmissions;
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: GetDataFromCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myEmissions->MakeCalculations()) {
+        if (!myEmissions->calculate()) {
 
             delete myEmissions;
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: MakeCalculations function returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: calculate function returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
 
             return;
         }
 
         if (ui->checkBox_reports->isChecked()) {
 
-            message += myEmissions->CreateReports(true);
+            message += myEmissions->createReports(true);
 
             //
 
-            //QDir ReportsDir(config->Get_dirnameReports());
+            //QDir ReportsDir(config->val_dirnameReports());
             //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
             //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-            lastReportsDir = myEmissions->GetLastReportsDir();
+            lastReportsDir = myEmissions->lastReportsDir();
 
             QString csvfilter("*.csv");
             QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
@@ -1710,12 +1710,12 @@ void MainWindow::on_action_Execute_activated() {
 
                 ui->comboBox_OpenedReports->insertItem(0, lastReportFileName);
                 ui->comboBox_OpenedReports->setCurrentIndex(0);
-                ReportChanged(lastReportFileName);
+                reportChanged(lastReportFileName);
             }
         }
         else {
 
-            message += myEmissions->CreateReports(false);
+            message += myEmissions->createReports(false);
         }
 
         delete myEmissions;
@@ -1724,16 +1724,16 @@ void MainWindow::on_action_Execute_activated() {
 
         ReducedPower *myReducedPower = new ReducedPower(params, config);
 
-        if (!myReducedPower->GetDataFromCSV(array_DataForCalc, n, m)) {
+        if (!myReducedPower->readCSV(array_DataForCalc, n, m)) {
 
             delete myReducedPower;
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: GetDataFromCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: readCSV function returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myReducedPower->ReducePower()) {
+        if (!myReducedPower->reducePower()) {
 
             delete myReducedPower;
 
@@ -1742,16 +1742,16 @@ void MainWindow::on_action_Execute_activated() {
             return;
         }
 
-        message += myReducedPower->CreateReports();
+        message += myReducedPower->createReports();
 
         //
 
-        //QDir ReportsDir(config->Get_dirnameReports());
+        //QDir ReportsDir(config->val_dirnameReports());
         //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
         //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-        lastReportsDir = myReducedPower->GetLastReportsDir();
+        lastReportsDir = myReducedPower->lastReportsDir();
 
         QString csvfilter("*.csv");
         QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
@@ -1851,7 +1851,7 @@ void MainWindow::on_action_AboutQt_activated() {
 
 void MainWindow::on_action_CheckForUpdates_activated() {
 
-    newVersions->CheckAvailableVersions();
+    newVersions->checkAvailableVersions();
 }
 
 void MainWindow::on_pushButton_EnterPTmass_clicked() {
@@ -1876,7 +1876,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
     }
 }
 
-void MainWindow::TaskChanged(QString str) {
+void MainWindow::taskChanged(QString str) {
 
     if (str == "points") {
 
@@ -1916,11 +1916,11 @@ void MainWindow::TaskChanged(QString str) {
                   (ui->comboBox_standard->currentText() == "EU3") ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
-            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); GetUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
         }
         else {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); GetUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
 
@@ -1976,7 +1976,7 @@ void MainWindow::TaskChanged(QString str) {
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
 
-        ui->tableWidget_SrcDataPoints->setEnabled(true); ui->tableWidget_SrcDataPoints->setFocus(); GetUndoRedoCounters(table);
+        ui->tableWidget_SrcDataPoints->setEnabled(true); ui->tableWidget_SrcDataPoints->setFocus(); getUndoRedoCounters(table);
 
         ui->action_OpenReport->setEnabled(true);
         ui->action_SaveReportAs->setEnabled(true);
@@ -2001,7 +2001,7 @@ void MainWindow::TaskChanged(QString str) {
         ui->checkBox_reports->setEnabled(false);
 
         ui->tab_Reports->setEnabled(true);
-        ui->tab_RedPower->setEnabled(true); ui->tableWidget_FullLoadCurve->setFocus(); GetUndoRedoCounters(table);
+        ui->tab_RedPower->setEnabled(true); ui->tableWidget_FullLoadCurve->setFocus(); getUndoRedoCounters(table);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
@@ -2019,7 +2019,7 @@ void MainWindow::TaskChanged(QString str) {
     }
 }
 
-void MainWindow::StandardChanged(QString str) {
+void MainWindow::standardChanged(QString str) {
 
     if (ui->comboBox_task->currentText() == "ReducedPower") {
 
@@ -2035,7 +2035,7 @@ void MainWindow::StandardChanged(QString str) {
         if (ui->comboBox_task->currentText() == "points") {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
-            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); GetUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
         }
     }
     else if ( (str == "C1") || (str == "D1") || (str == "D2") || (str == "E1") || (str == "E2") || (str == "E3") || (str == "E5") ||
@@ -2050,7 +2050,7 @@ void MainWindow::StandardChanged(QString str) {
 
         if (ui->comboBox_task->currentText() == "points") {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); GetUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
     }
@@ -2070,7 +2070,7 @@ void MainWindow::PTcalcChanged(QString str) {
     }
 }
 
-void MainWindow::ReportChanged(QString path) {
+void MainWindow::reportChanged(QString path) {
 
     QFile reportFile(path);
     QString myreport;
@@ -2081,7 +2081,7 @@ void MainWindow::ReportChanged(QString path) {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49", tr("ReportChanged: can not open report file!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", tr("reportChanged: can not open report file!"), 0, 0, 0);
 
         return;
     }
@@ -2093,7 +2093,7 @@ void MainWindow::ReportChanged(QString path) {
     ui->plainTextEdit_Report->setPlainText(QString::fromLocal8Bit(stdstrrep.c_str()));
 }
 
-void MainWindow::TabChanged(int tab) {
+void MainWindow::tabChanged(int tab) {
 
     if (tab == 1) {
 
@@ -2141,7 +2141,7 @@ void MainWindow::TabChanged(int tab) {
     }
 }
 
-void MainWindow::ArithmeticOperationIsAvailable(bool b) {
+void MainWindow::arithmeticOperationIsAvailable(bool b) {
 
     ui->action_Add->setEnabled(b);
     ui->action_Multiply->setEnabled(b);
@@ -2149,7 +2149,7 @@ void MainWindow::ArithmeticOperationIsAvailable(bool b) {
     ui->action_Equal->setEnabled(b);
 }
 
-void MainWindow::TableCellChanged(int n, int m) {
+void MainWindow::tableCellChanged(int n, int m) {
 
     QString str = table->item(n, m)->text();
     int pos = 0;
@@ -2163,42 +2163,42 @@ void MainWindow::TableCellChanged(int n, int m) {
         return;
     }
 
-    SaveState();
+    saveState();
 }
 
-void MainWindow::GetUndoRedoCounters(QTableWidget *tbl) {
+void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {
 
     if (tbl == ui->tableWidget_SrcDataEU0) {
 
-        undoCount = undoRedo_TableEU0->GetUndoTableNumber();
-        redoCount = undoRedo_TableEU0->GetRedoTableNumber();
+        undoCount = undoRedo_TableEU0->undoTableNumber();
+        redoCount = undoRedo_TableEU0->redoTableNumber();
 
-        SetUndoRedoButtonState();
+        setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataEU3) {
 
-        undoCount = undoRedo_TableEU3->GetUndoTableNumber();
-        redoCount = undoRedo_TableEU3->GetRedoTableNumber();
+        undoCount = undoRedo_TableEU3->undoTableNumber();
+        redoCount = undoRedo_TableEU3->redoTableNumber();
 
-        SetUndoRedoButtonState();
+        setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataPoints) {
 
-        undoCount = undoRedo_TablePoints->GetUndoTableNumber();
-        redoCount = undoRedo_TablePoints->GetRedoTableNumber();
+        undoCount = undoRedo_TablePoints->undoTableNumber();
+        redoCount = undoRedo_TablePoints->redoTableNumber();
 
-        SetUndoRedoButtonState();
+        setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_FullLoadCurve) {
 
-        undoCount = undoRedo_TableFullLoadCurve->GetUndoTableNumber();
-        redoCount = undoRedo_TableFullLoadCurve->GetRedoTableNumber();
+        undoCount = undoRedo_TableFullLoadCurve->undoTableNumber();
+        redoCount = undoRedo_TableFullLoadCurve->redoTableNumber();
 
-        SetUndoRedoButtonState();
+        setUndoRedoButtonState();
     }
 }
 
-void MainWindow::SetUndoRedoButtonState() {
+void MainWindow::setUndoRedoButtonState() {
 
     QString ttUndo(tr("Undo"));
     QString ttRedo(tr("Redo"));
@@ -2229,90 +2229,90 @@ void MainWindow::SetUndoRedoButtonState() {
     }
 }
 
-void MainWindow::SaveState() {
+void MainWindow::saveState() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->SaveState();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU0->saveState();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->SaveState();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU3->saveState();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->SaveState();
-        GetUndoRedoCounters(table);
+        undoRedo_TablePoints->saveState();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->SaveState();
-        GetUndoRedoCounters(table);
+        undoRedo_TableFullLoadCurve->saveState();
+        getUndoRedoCounters(table);
     }
 }
 
-void MainWindow::SaveStateForAllTables() {
+void MainWindow::saveStateForAllTables() {
 
-    undoRedo_TableEU0->SaveState();
-    undoRedo_TableEU3->SaveState();
-    undoRedo_TablePoints->SaveState();
-    undoRedo_TableFullLoadCurve->SaveState();
+    undoRedo_TableEU0->saveState();
+    undoRedo_TableEU3->saveState();
+    undoRedo_TablePoints->saveState();
+    undoRedo_TableFullLoadCurve->saveState();
 }
 
 void MainWindow::on_action_UndoTable_activated() {
 
-    TableCellChangedConnect(false);
+    tableCellChangedConnect(false);
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->UndoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU0->undoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->UndoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU3->undoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->UndoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TablePoints->undoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->UndoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableFullLoadCurve->undoTable();
+        getUndoRedoCounters(table);
     }
 
-    TableCellChangedConnect(true);
+    tableCellChangedConnect(true);
 }
 
 void MainWindow::on_action_RedoTable_activated() {
 
-    TableCellChangedConnect(false);
+    tableCellChangedConnect(false);
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0->RedoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU0->redoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3->RedoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableEU3->redoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints->RedoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TablePoints->redoTable();
+        getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve->RedoTable();
-        GetUndoRedoCounters(table);
+        undoRedo_TableFullLoadCurve->redoTable();
+        getUndoRedoCounters(table);
     }
 
-    TableCellChangedConnect(true);
+    tableCellChangedConnect(true);
 }

@@ -29,9 +29,9 @@ public:
     explicit csvRead();
     virtual ~csvRead();
 
-    bool ReadData(QString, QString, ptrdiff_t *);
-    bool CheckArrayDimension(ptrdiff_t);
-    bool FillArray(double **) const;
+    bool readData(QString, QString, ptrdiff_t *);
+    bool checkArrayDimension(ptrdiff_t);
+    bool fillArray(double **) const;
 
 private:
 

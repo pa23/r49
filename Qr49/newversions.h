@@ -31,14 +31,14 @@ public:
 
     explicit NewVersions();
     virtual ~NewVersions();
-    void CheckAvailableVersions();
+    void checkAvailableVersions();
 
 private:
 
-    void ParseHtmlData();
+    void parseHtmlData();
 
     QNetworkAccessManager *netmanager;
-    QString HtmlData;
+    QString htmlData;
     QStringList files;
     QStringList urls;
 

@@ -67,9 +67,9 @@ CyclePoints::CyclePoints(LibtoxicParameters *prms, CommonParameters *cfg) :
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->GetCalcConfigFile() != "_._") {
+    if (params->val_CalcConfigFile() != "_._") {
 
-        params->ReadCalcConfigFile(params->GetCalcConfigFile());
+        params->readCalcConfigFile(params->val_CalcConfigFile());
     }
 }
 
@@ -96,10 +96,10 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
     return *this;
 }
 
-bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool CyclePoints::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
-    QString std = params->GetStandard();
-    QString csvdelimiter = config->Get_csvDelimiter();
+    QString std = params->val_Standard();
+    QString csvdelimiter = config->val_csvDelimiter();
     QString filenameSource = "";
 
     Double2DArray  *SourceData;
@@ -111,18 +111,18 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-            filenameSource = config->Get_filenameSourceEU3();
+            filenameSource = config->val_filenameSourceEU3();
         }
         else {
 
-            filenameSource = config->Get_filenameSourceEU0();
+            filenameSource = config->val_filenameSourceEU0();
         }
 
-        if (!ReaderSourceData->ReadData(filenameSource, csvdelimiter, &NumberOfPoints)) {
+        if (!ReaderSourceData->readData(filenameSource, csvdelimiter, &NumberOfPoints)) {
 
             delete ReaderSourceData;
 
-            qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: ReadData function returns false!";
+            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: readData function returns false!";
 
             return false;
         }
@@ -130,24 +130,24 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
             SourceData = new Double2DArray(NumberOfPoints, EU3SrcDataParamsNumber);
-            arraySourceData = SourceData->GetPointerOnArray();
+            arraySourceData = SourceData->arrayPointer();
 
-            if (!ReaderSourceData->CheckArrayDimension(EU3SrcDataParamsNumber)) {
+            if (!ReaderSourceData->checkArrayDimension(EU3SrcDataParamsNumber)) {
 
                 delete SourceData;
                 delete ReaderSourceData;
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: CheckArrayDimension function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: checkArrayDimension function returns false!";
 
                 return false;
             }
 
-            if (!ReaderSourceData->FillArray(arraySourceData)) {
+            if (!ReaderSourceData->fillArray(arraySourceData)) {
 
                 delete SourceData;
                 delete ReaderSourceData;
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: FillArray function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: fillArray function returns false!";
 
                 return false;
             }
@@ -164,12 +164,12 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             Ne_a2       = arraySourceData[StrsNumberForColumnCaption][ 9];
             Ne_a3       = arraySourceData[StrsNumberForColumnCaption][10];
 
-            if (!CalcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 delete SourceData;
                 delete ReaderSourceData;
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: CalcABC function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
 
                 return false;
             }
@@ -184,24 +184,24 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
                   (std == "F") || (std == "G1") || (std == "G2") ) {
 
             SourceData = new Double2DArray(NumberOfPoints, EU0SrcDataParamsNumber);
-            arraySourceData = SourceData->GetPointerOnArray();
+            arraySourceData = SourceData->arrayPointer();
 
-            if (!ReaderSourceData->CheckArrayDimension(EU0SrcDataParamsNumber)) {
+            if (!ReaderSourceData->checkArrayDimension(EU0SrcDataParamsNumber)) {
 
                 delete SourceData;
                 delete ReaderSourceData;
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: CheckArrayDimension function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: checkArrayDimension function returns false!";
 
                 return false;
             }
 
-            if (!ReaderSourceData->FillArray(arraySourceData)) {
+            if (!ReaderSourceData->fillArray(arraySourceData)) {
 
                 delete SourceData;
                 delete ReaderSourceData;
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: FillArray function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: fillArray function returns false!";
 
                 return false;
             }
@@ -217,7 +217,7 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
             delete ReaderSourceData;
 
-            qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: incorrect program configuration!";
+            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
 
             return false;
         }
@@ -245,9 +245,9 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             Ne_a2       = arraySourceData[StrsNumberForColumnCaption][ 9];
             Ne_a3       = arraySourceData[StrsNumberForColumnCaption][10];
 
-            if (!CalcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: CalcABC function returns false!";
+                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
 
                 return false;
             }
@@ -270,14 +270,14 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: incorrect program configuration!";
+            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
 
             return false;
         }
     }
     else {
 
-        qDebug() << "libtoxic ERROR: CyclePoints: GetDataFromCSV: Illegal data!";
+        qDebug() << "libtoxic ERROR: CyclePoints: readCSV: Illegal data!";
 
         return false;
     }
@@ -285,17 +285,17 @@ bool CyclePoints::GetDataFromCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
     return true;
 }
 
-bool CyclePoints::FillArrays() {
+bool CyclePoints::fillArrays() {
 
     FillArrays_OK = false;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
         ptrdiff_t n = 0;
 
-        if (params->GetAddPointsCalc() == "yes") {
+        if (params->val_AddPointsCalc() == "yes") {
 
             n = TCyclePointsNumber;
         }
@@ -305,19 +305,19 @@ bool CyclePoints::FillArrays() {
         }
 
         Array_n = new Double2DArray(n, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(n, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(n, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(n, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(n, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = idle;
         array_n[ 1][0] = A;
@@ -333,7 +333,7 @@ bool CyclePoints::FillArrays() {
         array_n[11][0] = C;
         array_n[12][0] = C;
 
-        if (params->GetAddPointsCalc() == "yes") {
+        if (params->val_AddPointsCalc() == "yes") {
 
             array_n[13][0] = a1;
             array_n[14][0] = a2;
@@ -359,7 +359,7 @@ bool CyclePoints::FillArrays() {
         array_Ne_brutto[11][0] = 0.75  * (Ne_C - array_N_fan[11][0]) + array_N_fan[11][0];
         array_Ne_brutto[12][0] = 0.50  * (Ne_C - array_N_fan[12][0]) + array_N_fan[12][0];
 
-        if (params->GetAddPointsCalc() == "yes") {
+        if (params->val_AddPointsCalc() == "yes") {
 
             array_Ne_brutto[13][0] = 0.875 * (Ne_a1 - array_N_fan[13][0]) + array_N_fan[13][0];
             array_Ne_brutto[14][0] = 0.625 * (Ne_a2 - array_N_fan[14][0]) + array_N_fan[14][0];
@@ -385,7 +385,7 @@ bool CyclePoints::FillArrays() {
         array_w[11][0] = 0.05;
         array_w[12][0] = 0.05;
 
-        if (params->GetAddPointsCalc() == "yes") {
+        if (params->val_AddPointsCalc() == "yes") {
 
             array_w[13][0] = 1.0;
             array_w[14][0] = 1.0;
@@ -395,19 +395,19 @@ bool CyclePoints::FillArrays() {
     else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") ) {
 
         Array_n = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = idle;
         array_n[ 1][0] = n_interim;
@@ -464,19 +464,19 @@ bool CyclePoints::FillArrays() {
     else if ( (std == "OST") || (std == "GOST") ) {
 
         Array_n = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(TCyclePointsNumber - TCycleAddPointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = idle;
         array_n[ 1][0] = n_interim;
@@ -555,19 +555,19 @@ bool CyclePoints::FillArrays() {
               (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ) {
 
         Array_n = new Double2DArray(ECyclePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(ECyclePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(ECyclePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(ECyclePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(ECyclePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -606,19 +606,19 @@ bool CyclePoints::FillArrays() {
               (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
         Array_n = new Double2DArray(FCyclePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(FCyclePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(FCyclePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(FCyclePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(FCyclePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_Ne_brutto[ 0][0] =         Ne_rated;
         array_Ne_brutto[ 1][0] = 0.75  * Ne_rated;
@@ -642,19 +642,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "C1") {
 
         Array_n = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GC1CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -691,19 +691,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "D1") {
 
         Array_n = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GD1CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -725,19 +725,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "D2") {
 
         Array_n = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GD2CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -765,19 +765,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "E1") {
 
         Array_n = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GE1CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -805,19 +805,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "E2") {
 
         Array_n = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GE2CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -842,19 +842,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "E3") {
 
         Array_n = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GE3CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = 0.91 * n_rated;
@@ -874,19 +874,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "E5") {
 
         Array_n = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GE5CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = 0.91 * n_rated;
@@ -909,19 +909,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "F") {
 
         Array_n = new Double2DArray(GFCylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GFCylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GFCylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GFCylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GFCylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_interim;
@@ -943,19 +943,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "G1") {
 
         Array_n = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GG1CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_interim;
         array_n[ 1][0] = n_interim;
@@ -986,19 +986,19 @@ bool CyclePoints::FillArrays() {
     else if (std == "G2") {
 
         Array_n = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_n = Array_n->GetPointerOnArray();
+        array_n = Array_n->arrayPointer();
 
         Array_Me_brutto = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_Me_brutto = Array_Me_brutto->GetPointerOnArray();
+        array_Me_brutto = Array_Me_brutto->arrayPointer();
 
         Array_Ne_brutto = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_Ne_brutto = Array_Ne_brutto->GetPointerOnArray();
+        array_Ne_brutto = Array_Ne_brutto->arrayPointer();
 
         Array_N_fan = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_N_fan = Array_N_fan->GetPointerOnArray();
+        array_N_fan = Array_N_fan->arrayPointer();
 
         Array_w = new Double2DArray(GG2CylcePointsNumber, 1);
-        array_w = Array_w->GetPointerOnArray();
+        array_w = Array_w->arrayPointer();
 
         array_n[ 0][0] = n_rated;
         array_n[ 1][0] = n_rated;
@@ -1028,7 +1028,7 @@ bool CyclePoints::FillArrays() {
     }
     else {
 
-        qDebug() << "r49 ERROR: CyclePoints: FillArrays: incorrect program configuration!";
+        qDebug() << "r49 ERROR: CyclePoints: fillArrays: incorrect program configuration!";
 
         return false;
     }
@@ -1038,19 +1038,19 @@ bool CyclePoints::FillArrays() {
     return true;
 }
 
-QString CyclePoints::CreateReport() const {
+QString CyclePoints::createReport() const {
 
     QString message = "";
 
-    QString filenamePoints = config->Get_filenamePoints();
-    string csvdelimiter = (config->Get_csvDelimiter()).toStdString();
+    QString filenamePoints = config->val_filenamePoints();
+    string csvdelimiter = (config->val_csvDelimiter()).toStdString();
 
     ofstream fout(filenamePoints.toAscii());
 
     if (!fout) {
 
-        message += "libtoxic ERROR: CyclePoints: CreateReport: fout was not created!\n";
-        qDebug() << "\nlibtoxic ERROR: CyclePoints: CreateReport: fout was not created!";
+        message += "libtoxic ERROR: CyclePoints: createReport: fout was not created!\n";
+        qDebug() << "\nlibtoxic ERROR: CyclePoints: createReport: fout was not created!";
 
         return message;
     }
@@ -1084,12 +1084,12 @@ QString CyclePoints::CreateReport() const {
     fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
     fout << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << endl;
 
-    QString std = params->GetStandard();
+    QString std = params->val_Standard();
 
     ptrdiff_t n = 0;
     if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
-        if (params->GetAddPointsCalc() == "yes") {
+        if (params->val_AddPointsCalc() == "yes") {
 
             n = TCyclePointsNumber;
         }
@@ -1148,8 +1148,8 @@ QString CyclePoints::CreateReport() const {
 
         fout.close();
 
-        message += "libtoxic ERROR: CyclePoints: CreateReport: points can be calculated only for cycles!\n";
-        qDebug() << "\nlibtoxic ERROR: CyclePoints: CreateReport: points can be calculated only for cycles!";
+        message += "libtoxic ERROR: CyclePoints: createReport: points can be calculated only for cycles!\n";
+        qDebug() << "\nlibtoxic ERROR: CyclePoints: createReport: points can be calculated only for cycles!";
 
         return message;
     }
