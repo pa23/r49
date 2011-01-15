@@ -33,6 +33,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QVector>
 #include <QDir>
 
 using std::string;
@@ -47,14 +48,6 @@ using std::setprecision;
 using std::fixed;
 
 CycleEmissions::CycleEmissions(LibtoxicParameters *prms, CommonParameters *cfg) :
-        GetDataFromCSV_OK       (false),
-        PreCalculate_OK         (false),
-        MakeCalculation_gNOx_OK (false),
-        MakeCalculation_gCO_OK  (false),
-        MakeCalculation_gCH_OK  (false),
-        MakeCalculation_gPT_OK  (false),
-        MakeCalculation_rEGR_OK (false),
-        CompareAlpha_OK         (false),
         NenCalcMethod (true),
         GairVals      (true),
         NOxCalcMethod (true),
@@ -83,95 +76,6 @@ CycleEmissions::CycleEmissions(LibtoxicParameters *prms, CommonParameters *cfg) 
 }
 
 CycleEmissions::~CycleEmissions() {
-
-    if (GetDataFromCSV_OK) {
-
-        delete Array_DataForCalc;
-        delete Array_n;
-        delete Array_Me_brutto;
-        delete Array_Ne_brutto;
-        delete Array_N_fan;
-        delete Array_w;
-        delete Array_t0;
-        delete Array_B0;
-        delete Array_Ra;
-        delete Array_dPn;
-        delete Array_Gair;
-        delete Array_Gfuel;
-        delete Array_CNOx;
-        delete Array_gNOx;
-        delete Array_CCO;
-        delete Array_CCH;
-        delete Array_CCO2in;
-        delete Array_CCO2out;
-        delete Array_CO2;
-        delete Array_Ka1m;
-        delete Array_KaPerc;
-        delete Array_FSN;
-        delete Array_Pr;
-        delete Array_ts;
-        delete Array_tauf;
-        delete Array_qmdw;
-        delete Array_qmdew;
-        delete Array_rd;
-    }
-
-    if (PreCalculate_OK) {
-
-        delete Array_Ne_netto;
-        delete Array_Me_netto;
-        delete Array_alpha;
-        delete Array_alpha_O2;
-        delete Array_Gexh;
-        delete Array_Gexhd;
-        delete Array_Pb;
-        delete Array_Pa;
-        delete Array_Ha;
-        delete Array_Gaird;
-        delete Array_Kw2;
-        delete Array_Ffh;
-        delete Array_Kf;
-        delete Array_Kwr;
-        delete Array_Khd;
-    }
-
-    if (MakeCalculation_gNOx_OK) {
-
-        delete Array_mNOx;
-    }
-
-    if (MakeCalculation_gCO_OK) {
-
-        delete Array_mCO;
-        delete Array_gCO;
-    }
-
-    if (MakeCalculation_gCH_OK) {
-
-        delete Array_mCH;
-        delete Array_gCH;
-    }
-
-    if (MakeCalculation_gPT_OK) {
-
-        delete Array_ror;
-        delete Array_CPT;
-        delete Array_mPT;
-        delete Array_gPT;
-        delete Array_qmedf;
-        delete Array_msepi;
-    }
-
-    if (MakeCalculation_rEGR_OK) {
-
-        delete Array_rEGR;
-        delete Array_alpha_res;
-    }
-
-    if (CompareAlpha_OK) {
-
-        delete Array_diff_alpha;
-    }
 }
 
 CycleEmissions::CycleEmissions(const CycleEmissions &orig) {
@@ -262,64 +166,34 @@ bool CycleEmissions::calculate() {
     return true;
 }
 
-bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
+bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
-    GetDataFromCSV_OK = false;
-
-    if ( (n == 0) && (m == 0) ) {
+    if ( data.isEmpty() ) {
 
         QString filenamePoints = config->val_filenamePoints();
         QString csvdelimiter = config->val_csvDelimiter();
 
-        csvRead *ReaderDataForCalc = new csvRead();
+        csvRead *readerDataForCalc = new csvRead();
 
-        if (!ReaderDataForCalc->readData(filenamePoints, csvdelimiter, &NumberOfPoints)) {
+        array_DataForCalc = readerDataForCalc->csvData(filenamePoints, csvdelimiter);
 
-            delete ReaderDataForCalc;
+        if (data.at(0).size() != PointsFileColumnsNumber) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: readData function returns false!";
+            delete readerDataForCalc;
 
-            return false;
-        }
-
-        Array_DataForCalc = new Double2DArray(NumberOfPoints, PointsFileColumnsNumber);
-        array_DataForCalc = Array_DataForCalc->arrayPointer();
-
-        if (!ReaderDataForCalc->checkArrayDimension(PointsFileColumnsNumber)) {
-
-            delete ReaderDataForCalc;
-
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: checkArrayDimension function returns false!";
+            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: incorrect source data!";
 
             return false;
         }
 
-        if (!ReaderDataForCalc->fillArray(array_DataForCalc)) {
-
-            delete ReaderDataForCalc;
-
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: fillArray function returns false!";
-
-            return false;
-        }
-
-        NumberOfPoints -= StrsNumberForColumnCaption;
-
-        delete ReaderDataForCalc;
-    }
-    else if ( (n > 0) && (m > 0) ) {
-
-        Array_DataForCalc = new Double2DArray(1, 1);
-        array_DataForCalc = data;
-
-        NumberOfPoints = n;
+        delete readerDataForCalc;
     }
     else {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Illegal data!";
-
-        return false;
+        array_DataForCalc = data;
     }
+
+    NumberOfPoints = array_DataForCalc.size();
 
     QString std   = params->val_Standard();
     QString addpc = params->val_AddPointsCalc();
@@ -458,137 +332,82 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
         return false;
     }
 
-    Array_n = new Double2DArray(NumberOfPoints, 1);
-    array_n = Array_n->arrayPointer();
-
-    Array_Me_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_brutto = Array_Me_brutto->arrayPointer();
-
-    Array_Ne_brutto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_brutto = Array_Ne_brutto->arrayPointer();
-
-    Array_N_fan = new Double2DArray(NumberOfPoints, 1);
-    array_N_fan = Array_N_fan->arrayPointer();
-
-    Array_w = new Double2DArray(NumberOfPoints, 1);
-    array_w = Array_w->arrayPointer();
-
-    Array_t0 = new Double2DArray(NumberOfPoints, 1);
-    array_t0 = Array_t0->arrayPointer();
-
-    Array_B0 = new Double2DArray(NumberOfPoints, 1);
-    array_B0 = Array_B0->arrayPointer();
-
-    Array_Ra = new Double2DArray(NumberOfPoints, 1);
-    array_Ra = Array_Ra->arrayPointer();
-
-    Array_dPn = new Double2DArray(NumberOfPoints, 1);
-    array_dPn = Array_dPn->arrayPointer();
-
-    Array_Gair = new Double2DArray(NumberOfPoints, 1);
-    array_Gair = Array_Gair->arrayPointer();
-
-    Array_Gfuel = new Double2DArray(NumberOfPoints, 1);
-    array_Gfuel = Array_Gfuel->arrayPointer();
-
-    Array_CNOx = new Double2DArray(NumberOfPoints, 1);
-    array_CNOx = Array_CNOx->arrayPointer();
-
-    Array_gNOx = new Double2DArray(NumberOfPoints, 1);
-    array_gNOx = Array_gNOx->arrayPointer();
-
-    Array_CCO = new Double2DArray(NumberOfPoints, 1);
-    array_CCO = Array_CCO->arrayPointer();
-
-    Array_CCH = new Double2DArray(NumberOfPoints, 1);
-    array_CCH = Array_CCH->arrayPointer();
-
-    Array_CCO2in = new Double2DArray(NumberOfPoints, 1);
-    array_CCO2in = Array_CCO2in->arrayPointer();
-
-    Array_CCO2out = new Double2DArray(NumberOfPoints, 1);
-    array_CCO2out = Array_CCO2out->arrayPointer();
-
-    Array_CO2 = new Double2DArray(NumberOfPoints, 1);
-    array_CO2 = Array_CO2->arrayPointer();
-
-    Array_Ka1m = new Double2DArray(NumberOfPoints, 1);
-    array_Ka1m = Array_Ka1m->arrayPointer();
-
-    Array_KaPerc = new Double2DArray(NumberOfPoints, 1);
-    array_KaPerc = Array_KaPerc->arrayPointer();
-
-    Array_FSN = new Double2DArray(NumberOfPoints, 1);
-    array_FSN = Array_FSN->arrayPointer();
-
-    Array_Pr = new Double2DArray(NumberOfPoints, 1);
-    array_Pr = Array_Pr->arrayPointer();
-
-    Array_ts = new Double2DArray(NumberOfPoints, 1);
-    array_ts = Array_ts->arrayPointer();
-
-    Array_tauf = new Double2DArray(NumberOfPoints, 1);
-    array_tauf = Array_tauf->arrayPointer();
-
-    Array_qmdw = new Double2DArray(NumberOfPoints, 1);
-    array_qmdw = Array_qmdw->arrayPointer();
-
-    Array_qmdew = new Double2DArray(NumberOfPoints, 1);
-    array_qmdew = Array_qmdew->arrayPointer();
-
-    Array_rd = new Double2DArray(NumberOfPoints, 1);
-    array_rd = Array_rd->arrayPointer();
+    array_n.resize(NumberOfPoints);
+    array_Me_brutto.resize(NumberOfPoints);
+    array_Ne_brutto.resize(NumberOfPoints);
+    array_N_fan.resize(NumberOfPoints);
+    array_w.resize(NumberOfPoints);
+    array_t0.resize(NumberOfPoints);
+    array_B0.resize(NumberOfPoints);
+    array_Ra.resize(NumberOfPoints);
+    array_dPn.resize(NumberOfPoints);
+    array_Gair.resize(NumberOfPoints);
+    array_Gfuel.resize(NumberOfPoints);
+    array_CNOx.resize(NumberOfPoints);
+    array_gNOx.resize(NumberOfPoints);
+    array_CCO.resize(NumberOfPoints);
+    array_CCH.resize(NumberOfPoints);
+    array_CCO2in.resize(NumberOfPoints);
+    array_CCO2out.resize(NumberOfPoints);
+    array_CO2.resize(NumberOfPoints);
+    array_Ka1m.resize(NumberOfPoints);
+    array_KaPerc.resize(NumberOfPoints);
+    array_FSN.resize(NumberOfPoints);
+    array_Pr.resize(NumberOfPoints);
+    array_ts.resize(NumberOfPoints);
+    array_tauf.resize(NumberOfPoints);
+    array_qmdw.resize(NumberOfPoints);
+    array_qmdew.resize(NumberOfPoints);
+    array_rd.resize(NumberOfPoints);
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        array_n        [i][0] = array_DataForCalc[i+1][ 1];
-        array_Me_brutto[i][0] = array_DataForCalc[i+1][ 2];
-        array_Ne_brutto[i][0] = array_DataForCalc[i+1][ 3];
-        array_N_fan    [i][0] = array_DataForCalc[i+1][ 4];
-        array_w        [i][0] = array_DataForCalc[i+1][ 5];
-        array_t0       [i][0] = array_DataForCalc[i+1][ 6];
-        array_B0       [i][0] = array_DataForCalc[i+1][ 7];
-        array_Ra       [i][0] = array_DataForCalc[i+1][ 8];
-        array_dPn      [i][0] = array_DataForCalc[i+1][ 9];
-        array_Gair     [i][0] = array_DataForCalc[i+1][10];
-        array_Gfuel    [i][0] = array_DataForCalc[i+1][11];
-        array_CNOx     [i][0] = array_DataForCalc[i+1][12];
-        array_gNOx     [i][0] = array_DataForCalc[i+1][13];
-        array_CCO      [i][0] = array_DataForCalc[i+1][14];
-        array_CCH      [i][0] = array_DataForCalc[i+1][15];
-        array_CCO2in   [i][0] = array_DataForCalc[i+1][16];
-        array_CCO2out  [i][0] = array_DataForCalc[i+1][17];
-        array_CO2      [i][0] = array_DataForCalc[i+1][18];
-        array_Ka1m     [i][0] = array_DataForCalc[i+1][19];
-        array_KaPerc   [i][0] = array_DataForCalc[i+1][20];
-        array_FSN      [i][0] = array_DataForCalc[i+1][21];
-        array_Pr       [i][0] = array_DataForCalc[i+1][22];
-        array_ts       [i][0] = array_DataForCalc[i+1][23];
-        array_tauf     [i][0] = array_DataForCalc[i+1][24];
-        array_qmdw     [i][0] = array_DataForCalc[i+1][25];
-        array_qmdew    [i][0] = array_DataForCalc[i+1][26];
-        array_rd       [i][0] = array_DataForCalc[i+1][27];
+        array_n        [i] = array_DataForCalc[i+1][ 1];
+        array_Me_brutto[i] = array_DataForCalc[i+1][ 2];
+        array_Ne_brutto[i] = array_DataForCalc[i+1][ 3];
+        array_N_fan    [i] = array_DataForCalc[i+1][ 4];
+        array_w        [i] = array_DataForCalc[i+1][ 5];
+        array_t0       [i] = array_DataForCalc[i+1][ 6];
+        array_B0       [i] = array_DataForCalc[i+1][ 7];
+        array_Ra       [i] = array_DataForCalc[i+1][ 8];
+        array_dPn      [i] = array_DataForCalc[i+1][ 9];
+        array_Gair     [i] = array_DataForCalc[i+1][10];
+        array_Gfuel    [i] = array_DataForCalc[i+1][11];
+        array_CNOx     [i] = array_DataForCalc[i+1][12];
+        array_gNOx     [i] = array_DataForCalc[i+1][13];
+        array_CCO      [i] = array_DataForCalc[i+1][14];
+        array_CCH      [i] = array_DataForCalc[i+1][15];
+        array_CCO2in   [i] = array_DataForCalc[i+1][16];
+        array_CCO2out  [i] = array_DataForCalc[i+1][17];
+        array_CO2      [i] = array_DataForCalc[i+1][18];
+        array_Ka1m     [i] = array_DataForCalc[i+1][19];
+        array_KaPerc   [i] = array_DataForCalc[i+1][20];
+        array_FSN      [i] = array_DataForCalc[i+1][21];
+        array_Pr       [i] = array_DataForCalc[i+1][22];
+        array_ts       [i] = array_DataForCalc[i+1][23];
+        array_tauf     [i] = array_DataForCalc[i+1][24];
+        array_qmdw     [i] = array_DataForCalc[i+1][25];
+        array_qmdew    [i] = array_DataForCalc[i+1][26];
+        array_rd       [i] = array_DataForCalc[i+1][27];
     }
 
     mytime = dateTimeNow();
-
-    GetDataFromCSV_OK = true;
 
     //
 
     if (params->val_Standard() != "FreeCalc") {
 
-        if (!nonZeroArray(array_n, &NumberOfPoints)) {
+        if (!nonZeroArray(array_n)) {
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (n)!";
             return false;
         }
 
-        if (nonZeroArray(array_Me_brutto, &NumberOfPoints)) {
+        if (nonZeroArray(array_Me_brutto)) {
 
             NenCalcMethod = true;
         }
-        else if (nonZeroArray(array_Ne_brutto, &NumberOfPoints)) {
+        else if (nonZeroArray(array_Ne_brutto)) {
 
             NenCalcMethod = false;
         }
@@ -598,29 +417,29 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             return false;
         }
 
-        if (!nonZeroArray(array_t0, &NumberOfPoints)) {
+        if (!nonZeroArray(array_t0)) {
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (t0)!";
             return false;
         }
 
-        if (!nonZeroArray(array_B0, &NumberOfPoints)) {
+        if (!nonZeroArray(array_B0)) {
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (B0)!";
             return false;
         }
 
-        if (!nonZeroArray(array_Ra, &NumberOfPoints)) {
+        if (!nonZeroArray(array_Ra)) {
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Ra)!";
             return false;
         }
 
-        if (nonZeroArray(array_Gair, &NumberOfPoints)) {
+        if (nonZeroArray(array_Gair)) {
 
             GairVals = true;
         }
-        else if (nonZeroArray(array_dPn, &NumberOfPoints)) {
+        else if (nonZeroArray(array_dPn)) {
 
             GairVals = false;
         }
@@ -630,17 +449,17 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             return false;
         }
 
-        if (!nonZeroArray(array_Gfuel, &NumberOfPoints)) {
+        if (!nonZeroArray(array_Gfuel)) {
 
             qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Gfuel)!";
             return false;
         }
 
-        if (nonZeroArray(array_CNOx, &NumberOfPoints)) {
+        if (nonZeroArray(array_CNOx)) {
 
             NOxCalcMethod = true;
         }
-        else if (nonZeroArray(array_gNOx, &NumberOfPoints)) {
+        else if (nonZeroArray(array_gNOx)) {
 
             NOxCalcMethod = false;
         }
@@ -650,7 +469,7 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             return false;
         }
 
-        if (nonZeroArray(array_CCO, &NumberOfPoints)) {
+        if (nonZeroArray(array_CCO)) {
 
             gCOcalc = true;
         }
@@ -659,7 +478,7 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             gCOcalc = false;
         }
 
-        if (nonZeroArray(array_CCH, &NumberOfPoints)) {
+        if (nonZeroArray(array_CCH)) {
 
             gCHcalc = true;
         }
@@ -668,7 +487,7 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             gCHcalc = false;
         }
 
-        if ( nonZeroArray(array_CCO2in, &NumberOfPoints) && nonZeroArray(array_CCO2out, &NumberOfPoints) ) {
+        if ( nonZeroArray(array_CCO2in) && nonZeroArray(array_CCO2out) ) {
 
             EGRcalc = true;
         }
@@ -677,7 +496,7 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
             EGRcalc = false;
         }
 
-        if (nonZeroArray(array_CO2, &NumberOfPoints)) {
+        if (nonZeroArray(array_CO2)) {
 
             CheckMeas = true;
         }
@@ -688,10 +507,10 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
         if (params->val_PTcalc() != "no") {
 
-            if ( !nonZeroArray(array_Pr, &NumberOfPoints) || !nonZeroArray(array_ts, &NumberOfPoints) ||
-                 ( !nonZeroArray(array_Ka1m, &NumberOfPoints) &&
-                   !nonZeroArray(array_KaPerc, &NumberOfPoints) &&
-                   !nonZeroArray(array_FSN, &NumberOfPoints) ) ) {
+            if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
+                 ( !nonZeroArray(array_Ka1m)   &&
+                   !nonZeroArray(array_KaPerc) &&
+                   !nonZeroArray(array_FSN)       ) ) {
 
                 qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
                 return false;
@@ -699,34 +518,34 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
             if (params->val_PTcalc() == "ThroughPTmass") {
 
-                if ( !nonZeroArray(array_tauf, &NumberOfPoints) || !nonZeroArray(array_qmdew, &NumberOfPoints) ||
-                     ( !nonZeroArray(array_qmdw, &NumberOfPoints) &&
-                       !nonZeroArray(array_rd, &NumberOfPoints) ) ) {
+                if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
+                     ( !nonZeroArray(array_qmdw) &&
+                       !nonZeroArray(array_rd)      ) ) {
 
                     qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
                     return false;
                 }
 
-                if (nonZeroArray(array_qmdw, &NumberOfPoints)) {
+                if (nonZeroArray(array_qmdw)) {
 
                     qmdwVSrd = true;
                 }
-                else if (nonZeroArray(array_rd, &NumberOfPoints)) {
+                else if (nonZeroArray(array_rd)) {
 
                     qmdwVSrd = false;
                 }
             }
         }
 
-        if (nonZeroArray(array_FSN, &NumberOfPoints)) {
+        if (nonZeroArray(array_FSN)) {
 
             smoke = 2;
         }
-        else if (nonZeroArray(array_Ka1m, &NumberOfPoints)) {
+        else if (nonZeroArray(array_Ka1m)) {
 
             smoke = 0;
         }
-        else if (nonZeroArray(array_KaPerc, &NumberOfPoints)) {
+        else if (nonZeroArray(array_KaPerc)) {
 
             smoke = 1;
         }
@@ -743,52 +562,21 @@ bool CycleEmissions::readCSV(double **data, ptrdiff_t n, ptrdiff_t m) {
 
 bool CycleEmissions::preCalculate() {
 
-    PreCalculate_OK = false;
-
-    Array_Ne_netto = new Double2DArray(NumberOfPoints, 1);
-    array_Ne_netto = Array_Ne_netto->arrayPointer();
-
-    Array_Me_netto = new Double2DArray(NumberOfPoints, 1);
-    array_Me_netto = Array_Me_netto->arrayPointer();
-
-    Array_alpha = new Double2DArray(NumberOfPoints, 1);
-    array_alpha = Array_alpha->arrayPointer();
-
-    Array_alpha_O2 = new Double2DArray(NumberOfPoints, 1);
-    array_alpha_O2 = Array_alpha_O2->arrayPointer();
-
-    Array_Gexh = new Double2DArray(NumberOfPoints, 1);
-    array_Gexh = Array_Gexh->arrayPointer();
-
-    Array_Gexhd = new Double2DArray(NumberOfPoints, 1);
-    array_Gexhd = Array_Gexhd->arrayPointer();
-
-    Array_Pb = new Double2DArray(NumberOfPoints, 1);
-    array_Pb = Array_Pb->arrayPointer();
-
-    Array_Pa = new Double2DArray(NumberOfPoints, 1);
-    array_Pa = Array_Pa->arrayPointer();
-
-    Array_Ha = new Double2DArray(NumberOfPoints, 1);
-    array_Ha = Array_Ha->arrayPointer();
-
-    Array_Gaird = new Double2DArray(NumberOfPoints, 1);
-    array_Gaird = Array_Gaird->arrayPointer();
-
-    Array_Kw2 = new Double2DArray(NumberOfPoints, 1);
-    array_Kw2 = Array_Kw2->arrayPointer();
-
-    Array_Ffh = new Double2DArray(NumberOfPoints, 1);
-    array_Ffh = Array_Ffh->arrayPointer();
-
-    Array_Kf = new Double2DArray(NumberOfPoints, 1);
-    array_Kf = Array_Kf->arrayPointer();
-
-    Array_Kwr = new Double2DArray(NumberOfPoints, 1);
-    array_Kwr = Array_Kwr->arrayPointer();
-
-    Array_Khd = new Double2DArray(NumberOfPoints, 1);
-    array_Khd = Array_Khd->arrayPointer();
+    array_Ne_netto.resize(NumberOfPoints);
+    array_Me_netto.resize(NumberOfPoints);
+    array_alpha.resize(NumberOfPoints);
+    array_alpha_O2.resize(NumberOfPoints);
+    array_Gexh.resize(NumberOfPoints);
+    array_Gexhd.resize(NumberOfPoints);
+    array_Pb.resize(NumberOfPoints);
+    array_Pa.resize(NumberOfPoints);
+    array_Ha.resize(NumberOfPoints);
+    array_Gaird.resize(NumberOfPoints);
+    array_Kw2.resize(NumberOfPoints);
+    array_Ffh.resize(NumberOfPoints);
+    array_Kf.resize(NumberOfPoints);
+    array_Kwr.resize(NumberOfPoints);
+    array_Khd.resize(NumberOfPoints);
 
     QString std = params->val_Standard();
 
@@ -834,11 +622,11 @@ bool CycleEmissions::preCalculate() {
 
         if (NenCalcMethod) {
 
-            array_Ne_brutto[i][0] = array_Me_brutto[i][0] * array_n[i][0] / 9550.0;
+            array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
         }
         else if (!NenCalcMethod) {
 
-            array_Me_brutto[i][0] = array_Ne_brutto[i][0] * 9550.0 / array_n[i][0];
+            array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
         if ( (std == "C1") || (std == "D1") || (std == "D2") || (std == "E1") || (std == "E2") ||
@@ -848,14 +636,14 @@ bool CycleEmissions::preCalculate() {
              (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
              (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
-            array_Ne_netto[i][0] = array_Ne_brutto[i][0];
+            array_Ne_netto[i] = array_Ne_brutto[i];
         }
         else {
 
-            array_Ne_netto[i][0] = array_Ne_brutto[i][0] - array_N_fan[i][0];
+            array_Ne_netto[i] = array_Ne_brutto[i] - array_N_fan[i];
         }
 
-        array_Me_netto[i][0] = array_Ne_netto[i][0] * 9550.0 / array_n[i][0];
+        array_Me_netto[i] = array_Ne_netto[i] * 9550.0 / array_n[i];
 
         if (!GairVals) {
 
@@ -868,10 +656,10 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            array_Gair[i][0] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i][0] * 7.500616827 * array_B0[i][0])/(array_t0[i][0] + 273.0));
+            array_Gair[i] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i] * 7.500616827 * array_B0[i])/(array_t0[i] + 273.0));
         }
 
-        array_alpha[i][0] = array_Gair[i][0] / array_Gfuel[i][0] / L0;
+        array_alpha[i] = array_Gair[i] / array_Gfuel[i] / L0;
 
         if (CheckMeas) {
 
@@ -886,8 +674,8 @@ bool CycleEmissions::preCalculate() {
 
             if (!EGRcalc) {
 
-                array_alpha_O2[i][0] = (0.01 * ConcO2air * (1.0 - 0.01 * array_CO2[i][0]) + 0.273274 * 0.01 * array_CO2[i][0]) /
-                                       (0.01 * ConcO2air - 0.01 * array_CO2[i][0]);
+                array_alpha_O2[i] = (0.01 * ConcO2air * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
+                                    (0.01 * ConcO2air - 0.01 * array_CO2[i]);
             }
         }
 
@@ -895,21 +683,21 @@ bool CycleEmissions::preCalculate() {
              (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
              (std == "F") || (std == "G1") || (std == "G2") ) {
 
-            array_Gexh[i][0] = array_Gair[i][0] / roAir + Ffw * array_Gfuel[i][0];
-            array_Gexhd[i][0] = array_Gair[i][0] / roAir + Ffd * array_Gfuel[i][0];
+            array_Gexh[i] = array_Gair[i] / roAir + Ffw * array_Gfuel[i];
+            array_Gexhd[i] = array_Gair[i] / roAir + Ffd * array_Gfuel[i];
         }
         else {
 
-            array_Gexh[i][0] = array_Gair[i][0] + array_Gfuel[i][0];
+            array_Gexh[i] = array_Gair[i] + array_Gfuel[i];
         }
 
         if ( (std != "C1") && (std != "D1") && (std != "D2") &&
              (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
              (std != "F") && (std != "G1") && (std != "G2") ) {
 
-            array_Pb[i][0] = array_B0[i][0];
-            array_Pa[i][0] = calcPa(&(array_t0[i][0]));
-            array_Ha[i][0] = 6.22 * array_Ra[i][0] * array_Pa[i][0] / (array_Pb[i][0] - array_Pa[i][0] * array_Ra[i][0] * 0.01);
+            array_Pb[i] = array_B0[i];
+            array_Pa[i] = val_Pa(array_t0[i]);
+            array_Ha[i] = 6.22 * array_Ra[i] * array_Pa[i] / (array_Pb[i] - array_Pa[i] * array_Ra[i] * 0.01);
 
             if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") || (std == "FreeCalc") ||
                  (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
@@ -917,11 +705,11 @@ bool CycleEmissions::preCalculate() {
                  (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
                  (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
-                array_Gaird[i][0] = (1.0 - array_Ha[i][0] / 1000.0) * array_Gair[i][0];
+                array_Gaird[i] = (1.0 - array_Ha[i] / 1000.0) * array_Gair[i];
             }
             else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ) {
 
-                array_Gaird[i][0] = array_Gair[i][0] / (1.0 + array_Ha[i][0] / 1000.0);
+                array_Gaird[i] = array_Gair[i] / (1.0 + array_Ha[i] / 1000.0);
             }
             else {
 
@@ -932,41 +720,41 @@ bool CycleEmissions::preCalculate() {
 
             if (std != "OST") {
 
-                array_Kw2[i][0] = 1.608 * array_Ha[i][0] / (1000.0 + 1.608 * array_Ha[i][0]);
-                array_Ffh[i][0] = 1.969 / (1.0 + array_Gfuel[i][0] / array_Gair[i][0]);
-                array_Kf[i][0] = 0.055594 * WH + 0.0080021 * WN + 0.0070046 * WO2;
+                array_Kw2[i] = 1.608 * array_Ha[i] / (1000.0 + 1.608 * array_Ha[i]);
+                array_Ffh[i] = 1.969 / (1.0 + array_Gfuel[i] / array_Gair[i]);
+                array_Kf[i] = 0.055594 * WH + 0.0080021 * WN + 0.0070046 * WO2;
             }
 
             if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") || (std == "FreeCalc") ) {
 
-                array_Kwr[i][0] = (1.0 - (1.2442 * array_Ha[i][0] + 111.19 * WH * array_Gfuel[i][0] / array_Gaird[i][0]) /
-                                       (773.4 + 1.2442 * array_Ha[i][0] + array_Gfuel[i][0] / array_Gaird[i][0] * array_Kf[i][0] * 1000.0)) * 1.008;
-                array_Khd[i][0] = 1.0 / (1.0 - 0.0182 * (array_Ha[i][0] - 10.71) + 0.0045 * (array_t0[i][0] + 273.0 - 298.0));
+                array_Kwr[i] = (1.0 - (1.2442 * array_Ha[i] + 111.19 * WH * array_Gfuel[i] / array_Gaird[i]) /
+                                      (773.4 + 1.2442 * array_Ha[i] + array_Gfuel[i] / array_Gaird[i] * array_Kf[i] * 1000.0)) * 1.008;
+                array_Khd[i] = 1.0 / (1.0 - 0.0182 * (array_Ha[i] - 10.71) + 0.0045 * (array_t0[i] + 273.0 - 298.0));
             }
             else if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
                       (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
                       (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
                       (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
 
-                array_Kwr[i][0] = (1.0 - array_Ffh[i][0] * array_Gfuel[i][0] / array_Gaird[i][0]) - array_Kw2[i][0];
-                array_Khd[i][0] = 1.0 / (1.0 + (0.309 * array_Gfuel[i][0] / array_Gaird[i][0] - 0.0266) * (array_Ha[i][0] - 10.71) +
-                                      (-0.209 * array_Gfuel[i][0] / array_Gaird[i][0] + 0.00954) * (array_t0[i][0] + 273.0 - 298.0));
+                array_Kwr[i] = (1.0 - array_Ffh[i] * array_Gfuel[i] / array_Gaird[i]) - array_Kw2[i];
+                array_Khd[i] = 1.0 / (1.0 + (0.309 * array_Gfuel[i] / array_Gaird[i] - 0.0266) * (array_Ha[i] - 10.71) +
+                                     (-0.209 * array_Gfuel[i] / array_Gaird[i] + 0.00954) * (array_t0[i] + 273.0 - 298.0));
             }
             else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") ) {
 
-                array_Kwr[i][0] = 1.0 - 1.85 * array_Gfuel[i][0] / array_Gaird[i][0];
-                array_Khd[i][0] = 1.0 / (1.0 + (0.044 * array_Gfuel[i][0] / array_Gaird[i][0] - 0.0038) * (7.0 * array_Ha[i][0] - 75.0) +
-                                           (-0.116 * array_Gfuel[i][0] / array_Gaird[i][0] + 0.0053) * 1.8 * (array_t0[i][0] + 273.0 - 302.0));
+                array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gaird[i];
+                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gaird[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
+                                            (-0.116 * array_Gfuel[i] / array_Gaird[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
             }
             else if (std == "OST") {
 
-                array_Kwr[i][0] = 1.0 - 1.8 * array_Gfuel[i][0] / array_Gair[i][0];
+                array_Kwr[i] = 1.0 - 1.8 * array_Gfuel[i] / array_Gair[i];
             }
             else if (std == "GOST") {
 
-                array_Kwr[i][0] = 1.0 - 1.85 * array_Gfuel[i][0] / array_Gair[i][0];
-                array_Khd[i][0] = 1.0 / (1.0 + (0.044 * array_Gfuel[i][0] / array_Gair[i][0] - 0.0038) * (7.0 * array_Ha[i][0] - 75.0) +
-                                           (-0.116 * array_Gfuel[i][0] / array_Gair[i][0] + 0.0053) * 1.8 * (array_t0[i][0] + 273.0 - 302.0));
+                array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gair[i];
+                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gair[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
+                                            (-0.116 * array_Gfuel[i] / array_Gair[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
             }
             else {
 
@@ -977,17 +765,12 @@ bool CycleEmissions::preCalculate() {
         }
     }
 
-    PreCalculate_OK = true;
-
     return true;
 }
 
 bool CycleEmissions::calculate_gNOx() {
 
-    MakeCalculation_gNOx_OK = false;
-
-    Array_mNOx = new Double2DArray(NumberOfPoints, 1);
-    array_mNOx = Array_mNOx->arrayPointer();
+    array_mNOx.resize(NumberOfPoints);
 
     double muNO2 = config->val_muNO2();
 
@@ -1017,20 +800,20 @@ bool CycleEmissions::calculate_gNOx() {
 
             for (ptrdiff_t i=0; i<n; i++) {
 
-                summ_numerator += array_CNOx[i][0] / 10000.0 * array_Gexhd[i][0] * array_w[i][0];
-                summ_denominator += array_Ne_brutto[i][0] / array_Ne_brutto[0][0] * array_w[i][0];
+                summ_numerator += array_CNOx[i] / 10000.0 * array_Gexhd[i] * array_w[i];
+                summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
             }
         }
         else {
 
             for (ptrdiff_t i=0; i<n; i++) {
 
-                summ_numerator += array_CNOx[i][0] / 10000.0 * array_Gexh[i][0] * array_w[i][0];
-                summ_denominator += array_Ne_brutto[i][0] / array_Ne_brutto[0][0] * array_w[i][0];
+                summ_numerator += array_CNOx[i] / 10000.0 * array_Gexh[i] * array_w[i];
+                summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
             }
         }
 
-        gNOx = 0.446 * muNO2 * summ_numerator / (array_Ne_brutto[0][0] * summ_denominator);
+        gNOx = 0.446 * muNO2 * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
@@ -1042,17 +825,17 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if (std == "OST") {
 
-                        array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Kwr[i][0] * array_Gexh[i][0];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
                     }
                     else {
 
-                        array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Kwr[i][0] * array_Khd[i][0] * array_Gexh[i][0];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Khd[i] * array_Gexh[i];
                     }
 
-                    array_gNOx[i][0] = array_mNOx[i][0] / array_Ne_netto[i][0];
+                    array_gNOx[i] = array_mNOx[i] / array_Ne_netto[i];
 
-                    summ_mNOx += array_mNOx[i][0] * array_w[i][0];
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_mNOx += array_mNOx[i] * array_w[i];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
             else {
@@ -1061,17 +844,17 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if (std == "OST") {
 
-                        array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Gexh[i][0];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
                     }
                     else {
 
-                        array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Khd[i][0] * array_Gexh[i][0];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Khd[i] * array_Gexh[i];
                     }
 
-                    array_gNOx[i][0] = array_mNOx[i][0] / array_Ne_netto[i][0];
+                    array_gNOx[i] = array_mNOx[i] / array_Ne_netto[i];
 
-                    summ_mNOx += array_mNOx[i][0] * array_w[i][0];
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_mNOx += array_mNOx[i] * array_w[i];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
         }
@@ -1081,46 +864,44 @@ bool CycleEmissions::calculate_gNOx() {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    array_mNOx[i][0] = array_gNOx[i][0] * array_Ne_netto[i][0];
+                    array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
                     if (std == "OST") {
 
-                        array_CNOx[i][0] = array_mNOx[i][0] / (0.001587 * array_Kwr[i][0] * array_Gexh[i][0]);
+                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Gexh[i]);
                     }
                     else {
 
-                        array_CNOx[i][0] = array_mNOx[i][0] / (0.001587 * array_Kwr[i][0] * array_Khd[i][0] * array_Gexh[i][0]);
+                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Khd[i] * array_Gexh[i]);
                     }
 
-                    summ_mNOx += array_mNOx[i][0] * array_w[i][0];
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_mNOx += array_mNOx[i] * array_w[i];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
             else {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    array_mNOx[i][0] = array_gNOx[i][0] * array_Ne_netto[i][0];
+                    array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
                     if (std == "OST") {
 
-                        array_CNOx[i][0] = array_mNOx[i][0] / (0.001587 * array_Gexh[i][0]);
+                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Gexh[i]);
                     }
                     else {
 
-                        array_CNOx[i][0] = array_mNOx[i][0] / (0.001587 * array_Khd[i][0] * array_Gexh[i][0]);
+                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Khd[i] * array_Gexh[i]);
                     }
 
-                    summ_mNOx += array_mNOx[i][0] * array_w[i][0];
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_mNOx += array_mNOx[i] * array_w[i];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
         }
 
         gNOx = summ_mNOx / summ_Ne_netto;
     }
-
-    MakeCalculation_gNOx_OK = true;
 
     return true;
 }
@@ -1155,39 +936,39 @@ bool CycleEmissions::calculateAdditionalPoints() {
 
             if (std == "OST") {
 
-                array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Kwr[i][0] * array_Gexh[i][0];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
             }
             else {
 
-                array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Kwr[i][0] * array_Khd[i][0] * array_Gexh[i][0];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Khd[i] * array_Gexh[i];
             }
         }
         else {
 
             if (std == "OST") {
 
-                array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Gexh[i][0];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
             }
             else {
 
-                array_mNOx[i][0] = 0.001587 * array_CNOx[i][0] * array_Khd[i][0] * array_Gexh[i][0];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Khd[i] * array_Gexh[i];
             }
         }
 
-        array_gNOx[i][0] = array_mNOx[i][0] / array_Ne_netto[i][0];
+        array_gNOx[i] = array_mNOx[i] / array_Ne_netto[i];
     }
 
-    gNOx1m = array_gNOx[NumberOfPoints - 3][0];
-    gNOx2m = array_gNOx[NumberOfPoints - 2][0];
-    gNOx3m = array_gNOx[NumberOfPoints - 1][0];
+    gNOx1m = array_gNOx[NumberOfPoints - 3];
+    gNOx2m = array_gNOx[NumberOfPoints - 2];
+    gNOx3m = array_gNOx[NumberOfPoints - 1];
 
-    double A = array_n[1][0];
-    double B = array_n[2][0];
-    double C = array_n[9][0];
+    double A = array_n[1];
+    double B = array_n[2];
+    double C = array_n[9];
 
-    double nz1 = array_n[NumberOfPoints - 3][0];
-    double nz2 = array_n[NumberOfPoints - 2][0];
-    double nz3 = array_n[NumberOfPoints - 1][0];
+    double nz1 = array_n[NumberOfPoints - 3];
+    double nz2 = array_n[NumberOfPoints - 2];
+    double nz3 = array_n[NumberOfPoints - 1];
 
     double nrt1 = B;
     double nrt2 = A;
@@ -1197,25 +978,25 @@ bool CycleEmissions::calculateAdditionalPoints() {
     double nsu2 = B;
     double nsu3 = C;
 
-    double Nz1 = array_Ne_netto[NumberOfPoints - 3][0];
-    double Nz2 = array_Ne_netto[NumberOfPoints - 2][0];
-    double Nz3 = array_Ne_netto[NumberOfPoints - 1][0];
+    double Nz1 = array_Ne_netto[NumberOfPoints - 3];
+    double Nz2 = array_Ne_netto[NumberOfPoints - 2];
+    double Nz3 = array_Ne_netto[NumberOfPoints - 1];
 
-    double Nt1 = array_Ne_netto[7][0];
-    double Nt2 = array_Ne_netto[5][0];
-    double Nt3 = array_Ne_netto[2][0];
+    double Nt1 = array_Ne_netto[7];
+    double Nt2 = array_Ne_netto[5];
+    double Nt3 = array_Ne_netto[2];
 
-    double Nu1 = array_Ne_netto[ 9][0];
-    double Nu2 = array_Ne_netto[ 3][0];
-    double Nu3 = array_Ne_netto[12][0];
+    double Nu1 = array_Ne_netto[ 9];
+    double Nu2 = array_Ne_netto[ 3];
+    double Nu3 = array_Ne_netto[12];
 
-    double Nr1 = array_Ne_netto[3][0];
-    double Nr2 = array_Ne_netto[4][0];
-    double Nr3 = array_Ne_netto[8][0];
+    double Nr1 = array_Ne_netto[3];
+    double Nr2 = array_Ne_netto[4];
+    double Nr3 = array_Ne_netto[8];
 
-    double Ns1 = array_Ne_netto[11][0];
-    double Ns2 = array_Ne_netto[ 2][0];
-    double Ns3 = array_Ne_netto[10][0];
+    double Ns1 = array_Ne_netto[11];
+    double Ns2 = array_Ne_netto[ 2];
+    double Ns3 = array_Ne_netto[10];
 
     double Ntu1 = Nt1 + (Nu1 - Nt1) * (nz1 - nrt1) / (nsu1 - nrt1);
     double Ntu2 = Nt2 + (Nu2 - Nt2) * (nz2 - nrt2) / (nsu2 - nrt2);
@@ -1225,21 +1006,21 @@ bool CycleEmissions::calculateAdditionalPoints() {
     double Nrs2 = Nr2 + (Ns2 - Nr2) * (nz2 - nrt2) / (nsu2 - nrt2);
     double Nrs3 = Nr3 + (Ns3 - Nr3) * (nz3 - nrt3) / (nsu3 - nrt3);
 
-    double gNOt1 = array_gNOx[7][0];
-    double gNOt2 = array_gNOx[5][0];
-    double gNOt3 = array_gNOx[2][0];
+    double gNOt1 = array_gNOx[7];
+    double gNOt2 = array_gNOx[5];
+    double gNOt3 = array_gNOx[2];
 
-    double gNOu1 = array_gNOx[ 9][0];
-    double gNOu2 = array_gNOx[ 3][0];
-    double gNOu3 = array_gNOx[12][0];
+    double gNOu1 = array_gNOx[ 9];
+    double gNOu2 = array_gNOx[ 3];
+    double gNOu3 = array_gNOx[12];
 
-    double gNOr1 = array_gNOx[3][0];
-    double gNOr2 = array_gNOx[4][0];
-    double gNOr3 = array_gNOx[8][0];
+    double gNOr1 = array_gNOx[3];
+    double gNOr2 = array_gNOx[4];
+    double gNOr3 = array_gNOx[8];
 
-    double gNOs1 = array_gNOx[11][0];
-    double gNOs2 = array_gNOx[ 2][0];
-    double gNOs3 = array_gNOx[10][0];
+    double gNOs1 = array_gNOx[11];
+    double gNOs2 = array_gNOx[ 2];
+    double gNOs3 = array_gNOx[10];
 
     double gNOtu1 = gNOt1 + (gNOu1 - gNOt1) * (nz1 - nrt1) / (nsu1 - nrt1);
     double gNOtu2 = gNOt2 + (gNOu2 - gNOt2) * (nz2 - nrt2) / (nsu2 - nrt2);
@@ -1262,13 +1043,8 @@ bool CycleEmissions::calculateAdditionalPoints() {
 
 bool CycleEmissions::calculate_gCO() {
 
-    MakeCalculation_gCO_OK = false;
-
-    Array_mCO = new Double2DArray(NumberOfPoints, 1);
-    array_mCO = Array_mCO->arrayPointer();
-
-    Array_gCO = new Double2DArray(NumberOfPoints, 1);
-    array_gCO = Array_gCO->arrayPointer();
+    array_mCO.resize(NumberOfPoints);
+    array_gCO.resize(NumberOfPoints);
 
     double muCO = config->val_muCO();
 
@@ -1296,40 +1072,33 @@ bool CycleEmissions::calculate_gCO() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            summ_numerator += array_CCO[i][0] / 10000.0 * array_Gexhd[i][0] * array_w[i][0];
-            summ_denominator += array_Ne_brutto[i][0] / array_Ne_brutto[0][0] * array_w[i][0];
+            summ_numerator += array_CCO[i] / 10000.0 * array_Gexhd[i] * array_w[i];
+            summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
         }
 
-        gCO = 0.446 * muCO * summ_numerator / (array_Ne_brutto[0][0] * summ_denominator);
+        gCO = 0.446 * muCO * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_mCO[i][0] = 0.000966 * array_CCO[i][0] * array_Kwr[i][0] * array_Gexh[i][0]; // always is dry
-            array_gCO[i][0] = array_mCO[i][0] / array_Ne_netto[i][0];
+            array_mCO[i] = 0.000966 * array_CCO[i] * array_Kwr[i] * array_Gexh[i]; // always is dry
+            array_gCO[i] = array_mCO[i] / array_Ne_netto[i];
 
-            summ_mCO += array_mCO[i][0] * array_w[i][0];
-            summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+            summ_mCO += array_mCO[i] * array_w[i];
+            summ_Ne_netto += array_Ne_netto[i] * array_w[i];
         }
 
         gCO = summ_mCO / summ_Ne_netto;
     }
-
-    MakeCalculation_gCO_OK = true;
 
     return true;
 }
 
 bool CycleEmissions::calculate_gCH() {
 
-    MakeCalculation_gCH_OK = false;
-
-    Array_mCH = new Double2DArray(NumberOfPoints, 1);
-    array_mCH = Array_mCH->arrayPointer();
-
-    Array_gCH = new Double2DArray(NumberOfPoints, 1);
-    array_gCH = Array_gCH->arrayPointer();
+    array_mCH.resize(NumberOfPoints);
+    array_gCH.resize(NumberOfPoints);
 
     double muCH = config->val_muCH();
 
@@ -1357,11 +1126,11 @@ bool CycleEmissions::calculate_gCH() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            summ_numerator += array_CCH[i][0] / 10000.0 * array_Gexh[i][0] * array_w[i][0];
-            summ_denominator += array_Ne_brutto[i][0] / array_Ne_brutto[0][0] * array_w[i][0];
+            summ_numerator += array_CCH[i] / 10000.0 * array_Gexh[i] * array_w[i];
+            summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
         }
 
-        gCH = 0.446 * muCH * summ_numerator / (array_Ne_brutto[0][0] * summ_denominator);
+        gCH = 0.446 * muCH * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
@@ -1369,50 +1138,35 @@ bool CycleEmissions::calculate_gCH() {
 
             if (std == "OST") {
 
-                array_mCH[i][0] = 0.000485 * array_CCH[i][0] * array_Gexh[i][0]; // always is wet
+                array_mCH[i] = 0.000485 * array_CCH[i] * array_Gexh[i]; // always is wet
             }
             else {
 
-                array_mCH[i][0] = 0.000479 * array_CCH[i][0] * array_Gexh[i][0]; // always is wet
+                array_mCH[i] = 0.000479 * array_CCH[i] * array_Gexh[i]; // always is wet
             }
 
-            array_gCH[i][0] = array_mCH[i][0] / array_Ne_netto[i][0];
+            array_gCH[i] = array_mCH[i] / array_Ne_netto[i];
 
-            summ_mCH += array_mCH[i][0] * array_w[i][0];
-            summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+            summ_mCH += array_mCH[i] * array_w[i];
+            summ_Ne_netto += array_Ne_netto[i] * array_w[i];
         }
 
         gCH = summ_mCH / summ_Ne_netto;
     }
-
-    MakeCalculation_gCH_OK = true;
 
     return true;
 }
 
 bool CycleEmissions::calculate_gPT() {
 
-    MakeCalculation_gPT_OK = false;
-
     mf = params->val_PTmass();
 
-    Array_ror = new Double2DArray(NumberOfPoints, 1);
-    array_ror = Array_ror->arrayPointer();
-
-    Array_CPT = new Double2DArray(NumberOfPoints, 1);
-    array_CPT = Array_CPT->arrayPointer();
-
-    Array_qmedf = new Double2DArray(NumberOfPoints, 1);
-    array_qmedf = Array_qmedf->arrayPointer();
-
-    Array_msepi = new Double2DArray(NumberOfPoints, 1);
-    array_msepi = Array_msepi->arrayPointer();
-
-    Array_mPT = new Double2DArray(NumberOfPoints, 1);
-    array_mPT = Array_mPT->arrayPointer();
-
-    Array_gPT = new Double2DArray(NumberOfPoints, 1);
-    array_gPT = Array_gPT->arrayPointer();
+    array_ror.resize(NumberOfPoints);
+    array_CPT.resize(NumberOfPoints);
+    array_qmedf.resize(NumberOfPoints);
+    array_msepi.resize(NumberOfPoints);
+    array_mPT.resize(NumberOfPoints);
+    array_gPT.resize(NumberOfPoints);
 
     QString std = params->val_Standard();
 
@@ -1441,41 +1195,41 @@ bool CycleEmissions::calculate_gPT() {
 
             if (smoke == 0) {
 
-                array_KaPerc[i][0] = 100.0 * (1.0 - exp(- array_Ka1m[i][0] * L));
-                array_FSN[i][0] = (6.6527E-017)           * pow(array_KaPerc[i][0], 10) +
-                                  (-0.000000000000026602) * pow(array_KaPerc[i][0],  9) +
-                                  (0.0000000000040987)    * pow(array_KaPerc[i][0],  8) +
-                                  (-0.00000000026927)     * pow(array_KaPerc[i][0],  7) +
-                                  (0.00000000040933)      * pow(array_KaPerc[i][0],  6) +
-                                  (0.0000010658)          * pow(array_KaPerc[i][0],  5) +
-                                  (-0.000069165)          * pow(array_KaPerc[i][0],  4) +
-                                  (0.0020088)             * pow(array_KaPerc[i][0],  3) +
-                                  (-0.028758)             * pow(array_KaPerc[i][0],  2) +
-                                  (0.26502)               * pow(array_KaPerc[i][0],  1) +
-                                  (0.0087517)             * pow(array_KaPerc[i][0],  0);
+                array_KaPerc[i] = 100.0 * (1.0 - exp(- array_Ka1m[i] * L));
+                array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
+                               (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
+                               (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
+                               (-0.00000000026927)     * pow(array_KaPerc[i],  7) +
+                               (0.00000000040933)      * pow(array_KaPerc[i],  6) +
+                               (0.0000010658)          * pow(array_KaPerc[i],  5) +
+                               (-0.000069165)          * pow(array_KaPerc[i],  4) +
+                               (0.0020088)             * pow(array_KaPerc[i],  3) +
+                               (-0.028758)             * pow(array_KaPerc[i],  2) +
+                               (0.26502)               * pow(array_KaPerc[i],  1) +
+                               (0.0087517)             * pow(array_KaPerc[i],  0);
             }
             else if (smoke == 1) {
 
-                array_FSN[i][0] = (6.6527E-017)           * pow(array_KaPerc[i][0], 10) +
-                                  (-0.000000000000026602) * pow(array_KaPerc[i][0],  9) +
-                                  (0.0000000000040987)    * pow(array_KaPerc[i][0],  8) +
-                                  (-0.00000000026927)     * pow(array_KaPerc[i][0],  7) +
-                                  (0.00000000040933)      * pow(array_KaPerc[i][0],  6) +
-                                  (0.0000010658)          * pow(array_KaPerc[i][0],  5) +
-                                  (-0.000069165)          * pow(array_KaPerc[i][0],  4) +
-                                  (0.0020088)             * pow(array_KaPerc[i][0],  3) +
-                                  (-0.028758)             * pow(array_KaPerc[i][0],  2) +
-                                  (0.26502)               * pow(array_KaPerc[i][0],  1) +
-                                  (0.0087517)             * pow(array_KaPerc[i][0],  0);
+                array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
+                               (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
+                               (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
+                               (-0.00000000026927)     * pow(array_KaPerc[i],  7) +
+                               (0.00000000040933)      * pow(array_KaPerc[i],  6) +
+                               (0.0000010658)          * pow(array_KaPerc[i],  5) +
+                               (-0.000069165)          * pow(array_KaPerc[i],  4) +
+                               (0.0020088)             * pow(array_KaPerc[i],  3) +
+                               (-0.028758)             * pow(array_KaPerc[i],  2) +
+                               (0.26502)               * pow(array_KaPerc[i],  1) +
+                               (0.0087517)             * pow(array_KaPerc[i],  0);
             }
 
-            array_ror[i][0] = (array_Pb[i][0] + array_Pr[i][0]) * 1000.0 / Rr / (array_ts[i][0] + 273.0);
-            array_CPT[i][0] = (-184.0 * array_FSN[i][0] - 727.5) * log10(1.0 - array_FSN[i][0] / 10.0);
-            array_mPT[i][0] = array_CPT[i][0] * array_Gexh[i][0] / array_ror[i][0] / 1000.0;
-            array_gPT[i][0] = array_mPT[i][0] / array_Ne_netto[i][0];
+            array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr / (array_ts[i] + 273.0);
+            array_CPT[i] = (-184.0 * array_FSN[i] - 727.5) * log10(1.0 - array_FSN[i] / 10.0);
+            array_mPT[i] = array_CPT[i] * array_Gexh[i] / array_ror[i] / 1000.0;
+            array_gPT[i] = array_mPT[i] / array_Ne_netto[i];
 
-            summ_mPT += array_mPT[i][0] * array_w[i][0];
-            summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+            summ_mPT += array_mPT[i] * array_w[i];
+            summ_Ne_netto += array_Ne_netto[i] * array_w[i];
         }
 
         gPTs = summ_mPT / summ_Ne_netto;
@@ -1499,26 +1253,26 @@ bool CycleEmissions::calculate_gPT() {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    array_rd[i][0] = array_qmdew[i][0] / (array_qmdew[i][0] - array_qmdw[i][0]);
-                    array_qmedf[i][0] = array_Gexh[i][0] * array_rd[i][0];
-                    qmedfl += array_qmedf[i][0] * array_w[i][0];
-                    array_msepi[i][0] = array_qmdew[i][0] * array_tauf[i][0];
-                    msep += array_msepi[i][0];
+                    array_rd[i] = array_qmdew[i] / (array_qmdew[i] - array_qmdw[i]);
+                    array_qmedf[i] = array_Gexh[i] * array_rd[i];
+                    qmedfl += array_qmedf[i] * array_w[i];
+                    array_msepi[i] = array_qmdew[i] * array_tauf[i];
+                    msep += array_msepi[i];
 
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
             else if (!qmdwVSrd) {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    array_qmdw[i][0] = (array_qmdew[i][0] * array_rd[i][0] - array_qmdew[i][0]) / array_rd[i][0];
-                    array_qmedf[i][0] = array_Gexh[i][0] * array_rd[i][0];
-                    qmedfl += array_qmedf[i][0] * array_w[i][0];
-                    array_msepi[i][0] = array_qmdew[i][0] * array_tauf[i][0];
-                    msep += array_msepi[i][0];
+                    array_qmdw[i] = (array_qmdew[i] * array_rd[i] - array_qmdew[i]) / array_rd[i];
+                    array_qmedf[i] = array_Gexh[i] * array_rd[i];
+                    qmedfl += array_qmedf[i] * array_w[i];
+                    array_msepi[i] = array_qmdew[i] * array_tauf[i];
+                    msep += array_msepi[i];
 
-                    summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+                    summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
 
@@ -1527,20 +1281,13 @@ bool CycleEmissions::calculate_gPT() {
         }
     }
 
-    MakeCalculation_gPT_OK = true;
-
     return true;
 }
 
 bool CycleEmissions::calculate_rEGR() {
 
-    MakeCalculation_rEGR_OK = false;
-
-    Array_rEGR = new Double2DArray(NumberOfPoints, 1);
-    array_rEGR = Array_rEGR->arrayPointer();
-
-    Array_alpha_res = new Double2DArray(NumberOfPoints, 1);
-    array_alpha_res = Array_alpha_res->arrayPointer();
+    array_rEGR.resize(NumberOfPoints);
+    array_alpha_res.resize(NumberOfPoints);
 
     double CCO2air = config->val_ConcCO2air();
 
@@ -1548,13 +1295,11 @@ bool CycleEmissions::calculate_rEGR() {
 
         for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-            array_rEGR[i][0] = (array_CCO2in[i][0] - CCO2air) / (array_CCO2out[i][0] - CCO2air) * 100.0;
-            array_alpha_res[i][0] = (array_alpha[i][0] - array_alpha[i][0] * array_rEGR[i][0] / 100.0 - array_rEGR[i][0] / 100.0) / (1.0 - 2.0 * array_rEGR[i][0] / 100.0);
+            array_rEGR[i] = (array_CCO2in[i] - CCO2air) / (array_CCO2out[i] - CCO2air) * 100.0;
+            array_alpha_res[i] = (array_alpha[i] - array_alpha[i] * array_rEGR[i] / 100.0 - array_rEGR[i] / 100.0) / (1.0 - 2.0 * array_rEGR[i] / 100.0);
         }
 
     }
-
-    MakeCalculation_rEGR_OK = true;
 
     return true;
 }
@@ -1582,12 +1327,12 @@ bool CycleEmissions::calculate_Means() {
 
     for (ptrdiff_t i=0; i<n; i++) {
 
-        summ_Gfuel    += array_Gfuel[i][0] * array_w[i][0];
-        summ_Ne_netto += array_Ne_netto[i][0] * array_w[i][0];
+        summ_Gfuel    += array_Gfuel[i] * array_w[i];
+        summ_Ne_netto += array_Ne_netto[i] * array_w[i];
 
-        summ_t0 += array_t0[i][0];
-        summ_B0 += array_B0[i][0];
-        summ_Ra += array_Ra[i][0];
+        summ_t0 += array_t0[i];
+        summ_B0 += array_B0[i];
+        summ_Ra += array_Ra[i];
     }
 
     geMean = summ_Gfuel / summ_Ne_netto * 1000.0;
@@ -1601,10 +1346,7 @@ bool CycleEmissions::calculate_Means() {
 
 bool CycleEmissions::compareAlpha() {
 
-    CompareAlpha_OK = false;
-
-    Array_diff_alpha = new Double2DArray(NumberOfPoints, 1);
-    array_diff_alpha = Array_diff_alpha->arrayPointer();
+    array_diff_alpha.resize(NumberOfPoints);
 
     if (CheckMeas) {
 
@@ -1622,23 +1364,21 @@ bool CycleEmissions::compareAlpha() {
 
             for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-                ConcO2mix = ConcO2air * (1.0 - array_rEGR[i][0] / 100.0) + array_CO2[i][0] * array_rEGR[i][0] / 100.0;
-                array_alpha_O2[i][0] = (0.01 * ConcO2mix * (1.0 - 0.01 * array_CO2[i][0]) + 0.273274 * 0.01 * array_CO2[i][0]) /
-                                       (0.01 * ConcO2mix - 0.01 * array_CO2[i][0]);
-                array_diff_alpha[i][0] = (array_alpha_res[i][0] - array_alpha_O2[i][0]) / array_alpha_O2[i][0] * 100.0;
+                ConcO2mix = ConcO2air * (1.0 - array_rEGR[i] / 100.0) + array_CO2[i] * array_rEGR[i] / 100.0;
+                array_alpha_O2[i] = (0.01 * ConcO2mix * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
+                                    (0.01 * ConcO2mix - 0.01 * array_CO2[i]);
+                array_diff_alpha[i] = (array_alpha_res[i] - array_alpha_O2[i]) / array_alpha_O2[i] * 100.0;
             }
         }
         else {
 
             for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-                array_diff_alpha[i][0] = (array_alpha[i][0] - array_alpha_O2[i][0]) / array_alpha_O2[i][0] * 100.0;
+                array_diff_alpha[i] = (array_alpha[i] - array_alpha_O2[i]) / array_alpha_O2[i] * 100.0;
             }
         }
 
     }
-
-    CompareAlpha_OK = true;
 
     return true;
 }
@@ -1783,62 +1523,62 @@ QString CycleEmissions::createReports(bool createrepdir) {
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(0) << (i + 1) << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(0) << array_n[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_brutto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_brutto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_N_fan[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_w[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_t0[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_B0[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ra[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_dPn[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gair[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gfuel[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CNOx[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gNOx[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCH[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2in[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2out[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CO2[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ka1m[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_KaPerc[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_FSN[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pr[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ts[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_tauf[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdw[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdew[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rd[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_netto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_netto[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_O2[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexh[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexhd[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pb[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pa[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ha[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gaird[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kw2[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ffh[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kf[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kwr[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Khd[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mNOx[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCO[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCO[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCH[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCH[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ror[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CPT[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mPT[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gPT[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmedf[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_msepi[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rEGR[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_res[i][0] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_diff_alpha[i][0] << csvdelimiter << endl;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(0) << array_n[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_brutto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_brutto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_N_fan[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_w[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_t0[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_B0[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ra[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_dPn[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gair[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gfuel[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CNOx[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gNOx[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCH[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2in[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2out[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CO2[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ka1m[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_KaPerc[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_FSN[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pr[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ts[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_tauf[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdw[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdew[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rd[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_netto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_netto[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_O2[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexh[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexhd[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pb[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pa[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ha[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gaird[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kw2[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ffh[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kf[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kwr[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Khd[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mNOx[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCO[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCO[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCH[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCH[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ror[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CPT[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mPT[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gPT[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmedf[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_msepi[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rEGR[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_res[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_diff_alpha[i] << csvdelimiter << endl;
     }
 
     fout1.close();
@@ -2063,36 +1803,36 @@ QString CycleEmissions::createReports(bool createrepdir) {
             for (ptrdiff_t i=0; i<n; i++) {
 
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i][0];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i];
 
                 if (EGRcalc) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i][0];
+                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i];
                 }
                 else {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i][0];
+                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i];
                 }
 
                 if (smoke == 0) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i][0];
+                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i];
                 }
                 else if (smoke == 1) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i][0];
+                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i];
                 }
                 else if (smoke == 2) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i][0];
+                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i];
                 }
 
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_tauf[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdw[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdew[i][0] << endl;
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_tauf[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdw[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdew[i] << endl;
             }
 
             fout6 << endl;
@@ -2105,9 +1845,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
             for (ptrdiff_t i=0; i<n; i++) {
 
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_rd[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_qmedf[i][0];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_msepi[i][0] << endl;
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_rd[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_qmedf[i];
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_msepi[i] << endl;
             }
 
             fout6 << endl;
@@ -2289,40 +2029,40 @@ QString CycleEmissions::createReports(bool createrepdir) {
         for (ptrdiff_t i=0; i<n; i++) {
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i][0];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i];
 
             if (EGRcalc) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i];
             }
             else {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i];
             }
 
             if (smoke == 0) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i];
             }
             else if (smoke == 1) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i];
             }
             else if (smoke == 2) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i];
             }
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CNOx[i][0];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CNOx[i];
 
             if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                  (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mNOx[i][0];
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gNOx[i][0];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mNOx[i];
+                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gNOx[i];
             }
 
             fout5 << endl;
@@ -2382,7 +2122,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 if (gCOcalc) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
                 }
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2390,14 +2130,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                     if (gCOcalc) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i][0];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCO[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCO[i];
                     }
                 }
 
                 if (gCHcalc) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
                 }
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2405,8 +2145,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                     if (gCHcalc) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i][0];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCH[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCH[i];
                     }
                 }
 
@@ -2415,8 +2155,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i][0];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
                     }
                 }
 
@@ -2483,7 +2223,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 if (gCOcalc) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
                 }
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2491,13 +2231,13 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                     if (gCOcalc) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i];
                     }
                 }
 
                 if (gCHcalc) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
                 }
 
                 if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2505,7 +2245,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                     if (gCHcalc) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i];
                     }
                 }
 
@@ -2514,19 +2254,19 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
                          (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i][0];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i][0];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
+                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
                     }
                 }
 
                 if (EGRcalc) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_rEGR[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_rEGR[i];
                 }
 
                 if (CheckMeas) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_diff_alpha[i][0];
+                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_diff_alpha[i];
                 }
 
                 fout5 << endl;
@@ -2551,31 +2291,31 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff[%]" << endl;
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 2);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 3][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 3][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 3][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 3][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 3][0];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 3];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 3];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 3];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 3];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 3];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1c;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx1 << endl;
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 1);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 2][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 2][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 2][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 2][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 2][0];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 2];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 2];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 2];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 2];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 2];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2c;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx2 << endl;
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 1][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 1][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 1][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 1][0];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 1][0];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 1];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 1];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 1];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 1];
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 1];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3c;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx3 << endl;
@@ -2692,13 +2432,13 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 QString std1 = std + "old";
 
-                gNOxLimit1 = val_NOxLimit(std1, array_n[0][0]);
+                gNOxLimit1 = val_NOxLimit(std1, array_n[0]);
                 gCOLimit1 = val_COLimit(std1);
                 gCHLimit1 = val_CHLimit(std1);
 
                 QString std2 = std + "new";
 
-                gNOxLimit2 = val_NOxLimit(std2, array_n[0][0]);
+                gNOxLimit2 = val_NOxLimit(std2, array_n[0]);
                 gCOLimit2 = val_COLimit(std2);
                 gCHLimit2 = val_CHLimit(std2);
             }

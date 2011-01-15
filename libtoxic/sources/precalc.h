@@ -23,7 +23,7 @@
 bool calcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
 bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
 
-double calcPa(double *);
+double val_Pa(double *);
 
 bool nonZeroArray(double **, ptrdiff_t *);
 

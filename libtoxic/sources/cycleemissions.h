@@ -18,7 +18,6 @@
 #ifndef CYCLEEMISSIONS_H
 #define	CYCLEEMISSIONS_H
 
-#include "double2darray.h"
 #include "libtoxicconstants.h"
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
@@ -26,6 +25,7 @@
 #include <string>
 
 #include <QString>
+#include <QVector>
 
 using std::string;
 
@@ -36,7 +36,7 @@ public:
     explicit CycleEmissions(LibtoxicParameters *, CommonParameters *);
     virtual ~CycleEmissions();
 
-    bool readCSV(double **data = 0, ptrdiff_t n = 0, ptrdiff_t m = 0);
+    bool readCSV(QVector< QVector<double> >);
     bool calculate();
     QString createReports(bool);
     QString lastReportsDir();
@@ -45,15 +45,6 @@ private:
 
     CycleEmissions(const CycleEmissions &orig);
     CycleEmissions &operator =(const CycleEmissions &);
-
-    bool GetDataFromCSV_OK;
-    bool PreCalculate_OK;
-    bool MakeCalculation_gNOx_OK;
-    bool MakeCalculation_gCO_OK;
-    bool MakeCalculation_gCH_OK;
-    bool MakeCalculation_gPT_OK;
-    bool MakeCalculation_rEGR_OK;
-    bool CompareAlpha_OK;
 
     bool NenCalcMethod;
     bool GairVals;
@@ -68,63 +59,63 @@ private:
     LibtoxicParameters *params;
     CommonParameters *config;
 
-    Double2DArray *Array_DataForCalc;  double **array_DataForCalc;               //
-    Double2DArray *Array_n;            double **array_n;
-    Double2DArray *Array_Me_brutto;    double **array_Me_brutto;
-    Double2DArray *Array_Ne_brutto;    double **array_Ne_brutto;
-    Double2DArray *Array_N_fan;        double **array_N_fan;
-    Double2DArray *Array_w;            double **array_w;
-    Double2DArray *Array_t0;           double **array_t0;
-    Double2DArray *Array_B0;           double **array_B0;
-    Double2DArray *Array_Ra;           double **array_Ra;
-    Double2DArray *Array_dPn;          double **array_dPn;
-    Double2DArray *Array_Gair;         double **array_Gair;
-    Double2DArray *Array_Gfuel;        double **array_Gfuel;
-    Double2DArray *Array_CNOx;         double **array_CNOx;
-    Double2DArray *Array_gNOx;         double **array_gNOx;
-    Double2DArray *Array_CCO;          double **array_CCO;
-    Double2DArray *Array_CCH;          double **array_CCH;
-    Double2DArray *Array_CCO2in;       double **array_CCO2in;
-    Double2DArray *Array_CCO2out;      double **array_CCO2out;
-    Double2DArray *Array_CO2;          double **array_CO2;
-    Double2DArray *Array_Ka1m;         double **array_Ka1m;
-    Double2DArray *Array_KaPerc;       double **array_KaPerc;
-    Double2DArray *Array_FSN;          double **array_FSN;
-    Double2DArray *Array_Pr;           double **array_Pr;
-    Double2DArray *Array_ts;           double **array_ts;
-    Double2DArray *Array_tauf;         double **array_tauf;
-    Double2DArray *Array_qmdw;         double **array_qmdw;
-    Double2DArray *Array_qmdew;        double **array_qmdew;
-    Double2DArray *Array_rd;           double **array_rd;
-    Double2DArray *Array_Ne_netto;     double **array_Ne_netto;                 //
-    Double2DArray *Array_Me_netto;     double **array_Me_netto;
-    Double2DArray *Array_alpha;        double **array_alpha;
-    Double2DArray *Array_alpha_O2;     double **array_alpha_O2;
-    Double2DArray *Array_Gexh;         double **array_Gexh;
-    Double2DArray *Array_Gexhd;        double **array_Gexhd;
-    Double2DArray *Array_Pb;           double **array_Pb;
-    Double2DArray *Array_Pa;           double **array_Pa;
-    Double2DArray *Array_Ha;           double **array_Ha;
-    Double2DArray *Array_Gaird;        double **array_Gaird;
-    Double2DArray *Array_Kw2;          double **array_Kw2;
-    Double2DArray *Array_Ffh;          double **array_Ffh;
-    Double2DArray *Array_Kf;           double **array_Kf;
-    Double2DArray *Array_Kwr;          double **array_Kwr;
-    Double2DArray *Array_Khd;          double **array_Khd;
-    Double2DArray *Array_mNOx;         double **array_mNOx;                     //
-    Double2DArray *Array_mCO;          double **array_mCO;
-    Double2DArray *Array_gCO;          double **array_gCO;
-    Double2DArray *Array_mCH;          double **array_mCH;
-    Double2DArray *Array_gCH;          double **array_gCH;
-    Double2DArray *Array_ror;          double **array_ror;                      //
-    Double2DArray *Array_CPT;          double **array_CPT;
-    Double2DArray *Array_mPT;          double **array_mPT;
-    Double2DArray *Array_gPT;          double **array_gPT;
-    Double2DArray *Array_qmedf;        double **array_qmedf;
-    Double2DArray *Array_msepi;        double **array_msepi;
-    Double2DArray *Array_rEGR;         double **array_rEGR;                     //
-    Double2DArray *Array_alpha_res;    double **array_alpha_res;
-    Double2DArray *Array_diff_alpha;   double **array_diff_alpha;               //
+    QVector< QVector<double> > array_DataForCalc;   //
+    QVector<double> array_n;
+    QVector<double> array_Me_brutto;
+    QVector<double> array_Ne_brutto;
+    QVector<double> array_N_fan;
+    QVector<double> array_w;
+    QVector<double> array_t0;
+    QVector<double> array_B0;
+    QVector<double> array_Ra;
+    QVector<double> array_dPn;
+    QVector<double> array_Gair;
+    QVector<double> array_Gfuel;
+    QVector<double> array_CNOx;
+    QVector<double> array_gNOx;
+    QVector<double> array_CCO;
+    QVector<double> array_CCH;
+    QVector<double> array_CCO2in;
+    QVector<double> array_CCO2out;
+    QVector<double> array_CO2;
+    QVector<double> array_Ka1m;
+    QVector<double> array_KaPerc;
+    QVector<double> array_FSN;
+    QVector<double> array_Pr;
+    QVector<double> array_ts;
+    QVector<double> array_tauf;
+    QVector<double> array_qmdw;
+    QVector<double> array_qmdew;
+    QVector<double> array_rd;
+    QVector<double> array_Ne_netto;                 //
+    QVector<double> array_Me_netto;
+    QVector<double> array_alpha;
+    QVector<double> array_alpha_O2;
+    QVector<double> array_Gexh;
+    QVector<double> array_Gexhd;
+    QVector<double> array_Pb;
+    QVector<double> array_Pa;
+    QVector<double> array_Ha;
+    QVector<double> array_Gaird;
+    QVector<double> array_Kw2;
+    QVector<double> array_Ffh;
+    QVector<double> array_Kf;
+    QVector<double> array_Kwr;
+    QVector<double> array_Khd;
+    QVector<double> array_mNOx;                     //
+    QVector<double> array_mCO;
+    QVector<double> array_gCO;
+    QVector<double> array_mCH;
+    QVector<double> array_gCH;
+    QVector<double> array_ror;                      //
+    QVector<double> array_CPT;
+    QVector<double> array_mPT;
+    QVector<double> array_gPT;
+    QVector<double> array_qmedf;
+    QVector<double> array_msepi;
+    QVector<double> array_rEGR;                     //
+    QVector<double> array_alpha_res;
+    QVector<double> array_diff_alpha;               //
 
     double gNOx;
     double gCO;

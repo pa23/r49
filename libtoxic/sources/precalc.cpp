@@ -54,7 +54,7 @@ bool calcELR(double *smoke_A1, double *smoke_A2, double *smoke_A3,
     return true;
 }
 
-double calcPa(double *x) {
+double val_Pa(double *x) {
 
     for (ptrdiff_t i=0; i<PaArraySize; i++) {
 
