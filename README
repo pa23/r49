@@ -31,13 +31,15 @@ Dependences
     Win32 OpenSSL (http://www.slproweb.com/products/Win32OpenSSL.html)
 --------------------------------------------------------------------------------
 Compile and build
-  git clone git://github.com/pa23/r49
-  cd r49
-  cd libtoxic
-  qmake libtoxic.pro
-  make
-  cd ..
-  cd Qr49
-  qmake Qr49.pro
-  make
+You need Qt framework or Qt SDK (http://qt.nokia.com/downloads)
+   1. download r49 source code from https://github.com/pa23/r49/downloads
+   2. unpack the archive
+   3. cd pa23-r49-*
+   4. cd libtoxic
+   5. qmake libtoxic.pro
+   6. make
+   7. cd ..
+   8. cd Qr49
+   9. qmake Qr49.pro
+  10. make
 --------------------------------------------------------------------------------

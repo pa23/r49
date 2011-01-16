@@ -2804,7 +2804,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ArithmeticOperation: child object not found!</source>
-        <translation>ArithmeticOperation: не найден дочерний объект!</translation>
+        <translation type="obsolete">ArithmeticOperation: не найден дочерний объект!</translation>
     </message>
     <message>
         <source>Qr49: add</source>
@@ -2824,7 +2824,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ArithmeticOperation: unknown arithmetic operation!</source>
-        <translation>ArithmeticOperation: неизвестная арифметическая операция!</translation>
+        <translation type="obsolete">ArithmeticOperation: неизвестная арифметическая операция!</translation>
     </message>
     <message>
         <source>No selected cells!</source>
@@ -2996,7 +2996,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ReportChanged: can not open report file!</source>
-        <translation>ReportChanged: невозможно открыть файл отчета!</translation>
+        <translation type="obsolete">ReportChanged: невозможно открыть файл отчета!</translation>
     </message>
     <message>
         <source>Illegal table cell value!</source>
@@ -4206,7 +4206,7 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>ReadConfigFile function returns false! Default values will be used.</source>
-        <translation>Функция ReadConfigFile завершила работу с ошибкой! Будут использованы значения по умолчанию.</translation>
+        <translation type="obsolete">Функция ReadConfigFile завершила работу с ошибкой! Будут использованы значения по умолчанию.</translation>
     </message>
     <message>
         <source>LoadData: FillTableEU0 function returns false!</source>
@@ -4226,35 +4226,35 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>FillTableEU0: libfuns: csvRead: ReadData function returns false!</source>
-        <translation>FillTableEU0: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU0: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableEU0: libfuns: csvRead: FillArray function returns false!</source>
-        <translation>FillTableEU0: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU0: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableEU3: libfuns: csvRead: ReadData function returns false!</source>
-        <translation>FillTableEU3: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU3: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableEU3: libfuns: csvRead: FillArray function returns false!</source>
-        <translation>FillTableEU3: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU3: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTablePoints: libfuns: csvRead: ReadData function returns false!</source>
-        <translation>FillTablePoints: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTablePoints: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTablePoints: libfuns: csvRead: FillArray function returns false!</source>
-        <translation>FillTablePoints: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTablePoints: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableFullLoadCurve: libfuns: csvRead: ReadData function returns false!</source>
-        <translation>FillTableFullLoadCurve: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableFullLoadCurve: libfuns: csvRead: функция ReadData завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableFullLoadCurve: libfuns: csvRead: FillArray function returns false!</source>
-        <translation>FillTableFullLoadCurve: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableFullLoadCurve: libfuns: csvRead: функция FillArray завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_ReloadAllData_activated: LoadData function returns false!</source>
@@ -4262,7 +4262,7 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>on_action_ChangeSourceData_activated: FillTablePoints returns false!</source>
-        <translation>on_action_ChangeSourceData_activated: функция FillTablePoints завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_ChangeSourceData_activated: функция FillTablePoints завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: on_action_SaveAllSourceData_activated function returns false!</source>
@@ -4270,11 +4270,11 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: CyclePoints: GetDataFromCSV function returns false!</source>
-        <translation>on_action_Execute_activated: libtoxic: CyclePoints: функция GetDataFromCSV завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_Execute_activated: libtoxic: CyclePoints: функция GetDataFromCSV завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: CyclePoints: FillArrays function returns false!</source>
-        <translation>on_action_Execute_activated: libtoxic: CyclePoints: функция FillArrays завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_Execute_activated: libtoxic: CyclePoints: функция FillArrays завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: LoadData function returns false!</source>
@@ -4286,7 +4286,7 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: CycleEmissions: GetDataFromCSV function returns false!</source>
-        <translation>on_action_Execute_activated: libtoxic: CycleEmissions: функция GetDataFromCSV завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_Execute_activated: libtoxic: CycleEmissions: функция GetDataFromCSV завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: CycleEmissions: MakeCalculations function returns false!</source>
@@ -4294,7 +4294,7 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: ReducedPower: GetDataFromCSV function returns false!</source>
-        <translation>on_action_Execute_activated: libtoxic: ReducedPower: функция GetDataFromCSV завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_Execute_activated: libtoxic: ReducedPower: функция GetDataFromCSV завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: ReducedPower: ReducePower function returns false!</source>
@@ -4318,19 +4318,19 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>LoadAllSourceData: FillTableEU0 function returns false!</source>
-        <translation>LoadAllSourceData: функция FillTableEU0 завершила работу с ошибкой!</translation>
+        <translation type="obsolete">LoadAllSourceData: функция FillTableEU0 завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>LoadAllSourceData: FillTableEU3 function returns false!</source>
-        <translation>LoadAllSourceData: функция FillTableEU3 завершила работу с ошибкой!</translation>
+        <translation type="obsolete">LoadAllSourceData: функция FillTableEU3 завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>LoadAllSourceData: FillTablePoints function returns false!</source>
-        <translation>LoadAllSourceData: функция FillTablePoints завершила работу с ошибкой!</translation>
+        <translation type="obsolete">LoadAllSourceData: функция FillTablePoints завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>LoadAllSourceData: FillTableFullLoadCurve function returns false!</source>
-        <translation>LoadAllSourceData: функция FillTableFullLoadCurve завершила работу с ошибкой!</translation>
+        <translation type="obsolete">LoadAllSourceData: функция FillTableFullLoadCurve завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_ReloadAllSourceData_activated: LoadAllSourceData function returns false!</source>
@@ -4358,15 +4358,15 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>on_action_ChangeSourceData_activated: FillTableEU0 returns false!</source>
-        <translation>on_action_ChangeSourceData_activated: функция FillTableEU0 завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_ChangeSourceData_activated: функция FillTableEU0 завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_ChangeSourceData_activated: FillTableEU3 returns false!</source>
-        <translation>on_action_ChangeSourceData_activated: функция FillTableEU3 завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_ChangeSourceData_activated: функция FillTableEU3 завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_ChangeSourceData_activated: FillTableFullLoadCurve returns false!</source>
-        <translation>on_action_ChangeSourceData_activated: функция FillTableFullLoadCurve завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_ChangeSourceData_activated: функция FillTableFullLoadCurve завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>Save Source Data File As...</source>
@@ -4378,19 +4378,19 @@ mazut - мазут</translation>
     </message>
     <message>
         <source>FillTableEU0: libfuns: csvRead: CheckArrayDimension function returns false!</source>
-        <translation>FillTableEU0: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU0: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableEU3: libfuns: csvRead: CheckArrayDimension function returns false!</source>
-        <translation>FillTableEU3: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableEU3: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTablePoints: libfuns: csvRead: CheckArrayDimension function returns false!</source>
-        <translation>FillTablePoints: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTablePoints: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>FillTableFullLoadCurve: libfuns: csvRead: CheckArrayDimension function returns false!</source>
-        <translation>FillTableFullLoadCurve: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
+        <translation type="obsolete">FillTableFullLoadCurve: libfuns: csvRead: функция CheckArrayDimension завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>Save Calculation Options As...</source>
@@ -4508,12 +4508,12 @@ no - Нет</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: FillTablePoints function returns false!</source>
-        <translation>on_action_Execute_activated: функция FillTablePoints завершила работу с ошибкой!</translation>
+        <translation type="obsolete">on_action_Execute_activated: функция FillTablePoints завершила работу с ошибкой!</translation>
     </message>
     <message>
         <source>on_action_Execute_activated: libtoxic: CycleEmissions: MakeCalculations function returns false!
 Maybe you did not enter all source data?</source>
-        <translation>on_action_Execute_activated: libtoxic: CycleEmissions: функция MakeCalculations завершила работу с ошибкой!
+        <translation type="obsolete">on_action_Execute_activated: libtoxic: CycleEmissions: функция MakeCalculations завершила работу с ошибкой!
 Возможно вы ввели не все исходные данные?</translation>
     </message>
     <message>
@@ -4526,7 +4526,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>LoadAllSourceData: file </source>
-        <translation>LoadAllSourceData: файл </translation>
+        <translation type="obsolete">LoadAllSourceData: файл </translation>
     </message>
     <message>
         <source> not found!</source>
@@ -4563,6 +4563,100 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>&lt;br&gt;&lt;br&gt;Calculation of modes and specific emissions for stationary diesel engine cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99).&lt;br&gt;&lt;br&gt;Copyright (C) 2009, 2010 Artem Petrov &lt;a href= &quot;mailto:pa2311@gmail.com&quot; &gt;pa2311@gmail.com&lt;/a&gt;&lt;br&gt;&lt;br&gt;Web site: &lt;a href= &quot;https://github.com/pa23/r49&quot;&gt;https://github.com/pa23/r49&lt;/a&gt;&lt;br&gt;&lt;br&gt;This program is free software: you can redistribute it and/or modifyit under the terms of the GNU General Public License as published bythe Free Software Foundation, either version 3 of the License, or(at your option) any later version.&lt;br&gt;This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty ofMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details.&lt;br&gt;You should have received a copy of the GNU General Public Licensealong with this program. If not, see &lt;a href= &quot;http://www.gnu.org/licenses/&quot; &gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;br&gt;</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>readConfigFile function returns false! Default values will be used.</source>
+        <translation>Функция readConfigFile завершила работу с ошибкой! Будут использованы значения по умолчанию.</translation>
+    </message>
+    <message>
+        <source>loadAllSourceData: fillTableEU0 function returns false!</source>
+        <translation>loadAllSourceData: функция fillTableEU0 завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>loadAllSourceData: file </source>
+        <translation>loadAllSourceData: файл </translation>
+    </message>
+    <message>
+        <source>loadAllSourceData: fillTableEU3 function returns false!</source>
+        <translation>loadAllSourceData: функция fillTableEU3 завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>loadAllSourceData: fillTablePoints function returns false!</source>
+        <translation>loadAllSourceData: функция fillTablePoints завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>loadAllSourceData: fillTableFullLoadCurve function returns false!</source>
+        <translation>loadAllSourceData: функция fillTableFullLoadCurve завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>fillTableEU0: libtoxic: csvRead: incorrect source data!</source>
+        <translation>fillTableEU0: libtoxic: csvRead: некорректные исходные данные!</translation>
+    </message>
+    <message>
+        <source>fillTableEU3: libtoxic: csvRead: incorrect source data!</source>
+        <translation>fillTableEU3: libtoxic: csvRead: некорректные исходные данные!</translation>
+    </message>
+    <message>
+        <source>fillTablePoints: libtoxic: csvRead: incorrect source data!</source>
+        <translation>fillTablePoints: libtoxic: csvRead: некорректные исходные данные!</translation>
+    </message>
+    <message>
+        <source>fillTableFullLoadCurve: libtoxic: csvRead: incorrect source data!</source>
+        <translation>fillTableFullLoadCurve: libtoxic: csvRead: некорректные исходные данные!</translation>
+    </message>
+    <message>
+        <source>arithmeticOperation: child object not found!</source>
+        <translation>arithmeticOperation: дочерний объект не найден!</translation>
+    </message>
+    <message>
+        <source>arithmeticOperation: unknown arithmetic operation!</source>
+        <translation>arithmeticOperation: неизвестная арифметическая операция!</translation>
+    </message>
+    <message>
+        <source>on_action_ChangeSourceData_activated: fillTableEU0 returns false!</source>
+        <translation>on_action_ChangeSourceData_activated: функция fillTableEU0 завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_ChangeSourceData_activated: fillTableEU3 returns false!</source>
+        <translation>on_action_ChangeSourceData_activated: функция fillTableEU3 завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_ChangeSourceData_activated: fillTablePoints returns false!</source>
+        <translation>on_action_ChangeSourceData_activated: функция fillTablePoints завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_ChangeSourceData_activated: fillTableFullLoadCurve returns false!</source>
+        <translation>on_action_ChangeSourceData_activated: функция fillTableFullLoadCurve завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: libtoxic: CyclePoints: readCSV function returns false!</source>
+        <translation>on_action_Execute_activated: libtoxic: CyclePoints: функция readCSV завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: libtoxic: CyclePoints: fillArrays function returns false!</source>
+        <translation>on_action_Execute_activated: libtoxic: CyclePoints: функция fillArrays завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: fillTablePoints function returns false!</source>
+        <translation>on_action_Execute_activated: функция fillTablePoints завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: libtoxic: CycleEmissions: readCSV function returns false!</source>
+        <translation>on_action_Execute_activated: libtoxic: CycleEmissions: функция readCSV завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: libtoxic: CycleEmissions: calculate function returns false!
+Maybe you did not enter all source data?</source>
+        <translation>on_action_Execute_activated: libtoxic: CycleEmissions: функция calculate завершила работу с ошибкой!
+Проверьте, может вы ввели не все исходные данные?</translation>
+    </message>
+    <message>
+        <source>on_action_Execute_activated: libtoxic: ReducedPower: readCSV function returns false!</source>
+        <translation>on_action_Execute_activated: libtoxic: ReducedPower: функция readCSV завершила работу с ошибкой!</translation>
+    </message>
+    <message>
+        <source>reportChanged: can not open report file!</source>
+        <translation>reportChanged: не могу открыть файл отчета!</translation>
     </message>
 </context>
 <context>

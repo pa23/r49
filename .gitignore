@@ -10,6 +10,7 @@ Qr49/ui_helpdialog.h
 Qr49/ui_preferencesdialog.h
 Qr49/ui_qr49.h
 Qr49/ui_valuedialog.h
+Qr49/qr49_ru.qm
 libtoxic/Makefile
 libtoxic/build/
 libtoxic/libtoxic.pro.user
