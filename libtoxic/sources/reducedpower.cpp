@@ -113,16 +113,16 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
-        array_n        [i] = array_DataForCalc[i+1][ 1];
-        array_Me_brutto[i] = array_DataForCalc[i+1][ 2];
-        array_t0       [i] = array_DataForCalc[i+1][ 3];
-        array_B0       [i] = array_DataForCalc[i+1][ 4];
-        array_Ra       [i] = array_DataForCalc[i+1][ 5];
-        array_S        [i] = array_DataForCalc[i+1][ 6];
-        array_pk       [i] = array_DataForCalc[i+1][ 7];
-        array_Gfuel    [i] = array_DataForCalc[i+1][ 8];
-        array_N_k      [i] = array_DataForCalc[i+1][ 9];
-        array_N_fan    [i] = array_DataForCalc[i+1][10];
+        array_n        [i] = array_DataForCalc[i][ 1];
+        array_Me_brutto[i] = array_DataForCalc[i][ 2];
+        array_t0       [i] = array_DataForCalc[i][ 3];
+        array_B0       [i] = array_DataForCalc[i][ 4];
+        array_Ra       [i] = array_DataForCalc[i][ 5];
+        array_S        [i] = array_DataForCalc[i][ 6];
+        array_pk       [i] = array_DataForCalc[i][ 7];
+        array_Gfuel    [i] = array_DataForCalc[i][ 8];
+        array_N_k      [i] = array_DataForCalc[i][ 9];
+        array_N_fan    [i] = array_DataForCalc[i][10];
     }
 
     mytime = dateTimeNow();
@@ -214,7 +214,7 @@ QString ReducedPower::createReports() {
     string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
     QString dirnameReports = config.data()->val_dirnameReports();
 
-    fullReportsPath = dirnameReports + "r85_" + QString::fromStdString(mytime);
+    fullReportsPath = dirnameReports + "/" + "r85_" + QString::fromStdString(mytime);
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 
@@ -321,7 +321,7 @@ QString ReducedPower::createReports() {
 
         for (ptrdiff_t j=0; j<PowersFileColumnsNumber; j++) {
 
-            fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision + 1) << array_DataForCalc[i+1][j] << csvdelimiter;
+            fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision + 1) << array_DataForCalc[i][j] << csvdelimiter;
         }
 
         fout4 << endl;
