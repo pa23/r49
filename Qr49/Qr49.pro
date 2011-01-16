@@ -53,7 +53,7 @@ unix: {
 win32: {
     INCLUDEPATH += ..\libtoxic\sources ..
     LIBS += -L..\libtoxic\build\win\bin \
-        -ltoxic4 \
+        -ltoxic5 \
         -Wl,-rpath,.
     DESTDIR = build\win\bin
     MOC_DIR = build\win\moc
