@@ -22,7 +22,7 @@
 
 // constants
 
-const QString qr49version = "Qr49 v1.22.0";
+const QString qr49version = "Qr49 v1.22.1";
 
 const QString oparandsDelimiter = "=";
 

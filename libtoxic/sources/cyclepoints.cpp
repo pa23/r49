@@ -955,34 +955,34 @@ QString CyclePoints::createReport() const {
 
     for (ptrdiff_t i=0; i<n; i++) {
 
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(        0) << (i + 1) << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_n[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_N_fan[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision+1) << array_w[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter << endl;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(        0) << (i + 1) << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_n[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_fan[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_w[i] << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter << endl;
     }
 
     fout.close();

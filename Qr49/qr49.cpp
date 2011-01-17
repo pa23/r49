@@ -1960,6 +1960,17 @@ void MainWindow::tabChanged(int tab) {
     }
     else {
 
+        if (tab == 0) {
+
+            ui->comboBox_task->setCurrentIndex(1);
+            taskChanged(ui->comboBox_task->currentText());
+        }
+        else if (tab == 2) {
+
+            ui->comboBox_task->setCurrentIndex(2);
+            taskChanged(ui->comboBox_task->currentText());
+        }
+
         if (undoCount == 0) {
 
             ui->action_UndoTable->setEnabled(false);
