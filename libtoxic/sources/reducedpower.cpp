@@ -88,7 +88,7 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
         if (array_DataForCalc.at(0).size() != PowersFileColumnsNumber) {
 
-            qDebug() << "libtoxic ERROR: ReducedPower: readCSV: incorrect source data!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
             return false;
         }
@@ -138,7 +138,7 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
          !nonZeroArray(array_Gfuel) ||
          (params.data()->val_Vh() < 0.0000001) ) {
 
-        qDebug() << "libtoxic ERROR: ReducedPower: readCSV: Bad source data or calculation settings!";
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
         return false;
     }
 
@@ -191,7 +191,7 @@ bool ReducedPower::reducePower() {
 
         if ( (array_alphad[i] < 0.9) || (array_alphad[i] > 1.1) ) {
 
-            qDebug() << "r49 ERROR: ReducedPower: reducePower: alphad is out-of-range (0.9..1.1)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "alphad is out-of-range (0.9..1.1)!";
 
             return false;
         }
@@ -228,8 +228,8 @@ QString ReducedPower::createReports() {
 
     if (!fout1) {
 
-        message += "libtoxic ERROR: ReducedPower: createReports: fout1 was not created!\n";
-        qDebug() << "libtoxic ERROR: ReducedPower: createReports: fout1 was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout1 was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout1 was not created!";
 
         return message;
     }
@@ -299,8 +299,8 @@ QString ReducedPower::createReports() {
 
     if (!fout4) {
 
-        message += "libtoxic ERROR: ReducedPower: createReports: fout4 was not created!\n";
-        qDebug() << "libtoxic ERROR: ReducedPower: createReports: fout4 was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout4 was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout4 was not created!";
 
         return message;
     }

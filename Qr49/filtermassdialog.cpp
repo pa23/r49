@@ -17,7 +17,7 @@
 
 #include "filtermassdialog.h"
 
-#include <QtGui/QDoubleValidator>
+#include <QDoubleValidator>
 
 FilterMassDialog::FilterMassDialog(QWidget *parent) :
         QDialog(parent) {

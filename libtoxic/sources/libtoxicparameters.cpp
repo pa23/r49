@@ -77,7 +77,7 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
 
     if ( !(calcConfigFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libtoxic ERROR: LibtoxicParameters: readCalcConfigFile:" << calcConfigFileName << "not found!";
+        qDebug() << Q_FUNC_INFO << ":::" << calcConfigFileName << "not found!";
 
         return false;
     }
@@ -105,7 +105,7 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
             else if (elements[0] == "CalcConfigFile") { CalcConfigFile = elements[1]; }
             else                                      {
 
-                qDebug() << "libtoxic WARNING: LibtoxicParameters: readCalcConfigFile: unknown parameter" << elements[0] << "!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Unknown parameter" << elements[0] << "!";
             }
 
             elements.clear();

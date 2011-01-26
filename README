@@ -31,7 +31,7 @@ Dependences
     Win32 OpenSSL (http://www.slproweb.com/products/Win32OpenSSL.html)
 --------------------------------------------------------------------------------
 Compile and build
-You need Qt framework or Qt SDK (http://qt.nokia.com/downloads)
+You need Qt SDK (http://qt.nokia.com/downloads)
    1. download r49 source code from https://github.com/pa23/r49/downloads
    2. unpack the archive
    3. cd pa23-r49-*

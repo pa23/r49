@@ -18,8 +18,8 @@
 #ifndef ELRSMOKECALCDIALOG_H
 #define ELRSMOKECALCDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleValidator>
+#include <QDialog>
+#include <QDoubleValidator>
 
 #include "ui_elrsmokecalcdialog.h"
 

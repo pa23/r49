@@ -19,8 +19,8 @@
 
 #include "precalc.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QDoubleValidator>
+#include <QMessageBox>
+#include <QDoubleValidator>
 
 ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) :
         QDialog(parent) {

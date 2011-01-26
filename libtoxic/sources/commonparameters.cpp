@@ -69,7 +69,7 @@ bool CommonParameters::readConfigFile(QString configFileName) {
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libtoxic ERROR: CommonParameters: readConfigFile:" << configFileName << "not found!";
+        qDebug() << Q_FUNC_INFO << ":::" << configFileName << "not found!";
 
         return false;
     }
@@ -107,7 +107,7 @@ bool CommonParameters::readConfigFile(QString configFileName) {
             else if (elements[0] == "muCH")              { muCH              = (elements[1]).toDouble(); }
             else                                         {
 
-                qDebug() << "libtoxic WARNING: CommonParameters: readConfigFile: unknown parameter" << elements[0] << "!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Unknown parameter" << elements[0] << "!";
             }
 
             elements.clear();

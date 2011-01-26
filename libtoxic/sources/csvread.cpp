@@ -51,7 +51,7 @@ QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimit
 
     if ( !(dataFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << "libfuns ERROR: csvRead: readData:" << filename << "not found!";
+        qDebug() << Q_FUNC_INFO << ":::" << filename << "not found!";
 
         return doubleData;
     }

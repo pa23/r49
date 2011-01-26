@@ -17,7 +17,7 @@
 
 #include "valuedialog.h"
 
-#include <QtGui/QDoubleValidator>
+#include <QDoubleValidator>
 
 ValueDialog::ValueDialog(QWidget *parent) :
         QDialog(parent) {

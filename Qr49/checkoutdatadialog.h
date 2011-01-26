@@ -18,7 +18,8 @@
 #ifndef CHECKOUTDATADIALOG_H
 #define CHECKOUTDATADIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
+
 #include "ui_checkoutdatadialog.h"
 
 class CheckoutDataDialog : public QDialog {

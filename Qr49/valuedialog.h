@@ -18,8 +18,8 @@
 #ifndef VALUEDIALOG_H
 #define VALUEDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleValidator>
+#include <QDialog>
+#include <QDoubleValidator>
 
 #include "ui_valuedialog.h"
 

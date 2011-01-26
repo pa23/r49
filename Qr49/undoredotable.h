@@ -18,9 +18,9 @@
 #ifndef UNDOREDOTABLE_H
 #define UNDOREDOTABLE_H
 
-#include <QtCore/QVector>
-#include <QtCore/QString>
-#include <QtGui/QTableWidget>
+#include <QVector>
+#include <QString>
+#include <QTableWidget>
 
 class UndoRedoTable {
 

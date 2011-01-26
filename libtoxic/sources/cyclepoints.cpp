@@ -112,7 +112,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (arraySourceData.at(0).size() != EU3SrcDataParamsNumber) {
 
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
                 return false;
             }
@@ -131,7 +131,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
                 return false;
             }
@@ -147,7 +147,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (arraySourceData.at(0).size() != EU0SrcDataParamsNumber) {
 
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect source data!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
                 return false;
             }
@@ -161,7 +161,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
 
             return false;
         }
@@ -186,7 +186,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                qDebug() << "libtoxic ERROR: CyclePoints: readCSV: calcABC function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
                 return false;
             }
@@ -209,7 +209,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CyclePoints: readCSV: incorrect program configuration!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
 
             return false;
         }
@@ -828,7 +828,7 @@ bool CyclePoints::fillArrays() {
     }
     else {
 
-        qDebug() << "r49 ERROR: CyclePoints: fillArrays: incorrect program configuration!";
+        qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
 
         return false;
     }
@@ -847,8 +847,8 @@ QString CyclePoints::createReport() const {
 
     if (!fout) {
 
-        message += "libtoxic ERROR: CyclePoints: createReport: fout was not created!\n";
-        qDebug() << "\nlibtoxic ERROR: CyclePoints: createReport: fout was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout was not created!";
 
         return message;
     }
@@ -947,8 +947,8 @@ QString CyclePoints::createReport() const {
 
         fout.close();
 
-        message += "libtoxic ERROR: CyclePoints: createReport: points can be calculated only for cycles!\n";
-        qDebug() << "\nlibtoxic ERROR: CyclePoints: createReport: points can be calculated only for cycles!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Points can be calculated only for cycles!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "Points can be calculated only for cycles!";
 
         return message;
     }

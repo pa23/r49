@@ -18,12 +18,12 @@
 #include "preferencesdialog.h"
 #include "qr49constants.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QString>
-#include <QtCore/QDir>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QString>
+#include <QDir>
 
 using std::string;
 
@@ -141,7 +141,7 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
 
     if (!preferencesFile.open(QIODevice::WriteOnly)) {
 
-        QMessageBox::critical(0, "Qr49", tr("PreferencesDialog: on_pushButton_Save_clicked: preferences could not be saved!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Preferences could not be saved!"), 0, 0, 0);
 
         return;
     }

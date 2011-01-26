@@ -174,7 +174,7 @@ MainWindow::MainWindow(QWidget *parent) :
         QPlainTextEdit *myPlainTextEdit_CheckoutData = checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
         if (!myPlainTextEdit_CheckoutData) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_CheckoutData_activated: child object not found!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
             return;
         }
         myPlainTextEdit_CheckoutData->setFont(monospacedFont_10);
@@ -313,7 +313,7 @@ void MainWindow::readPreferences() {
 
     if (!config.data()->readConfigFile(configFileName)) {
 
-        QMessageBox::warning(0, "Qr49", tr("readConfigFile function returns false! Default values will be used."), 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false! Default values will be used."), 0, 0, 0);
     }
 }
 
@@ -327,15 +327,14 @@ void MainWindow::loadAllSourceData() {
 
         if (!fillTableEU0(filenameSourceEU0)) {
 
-            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableEU0 function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
         }
 
         tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("loadAllSourceData: file ") + filenameSourceEU0 + tr(" not found!");
-        QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenameSourceEU0 + tr(" not found!"), 0, 0, 0);
     }
 
     //
@@ -348,15 +347,14 @@ void MainWindow::loadAllSourceData() {
 
         if (!fillTableEU3(filenameSourceEU3)) {
 
-            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableEU3 function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
         }
 
         tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("loadAllSourceData: file ") + filenameSourceEU3 + tr(" not found!");
-        QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenameSourceEU3 + tr(" not found!"), 0, 0, 0);
     }
 
     //
@@ -369,15 +367,14 @@ void MainWindow::loadAllSourceData() {
 
         if (!fillTablePoints(filenamePoints)) {
 
-            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTablePoints function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
         }
 
         tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("loadAllSourceData: file ") + filenamePoints + tr(" not found!");
-        QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenamePoints + tr(" not found!"), 0, 0, 0);
     }
 
     //
@@ -390,15 +387,14 @@ void MainWindow::loadAllSourceData() {
 
         if (!fillTableFullLoadCurve(filenamePowers)) {
 
-            QMessageBox::critical(0, "Qr49", tr("loadAllSourceData: fillTableFullLoadCurve function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
         }
 
         tableCellChangedConnect(true);
     }
     else {
 
-        QString msg = tr("loadAllSourceData: file ") + filenamePowers + tr(" not found!");
-        QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenamePowers + tr(" not found!"), 0, 0, 0);
     }
 }
 
@@ -413,7 +409,7 @@ bool MainWindow::fillTableEU0(QString filename) {
 
     if (arraySourceDataEU0.at(0).size() != EU0SrcDataParamsNumber) {
 
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU0: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
         return false;
     }
@@ -438,7 +434,7 @@ bool MainWindow::fillTableEU3(QString filename) {
 
     if (arraySourceDataEU3.at(0).size() != EU3SrcDataParamsNumber) {
 
-        QMessageBox::critical(0, "Qr49", tr("fillTableEU3: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
         return false;
     }
@@ -460,7 +456,7 @@ bool MainWindow::fillTablePoints(QString filename) {
 
     if (arraySourceDataPoints.at(0).size() != PointsFileColumnsNumber) {
 
-        QMessageBox::critical(0, "Qr49", tr("fillTablePoints: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
         return false;
     }
@@ -497,7 +493,7 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
     if (arrayFullLoadCurve.at(0).size() != PowersFileColumnsNumber) {
 
-        QMessageBox::critical(0, "Qr49", tr("fillTableFullLoadCurve: libtoxic: csvRead: incorrect source data!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
         return false;
     }
@@ -545,7 +541,7 @@ bool MainWindow::arithmeticOperation(QString operation) {
 
     if (!value) {
 
-        QMessageBox::critical(0, "Qr49", tr("arithmeticOperation: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
 
         return false;
     }
@@ -571,7 +567,7 @@ bool MainWindow::arithmeticOperation(QString operation) {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49", tr("arithmeticOperation: unknown arithmetic operation!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Unknown arithmetic operation!"), 0, 0, 0);
 
         return false;
     }
@@ -654,7 +650,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if (!fillTableEU0(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableEU0 returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
         }
 
@@ -672,7 +668,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if (!fillTableEU3(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableEU3 returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
         }
 
@@ -690,7 +686,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if (!fillTablePoints(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTablePoints returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
         }
 
@@ -708,7 +704,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if (!fillTableFullLoadCurve(anotherSourceFile)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_ChangeSourceData_activated: fillTableFullLoadCurve returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
         }
 
@@ -728,8 +724,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if (!SrcDataEU0File.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveAllSourceData_activated: file ") + filenameSourceEU0 + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenameSourceEU0 + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -754,8 +749,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if (!SrcDataEU3File.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveAllSourceData_activated: file ") + filenameSourceEU3 + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenameSourceEU3 + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -780,8 +774,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if (!SrcDataPointsFile.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveAllSourceData_activated: file ") + filenamePoints + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenamePoints + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -809,8 +802,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if (!SrcDataPowersFile.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveAllSourceData_activated: file ") + filenamePowers + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenamePowers + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -848,8 +840,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
         if (!SrcDataFile.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SavePointsFileAs_activated: file ") + newSourceDataFileName + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + newSourceDataFileName + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -945,8 +936,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
         if (!savedOptions.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveCalculationOptions_activated: file ") + optionsFileName + tr(" could not be opened!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + optionsFileName + tr(" could not be opened!"), 0, 0, 0);
 
             return;
         }
@@ -1004,8 +994,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
 
         if (!reportFile.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("on_action_SaveReportAs_activated: file ") + newReportFileName + tr(" could not be saved!");
-            QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + newReportFileName + tr(" could not be saved!"), 0, 0, 0);
 
             return;
         }
@@ -1080,7 +1069,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myComboBox_csvdelimiter) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1088,7 +1077,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myLineEdit_filenameSourceEU3) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1096,7 +1085,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myLineEdit_filenameSourceEU0) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1104,7 +1093,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myLineEdit_filenamePoints) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1112,7 +1101,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myLineEdit_filenamePowers) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1120,7 +1109,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myLineEdit_dirnameReports) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1128,7 +1117,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_Dn) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1136,7 +1125,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_ConcO2air) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1144,7 +1133,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_Rr) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1152,7 +1141,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_L0) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1160,7 +1149,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_L) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1168,7 +1157,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_ConcCO2air) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1176,7 +1165,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_WH) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1184,7 +1173,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_WO2) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1192,7 +1181,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_WN) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1200,7 +1189,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_roAir) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1208,7 +1197,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_muNO2) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1216,7 +1205,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_muCO) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1224,7 +1213,7 @@ void MainWindow::on_action_Preferences_activated() {
 
     if (!myDoubleSpinBox_muCH) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_Preferences_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
         return;
     }
 
@@ -1321,7 +1310,7 @@ void MainWindow::on_action_PasteToTable_activated() {
             )
     ) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_PasteToPointsTable_activated: copied data can not be inserted!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Copied data can not be inserted!"), 0, 0, 0);
 
         return;
     }
@@ -1475,14 +1464,14 @@ void MainWindow::on_action_Execute_activated() {
 
         if (!myPoints.data()->readCSV(array_DataForCalc)) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: readCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
         if (!myPoints.data()->fillArrays()) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CyclePoints: fillArrays function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
@@ -1499,15 +1488,14 @@ void MainWindow::on_action_Execute_activated() {
 
             if (!fillTablePoints(filenamePoints)) {
 
-                QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: fillTablePoints function returns false!"), 0, 0, 0);
+                QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
 
             tableCellChangedConnect(true);
         }
         else {
 
-            QString msg = tr("on_action_Execute_activated: file ") + filenamePoints + tr(" not found!");
-            QMessageBox::warning(0, "Qr49", msg, 0, 0, 0);
+            QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + filenamePoints + tr(" not found!"), 0, 0, 0);
         }
 
         //
@@ -1520,14 +1508,14 @@ void MainWindow::on_action_Execute_activated() {
 
         if (!myEmissions.data()->readCSV(array_DataForCalc)) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: readCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
         if (!myEmissions.data()->calculate()) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: CycleEmissions: calculate function returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
 
             return;
         }
@@ -1581,14 +1569,14 @@ void MainWindow::on_action_Execute_activated() {
 
         if (!myReducedPower.data()->readCSV(array_DataForCalc)) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: readCSV function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
         if (!myReducedPower.data()->reducePower()) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_action_Execute_activated: libtoxic: ReducedPower: ReducePower function returns false!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
@@ -1640,7 +1628,7 @@ void MainWindow::on_action_CheckoutData_activated() {
 
     if (!myPlainTextEdit_CheckoutData) {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_CheckoutData_activated: child object not found!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
 
         return;
     }
@@ -1654,7 +1642,7 @@ void MainWindow::on_action_CheckoutData_activated() {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49", tr("on_action_CheckoutData_activated: can not open file!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Can not open file!"), 0, 0, 0);
 
         return;
     }
@@ -1714,7 +1702,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
 
         if ( (!m1c) || (!m1d) || (!m2c) || (!m2d) ) {
 
-            QMessageBox::critical(0, "Qr49", tr("on_pushButton_EnterPTmass_clicked: child object not found!"), 0, 0, 0);
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
 
             return;
         }
@@ -1930,7 +1918,7 @@ void MainWindow::reportChanged(QString path) {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49", tr("reportChanged: can not open report file!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Can not open report file!"), 0, 0, 0);
 
         return;
     }

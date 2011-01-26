@@ -17,10 +17,10 @@
 
 #include "checkoutdatadialog.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 
 using std::string;
 
@@ -51,7 +51,7 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
         if (!checkoutDataFile.open(QIODevice::WriteOnly)) {
 
-            QString msg = tr("CheckoutDataDialog: on_pushButton_SaveAs_clicked: file ") + newCheckoutDataFileName + tr(" could not be saved!");
+            QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" + newCheckoutDataFileName + tr(" could not be saved!");
             QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
             return;

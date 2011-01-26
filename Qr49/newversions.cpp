@@ -55,7 +55,7 @@ void NewVersions::replyFinished(QNetworkReply* reply) {
 
     if (reply->error()) {
 
-        QString msg = "NewVersions: replyFinished: " + reply->errorString();
+        QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" + reply->errorString();
         QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
         return;

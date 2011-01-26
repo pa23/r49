@@ -177,8 +177,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for task parameter!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for task parameter!";
             }
         }
         else if (param == "Vh") {
@@ -193,7 +192,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
                 elements.clear();
 
-                qDebug() << "Qr49 ERROR: ParsingParameters: incorrect Vh value!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect Vh value!";
 
                 return 1;
             }
@@ -239,8 +238,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for cycle parameter!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for cycle parameter!";
             }
         }
         else if (param == "FuelType") {
@@ -251,8 +249,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for FuelType parameter!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for FuelType parameter!";
             }
         }
         else if (param == "NOxSample") {
@@ -262,8 +259,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for NOxSample type!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for NOxSample type!";
             }
         }
         else if (param == "PTcalc") {
@@ -274,8 +270,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for PT calc method!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for PT calc method!";
             }
         }
         else if (param == "PTmass") {
@@ -290,7 +285,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
                 elements.clear();
 
-                qDebug() << "Qr49 ERROR: ParsingParameters: incorrect PTmass value!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect PTmass value!";
 
                 return false;
             }
@@ -302,8 +297,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             else {
 
-                qDebug() << "Qr49 WARNING: ParsingParameters: I am in \"else\" of ParsingParameters function!";
-                qDebug() << "Qr49 WARNING: ParsingParameters: Default value will be using for AddPointsCalc value!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for AddPointsCalc value!";
             }
         }
         else if (param == "CalcConfigFile") {
@@ -314,7 +308,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             elements.clear();
 
-            qDebug() << "Qr49 ERROR: ParsingParameters: incorrect program parameters!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program parameters!";
 
             return false;
         }
@@ -333,7 +327,7 @@ int main(int argc, char **argv) {
 
         if (!ParsingParameters(params, argc, argv)) {
 
-            qDebug() << "Qr49 ERROR: main: ParsingParameters function returns false!";
+            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
             cout << "Press Enter to exit...";
             cin.get();
 
@@ -344,7 +338,7 @@ int main(int argc, char **argv) {
 
         if (!config.data()->readConfigFile(configFileName)) {
 
-            qDebug() << "Qr49 WARNING: main: readConfigFile function returns false! Default values will be used.";
+            qDebug() << Q_FUNC_INFO << ":::" << "returns false! Default values will be used.";
         }
 
         QVector< QVector<double> > data;
@@ -359,7 +353,7 @@ int main(int argc, char **argv) {
 
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-                qDebug() << "Qr49 ERROR: main: CalcABC function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get(); cin.get();
 
@@ -383,7 +377,7 @@ int main(int argc, char **argv) {
 
             if (!myPoints.data()->readCSV(data)) {
 
-                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -392,7 +386,7 @@ int main(int argc, char **argv) {
 
             if (!myPoints.data()->fillArrays()) {
 
-                qDebug() << "Qr49 ERROR: main: fillArrays function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -410,7 +404,7 @@ int main(int argc, char **argv) {
 
             if (!myEmissions.data()->readCSV(data)) {
 
-                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -419,7 +413,7 @@ int main(int argc, char **argv) {
 
             if (!myEmissions.data()->calculate()) {
 
-                qDebug() << "Qr49 ERROR: main: calculate function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -437,7 +431,7 @@ int main(int argc, char **argv) {
 
             if (!myReducedPower.data()->readCSV(data)) {
 
-                qDebug() << "Qr49 ERROR: main: readCSV function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -446,7 +440,7 @@ int main(int argc, char **argv) {
 
             if (!myReducedPower.data()->reducePower()) {
 
-                qDebug() << "Qr49 ERROR: main: ReducePower function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get();
 
@@ -483,7 +477,7 @@ int main(int argc, char **argv) {
                          &smoke_C1, &smoke_C2, &smoke_C3,
                          &smokeELR)) {
 
-                qDebug() << "Qr49 ERROR: main: CalcELR function returns false!";
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 cout << "Press Enter to exit...";
                 cin.get(); cin.get();
 
@@ -505,7 +499,7 @@ int main(int argc, char **argv) {
         }
         else {
 
-            qDebug() << "Qr49 ERROR: main: incorrect values in an array of operands!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect values in an array of operands!";
         }
 
         return 0;

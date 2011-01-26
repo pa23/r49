@@ -18,10 +18,9 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 
 using std::string;
 

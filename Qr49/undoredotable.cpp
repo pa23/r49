@@ -17,9 +17,9 @@
 
 #include "undoredotable.h"
 
-#include <QtCore/QVector>
-#include <QtCore/QString>
-#include <QtGui/QTableWidget>
+#include <QVector>
+#include <QString>
+#include <QTableWidget>
 
 UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
         position(-1),

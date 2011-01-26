@@ -96,14 +96,14 @@ bool CycleEmissions::calculate() {
 
     if (!preCalculate()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: preCalculate function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
 
     if (!calculate_gNOx()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gNOx function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
@@ -113,7 +113,7 @@ bool CycleEmissions::calculate() {
 
         if (!calculateAdditionalPoints()) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculateAdditionalPoints function returns false!";
+            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
             return false;
         }
@@ -121,28 +121,28 @@ bool CycleEmissions::calculate() {
 
     if (!calculate_gCO()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gCO function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
 
     if (!calculate_gCH()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gCH function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
 
     if (!calculate_gPT()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_gPT function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
 
     if (!calculate_rEGR()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_rEGR function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
@@ -151,7 +151,7 @@ bool CycleEmissions::calculate() {
 
         if (!calculate_Means()) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: calculate: calculate_Means function returns false!";
+            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
             return false;
         }
@@ -159,7 +159,7 @@ bool CycleEmissions::calculate() {
 
     if (!compareAlpha()) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: calculate: compareAlpha function returns false!";
+        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
         return false;
     }
@@ -180,7 +180,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
         if (array_DataForCalc.at(0).size() != PointsFileColumnsNumber) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: incorrect source data!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
             return false;
         }
@@ -324,7 +324,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             )
     ) {
 
-        qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
         return false;
     }
@@ -396,7 +396,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
         if (!nonZeroArray(array_n)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (n)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (n)!";
             return false;
         }
 
@@ -410,25 +410,25 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Me_b or Ne_b)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Me_b or Ne_b)!";
             return false;
         }
 
         if (!nonZeroArray(array_t0)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (t0)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (t0)!";
             return false;
         }
 
         if (!nonZeroArray(array_B0)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (B0)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (B0)!";
             return false;
         }
 
         if (!nonZeroArray(array_Ra)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Ra)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Ra)!";
             return false;
         }
 
@@ -442,13 +442,13 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Gair or dPn)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gair or dPn)!";
             return false;
         }
 
         if (!nonZeroArray(array_Gfuel)) {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (Gfuel)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gfuel)!";
             return false;
         }
 
@@ -462,7 +462,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings (CNOx or gNOx)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (CNOx or gNOx)!";
             return false;
         }
 
@@ -509,7 +509,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
                    !nonZeroArray(array_KaPerc) &&
                    !nonZeroArray(array_FSN)       ) ) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                 return false;
             }
 
@@ -519,7 +519,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
                      ( !nonZeroArray(array_qmdw) &&
                        !nonZeroArray(array_rd)      ) ) {
 
-                    qDebug() << "libtoxic ERROR: CycleEmissions: readCSV: Bad source data or calculation settings!";
+                    qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                     return false;
                 }
 
@@ -609,7 +609,7 @@ bool CycleEmissions::preCalculate() {
         }
         else {
 
-            qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
             return false;
         }
@@ -648,7 +648,7 @@ bool CycleEmissions::preCalculate() {
 
             if (Dn < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
@@ -664,7 +664,7 @@ bool CycleEmissions::preCalculate() {
 
             if (ConcO2air < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
@@ -710,7 +710,7 @@ bool CycleEmissions::preCalculate() {
             }
             else {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
@@ -755,7 +755,7 @@ bool CycleEmissions::preCalculate() {
             }
             else {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
@@ -1354,7 +1354,7 @@ bool CycleEmissions::compareAlpha() {
 
             if (ConcO2air < 1) {
 
-                qDebug() << "libtoxic ERROR: CycleEmissions: preCalculate: Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
@@ -1439,8 +1439,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     if (!fout1) {
 
-        message += "libtoxic ERROR: CycleEmissions: createReports: fout1 was not created!\n";
-        qDebug() << "\nlibtoxic ERROR: CycleEmissions: createReports: fout1 was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout1 was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout1 was not created!";
 
         return message;
     }
@@ -1618,8 +1618,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     if (!fout4) {
 
-        message += "libtoxic ERROR: CycleEmissions: createReports: fout4 was not created!\n";
-        qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout4 was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout4 was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout4 was not created!";
 
         return message;
     }
@@ -1696,8 +1696,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (!fout6) {
 
-                message += "libtoxic ERROR: CycleEmissions: createReports: fout6 was not created!\n";
-                qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout6 was not created!";
+                message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout6 was not created!\n";
+                qDebug() << Q_FUNC_INFO << ":::" << "fout6 was not created!";
 
                 return message;
             }
@@ -1915,8 +1915,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         if (!fout5) {
 
-            message += "libtoxic ERROR: CycleEmissions: createReports: fout5 was not created!\n";
-            qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout5 was not created!";
+            message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout5 was not created!\n";
+            qDebug() << Q_FUNC_INFO << ":::" << "fout5 was not created!";
 
             return message;
         }
@@ -2642,8 +2642,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     if (!fout7) {
 
-        message += "libtoxic ERROR: CycleEmissions: createReports: fout7 was not created!\n";
-        qDebug() << "libtoxic ERROR: CycleEmissions: createReports: fout7 was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout7 was not created!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "fout7 was not created!";
 
         return message;
     }

@@ -18,8 +18,8 @@
 #ifndef ABCSPEEDSCALCDIALOG_H
 #define ABCSPEEDSCALCDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QDoubleValidator>
+#include <QDialog>
+#include <QDoubleValidator>
 
 #include "ui_abcspeedscalcdialog.h"
 
