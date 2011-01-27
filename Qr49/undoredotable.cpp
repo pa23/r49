@@ -107,12 +107,12 @@ bool UndoRedoTable::redoTable() {
     return true;
 }
 
-ptrdiff_t UndoRedoTable::undoTableNumber() {
+ptrdiff_t UndoRedoTable::undoTableNumber() const {
 
     return position;
 }
 
-ptrdiff_t UndoRedoTable::redoTableNumber() {
+ptrdiff_t UndoRedoTable::redoTableNumber() const {
 
     return data.count() - position - 1;
 }

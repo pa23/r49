@@ -40,7 +40,7 @@ public:
     bool readCSV(QVector< QVector<double> >);
     bool calculate();
     QString createReports(bool);
-    QString lastReportsDir();
+    QString lastReportsDir() const;
 
 private:
 

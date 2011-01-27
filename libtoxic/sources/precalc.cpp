@@ -81,7 +81,7 @@ bool nonZeroArray(QVector<double> data) {
 
     double sum = 0;
 
-    for (QVector<double>::iterator it=data.begin(); it<data.end(); it++) {
+    for (QVector<double>::iterator it=data.begin(); it<data.end(); ++it) {
 
         sum += *it;
     }

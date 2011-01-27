@@ -2711,7 +2711,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     return message;
 }
 
-QString CycleEmissions::lastReportsDir() {
+QString CycleEmissions::lastReportsDir() const {
 
     return fullReportsPath;
 }

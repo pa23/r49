@@ -32,8 +32,8 @@ public:
     bool saveState();
     bool undoTable();
     bool redoTable();
-    ptrdiff_t undoTableNumber();
-    ptrdiff_t redoTableNumber();
+    ptrdiff_t undoTableNumber() const;
+    ptrdiff_t redoTableNumber() const;
     void freeMemory();
 
 private:

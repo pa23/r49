@@ -342,7 +342,7 @@ QString ReducedPower::createReports() {
     return message;
 }
 
-QString ReducedPower::lastReportsDir() {
+QString ReducedPower::lastReportsDir() const {
 
     return fullReportsPath;
 }
