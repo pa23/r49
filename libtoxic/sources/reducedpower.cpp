@@ -86,6 +86,13 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
         array_DataForCalc = readerDataForCalc.data()->csvData(filenamePowers, csvdelimiter);
 
+        if (array_DataForCalc.isEmpty()) {
+
+            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
+
+            return false;
+        }
+
         if (array_DataForCalc.at(0).size() != PowersFileColumnsNumber) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";

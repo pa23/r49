@@ -42,6 +42,8 @@ ELRsmokeCalcDialog::ELRsmokeCalcDialog(QWidget *parent) :
 }
 
 ELRsmokeCalcDialog::~ELRsmokeCalcDialog() {
+
+    delete doubleValidator;
 }
 
 void ELRsmokeCalcDialog::on_pushButton_CalcELRsmoke_clicked() {

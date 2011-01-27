@@ -35,6 +35,8 @@ ABCspeedsCalcDialog::ABCspeedsCalcDialog(QWidget *parent) :
 }
 
 ABCspeedsCalcDialog::~ABCspeedsCalcDialog() {
+
+    delete doubleValidator;
 }
 
 void ABCspeedsCalcDialog::on_pushButton_CalcABCspeeds_clicked() {

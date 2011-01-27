@@ -40,6 +40,8 @@ NewVersions::NewVersions() :
 }
 
 NewVersions::~NewVersions() {
+
+    delete netmanager;
 }
 
 void NewVersions::checkAvailableVersions() {

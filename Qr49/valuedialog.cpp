@@ -31,4 +31,6 @@ ValueDialog::ValueDialog(QWidget *parent) :
 }
 
 ValueDialog::~ValueDialog() {
+
+    delete doubleValidator;
 }

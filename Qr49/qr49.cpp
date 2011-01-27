@@ -202,6 +202,8 @@ MainWindow::~MainWindow() {
     writeProgramSettings();
 
     delete ui;
+    delete doubleValidator;
+    delete regExpValidator;
 }
 
 void MainWindow::writeProgramSettings() {
@@ -1665,7 +1667,7 @@ void MainWindow::on_action_AboutQr49_activated() {
 
     QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + qr49version + ", libtoxic v" + libtoxicVersion +
                   tr("<br><br>Calculation of modes and specific emissions for stationary diesel engine cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
-                  "<br><br>Copyright (C) 2009, 2010 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
+                  "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
                   "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
                   "<br><br>This program is free software: you can redistribute it and/or modify"
                   "it under the terms of the GNU General Public License as published by"

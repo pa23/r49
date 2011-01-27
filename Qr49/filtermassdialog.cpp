@@ -34,4 +34,6 @@ FilterMassDialog::FilterMassDialog(QWidget *parent) :
 }
 
 FilterMassDialog::~FilterMassDialog() {
+
+    delete doubleValidator;
 }

@@ -110,6 +110,13 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
+            if (arraySourceData.isEmpty()) {
+
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
+
+                return false;
+            }
+
             if (arraySourceData.at(0).size() != EU3SrcDataParamsNumber) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
@@ -144,6 +151,13 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
                   (std == "C1") || (std == "D1") || (std == "D2") ||
                   (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
                   (std == "F") || (std == "G1") || (std == "G2") ) {
+
+            if (arraySourceData.isEmpty()) {
+
+                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
+
+                return false;
+            }
 
             if (arraySourceData.at(0).size() != EU0SrcDataParamsNumber) {
 
