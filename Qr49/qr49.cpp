@@ -1001,8 +1001,9 @@ void MainWindow::on_action_SaveReportAs_activated() {
             return;
         }
 
-        QTextStream in(&reportFile);
-        in << myreport;
+        QTextStream fout(&reportFile);
+        //fout.setCodec("UTF-8");
+        fout << myreport;
 
         reportFile.close();
 
@@ -1927,9 +1928,7 @@ void MainWindow::reportChanged(QString path) {
 
     reportFile.close();
 
-    string stdstrrep = myreport.toStdString();
-
-    ui->plainTextEdit_Report->setPlainText(QString::fromLocal8Bit(stdstrrep.c_str()));
+    ui->plainTextEdit_Report->setPlainText(myreport);
 }
 
 void MainWindow::tabChanged(int tab) {
