@@ -1,5 +1,5 @@
 /*
-    csvread.h
+    dataimportdialog.h
 
     Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
 
@@ -15,37 +15,44 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CSVREAD_H
-#define	CSVREAD_H
+#ifndef DATAIMPORTDIALOG_H
+#define DATAIMPORTDIALOG_H
 
-#include <QString>
-#include <QStringList>
+#include <QDialog>
+#include <QTableWidget>
 #include <QVector>
 
-class csvRead {
+#include "qr49constants.h"
+
+namespace Ui {
+
+    class DataImportDialog;
+}
+
+class DataImportDialog : public QDialog {
+
+    Q_OBJECT
 
 public:
 
-    explicit csvRead(QString, QString);
-    virtual ~csvRead();
+    explicit DataImportDialog(QWidget *parent = 0);
+    ~DataImportDialog();
 
-    QVector< QVector<double> > csvData() const;
-    QStringList csvHeaders() const;
+    void SetDestinationTable(ptrdiff_t, QTableWidget *);
 
 private:
 
-    csvRead(const csvRead &orig);
-    csvRead &operator =(const csvRead &);
+    Ui::DataImportDialog *ui;
 
-    void readFile();
+    ptrdiff_t table_lid;
+    QTableWidget *dtable;
+    QVector< QVector<double> > arrayImportedData;
 
-    QString filename;
-    QString csvdelimiter;
+private slots:
 
-    QVector<QStringList> data;
-    QVector< QVector<double> > doubleData;
-    QStringList headers;
+    void on_pushButton_SelectDataFile_clicked();
+    void on_pushButton_Next_clicked();
 
 };
 
-#endif	/* CSVREAD_H */
+#endif // DATAIMPORTDIALOG_H

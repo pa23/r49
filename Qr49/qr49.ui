@@ -1145,6 +1145,7 @@ no</string>
      </property>
      <addaction name="action_ReportToPDF"/>
     </widget>
+    <addaction name="action_DataImport"/>
     <addaction name="action_LoadSourceData"/>
     <addaction name="action_SaveSourceData"/>
     <addaction name="action_SaveSourceDataAs"/>
@@ -1674,6 +1675,14 @@ no</string>
   <action name="action_CheckForUpdates">
    <property name="text">
     <string>Check For Updates...</string>
+   </property>
+  </action>
+  <action name="action_DataImport">
+   <property name="text">
+    <string>Data Import...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

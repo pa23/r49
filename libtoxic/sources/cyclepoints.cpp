@@ -95,8 +95,6 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
     if ( data.isEmpty() ) {
 
-        QSharedPointer<csvRead> readerSourceData(new csvRead());
-
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 
             filenameSource = config.data()->val_filenameSourceEU3();
@@ -106,7 +104,9 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
             filenameSource = config.data()->val_filenameSourceEU0();
         }
 
-        arraySourceData = readerSourceData.data()->csvData(filenameSource, csvdelimiter);
+        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, csvdelimiter));
+
+        arraySourceData = readerSourceData.data()->csvData();
 
         if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
 

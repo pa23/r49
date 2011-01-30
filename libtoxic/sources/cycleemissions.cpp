@@ -174,9 +174,9 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         QString filenamePoints = config.data()->val_filenamePoints();
         QString csvdelimiter = config.data()->val_csvDelimiter();
 
-        QSharedPointer<csvRead> readerDataForCalc(new csvRead());
+        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePoints, csvdelimiter));
 
-        array_DataForCalc = readerDataForCalc.data()->csvData(filenamePoints, csvdelimiter);
+        array_DataForCalc = readerDataForCalc.data()->csvData();
 
         if (array_DataForCalc.isEmpty()) {
 

@@ -11,7 +11,8 @@ SOURCES += preferencesdialog.cpp \
     main.cpp \
     qr49.cpp \
     helpdialog.cpp \
-    newversions.cpp
+    newversions.cpp \
+    dataimportdialog.cpp
 HEADERS += preferencesdialog.h \
     checkoutdatadialog.h \
     undoredotable.h \
@@ -23,7 +24,8 @@ HEADERS += preferencesdialog.h \
     qr49.h \
     helpdialog.h \
     newversions.h \
-    ../r49.h
+    ../r49.h \
+    dataimportdialog.h
 FORMS += preferencesdialog.ui \
     checkoutdatadialog.ui \
     elrsmokecalcdialog.ui \
@@ -31,7 +33,8 @@ FORMS += preferencesdialog.ui \
     valuedialog.ui \
     filtermassdialog.ui \
     qr49.ui \
-    helpdialog.ui
+    helpdialog.ui \
+    dataimportdialog.ui
 RESOURCES = qr49.qrc
 RC_FILE = qr49icon.rc
 TRANSLATIONS = qr49_ru.ts

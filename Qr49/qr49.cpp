@@ -25,6 +25,7 @@
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "newversions.h"
+#include "dataimportdialog.h"
 
 #include "r49.h"
 #include "qr49constants.h"
@@ -74,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
         elrSmokeCalcDialog(new ELRsmokeCalcDialog()),
         checkoutDataDialog(new CheckoutDataDialog()),
         helpDialog(new HelpDialog()),
+        dataImportDialog(new DataImportDialog()),
 
         tableRowHeight(20),
 
@@ -202,6 +204,15 @@ MainWindow::~MainWindow() {
     writeProgramSettings();
 
     delete ui;
+    delete contextMenu;
+    delete filterMassDialog;
+    delete valueDialog;
+    delete preferencesDialog;
+    delete abcSpeedsCalcDialog;
+    delete elrSmokeCalcDialog;
+    delete checkoutDataDialog;
+    delete helpDialog;
+    delete dataImportDialog;
     delete doubleValidator;
     delete regExpValidator;
 }
@@ -405,9 +416,9 @@ bool MainWindow::fillTableEU0(QString filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead());
+    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, config.data()->val_csvDelimiter()));
 
-    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData(filename, config.data()->val_csvDelimiter());
+    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData();
 
     if (arraySourceDataEU0.at(0).size() != EU0SrcDataParamsNumber) {
 
@@ -430,9 +441,9 @@ bool MainWindow::fillTableEU3(QString filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead());
+    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, config.data()->val_csvDelimiter()));
 
-    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData(filename, config.data()->val_csvDelimiter());
+    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData();
 
     if (arraySourceDataEU3.at(0).size() != EU3SrcDataParamsNumber) {
 
@@ -452,9 +463,9 @@ bool MainWindow::fillTableEU3(QString filename) {
 
 bool MainWindow::fillTablePoints(QString filename) {
 
-    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead());
+    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, config.data()->val_csvDelimiter()));
 
-    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData(filename, config.data()->val_csvDelimiter());
+    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData();
 
     if (arraySourceDataPoints.at(0).size() != PointsFileColumnsNumber) {
 
@@ -489,9 +500,9 @@ bool MainWindow::fillTablePoints(QString filename) {
 
 bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
-    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead());
+    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, config.data()->val_csvDelimiter()));
 
-    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData(filename, config.data()->val_csvDelimiter());
+    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData();
 
     if (arrayFullLoadCurve.at(0).size() != PowersFileColumnsNumber) {
 
@@ -628,6 +639,24 @@ bool MainWindow::arithmeticOperation(QString operation) {
     saveState();
 
     return true;
+}
+
+void MainWindow::on_action_DataImport_activated() {
+
+    if (table == ui->tableWidget_SrcDataPoints) {
+
+        dataImportDialog->SetDestinationTable(2, table);
+        dataImportDialog->exec();
+    }
+    else if (table == ui->tableWidget_FullLoadCurve) {
+
+        dataImportDialog->SetDestinationTable(3, table);
+        dataImportDialog->exec();
+    }
+    else {
+
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Data import is not available for the current table!"), 0, 0, 0);
+    }
 }
 
 void MainWindow::on_action_LoadSourceData_activated() {

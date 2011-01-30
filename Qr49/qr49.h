@@ -42,6 +42,7 @@
 #include "undoredotable.h"
 #include "helpdialog.h"
 #include "newversions.h"
+#include "dataimportdialog.h"
 
 namespace Ui {
 
@@ -72,6 +73,7 @@ private:
     ELRsmokeCalcDialog *elrSmokeCalcDialog;
     CheckoutDataDialog *checkoutDataDialog;
     HelpDialog *helpDialog;
+    DataImportDialog *dataImportDialog;
 
     QSharedPointer<LibtoxicParameters> params;
     QSharedPointer<CommonParameters> config;
@@ -119,6 +121,7 @@ private:
 
 private slots:
 
+    void on_action_DataImport_activated();
     void on_action_LoadSourceData_activated();
     void on_action_SaveSourceData_activated();
     void on_action_SaveSourceDataAs_activated();

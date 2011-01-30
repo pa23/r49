@@ -24,7 +24,12 @@
 #include <QVector>
 #include <QFile>
 
-csvRead::csvRead() {
+csvRead::csvRead(QString fname, QString csvdelim) {
+
+    filename = fname;
+    csvdelimiter = csvdelim;
+
+    readFile();
 }
 
 csvRead::~csvRead() {
@@ -41,11 +46,7 @@ csvRead &csvRead::operator =(const csvRead &x) {
     return *this;
 }
 
-QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimiter) {
-
-    QVector< QVector<double> > doubleData;
-
-    //
+void csvRead::readFile() {
 
     QFile dataFile(filename);
 
@@ -53,7 +54,7 @@ QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimit
 
         qDebug() << Q_FUNC_INFO << ":::" << filename << "not found!";
 
-        return doubleData;
+        return;
     }
 
     QString s;
@@ -87,5 +88,18 @@ QVector< QVector<double> > csvRead::csvData(QString filename, QString csvdelimit
 
     //
 
+    if ( !data.isEmpty() ) {
+
+        headers = data.at(0);
+    }
+}
+
+QVector< QVector<double> > csvRead::csvData() const {
+
     return doubleData;
+}
+
+QStringList csvRead::csvHeaders() const {
+
+    return headers;
 }
