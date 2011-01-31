@@ -82,7 +82,7 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
         QString filenamePowers = config.data()->val_filenamePowers();
         QString csvdelimiter = config.data()->val_csvDelimiter();
 
-        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePowers, csvdelimiter));
+        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePowers, csvdelimiter, StrsNumberForColumnCaption));
 
         array_DataForCalc = readerDataForCalc.data()->csvData();
 

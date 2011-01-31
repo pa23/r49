@@ -44,6 +44,8 @@ private:
 
     Ui::DataImportDialog *ui;
 
+    QString dataFileName;
+    QString dataDirName;
     ptrdiff_t table_lid;
     QTableWidget *dtable;
     QVector< QVector<double> > arrayImportedData;

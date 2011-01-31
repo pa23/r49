@@ -104,7 +104,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
             filenameSource = config.data()->val_filenameSourceEU0();
         }
 
-        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, csvdelimiter));
+        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, csvdelimiter, StrsNumberForColumnCaption));
 
         arraySourceData = readerSourceData.data()->csvData();
 

@@ -24,10 +24,11 @@
 #include <QVector>
 #include <QFile>
 
-csvRead::csvRead(QString fname, QString csvdelim) {
+csvRead::csvRead(QString fname, QString csvdelim, ptrdiff_t hdrLinesNum) {
 
     filename = fname;
     csvdelimiter = csvdelim;
+    headerLinesNumber = hdrLinesNum;
 
     readFile();
 }
@@ -75,7 +76,7 @@ void csvRead::readFile() {
 
     QVector<double> row;
 
-    for (ptrdiff_t i=StrsNumberForColumnCaption; i<data.size(); i++) {
+    for (ptrdiff_t i=headerLinesNumber; i<data.size(); i++) {
 
         for (ptrdiff_t j=0; j<data.at(i).size(); j++) {
 

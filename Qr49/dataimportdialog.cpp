@@ -22,6 +22,7 @@
 #include <QString>
 #include <QFileDialog>
 #include <QDir>
+#include <QFileInfo>
 #include <QMessageBox>
 #include <QString>
 #include <QStringList>
@@ -33,6 +34,7 @@
 DataImportDialog::DataImportDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::DataImportDialog),
+        dataDirName(QDir::currentPath()),
         table_lid(0),
         dtable(0) {
 
@@ -86,17 +88,20 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         return;
     }
 
+    ptrdiff_t headerLines = ui->spinBox_HeaderLines->value();
+
     //
 
-    QString dir(QDir::rootPath());
-
-    QString dataFileName(QFileDialog::getOpenFileName(
+    dataFileName = QFileDialog::getOpenFileName(
             this,
             tr("Open Data File..."),
-            dir,
+            dataDirName,
             QString::fromAscii("Text files (*.txt);;CSV files (*.csv);;All files (*.*)"),
             0,
-            0));
+            0);
+
+    QFileInfo fileInfo(dataFileName);
+    dataDirName = fileInfo.absolutePath();
 
     if ( !dataFileName.isEmpty() ) {
 
@@ -104,7 +109,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
         //
 
-        QSharedPointer<csvRead> importedDataReader(new csvRead(dataFileName, delimiter));
+        QSharedPointer<csvRead> importedDataReader(new csvRead(dataFileName, delimiter, headerLines));
 
         arrayImportedData = importedDataReader.data()->csvData();
         QStringList headersImportedData = importedDataReader.data()->csvHeaders();
@@ -151,5 +156,21 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
 void DataImportDialog::on_pushButton_Next_clicked() {
 
-    //
+    ptrdiff_t scount = arrayImportedData.count();
+    ptrdiff_t dcount = dtable->rowCount();
+
+    if (dcount < scount) {
+
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Copied data can not be inserted!"), 0, 0, 0);
+
+        return;
+    }
+
+    ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
+    ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
+
+    for (ptrdiff_t i=0; i<scount; i++) {
+
+        dtable->item(i, dj)->setText(QString::number(arrayImportedData.at(i).at(sj)));
+    }
 }

@@ -26,7 +26,7 @@ class csvRead {
 
 public:
 
-    explicit csvRead(QString, QString);
+    explicit csvRead(QString, QString, ptrdiff_t);
     virtual ~csvRead();
 
     QVector< QVector<double> > csvData() const;
@@ -41,6 +41,7 @@ private:
 
     QString filename;
     QString csvdelimiter;
+    ptrdiff_t headerLinesNumber;
 
     QVector<QStringList> data;
     QVector< QVector<double> > doubleData;

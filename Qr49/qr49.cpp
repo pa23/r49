@@ -416,7 +416,7 @@ bool MainWindow::fillTableEU0(QString filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, config.data()->val_csvDelimiter()));
+    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
 
     QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData();
 
@@ -441,7 +441,7 @@ bool MainWindow::fillTableEU3(QString filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, config.data()->val_csvDelimiter()));
+    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
 
     QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData();
 
@@ -463,7 +463,7 @@ bool MainWindow::fillTableEU3(QString filename) {
 
 bool MainWindow::fillTablePoints(QString filename) {
 
-    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, config.data()->val_csvDelimiter()));
+    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
 
     QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData();
 
@@ -500,7 +500,7 @@ bool MainWindow::fillTablePoints(QString filename) {
 
 bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
-    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, config.data()->val_csvDelimiter()));
+    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
 
     QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData();
 
@@ -643,6 +643,8 @@ bool MainWindow::arithmeticOperation(QString operation) {
 
 void MainWindow::on_action_DataImport_activated() {
 
+    tableCellChangedConnect(false);
+
     if (table == ui->tableWidget_SrcDataPoints) {
 
         dataImportDialog->SetDestinationTable(2, table);
@@ -657,6 +659,10 @@ void MainWindow::on_action_DataImport_activated() {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Data import is not available for the current table!"), 0, 0, 0);
     }
+
+    tableCellChangedConnect(true);
+
+    saveState();
 }
 
 void MainWindow::on_action_LoadSourceData_activated() {
