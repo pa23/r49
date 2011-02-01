@@ -36,7 +36,8 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
         ui(new Ui::DataImportDialog),
         dataDirName(QDir::currentPath()),
         table_lid(0),
-        dtable(0) {
+        dtable(0),
+        tableRowHeight(20) {
 
     ui->setupUi(this);
 }
@@ -159,11 +160,26 @@ void DataImportDialog::on_pushButton_Next_clicked() {
     ptrdiff_t scount = arrayImportedData.count();
     ptrdiff_t dcount = dtable->rowCount();
 
-    if (dcount < scount) {
+    if (scount > dcount) {
 
-        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Copied data can not be inserted!"), 0, 0, 0);
+        for (ptrdiff_t i=dcount; i<scount; i++) {
 
-        return;
+            dtable->setRowCount(i+1);
+            dtable->setRowHeight(i, tableRowHeight);
+            dtable->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            dtable->setItem(i, 0, new QTableWidgetItem(QString::number(i+1, 'f', 0)));
+            dtable->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            dtable->setItem(i, 1, new QTableWidgetItem("0"));
+            dtable->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            for (ptrdiff_t j=2; j<dtable->columnCount(); j++) {
+
+                dtable->setItem(i, j, new QTableWidgetItem("0.000"));
+                dtable->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            }
+        }
     }
 
     ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();

@@ -474,9 +474,7 @@ bool MainWindow::fillTablePoints(QString filename) {
         return false;
     }
 
-    ptrdiff_t NumberOfPoints = arraySourceDataPoints.size();
-
-    for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+    for (ptrdiff_t i=0; i<arraySourceDataPoints.size(); i++) {
 
         ui->tableWidget_SrcDataPoints->setRowCount(i+1);
         ui->tableWidget_SrcDataPoints->setRowHeight(i, tableRowHeight);
@@ -511,9 +509,7 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
         return false;
     }
 
-    ptrdiff_t NumberOfPoints = arrayFullLoadCurve.size();
-
-    for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+    for (ptrdiff_t i=0; i<arrayFullLoadCurve.size(); i++) {
 
         ui->tableWidget_FullLoadCurve->setRowCount(i+1);
         ui->tableWidget_FullLoadCurve->setRowHeight(i, tableRowHeight);
@@ -1339,21 +1335,43 @@ void MainWindow::on_action_PasteToTable_activated() {
     ptrdiff_t numRows = rows.count() - 1;
     ptrdiff_t numColumns = rows.first().count('\t') + 1;
 
-    if (
-            (
-                    (table->rowCount() - table->currentRow()) < numRows
-            ) ||
-            (
-                    (table->columnCount() - table->currentColumn()) < numColumns
-            )
-    ) {
+    if ( (table->columnCount() - table->currentColumn()) < numColumns ) {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Copied data can not be inserted!"), 0, 0, 0);
 
         return;
     }
 
+    //
+
+    ptrdiff_t destRows = table->rowCount() - table->currentRow();
+    ptrdiff_t totalRows = table->currentRow() + numRows;
+
     tableCellChangedConnect(false);
+
+    if ( numRows > destRows ) {
+
+        for (ptrdiff_t i=table->rowCount(); i<totalRows; i++) {
+
+            table->setRowCount(i+1);
+            table->setRowHeight(i, tableRowHeight);
+            table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            table->setItem(i, 0, new QTableWidgetItem(QString::number(i+1, 'f', 0)));
+            table->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            table->setItem(i, 1, new QTableWidgetItem("0"));
+            table->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+            for (ptrdiff_t j=2; j<table->columnCount(); j++) {
+
+                table->setItem(i, j, new QTableWidgetItem("0.000"));
+                table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            }
+        }
+    }
+
+    //
 
     for (ptrdiff_t i=0; i<numRows; i++) {
 
@@ -1434,15 +1452,15 @@ void MainWindow::on_action_AddRow_activated() {
         table->setRowHeight(table->rowCount()-1, tableRowHeight);
         table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ptrdiff_t x = table->rowCount();
-        QString s = QString::number(x);
-
-        table->setItem(table->rowCount()-1, 0, new QTableWidgetItem(s));
+        table->setItem(table->rowCount()-1, 0, new QTableWidgetItem(QString::number(table->rowCount(), 'f', 0)));
         table->item(table->rowCount()-1, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        for (ptrdiff_t j=1; j<table->columnCount(); j++) {
+        table->setItem(table->rowCount()-1, 1, new QTableWidgetItem("0"));
+        table->item(table->rowCount()-1, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-            table->setItem(table->rowCount()-1, j, new QTableWidgetItem("0"));
+        for (ptrdiff_t j=2; j<table->columnCount(); j++) {
+
+            table->setItem(table->rowCount()-1, j, new QTableWidgetItem("0.000"));
             table->item(table->rowCount()-1, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         }
     }

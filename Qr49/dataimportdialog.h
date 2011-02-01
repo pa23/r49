@@ -48,6 +48,7 @@ private:
     QString dataDirName;
     ptrdiff_t table_lid;
     QTableWidget *dtable;
+    ptrdiff_t tableRowHeight;
     QVector< QVector<double> > arrayImportedData;
 
 private slots:
