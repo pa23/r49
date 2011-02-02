@@ -17,6 +17,7 @@
 
 #include "dataimportdialog.h"
 #include "ui_dataimportdialog.h"
+#include "tablewidgetfunctions.h"
 
 #include <QSharedPointer>
 #include <QString>
@@ -24,7 +25,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMessageBox>
-#include <QString>
 #include <QStringList>
 #include <QTableWidget>
 #include <QVector>
@@ -36,8 +36,7 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
         ui(new Ui::DataImportDialog),
         dataDirName(QDir::currentPath()),
         table_lid(0),
-        dtable(0),
-        tableRowHeight(20) {
+        dtable(0) {
 
     ui->setupUi(this);
 }
@@ -162,24 +161,7 @@ void DataImportDialog::on_pushButton_Next_clicked() {
 
     if (scount > dcount) {
 
-        for (ptrdiff_t i=dcount; i<scount; i++) {
-
-            dtable->setRowCount(i+1);
-            dtable->setRowHeight(i, tableRowHeight);
-            dtable->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            dtable->setItem(i, 0, new QTableWidgetItem(QString::number(i+1, 'f', 0)));
-            dtable->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            dtable->setItem(i, 1, new QTableWidgetItem("0"));
-            dtable->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            for (ptrdiff_t j=2; j<dtable->columnCount(); j++) {
-
-                dtable->setItem(i, j, new QTableWidgetItem("0.000"));
-                dtable->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            }
-        }
+        addRows(dtable, scount);
     }
 
     ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();

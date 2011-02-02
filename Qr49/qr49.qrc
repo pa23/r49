@@ -21,5 +21,6 @@
         <file>execute.png</file>
         <file>changeSourceData.png</file>
         <file>loadCalcSerrings.png</file>
+        <file>file-dataimport.png</file>
     </qresource>
 </RCC>

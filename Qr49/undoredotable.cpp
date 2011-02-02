@@ -16,14 +16,14 @@
 */
 
 #include "undoredotable.h"
+#include "tablewidgetfunctions.h"
 
 #include <QVector>
 #include <QString>
 #include <QTableWidget>
 
 UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
-        position(-1),
-        tableRowHeight(20) {
+        position(-1) {
 
     table = tbl;
 }
@@ -69,17 +69,7 @@ bool UndoRedoTable::undoTable() {
 
     if (table->rowCount() < data[position].count()) {
 
-        for (ptrdiff_t i=table->rowCount(); i<data[position].count(); i++) {
-
-            table->setRowCount(i+1);
-            table->setRowHeight(i, 20);
-
-            for (ptrdiff_t j=0; j<table->columnCount(); j++) {
-
-                table->setItem(i, j, new QTableWidgetItem("0"));
-                table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            }
-        }
+        addRows(table, data[position].count());
     }
     else if (table->rowCount() > data[position].count()) {
 

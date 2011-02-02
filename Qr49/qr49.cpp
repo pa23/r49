@@ -26,6 +26,7 @@
 #include "undoredotable.h"
 #include "newversions.h"
 #include "dataimportdialog.h"
+#include "tablewidgetfunctions.h"
 
 #include "r49.h"
 #include "qr49constants.h"
@@ -76,8 +77,6 @@ MainWindow::MainWindow(QWidget *parent) :
         checkoutDataDialog(new CheckoutDataDialog()),
         helpDialog(new HelpDialog()),
         dataImportDialog(new DataImportDialog()),
-
-        tableRowHeight(20),
 
         regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
@@ -1351,24 +1350,7 @@ void MainWindow::on_action_PasteToTable_activated() {
 
     if ( numRows > destRows ) {
 
-        for (ptrdiff_t i=table->rowCount(); i<totalRows; i++) {
-
-            table->setRowCount(i+1);
-            table->setRowHeight(i, tableRowHeight);
-            table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            table->setItem(i, 0, new QTableWidgetItem(QString::number(i+1, 'f', 0)));
-            table->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            table->setItem(i, 1, new QTableWidgetItem("0"));
-            table->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-            for (ptrdiff_t j=2; j<table->columnCount(); j++) {
-
-                table->setItem(i, j, new QTableWidgetItem("0.000"));
-                table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            }
-        }
+        addRows(table, totalRows);
     }
 
     //
@@ -1448,21 +1430,7 @@ void MainWindow::on_action_AddRow_activated() {
 
     if ( (table != ui->tableWidget_SrcDataEU0) && (table != ui->tableWidget_SrcDataEU3) ) {
 
-        table->setRowCount(table->rowCount()+1);
-        table->setRowHeight(table->rowCount()-1, tableRowHeight);
-        table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-        table->setItem(table->rowCount()-1, 0, new QTableWidgetItem(QString::number(table->rowCount(), 'f', 0)));
-        table->item(table->rowCount()-1, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-        table->setItem(table->rowCount()-1, 1, new QTableWidgetItem("0"));
-        table->item(table->rowCount()-1, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-        for (ptrdiff_t j=2; j<table->columnCount(); j++) {
-
-            table->setItem(table->rowCount()-1, j, new QTableWidgetItem("0.000"));
-            table->item(table->rowCount()-1, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        }
+        addRows(table, table->rowCount()+1);
     }
 
     tableCellChangedConnect(true);

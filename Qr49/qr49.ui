@@ -1228,6 +1228,8 @@ no</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_DataImport"/>
+   <addaction name="separator"/>
    <addaction name="action_LoadSourceData"/>
    <addaction name="action_LoadCalculationOptions"/>
    <addaction name="separator"/>
@@ -1678,6 +1680,10 @@ no</string>
    </property>
   </action>
   <action name="action_DataImport">
+   <property name="icon">
+    <iconset resource="qr49.qrc">
+     <normaloff>:/icons/file-dataimport.png</normaloff>:/icons/file-dataimport.png</iconset>
+   </property>
    <property name="text">
     <string>Data Import...</string>
    </property>

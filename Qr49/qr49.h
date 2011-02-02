@@ -78,7 +78,6 @@ private:
     QSharedPointer<LibtoxicParameters> params;
     QSharedPointer<CommonParameters> config;
 
-    ptrdiff_t tableRowHeight;
     QDoubleValidator *doubleValidator;
     QRegExp regExp;
     QRegExpValidator *regExpValidator;

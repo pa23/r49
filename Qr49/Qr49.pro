@@ -12,7 +12,8 @@ SOURCES += preferencesdialog.cpp \
     qr49.cpp \
     helpdialog.cpp \
     newversions.cpp \
-    dataimportdialog.cpp
+    dataimportdialog.cpp \
+    tablewidgetfunctions.cpp
 HEADERS += preferencesdialog.h \
     checkoutdatadialog.h \
     undoredotable.h \
@@ -25,7 +26,8 @@ HEADERS += preferencesdialog.h \
     helpdialog.h \
     newversions.h \
     ../r49.h \
-    dataimportdialog.h
+    dataimportdialog.h \
+    tablewidgetfunctions.h
 FORMS += preferencesdialog.ui \
     checkoutdatadialog.ui \
     elrsmokecalcdialog.ui \

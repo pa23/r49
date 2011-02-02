@@ -1,7 +1,7 @@
 /*
-    undoredotable.h
+    tablewidgetfunctions.h
 
-    Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,33 +15,13 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UNDOREDOTABLE_H
-#define UNDOREDOTABLE_H
+#ifndef TABLEWIDGETFUNCTIONS_H
+#define TABLEWIDGETFUNCTIONS_H
 
-#include <QVector>
-#include <QString>
 #include <QTableWidget>
 
-class UndoRedoTable {
+const ptrdiff_t tableRowHeight = 20;
 
-public:
+void addRows(QTableWidget *, ptrdiff_t);
 
-    explicit UndoRedoTable(QTableWidget *);
-    virtual ~UndoRedoTable();
-
-    bool saveState();
-    bool undoTable();
-    bool redoTable();
-    ptrdiff_t undoTableNumber() const;
-    ptrdiff_t redoTableNumber() const;
-    void freeMemory();
-
-private:
-
-    QTableWidget *table;
-    QVector< QVector< QVector<QString> > > data;
-    ptrdiff_t position;
-
-};
-
-#endif /* UNDOREDOTABLE_H */
+#endif // TABLEWIDGETFUNCTIONS_H
