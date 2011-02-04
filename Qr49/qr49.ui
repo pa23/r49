@@ -1265,7 +1265,7 @@ no</string>
     <string>Ctrl+Q</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_PrintReport">
@@ -1283,7 +1283,7 @@ no</string>
     <string>Ctrl+P</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Execute">
@@ -1298,7 +1298,7 @@ no</string>
     <string>F9</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_AboutQt">
@@ -1308,6 +1308,9 @@ no</string>
    <property name="text">
     <string>About Qt</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_AboutQr49">
    <property name="enabled">
@@ -1315,6 +1318,9 @@ no</string>
    </property>
    <property name="text">
     <string>About Qr49</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_AddRow">
@@ -1324,6 +1330,9 @@ no</string>
    <property name="shortcut">
     <string>F11</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_DeleteRow">
    <property name="text">
@@ -1331,6 +1340,9 @@ no</string>
    </property>
    <property name="shortcut">
     <string>F12</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_SaveReportAs">
@@ -1345,7 +1357,7 @@ no</string>
     <string>Ctrl+S</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_CopyFromTable">
@@ -1360,7 +1372,7 @@ no</string>
     <string>Ctrl+C</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_PasteToTable">
@@ -1375,7 +1387,7 @@ no</string>
     <string>Ctrl+V</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_DeleteFromTable">
@@ -1390,7 +1402,7 @@ no</string>
     <string>Del</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_CutFromTable">
@@ -1405,7 +1417,7 @@ no</string>
     <string>Ctrl+X</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Multiply">
@@ -1423,7 +1435,7 @@ no</string>
     <string>*</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Divide">
@@ -1441,7 +1453,7 @@ no</string>
     <string>/</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Add">
@@ -1459,7 +1471,7 @@ no</string>
     <string>+</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Equal">
@@ -1477,7 +1489,7 @@ no</string>
     <string>=</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_SaveSourceData">
@@ -1492,7 +1504,7 @@ no</string>
     <string>Ctrl+Shift+S</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_OpenReport">
@@ -1507,7 +1519,7 @@ no</string>
     <string>Ctrl+O</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_CloseReport">
@@ -1517,18 +1529,24 @@ no</string>
    <property name="shortcut">
     <string>Ctrl+U</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_ABCspeeds">
    <property name="text">
     <string>ABC speeds</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_ELRsmoke">
    <property name="text">
     <string>ELR smoke</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_ReportToPDF">
@@ -1540,7 +1558,7 @@ no</string>
     <string>Report To PDF...</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_UndoTable">
@@ -1561,7 +1579,7 @@ no</string>
     <string>Ctrl+Z</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_RedoTable">
@@ -1582,7 +1600,7 @@ no</string>
     <string>Ctrl+Shift+Z</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Preferences">
@@ -1593,7 +1611,7 @@ no</string>
     <string>F2</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_CheckoutData">
@@ -1601,7 +1619,7 @@ no</string>
     <string>Checkout data</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_StandardsDescription">
@@ -1610,6 +1628,9 @@ no</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_LoadCalculationOptions">
@@ -1624,12 +1645,15 @@ no</string>
     <string>Ctrl+L</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_SaveCalculationOptionsAs">
    <property name="text">
     <string>Save Calculation Options As...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_LoadSourceData">
@@ -1644,7 +1668,7 @@ no</string>
     <string>Ctrl+E</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_SaveSourceDataAs">
@@ -1655,7 +1679,7 @@ no</string>
     <string>Ctrl+B</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Toolbar">
@@ -1668,15 +1692,24 @@ no</string>
    <property name="text">
     <string>Toolbar</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_OpenSolution">
    <property name="text">
     <string>Open Solution...</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_CheckForUpdates">
    <property name="text">
     <string>Check For Updates...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_DataImport">
@@ -1689,6 +1722,9 @@ no</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>
