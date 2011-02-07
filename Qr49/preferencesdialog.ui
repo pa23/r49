@@ -13,12 +13,6 @@
     <height>602</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>750</width>
-    <height>602</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Qr49: Preferences</string>
   </property>

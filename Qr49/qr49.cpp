@@ -1584,7 +1584,7 @@ void MainWindow::on_action_Execute_activated() {
         }
         else {
 
-            message += myEmissions.data()->createReports(true);
+            message += myEmissions.data()->createReports(false);
         }
     }
     else if (ui->comboBox_task->currentText() == "ReducedPower") {
