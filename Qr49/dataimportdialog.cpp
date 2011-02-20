@@ -116,7 +116,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
         //
 
-        QString table_points_headers = "Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];CNOx[ppm];gNOx[g/kWh];CCO[ppm];CCH[ppm];CCO2in[%];CCO2out[%];CO2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-]";
+        QString table_points_headers = "Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-]";
         QString table_fullLoadCurve_headers = "Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW]";
 
         //

@@ -900,7 +900,7 @@ no</string>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CNOx
+                   <string>C_NOx
 [ppm]</string>
                   </property>
                  </column>
@@ -912,31 +912,31 @@ no</string>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CCO
+                   <string>C_CO
 [ppm]</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CCH
+                   <string>C_CH
 [ppm]</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CCO2in
+                   <string>C_CO2in
 [%]</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CCO2out
+                   <string>C_CO2out
 [%]</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>CO2
+                   <string>C_O2
 [%]</string>
                   </property>
                  </column>

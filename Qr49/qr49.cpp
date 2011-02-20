@@ -811,7 +811,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPointsFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];CNOx[ppm];gNOx[g/kWh];CCO[ppm];CCH[ppm];CCO2in[%];CCO2out[%];CO2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
+        SrcDataPointsFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
 
         for (ptrdiff_t i=0; i<ui->tableWidget_SrcDataPoints->rowCount(); i++) {
 
@@ -887,7 +887,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
         }
         else if (table == ui->tableWidget_SrcDataPoints) {
 
-            SrcDataFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];CNOx[ppm];gNOx[g/kWh];CCO[ppm];CCH[ppm];CCO2in[%];CCO2out[%];CO2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
+            SrcDataFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
         }
         else if (table == ui->tableWidget_FullLoadCurve) {
 

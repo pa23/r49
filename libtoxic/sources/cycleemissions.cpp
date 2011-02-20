@@ -469,7 +469,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (CNOx or gNOx)!";
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (C_NOx or gNOx)!";
             return false;
         }
 
@@ -1464,13 +1464,13 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "dPn[mmH2O]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gair[kg/h]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CNOx[ppm]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_NOx[ppm]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gNOx[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CCO[ppm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CCH[ppm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CCO2in[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CCO2out[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CO2[%]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO[ppm]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CH[ppm]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2in[%]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2out[%]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_O2[%]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[m-1]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[%]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "FSN[-]" << csvdelimiter;
@@ -1643,13 +1643,13 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "dPn[mmH2O]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Gair[kg/h]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CNOx[ppm]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_NOx[ppm]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "gNOx[g/kWh]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CCO[ppm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CCH[ppm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CCO2in[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CCO2out[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "CO2[%]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO[ppm]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CH[ppm]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2in[%]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2out[%]" << csvdelimiter;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_O2[%]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[m-1]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[%]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "FSN[-]" << csvdelimiter;
@@ -2009,7 +2009,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "FSN[-]";
         }
 
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CNOx[ppm]";
+        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_NOx[ppm]";
 
         if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
              (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
@@ -2080,7 +2080,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (gCOcalc) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CCO[ppm]";
+                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
             }
 
             if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2095,7 +2095,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (gCHcalc) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CCH[ppm]";
+                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
             }
 
             if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2173,7 +2173,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (gCOcalc) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CCO[ppm]";
+                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
             }
 
             if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
@@ -2187,7 +2187,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             if (gCHcalc) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CCH[ppm]";
+                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
             }
 
             if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
