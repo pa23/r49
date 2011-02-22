@@ -34,11 +34,19 @@
 DataImportDialog::DataImportDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::DataImportDialog),
+        delimiter("\t"),
+        headerLines(2),
+        table_points_headers("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-]"),
+        table_fullLoadCurve_headers("Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW]"),
         dataDirName(QDir::currentPath()),
         table_lid(0),
         dtable(0) {
 
     ui->setupUi(this);
+
+    connect(ui->comboBox_delimiter, SIGNAL(activated(QString)), this, SLOT(combosUpdate(QString)));
+    connect(ui->spinBox_HeaderLines, SIGNAL(valueChanged(QString)), this, SLOT(combosUpdate(QString)));
+    connect(ui->lineEdit_DataFile, SIGNAL(textChanged(QString)), this, SLOT(combosUpdate(QString)));
 }
 
 DataImportDialog::~DataImportDialog() {
@@ -50,6 +58,8 @@ void DataImportDialog::SetDestinationTable(ptrdiff_t tlid, QTableWidget *dt) {
 
     table_lid = tlid;
     dtable = dt;
+
+    combosUpdate("");
 }
 
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
@@ -61,9 +71,53 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         return;
     }
 
+    dataFileName = QFileDialog::getOpenFileName(
+            this,
+            tr("Open Data File..."),
+            dataDirName,
+            QString::fromAscii("Text files (*.txt);;CSV files (*.csv);;All files (*.*)"),
+            0,
+            0);
+
+    QFileInfo fileInfo(dataFileName);
+    dataDirName = fileInfo.absolutePath();
+
+    if ( !dataFileName.isEmpty() ) {
+
+        ui->lineEdit_DataFile->setText(dataFileName);
+    }
+    else {
+
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("You have to select data file!"), 0, 0, 0);
+    }
+}
+
+void DataImportDialog::on_pushButton_Next_clicked() {
+
+    ptrdiff_t scount = arrayImportedData.count();
+    ptrdiff_t dcount = dtable->rowCount();
+
+    if (scount > dcount) {
+
+        addRows(dtable, scount);
+    }
+
+    ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
+    ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
+
+    for (ptrdiff_t i=0; i<scount; i++) {
+
+        dtable->item(i, dj)->setText(QString::number(arrayImportedData.at(i).at(sj)));
+    }
+}
+
+void DataImportDialog::combosUpdate(QString str) {
+
     //
 
-    QString delimiter;
+    (void)str;
+
+    //
 
     if (ui->comboBox_delimiter->currentText() == "tab") {
 
@@ -88,50 +142,21 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         return;
     }
 
-    ptrdiff_t headerLines = ui->spinBox_HeaderLines->value();
+    headerLines = ui->spinBox_HeaderLines->value();
 
     //
 
-    dataFileName = QFileDialog::getOpenFileName(
-            this,
-            tr("Open Data File..."),
-            dataDirName,
-            QString::fromAscii("Text files (*.txt);;CSV files (*.csv);;All files (*.*)"),
-            0,
-            0);
+    ui->comboBox_r49parameter->clear();
+    ui->comboBox_AnotherParameter->clear();
 
-    QFileInfo fileInfo(dataFileName);
-    dataDirName = fileInfo.absolutePath();
+    //
 
-    if ( !dataFileName.isEmpty() ) {
-
-        ui->lineEdit_DataFile->setText(dataFileName);
-
-        //
+    if ( !ui->lineEdit_DataFile->text().isEmpty() ) {
 
         QSharedPointer<csvRead> importedDataReader(new csvRead(dataFileName, delimiter, headerLines));
 
         arrayImportedData = importedDataReader.data()->csvData();
-        QStringList headersImportedData = importedDataReader.data()->csvHeaders();
-
-        //
-
-        QString table_points_headers = "Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-]";
-        QString table_fullLoadCurve_headers = "Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW]";
-
-        //
-
-        for (ptrdiff_t i=ui->comboBox_r49parameter->count(); i>0; i--) {
-
-            ui->comboBox_r49parameter->removeItem(i);
-        }
-
-        for (ptrdiff_t i=ui->comboBox_AnotherParameter->count(); i>0; i--) {
-
-            ui->comboBox_AnotherParameter->removeItem(i);
-        }
-
-        //
+        headersImportedData = importedDataReader.data()->csvHeaders();
 
         if (table_lid == 2) {
 
@@ -147,28 +172,5 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         }
 
         ui->comboBox_AnotherParameter->addItems(headersImportedData);
-    }
-    else {
-
-        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("You have to select data file!"), 0, 0, 0);
-    }
-}
-
-void DataImportDialog::on_pushButton_Next_clicked() {
-
-    ptrdiff_t scount = arrayImportedData.count();
-    ptrdiff_t dcount = dtable->rowCount();
-
-    if (scount > dcount) {
-
-        addRows(dtable, scount);
-    }
-
-    ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
-    ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
-
-    for (ptrdiff_t i=0; i<scount; i++) {
-
-        dtable->item(i, dj)->setText(QString::number(arrayImportedData.at(i).at(sj)));
     }
 }

@@ -44,16 +44,23 @@ private:
 
     Ui::DataImportDialog *ui;
 
+    QString delimiter;
+    ptrdiff_t headerLines;
+    QString table_points_headers;
+    QString table_fullLoadCurve_headers;
     QString dataFileName;
     QString dataDirName;
     ptrdiff_t table_lid;
     QTableWidget *dtable;
     QVector< QVector<double> > arrayImportedData;
+    QStringList headersImportedData;
 
 private slots:
 
     void on_pushButton_SelectDataFile_clicked();
     void on_pushButton_Next_clicked();
+
+    void combosUpdate(QString);
 
 };
 
