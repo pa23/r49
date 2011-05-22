@@ -27,6 +27,7 @@
 #include "newversions.h"
 #include "dataimportdialog.h"
 #include "tablewidgetfunctions.h"
+#include "calculationwizard.h"
 
 #include "r49.h"
 #include "qr49constants.h"
@@ -1634,6 +1635,11 @@ void MainWindow::on_action_Execute_activated() {
 
         on_action_CheckoutData_activated();
     }
+
+    //
+
+//    CalculationWizard calcWizard;
+//    calcWizard.exec();
 }
 
 void MainWindow::on_action_ABCspeeds_activated() {

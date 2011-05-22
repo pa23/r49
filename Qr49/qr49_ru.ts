@@ -6348,6 +6348,10 @@ Maybe you did not enter all source data?</source>
         <translation>C_O2
 [%]</translation>
     </message>
+    <message>
+        <source>Parameters bar</source>
+        <translation>Панель параметров расчета</translation>
+    </message>
 </context>
 <context>
     <name>NewVersions</name>

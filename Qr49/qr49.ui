@@ -514,8 +514,11 @@ no</string>
                   <bold>false</bold>
                  </font>
                 </property>
+                <property name="toolTip">
+                 <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
+                </property>
                 <property name="title">
-                 <string>OST..EU2, r96**, GOST 30574 Cycle Points Calculation</string>
+                 <string>Table #1</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
@@ -646,8 +649,11 @@ no</string>
                   <height>140</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
+                </property>
                 <property name="title">
-                 <string>EU3..EU6 Cycle Points Calculation</string>
+                 <string>Table #2</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item>
@@ -811,8 +817,11 @@ no</string>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="title">
+              <property name="toolTip">
                <string>Specific Emissions Calculation</string>
+              </property>
+              <property name="title">
+               <string>Table #3</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
                <item>
@@ -1034,8 +1043,11 @@ no</string>
              <enum>Qt::Vertical</enum>
             </property>
             <widget class="QGroupBox" name="groupBox_4">
-             <property name="title">
+             <property name="toolTip">
               <string>Full Load Curve</string>
+             </property>
+             <property name="title">
+              <string>Table #4</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
@@ -1722,6 +1734,20 @@ no</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_Parametersbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Parameters bar</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
