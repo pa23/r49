@@ -40,8 +40,7 @@ Page_task::Page_task(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Calculation"));
     setSubTitle(tr("Please select what you want to calculate"));
 
-    groupBox_task = new QGroupBox("Calculation task");
-    groupBox_taskNote = new QGroupBox("Note");
+    label_task = new QLabel("Calculation task");
     comboBox_task = new QComboBox();
     label_taskNote = new QLabel();
 
@@ -58,17 +57,20 @@ Page_task::Page_task(QWidget *parent) : QWizardPage(parent) {
     registerField("task", comboBox_task);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
+    QHBoxLayout *layout1 = new QHBoxLayout();
     QVBoxLayout *layout2 = new QVBoxLayout();
 
+    QGroupBox *groupBox = new QGroupBox("Note");
+
+    layout1->addWidget(label_task);
     layout1->addWidget(comboBox_task);
-    groupBox_task->setLayout(layout1);
 
     layout2->addWidget(label_taskNote);
-    groupBox_taskNote->setLayout(layout2);
 
-    layout->addWidget(groupBox_task);
-    layout->addWidget(groupBox_taskNote);
+    groupBox->setLayout(layout2);
+
+    layout->addLayout(layout1);
+    layout->addWidget(groupBox);
 
     setLayout(layout);
 }
@@ -96,8 +98,8 @@ Page_std::Page_std(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Standard and additional cycle points"));
     setSubTitle(tr("Please select a standard against which will be calculated and the need to calculate the additional points"));
 
-    groupBox_std = new QGroupBox("Standard");
-    groupBox_addPoints = new QGroupBox("Additional points");
+    label_std = new QLabel("Standard");
+    label_addPoints = new QLabel("Additional points");
     comboBox_standard = new QComboBox();
     comboBox_addPointsCalc = new QComboBox();
 
@@ -110,23 +112,26 @@ Page_std::Page_std(QWidget *parent) : QWizardPage(parent) {
                                 << "r96H5" << "r96I5" << "r96J5" << "r96K5"
                                 << "C1" << "D1" << "D2" << "E1" << "E2" << "E3" << "E5" << "F" << "G1" << "G2"
                                 << "FreeCalc");
+    comboBox_standard->setCurrentIndex(2);
+
     comboBox_addPointsCalc->addItems(QStringList() << "yes" << "no");
+    comboBox_addPointsCalc->setCurrentIndex(1);
 
     registerField("standard", comboBox_standard);
     registerField("addPointsCacl", comboBox_addPointsCalc);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
-    QVBoxLayout *layout2 = new QVBoxLayout();
+    QHBoxLayout *layout1 = new QHBoxLayout();
+    QHBoxLayout *layout2 = new QHBoxLayout();
 
+    layout1->addWidget(label_std);
     layout1->addWidget(comboBox_standard);
-    groupBox_std->setLayout(layout1);
 
+    layout2->addWidget(label_addPoints);
     layout2->addWidget(comboBox_addPointsCalc);
-    groupBox_addPoints->setLayout(layout2);
 
-    layout->addWidget(groupBox_std);
-    layout->addWidget(groupBox_addPoints);
+    layout->addLayout(layout1);
+    layout->addLayout(layout2);
 
     setLayout(layout);
 }
@@ -164,7 +169,7 @@ Page_fuelType::Page_fuelType(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Fuel type"));
     setSubTitle(tr("Please select the fuel type"));
 
-    groupBox_fuelType = new QGroupBox("Fuel type");
+    label_fuelType = new QLabel("Fuel type");
     comboBox_fuelType = new QComboBox();
 
     comboBox_fuelType->addItems(QStringList() << "diesel" << "motor" << "mazut");
@@ -172,12 +177,12 @@ Page_fuelType::Page_fuelType(QWidget *parent) : QWizardPage(parent) {
     registerField("fuelType", comboBox_fuelType);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
+    QHBoxLayout *layout1 = new QHBoxLayout();
 
+    layout1->addWidget(label_fuelType);
     layout1->addWidget(comboBox_fuelType);
-    groupBox_fuelType->setLayout(layout1);
 
-    layout->addWidget(groupBox_fuelType);
+    layout->addLayout(layout1);
 
     setLayout(layout);
 }
@@ -192,7 +197,7 @@ Page_NOx::Page_NOx(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("NOx sample type"));
     setSubTitle(tr("Please select the NOx sample type"));
 
-    groupBox_NOxSample = new QGroupBox("NOx sample");
+    label_NOxSample = new QLabel("NOx sample");
     comboBox_NOxSample = new QComboBox();
 
     comboBox_NOxSample->addItems(QStringList() << "wet" << "dry");
@@ -200,12 +205,12 @@ Page_NOx::Page_NOx(QWidget *parent) : QWizardPage(parent) {
     registerField("NOxSample", comboBox_NOxSample);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
+    QHBoxLayout *layout1 = new QHBoxLayout();
 
+    layout1->addWidget(label_NOxSample);
     layout1->addWidget(comboBox_NOxSample);
-    groupBox_NOxSample->setLayout(layout1);
 
-    layout->addWidget(groupBox_NOxSample);
+    layout->addLayout(layout1);
 
     setLayout(layout);
 }
@@ -220,8 +225,8 @@ Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Particulate calculation"));
     setSubTitle(tr("Please select the particulate calculating method. If necessary, enter the mass of particles or filters"));
 
-    groupBox_PTcalc = new QGroupBox("PT calculating method");
-    groupBox_PTmass = new QGroupBox("PT mass, mg");
+    label_PTcalc = new QLabel("PT calculating method");
+    label_PTmass = new QLabel("PT mass, mg");
     comboBox_PTcalc = new QComboBox();
     lineEdit_PTmass = new QLineEdit();
     pushButton_enterPTmass = new QPushButton();
@@ -238,18 +243,18 @@ Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent) {
     registerField("PTmass", lineEdit_PTmass);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
+    QGridLayout *layout1 = new QGridLayout();
     QHBoxLayout *layout2 = new QHBoxLayout();
-
-    layout1->addWidget(comboBox_PTcalc);
-    groupBox_PTcalc->setLayout(layout1);
 
     layout2->addWidget(lineEdit_PTmass);
     layout2->addWidget(pushButton_enterPTmass);
-    groupBox_PTmass->setLayout(layout2);
 
-    layout->addWidget(groupBox_PTcalc);
-    layout->addWidget(groupBox_PTmass);
+    layout1->addWidget(label_PTcalc, 0, 0);
+    layout1->addWidget(comboBox_PTcalc, 0, 1);
+    layout1->addWidget(label_PTmass, 1, 0);
+    layout1->addLayout(layout2, 1, 1);
+
+    layout->addLayout(layout1);
 
     setLayout(layout);
 }
@@ -264,12 +269,11 @@ Page_report::Page_report(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Reports creating"));
     setSubTitle(tr("Please specify the need to create reports"));
 
-    groupBox_reports = new QGroupBox("Create reports");
-    groupBox_reportsNote = new QGroupBox("Note");
     checkBox_reports = new QCheckBox();
     label_reportsNote = new QLabel();
 
     checkBox_reports->setChecked(true);
+    checkBox_reports->setText("Create reports");
 
     label_reportsNote->setWordWrap(true);
     label_reportsNote->setText("Checkbox should be checked if you make a FreeCalc");
@@ -278,15 +282,14 @@ Page_report::Page_report(QWidget *parent) : QWizardPage(parent) {
 
     QVBoxLayout *layout = new QVBoxLayout();
     QVBoxLayout *layout1 = new QVBoxLayout();
-    QVBoxLayout *layout2 = new QVBoxLayout();
 
-    layout1->addWidget(checkBox_reports);
-    groupBox_reports->setLayout(layout1);
+    layout1->addWidget(label_reportsNote);
 
-    layout2->addWidget(label_reportsNote);
-    groupBox_reportsNote->setLayout(layout2);
+    QGroupBox *groupBox_reportsNote = new QGroupBox("Note");
 
-    layout->addWidget(groupBox_reports);
+    groupBox_reportsNote->setLayout(layout1);
+
+    layout->addWidget(checkBox_reports);
     layout->addWidget(groupBox_reportsNote);
 
     setLayout(layout);
@@ -302,20 +305,17 @@ Page_Vh::Page_Vh(QWidget *parent) : QWizardPage(parent) {
     setTitle(tr("Engine capacity"));
     setSubTitle(tr("Please specify engine capacity in liters"));
 
-    groupBox_Vh = new QGroupBox("Capacity, l");
+    label_Vh = new QLabel("Capacity, l");
     lineEdit_Vh = new QLineEdit();
 
     lineEdit_Vh->setText("0");
 
     registerField("Vh", lineEdit_Vh);
 
-    QVBoxLayout *layout = new QVBoxLayout();
-    QVBoxLayout *layout1 = new QVBoxLayout();
+    QHBoxLayout *layout = new QHBoxLayout();
 
-    layout1->addWidget(lineEdit_Vh);
-    groupBox_Vh->setLayout(layout1);
-
-    layout->addWidget(groupBox_Vh);
+    layout->addWidget(label_Vh);
+    layout->addWidget(lineEdit_Vh);
 
     setLayout(layout);
 }

@@ -27,6 +27,7 @@ class QComboBox;
 class QLineEdit;
 class QPushButton;
 class QCheckBox;
+class QSpacerItem;
 QT_END_NAMESPACE
 
 class CalculationWizard : public QWizard {
@@ -50,8 +51,7 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_task;
-    QGroupBox *groupBox_taskNote;
+    QLabel *label_task;
     QComboBox *comboBox_task;
     QLabel *label_taskNote;
 
@@ -67,10 +67,13 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_std;
-    QGroupBox *groupBox_addPoints;
+    QLabel *label_std;
+    QLabel *label_addPoints;
     QComboBox *comboBox_standard;
     QComboBox *comboBox_addPointsCalc;
+
+private slots:
+    //void standardChanged();
 
 };
 
@@ -84,7 +87,7 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_fuelType;
+    QLabel *label_fuelType;
     QComboBox *comboBox_fuelType;
 
 };
@@ -99,7 +102,7 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_NOxSample;
+    QLabel *label_NOxSample;
     QComboBox *comboBox_NOxSample;
 
 };
@@ -114,8 +117,8 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_PTcalc;
-    QGroupBox *groupBox_PTmass;
+    QLabel *label_PTcalc;
+    QLabel *label_PTmass;
     QComboBox *comboBox_PTcalc;
     QLineEdit *lineEdit_PTmass;
     QPushButton *pushButton_enterPTmass;
@@ -135,8 +138,6 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_reports;
-    QGroupBox *groupBox_reportsNote;
     QCheckBox *checkBox_reports;
     QLabel *label_reportsNote;
 
@@ -152,7 +153,7 @@ public:
     int nextId() const;
 
 private:
-    QGroupBox *groupBox_Vh;
+    QLabel *label_Vh;
     QLineEdit *lineEdit_Vh;
 
 };
