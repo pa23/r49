@@ -20,6 +20,8 @@
 
 #include <QWizard>
 
+#include "filtermassdialog.h"
+
 QT_BEGIN_NAMESPACE
 class QGroupBox;
 class QLabel;
@@ -35,6 +37,7 @@ class CalculationWizard : public QWizard {
     Q_OBJECT
 
 public:
+
     CalculationWizard(QWidget *parent = 0);
 
     enum { p_task, p_std, p_fuelType, p_NOx, p_PT, p_report, p_Vh, p_conclusion };
@@ -46,11 +49,13 @@ class Page_task : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_task(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_task;
     QComboBox *comboBox_task;
     QLabel *label_taskNote;
@@ -62,18 +67,21 @@ class Page_std : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_std(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_std;
     QLabel *label_addPoints;
     QComboBox *comboBox_standard;
     QComboBox *comboBox_addPointsCalc;
 
 private slots:
-    //void standardChanged();
+
+    void standardChanged(QString);
 
 };
 
@@ -82,11 +90,13 @@ class Page_fuelType : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_fuelType(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_fuelType;
     QComboBox *comboBox_fuelType;
 
@@ -97,11 +107,13 @@ class Page_NOx : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_NOx(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_NOxSample;
     QComboBox *comboBox_NOxSample;
 
@@ -112,11 +124,15 @@ class Page_PT : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_PT(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
+    FilterMassDialog *filterMassDialog;
+
     QLabel *label_PTcalc;
     QLabel *label_PTmass;
     QComboBox *comboBox_PTcalc;
@@ -124,7 +140,9 @@ private:
     QPushButton *pushButton_enterPTmass;
 
 private slots:
-    //void on_pushButton_EnterPTmass_clicked();
+
+    void PTcalcMethodChanged(QString);
+    void on_pushButton_EnterPTmass_clicked();
 
 };
 
@@ -133,11 +151,13 @@ class Page_report : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_report(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QCheckBox *checkBox_reports;
     QLabel *label_reportsNote;
 
@@ -148,11 +168,13 @@ class Page_Vh : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_Vh(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_Vh;
     QLineEdit *lineEdit_Vh;
 
@@ -163,11 +185,13 @@ class Page_conclusion : public QWizardPage {
     Q_OBJECT
 
 public:
+
     Page_conclusion(QWidget *parent = 0);
 
     int nextId() const;
 
 private:
+
     QLabel *label_conclusionNote;
 
 };

@@ -18,6 +18,7 @@
 #include <QtGui>
 
 #include "calculationwizard.h"
+#include "filtermassdialog.h"
 
 CalculationWizard::CalculationWizard(QWidget *parent) : QWizard(parent) {
 
@@ -134,6 +135,20 @@ Page_std::Page_std(QWidget *parent) : QWizardPage(parent) {
     layout->addLayout(layout2);
 
     setLayout(layout);
+
+    connect(comboBox_standard, SIGNAL(activated(QString)), this, SLOT(standardChanged(QString)));
+}
+
+void Page_std::standardChanged(QString str) {
+
+    if ( (str == "EU6") || (str == "EU5") || (str == "EU4") || (str == "EU3") ) {
+
+        comboBox_addPointsCalc->setEnabled(true);
+    }
+    else {
+
+        comboBox_addPointsCalc->setEnabled(false);
+    }
 }
 
 int Page_std::nextId() const {
@@ -220,7 +235,7 @@ int Page_NOx::nextId() const {
     return CalculationWizard::p_PT;
 }
 
-Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent) {
+Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent), filterMassDialog(new FilterMassDialog()) {
 
     setTitle(tr("Particulate calculation"));
     setSubTitle(tr("Please select the particulate calculating method. If necessary, enter the mass of particles or filters"));
@@ -257,6 +272,47 @@ Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent) {
     layout->addLayout(layout1);
 
     setLayout(layout);
+
+    connect(comboBox_PTcalc, SIGNAL(activated(QString)), this, SLOT(PTcalcMethodChanged(QString)));
+    connect(pushButton_enterPTmass, SIGNAL(clicked()), this, SLOT(on_pushButton_EnterPTmass_clicked()));
+
+    PTcalcMethodChanged(comboBox_PTcalc->currentText());
+}
+
+void Page_PT::PTcalcMethodChanged(QString str) {
+
+    if ( str == "ThroughPTmass" ) {
+
+        lineEdit_PTmass->setEnabled(true);
+        pushButton_enterPTmass->setEnabled(true);
+    }
+    else {
+
+        lineEdit_PTmass->setEnabled(false);
+        pushButton_enterPTmass->setEnabled(false);
+    }
+}
+
+void Page_PT::on_pushButton_EnterPTmass_clicked() {
+
+    if (filterMassDialog->exec() == QDialog::Accepted) {
+
+        QLineEdit *m1c = filterMassDialog->findChild<QLineEdit *>("lineEdit_1stFilterWeightClean");
+        QLineEdit *m1d = filterMassDialog->findChild<QLineEdit *>("lineEdit_1stFilterWeightDirty");
+        QLineEdit *m2c = filterMassDialog->findChild<QLineEdit *>("lineEdit_2ndFilterWeightClean");
+        QLineEdit *m2d = filterMassDialog->findChild<QLineEdit *>("lineEdit_2ndFilterWeightDirty");
+
+        if ( (!m1c) || (!m1d) || (!m2c) || (!m2d) ) {
+
+            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+
+            return;
+        }
+
+        double PTmass = (m1d->text().toDouble() - m1c->text().toDouble()) + (m2d->text().toDouble() - m2c->text().toDouble());
+
+        lineEdit_PTmass->setText(QString::number(PTmass, 'f', 3));
+    }
 }
 
 int Page_PT::nextId() const {
