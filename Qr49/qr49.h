@@ -91,7 +91,6 @@ private:
 
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
-    void setDoubleValidators();
     void readPreferences();
     void setComboIndex(QComboBox *, QString);
     void writeProgramSettings();
@@ -101,7 +100,6 @@ private:
     bool fillTableEU3(QString filename);
     bool fillTablePoints(QString filename);
     bool fillTableFullLoadCurve(QString filename);
-    bool fillParameters();
     bool arithmeticOperation(QString);
     void arithmeticOperationIsAvailable(bool);
     void tableCellChangedConnect(bool);
@@ -124,8 +122,6 @@ private slots:
     void on_action_LoadSourceData_activated();
     void on_action_SaveSourceData_activated();
     void on_action_SaveSourceDataAs_activated();
-    void on_action_LoadCalculationOptions_activated();
-    void on_action_SaveCalculationOptionsAs_activated();
     void on_action_OpenReport_activated();
     void on_action_SaveReportAs_activated();
     void on_action_CloseReport_activated();
@@ -155,10 +151,6 @@ private slots:
     void on_action_AboutQt_activated();
     void on_action_CheckForUpdates_activated();
 
-    void on_pushButton_EnterPTmass_clicked();
-    void taskChanged(QString);
-    void standardChanged(QString);
-    void PTcalcChanged(QString);
     void reportChanged(QString);
     void tabChanged(int);
     void tableCellChanged(int, int);

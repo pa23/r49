@@ -34,6 +34,7 @@ LibtoxicParameters::LibtoxicParameters() :
         PTcalc         ("ThroughSmoke"),
         PTmass         (0             ),
         AddPointsCalc  ("no"          ),
+        Reports        ("yes"         ),
         CalcConfigFile ("_._"         ) {
 }
 
@@ -51,15 +52,16 @@ LibtoxicParameters &LibtoxicParameters::operator =(const LibtoxicParameters &x) 
     return *this;
 }
 
-void LibtoxicParameters::setTask           (QString  task_)           { task           =  task_;           }
-void LibtoxicParameters::setVh             (double  *Vh_)             { Vh             = *Vh_;             }
-void LibtoxicParameters::setStandard       (QString  standart_)       { standard       =  standart_;       }
-void LibtoxicParameters::setFuelType       (QString  FuelType_)       { FuelType       =  FuelType_;       }
-void LibtoxicParameters::setNOxSample      (QString  NOxSample_)      { NOxSample      =  NOxSample_;      }
-void LibtoxicParameters::setPTcalc         (QString  PTcalc_)         { PTcalc         =  PTcalc_;         }
-void LibtoxicParameters::setPTmass         (double  *PTmass_)         { PTmass         = *PTmass_;         }
-void LibtoxicParameters::setAddPointsCalc  (QString  AddPointsCalc_)  { AddPointsCalc  =  AddPointsCalc_;  }
-void LibtoxicParameters::setCalcConfigFile (QString  CalcConfigFile_) { CalcConfigFile =  CalcConfigFile_; }
+void LibtoxicParameters::setTask           (QString  task_           ) { task           =  task_;           }
+void LibtoxicParameters::setVh             (double  *Vh_             ) { Vh             = *Vh_;             }
+void LibtoxicParameters::setStandard       (QString  standart_       ) { standard       =  standart_;       }
+void LibtoxicParameters::setFuelType       (QString  FuelType_       ) { FuelType       =  FuelType_;       }
+void LibtoxicParameters::setNOxSample      (QString  NOxSample_      ) { NOxSample      =  NOxSample_;      }
+void LibtoxicParameters::setPTcalc         (QString  PTcalc_         ) { PTcalc         =  PTcalc_;         }
+void LibtoxicParameters::setPTmass         (double  *PTmass_         ) { PTmass         = *PTmass_;         }
+void LibtoxicParameters::setAddPointsCalc  (QString  AddPointsCalc_  ) { AddPointsCalc  =  AddPointsCalc_;  }
+void LibtoxicParameters::setReports        (QString  Reports_        ) { Reports        =  Reports_;        }
+void LibtoxicParameters::setCalcConfigFile (QString  CalcConfigFile_ ) { CalcConfigFile =  CalcConfigFile_; }
 
 QString LibtoxicParameters::val_Task           () const { return task;           }
 double  LibtoxicParameters::val_Vh             () const { return Vh;             }
@@ -69,6 +71,7 @@ QString LibtoxicParameters::val_NOxSample      () const { return NOxSample;     
 QString LibtoxicParameters::val_PTcalc         () const { return PTcalc;         }
 double  LibtoxicParameters::val_PTmass         () const { return PTmass;         }
 QString LibtoxicParameters::val_AddPointsCalc  () const { return AddPointsCalc;  }
+QString LibtoxicParameters::val_Reports        () const { return Reports;        }
 QString LibtoxicParameters::val_CalcConfigFile () const { return CalcConfigFile; }
 
 bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
@@ -102,6 +105,7 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
             else if (elements[0] == "PTcalc")         { PTcalc         = elements[1]; }
             else if (elements[0] == "PTmass")         { PTmass         = (elements[1]).toDouble(); }
             else if (elements[0] == "AddPointsCalc")  { AddPointsCalc  = elements[1]; }
+            else if (elements[0] == "reports")        { Reports        = elements[1]; }
             else if (elements[0] == "CalcConfigFile") { CalcConfigFile = elements[1]; }
             else                                      {
 

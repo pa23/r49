@@ -16,27 +16,32 @@
 */
 
 #include <QtGui>
+#include <QSharedPointer>
 
 #include "calculationwizard.h"
 #include "filtermassdialog.h"
 
-CalculationWizard::CalculationWizard(QWidget *parent) : QWizard(parent) {
+#include "libtoxicparameters.h"
 
-    setPage(p_task, new Page_task);
-    setPage(p_std, new Page_std);
-    setPage(p_fuelType, new Page_fuelType);
-    setPage(p_NOx, new Page_NOx);
-    setPage(p_PT, new Page_PT);
-    setPage(p_report, new Page_report);
-    setPage(p_Vh, new Page_Vh);
-    setPage(p_conclusion, new Page_conclusion);
+CalculationWizard::CalculationWizard(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizard(parent) {
+
+    setPage(p_task, new Page_task(params));
+    setPage(p_std, new Page_std(params));
+    setPage(p_fuelType, new Page_fuelType(params));
+    setPage(p_NOx, new Page_NOx(params));
+    setPage(p_PT, new Page_PT(params));
+    setPage(p_report, new Page_report(params));
+    setPage(p_Vh, new Page_Vh(params));
+    setPage(p_conclusion, new Page_conclusion());
 
     setStartId(p_task);
 
     setWindowTitle(tr("Calculation Wizard"));
 }
 
-Page_task::Page_task(QWidget *parent) : QWizardPage(parent) {
+Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("Calculation"));
     setSubTitle(tr("Please select what you want to calculate"));
@@ -74,6 +79,13 @@ Page_task::Page_task(QWidget *parent) : QWizardPage(parent) {
     layout->addWidget(groupBox);
 
     setLayout(layout);
+
+    connect(comboBox_task, SIGNAL(activated(QString)), this, SLOT(taskChanged(QString)));
+}
+
+void Page_task::taskChanged(QString str) {
+
+    calcParams.data()->setTask(str);
 }
 
 int Page_task::nextId() const {
@@ -94,7 +106,9 @@ int Page_task::nextId() const {
     }
 }
 
-Page_std::Page_std(QWidget *parent) : QWizardPage(parent) {
+Page_std::Page_std(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("Standard and additional cycle points"));
     setSubTitle(tr("Please select a standard against which will be calculated and the need to calculate the additional points"));
@@ -137,6 +151,7 @@ Page_std::Page_std(QWidget *parent) : QWizardPage(parent) {
     setLayout(layout);
 
     connect(comboBox_standard, SIGNAL(activated(QString)), this, SLOT(standardChanged(QString)));
+    connect(comboBox_addPointsCalc, SIGNAL(activated(QString)), this, SLOT(addPointsCalcChanged(QString)));
 }
 
 void Page_std::standardChanged(QString str) {
@@ -149,6 +164,13 @@ void Page_std::standardChanged(QString str) {
 
         comboBox_addPointsCalc->setEnabled(false);
     }
+
+    calcParams.data()->setStandard(str);
+}
+
+void Page_std::addPointsCalcChanged(QString str) {
+
+    calcParams.data()->setAddPointsCalc(str);
 }
 
 int Page_std::nextId() const {
@@ -179,7 +201,9 @@ int Page_std::nextId() const {
     }
 }
 
-Page_fuelType::Page_fuelType(QWidget *parent) : QWizardPage(parent) {
+Page_fuelType::Page_fuelType(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("Fuel type"));
     setSubTitle(tr("Please select the fuel type"));
@@ -200,6 +224,13 @@ Page_fuelType::Page_fuelType(QWidget *parent) : QWizardPage(parent) {
     layout->addLayout(layout1);
 
     setLayout(layout);
+
+    connect(comboBox_fuelType, SIGNAL(activated(QString)), this, SLOT(fuelTypeChanged(QString)));
+}
+
+void Page_fuelType::fuelTypeChanged(QString str) {
+
+    calcParams.data()->setFuelType(str);
 }
 
 int Page_fuelType::nextId() const {
@@ -207,7 +238,9 @@ int Page_fuelType::nextId() const {
     return CalculationWizard::p_NOx;
 }
 
-Page_NOx::Page_NOx(QWidget *parent) : QWizardPage(parent) {
+Page_NOx::Page_NOx(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("NOx sample type"));
     setSubTitle(tr("Please select the NOx sample type"));
@@ -228,6 +261,13 @@ Page_NOx::Page_NOx(QWidget *parent) : QWizardPage(parent) {
     layout->addLayout(layout1);
 
     setLayout(layout);
+
+    connect(comboBox_NOxSample, SIGNAL(activated(QString)), this, SLOT(NOxSampleChanged(QString)));
+}
+
+void Page_NOx::NOxSampleChanged(QString str) {
+
+    calcParams.data()->setNOxSample(str);
 }
 
 int Page_NOx::nextId() const {
@@ -235,7 +275,9 @@ int Page_NOx::nextId() const {
     return CalculationWizard::p_PT;
 }
 
-Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent), filterMassDialog(new FilterMassDialog()) {
+Page_PT::Page_PT(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent), filterMassDialog(new FilterMassDialog()) {
+
+    calcParams = params;
 
     setTitle(tr("Particulate calculation"));
     setSubTitle(tr("Please select the particulate calculating method. If necessary, enter the mass of particles or filters"));
@@ -274,6 +316,7 @@ Page_PT::Page_PT(QWidget *parent) : QWizardPage(parent), filterMassDialog(new Fi
     setLayout(layout);
 
     connect(comboBox_PTcalc, SIGNAL(activated(QString)), this, SLOT(PTcalcMethodChanged(QString)));
+    connect(lineEdit_PTmass, SIGNAL(textChanged(QString)), this, SLOT(PTmassChanged(QString)));
     connect(pushButton_enterPTmass, SIGNAL(clicked()), this, SLOT(on_pushButton_EnterPTmass_clicked()));
 
     PTcalcMethodChanged(comboBox_PTcalc->currentText());
@@ -291,6 +334,15 @@ void Page_PT::PTcalcMethodChanged(QString str) {
         lineEdit_PTmass->setEnabled(false);
         pushButton_enterPTmass->setEnabled(false);
     }
+
+    calcParams.data()->setPTcalc(str);
+}
+
+void Page_PT::PTmassChanged(QString str) {
+
+    double PTmass = str.toDouble();
+
+    calcParams.data()->setPTmass(&PTmass);
 }
 
 void Page_PT::on_pushButton_EnterPTmass_clicked() {
@@ -320,7 +372,9 @@ int Page_PT::nextId() const {
     return CalculationWizard::p_report;
 }
 
-Page_report::Page_report(QWidget *parent) : QWizardPage(parent) {
+Page_report::Page_report(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("Reports creating"));
     setSubTitle(tr("Please specify the need to create reports"));
@@ -349,6 +403,20 @@ Page_report::Page_report(QWidget *parent) : QWizardPage(parent) {
     layout->addWidget(groupBox_reportsNote);
 
     setLayout(layout);
+
+    connect(checkBox_reports, SIGNAL(stateChanged(int)), this, SLOT(reportsChanged(int)));
+}
+
+void Page_report::reportsChanged(int state) {
+
+    if ( state == 2 ) {
+
+        calcParams.data()->setReports("yes");
+    }
+    else {
+
+        calcParams.data()->setReports("no");
+    }
 }
 
 int Page_report::nextId() const {
@@ -356,7 +424,9 @@ int Page_report::nextId() const {
     return CalculationWizard::p_conclusion;
 }
 
-Page_Vh::Page_Vh(QWidget *parent) : QWizardPage(parent) {
+Page_Vh::Page_Vh(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
+
+    calcParams = params;
 
     setTitle(tr("Engine capacity"));
     setSubTitle(tr("Please specify engine capacity in liters"));
@@ -374,6 +444,15 @@ Page_Vh::Page_Vh(QWidget *parent) : QWizardPage(parent) {
     layout->addWidget(lineEdit_Vh);
 
     setLayout(layout);
+
+    connect(lineEdit_Vh, SIGNAL(textChanged(QString)), this, SLOT(VhChanged(QString)));
+}
+
+void Page_Vh::VhChanged(QString str) {
+
+    double Vh = str.toDouble();
+
+    calcParams.data()->setVh(&Vh);
 }
 
 int Page_Vh::nextId() const {

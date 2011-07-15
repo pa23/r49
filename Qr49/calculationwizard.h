@@ -19,8 +19,11 @@
 #define CALCULATIONWIZARD_H
 
 #include <QWizard>
+#include <QSharedPointer>
 
 #include "filtermassdialog.h"
+
+#include "libtoxicparameters.h"
 
 QT_BEGIN_NAMESPACE
 class QGroupBox;
@@ -38,7 +41,7 @@ class CalculationWizard : public QWizard {
 
 public:
 
-    CalculationWizard(QWidget *parent = 0);
+    CalculationWizard(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     enum { p_task, p_std, p_fuelType, p_NOx, p_PT, p_report, p_Vh, p_conclusion };
 
@@ -50,7 +53,7 @@ class Page_task : public QWizardPage {
 
 public:
 
-    Page_task(QWidget *parent = 0);
+    Page_task(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -60,6 +63,12 @@ private:
     QComboBox *comboBox_task;
     QLabel *label_taskNote;
 
+    QSharedPointer<LibtoxicParameters> calcParams;
+
+private slots:
+
+    void taskChanged(QString);
+
 };
 
 class Page_std : public QWizardPage {
@@ -68,7 +77,7 @@ class Page_std : public QWizardPage {
 
 public:
 
-    Page_std(QWidget *parent = 0);
+    Page_std(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -79,9 +88,12 @@ private:
     QComboBox *comboBox_standard;
     QComboBox *comboBox_addPointsCalc;
 
+    QSharedPointer<LibtoxicParameters> calcParams;
+
 private slots:
 
     void standardChanged(QString);
+    void addPointsCalcChanged(QString);
 
 };
 
@@ -91,7 +103,7 @@ class Page_fuelType : public QWizardPage {
 
 public:
 
-    Page_fuelType(QWidget *parent = 0);
+    Page_fuelType(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -99,6 +111,12 @@ private:
 
     QLabel *label_fuelType;
     QComboBox *comboBox_fuelType;
+
+    QSharedPointer<LibtoxicParameters> calcParams;
+
+private slots:
+
+    void fuelTypeChanged(QString);
 
 };
 
@@ -108,7 +126,7 @@ class Page_NOx : public QWizardPage {
 
 public:
 
-    Page_NOx(QWidget *parent = 0);
+    Page_NOx(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -116,6 +134,12 @@ private:
 
     QLabel *label_NOxSample;
     QComboBox *comboBox_NOxSample;
+
+    QSharedPointer<LibtoxicParameters> calcParams;
+
+private slots:
+
+    void NOxSampleChanged(QString);
 
 };
 
@@ -125,7 +149,7 @@ class Page_PT : public QWizardPage {
 
 public:
 
-    Page_PT(QWidget *parent = 0);
+    Page_PT(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -139,9 +163,12 @@ private:
     QLineEdit *lineEdit_PTmass;
     QPushButton *pushButton_enterPTmass;
 
+    QSharedPointer<LibtoxicParameters> calcParams;
+
 private slots:
 
     void PTcalcMethodChanged(QString);
+    void PTmassChanged(QString);
     void on_pushButton_EnterPTmass_clicked();
 
 };
@@ -152,7 +179,7 @@ class Page_report : public QWizardPage {
 
 public:
 
-    Page_report(QWidget *parent = 0);
+    Page_report(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -160,6 +187,12 @@ private:
 
     QCheckBox *checkBox_reports;
     QLabel *label_reportsNote;
+
+    QSharedPointer<LibtoxicParameters> calcParams;
+
+private slots:
+
+    void reportsChanged(int);
 
 };
 
@@ -169,7 +202,7 @@ class Page_Vh : public QWizardPage {
 
 public:
 
-    Page_Vh(QWidget *parent = 0);
+    Page_Vh(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
 
     int nextId() const;
 
@@ -177,6 +210,12 @@ private:
 
     QLabel *label_Vh;
     QLineEdit *lineEdit_Vh;
+
+    QSharedPointer<LibtoxicParameters> calcParams;
+
+private slots:
+
+    void VhChanged(QString);
 
 };
 

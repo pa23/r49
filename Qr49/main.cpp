@@ -72,7 +72,7 @@ void ShowHelp() {
     cout << "Usage:\n\n  Qr49 [task=TASK] [Vh=VH] [standard=STANDARD] [FuelType=FUELTYPE] \\\n"
             "       [NOxSample=NOXSAMPLE] [PTcalc=PTCALC]                       \\\n"
             "       [PTmass=PTMASS] [AddPoinsCalc=ADDPOINTSCALC]                \\\n"
-            "       [CalcConfigFile=CALCCONFIGFILE]\n\n"
+            "       [reports=REPORTS] [CalcConfigFile=CALCCONFIGFILE]\n\n"
             "  task=TASK\t\tvariants of TASK:\n"
             "\t\t\tABCspeeds    - for A,B,C calculation;\n"
             "\t\t\tpoints       - for ESC points calculation;\n"
@@ -110,8 +110,11 @@ void ShowHelp() {
             "  PTmass=PTMASS\t\tvariants of PTMASS:\n"
             "\t\t\tNumber - total PT mass on all filters, mg.\n\n"
             "  AddPointsCalc=ADDPOINTSCALC\tvariants of ADDPOINTSCALC:\n"
-            "\t\t\tyes - if you want calculate additional points;\n"
+            "\t\t\tyes - if you want to calculate additional points;\n"
             "\t\t\tno* - if you don't need additional points.\n\n"
+            "  reports=REPORTS\tvariants of REPORTS:\n"
+            "\t\t\tyes* - if you want to create reports;\n"
+            "\t\t\tno   - if you don't need reports.\n\n"
             "  CalcConfigFile=CALCCONFIGFILE\tvariants of CALCCONFIGFILE:\n"
             "\t\t\tCalcConfigFile - if you want get calculation settings\n"
             "\t\t\t                 from another file.\n\n"
@@ -301,6 +304,16 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
                 qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for AddPointsCalc value!";
             }
         }
+        else if (param == "reports") {
+
+            if ( (value == "yes") ||
+                 (value == "no" ) ) { params.data()->setReports(value); }
+
+            else {
+
+                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for reports value!";
+            }
+        }
         else if (param == "CalcConfigFile") {
 
             params.data()->setCalcConfigFile(value);
@@ -421,7 +434,7 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            myEmissions.data()->createReports(true);
+            myEmissions.data()->createReports();
 
             cout << "Press Enter to exit...";
             cin.get();

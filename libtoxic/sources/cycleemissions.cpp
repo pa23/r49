@@ -1387,9 +1387,20 @@ bool CycleEmissions::compareAlpha() {
     return true;
 }
 
-QString CycleEmissions::createReports(bool createrepdir) {
+QString CycleEmissions::createReports() {
 
     QString message = "";
+
+    bool createrepdir = true;
+
+    if ( params.data()->val_Reports() == "yes" ) {
+
+        createrepdir = true;
+    }
+    else {
+
+        createrepdir = false;
+    }
 
     if (!createrepdir) {
 
