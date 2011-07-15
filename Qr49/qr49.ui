@@ -39,340 +39,277 @@
       <item>
        <widget class="QTabWidget" name="tabWidget_Data">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
-        <widget class="QWidget" name="tab_SrcData">
+        <widget class="QWidget" name="tab_srcDataCyclePoints">
          <attribute name="title">
-          <string>Source Data</string>
+          <string>Source Data: Cycle Points Calculation</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="toolTip">
+             <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
+            </property>
+            <property name="title">
+             <string>Table #1</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QTableWidget" name="tableWidget_SrcDataEU0">
+               <property name="contextMenuPolicy">
+                <enum>Qt::DefaultContextMenu</enum>
+               </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ContiguousSelection</enum>
+               </property>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>100</number>
+               </attribute>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>20</number>
+               </attribute>
+               <row>
+                <property name="text">
+                 <string/>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>idle
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>n_interim
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>n_rated
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>N_fan_rated
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_interim
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_rated
+[kW]</string>
+                </property>
+               </column>
+               <item row="0" column="0">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="1">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="2">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="3">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="4">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="5">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="toolTip">
+             <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
+            </property>
+            <property name="title">
+             <string>Table #2</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QTableWidget" name="tableWidget_SrcDataEU3">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ContiguousSelection</enum>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>20</number>
+               </attribute>
+               <row>
+                <property name="text">
+                 <string/>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>n_hi
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>n_lo
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>idle
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>n_rated
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>N_fan_rated
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_A
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_B
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_C
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_a1
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_a2
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ne_a3
+[kW]</string>
+                </property>
+               </column>
+               <item row="0" column="0">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="1">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="2">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="3">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="4">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="5">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="6">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="7">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="8">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="9">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item row="0" column="10">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_SrcDataEmissions">
+         <attribute name="title">
+          <string>Source Data: Emissions Calculation</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QGroupBox" name="groupBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>140</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>140</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="toolTip">
-                 <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
-                </property>
-                <property name="title">
-                 <string>Table #1</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <item>
-                  <widget class="QTableWidget" name="tableWidget_SrcDataEU0">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="contextMenuPolicy">
-                    <enum>Qt::DefaultContextMenu</enum>
-                   </property>
-                   <property name="selectionMode">
-                    <enum>QAbstractItemView::ContiguousSelection</enum>
-                   </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>100</number>
-                   </attribute>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                   <attribute name="verticalHeaderDefaultSectionSize">
-                    <number>20</number>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>idle
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>n_interim
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>n_rated
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>N_fan_rated
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_interim
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_rated
-[kW]</string>
-                    </property>
-                   </column>
-                   <item row="0" column="0">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="1">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="2">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="3">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="4">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="5">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_2">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>140</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>140</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
-                </property>
-                <property name="title">
-                 <string>Table #2</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
-                  <widget class="QTableWidget" name="tableWidget_SrcDataEU3">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="selectionMode">
-                    <enum>QAbstractItemView::ContiguousSelection</enum>
-                   </property>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                   <attribute name="verticalHeaderDefaultSectionSize">
-                    <number>20</number>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>n_hi
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>n_lo
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>idle
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>n_rated
-[min-1]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>N_fan_rated
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_A
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_B
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_C
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_a1
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_a2
-[kW]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ne_a3
-[kW]</string>
-                    </property>
-                   </column>
-                   <item row="0" column="0">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="1">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="2">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="3">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="4">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="5">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="6">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="7">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="8">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="9">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="10">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
              <widget class="QGroupBox" name="groupBox_3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
               <property name="toolTip">
                <string>Specific Emissions Calculation</string>
               </property>
@@ -389,7 +326,7 @@
                   <number>80</number>
                  </attribute>
                  <attribute name="verticalHeaderVisible">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </attribute>
                  <column>
                   <property name="text">
@@ -568,6 +505,101 @@
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="tab_ReducedPower">
+         <attribute name="title">
+          <string>Source Data: Reduced Power Calculation</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="toolTip">
+             <string>Full Load Curve</string>
+            </property>
+            <property name="title">
+             <string>Table #4</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ContiguousSelection</enum>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Point
+[-]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>n
+[min-1]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Me_b
+[Nm]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>t0
+[oC]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>B0
+[kPa]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ra
+[%]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>S
+[kPa]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>pk
+[kPa]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Gfuel
+[kg/h]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>N_k
+[kW]</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>N_fan
+[kW]</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
         <widget class="QWidget" name="tab_Reports">
          <attribute name="title">
           <string>Reports</string>
@@ -581,106 +613,6 @@
             <property name="lineWrapMode">
              <enum>QPlainTextEdit::NoWrap</enum>
             </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab_RedPower">
-         <attribute name="title">
-          <string>Reduced Power</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <widget class="QSplitter" name="splitter">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <widget class="QGroupBox" name="groupBox_4">
-             <property name="toolTip">
-              <string>Full Load Curve</string>
-             </property>
-             <property name="title">
-              <string>Table #4</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::ContiguousSelection</enum>
-                </property>
-                <attribute name="verticalHeaderVisible">
-                 <bool>false</bool>
-                </attribute>
-                <column>
-                 <property name="text">
-                  <string>Point
-[-]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>n
-[min-1]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Me_b
-[Nm]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>t0
-[oC]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>B0
-[kPa]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Ra
-[%]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>S
-[kPa]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>pk
-[kPa]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Gfuel
-[kg/h]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>N_k
-[kW]</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>N_fan
-[kW]</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
-            </widget>
            </widget>
           </item>
          </layout>
@@ -791,9 +723,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_DataImport"/>
-   <addaction name="separator"/>
    <addaction name="action_LoadSourceData"/>
-   <addaction name="action_LoadCalculationOptions"/>
    <addaction name="separator"/>
    <addaction name="action_OpenReport"/>
    <addaction name="action_SaveReportAs"/>
@@ -1195,29 +1125,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_LoadCalculationOptions">
-   <property name="icon">
-    <iconset resource="qr49.qrc">
-     <normaloff>:/icons/loadCalcSerrings.png</normaloff>:/icons/loadCalcSerrings.png</iconset>
-   </property>
-   <property name="text">
-    <string>Load Calculation Options...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+L</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_SaveCalculationOptionsAs">
-   <property name="text">
-    <string>Save Calculation Options As...</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
   <action name="action_LoadSourceData">
    <property name="icon">
     <iconset resource="qr49.qrc">
@@ -1258,14 +1165,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_OpenSolution">
-   <property name="text">
-    <string>Open Solution...</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
   <action name="action_CheckForUpdates">
    <property name="text">
     <string>Check For Updates...</string>
@@ -1289,30 +1188,13 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_Parametersbar">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Parameters bar</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>tabWidget_Data</tabstop>
-  <tabstop>tableWidget_SrcDataEU0</tabstop>
-  <tabstop>tableWidget_SrcDataEU3</tabstop>
   <tabstop>tableWidget_SrcDataPoints</tabstop>
   <tabstop>comboBox_OpenedReports</tabstop>
   <tabstop>plainTextEdit_Report</tabstop>
-  <tabstop>tableWidget_FullLoadCurve</tabstop>
  </tabstops>
  <resources>
   <include location="qr49.qrc"/>

@@ -877,18 +877,6 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
     }
 }
 
-void MainWindow::setComboIndex(QComboBox *combo, QString str) {
-
-    for (ptrdiff_t i=0; i<combo->count(); i++) {
-
-        if (str == combo->itemText(i)) {
-
-            combo->setCurrentIndex(i);
-            break;
-        }
-    }
-}
-
 void MainWindow::on_action_OpenReport_activated() {
 
     QString dir(config.data()->val_dirnameReports());

@@ -92,7 +92,6 @@ private:
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
     void readPreferences();
-    void setComboIndex(QComboBox *, QString);
     void writeProgramSettings();
     void readProgramSettings();
     void loadAllSourceData();
