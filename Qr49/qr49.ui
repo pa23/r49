@@ -63,6 +63,9 @@
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
                </property>
+               <property name="gridStyle">
+                <enum>Qt::NoPen</enum>
+               </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>100</number>
                </attribute>
@@ -161,6 +164,9 @@
               <widget class="QTableWidget" name="tableWidget_SrcDataEU3">
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
+               </property>
+               <property name="gridStyle">
+                <enum>Qt::NoPen</enum>
                </property>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
@@ -321,6 +327,9 @@
                 <widget class="QTableWidget" name="tableWidget_SrcDataPoints">
                  <property name="selectionMode">
                   <enum>QAbstractItemView::ContiguousSelection</enum>
+                 </property>
+                 <property name="gridStyle">
+                  <enum>Qt::NoPen</enum>
                  </property>
                  <attribute name="horizontalHeaderDefaultSectionSize">
                   <number>80</number>
@@ -523,6 +532,9 @@
               <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
+               </property>
+               <property name="gridStyle">
+                <enum>Qt::NoPen</enum>
                </property>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>

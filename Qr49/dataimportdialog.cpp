@@ -107,6 +107,7 @@ void DataImportDialog::on_pushButton_Next_clicked() {
 
     for (ptrdiff_t i=0; i<scount; i++) {
 
+        dtable->setCurrentCell(0, dj);
         dtable->item(i, dj)->setText(QString::number(arrayImportedData.at(i).at(sj)));
     }
 }

@@ -109,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_FullLoadCurve->installEventFilter(this);
 
     table = ui->tableWidget_SrcDataPoints;
+    table->setGridStyle(Qt::SolidLine);
 
     //
 
@@ -261,23 +262,19 @@ void MainWindow::tableCellChangedConnect(bool b) {
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
 
-    if (event->type() == QEvent::FocusIn) {
+    if ( object == ui->tableWidget_SrcDataEU0 ||
+         object == ui->tableWidget_SrcDataEU3 ||
+         object == ui->tableWidget_SrcDataPoints ||
+         object == ui->tableWidget_FullLoadCurve ) {
 
-        if (object == ui->tableWidget_SrcDataEU0) {
+        if ( event->type() == QEvent::FocusIn ) {
 
-            table = ui->tableWidget_SrcDataEU0;
+            table = (QTableWidget*)object;
+            table->setGridStyle(Qt::SolidLine);
         }
-        else if (object == ui->tableWidget_SrcDataEU3) {
+        else if ( event->type() == QEvent::FocusOut ) {
 
-            table = ui->tableWidget_SrcDataEU3;
-        }
-        else if (object == ui->tableWidget_SrcDataPoints) {
-
-            table = ui->tableWidget_SrcDataPoints;
-        }
-        else if (object == ui->tableWidget_FullLoadCurve) {
-
-            table = ui->tableWidget_FullLoadCurve;
+            table->setGridStyle(Qt::NoPen);
         }
     }
 
@@ -1370,7 +1367,6 @@ void MainWindow::on_action_Execute_activated() {
 
     QString message("\nCalculation completed!\n\n");
 
-    //fillParameters();
     CalculationWizard calcWizard(params);
 
     if ( !calcWizard.exec() ) {
@@ -1420,7 +1416,7 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        ui->tabWidget_Data->setCurrentIndex(0);
+        ui->tabWidget_Data->setCurrentIndex(1);
     }
     else if (params.data()->val_Task() == "emissions") {
 
@@ -1462,11 +1458,11 @@ void MainWindow::on_action_Execute_activated() {
 
             if (params.data()->val_Standard() == "FreeCalc") {
 
-                ui->tabWidget_Data->setCurrentIndex(0);
+                ui->tabWidget_Data->setCurrentIndex(1);
             }
             else {
 
-                ui->tabWidget_Data->setCurrentIndex(1);
+                ui->tabWidget_Data->setCurrentIndex(3);
 
                 QString txtfilter("*.txt");
                 QStringList reports(lastReportsDir.entryList(QDir::nameFiltersFromString(txtfilter), QDir::Files, QDir::Time));
