@@ -397,10 +397,10 @@ Page_report::Page_report(QSharedPointer<LibtoxicParameters> params, QWidget *par
         checkBox_reports->setChecked(false);
     }
 
-    checkBox_reports->setText("Create reports");
+    checkBox_reports->setText(tr("Create reports"));
 
     label_reportsNote->setWordWrap(true);
-    label_reportsNote->setText("Checkbox should be checked if you make a FreeCalc");
+    label_reportsNote->setText(tr("Checkbox should be checked if you make a FreeCalc"));
 
     registerField("reports", checkBox_reports);
 
@@ -479,7 +479,7 @@ Page_conclusion::Page_conclusion(QWidget *parent) : QWizardPage(parent) {
     label_conclusionNote = new QLabel();
 
     label_conclusionNote->setWordWrap(true);
-    label_conclusionNote->setText("Ready to calculate. Let's go!");
+    label_conclusionNote->setText(tr("Ready to calculate. Let's go!"));
 
     QVBoxLayout *layout = new QVBoxLayout();
 
