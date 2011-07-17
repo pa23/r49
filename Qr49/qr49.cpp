@@ -108,8 +108,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_SrcDataPoints->installEventFilter(this);
     ui->tableWidget_FullLoadCurve->installEventFilter(this);
 
+    ui->tableWidget_SrcDataEU0->setStyleSheet("background: rgb(232, 232, 232)");
+    ui->tableWidget_SrcDataEU3->setStyleSheet("background: rgb(232, 232, 232)");
+    ui->tableWidget_FullLoadCurve->setStyleSheet("background: rgb(232, 232, 232)");
+
     table = ui->tableWidget_SrcDataPoints;
-    table->setGridStyle(Qt::SolidLine);
+    table->setStyleSheet("background: rgb(255, 255, 255)");
 
     //
 
@@ -270,11 +274,11 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
         if ( event->type() == QEvent::FocusIn ) {
 
             table = (QTableWidget*)object;
-            table->setGridStyle(Qt::SolidLine);
+            table->setStyleSheet("background: rgb(255, 255, 255)");
         }
         else if ( event->type() == QEvent::FocusOut ) {
 
-            table->setGridStyle(Qt::NoPen);
+            table->setStyleSheet("background: rgb(232, 232, 232)");
         }
     }
 

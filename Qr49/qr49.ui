@@ -47,7 +47,7 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_10">
           <item>
-           <widget class="QGroupBox" name="groupBox">
+           <widget class="QGroupBox" name="groupBox_SrcDataEU0">
             <property name="toolTip">
              <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
             </property>
@@ -62,9 +62,6 @@
                </property>
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
-               </property>
-               <property name="gridStyle">
-                <enum>Qt::NoPen</enum>
                </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>100</number>
@@ -152,7 +149,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="groupBox_2">
+           <widget class="QGroupBox" name="groupBox_SrcDataEU3">
             <property name="toolTip">
              <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
             </property>
@@ -164,9 +161,6 @@
               <widget class="QTableWidget" name="tableWidget_SrcDataEU3">
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
-               </property>
-               <property name="gridStyle">
-                <enum>Qt::NoPen</enum>
                </property>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
@@ -315,7 +309,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="groupBox_SrcDataPoints">
               <property name="toolTip">
                <string>Specific Emissions Calculation</string>
               </property>
@@ -327,9 +321,6 @@
                 <widget class="QTableWidget" name="tableWidget_SrcDataPoints">
                  <property name="selectionMode">
                   <enum>QAbstractItemView::ContiguousSelection</enum>
-                 </property>
-                 <property name="gridStyle">
-                  <enum>Qt::NoPen</enum>
                  </property>
                  <attribute name="horizontalHeaderDefaultSectionSize">
                   <number>80</number>
@@ -520,7 +511,7 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_11">
           <item>
-           <widget class="QGroupBox" name="groupBox_4">
+           <widget class="QGroupBox" name="groupBox_FullLoadCurve">
             <property name="toolTip">
              <string>Full Load Curve</string>
             </property>
@@ -532,9 +523,6 @@
               <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
-               </property>
-               <property name="gridStyle">
-                <enum>Qt::NoPen</enum>
                </property>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
