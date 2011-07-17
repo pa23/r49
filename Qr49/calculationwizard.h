@@ -235,4 +235,6 @@ private:
 
 };
 
+void setComboIndex(QComboBox *, QString);
+
 #endif // CALCULATIONWIZARD_H

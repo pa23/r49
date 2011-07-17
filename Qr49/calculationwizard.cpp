@@ -51,14 +51,11 @@ Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent)
     label_taskNote = new QLabel();
 
     comboBox_task->addItems(QStringList() << "points" << "emissions" << "ReducedPower");
-    comboBox_task->setCurrentIndex(1);
+
+    setComboIndex(comboBox_task, params.data()->val_Task());
 
     label_taskNote->setWordWrap(true);
-    label_taskNote->setText(tr("Continue if a table filled with source data:\n"
-                               "Table #1 for cycle points calculating (OST..EU2, r96**, GOST 30574);\n"
-                               "Table #2 for cycle points calculating (EU3..EU6);\n"
-                               "Table #3 for specific emission calculating;\n"
-                               "Table #4 for reduced power calculating."));
+    label_taskNote->setText(tr("Continue if a fit table filled with source data."));
 
     registerField("task", comboBox_task);
 
@@ -127,10 +124,12 @@ Page_std::Page_std(QSharedPointer<LibtoxicParameters> params, QWidget *parent) :
                                 << "r96H5" << "r96I5" << "r96J5" << "r96K5"
                                 << "C1" << "D1" << "D2" << "E1" << "E2" << "E3" << "E5" << "F" << "G1" << "G2"
                                 << "FreeCalc");
-    comboBox_standard->setCurrentIndex(2);
+
+    setComboIndex(comboBox_standard, params.data()->val_Standard());
 
     comboBox_addPointsCalc->addItems(QStringList() << "yes" << "no");
-    comboBox_addPointsCalc->setCurrentIndex(1);
+
+    setComboIndex(comboBox_addPointsCalc, params.data()->val_AddPointsCalc());
 
     registerField("standard", comboBox_standard);
     registerField("addPointsCacl", comboBox_addPointsCalc);
@@ -152,6 +151,8 @@ Page_std::Page_std(QSharedPointer<LibtoxicParameters> params, QWidget *parent) :
 
     connect(comboBox_standard, SIGNAL(activated(QString)), this, SLOT(standardChanged(QString)));
     connect(comboBox_addPointsCalc, SIGNAL(activated(QString)), this, SLOT(addPointsCalcChanged(QString)));
+
+    standardChanged(comboBox_standard->currentText());
 }
 
 void Page_std::standardChanged(QString str) {
@@ -213,6 +214,8 @@ Page_fuelType::Page_fuelType(QSharedPointer<LibtoxicParameters> params, QWidget 
 
     comboBox_fuelType->addItems(QStringList() << "diesel" << "motor" << "mazut");
 
+    setComboIndex(comboBox_fuelType, params.data()->val_FuelType());
+
     registerField("fuelType", comboBox_fuelType);
 
     QVBoxLayout *layout = new QVBoxLayout();
@@ -249,6 +252,8 @@ Page_NOx::Page_NOx(QSharedPointer<LibtoxicParameters> params, QWidget *parent) :
     comboBox_NOxSample = new QComboBox();
 
     comboBox_NOxSample->addItems(QStringList() << "wet" << "dry");
+
+    setComboIndex(comboBox_NOxSample, params.data()->val_NOxSample());
 
     registerField("NOxSample", comboBox_NOxSample);
 
@@ -289,9 +294,10 @@ Page_PT::Page_PT(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : Q
     pushButton_enterPTmass = new QPushButton();
 
     comboBox_PTcalc->addItems(QStringList() << "ThroughSmoke" << "ThroughPTmass" << "no");
-    comboBox_PTcalc->setCurrentIndex(2);
 
-    lineEdit_PTmass->setText("0");
+    setComboIndex(comboBox_PTcalc, params.data()->val_PTcalc());
+
+    lineEdit_PTmass->setText(QString::number(params.data()->val_PTmass()));
 
     pushButton_enterPTmass->setText("...");
     pushButton_enterPTmass->setMaximumWidth(30);
@@ -382,7 +388,15 @@ Page_report::Page_report(QSharedPointer<LibtoxicParameters> params, QWidget *par
     checkBox_reports = new QCheckBox();
     label_reportsNote = new QLabel();
 
-    checkBox_reports->setChecked(true);
+    if (params.data()->val_Reports() == "yes") {
+
+        checkBox_reports->setChecked(true);
+    }
+    else {
+
+        checkBox_reports->setChecked(false);
+    }
+
     checkBox_reports->setText("Create reports");
 
     label_reportsNote->setWordWrap(true);
@@ -434,7 +448,7 @@ Page_Vh::Page_Vh(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : Q
     label_Vh = new QLabel("Capacity, l");
     lineEdit_Vh = new QLineEdit();
 
-    lineEdit_Vh->setText("0");
+    lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));
 
     registerField("Vh", lineEdit_Vh);
 
@@ -477,4 +491,15 @@ Page_conclusion::Page_conclusion(QWidget *parent) : QWizardPage(parent) {
 int Page_conclusion::nextId() const {
 
     return -1;
+}
+
+void setComboIndex(QComboBox *combobox, QString str) {
+
+    for (int i=0; i<combobox->count(); i++) {
+
+        if (combobox->itemText(i) == str) {
+
+            combobox->setCurrentIndex(i);
+        }
+    }
 }

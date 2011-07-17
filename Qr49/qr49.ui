@@ -48,11 +48,8 @@
          <layout class="QVBoxLayout" name="verticalLayout_10">
           <item>
            <widget class="QGroupBox" name="groupBox_SrcDataEU0">
-            <property name="toolTip">
-             <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
-            </property>
             <property name="title">
-             <string>Table #1</string>
+             <string>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
@@ -150,11 +147,8 @@
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_SrcDataEU3">
-            <property name="toolTip">
-             <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
-            </property>
             <property name="title">
-             <string>Table #2</string>
+             <string>EU6, EU5, EU4, EU3 Cycle Points Calculation</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
@@ -310,11 +304,8 @@
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="QGroupBox" name="groupBox_SrcDataPoints">
-              <property name="toolTip">
-               <string>Specific Emissions Calculation</string>
-              </property>
               <property name="title">
-               <string>Table #3</string>
+               <string>Specific Emissions Calculation</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_3">
                <item>
@@ -512,11 +503,8 @@
          <layout class="QVBoxLayout" name="verticalLayout_11">
           <item>
            <widget class="QGroupBox" name="groupBox_FullLoadCurve">
-            <property name="toolTip">
-             <string>Full Load Curve</string>
-            </property>
             <property name="title">
-             <string>Table #4</string>
+             <string>Full Load Curve</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
