@@ -46,7 +46,7 @@ Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent)
     setTitle(tr("Calculation"));
     setSubTitle(tr("Please select what you want to calculate"));
 
-    label_task = new QLabel("Calculation task");
+    label_task = new QLabel(tr("Calculation task"));
     comboBox_task = new QComboBox();
     label_taskNote = new QLabel();
 
@@ -55,7 +55,7 @@ Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent)
     setComboIndex(comboBox_task, params.data()->val_Task());
 
     label_taskNote->setWordWrap(true);
-    label_taskNote->setText(tr("Continue if a fit table filled with source data."));
+    label_taskNote->setText(tr("Continue if a fit table filled with source data and active."));
 
     registerField("task", comboBox_task);
 
@@ -63,7 +63,7 @@ Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent)
     QHBoxLayout *layout1 = new QHBoxLayout();
     QVBoxLayout *layout2 = new QVBoxLayout();
 
-    QGroupBox *groupBox = new QGroupBox("Note");
+    QGroupBox *groupBox = new QGroupBox(tr("Note"));
 
     layout1->addWidget(label_task);
     layout1->addWidget(comboBox_task);
@@ -110,8 +110,8 @@ Page_std::Page_std(QSharedPointer<LibtoxicParameters> params, QWidget *parent) :
     setTitle(tr("Standard and additional cycle points"));
     setSubTitle(tr("Please select a standard against which will be calculated and the need to calculate the additional points"));
 
-    label_std = new QLabel("Standard");
-    label_addPoints = new QLabel("Additional points");
+    label_std = new QLabel(tr("Standard"));
+    label_addPoints = new QLabel(tr("Additional points"));
     comboBox_standard = new QComboBox();
     comboBox_addPointsCalc = new QComboBox();
 
@@ -209,7 +209,7 @@ Page_fuelType::Page_fuelType(QSharedPointer<LibtoxicParameters> params, QWidget 
     setTitle(tr("Fuel type"));
     setSubTitle(tr("Please select the fuel type"));
 
-    label_fuelType = new QLabel("Fuel type");
+    label_fuelType = new QLabel(tr("Fuel type"));
     comboBox_fuelType = new QComboBox();
 
     comboBox_fuelType->addItems(QStringList() << "diesel" << "motor" << "mazut");
@@ -248,7 +248,7 @@ Page_NOx::Page_NOx(QSharedPointer<LibtoxicParameters> params, QWidget *parent) :
     setTitle(tr("NOx sample type"));
     setSubTitle(tr("Please select the NOx sample type"));
 
-    label_NOxSample = new QLabel("NOx sample");
+    label_NOxSample = new QLabel(tr("NOx sample"));
     comboBox_NOxSample = new QComboBox();
 
     comboBox_NOxSample->addItems(QStringList() << "wet" << "dry");
@@ -287,8 +287,8 @@ Page_PT::Page_PT(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : Q
     setTitle(tr("Particulate calculation"));
     setSubTitle(tr("Please select the particulate calculating method. If necessary, enter the mass of particles or filters"));
 
-    label_PTcalc = new QLabel("PT calculating method");
-    label_PTmass = new QLabel("PT mass, mg");
+    label_PTcalc = new QLabel(tr("PT calculating method"));
+    label_PTmass = new QLabel(tr("PT mass, mg"));
     comboBox_PTcalc = new QComboBox();
     lineEdit_PTmass = new QLineEdit();
     pushButton_enterPTmass = new QPushButton();
@@ -409,7 +409,7 @@ Page_report::Page_report(QSharedPointer<LibtoxicParameters> params, QWidget *par
 
     layout1->addWidget(label_reportsNote);
 
-    QGroupBox *groupBox_reportsNote = new QGroupBox("Note");
+    QGroupBox *groupBox_reportsNote = new QGroupBox(tr("Note"));
 
     groupBox_reportsNote->setLayout(layout1);
 
@@ -445,7 +445,7 @@ Page_Vh::Page_Vh(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : Q
     setTitle(tr("Engine capacity"));
     setSubTitle(tr("Please specify engine capacity in liters"));
 
-    label_Vh = new QLabel("Capacity, l");
+    label_Vh = new QLabel(tr("Capacity, l"));
     lineEdit_Vh = new QLineEdit();
 
     lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));

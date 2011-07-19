@@ -35,11 +35,11 @@ unix: {
     }
 }
 win32: {
-    DESTDIR = build\win\bin
+    DESTDIR = build\\win\\bin
     CONFIG (debug, debug|release) {
-        OBJECTS_DIR = build\win\debug
+        OBJECTS_DIR = build\\win\\debug
     }
     else {
-        OBJECTS_DIR = build\win\release
+        OBJECTS_DIR = build\\win\\release
     }
 }

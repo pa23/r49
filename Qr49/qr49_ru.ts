@@ -2023,6 +2023,10 @@ Maybe you did not enter all source data?</source>
         <source>Please select the NOx sample type</source>
         <translation>Пожалуйста, выберите тип пробы NOx</translation>
     </message>
+    <message>
+        <source>NOx sample</source>
+        <translation>Проба NOx</translation>
+    </message>
 </context>
 <context>
     <name>Page_PT</name>
@@ -2038,6 +2042,14 @@ Maybe you did not enter all source data?</source>
         <source>Child object not found!</source>
         <translation>Дочерний объект не найден!</translation>
     </message>
+    <message>
+        <source>PT calculating method</source>
+        <translation>Метод расчета &quot;твердых&quot; частиц</translation>
+    </message>
+    <message>
+        <source>PT mass, mg</source>
+        <translation>Масса &quot;твердых&quot; частиц, мг</translation>
+    </message>
 </context>
 <context>
     <name>Page_Vh</name>
@@ -2048,6 +2060,10 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>Please specify engine capacity in liters</source>
         <translation>Пожалуйста, укажите рабочий объем двигателя в литрах</translation>
+    </message>
+    <message>
+        <source>Capacity, l</source>
+        <translation>Рабочий объем двигателя, л</translation>
     </message>
 </context>
 <context>
@@ -2086,6 +2102,10 @@ Maybe you did not enter all source data?</source>
         <source>Checkbox should be checked if you make a FreeCalc</source>
         <translation>&quot;Галочка&quot; должна быть отмечена, если вы выбрали FreeCalc</translation>
     </message>
+    <message>
+        <source>Note</source>
+        <translation>Примечание</translation>
+    </message>
 </context>
 <context>
     <name>Page_std</name>
@@ -2096,6 +2116,14 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>Please select a standard against which will be calculated and the need to calculate the additional points</source>
         <translation>Пожалуйста, выберите стандарт, на соответствие которому будет произведен расчет и необходимость расчета дополнительных точек цикла</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Стандарт</translation>
+    </message>
+    <message>
+        <source>Additional points</source>
+        <translation>Дополнительные точки</translation>
     </message>
 </context>
 <context>
@@ -2109,8 +2137,16 @@ Maybe you did not enter all source data?</source>
         <translation>Пожалуйста, выберите что вы хотите рассчитать</translation>
     </message>
     <message>
-        <source>Continue if a fit table filled with source data.</source>
-        <translation>Продолжайте работать с мастером расчета, если соответствующая таблица заполнена исходными данными.</translation>
+        <source>Calculation task</source>
+        <translation>Рассчитать</translation>
+    </message>
+    <message>
+        <source>Continue if a fit table filled with source data and active.</source>
+        <translation>Продолжайте работу с мастером, если соответствующая таблица заполнена исходными данными и является активной.</translation>
+    </message>
+    <message>
+        <source>Note</source>
+        <translation>Примечание</translation>
     </message>
 </context>
 <context>

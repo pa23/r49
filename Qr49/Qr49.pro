@@ -58,16 +58,16 @@ unix: {
     }
 }
 win32: {
-    INCLUDEPATH += ..\libtoxic\sources ..
-    LIBS += -L..\libtoxic\build\win\bin \
+    INCLUDEPATH += ..\\libtoxic\\sources ..
+    LIBS += -L..\\libtoxic\\build\\win\\bin \
         -ltoxic5 \
         -Wl,-rpath,.
-    DESTDIR = build\win\bin
-    MOC_DIR = build\win\moc
+    DESTDIR = build\\win\\bin
+    MOC_DIR = build\\win\\moc
     CONFIG (debug, debug|release) {
-        OBJECTS_DIR = build\win\debug
+        OBJECTS_DIR = build\\win\\debug
     }
     else {
-        OBJECTS_DIR = build\win\release
+        OBJECTS_DIR = build\\win\\release
     }
 }
