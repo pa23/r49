@@ -35,18 +35,6 @@ class QCheckBox;
 class QSpacerItem;
 QT_END_NAMESPACE
 
-class CalculationWizard : public QWizard {
-
-    Q_OBJECT
-
-public:
-
-    CalculationWizard(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
-
-    enum { p_task, p_std, p_fuelType, p_NOx, p_PT, p_report, p_Vh, p_conclusion };
-
-};
-
 class Page_task : public QWizardPage {
 
     Q_OBJECT
@@ -54,6 +42,8 @@ class Page_task : public QWizardPage {
 public:
 
     Page_task(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
+
+    QComboBox *p_combo_task() const;
 
     int nextId() const;
 
@@ -236,5 +226,23 @@ private:
 };
 
 void setComboIndex(QComboBox *, QString);
+
+class CalculationWizard : public QWizard {
+
+    Q_OBJECT
+
+public:
+
+    CalculationWizard(QSharedPointer<LibtoxicParameters>, QWidget *parent = 0);
+
+    enum { p_task, p_std, p_fuelType, p_NOx, p_PT, p_report, p_Vh, p_conclusion };
+
+    QComboBox *combo_task() const;
+
+private:
+
+    Page_task *page_task;
+
+};
 
 #endif // CALCULATIONWIZARD_H

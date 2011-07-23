@@ -23,22 +23,6 @@
 
 #include "libtoxicparameters.h"
 
-CalculationWizard::CalculationWizard(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizard(parent) {
-
-    setPage(p_task, new Page_task(params));
-    setPage(p_std, new Page_std(params));
-    setPage(p_fuelType, new Page_fuelType(params));
-    setPage(p_NOx, new Page_NOx(params));
-    setPage(p_PT, new Page_PT(params));
-    setPage(p_report, new Page_report(params));
-    setPage(p_Vh, new Page_Vh(params));
-    setPage(p_conclusion, new Page_conclusion());
-
-    setStartId(p_task);
-
-    setWindowTitle(tr("Calculation Wizard"));
-}
-
 Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizardPage(parent) {
 
     calcParams = params;
@@ -83,6 +67,11 @@ Page_task::Page_task(QSharedPointer<LibtoxicParameters> params, QWidget *parent)
 void Page_task::taskChanged(QString str) {
 
     calcParams.data()->setTask(str);
+}
+
+QComboBox *Page_task::p_combo_task() const {
+
+    return comboBox_task;
 }
 
 int Page_task::nextId() const {
@@ -502,4 +491,27 @@ void setComboIndex(QComboBox *combobox, QString str) {
             combobox->setCurrentIndex(i);
         }
     }
+}
+
+CalculationWizard::CalculationWizard(QSharedPointer<LibtoxicParameters> params, QWidget *parent) : QWizard(parent) {
+
+    page_task = new Page_task(params);
+
+    setPage(p_task, page_task);
+    setPage(p_std, new Page_std(params));
+    setPage(p_fuelType, new Page_fuelType(params));
+    setPage(p_NOx, new Page_NOx(params));
+    setPage(p_PT, new Page_PT(params));
+    setPage(p_report, new Page_report(params));
+    setPage(p_Vh, new Page_Vh(params));
+    setPage(p_conclusion, new Page_conclusion());
+
+    setStartId(p_task);
+
+    setWindowTitle(tr("Calculation Wizard"));
+}
+
+QComboBox *CalculationWizard::combo_task() const {
+
+    return page_task->p_combo_task();
 }

@@ -153,6 +153,7 @@ private slots:
     void reportChanged(QString);
     void tabChanged(int);
     void tableCellChanged(int, int);
+    void taskChanged(QString);
 
 };
 

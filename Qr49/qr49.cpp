@@ -60,6 +60,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QWizardPage>
 
 MainWindow::MainWindow(QWidget *parent) :
 
@@ -1353,6 +1354,33 @@ void MainWindow::on_action_Toolbar_activated() {
 
 void MainWindow::on_action_Execute_activated() {
 
+    QString message("\nCalculation completed!\n\n");
+
+    //
+
+    CalculationWizard calcWizard(params);
+
+    QComboBox *task = calcWizard.combo_task();
+
+    if (!task) {
+
+        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+        return;
+    }
+    else {
+
+        connect(task, SIGNAL(activated(QString)), this, SLOT(taskChanged(QString)));
+    }
+
+    if ( !calcWizard.exec() ) {
+
+        return;
+    }
+
+    disconnect(task);
+
+    //
+
     QVector< QVector<double> > array_DataForCalc;
     QVector<double> row;
 
@@ -1368,15 +1396,6 @@ void MainWindow::on_action_Execute_activated() {
     }
 
     //
-
-    QString message("\nCalculation completed!\n\n");
-
-    CalculationWizard calcWizard(params);
-
-    if ( !calcWizard.exec() ) {
-
-        return;
-    }
 
     if (params.data()->val_Task() == "points") {
 
@@ -1703,6 +1722,22 @@ void MainWindow::tableCellChanged(int n, int m) {
     }
 
     saveState();
+}
+
+void MainWindow::taskChanged(QString str) {
+
+    if ( str == "emissions" ) {
+
+        table = ui->tableWidget_SrcDataPoints;
+    }
+    else if ( str == "ReducedPower" ) {
+
+        table = ui->tableWidget_FullLoadCurve;
+    }
+    else {
+
+        //
+    }
 }
 
 void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {
