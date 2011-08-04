@@ -109,12 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_SrcDataPoints->installEventFilter(this);
     ui->tableWidget_FullLoadCurve->installEventFilter(this);
 
-    ui->tableWidget_SrcDataEU0->setStyleSheet("background: rgb(232, 232, 232)");
-    ui->tableWidget_SrcDataEU3->setStyleSheet("background: rgb(232, 232, 232)");
-    ui->tableWidget_FullLoadCurve->setStyleSheet("background: rgb(232, 232, 232)");
-
     table = ui->tableWidget_SrcDataPoints;
-    table->setStyleSheet("background: rgb(255, 255, 255)");
 
     //
 
@@ -148,10 +143,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //
 
     readProgramSettings();
-
-    //
-
-    table = ui->tableWidget_SrcDataPoints;
 
     //
 
@@ -275,11 +266,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
         if ( event->type() == QEvent::FocusIn ) {
 
             table = (QTableWidget*)object;
-            table->setStyleSheet("background: rgb(255, 255, 255)");
-        }
-        else if ( event->type() == QEvent::FocusOut ) {
-
-            table->setStyleSheet("background: rgb(232, 232, 232)");
         }
     }
 
@@ -1374,6 +1360,7 @@ void MainWindow::on_action_Execute_activated() {
 
     if ( !calcWizard.exec() ) {
 
+        disconnect(task);
         return;
     }
 
@@ -1653,7 +1640,7 @@ void MainWindow::reportChanged(QString path) {
 
 void MainWindow::tabChanged(int tab) {
 
-    if (tab == 1) {
+    if (tab == 3) {
 
         ui->action_UndoTable->setEnabled(false);
         ui->action_RedoTable->setEnabled(false);

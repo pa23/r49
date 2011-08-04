@@ -1971,7 +1971,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>Source Data: Cycle Points Calculation</source>
-        <translation>Исходные данные: Расчет точек цикла</translation>
+        <translation>Исх. данные: Расчет точек цикла</translation>
     </message>
     <message>
         <source>EU2, EU1, EU0, OST, GOST, r96**, GOST 30574 Cycle Points Calculation</source>
@@ -1983,11 +1983,11 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>Source Data: Emissions Calculation</source>
-        <translation>Исходные данные: Расчет удельных выбросов</translation>
+        <translation>Исх. данные: Расчет уд. выбросов</translation>
     </message>
     <message>
         <source>Source Data: Reduced Power Calculation</source>
-        <translation>Исходные данные: Расчет приведенной мощности</translation>
+        <translation>Исх. данные: Расчет привед. мощности</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;br&gt;Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99).&lt;br&gt;&lt;br&gt;Copyright (C) 2009, 2010, 2011 Artem Petrov &lt;a href= &quot;mailto:pa2311@gmail.com&quot; &gt;pa2311@gmail.com&lt;/a&gt;&lt;br&gt;&lt;br&gt;Web site: &lt;a href= &quot;https://github.com/pa23/r49&quot;&gt;https://github.com/pa23/r49&lt;/a&gt;&lt;br&gt;&lt;br&gt;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. &lt;br&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. &lt;br&gt;You should have received a copy of the GNU General Public License along with this program. If not, see &lt;a href= &quot;http://www.gnu.org/licenses/&quot; &gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;br&gt;</source>
