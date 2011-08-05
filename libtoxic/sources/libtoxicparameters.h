@@ -35,7 +35,6 @@ public:
     void setPTcalc(QString);
     void setPTmass(double *);
     void setAddPointsCalc(QString);
-    void setReports(QString);
     void setCalcConfigFile(QString);
 
     QString val_Task() const;
@@ -46,7 +45,6 @@ public:
     QString val_PTcalc() const;
     double val_PTmass() const;
     QString val_AddPointsCalc() const;
-    QString val_Reports() const;
     QString val_CalcConfigFile() const;
 
     bool readCalcConfigFile(QString);
@@ -64,7 +62,6 @@ private:
     QString PTcalc;
     double PTmass;
     QString AddPointsCalc;
-    QString Reports;
     QString CalcConfigFile;
 
 };
