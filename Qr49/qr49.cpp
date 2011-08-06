@@ -153,10 +153,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    table = ui->tableWidget_SrcDataPoints;
-
-    //
-
     ptrdiff_t fontid = QFontDatabase::addApplicationFont("excalib.ttf");
 
     if (fontid == -1) {
@@ -287,23 +283,14 @@ void MainWindow::tableCellChangedConnect(bool b) {
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
 
-    if (event->type() == QEvent::FocusIn) {
+    if ( object == ui->tableWidget_SrcDataEU0 ||
+         object == ui->tableWidget_SrcDataEU3 ||
+         object == ui->tableWidget_SrcDataPoints ||
+         object == ui->tableWidget_FullLoadCurve ) {
 
-        if (object == ui->tableWidget_SrcDataEU0) {
+        if ( event->type() == QEvent::FocusIn ) {
 
-            table = ui->tableWidget_SrcDataEU0;
-        }
-        else if (object == ui->tableWidget_SrcDataEU3) {
-
-            table = ui->tableWidget_SrcDataEU3;
-        }
-        else if (object == ui->tableWidget_SrcDataPoints) {
-
-            table = ui->tableWidget_SrcDataPoints;
-        }
-        else if (object == ui->tableWidget_FullLoadCurve) {
-
-            table = ui->tableWidget_FullLoadCurve;
+            table = (QTableWidget*)object;
         }
     }
 
@@ -710,7 +697,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        ui->tabWidget_Data->setCurrentIndex(0);
+        ui->tabWidget_Data->setCurrentIndex(1);
 
         tableCellChangedConnect(false);
 
@@ -1004,7 +991,7 @@ void MainWindow::on_action_OpenReport_activated() {
         ui->comboBox_OpenedReports->insertItem(0, anotherReport);
         ui->comboBox_OpenedReports->setCurrentIndex(0);
         reportChanged(anotherReport);
-        ui->tabWidget_Data->setCurrentIndex(1);
+        ui->tabWidget_Data->setCurrentIndex(3);
     }
 }
 
@@ -1041,7 +1028,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
         ui->comboBox_OpenedReports->insertItem(0, newReportFileName);
         ui->comboBox_OpenedReports->setCurrentIndex(0);
         reportChanged(newReportFileName);
-        ui->tabWidget_Data->setCurrentIndex(1);
+        ui->tabWidget_Data->setCurrentIndex(3);
     }
 }
 
@@ -1053,7 +1040,7 @@ void MainWindow::on_action_CloseReport_activated() {
     }
 
     reportChanged(ui->comboBox_OpenedReports->currentText());
-    ui->tabWidget_Data->setCurrentIndex(1);
+    ui->tabWidget_Data->setCurrentIndex(3);
 }
 
 void MainWindow::on_action_ReportToPDF_activated() {
@@ -1524,7 +1511,7 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        ui->tabWidget_Data->setCurrentIndex(0);
+        ui->tabWidget_Data->setCurrentIndex(1);
     }
     else if (ui->comboBox_task->currentText() == "emissions") {
 
@@ -1566,11 +1553,11 @@ void MainWindow::on_action_Execute_activated() {
 
             if (ui->comboBox_standard->currentText() == "FreeCalc") {
 
-                ui->tabWidget_Data->setCurrentIndex(0);
+                ui->tabWidget_Data->setCurrentIndex(1);
             }
             else {
 
-                ui->tabWidget_Data->setCurrentIndex(1);
+                ui->tabWidget_Data->setCurrentIndex(3);
 
                 QString txtfilter("*.txt");
                 QStringList reports(lastReportsDir.entryList(QDir::nameFiltersFromString(txtfilter), QDir::Files, QDir::Time));
@@ -1688,19 +1675,19 @@ void MainWindow::on_action_StandardsDescription_activated() {
 void MainWindow::on_action_AboutQr49_activated() {
 
     QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + qr49version + ", libtoxic v" + libtoxicVersion +
-                  tr("<br><br>Calculation of modes and specific emissions for stationary diesel engine cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
+                  "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
                   "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
                   "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
-                  "<br><br>This program is free software: you can redistribute it and/or modify"
-                  "it under the terms of the GNU General Public License as published by"
-                  "the Free Software Foundation, either version 3 of the License, or"
-                  "(at your option) any later version."
-                  "<br>This program is distributed in the hope that it will be useful,"
-                  "but WITHOUT ANY WARRANTY; without even the implied warranty of"
-                  "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
-                  "GNU General Public License for more details."
-                  "<br>You should have received a copy of the GNU General Public License"
-                  "along with this program. If not, see <a href= \"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>");
+                  "<br><br>This program is free software: you can redistribute it and/or modify "
+                  "it under the terms of the GNU General Public License as published by "
+                  "the Free Software Foundation, either version 3 of the License, or "
+                  "(at your option) any later version. "
+                  "<br>This program is distributed in the hope that it will be useful, "
+                  "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+                  "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
+                  "GNU General Public License for more details. "
+                  "<br>You should have received a copy of the GNU General Public License "
+                  "along with this program. If not, see <a href= \"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
 
     QMessageBox::about(this, tr("About Qr49"), str);
 }
@@ -1763,8 +1750,10 @@ void MainWindow::taskChanged(QString str) {
 
         ui->checkBox_reports->setEnabled(false);
 
-        ui->tab_Reports->setEnabled(false);
-        ui->tab_RedPower->setEnabled(false);
+        ui->tab_cycPointsCalc->setEnabled(true);
+        ui->tab_cycEmissCalc->setEnabled(false);
+        ui->tab_redPowerCalc->setEnabled(false);
+        ui->tab_reports->setEnabled(false);
 
         if (ui->comboBox_standard->currentText() == "FreeCalc") {
 
@@ -1786,11 +1775,13 @@ void MainWindow::taskChanged(QString str) {
         }
 
         ui->tableWidget_SrcDataPoints->setEnabled(false);
+        ui->tableWidget_FullLoadCurve->setEnabled(false);
 
         ui->action_OpenReport->setEnabled(false);
         ui->action_SaveReportAs->setEnabled(false);
         ui->action_CloseReport->setEnabled(false);
         ui->action_PrintReport->setEnabled(false);
+        ui->action_ReportToPDF->setEnabled(false);
         ui->action_AddRow->setEnabled(false);
         ui->action_DeleteRow->setEnabled(false);
 
@@ -1831,22 +1822,25 @@ void MainWindow::taskChanged(QString str) {
 
         ui->checkBox_reports->setEnabled(true);
 
-        ui->tab_Reports->setEnabled(true);
-        ui->tab_RedPower->setEnabled(false);
+        ui->tab_cycPointsCalc->setEnabled(false);
+        ui->tab_cycEmissCalc->setEnabled(true);
+        ui->tab_redPowerCalc->setEnabled(false);
+        ui->tab_reports->setEnabled(true);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
-
         ui->tableWidget_SrcDataPoints->setEnabled(true); ui->tableWidget_SrcDataPoints->setFocus(); getUndoRedoCounters(table);
+        ui->tableWidget_FullLoadCurve->setEnabled(false);
 
         ui->action_OpenReport->setEnabled(true);
         ui->action_SaveReportAs->setEnabled(true);
         ui->action_CloseReport->setEnabled(true);
         ui->action_PrintReport->setEnabled(true);
+        ui->action_ReportToPDF->setEnabled(true);
         ui->action_AddRow->setEnabled(true);
         ui->action_DeleteRow->setEnabled(true);
 
-        ui->tabWidget_Data->setCurrentIndex(0);
+        ui->tabWidget_Data->setCurrentIndex(1);
     }
     else if (str == "ReducedPower") {
 
@@ -1861,32 +1855,29 @@ void MainWindow::taskChanged(QString str) {
 
         ui->checkBox_reports->setEnabled(false);
 
-        ui->tab_Reports->setEnabled(true);
-        ui->tab_RedPower->setEnabled(true); ui->tableWidget_FullLoadCurve->setFocus(); getUndoRedoCounters(table);
+        ui->tab_cycPointsCalc->setEnabled(false);
+        ui->tab_cycEmissCalc->setEnabled(false);
+        ui->tab_redPowerCalc->setEnabled(true);
+        ui->tab_reports->setEnabled(false);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
-
         ui->tableWidget_SrcDataPoints->setEnabled(false);
+        ui->tableWidget_FullLoadCurve->setEnabled(true); ui->tableWidget_FullLoadCurve->setFocus(); getUndoRedoCounters(table);
 
-        ui->action_OpenReport->setEnabled(true);
-        ui->action_SaveReportAs->setEnabled(true);
-        ui->action_CloseReport->setEnabled(true);
-        ui->action_PrintReport->setEnabled(true);
-        ui->action_AddRow->setEnabled(true);
-        ui->action_DeleteRow->setEnabled(true);
+        ui->action_OpenReport->setEnabled(false);
+        ui->action_SaveReportAs->setEnabled(false);
+        ui->action_CloseReport->setEnabled(false);
+        ui->action_PrintReport->setEnabled(false);
+        ui->action_ReportToPDF->setEnabled(false);
+        ui->action_AddRow->setEnabled(false);
+        ui->action_DeleteRow->setEnabled(false);
 
         ui->tabWidget_Data->setCurrentIndex(2);
     }
 }
 
 void MainWindow::standardChanged(QString str) {
-
-    if (ui->comboBox_task->currentText() == "ReducedPower") {
-
-        ui->comboBox_AddPointsCalc->setEnabled(false);
-        return;
-    }
 
     if ( (str == "EU6") || (str == "EU5") || (str == "EU4") || (str == "EU3") ) {
 
@@ -1903,6 +1894,13 @@ void MainWindow::standardChanged(QString str) {
               (str == "F") || (str == "G1") || (str == "G2") ) {
 
         ui->comboBox_FuelType->setEnabled(true);
+        ui->comboBox_AddPointsCalc->setEnabled(false);
+
+        if (ui->comboBox_task->currentText() == "points") {
+
+            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU3->setEnabled(false);
+        }
     }
     else {
 
@@ -1919,7 +1917,7 @@ void MainWindow::standardChanged(QString str) {
 
 void MainWindow::PTcalcChanged(QString str) {
 
-    if ( (str == "ThroughSmoke") || (str == "no") || (ui->comboBox_task->currentText() != "emissions") ) {
+    if ( (str == "ThroughSmoke") || (str == "no") ) {
 
         ui->lineEdit_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
@@ -1954,7 +1952,7 @@ void MainWindow::reportChanged(QString path) {
 
 void MainWindow::tabChanged(int tab) {
 
-    if (tab == 1) {
+    if (tab == 3) {
 
         ui->action_UndoTable->setEnabled(false);
         ui->action_RedoTable->setEnabled(false);
@@ -1970,16 +1968,20 @@ void MainWindow::tabChanged(int tab) {
     }
     else {
 
-        if (tab == 0) {
+        if ( tab == 0 ) {
+
+            ui->comboBox_task->setCurrentIndex(0);
+        }
+        else if ( tab == 1 ) {
 
             ui->comboBox_task->setCurrentIndex(1);
-            taskChanged(ui->comboBox_task->currentText());
         }
-        else if (tab == 2) {
+        else if ( tab == 2 ) {
 
             ui->comboBox_task->setCurrentIndex(2);
-            taskChanged(ui->comboBox_task->currentText());
         }
+
+        taskChanged(ui->comboBox_task->currentText());
 
         if (undoCount == 0) {
 
