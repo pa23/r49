@@ -252,9 +252,6 @@ int main(int argc, char **argv) {
         if (!ParsingParameters(params, argc, argv)) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-            cout << "Press Enter to exit...";
-            cin.get();
-
             return false;
         }
 
@@ -276,25 +273,16 @@ int main(int argc, char **argv) {
             if (!myPoints.data()->readCSV(data)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             if (!myPoints.data()->fillArrays()) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             myPoints.data()->createReport();
-
-            cout << "Press Enter to exit...";
-            cin.get();
         }
         else if (currtask == TASK_EMISSIONS) {
 
@@ -303,25 +291,16 @@ int main(int argc, char **argv) {
             if (!myEmissions.data()->readCSV(data)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             if (!myEmissions.data()->calculate()) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             myEmissions.data()->createReports(true);
-
-            cout << "Press Enter to exit...";
-            cin.get();
         }
         else if (currtask == TASK_REDUCEDPOWER) {
 
@@ -330,25 +309,16 @@ int main(int argc, char **argv) {
             if (!myReducedPower.data()->readCSV(data)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             if (!myReducedPower.data()->reducePower()) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get();
-
                 return false;
             }
 
             myReducedPower.data()->createReports();
-
-            cout << "Press Enter to exit...";
-            cin.get();
         }
         else if (currtask == TASK_ABCSPEEDS) {
 
@@ -361,9 +331,6 @@ int main(int argc, char **argv) {
             if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get(); cin.get();
-
                 return false;
             }
 
@@ -374,9 +341,6 @@ int main(int argc, char **argv) {
             cout << "\na2   = " << a2;
             cout << "\na3   = " << a3;
             cout << "\nnref = " << n_ref << "\n\n";
-
-            cout << "Press Enter to exit...";
-            cin.get(); cin.get();
         }
         else if (currtask == TASK_ELRSMOKE) {
 
@@ -404,24 +368,15 @@ int main(int argc, char **argv) {
                          &smokeELR)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get(); cin.get();
-
                 return false;
             }
 
             cout << "\nELR smoke = " << smokeELR << "\n\n";
-
-            cout << "Press Enter to exit...";
-            cin.get(); cin.get();
         }
         else if (currtask == TASK_HELP) {
 
             ShowAbout();
             ShowHelp();
-
-            cout << "Press Enter to exit...";
-            cin.get();
         }
         else {
 

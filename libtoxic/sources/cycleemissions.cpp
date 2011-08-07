@@ -1427,7 +1427,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     QString dirnameReports = config.data()->val_dirnameReports();
     string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
 
-    fullReportsPath = dirnameReports + "/" + std + "_" + QString::fromStdString(mytime);
+    fullReportsPath = dirnameReports + "/" + params.data()->defStandardName(std) + "_" + QString::fromStdString(mytime);
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 
