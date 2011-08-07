@@ -25,6 +25,7 @@ bool replaceInString(std::string*, std::string*, std::string*);
 bool splitString(std::string*, std::vector<std::string>&, std::string);
 std::string numberToString(ptrdiff_t);
 std::string numberToString(double);
+const char* numberToCChar(ptrdiff_t);
 double stringToDouble(std::string);
 
 #endif	/* STRINGOPERATIONS_H */

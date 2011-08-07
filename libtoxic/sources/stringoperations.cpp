@@ -68,6 +68,11 @@ string numberToString(double x) {
     return stm.str();
 }
 
+const char* numberToCChar(ptrdiff_t num) {
+
+    return numberToString(num).c_str();
+}
+
 double stringToDouble(string str) {
 
     istringstream stm;

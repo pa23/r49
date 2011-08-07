@@ -1695,164 +1695,12 @@ p, li { white-space: pre-wrap; }
 [кВт]</translation>
     </message>
     <message>
-        <source>points</source>
-        <translation>points</translation>
-    </message>
-    <message>
-        <source>emissions</source>
-        <translation>emissions</translation>
-    </message>
-    <message>
-        <source>ReducedPower</source>
-        <translation>ReducedPower</translation>
-    </message>
-    <message>
         <source>0</source>
         <translation>0</translation>
     </message>
     <message>
-        <source>EU6</source>
-        <translation>EU6</translation>
-    </message>
-    <message>
-        <source>EU5</source>
-        <translation>EU5</translation>
-    </message>
-    <message>
-        <source>EU4</source>
-        <translation>EU4</translation>
-    </message>
-    <message>
-        <source>EU3</source>
-        <translation>EU3</translation>
-    </message>
-    <message>
-        <source>EU2</source>
-        <translation>EU2</translation>
-    </message>
-    <message>
-        <source>EU1</source>
-        <translation>EU1</translation>
-    </message>
-    <message>
-        <source>EU0</source>
-        <translation>EU0</translation>
-    </message>
-    <message>
-        <source>OST</source>
-        <translation>OST</translation>
-    </message>
-    <message>
-        <source>r96E8</source>
-        <translation>r96E8</translation>
-    </message>
-    <message>
-        <source>r96F8</source>
-        <translation>r96F8</translation>
-    </message>
-    <message>
-        <source>r96G8</source>
-        <translation>r96G8</translation>
-    </message>
-    <message>
-        <source>r96D8</source>
-        <translation>r96D8</translation>
-    </message>
-    <message>
-        <source>r96E5</source>
-        <translation>r96E5</translation>
-    </message>
-    <message>
-        <source>r96F5</source>
-        <translation>r96F5</translation>
-    </message>
-    <message>
-        <source>r96G5</source>
-        <translation>r96G5</translation>
-    </message>
-    <message>
-        <source>r96D5</source>
-        <translation>r96D5</translation>
-    </message>
-    <message>
-        <source>r96H8</source>
-        <translation>r96H8</translation>
-    </message>
-    <message>
-        <source>r96I8</source>
-        <translation>r96I8</translation>
-    </message>
-    <message>
-        <source>r96J8</source>
-        <translation>r96J8</translation>
-    </message>
-    <message>
-        <source>r96K8</source>
-        <translation>r96K8</translation>
-    </message>
-    <message>
-        <source>r96H5</source>
-        <translation>r96H5</translation>
-    </message>
-    <message>
-        <source>r96I5</source>
-        <translation>r96I5</translation>
-    </message>
-    <message>
-        <source>r96J5</source>
-        <translation>r96J5</translation>
-    </message>
-    <message>
-        <source>r96K5</source>
-        <translation>r96K5</translation>
-    </message>
-    <message>
-        <source>F</source>
-        <translation>F</translation>
-    </message>
-    <message>
-        <source>FreeCalc</source>
-        <translation>FreeCalc</translation>
-    </message>
-    <message>
-        <source>wet</source>
-        <translation>wet</translation>
-    </message>
-    <message>
-        <source>dry</source>
-        <translation>dry</translation>
-    </message>
-    <message>
-        <source>yes</source>
-        <translation>yes</translation>
-    </message>
-    <message>
-        <source>no</source>
-        <translation>no</translation>
-    </message>
-    <message>
-        <source>ThroughSmoke</source>
-        <translation>ThroughSmoke</translation>
-    </message>
-    <message>
-        <source>ThroughPTmass</source>
-        <translation>ThroughPTmass</translation>
-    </message>
-    <message>
         <source>...</source>
         <translation>...</translation>
-    </message>
-    <message>
-        <source>diesel</source>
-        <translation>diesel</translation>
-    </message>
-    <message>
-        <source>motor</source>
-        <translation>motor</translation>
-    </message>
-    <message>
-        <source>mazut</source>
-        <translation>mazut</translation>
     </message>
     <message>
         <source>Export</source>
@@ -1919,50 +1767,10 @@ p, li { white-space: pre-wrap; }
         <translation>Правка</translation>
     </message>
     <message>
-        <source>C1</source>
-        <translation>C1</translation>
-    </message>
-    <message>
-        <source>D1</source>
-        <translation>D1</translation>
-    </message>
-    <message>
-        <source>D2</source>
-        <translation>D2</translation>
-    </message>
-    <message>
-        <source>E1</source>
-        <translation>E1</translation>
-    </message>
-    <message>
-        <source>E2</source>
-        <translation>E2</translation>
-    </message>
-    <message>
-        <source>E3</source>
-        <translation>E3</translation>
-    </message>
-    <message>
-        <source>E5</source>
-        <translation>E5</translation>
-    </message>
-    <message>
-        <source>G1</source>
-        <translation>G1</translation>
-    </message>
-    <message>
-        <source>G2</source>
-        <translation>G2</translation>
-    </message>
-    <message>
         <source>Ne_rated
 [kW]</source>
         <translation>Ne_rated
 [кВт]</translation>
-    </message>
-    <message>
-        <source>GOST</source>
-        <translation>GOST</translation>
     </message>
     <message>
         <source>Standards Description</source>
@@ -2065,18 +1873,6 @@ p, li { white-space: pre-wrap; }
 [-]</translation>
     </message>
     <message>
-        <source>Calculation task:
-
-points - Cycle Points
-emissions - Cycle Specific Emissions
-ReducedPower - Reduced Power</source>
-        <translation>Рассчитать:
-
-points - Точки цикла
-emissions - Удельные выбросы
-ReducedPower - Приведенную мощность</translation>
-    </message>
-    <message>
         <source>Capacity, litres</source>
         <translation>Рабочий объем двигателя, л</translation>
     </message>
@@ -2085,56 +1881,12 @@ ReducedPower - Приведенную мощность</translation>
         <translation>Стандарт</translation>
     </message>
     <message>
-        <source>Fuel type:
-
-diesel
-motor
-mazut</source>
-        <translation>Тип топлива:
-
-diesel - Дизельное
-motor - Моторное
-mazut - Мазут</translation>
-    </message>
-    <message>
-        <source>NOx sample type:
-
-wet - Wet Sample
-dry - Dry Sample</source>
-        <translation>Тип пробы NOx:
-
-wet - Влажная
-dry - Сухая</translation>
-    </message>
-    <message>
-        <source>gPT calculation method:
-
-ThroughSmoke - Through Smoke
-ThroughPTmass - Through PT mass
-no - Don&apos;t Calculate PT</source>
-        <translation>Метод расчета gPT:
-
-ThroughSmoke - Через дымность ОГ
-ThroughPTmass - Через массу ТЧ на фильтрах
-no - Не рассчитывать gPT</translation>
-    </message>
-    <message>
         <source>PT mass, mg</source>
         <translation>Масса ТЧ, мг</translation>
     </message>
     <message>
         <source>PT filter masses</source>
         <translation>Массы фильтров ТЧ</translation>
-    </message>
-    <message>
-        <source>Additional points calculation:
-
-yes
-no</source>
-        <translation>Расчет дополнительных точек:
-
-yes - Да
-no - Нет</translation>
     </message>
     <message>
         <source>View</source>
@@ -2281,6 +2033,230 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>Common Parameters...</source>
         <translation>Общие параметры...</translation>
+    </message>
+    <message>
+        <source>Calculation task</source>
+        <translation>Задание на расчет</translation>
+    </message>
+    <message>
+        <source>Cycle points</source>
+        <translation>Точки цикла</translation>
+    </message>
+    <message>
+        <source>Cycle emissions</source>
+        <translation>Удельные выбросы</translation>
+    </message>
+    <message>
+        <source>Reduced power</source>
+        <translation>Приведенная мощность</translation>
+    </message>
+    <message>
+        <source>A, B, C speeds</source>
+        <translation>Обороты A, B, C</translation>
+    </message>
+    <message>
+        <source>Command line help</source>
+        <translation>Справка по командной строке</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-6</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-6</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-5</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-5</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-4</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-4</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-3</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-3</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-2</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-2</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-1</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-1</translation>
+    </message>
+    <message>
+        <source>UNECE R49 Euro-0</source>
+        <translation>Пр. ЕЭК ООН No49 Евро-0</translation>
+    </message>
+    <message>
+        <source>RUSSIA OST 37.001.234-81</source>
+        <translation>ОСТ 37.001.234-81</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST 17.2.2.05-97</source>
+        <translation>ГОСТ 17.2.2.05-97</translation>
+    </message>
+    <message>
+        <source>UNECE R96 E8</source>
+        <translation>Правила ЕЭК ООН No96 E8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 F8</source>
+        <translation>Правила ЕЭК ООН No96 F8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 G8</source>
+        <translation>Правила ЕЭК ООН No96 G8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 D8</source>
+        <translation>Правила ЕЭК ООН No96 D8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 E5</source>
+        <translation>Правила ЕЭК ООН No96 E5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 F5</source>
+        <translation>Правила ЕЭК ООН No96 F5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 G5</source>
+        <translation>Правила ЕЭК ООН No96 G5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 D5</source>
+        <translation>Правила ЕЭК ООН No96 D5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 H8</source>
+        <translation>Правила ЕЭК ООН No96 H8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 I8</source>
+        <translation>Правила ЕЭК ООН No96 I8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 J8</source>
+        <translation>Правила ЕЭК ООН No96 J8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 K8</source>
+        <translation>Правила ЕЭК ООН No96 K8</translation>
+    </message>
+    <message>
+        <source>UNECE R96 H5</source>
+        <translation>Правила ЕЭК ООН No96 H5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 I5</source>
+        <translation>Правила ЕЭК ООН No96 I5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 J5</source>
+        <translation>Правила ЕЭК ООН No96 J5</translation>
+    </message>
+    <message>
+        <source>UNECE R96 K5</source>
+        <translation>Правила ЕЭК ООН No96 K5</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 C1</source>
+        <translation>ГОСТ Р 51249-99 C1</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 D1</source>
+        <translation>ГОСТ Р 51249-99 D1</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 D2</source>
+        <translation>ГОСТ Р 51249-99 D2</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 E1</source>
+        <translation>ГОСТ Р 51249-99 E1</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 E2</source>
+        <translation>ГОСТ Р 51249-99 E2</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 E3</source>
+        <translation>ГОСТ Р 51249-99 E3</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 E5</source>
+        <translation>ГОСТ Р 51249-99 E5</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 F</source>
+        <translation>ГОСТ Р 51249-99 F</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 G1</source>
+        <translation>ГОСТ Р 51249-99 G1</translation>
+    </message>
+    <message>
+        <source>RUSSIA GOST R 51249-99 G2</source>
+        <translation>ГОСТ Р 51249-99 G2</translation>
+    </message>
+    <message>
+        <source>Free Calculation (no standard)</source>
+        <translation>Свободный расчет (без стандартов)</translation>
+    </message>
+    <message>
+        <source>Fuel type</source>
+        <translation>Тип топлива</translation>
+    </message>
+    <message>
+        <source>Diesel</source>
+        <translation>Дизельное</translation>
+    </message>
+    <message>
+        <source>Motor</source>
+        <translation>Моторное</translation>
+    </message>
+    <message>
+        <source>Mazut</source>
+        <translation>Мазут</translation>
+    </message>
+    <message>
+        <source>NOx sample type</source>
+        <translation>Тип пробы NOx</translation>
+    </message>
+    <message>
+        <source>Wet</source>
+        <translation>Влажная</translation>
+    </message>
+    <message>
+        <source>Dry</source>
+        <translation>Сухая</translation>
+    </message>
+    <message>
+        <source>gPT calculation method</source>
+        <translation>Метод расчета gPT</translation>
+    </message>
+    <message>
+        <source>Through smoke values</source>
+        <translation>Через значения дымности</translation>
+    </message>
+    <message>
+        <source>Through PT mass</source>
+        <translation>Через массу PT</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <source>Additional points calculation</source>
+        <translation>Расчет дополнительных точек</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Да</translation>
+    </message>
+    <message>
+        <source>See the output of the command line by running the Qr49 with parameter task=help.</source>
+        <translation>См. вывод программы в командной строке, запустив Qr49 с параметром task=help.</translation>
     </message>
 </context>
 <context>

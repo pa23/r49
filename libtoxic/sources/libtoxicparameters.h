@@ -20,6 +20,8 @@
 
 #include <QString>
 
+#include "libtoxicconstants.h"
+
 class LibtoxicParameters {
 
 public:
@@ -27,42 +29,53 @@ public:
     explicit LibtoxicParameters();
     virtual ~LibtoxicParameters();
 
-    void setTask(QString);
+    void setTask(ptrdiff_t);          void setTask(QString);
     void setVh(double *);
-    void setStandard(QString);
-    void setFuelType(QString);
-    void setNOxSample(QString);
-    void setPTcalc(QString);
+    void setStandard(ptrdiff_t);      void setStandard(QString);
+    void setFuelType(ptrdiff_t);      void setFuelType(QString);
+    void setNOxSample(ptrdiff_t);     void setNOxSample(QString);
+    void setPTcalc(ptrdiff_t);        void setPTcalc(QString);
     void setPTmass(double *);
-    void setAddPointsCalc(QString);
+    void setAddPointsCalc(ptrdiff_t); void setAddPointsCalc(QString);
     void setCalcConfigFile(QString);
 
-    QString val_Task() const;
-    double val_Vh() const;
-    QString val_Standard() const;
-    QString val_FuelType() const;
-    QString val_NOxSample() const;
-    QString val_PTcalc() const;
-    double val_PTmass() const;
-    QString val_AddPointsCalc() const;
-    QString val_CalcConfigFile() const;
+    ptrdiff_t val_Task()           const;
+    double    val_Vh()             const;
+    ptrdiff_t val_Standard()       const;
+    ptrdiff_t val_FuelType()       const;
+    ptrdiff_t val_NOxSample()      const;
+    ptrdiff_t val_PTcalc()         const;
+    double    val_PTmass()         const;
+    ptrdiff_t val_AddPointsCalc()  const;
+    QString   val_CalcConfigFile() const;
 
     bool readCalcConfigFile(QString);
+
+    QString defStandardName(ptrdiff_t) const;
 
 private:
 
     LibtoxicParameters(const LibtoxicParameters &orig);
     LibtoxicParameters &operator =(const LibtoxicParameters &);
 
-    QString task;
-    double Vh;
-    QString standard;
-    QString FuelType;
-    QString NOxSample;
-    QString PTcalc;
-    double PTmass;
-    QString AddPointsCalc;
-    QString CalcConfigFile;
+    ptrdiff_t task;
+    double    Vh;
+    ptrdiff_t standard;
+    ptrdiff_t FuelType;
+    ptrdiff_t NOxSample;
+    ptrdiff_t PTcalc;
+    double    PTmass;
+    ptrdiff_t AddPointsCalc;
+    QString   CalcConfigFile;
+
+    //
+
+    ptrdiff_t defTask         (QString) const;
+    ptrdiff_t defStandard     (QString) const;
+    ptrdiff_t defFuelType     (QString) const;
+    ptrdiff_t defNOxSample    (QString) const;
+    ptrdiff_t defPTcalc       (QString) const;
+    ptrdiff_t defAddPointsCalc(QString) const;
 
 };
 

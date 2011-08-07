@@ -86,26 +86,26 @@ bool CommonParameters::readConfigFile(QString configFileName) {
 
             elements = s.split(parameterValueDelimiter, QString::SkipEmptyParts);
 
-            if      (elements[0] == "csvdelimiter")      { csvDelimiter      = elements[1]; }
-            else if (elements[0] == "filenameSourceEU3") { filenameSourceEU3 = elements[1]; }
-            else if (elements[0] == "filenameSourceEU0") { filenameSourceEU0 = elements[1]; }
-            else if (elements[0] == "filenamePoints")    { filenamePoints    = elements[1]; }
-            else if (elements[0] == "filenamePowers")    { filenamePowers    = elements[1]; }
-            else if (elements[0] == "dirnameReports")    { dirnameReports    = elements[1]; }
-            else if (elements[0] == "Dn")                { Dn                = (elements[1]).toDouble(); }
-            else if (elements[0] == "ConcO2air")         { ConcO2air         = (elements[1]).toDouble(); }
-            else if (elements[0] == "Rr")                { Rr                = (elements[1]).toDouble(); }
-            else if (elements[0] == "L0")                { L0                = (elements[1]).toDouble(); }
-            else if (elements[0] == "L")                 { L                 = (elements[1]).toDouble(); }
-            else if (elements[0] == "ConcCO2air")        { ConcCO2air        = (elements[1]).toDouble(); }
-            else if (elements[0] == "WH")                { WH                = (elements[1]).toDouble(); }
-            else if (elements[0] == "WO2")               { WO2               = (elements[1]).toDouble(); }
-            else if (elements[0] == "WN")                { WN                = (elements[1]).toDouble(); }
-            else if (elements[0] == "roAir")             { roAir             = (elements[1]).toDouble(); }
-            else if (elements[0] == "muNO2")             { muNO2             = (elements[1]).toDouble(); }
-            else if (elements[0] == "muCO")              { muCO              = (elements[1]).toDouble(); }
-            else if (elements[0] == "muCH")              { muCH              = (elements[1]).toDouble(); }
-            else                                         {
+            if      ( elements[0] == "csvdelimiter"      ) { csvDelimiter      = elements[1]; }
+            else if ( elements[0] == "filenameSourceEU3" ) { filenameSourceEU3 = elements[1]; }
+            else if ( elements[0] == "filenameSourceEU0" ) { filenameSourceEU0 = elements[1]; }
+            else if ( elements[0] == "filenamePoints"    ) { filenamePoints    = elements[1]; }
+            else if ( elements[0] == "filenamePowers"    ) { filenamePowers    = elements[1]; }
+            else if ( elements[0] == "dirnameReports"    ) { dirnameReports    = elements[1]; }
+            else if ( elements[0] == "Dn"                ) { Dn                = (elements[1]).toDouble(); }
+            else if ( elements[0] == "ConcO2air"         ) { ConcO2air         = (elements[1]).toDouble(); }
+            else if ( elements[0] == "Rr"                ) { Rr                = (elements[1]).toDouble(); }
+            else if ( elements[0] == "L0"                ) { L0                = (elements[1]).toDouble(); }
+            else if ( elements[0] == "L"                 ) { L                 = (elements[1]).toDouble(); }
+            else if ( elements[0] == "ConcCO2air"        ) { ConcCO2air        = (elements[1]).toDouble(); }
+            else if ( elements[0] == "WH"                ) { WH                = (elements[1]).toDouble(); }
+            else if ( elements[0] == "WO2"               ) { WO2               = (elements[1]).toDouble(); }
+            else if ( elements[0] == "WN"                ) { WN                = (elements[1]).toDouble(); }
+            else if ( elements[0] == "roAir"             ) { roAir             = (elements[1]).toDouble(); }
+            else if ( elements[0] == "muNO2"             ) { muNO2             = (elements[1]).toDouble(); }
+            else if ( elements[0] == "muCO"              ) { muCO              = (elements[1]).toDouble(); }
+            else if ( elements[0] == "muCH"              ) { muCH              = (elements[1]).toDouble(); }
+            else {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Unknown parameter" << elements[0] << "!";
             }

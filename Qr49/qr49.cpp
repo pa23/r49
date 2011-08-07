@@ -37,6 +37,7 @@
 #include "cycleemissions.h"
 #include "reducedpower.h"
 #include "commonparameters.h"
+#include "stringoperations.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -95,9 +96,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    connect(ui->comboBox_task, SIGNAL(activated(QString)), this, SLOT(taskChanged(QString)));
-    connect(ui->comboBox_standard, SIGNAL(activated(QString)), this, SLOT(standardChanged(QString)));
-    connect(ui->comboBox_PTcalc, SIGNAL(activated(QString)), this, SLOT(PTcalcChanged(QString)));
+    connect(ui->comboBox_task, SIGNAL(activated(int)), this, SLOT(taskChanged(int)));
+    connect(ui->comboBox_standard, SIGNAL(activated(int)), this, SLOT(standardChanged(int)));
+    connect(ui->comboBox_PTcalc, SIGNAL(activated(int)), this, SLOT(PTcalcChanged(int)));
     connect(ui->comboBox_OpenedReports, SIGNAL(activated(QString)), this, SLOT(reportChanged(QString)));
     connect(ui->tabWidget_Data, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
@@ -147,9 +148,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readProgramSettings();
 
-    taskChanged(ui->comboBox_task->currentText());
-    standardChanged(ui->comboBox_standard->currentText());
-    PTcalcChanged(ui->comboBox_PTcalc->currentText());
+    taskChanged(ui->comboBox_task->currentIndex());
+    standardChanged(ui->comboBox_standard->currentIndex());
+    PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
 
     //
 
@@ -518,14 +519,14 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
 bool MainWindow::fillParameters() {
 
-    params.data()->setTask(ui->comboBox_task->currentText());
+    params.data()->setTask(ui->comboBox_task->currentIndex());
     double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(&Vh);
-    params.data()->setStandard(ui->comboBox_standard->currentText());
-    params.data()->setFuelType(ui->comboBox_FuelType->currentText());
-    params.data()->setNOxSample(ui->comboBox_NOxSample->currentText());
-    params.data()->setPTcalc(ui->comboBox_PTcalc->currentText());
+    params.data()->setStandard(ui->comboBox_standard->currentIndex());
+    params.data()->setFuelType(ui->comboBox_FuelType->currentIndex());
+    params.data()->setNOxSample(ui->comboBox_NOxSample->currentIndex());
+    params.data()->setPTcalc(ui->comboBox_PTcalc->currentIndex());
     double PTMass = ui->lineEdit_PTmass->text().toDouble(); params.data()->setPTmass(&PTMass);
-    params.data()->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentText());
+    params.data()->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
 }
@@ -912,30 +913,18 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
         params.data()->readCalcConfigFile(anotherOptions);
 
-        setComboIndex(ui->comboBox_task, params.data()->val_Task());
+        ui->comboBox_task->setCurrentIndex(params.data()->val_Task());
         ui->lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));
-        setComboIndex(ui->comboBox_standard, params.data()->val_Standard());
-        setComboIndex(ui->comboBox_FuelType, params.data()->val_FuelType());
-        setComboIndex(ui->comboBox_NOxSample, params.data()->val_NOxSample());
-        setComboIndex(ui->comboBox_PTcalc, params.data()->val_PTcalc());
+        ui->comboBox_standard->setCurrentIndex(params.data()->val_Standard());
+        ui->comboBox_FuelType->setCurrentIndex(params.data()->val_FuelType());
+        ui->comboBox_NOxSample->setCurrentIndex(params.data()->val_NOxSample());
+        ui->comboBox_PTcalc->setCurrentIndex(params.data()->val_PTcalc());
         ui->lineEdit_PTmass->setText(QString::number(params.data()->val_PTmass()));
-        setComboIndex(ui->comboBox_AddPointsCalc, params.data()->val_AddPointsCalc());
+        ui->comboBox_AddPointsCalc->setCurrentIndex(params.data()->val_AddPointsCalc());
 
-        taskChanged(ui->comboBox_task->currentText());
-        standardChanged(ui->comboBox_standard->currentText());
-        PTcalcChanged(ui->comboBox_PTcalc->currentText());
-    }
-}
-
-void MainWindow::setComboIndex(QComboBox *combo, QString str) {
-
-    for (ptrdiff_t i=0; i<combo->count(); i++) {
-
-        if (str == combo->itemText(i)) {
-
-            combo->setCurrentIndex(i);
-            break;
-        }
+        taskChanged(ui->comboBox_task->currentIndex());
+        standardChanged(ui->comboBox_standard->currentIndex());
+        PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
     }
 }
 
@@ -960,15 +949,15 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
             return;
         }
 
-        savedOptions.write("task");           savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_task->currentText().toAscii());          savedOptions.write("\n");
-        savedOptions.write("Vh");             savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_Vh->text().toAscii());                   savedOptions.write("\n");
-        savedOptions.write("standard");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_standard->currentText().toAscii());      savedOptions.write("\n");
-        savedOptions.write("FuelType");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_FuelType->currentText().toAscii());      savedOptions.write("\n");
-        savedOptions.write("NOxSample");      savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_NOxSample->currentText().toAscii());     savedOptions.write("\n");
-        savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_PTcalc->currentText().toAscii());        savedOptions.write("\n");
-        savedOptions.write("PTmass");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_PTmass->text().toAscii());               savedOptions.write("\n");
-        savedOptions.write("AddPointsCalc");  savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->comboBox_AddPointsCalc->currentText().toAscii()); savedOptions.write("\n");
-        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params.data()->val_CalcConfigFile().toAscii());               savedOptions.write("\n");
+        savedOptions.write("task");           savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_task->currentIndex()));             savedOptions.write("\n");
+        savedOptions.write("Vh");             savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_Vh->text().toAscii());             savedOptions.write("\n");
+        savedOptions.write("standard");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_standard->currentIndex()));         savedOptions.write("\n");
+        savedOptions.write("FuelType");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_FuelType->currentIndex()));         savedOptions.write("\n");
+        savedOptions.write("NOxSample");      savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_NOxSample->currentIndex()));        savedOptions.write("\n");
+        savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_PTcalc->currentIndex()));           savedOptions.write("\n");
+        savedOptions.write("PTmass");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_PTmass->text().toAscii());         savedOptions.write("\n");
+        savedOptions.write("AddPointsCalc");  savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_AddPointsCalc->currentIndex()));    savedOptions.write("\n");
+        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params.data()->val_CalcConfigFile().toAscii()); savedOptions.write("\n");
 
         savedOptions.close();
     }
@@ -1469,7 +1458,7 @@ void MainWindow::on_action_Execute_activated() {
 
     fillParameters();
 
-    if (ui->comboBox_task->currentText() == "points") {
+    if (ui->comboBox_task->currentIndex() == TASK_POINTS) {
 
         QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
@@ -1513,7 +1502,7 @@ void MainWindow::on_action_Execute_activated() {
 
         ui->tabWidget_Data->setCurrentIndex(1);
     }
-    else if (ui->comboBox_task->currentText() == "emissions") {
+    else if (ui->comboBox_task->currentIndex() == TASK_EMISSIONS) {
 
         QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
@@ -1574,7 +1563,7 @@ void MainWindow::on_action_Execute_activated() {
             message += myEmissions.data()->createReports(false);
         }
     }
-    else if (ui->comboBox_task->currentText() == "ReducedPower") {
+    else if (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) {
 
         QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
@@ -1608,16 +1597,30 @@ void MainWindow::on_action_Execute_activated() {
 
         lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
     }
+    else if (ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS) {
+
+        on_action_ABCspeeds_activated();
+        return;
+    }
+    else if (ui->comboBox_task->currentIndex() == TASK_ELRSMOKE) {
+
+        on_action_ELRsmoke_activated();
+        return;
+    }
+    else if (ui->comboBox_task->currentIndex() == TASK_HELP) {
+
+        QMessageBox::information(0, "Qr49", tr("See the output of the command line by running the Qr49 with parameter task=help."), 0, 0, 0);
+        return;
+    }
     else {
 
         QMessageBox::critical(0, "Qr49", tr("Unknown calculation task!"), 0, 0, 0);
-
         return;
     }
 
     QMessageBox::information(0, "Qr49", message, 0, 0, 0);
 
-    if ( (ui->comboBox_standard->currentText() == "FreeCalc") || (ui->comboBox_task->currentText() == "ReducedPower") ) {
+    if ( (ui->comboBox_standard->currentIndex() == STD_FREECALC) || (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) ) {
 
         on_action_CheckoutData_activated();
     }
@@ -1724,9 +1727,9 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
     }
 }
 
-void MainWindow::taskChanged(QString str) {
+void MainWindow::taskChanged(int currtask) {
 
-    if (str == "points") {
+    if (currtask == TASK_POINTS) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
@@ -1736,10 +1739,9 @@ void MainWindow::taskChanged(QString str) {
         ui->lineEdit_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
 
-        if ( (ui->comboBox_standard->currentText() == "EU6") ||
-             (ui->comboBox_standard->currentText() == "EU5") ||
-             (ui->comboBox_standard->currentText() == "EU4") ||
-             (ui->comboBox_standard->currentText() == "EU3") ) {
+        ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
+
+        if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
             ui->comboBox_AddPointsCalc->setEnabled(true);
         }
@@ -1755,15 +1757,12 @@ void MainWindow::taskChanged(QString str) {
         ui->tab_redPowerCalc->setEnabled(false);
         ui->tab_reports->setEnabled(false);
 
-        if (ui->comboBox_standard->currentText() == "FreeCalc") {
+        if (currstd == STD_FREECALC) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
-        else if ( (ui->comboBox_standard->currentText() == "EU6") ||
-                  (ui->comboBox_standard->currentText() == "EU5") ||
-                  (ui->comboBox_standard->currentText() == "EU4") ||
-                  (ui->comboBox_standard->currentText() == "EU3") ) {
+        else if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
             ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
@@ -1787,15 +1786,16 @@ void MainWindow::taskChanged(QString str) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
     }
-    else if (str == "emissions") {
+    else if (currtask == TASK_EMISSIONS) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
 
-        QString std = ui->comboBox_standard->currentText();
-        if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-             (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-             (std == "F1") || (std == "G1") || (std == "G2") ) {
+        ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
+
+        if ( (currstd == STD_C1) || (currstd == STD_D1) || (currstd == STD_D2) ||
+             (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
+             (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
 
             ui->comboBox_FuelType->setEnabled(true);
         }
@@ -1807,7 +1807,7 @@ void MainWindow::taskChanged(QString str) {
         ui->comboBox_NOxSample->setEnabled(true);
         ui->comboBox_PTcalc->setEnabled(true);
 
-        if (ui->comboBox_PTcalc->currentText() == "ThroughPTmass") {
+        if (ui->comboBox_PTcalc->currentIndex() == PTCALC_THROUGHPTMASS) {
 
             ui->lineEdit_PTmass->setEnabled(true);
             ui->pushButton_EnterPTmass->setEnabled(true);
@@ -1842,7 +1842,7 @@ void MainWindow::taskChanged(QString str) {
 
         ui->tabWidget_Data->setCurrentIndex(1);
     }
-    else if (str == "ReducedPower") {
+    else if (currtask == TASK_REDUCEDPOWER) {
 
         ui->lineEdit_Vh->setEnabled(true);
         ui->comboBox_standard->setEnabled(false);
@@ -1875,23 +1875,37 @@ void MainWindow::taskChanged(QString str) {
 
         ui->tabWidget_Data->setCurrentIndex(2);
     }
+    else {
+
+        ui->lineEdit_Vh->setEnabled(false);
+        ui->comboBox_standard->setEnabled(false);
+        ui->comboBox_FuelType->setEnabled(false);
+        ui->comboBox_NOxSample->setEnabled(false);
+        ui->comboBox_PTcalc->setEnabled(false);
+        ui->lineEdit_PTmass->setEnabled(false);
+        ui->pushButton_EnterPTmass->setEnabled(false);
+        ui->comboBox_AddPointsCalc->setEnabled(false);
+
+        ui->checkBox_reports->setEnabled(false);
+    }
 }
 
-void MainWindow::standardChanged(QString str) {
+void MainWindow::standardChanged(int currstd) {
 
-    if ( (str == "EU6") || (str == "EU5") || (str == "EU4") || (str == "EU3") ) {
+    if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(true);
 
-        if (ui->comboBox_task->currentText() == "points") {
+        if (ui->comboBox_task->currentIndex() == TASK_POINTS) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
             ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
         }
     }
-    else if ( (str == "C1") || (str == "D1") || (str == "D2") || (str == "E1") || (str == "E2") || (str == "E3") || (str == "E5") ||
-              (str == "F") || (str == "G1") || (str == "G2") ) {
+    else if ( (currstd == STD_C1) || (currstd == STD_D1) || (currstd == STD_D2) ||
+              (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
+              (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
 
         ui->comboBox_FuelType->setEnabled(true);
         ui->comboBox_AddPointsCalc->setEnabled(false);
@@ -1907,7 +1921,7 @@ void MainWindow::standardChanged(QString str) {
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
-        if (ui->comboBox_task->currentText() == "points") {
+        if (ui->comboBox_task->currentIndex() == TASK_POINTS) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
@@ -1915,9 +1929,9 @@ void MainWindow::standardChanged(QString str) {
     }
 }
 
-void MainWindow::PTcalcChanged(QString str) {
+void MainWindow::PTcalcChanged(int currptcalc) {
 
-    if ( (str == "ThroughSmoke") || (str == "no") ) {
+    if ( (currptcalc == PTCALC_THROUGHSMOKE) || (currptcalc == PTCALC_NO) ) {
 
         ui->lineEdit_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
@@ -1981,7 +1995,7 @@ void MainWindow::tabChanged(int tab) {
             ui->comboBox_task->setCurrentIndex(2);
         }
 
-        taskChanged(ui->comboBox_task->currentText());
+        taskChanged(ui->comboBox_task->currentIndex());
 
         if (undoCount == 0) {
 

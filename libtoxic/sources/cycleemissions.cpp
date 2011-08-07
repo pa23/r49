@@ -40,7 +40,6 @@
 using std::string;
 using std::cout;
 using std::cin;
-using std::endl;
 using std::ofstream;
 using std::setfill;
 using std::setw;
@@ -92,7 +91,7 @@ CycleEmissions &CycleEmissions::operator =(const CycleEmissions &x) {
 
 bool CycleEmissions::calculate() {
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     if (!preCalculate()) {
 
@@ -108,8 +107,8 @@ bool CycleEmissions::calculate() {
         return false;
     }
 
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-           (params.data()->val_AddPointsCalc() == "yes") && (NumberOfPoints == TCyclePointsNumber) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) &&
+           (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) && (NumberOfPoints == TCyclePointsNumber) ) {
 
         if (!calculateAdditionalPoints()) {
 
@@ -147,7 +146,7 @@ bool CycleEmissions::calculate() {
         return false;
     }
 
-    if (params.data()->val_Standard() != "FreeCalc") {
+    if (std != STD_FREECALC) {
 
         if (!calculate_Means()) {
 
@@ -199,16 +198,16 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     NumberOfPoints = array_DataForCalc.size();
 
-    QString std   = params.data()->val_Standard();
-    QString addpc = params.data()->val_AddPointsCalc();
+    ptrdiff_t std = params.data()->val_Standard();
+    ptrdiff_t addpc = params.data()->val_AddPointsCalc();
 
     if (
             (
                     (
-                            (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3")
+                            (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3)
                     ) &&
                     (
-                            (addpc == "yes")
+                            (addpc == ADDPOINTSCALC_YES)
                     ) &&
                     (
                             (NumberOfPoints != TCyclePointsNumber)
@@ -216,18 +215,10 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3")
+                            (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3)
                     ) &&
                     (
-                            (addpc == "no")
-                    ) &&
-                    (
-                            (NumberOfPoints != (TCyclePointsNumber-TCycleAddPointsNumber))
-                    )
-            ) ||
-            (
-                    (
-                            (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST")
+                            (addpc == ADDPOINTSCALC_NO)
                     ) &&
                     (
                             (NumberOfPoints != (TCyclePointsNumber-TCycleAddPointsNumber))
@@ -235,7 +226,15 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") || (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8")
+                            (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST)
+                    ) &&
+                    (
+                            (NumberOfPoints != (TCyclePointsNumber-TCycleAddPointsNumber))
+                    )
+            ) ||
+            (
+                    (
+                            (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) || (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8)
                     ) &&
                     (
                             (NumberOfPoints != ECyclePointsNumber)
@@ -243,7 +242,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") || (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5")
+                            (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) || (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5)
                     ) &&
                     (
                             (NumberOfPoints != FCyclePointsNumber)
@@ -251,7 +250,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "C1")
+                            (std == STD_C1)
                     ) &&
                     (
                             (NumberOfPoints != GC1CylcePointsNumber)
@@ -259,7 +258,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "D1")
+                            (std == STD_D1)
                     ) &&
                     (
                             (NumberOfPoints != GD1CylcePointsNumber)
@@ -267,7 +266,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "D2")
+                            (std == STD_D2)
                     ) &&
                     (
                             (NumberOfPoints != GD2CylcePointsNumber)
@@ -275,7 +274,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "E1")
+                            (std == STD_E1)
                     ) &&
                     (
                             (NumberOfPoints != GE1CylcePointsNumber)
@@ -283,7 +282,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "E2")
+                            (std == STD_E2)
                     ) &&
                     (
                             (NumberOfPoints != GE2CylcePointsNumber)
@@ -291,7 +290,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "E3")
+                            (std == STD_E3)
                     ) &&
                     (
                             (NumberOfPoints != GE3CylcePointsNumber)
@@ -299,7 +298,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "E5")
+                            (std == STD_E5)
                     ) &&
                     (
                             (NumberOfPoints != GE5CylcePointsNumber)
@@ -307,7 +306,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "F")
+                            (std == STD_F)
                     ) &&
                     (
                             (NumberOfPoints != GFCylcePointsNumber)
@@ -315,7 +314,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "G1")
+                            (std == STD_G1)
                     ) &&
                     (
                             (NumberOfPoints != GG1CylcePointsNumber)
@@ -323,7 +322,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             ) ||
             (
                     (
-                            (std == "G2")
+                            (std == STD_G2)
                     ) &&
                     (
                             (NumberOfPoints != GG2CylcePointsNumber)
@@ -399,7 +398,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     //
 
-    if (params.data()->val_Standard() != "FreeCalc") {
+    if (params.data()->val_Standard() != STD_FREECALC) {
 
         if (!nonZeroArray(array_n)) {
 
@@ -509,7 +508,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
             CheckMeas = false;
         }
 
-        if (params.data()->val_PTcalc() != "no") {
+        if (params.data()->val_PTcalc() != PTCALC_NO) {
 
             if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
                  ( !nonZeroArray(array_Ka1m)   &&
@@ -520,7 +519,7 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
                 return false;
             }
 
-            if (params.data()->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
                 if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
                      ( !nonZeroArray(array_qmdw) &&
@@ -582,7 +581,7 @@ bool CycleEmissions::preCalculate() {
     array_Kwr.resize(NumberOfPoints);
     array_Khd.resize(NumberOfPoints);
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     double L0    = config.data()->val_L0();
     double WH    = config.data()->val_WH();
@@ -593,23 +592,23 @@ bool CycleEmissions::preCalculate() {
     double Ffw = 0;
     double Ffd = 0;
 
-    if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-         (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-         (std == "F") || (std == "G1") || (std == "G2") ) {
+    if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        QString FuelType = params.data()->val_FuelType();
+        ptrdiff_t FuelType = params.data()->val_FuelType();
 
-        if (FuelType == "diesel") {
+        if (FuelType == FUELTYPE_DIESEL) {
 
             Ffw = 0.75;
             Ffd = -0.77;
         }
-        else if (FuelType == "motor") {
+        else if (FuelType == FUELTYPE_MOTOR) {
 
             Ffw = 0.72;
             Ffd = -0.74;
         }
-        else if (FuelType == "mazut") {
+        else if (FuelType == FUELTYPE_MAZUT) {
 
             Ffw = 0.69;
             Ffd = -0.71;
@@ -633,18 +632,14 @@ bool CycleEmissions::preCalculate() {
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        if ( (std == "C1") || (std == "D1") || (std == "D2") || (std == "E1") || (std == "E2") ||
-             (std == "E3") || (std == "E5") || (std == "F") || (std == "G1") || (std == "G2") || (std == "OST") || (std == "GOST") ||
-             (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-             (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-             (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-             (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ||
+             (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_FREECALC) ) {
 
-            array_Ne_netto[i] = array_Ne_brutto[i];
+            array_Ne_netto[i] = array_Ne_brutto[i] - array_N_fan[i];
         }
         else {
 
-            array_Ne_netto[i] = array_Ne_brutto[i] - array_N_fan[i];
+            array_Ne_netto[i] = array_Ne_brutto[i];
         }
 
         array_Me_netto[i] = array_Ne_netto[i] * 9550.0 / array_n[i];
@@ -683,9 +678,9 @@ bool CycleEmissions::preCalculate() {
             }
         }
 
-        if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-             (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-             (std == "F") || (std == "G1") || (std == "G2") ) {
+        if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+             (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
             array_Gexh[i] = array_Gair[i] / roAir + Ffw * array_Gfuel[i];
             array_Gexhd[i] = array_Gair[i] / roAir + Ffd * array_Gfuel[i];
@@ -695,23 +690,23 @@ bool CycleEmissions::preCalculate() {
             array_Gexh[i] = array_Gair[i] + array_Gfuel[i];
         }
 
-        if ( (std != "C1") && (std != "D1") && (std != "D2") &&
-             (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-             (std != "F") && (std != "G1") && (std != "G2") ) {
+        if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+             (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) {
 
             array_Pb[i] = array_B0[i];
             array_Pa[i] = val_Pa(array_t0[i]);
             array_Ha[i] = 6.22 * array_Ra[i] * array_Pa[i] / (array_Pb[i] - array_Pa[i] * array_Ra[i] * 0.01);
 
-            if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") || (std == "FreeCalc") ||
-                 (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                 (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                 (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                 (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) || (std == STD_FREECALC) ||
+                 (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+                 (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+                 (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+                 (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
                 array_Gaird[i] = (1.0 - array_Ha[i] / 1000.0) * array_Gair[i];
             }
-            else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ) {
+            else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ) {
 
                 array_Gaird[i] = array_Gair[i] / (1.0 + array_Ha[i] / 1000.0);
             }
@@ -722,39 +717,39 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            if (std != "OST") {
+            if (std != STD_OST) {
 
                 array_Kw2[i] = 1.608 * array_Ha[i] / (1000.0 + 1.608 * array_Ha[i]);
                 array_Ffh[i] = 1.969 / (1.0 + array_Gfuel[i] / array_Gair[i]);
                 array_Kf[i] = 0.055594 * WH + 0.0080021 * WN + 0.0070046 * WO2;
             }
 
-            if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") || (std == "FreeCalc") ) {
+            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) || (std == STD_FREECALC) ) {
 
                 array_Kwr[i] = (1.0 - (1.2442 * array_Ha[i] + 111.19 * WH * array_Gfuel[i] / array_Gaird[i]) /
                                       (773.4 + 1.2442 * array_Ha[i] + array_Gfuel[i] / array_Gaird[i] * array_Kf[i] * 1000.0)) * 1.008;
                 array_Khd[i] = 1.0 / (1.0 - 0.0182 * (array_Ha[i] - 10.71) + 0.0045 * (array_t0[i] + 273.0 - 298.0));
             }
-            else if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                      (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                      (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                      (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+            else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+                      (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+                      (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+                      (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
                 array_Kwr[i] = (1.0 - array_Ffh[i] * array_Gfuel[i] / array_Gaird[i]) - array_Kw2[i];
                 array_Khd[i] = 1.0 / (1.0 + (0.309 * array_Gfuel[i] / array_Gaird[i] - 0.0266) * (array_Ha[i] - 10.71) +
                                      (-0.209 * array_Gfuel[i] / array_Gaird[i] + 0.00954) * (array_t0[i] + 273.0 - 298.0));
             }
-            else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") ) {
+            else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ) {
 
                 array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gaird[i];
                 array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gaird[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
                                             (-0.116 * array_Gfuel[i] / array_Gaird[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
             }
-            else if (std == "OST") {
+            else if (std == STD_OST) {
 
                 array_Kwr[i] = 1.0 - 1.8 * array_Gfuel[i] / array_Gair[i];
             }
-            else if (std == "GOST") {
+            else if (std == STD_GOST) {
 
                 array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gair[i];
                 array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gair[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
@@ -784,10 +779,10 @@ bool CycleEmissions::calculate_gNOx() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -796,11 +791,11 @@ bool CycleEmissions::calculate_gNOx() {
         n = NumberOfPoints;
     }
 
-    if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-         (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-         (std == "F") || (std == "G1") || (std == "G2") ) {
+    if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        if (params.data()->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
             for (ptrdiff_t i=0; i<n; i++) {
 
@@ -823,11 +818,11 @@ bool CycleEmissions::calculate_gNOx() {
 
         if (NOxCalcMethod) {
 
-            if (params.data()->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    if (std == "OST") {
+                    if (std == STD_OST) {
 
                         array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
                     }
@@ -846,7 +841,7 @@ bool CycleEmissions::calculate_gNOx() {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
-                    if (std == "OST") {
+                    if (std == STD_OST) {
 
                         array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
                     }
@@ -864,13 +859,13 @@ bool CycleEmissions::calculate_gNOx() {
         }
         else if (!NOxCalcMethod) {
 
-            if (params.data()->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
                 for (ptrdiff_t i=0; i<n; i++) {
 
                     array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
-                    if (std == "OST") {
+                    if (std == STD_OST) {
 
                         array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Gexh[i]);
                     }
@@ -889,7 +884,7 @@ bool CycleEmissions::calculate_gNOx() {
 
                     array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
-                    if (std == "OST") {
+                    if (std == STD_OST) {
 
                         array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Gexh[i]);
                     }
@@ -932,13 +927,13 @@ bool CycleEmissions::calculateAdditionalPoints() {
      *            nrt       nus
      */
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     for (ptrdiff_t i=(NumberOfPoints - TCycleAddPointsNumber); i<NumberOfPoints; i++) {
 
-        if (params.data()->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
-            if (std == "OST") {
+            if (std == STD_OST) {
 
                 array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
             }
@@ -949,7 +944,7 @@ bool CycleEmissions::calculateAdditionalPoints() {
         }
         else {
 
-            if (std == "OST") {
+            if (std == STD_OST) {
 
                 array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
             }
@@ -1058,10 +1053,10 @@ bool CycleEmissions::calculate_gCO() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1070,9 +1065,9 @@ bool CycleEmissions::calculate_gCO() {
         n = NumberOfPoints;
     }
 
-    if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-         (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-         (std == "F") || (std == "G1") || (std == "G2") ) {
+    if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
@@ -1112,10 +1107,10 @@ bool CycleEmissions::calculate_gCH() {
     double summ_numerator = 0;
     double summ_denominator = 0;
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1124,9 +1119,9 @@ bool CycleEmissions::calculate_gCH() {
         n = NumberOfPoints;
     }
 
-    if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-         (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-         (std == "F") || (std == "G1") || (std == "G2") ) {
+    if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
@@ -1140,7 +1135,7 @@ bool CycleEmissions::calculate_gCH() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            if (std == "OST") {
+            if (std == STD_OST) {
 
                 array_mCH[i] = 0.000485 * array_CCH[i] * array_Gexh[i]; // always is wet
             }
@@ -1172,15 +1167,15 @@ bool CycleEmissions::calculate_gPT() {
     array_mPT.resize(NumberOfPoints);
     array_gPT.resize(NumberOfPoints);
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
-    if ( (params.data()->val_PTcalc() != "no") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
-                                                    (std != "C1") && (std != "D1") && (std != "D2") &&
-                                                    (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                                    (std != "F") && (std != "G1") && (std != "G2") ) ) {
+    if ( (params.data()->val_PTcalc() != PTCALC_NO) && ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
+                                                         (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                                                         (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                                                         (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) ) {
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -1241,7 +1236,7 @@ bool CycleEmissions::calculate_gPT() {
         summ_mPT = 0;
         summ_Ne_netto = 0;
 
-        if (params.data()->val_PTcalc() == "ThroughPTmass") {
+        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
             if (mf == 0) {
 
@@ -1317,10 +1312,10 @@ bool CycleEmissions::calculate_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCycleAddPointsNumber;
     }
@@ -1408,11 +1403,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params.data()->val_PTcalc();
+        ptrdiff_t ptcalc = params.data()->val_PTcalc();
 
-        if (ptcalc != "no") {
+        if (ptcalc != PTCALC_NO) {
 
-            if (ptcalc == "ThroughPTmass") {
+            if (ptcalc == PTCALC_THROUGHPTMASS) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
                 qDebug() << "gPT =" << gPT << "g/kWh";
@@ -1427,7 +1422,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         return message;
     }
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     QString dirnameReports = config.data()->val_dirnameReports();
     string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
@@ -1485,9 +1480,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha_O2[-]" << csvdelimiter;
 
-    if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-         (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-         (std == "F") || (std == "G1") || (std == "G2") ) {
+    if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexh[m3/h]" << csvdelimiter;
         fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexhd[m3/h]" << csvdelimiter;
@@ -1520,7 +1515,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "msepi[g]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "rEGR[%]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha_res[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "diff_alpha[%]" << csvdelimiter << endl;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "diff_alpha[%]" << csvdelimiter << "\n";
 
     ptrdiff_t prec = Precision + 1;
 
@@ -1582,7 +1577,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_msepi[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rEGR[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_res[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_diff_alpha[i] << csvdelimiter << endl;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_diff_alpha[i] << csvdelimiter << "\n";
     }
 
     fout1.close();
@@ -1594,24 +1589,24 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     string SourceDataFileName;
 
-    if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-         (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-         (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-         (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+    if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+         (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+         (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+         (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         SourceDataFileName = "SourceData96_" + mytime + ".csv";
     }
-    else if (std == "OST") {
+    else if (std == STD_OST) {
 
         SourceDataFileName = "SourceDataOST_" + mytime + ".csv";
     }
-    else if (std == "GOST") {
+    else if (std == STD_GOST) {
 
         SourceDataFileName = "SourceDataGOST_" + mytime + ".csv";
     }
-    else if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-              (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-              (std == "F") || (std == "G1") || (std == "G2") ) {
+    else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+              (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+              (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         SourceDataFileName = "SourceDataGOST51249_" + mytime + ".csv";
     }
@@ -1658,7 +1653,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "tauf[s]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "qmdw[g/s]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << endl;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << "\n";
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -1667,7 +1662,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_DataForCalc[i][j] << csvdelimiter;
         }
 
-        fout4 << endl;
+        fout4 << "\n";
     }
 
     fout4.close();
@@ -1677,19 +1672,19 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     //
 
-    if (std != "FreeCalc") {
+    if (std != STD_FREECALC) {
 
-        if ( (params.data()->val_PTcalc() == "ThroughPTmass") && ( (std != "OST") && (std != "GOST") && (std != "EU0") &&
-                                                                   (std != "C1") && (std != "D1") && (std != "D2") &&
-                                                                   (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                                                   (std != "F") && (std != "G1") && (std != "G2") ) ) {
+        if ( (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) && ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
+                                                                        (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                                                                        (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                                                                        (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) ) {
 
             string ReportFileNamePT;
 
-            if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                 (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                 (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                 (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+            if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+                 (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+                 (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+                 (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
                 ReportFileNamePT = "Report96_PT_" + mytime + ".txt";
             }
@@ -1710,7 +1705,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             }
 
             fout6 << "\tr49 distribution version " << r49version.toStdString();
-            fout6 << "\t\tReport on cycle. " << std.toStdString() << "\t\tDateTime: " << mytime << endl << endl;
+            fout6 << "\t\tReport on cycle. " << params.data()->defStandardName(std).toStdString() << "\t\tDateTime: " << mytime << "\n\n";
 
             fout6 << "Engine                 : ...\n";
             fout6 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
@@ -1729,7 +1724,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout6 << "direct Gair meas; ";
             }
 
-            if (params.data()->val_NOxSample() == "dry") {
+            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
                 fout6 << "NOxSample type is dry; ";
             }
@@ -1738,11 +1733,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout6 << "NOxSample type is wet; ";
             }
 
-            if (params.data()->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
                 fout6 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
             }
-            else if (params.data()->val_PTcalc() == "no") {
+            else if (params.data()->val_PTcalc() == PTCALC_NO) {
 
                 fout6 << "PT was not calculated;\n";
             }
@@ -1792,10 +1787,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "tauf[s]";
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdw[g/s]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdew[g/s]" << endl;
+            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdew[g/s]" << "\n";
 
             ptrdiff_t n = 0;
-            if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+            if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
                 n = NumberOfPoints - TCycleAddPointsNumber;
             }
@@ -1836,25 +1831,25 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_tauf[i];
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdw[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdew[i] << endl;
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdew[i] << "\n";
             }
 
-            fout6 << endl;
+            fout6 << "\n";
 
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "rd[-]";
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmedf[kg/h]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "msepi[g]" << endl;
+            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "msepi[g]" << "\n";
 
             for (ptrdiff_t i=0; i<n; i++) {
 
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_rd[i];
                 fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_qmedf[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_msepi[i] << endl;
+                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_msepi[i] << "\n";
             }
 
-            fout6 << endl;
+            fout6 << "\n";
 
             fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << " ";
             fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limitation";
@@ -1879,7 +1874,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             }
 
             fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPTs[g/kWh]";
-            fout6 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << endl << endl;
+            fout6 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << "\n\n";
 
             fout6.close();
 
@@ -1891,24 +1886,24 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         string ReportFileNameGAS;
 
-        if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-             (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-             (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-             (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+        if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+             (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+             (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+             (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
             ReportFileNameGAS = "Report96_GAS_" + mytime + ".txt";
         }
-        else if (std == "OST") {
+        else if (std == STD_OST) {
 
             ReportFileNameGAS = "ReportOST_GAS_" + mytime + ".txt";
         }
-        else if (std == "GOST") {
+        else if (std == STD_GOST) {
 
             ReportFileNameGAS = "ReportGOST_GAS_" + mytime + ".txt";
         }
-        else if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-                  (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                  (std == "F") || (std == "G1") || (std == "G2") ) {
+        else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             ReportFileNameGAS = "ReportGOST51249_GAS_" + mytime + ".txt";
         }
@@ -1929,7 +1924,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         }
 
         fout5 << "\tr49 distribution version " << r49version.toStdString();
-        fout5 << "\t\tReport on cycle. " << std.toStdString() << "\t\tDateTime: " << mytime << endl << endl;
+        fout5 << "\t\tReport on cycle. " << params.data()->defStandardName(std).toStdString() << "\t\tDateTime: " << mytime << "\n\n";
 
         fout5 << "Engine                 : ...\n";
         fout5 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
@@ -1948,7 +1943,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << "direct Gair meas; ";
         }
 
-        if (params.data()->val_NOxSample() == "dry") {
+        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
 
             fout5 << "NOxSample type is dry; ";
         }
@@ -1957,11 +1952,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << "NOxSample type is wet; ";
         }
 
-        if (params.data()->val_PTcalc() == "ThroughPTmass") {
+        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
             fout5 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
         }
-        else if (params.data()->val_PTcalc() == "no") {
+        else if (params.data()->val_PTcalc() == PTCALC_NO) {
 
             fout5 << "PT was not calculated;\n";
         }
@@ -2011,17 +2006,17 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_NOx[ppm]";
 
-        if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-             (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+        if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+             (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mNOx[g/h]";
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOx[g/kWh]";
         }
 
-        fout5 << endl;
+        fout5 << "\n";
 
         ptrdiff_t n = 0;
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) && (params.data()->val_AddPointsCalc() == "yes") ) {
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCycleAddPointsNumber;
         }
@@ -2062,17 +2057,17 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CNOx[i];
 
-            if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                 (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mNOx[i];
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gNOx[i];
             }
 
-            fout5 << endl;
+            fout5 << "\n";
         }
 
-        fout5 << endl;
+        fout5 << "\n";
 
         if ( (!EGRcalc) && (!CheckMeas) ) {
 
@@ -2083,8 +2078,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
             }
 
-            if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                 (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 if (gCOcalc) {
 
@@ -2098,8 +2093,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
             }
 
-            if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                 (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 if (gCHcalc) {
 
@@ -2108,17 +2103,17 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 }
             }
 
-            if (params.data()->val_PTcalc() == "ThroughSmoke") {
+            if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mPTs[g/h]";
                     fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gPTs[g/kWh]";
                 }
             }
 
-            fout5 << endl;
+            fout5 << "\n";
 
             for (ptrdiff_t i=0; i<n; i++) {
 
@@ -2129,8 +2124,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
                 }
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if (gCOcalc) {
 
@@ -2144,8 +2139,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
                 }
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if (gCHcalc) {
 
@@ -2154,17 +2149,17 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                if (params.data()->val_PTcalc() == "ThroughSmoke") {
+                if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
 
-                    if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                         (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                    if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                         (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                         fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
                         fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
                     }
                 }
 
-                fout5 << endl;
+                fout5 << "\n";
             }
         }
         else {
@@ -2176,8 +2171,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
             }
 
-            if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                 (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 if (gCOcalc) {
 
@@ -2190,8 +2185,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
             }
 
-            if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                 (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 if (gCHcalc) {
 
@@ -2199,10 +2194,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 }
             }
 
-            if (params.data()->val_PTcalc() == "ThroughSmoke") {
+            if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mPTs[g/h]";
                     fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gPTs[g/kWh]";
@@ -2219,7 +2214,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff_alpha[%]";
             }
 
-            fout5 << endl;
+            fout5 << "\n";
 
             for (ptrdiff_t i=0; i<n; i++) {
 
@@ -2230,8 +2225,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
                 }
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if (gCOcalc) {
 
@@ -2244,8 +2239,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
                 }
 
-                if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                     (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if (gCHcalc) {
 
@@ -2253,10 +2248,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                if (params.data()->val_PTcalc() == "ThroughSmoke") {
+                if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
 
-                    if ( (std != "C1") && (std != "D1") && (std != "D2") && (std != "E1") && (std != "E2") &&
-                         (std != "E3") && (std != "E5") && (std != "F") && (std != "G1") && (std != "G2") ) {
+                    if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
+                         (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                         fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
                         fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
@@ -2273,14 +2268,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_diff_alpha[i];
                 }
 
-                fout5 << endl;
+                fout5 << "\n";
             }
         }
 
-        fout5 << endl;
+        fout5 << "\n";
 
-        if ( ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) &&
-             (params.data()->val_AddPointsCalc() == "yes") ) {
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) &&
+             (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             fout5 << "Additional points:\n\n";
 
@@ -2292,7 +2287,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha[-]";
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOm[g/kWh]";
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOc[g/kWh]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff[%]" << endl;
+            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff[%]\n";
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 2);
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 3];
@@ -2302,7 +2297,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 3];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx1 << endl;
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx1 << "\n";
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 1);
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 2];
@@ -2312,7 +2307,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 2];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx2 << endl;
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx2 << "\n";
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber);
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 1];
@@ -2322,23 +2317,23 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 1];
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3m;
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx3 << endl;
+            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx3 << "\n";
 
-            fout5 << endl;
+            fout5 << "\n";
         }
 
         fout5 << "Specific emissions:\n\n";
 
         fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << " ";
 
-        if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-             (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-             (std == "F") || (std == "G1") || (std == "G2") ) {
+        if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+             (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old)";
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (new)";
         }
-        else if (std == "GOST") {
+        else if (std == STD_GOST) {
 
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old1)";
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old2)";
@@ -2352,14 +2347,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
         fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CalcResult";
 
-        if ( (std != "C1") && (std != "D1") && (std != "D2") &&
-             (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-             (std != "F") && (std != "G1") && (std != "G2") && (std != "GOST") ) {
+        if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+             (std != STD_F) && (std != STD_G1) && (std != STD_G2) && (std != STD_GOST) ) {
 
             fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Conclusion";
         }
 
-        fout5 << endl;
+        fout5 << "\n";
 
         double gNOxLimit   = 0;
         double gNOxLimit1  = 0;
@@ -2379,8 +2374,8 @@ QString CycleEmissions::createReports(bool createrepdir) {
         double gPTLimit    = 0;
         double gNOxCHLimit = 0;
 
-        if ( (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-             (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+        if ( (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+             (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
             gNOxCHLimit = val_NOxCHLimit(std);
             gCOLimit = val_COLimit(std);
@@ -2417,56 +2412,56 @@ QString CycleEmissions::createReports(bool createrepdir) {
         }
         else {
 
-            if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-                 (std == "F") || (std == "G1") || (std == "G2") ) {
+            if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                 (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                QString std1 = std + "old";
+                ptrdiff_t std1 = std + 20; // old
 
                 gNOxLimit1 = val_NOxLimit(std1);
                 gCOLimit1 = val_COLimit(std1);
                 gCHLimit1 = val_CHLimit(std1);
 
-                QString std2 = std + "new";
+                ptrdiff_t std2 = std + 10; // new
 
                 gNOxLimit2 = val_NOxLimit(std2);
                 gCOLimit2 = val_COLimit(std2);
                 gCHLimit2 = val_CHLimit(std2);
             }
-            else if ( (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ) {
+            else if ( (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ) {
 
-                QString std1 = std + "old";
+                ptrdiff_t std1 = std + 20; // old
 
                 gNOxLimit1 = val_NOxLimit(std1, array_n[0]);
                 gCOLimit1 = val_COLimit(std1);
                 gCHLimit1 = val_CHLimit(std1);
 
-                QString std2 = std + "new";
+                ptrdiff_t std2 = std + 10; // new
 
                 gNOxLimit2 = val_NOxLimit(std2, array_n[0]);
                 gCOLimit2 = val_COLimit(std2);
                 gCHLimit2 = val_CHLimit(std2);
             }
-            else if (std == "GOST") {
+            else if (std == STD_GOST) {
 
-                QString std1 = std + "ou";
+                ptrdiff_t std1 = std + 30; // ou
 
                 gNOxLimit1 = val_NOxLimit(std1);
                 gCOLimit1 = val_COLimit(std1);
                 gCHLimit1 = val_CHLimit(std1);
 
-                QString std2 = std + "ol";
+                ptrdiff_t std2 = std + 40; // ol
 
                 gNOxLimit2 = val_NOxLimit(std2);
                 gCOLimit2 = val_COLimit(std2);
                 gCHLimit2 = val_CHLimit(std2);
 
-                QString std3 = std + "nu";
+                ptrdiff_t std3 = std + 10; // nu
 
                 gNOxLimit3 = val_NOxLimit(std3);
                 gCOLimit3 = val_COLimit(std3);
                 gCHLimit3 = val_CHLimit(std3);
 
-                QString std4 = std + "nl";
+                ptrdiff_t std4 = std + 20; // nl
 
                 gNOxLimit4 = val_NOxLimit(std4);
                 gCOLimit4 = val_COLimit(std4);
@@ -2482,14 +2477,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gNOx[g/kWh]";
 
-            if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-                 (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                 (std == "F") || (std == "G1") || (std == "G2") ) {
+            if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                 (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                 (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit1;
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit2;
             }
-            else if (std == "GOST") {
+            else if (std == STD_GOST) {
 
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit1;
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit2;
@@ -2503,9 +2498,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
             fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOx;
 
-            if ( (std != "GOST") && (std != "C1") && (std != "D1") && (std != "D2") &&
-                 (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                 (std != "F") && (std != "G1") && (std != "G2") ) {
+            if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                 (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                 if ( (gNOx < gNOxLimit) || (gNOx == gNOxLimit) ) {
 
@@ -2517,20 +2512,20 @@ QString CycleEmissions::createReports(bool createrepdir) {
                 }
             }
 
-            fout5 << endl;
+            fout5 << "\n";
 
             if (gCOcalc) {
 
                 fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gCO[g/kWh]";
 
-                if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-                     (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                     (std == "F") || (std == "G1") || (std == "G2") ) {
+                if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                     (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit1;
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit2;
                 }
-                else if (std == "GOST") {
+                else if (std == STD_GOST) {
 
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit1;
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit2;
@@ -2544,9 +2539,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCO;
 
-                if ( (std != "GOST") && (std != "C1") && (std != "D1") && (std != "D2") &&
-                     (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                     (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                     (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if ( (gCO < gCOLimit) || (gCO == gCOLimit) ) {
 
@@ -2558,21 +2553,21 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                fout5 << endl;
+                fout5 << "\n";
             }
 
             if (gCHcalc) {
 
                 fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gCH[g/kWh]";
 
-                if ( (std == "C1") || (std == "D1") || (std == "D2") ||
-                     (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                     (std == "F") || (std == "G1") || (std == "G2") ) {
+                if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                     (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit1;
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit2;
                 }
-                else if (std == "GOST") {
+                else if (std == STD_GOST) {
 
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit1;
                     fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit2;
@@ -2586,9 +2581,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
                 fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCH;
 
-                if ( (std != "GOST") && (std != "C1") && (std != "D1") && (std != "D2") &&
-                     (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                     (std != "F") && (std != "G1") && (std != "G2") ) {
+                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                     (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
                     if ( (gCH < gCHLimit) || (gCH == gCHLimit) ) {
 
@@ -2600,16 +2595,16 @@ QString CycleEmissions::createReports(bool createrepdir) {
                     }
                 }
 
-                fout5 << endl;
+                fout5 << "\n";
             }
         }
 
-        if ( (params.data()->val_PTcalc() != "no") && ( (std != "GOST") && (std != "OST") && (std != "EU0") && (std != "C1") &&
-                                                        (std != "D1") && (std != "D2") &&
-                                                        (std != "E1") && (std != "E2") && (std != "E3") && (std != "E5") &&
-                                                        (std != "F") && (std != "G1") && (std != "G2") ) ) {
+        if ( (params.data()->val_PTcalc() != PTCALC_NO) && ( (std != STD_GOST) && (std != STD_OST) && (std != STD_EU0) && (std != STD_C1) &&
+                                                             (std != STD_D1) && (std != STD_D2) &&
+                                                             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+                                                             (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) ) {
 
-            if (params.data()->val_PTcalc() == "ThroughPTmass") {
+            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
                 fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
 
@@ -2627,10 +2622,10 @@ QString CycleEmissions::createReports(bool createrepdir) {
             }
 
             fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPTs[g/kWh]";
-            fout5 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << endl;
+            fout5 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << "\n";
         }
 
-        fout5 << endl;
+        fout5 << "\n";
 
         fout5 << fixed << setprecision(Precision) << "Mean specific fuel consumption: " << geMean << " g/kWh\n";
 
@@ -2657,15 +2652,15 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     string paramValDelim = parameterValueDelimiter.toStdString();
 
-    fout7 << "task"           << paramValDelim << params.data()->val_Task().toStdString()           << endl;
-    fout7 << "Vh"             << paramValDelim << params.data()->val_Vh()                           << endl;
-    fout7 << "standard"       << paramValDelim << params.data()->val_Standard().toStdString()       << endl;
-    fout7 << "FuelType"       << paramValDelim << params.data()->val_FuelType().toStdString()       << endl;
-    fout7 << "NOxSample"      << paramValDelim << params.data()->val_NOxSample().toStdString()      << endl;
-    fout7 << "PTcalc"         << paramValDelim << params.data()->val_PTcalc().toStdString()         << endl;
-    fout7 << "PTmass"         << paramValDelim << params.data()->val_PTmass()                       << endl;
-    fout7 << "AddPointsCalc"  << paramValDelim << params.data()->val_AddPointsCalc().toStdString()  << endl;
-    fout7 << "CalcConfigFile" << paramValDelim << params.data()->val_CalcConfigFile().toStdString() << endl;
+    fout7 << "task"           << paramValDelim << params.data()->val_Task()                         << "\n";
+    fout7 << "Vh"             << paramValDelim << params.data()->val_Vh()                           << "\n";
+    fout7 << "standard"       << paramValDelim << params.data()->val_Standard()                     << "\n";
+    fout7 << "FuelType"       << paramValDelim << params.data()->val_FuelType()                     << "\n";
+    fout7 << "NOxSample"      << paramValDelim << params.data()->val_NOxSample()                    << "\n";
+    fout7 << "PTcalc"         << paramValDelim << params.data()->val_PTcalc()                       << "\n";
+    fout7 << "PTmass"         << paramValDelim << params.data()->val_PTmass()                       << "\n";
+    fout7 << "AddPointsCalc"  << paramValDelim << params.data()->val_AddPointsCalc()                << "\n";
+    fout7 << "CalcConfigFile" << paramValDelim << params.data()->val_CalcConfigFile().toStdString() << "\n";
 
     fout7.close();
 
@@ -2674,7 +2669,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
 
     //
 
-    if (std != "FreeCalc") {
+    if (std != STD_FREECALC) {
 
         message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
         qDebug() << "\ngNOx =" << gNOx << "g/kWh";
@@ -2691,11 +2686,11 @@ QString CycleEmissions::createReports(bool createrepdir) {
             qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
-        QString ptcalc = params.data()->val_PTcalc();
+        ptrdiff_t ptcalc = params.data()->val_PTcalc();
 
-        if (ptcalc != "no") {
+        if (ptcalc != PTCALC_NO) {
 
-            if (ptcalc == "ThroughPTmass") {
+            if (ptcalc == PTCALC_THROUGHPTMASS) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
                 qDebug() << "gPT =" << gPT << "g/kWh";

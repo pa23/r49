@@ -36,7 +36,6 @@
 #include <QDir>
 
 using std::string;
-using std::endl;
 using std::ofstream;
 using std::setfill;
 using std::setw;
@@ -263,7 +262,7 @@ QString ReducedPower::createReports() {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "N_br[kW]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ne_nr[kW]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Me_nr[Nm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ge_nr[g/kWh]" << csvdelimiter << endl;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ge_nr[g/kWh]" << csvdelimiter << "\n";
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -289,7 +288,7 @@ QString ReducedPower::createReports() {
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brake_reduced[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_netto_reduced[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_netto_reduced[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ge_netto_reduced[i] << csvdelimiter << endl;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_ge_netto_reduced[i] << csvdelimiter << "\n";
     }
 
     fout1.close();
@@ -322,7 +321,7 @@ QString ReducedPower::createReports() {
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "pk[kPa]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
     fout4 << right << setw(WidthOfColumn) << setfill(' ') << "N_k[kW]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "N_fan[kW]" << csvdelimiter << endl;
+    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "N_fan[kW]" << csvdelimiter << "\n";
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -331,7 +330,7 @@ QString ReducedPower::createReports() {
             fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision + 1) << array_DataForCalc[i][j] << csvdelimiter;
         }
 
-        fout4 << endl;
+        fout4 << "\n";
     }
 
     fout4.close();

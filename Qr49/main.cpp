@@ -41,7 +41,6 @@
 
 using std::string;
 using std::cout;
-using std::endl;
 using std::cin;
 using std::vector;
 
@@ -74,11 +73,11 @@ void ShowHelp() {
             "       [PTmass=PTMASS] [AddPoinsCalc=ADDPOINTSCALC]                \\\n"
             "       [CalcConfigFile=CALCCONFIGFILE]\n\n"
             "  task=TASK\t\tvariants of TASK:\n"
-            "\t\t\tABCspeeds    - for A,B,C calculation;\n"
             "\t\t\tpoints       - for ESC points calculation;\n"
             "\t\t\temissions*   - for specific emissions calculation;\n"
             "\t\t\tReducedPower - for reduce power calculation\n"
             "\t\t\t               (regulation 85);\n"
+            "\t\t\tABCspeeds    - for A,B,C calculation;\n"
             "\t\t\tELRsmoke     - for ELR smoke calculation;\n"
             "\t\t\thelp         - for show help.\n\n"
             "  Vh=VH\t\t\tvariants of VH:\n"
@@ -169,17 +168,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
         if (param == "task") {
 
-            if ( (value == "ABCspeeds"   ) ||
-                 (value == "points"      ) ||
-                 (value == "emissions"   ) ||
-                 (value == "ReducedPower") ||
-                 (value == "ELRsmoke"    ) ||
-                 (value == "help"        ) ) { params.data()->setTask(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for task parameter!";
-            }
+            params.data()->setTask(value);
         }
         else if (param == "Vh") {
 
@@ -200,79 +189,19 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if (param == "standard") {
 
-            if ( (value == "EU6"   ) ||
-                 (value == "EU5"   ) ||
-                 (value == "EU4"   ) ||
-                 (value == "EU3"   ) ||
-                 (value == "EU2"   ) ||
-                 (value == "EU1"   ) ||
-                 (value == "EU0"   ) ||
-                 (value == "OST"   ) ||
-                 (value == "GOST"  ) ||
-                 (value == "r96E8" ) ||
-                 (value == "r96F8" ) ||
-                 (value == "r96G8" ) ||
-                 (value == "r96D8" ) ||
-                 (value == "r96E5" ) ||
-                 (value == "r96F5" ) ||
-                 (value == "r96G5" ) ||
-                 (value == "r96D5" ) ||
-                 (value == "r96H8" ) ||
-                 (value == "r96I8" ) ||
-                 (value == "r96J8" ) ||
-                 (value == "r96K8" ) ||
-                 (value == "r96H5" ) ||
-                 (value == "r96I5" ) ||
-                 (value == "r96J5" ) ||
-                 (value == "r96K5" ) ||
-                 (value == "C1" ) ||
-                 (value == "D1" ) ||
-                 (value == "D2" ) ||
-                 (value == "E1" ) ||
-                 (value == "E2" ) ||
-                 (value == "E3" ) ||
-                 (value == "E5" ) ||
-                 (value == "F" )  ||
-                 (value == "G1" ) ||
-                 (value == "G2" ) ||
-                 (value == "FreeCalc" ) ) { params.data()->setStandard(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for cycle parameter!";
-            }
+            params.data()->setStandard(value);
         }
         else if (param == "FuelType") {
 
-            if ( (value == "diesel") ||
-                 (value == "motor" ) ||
-                 (value == "mazut" ) ) { params.data()->setFuelType(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for FuelType parameter!";
-            }
+            params.data()->setFuelType(value);
         }
         else if (param == "NOxSample") {
 
-            if ( (value == "wet") ||
-                 (value == "dry") ) { params.data()->setNOxSample(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for NOxSample type!";
-            }
+            params.data()->setNOxSample(value);
         }
         else if (param == "PTcalc") {
 
-            if ( (value == "ThroughSmoke" ) ||
-                 (value == "ThroughPTmass") ||
-                 (value == "no"           ) ) { params.data()->setPTcalc(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for PT calc method!";
-            }
+            params.data()->setPTcalc(value);
         }
         else if (param == "PTmass") {
 
@@ -293,13 +222,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if (param == "AddPointsCalc") {
 
-            if ( (value == "yes") ||
-                 (value == "no" ) ) { params.data()->setAddPointsCalc(value); }
-
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Default value will be using for AddPointsCalc value!";
-            }
+            params.data()->setAddPointsCalc(value);
         }
         else if (param == "CalcConfigFile") {
 
@@ -344,35 +267,9 @@ int main(int argc, char **argv) {
 
         QVector< QVector<double> > data;
 
-        if (params.data()->val_Task() == "ABCspeeds") {
+        ptrdiff_t currtask = params.data()->val_Task();
 
-            double n_hi = 0, n_lo = 0;
-            double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
-
-            cout << endl << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-
-            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                cout << "Press Enter to exit...";
-                cin.get(); cin.get();
-
-                return false;
-            }
-
-            cout << endl << "A    = " << A;
-            cout << endl << "B    = " << B;
-            cout << endl << "C    = " << C;
-            cout << endl << "a1   = " << a1;
-            cout << endl << "a2   = " << a2;
-            cout << endl << "a3   = " << a3;
-            cout << endl << "nref = " << n_ref << endl << endl;
-
-            cout << "Press Enter to exit...";
-            cin.get(); cin.get();
-        }
-        else if (params.data()->val_Task() == "points") {
+        if (currtask == TASK_POINTS) {
 
             QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
@@ -399,7 +296,7 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params.data()->val_Task() == "emissions") {
+        else if (currtask == TASK_EMISSIONS) {
 
             QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
@@ -426,7 +323,7 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params.data()->val_Task() == "ReducedPower") {
+        else if (currtask == TASK_REDUCEDPOWER) {
 
             QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
@@ -453,7 +350,35 @@ int main(int argc, char **argv) {
             cout << "Press Enter to exit...";
             cin.get();
         }
-        else if (params.data()->val_Task() == "ELRsmoke") {
+        else if (currtask == TASK_ABCSPEEDS) {
+
+            double n_hi = 0, n_lo = 0;
+            double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
+
+            cout << "\n" << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
+            cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
+
+            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+
+                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
+                cout << "Press Enter to exit...";
+                cin.get(); cin.get();
+
+                return false;
+            }
+
+            cout << "\nA    = " << A;
+            cout << "\nB    = " << B;
+            cout << "\nC    = " << C;
+            cout << "\na1   = " << a1;
+            cout << "\na2   = " << a2;
+            cout << "\na3   = " << a3;
+            cout << "\nnref = " << n_ref << "\n\n";
+
+            cout << "Press Enter to exit...";
+            cin.get(); cin.get();
+        }
+        else if (currtask == TASK_ELRSMOKE) {
 
             double smoke_A1 = 0, smoke_A2 = 0, smoke_A3 = 0;
             double smoke_B1 = 0, smoke_B2 = 0, smoke_B3 = 0;
@@ -461,15 +386,15 @@ int main(int argc, char **argv) {
 
             double smokeELR = 0;
 
-            cout << endl << "First  smoke peak at speed A: "; if(!(cin >> smoke_A1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
+            cout << "\n" << "First  smoke peak at speed A: "; if(!(cin >> smoke_A1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Second smoke peak at speed A: "; if(!(cin >> smoke_A2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Third  smoke peak at speed A: "; if(!(cin >> smoke_A3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            cout << endl << "First  smoke peak at speed B: "; if(!(cin >> smoke_B1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
+            cout << "\n" << "First  smoke peak at speed B: "; if(!(cin >> smoke_B1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Second smoke peak at speed B: "; if(!(cin >> smoke_B2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Third  smoke peak at speed B: "; if(!(cin >> smoke_B3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            cout << endl << "First  smoke peak at speed C: "; if(!(cin >> smoke_C1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
+            cout << "\n" << "First  smoke peak at speed C: "; if(!(cin >> smoke_C1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Second smoke peak at speed C: "; if(!(cin >> smoke_C2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Third  smoke peak at speed C: "; if(!(cin >> smoke_C3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
@@ -485,12 +410,12 @@ int main(int argc, char **argv) {
                 return false;
             }
 
-            cout << endl << "ELR smoke = " << smokeELR << endl << endl;
+            cout << "\nELR smoke = " << smokeELR << "\n\n";
 
             cout << "Press Enter to exit...";
             cin.get(); cin.get();
         }
-        else if (params.data()->val_Task() == "help") {
+        else if (currtask == TASK_HELP) {
 
             ShowAbout();
             ShowHelp();

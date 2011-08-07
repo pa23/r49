@@ -16,35 +16,36 @@
 */
 
 #include "emissionlimits.h"
+#include "libtoxicconstants.h"
 
 #include <cmath>
 
 #include <QDebug>
 #include <QString>
 
-double val_NOxLimit(QString stnd, double n_rated) {
+double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
 
-    if      (stnd == "EU6" ) { return  2.00; }
-    else if (stnd == "EU5" ) { return  2.00; }
-    else if (stnd == "EU4" ) { return  3.50; }
-    else if (stnd == "EU3" ) { return  5.00; }
-    else if (stnd == "EU2" ) { return  7.00; }
-    else if (stnd == "EU1" ) { return  9.00; }
-    else if (stnd == "EU0" ) { return 15.80; }
-    else if (stnd == "OST" ) { return 18.35; }
-    else if (stnd == "GOSTnu" ) { return 18.0; }
-    else if (stnd == "GOSTnl" ) { return  9.0; }
-    else if (stnd == "GOSTou" ) { return 18.0; }
-    else if (stnd == "GOSTol" ) { return  9.0; }
-    else if ( (stnd == "r96E8") || (stnd == "r96E5") ) { return  6.00; }
-    else if ( (stnd == "r96F8") || (stnd == "r96F5") ) { return  6.00; }
-    else if ( (stnd == "r96G8") || (stnd == "r96G5") ) { return  7.00; }
-    else if ( (stnd == "r96D8") || (stnd == "r96D5") ) { return  8.00; }
-    else if ( (stnd == "Fnew") ) { return        12.0; }
-    else if ( (stnd == "Fold") ) { return 0.95 * 12.0; }
-    else if ( (stnd == "C1new") || (stnd == "D1new") || (stnd == "D2new") || (stnd == "G1new") || (stnd == "G2new") ) { return        10.0; }
-    else if ( (stnd == "C1old") || (stnd == "D1old") || (stnd == "D2old") || (stnd == "G1old") || (stnd == "G2old") ) { return 0.95 * 10.0; }
-    else if ( (stnd == "E1new") || (stnd == "E2new") || (stnd == "E3new") || (stnd == "E5new") ) {
+    if      (stnd == STD_EU6     ) { return  2.00; }
+    else if (stnd == STD_EU5     ) { return  2.00; }
+    else if (stnd == STD_EU4     ) { return  3.50; }
+    else if (stnd == STD_EU3     ) { return  5.00; }
+    else if (stnd == STD_EU2     ) { return  7.00; }
+    else if (stnd == STD_EU1     ) { return  9.00; }
+    else if (stnd == STD_EU0     ) { return 15.80; }
+    else if (stnd == STD_OST     ) { return 18.35; }
+    else if (stnd == STD_GOST+10 ) { return 18.0;  } // nu
+    else if (stnd == STD_GOST+20 ) { return  9.0;  } // nl
+    else if (stnd == STD_GOST+30 ) { return 18.0;  } // ou
+    else if (stnd == STD_GOST+40 ) { return  9.0;  } // ol
+    else if ( (stnd == STD_R96E8) || (stnd == STD_R96E5) ) { return  6.00; }
+    else if ( (stnd == STD_R96F8) || (stnd == STD_R96F5) ) { return  6.00; }
+    else if ( (stnd == STD_R96G8) || (stnd == STD_R96G5) ) { return  7.00; }
+    else if ( (stnd == STD_R96D8) || (stnd == STD_R96D5) ) { return  8.00; }
+    else if ( (stnd == STD_F+10) ) { return        12.0; } // new
+    else if ( (stnd == STD_F+20) ) { return 0.95 * 12.0; } // old
+    else if ( (stnd == STD_C1+10) || (stnd == STD_D1+10) || (stnd == STD_D2+10) || (stnd == STD_G1+10) || (stnd == STD_G2+10) ) { return        10.0; } // new
+    else if ( (stnd == STD_C1+20) || (stnd == STD_D1+20) || (stnd == STD_D2+20) || (stnd == STD_G1+20) || (stnd == STD_G2+20) ) { return 0.95 * 10.0; } // old
+    else if ( (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) {
 
         if ( (n_rated < 130) || (n_rated == 130) ) {
 
@@ -58,8 +59,8 @@ double val_NOxLimit(QString stnd, double n_rated) {
 
             return 9.8;
         }
-    }
-    else if ( (stnd == "E1old") || (stnd == "E2old") || (stnd == "E3old") || (stnd == "E5old") ) {
+    } // new
+    else if ( (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) {
 
         if ( (n_rated < 130) || (n_rated == 130) ) {
 
@@ -73,7 +74,7 @@ double val_NOxLimit(QString stnd, double n_rated) {
 
             return 0.95 * 9.8;
         }
-    }
+    } // old
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
@@ -84,36 +85,36 @@ double val_NOxLimit(QString stnd, double n_rated) {
     return 0;
 }
 
-double val_COLimit(QString stnd) {
+double val_COLimit(ptrdiff_t stnd) {
 
-    if      (stnd == "EU6" ) { return  1.50; }
-    else if (stnd == "EU5" ) { return  1.50; }
-    else if (stnd == "EU4" ) { return  1.50; }
-    else if (stnd == "EU3" ) { return  2.10; }
-    else if (stnd == "EU2" ) { return  4.00; }
-    else if (stnd == "EU1" ) { return  4.90; }
-    else if (stnd == "EU0" ) { return 12.30; }
-    else if (stnd == "OST" ) { return  9.50; }
-    else if (stnd == "GOSTnu" ) { return 10.0; }
-    else if (stnd == "GOSTnl" ) { return  4.0; }
-    else if (stnd == "GOSTou" ) { return 14.0; }
-    else if (stnd == "GOSTol" ) { return  5.6; }
-    else if ( (stnd == "r96E8") || (stnd == "r96E5") ) { return  3.50; }
-    else if ( (stnd == "r96F8") || (stnd == "r96F5") ) { return  5.00; }
-    else if ( (stnd == "r96G8") || (stnd == "r96G5") ) { return  5.00; }
-    else if ( (stnd == "r96D8") || (stnd == "r96D5") ) { return  5.50; }
-    else if ( (stnd == "r96H8") || (stnd == "r96H5") ) { return  3.50; }
-    else if ( (stnd == "r96I8") || (stnd == "r96I5") ) { return  5.00; }
-    else if ( (stnd == "r96J8") || (stnd == "r96J5") ) { return  5.00; }
-    else if ( (stnd == "r96K8") || (stnd == "r96K5") ) { return  5.50; }
-    else if ( (stnd == "Fnew") || (stnd == "C1new") ||
-              (stnd == "D1new") || (stnd == "D2new") ||
-              (stnd == "G1new") || (stnd == "G2new") ||
-              (stnd == "E1new") || (stnd == "E2new") || (stnd == "E3new") || (stnd == "E5new") ) { return       3.0; }
-    else if ( (stnd == "Fold") || (stnd == "C1old") ||
-              (stnd == "D1old") || (stnd == "D2old") ||
-              (stnd == "G1old") || (stnd == "G2old") ||
-              (stnd == "E1old") || (stnd == "E2old") || (stnd == "E3old") || (stnd == "E5old") ) { return 1.2 * 3.0; }
+    if      (stnd == STD_EU6     ) { return  1.50; }
+    else if (stnd == STD_EU5     ) { return  1.50; }
+    else if (stnd == STD_EU4     ) { return  1.50; }
+    else if (stnd == STD_EU3     ) { return  2.10; }
+    else if (stnd == STD_EU2     ) { return  4.00; }
+    else if (stnd == STD_EU1     ) { return  4.90; }
+    else if (stnd == STD_EU0     ) { return 12.30; }
+    else if (stnd == STD_OST     ) { return  9.50; }
+    else if (stnd == STD_GOST+10 ) { return 10.0;  } // nu
+    else if (stnd == STD_GOST+20 ) { return  4.0;  } // nl
+    else if (stnd == STD_GOST+30 ) { return 14.0;  } // ou
+    else if (stnd == STD_GOST+40 ) { return  5.6;  } // ol
+    else if ( (stnd == STD_R96E8) || (stnd == STD_R96E5) ) { return  3.50; }
+    else if ( (stnd == STD_R96F8) || (stnd == STD_R96F5) ) { return  5.00; }
+    else if ( (stnd == STD_R96G8) || (stnd == STD_R96G5) ) { return  5.00; }
+    else if ( (stnd == STD_R96D8) || (stnd == STD_R96D5) ) { return  5.50; }
+    else if ( (stnd == STD_R96H8) || (stnd == STD_R96H5) ) { return  3.50; }
+    else if ( (stnd == STD_R96I8) || (stnd == STD_R96I5) ) { return  5.00; }
+    else if ( (stnd == STD_R96J8) || (stnd == STD_R96J5) ) { return  5.00; }
+    else if ( (stnd == STD_R96K8) || (stnd == STD_R96K5) ) { return  5.50; }
+    else if ( (stnd == STD_F+10 ) || (stnd == STD_C1+10) ||
+              (stnd == STD_D1+10) || (stnd == STD_D2+10) ||
+              (stnd == STD_G1+10) || (stnd == STD_G2+10) ||
+              (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) { return       3.0; } // new
+    else if ( (stnd == STD_F+20 ) || (stnd == STD_C1+20) ||
+              (stnd == STD_D1+20) || (stnd == STD_D2+20) ||
+              (stnd == STD_G1+20) || (stnd == STD_G2+20) ||
+              (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) { return 1.2 * 3.0; } // old
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
@@ -122,32 +123,32 @@ double val_COLimit(QString stnd) {
     }
 }
 
-double val_CHLimit(QString stnd) {
+double val_CHLimit(ptrdiff_t stnd) {
 
-    if      (stnd == "EU6" ) { return  0.25; }
-    else if (stnd == "EU5" ) { return  0.46; }
-    else if (stnd == "EU4" ) { return  0.46; }
-    else if (stnd == "EU3" ) { return  0.66; }
-    else if (stnd == "EU2" ) { return  1.10; }
-    else if (stnd == "EU1" ) { return  1.23; }
-    else if (stnd == "EU0" ) { return  2.60; }
-    else if (stnd == "OST" ) { return  3.40; }
-    else if (stnd == "GOSTnu" ) { return 3.0; }
-    else if (stnd == "GOSTnl" ) { return 1.5; }
-    else if (stnd == "GOSTou" ) { return 4.5; }
-    else if (stnd == "GOSTol" ) { return 2.2; }
-    else if ( (stnd == "r96E8") || (stnd == "r96E5") ) { return  1.00; }
-    else if ( (stnd == "r96F8") || (stnd == "r96F5") ) { return  1.00; }
-    else if ( (stnd == "r96G8") || (stnd == "r96G5") ) { return  1.30; }
-    else if ( (stnd == "r96D8") || (stnd == "r96D5") ) { return  1.50; }
-    else if ( (stnd == "Fnew") || (stnd == "C1new") ||
-              (stnd == "D1new") || (stnd == "D2new") ||
-              (stnd == "G1new") || (stnd == "G2new") ||
-              (stnd == "E1new") || (stnd == "E2new") || (stnd == "E3new") || (stnd == "E5new") ) { return        1.0; }
-    else if ( (stnd == "Fold") || (stnd == "C1old") ||
-              (stnd == "D1old") || (stnd == "D2old") ||
-              (stnd == "G1old") || (stnd == "G2old") ||
-              (stnd == "E1old") || (stnd == "E2old") || (stnd == "E3old") || (stnd == "E5old") ) { return 1.25 * 1.0; }
+    if      (stnd == STD_EU6     ) { return  0.25; }
+    else if (stnd == STD_EU5     ) { return  0.46; }
+    else if (stnd == STD_EU4     ) { return  0.46; }
+    else if (stnd == STD_EU3     ) { return  0.66; }
+    else if (stnd == STD_EU2     ) { return  1.10; }
+    else if (stnd == STD_EU1     ) { return  1.23; }
+    else if (stnd == STD_EU0     ) { return  2.60; }
+    else if (stnd == STD_OST     ) { return  3.40; }
+    else if (stnd == STD_GOST+10 ) { return 3.0;   } // nu
+    else if (stnd == STD_GOST+20 ) { return 1.5;   } // nl
+    else if (stnd == STD_GOST+30 ) { return 4.5;   } // ou
+    else if (stnd == STD_GOST+40 ) { return 2.2;   } // ol
+    else if ( (stnd == STD_R96E8) || (stnd == STD_R96E5) ) { return  1.00; }
+    else if ( (stnd == STD_R96F8) || (stnd == STD_R96F5) ) { return  1.00; }
+    else if ( (stnd == STD_R96G8) || (stnd == STD_R96G5) ) { return  1.30; }
+    else if ( (stnd == STD_R96D8) || (stnd == STD_R96D5) ) { return  1.50; }
+    else if ( (stnd == STD_F+10 ) || (stnd == STD_C1+10) ||
+              (stnd == STD_D1+10) || (stnd == STD_D2+10) ||
+              (stnd == STD_G1+10) || (stnd == STD_G2+10) ||
+              (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) { return        1.0; } // new
+    else if ( (stnd == STD_F+20 ) || (stnd == STD_C1+20) ||
+              (stnd == STD_D1+20) || (stnd == STD_D2+20) ||
+              (stnd == STD_G1+20) || (stnd == STD_G2+20) ||
+              (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) { return 1.25 * 1.0; } // old
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
@@ -156,22 +157,22 @@ double val_CHLimit(QString stnd) {
     }
 }
 
-double val_PTLimit(QString stnd) {
+double val_PTLimit(ptrdiff_t stnd) {
 
-    if      (stnd == "EU6" ) { return  0.02; }
-    else if (stnd == "EU5" ) { return  0.02; }
-    else if (stnd == "EU4" ) { return  0.02; }
-    else if (stnd == "EU3" ) { return  0.10; }
-    else if (stnd == "EU2" ) { return  0.15; }
-    else if (stnd == "EU1" ) { return  0.40; }
-    else if ( (stnd == "r96E8") || (stnd == "r96E5") ) { return  0.20; }
-    else if ( (stnd == "r96F8") || (stnd == "r96F5") ) { return  0.30; }
-    else if ( (stnd == "r96G8") || (stnd == "r96G5") ) { return  0.40; }
-    else if ( (stnd == "r96D8") || (stnd == "r96D5") ) { return  0.80; }
-    else if ( (stnd == "r96H8") || (stnd == "r96H5") ) { return  0.20; }
-    else if ( (stnd == "r96I8") || (stnd == "r96I5") ) { return  0.30; }
-    else if ( (stnd == "r96J8") || (stnd == "r96J5") ) { return  0.40; }
-    else if ( (stnd == "r96K8") || (stnd == "r96K5") ) { return  0.60; }
+    if      (stnd == STD_EU6 ) { return  0.02; }
+    else if (stnd == STD_EU5 ) { return  0.02; }
+    else if (stnd == STD_EU4 ) { return  0.02; }
+    else if (stnd == STD_EU3 ) { return  0.10; }
+    else if (stnd == STD_EU2 ) { return  0.15; }
+    else if (stnd == STD_EU1 ) { return  0.40; }
+    else if ( (stnd == STD_R96E8) || (stnd == STD_R96E5) ) { return  0.20; }
+    else if ( (stnd == STD_R96F8) || (stnd == STD_R96F5) ) { return  0.30; }
+    else if ( (stnd == STD_R96G8) || (stnd == STD_R96G5) ) { return  0.40; }
+    else if ( (stnd == STD_R96D8) || (stnd == STD_R96D5) ) { return  0.80; }
+    else if ( (stnd == STD_R96H8) || (stnd == STD_R96H5) ) { return  0.20; }
+    else if ( (stnd == STD_R96I8) || (stnd == STD_R96I5) ) { return  0.30; }
+    else if ( (stnd == STD_R96J8) || (stnd == STD_R96J5) ) { return  0.40; }
+    else if ( (stnd == STD_R96K8) || (stnd == STD_R96K5) ) { return  0.60; }
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
@@ -180,12 +181,12 @@ double val_PTLimit(QString stnd) {
     }
 }
 
-double val_NOxCHLimit(QString stnd) {
+double val_NOxCHLimit(ptrdiff_t stnd) {
 
-    if      ( (stnd == "r96H8") || (stnd == "r96H5") ) { return  4.00; }
-    else if ( (stnd == "r96I8") || (stnd == "r96I5") ) { return  4.00; }
-    else if ( (stnd == "r96J8") || (stnd == "r96J5") ) { return  4.70; }
-    else if ( (stnd == "r96K8") || (stnd == "r96K5") ) { return  7.50; }
+    if      ( (stnd == STD_R96H8) || (stnd == STD_R96H5) ) { return  4.00; }
+    else if ( (stnd == STD_R96I8) || (stnd == STD_R96I5) ) { return  4.00; }
+    else if ( (stnd == STD_R96J8) || (stnd == STD_R96J5) ) { return  4.70; }
+    else if ( (stnd == STD_R96K8) || (stnd == STD_R96K5) ) { return  7.50; }
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";

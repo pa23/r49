@@ -93,7 +93,6 @@ private:
     void contextMenuEvent(QContextMenuEvent *);
     void setDoubleValidators();
     void readPreferences();
-    void setComboIndex(QComboBox *, QString);
     void writeProgramSettings();
     void readProgramSettings();
     void loadAllSourceData();
@@ -156,9 +155,9 @@ private slots:
     void on_action_CheckForUpdates_activated();
 
     void on_pushButton_EnterPTmass_clicked();
-    void taskChanged(QString);
-    void standardChanged(QString);
-    void PTcalcChanged(QString);
+    void taskChanged(int);
+    void standardChanged(int);
+    void PTcalcChanged(int);
     void reportChanged(QString);
     void tabChanged(int);
     void tableCellChanged(int, int);

@@ -31,7 +31,6 @@
 #include <QVector>
 
 using std::string;
-using std::endl;
 using std::ofstream;
 using std::setfill;
 using std::setw;
@@ -87,7 +86,7 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
 
 bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
     QString csvdelimiter = config.data()->val_csvDelimiter();
     QString filenameSource = "";
 
@@ -95,7 +94,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
     if ( data.isEmpty() ) {
 
-        if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
             filenameSource = config.data()->val_filenameSourceEU3();
         }
@@ -108,7 +107,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
         arraySourceData = readerSourceData.data()->csvData();
 
-        if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
             if (arraySourceData.isEmpty()) {
 
@@ -143,14 +142,14 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
                 return false;
             }
         }
-        else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ||
-                  (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                  (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                  (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                  (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ||
-                  (std == "C1") || (std == "D1") || (std == "D2") ||
-                  (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                  (std == "F") || (std == "G1") || (std == "G2") ) {
+        else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ||
+                  (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+                  (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+                  (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+                  (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ||
+                  (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             if (arraySourceData.isEmpty()) {
 
@@ -184,7 +183,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
         arraySourceData = data;
 
-        if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
             n_hi        = arraySourceData[0][ 0];
             n_lo        = arraySourceData[0][ 1];
@@ -205,14 +204,14 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
                 return false;
             }
         }
-        else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ||
-                  (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-                  (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-                  (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ||
-                  (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ||
-                  (std == "C1") || (std == "D1") || (std == "D2") ||
-                  (std == "E1") || (std == "E2") || (std == "E3") || (std == "E5") ||
-                  (std == "F") || (std == "G1") || (std == "G2") ) {
+        else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ||
+                  (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+                  (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+                  (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
+                  (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ||
+                  (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             idle        = arraySourceData[0][ 0];
             n_interim   = arraySourceData[0][ 1];
@@ -234,13 +233,14 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
 
 bool CyclePoints::fillArrays() {
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
+    ptrdiff_t addpc = params.data()->val_AddPointsCalc();
 
     ptrdiff_t n = 0;
 
-    if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+    if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if (params.data()->val_AddPointsCalc() == "yes") {
+        if (addpc == ADDPOINTSCALC_YES) {
 
             n = TCyclePointsNumber;
         }
@@ -269,7 +269,7 @@ bool CyclePoints::fillArrays() {
         array_n[11] = C;
         array_n[12] = C;
 
-        if (params.data()->val_AddPointsCalc() == "yes") {
+        if (addpc == ADDPOINTSCALC_YES) {
 
             array_n[13] = a1;
             array_n[14] = a2;
@@ -295,7 +295,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[11] = 0.75  * (Ne_C - array_N_fan[11]) + array_N_fan[11];
         array_Ne_brutto[12] = 0.50  * (Ne_C - array_N_fan[12]) + array_N_fan[12];
 
-        if (params.data()->val_AddPointsCalc() == "yes") {
+        if (addpc == ADDPOINTSCALC_YES) {
 
             array_Ne_brutto[13] = 0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
             array_Ne_brutto[14] = 0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
@@ -321,14 +321,14 @@ bool CyclePoints::fillArrays() {
         array_w[11] = 0.05;
         array_w[12] = 0.05;
 
-        if (params.data()->val_AddPointsCalc() == "yes") {
+        if (addpc == ADDPOINTSCALC_YES) {
 
             array_w[13] = 1.0;
             array_w[14] = 1.0;
             array_w[15] = 1.0;
         }
     }
-    else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") ) {
+    else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ) {
 
         n = TCyclePointsNumber - TCycleAddPointsNumber;
 
@@ -390,7 +390,7 @@ bool CyclePoints::fillArrays() {
         array_w[11] = 0.020;
         array_w[12] = 0.0833;
     }
-    else if ( (std == "OST") || (std == "GOST") ) {
+    else if ( (std == STD_OST) || (std == STD_GOST) ) {
 
         n = TCyclePointsNumber - TCycleAddPointsNumber;
 
@@ -420,8 +420,8 @@ bool CyclePoints::fillArrays() {
         }
 
         array_Ne_brutto[ 0] = 0;
-        if (std == "OST") { array_Ne_brutto[ 1] = 0.02 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
-        else              { array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
+        if (std == STD_OST) { array_Ne_brutto[ 1] = 0.02 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
+        else                { array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
         array_Ne_brutto[ 2] = 0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
         array_Ne_brutto[ 3] = 0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
         array_Ne_brutto[ 4] = 0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
@@ -431,8 +431,8 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
         array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
         array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
-        if (std == "OST") { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
-        else              { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+        if (std == STD_OST) { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+        else                { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
         array_Ne_brutto[12] = 0;
 
         for (ptrdiff_t i=0; i<n; i++) {
@@ -440,7 +440,7 @@ bool CyclePoints::fillArrays() {
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        if (std == "OST") {
+        if (std == STD_OST) {
 
             array_w[ 0] = 0.066666667;
             array_w[ 1] = 0.080;
@@ -473,8 +473,8 @@ bool CyclePoints::fillArrays() {
             array_w[12] = 0.0833;
         }
     }
-    else if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-              (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ) {
+    else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+              (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
 
         array_n.resize(ECyclePointsNumber);
         array_Me_brutto.resize(ECyclePointsNumber);
@@ -515,8 +515,8 @@ bool CyclePoints::fillArrays() {
         array_w[ 6] = 0.10;
         array_w[ 7] = 0.15;
     }
-    else if ( (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-              (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+    else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+              (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         array_n.resize(FCyclePointsNumber);
         array_Me_brutto.resize(FCyclePointsNumber);
@@ -543,7 +543,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.30;
         array_w[ 4] = 0.10;
     }
-    else if (std == "C1") {
+    else if (std == STD_C1) {
 
         array_n.resize(GC1CylcePointsNumber);
         array_Me_brutto.resize(GC1CylcePointsNumber);
@@ -583,7 +583,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 6] = 0.1;
         array_w[ 7] = 0.15;
     }
-    else if (std == "D1") {
+    else if (std == STD_D1) {
 
         array_n.resize(GD1CylcePointsNumber);
         array_Me_brutto.resize(GD1CylcePointsNumber);
@@ -608,7 +608,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 1] = 0.5;
         array_w[ 2] = 0.2;
     }
-    else if (std == "D2") {
+    else if (std == STD_D2) {
 
         array_n.resize(GD2CylcePointsNumber);
         array_Me_brutto.resize(GD2CylcePointsNumber);
@@ -639,7 +639,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.3;
         array_w[ 4] = 0.1;
     }
-    else if (std == "E1") {
+    else if (std == STD_E1) {
 
         array_n.resize(GE1CylcePointsNumber);
         array_Me_brutto.resize(GE1CylcePointsNumber);
@@ -670,7 +670,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.32;
         array_w[ 4] = 0.3;
     }
-    else if (std == "E2") {
+    else if (std == STD_E2) {
 
         array_n.resize(GE2CylcePointsNumber);
         array_Me_brutto.resize(GE2CylcePointsNumber);
@@ -698,7 +698,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 2] = 0.15;
         array_w[ 3] = 0.15;
     }
-    else if (std == "E3") {
+    else if (std == STD_E3) {
 
         array_n.resize(GE3CylcePointsNumber);
         array_Me_brutto.resize(GE3CylcePointsNumber);
@@ -721,7 +721,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 2] = 0.15;
         array_w[ 3] = 0.15;
     }
-    else if (std == "E5") {
+    else if (std == STD_E5) {
 
         array_n.resize(GE5CylcePointsNumber);
         array_Me_brutto.resize(GE5CylcePointsNumber);
@@ -747,7 +747,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.32;
         array_w[ 4] = 0.3;
     }
-    else if (std == "F") {
+    else if (std == STD_F) {
 
         array_n.resize(GFCylcePointsNumber);
         array_Me_brutto.resize(GFCylcePointsNumber);
@@ -772,7 +772,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 1] = 0.15;
         array_w[ 2] = 0.6;
     }
-    else if (std == "G1") {
+    else if (std == STD_G1) {
 
         array_n.resize(GG1CylcePointsNumber);
         array_Me_brutto.resize(GG1CylcePointsNumber);
@@ -806,7 +806,7 @@ bool CyclePoints::fillArrays() {
         array_w[ 4] = 0.07;
         array_w[ 5] = 0.05;
     }
-    else if (std == "G2") {
+    else if (std == STD_G2) {
 
         array_n.resize(GG2CylcePointsNumber);
         array_Me_brutto.resize(GG2CylcePointsNumber);
@@ -894,15 +894,15 @@ QString CyclePoints::createReport() const {
     fout << right << setw(WidthOfColumn) << setfill(' ') << "tauf[s]" << csvdelimiter;
     fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdw[g/s]" << csvdelimiter;
     fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << endl;
+    fout << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << "\n";
 
-    QString std = params.data()->val_Standard();
+    ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
 
-    if ( (std == "EU6") || (std == "EU5") || (std == "EU4") || (std == "EU3") ) {
+    if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if (params.data()->val_AddPointsCalc() == "yes") {
+        if (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) {
 
             n = TCyclePointsNumber;
         }
@@ -911,51 +911,59 @@ QString CyclePoints::createReport() const {
             n = TCyclePointsNumber - TCycleAddPointsNumber;
         }
     }
-    else if ( (std == "EU2") || (std == "EU1") || (std == "EU0") || (std == "OST") || (std == "GOST") ) {
+    else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ) {
 
         n = TCyclePointsNumber - TCycleAddPointsNumber;
     }
-    else if ( (std == "r96E8") || (std == "r96F8") || (std == "r96G8") || (std == "r96D8") ||
-              (std == "r96H8") || (std == "r96I8") || (std == "r96J8") || (std == "r96K8") ) {
+    else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
+              (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
 
         n = ECyclePointsNumber;
     }
-    else if ( (std == "r96E5") || (std == "r96F5") || (std == "r96G5") || (std == "r96D5") ||
-              (std == "r96H5") || (std == "r96I5") || (std == "r96J5") || (std == "r96K5") ) {
+    else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
+              (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         n = FCyclePointsNumber;
     }
-    else if (std == "C1") {
+    else if (std == STD_C1) {
 
         n = GC1CylcePointsNumber;
     }
-    else if (std == "D1") {
+    else if (std == STD_D1) {
 
         n = GD1CylcePointsNumber;
     }
-    else if (std == "D2") {
+    else if (std == STD_D2) {
 
         n = GD2CylcePointsNumber;
     }
-    else if (std == "E1") {
+    else if (std == STD_E1) {
 
         n = GE1CylcePointsNumber;
     }
-    else if (std == "E2") {
+    else if (std == STD_E2) {
 
         n = GE2CylcePointsNumber;
     }
-    else if (std == "E3") {
+    else if (std == STD_E3) {
 
         n = GE3CylcePointsNumber;
     }
-    else if (std == "E5") {
+    else if (std == STD_E5) {
 
         n = GE5CylcePointsNumber;
     }
-    else if (std == "F") {
+    else if (std == STD_F) {
 
         n = GFCylcePointsNumber;
+    }
+    else if (std == STD_G1) {
+
+        n = GG1CylcePointsNumber;
+    }
+    else if (std == STD_G2) {
+
+        n = GG2CylcePointsNumber;
     }
     else {
 
@@ -996,7 +1004,7 @@ QString CyclePoints::createReport() const {
         fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
         fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
         fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter << endl;
+        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter << "\n";
     }
 
     fout.close();
