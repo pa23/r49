@@ -61,5 +61,7 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
         in << myCheckoutData;
 
         checkoutDataFile.close();
+
+        ui.lineEdit_file->setText(newCheckoutDataFileName);
     }
 }

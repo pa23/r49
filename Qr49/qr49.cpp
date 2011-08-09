@@ -217,6 +217,7 @@ void MainWindow::writeProgramSettings() {
 
     qr49settings.beginGroup("/Settings");
     qr49settings.setValue("/window_geometry", geometry());
+    qr49settings.setValue("/toolbars_state", QMainWindow::saveState());
     qr49settings.setValue("/action_toolbar_checked", ui->action_Toolbar->isChecked());
     qr49settings.setValue("/active_tab", ui->tabWidget_Data->currentIndex());
     qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
@@ -238,6 +239,7 @@ void MainWindow::readProgramSettings() {
 
     qr49settings.beginGroup("/Settings");
     setGeometry(qr49settings.value("/window_geometry", QRect(20, 40, 0, 0)).toRect());
+    restoreState(qr49settings.value("/toolbars_state").toByteArray());
     ui->action_Toolbar->setChecked(qr49settings.value("/action_toolbar_checked", true).toBool());
     ui->tabWidget_Data->setCurrentIndex(qr49settings.value("active_tab", ui->tabWidget_Data->currentIndex()).toInt());
     ui->comboBox_task->setCurrentIndex(qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
@@ -1540,7 +1542,7 @@ void MainWindow::on_action_Execute_activated() {
 
             //
 
-            if (ui->comboBox_standard->currentText() == "FreeCalc") {
+            if (ui->comboBox_standard->currentIndex() == STD_FREECALC) {
 
                 ui->tabWidget_Data->setCurrentIndex(1);
             }
@@ -1639,6 +1641,7 @@ void MainWindow::on_action_ELRsmoke_activated() {
 void MainWindow::on_action_CheckoutData_activated() {
 
     QPlainTextEdit *myPlainTextEdit_CheckoutData = checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
+    QLineEdit *myLineEdit_file = checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
 
     if (!myPlainTextEdit_CheckoutData) {
 
@@ -1663,9 +1666,8 @@ void MainWindow::on_action_CheckoutData_activated() {
 
     arrayFile.close();
 
-    string stdstrdata = data.toStdString();
-
-    myPlainTextEdit_CheckoutData->setPlainText(QString::fromLocal8Bit(stdstrdata.c_str()));
+    myPlainTextEdit_CheckoutData->setPlainText(data);
+    myLineEdit_file->setText(lastCheckoutDataFileName);
 
     checkoutDataDialog->exec();
 }
@@ -1870,8 +1872,8 @@ void MainWindow::taskChanged(int currtask) {
         ui->action_CloseReport->setEnabled(false);
         ui->action_PrintReport->setEnabled(false);
         ui->action_ReportToPDF->setEnabled(false);
-        ui->action_AddRow->setEnabled(false);
-        ui->action_DeleteRow->setEnabled(false);
+        ui->action_AddRow->setEnabled(true);
+        ui->action_DeleteRow->setEnabled(true);
 
         ui->tabWidget_Data->setCurrentIndex(2);
     }
@@ -1910,7 +1912,7 @@ void MainWindow::standardChanged(int currstd) {
         ui->comboBox_FuelType->setEnabled(true);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
-        if (ui->comboBox_task->currentText() == "points") {
+        if (ui->comboBox_task->currentIndex() == TASK_POINTS) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
             ui->tableWidget_SrcDataEU3->setEnabled(false);

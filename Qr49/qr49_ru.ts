@@ -100,6 +100,10 @@
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
+    <message>
+        <source>File</source>
+        <translation>Файл</translation>
+    </message>
 </context>
 <context>
     <name>DataImportDialog</name>
@@ -2059,104 +2063,12 @@ Maybe you did not enter all source data?</source>
         <translation>Справка по командной строке</translation>
     </message>
     <message>
-        <source>UNECE R49 Euro-6</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-6</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-5</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-5</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-4</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-4</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-3</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-3</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-2</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-2</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-1</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-1</translation>
-    </message>
-    <message>
-        <source>UNECE R49 Euro-0</source>
-        <translation>Пр. ЕЭК ООН No49 Евро-0</translation>
-    </message>
-    <message>
         <source>RUSSIA OST 37.001.234-81</source>
         <translation>ОСТ 37.001.234-81</translation>
     </message>
     <message>
         <source>RUSSIA GOST 17.2.2.05-97</source>
         <translation>ГОСТ 17.2.2.05-97</translation>
-    </message>
-    <message>
-        <source>UNECE R96 E8</source>
-        <translation>Правила ЕЭК ООН No96 E8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 F8</source>
-        <translation>Правила ЕЭК ООН No96 F8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 G8</source>
-        <translation>Правила ЕЭК ООН No96 G8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 D8</source>
-        <translation>Правила ЕЭК ООН No96 D8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 E5</source>
-        <translation>Правила ЕЭК ООН No96 E5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 F5</source>
-        <translation>Правила ЕЭК ООН No96 F5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 G5</source>
-        <translation>Правила ЕЭК ООН No96 G5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 D5</source>
-        <translation>Правила ЕЭК ООН No96 D5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 H8</source>
-        <translation>Правила ЕЭК ООН No96 H8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 I8</source>
-        <translation>Правила ЕЭК ООН No96 I8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 J8</source>
-        <translation>Правила ЕЭК ООН No96 J8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 K8</source>
-        <translation>Правила ЕЭК ООН No96 K8</translation>
-    </message>
-    <message>
-        <source>UNECE R96 H5</source>
-        <translation>Правила ЕЭК ООН No96 H5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 I5</source>
-        <translation>Правила ЕЭК ООН No96 I5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 J5</source>
-        <translation>Правила ЕЭК ООН No96 J5</translation>
-    </message>
-    <message>
-        <source>UNECE R96 K5</source>
-        <translation>Правила ЕЭК ООН No96 K5</translation>
     </message>
     <message>
         <source>RUSSIA GOST R 51249-99 C1</source>
@@ -2236,7 +2148,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>Through smoke values</source>
-        <translation>Через значения дымности</translation>
+        <translation>Через знач. дымности</translation>
     </message>
     <message>
         <source>Through PT mass</source>
@@ -2257,6 +2169,98 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>See the output of the command line by running the Qr49 with parameter task=help.</source>
         <translation>См. вывод программы в командной строке, запустив Qr49 с параметром task=help.</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-6</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-6</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-5</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-5</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-4</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-4</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-3</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-3</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-2</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-2</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-1</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-1</translation>
+    </message>
+    <message>
+        <source>UN ECE R49 Euro-0</source>
+        <translation>Пр. 49 ЕЭК ООН Евро-0</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 E8</source>
+        <translation>Пр. 96 ЕЭК ООН E8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 F8</source>
+        <translation>Пр. 96 ЕЭК ООН F8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 G8</source>
+        <translation>Пр. 96 ЕЭК ООН G8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 D8</source>
+        <translation>Пр. 96 ЕЭК ООН D8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 E5</source>
+        <translation>Пр. 96 ЕЭК ООН E5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 F5</source>
+        <translation>Пр. 96 ЕЭК ООН F5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 G5</source>
+        <translation>Пр. 96 ЕЭК ООН G5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 D5</source>
+        <translation>Пр. 96 ЕЭК ООН D5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 H8</source>
+        <translation>Пр. 96 ЕЭК ООН H8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 I8</source>
+        <translation>Пр. 96 ЕЭК ООН I8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 J8</source>
+        <translation>Пр. 96 ЕЭК ООН J8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 K8</source>
+        <translation>Пр. 96 ЕЭК ООН K8</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 H5</source>
+        <translation>Пр. 96 ЕЭК ООН H5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 I5</source>
+        <translation>Пр. 96 ЕЭК ООН I5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 J5</source>
+        <translation>Пр. 96 ЕЭК ООН J5</translation>
+    </message>
+    <message>
+        <source>UN ECE R96 K5</source>
+        <translation>Пр. 96 ЕЭК ООН K5</translation>
     </message>
 </context>
 <context>
@@ -2384,48 +2388,8 @@ Maybe you did not enter all source data?</source>
         <translation>Параметры воздуха</translation>
     </message>
     <message>
-        <source>Air oxygen concentration</source>
-        <translation>Концентрация кислорода в воздухе</translation>
-    </message>
-    <message>
-        <source>Air carbon dioxide concentration</source>
-        <translation>Концентрация диоксида углерода в воздухе</translation>
-    </message>
-    <message>
-        <source>Air density</source>
-        <translation>Плотность воздуха</translation>
-    </message>
-    <message>
-        <source>Fuel percentage</source>
-        <translation>Процентный состав топлива</translation>
-    </message>
-    <message>
-        <source>Hydrogen</source>
-        <translation>Водород</translation>
-    </message>
-    <message>
-        <source>Oxygen</source>
-        <translation>Кислород</translation>
-    </message>
-    <message>
-        <source>Nitrogen</source>
-        <translation>Азот</translation>
-    </message>
-    <message>
         <source>Molecular weights</source>
         <translation>Молекулярные веса</translation>
-    </message>
-    <message>
-        <source>Nitrogen dioxide</source>
-        <translation>Диоксид азота</translation>
-    </message>
-    <message>
-        <source>Carbon oxide</source>
-        <translation>Оксид углерода</translation>
-    </message>
-    <message>
-        <source>Hydrocarbon</source>
-        <translation>Углеводород</translation>
     </message>
     <message>
         <source>Other parameters</source>
@@ -2436,16 +2400,56 @@ Maybe you did not enter all source data?</source>
         <translation>Стехиометрическое соотношение воздух/топливо</translation>
     </message>
     <message>
-        <source>Opacimeter effective base</source>
-        <translation>Эффективная длина дымомера</translation>
+        <source>Air oxygen concentration, %</source>
+        <translation>Концентрация кислорода в воздухе, %</translation>
     </message>
     <message>
-        <source>Measuring nozzle diameter</source>
-        <translation>Диаметр измерительного сопла</translation>
+        <source>Air carbon dioxide concentration, %</source>
+        <translation>Концентрация диоксида углерода в воздухе, %</translation>
     </message>
     <message>
-        <source>Rr</source>
-        <translation></translation>
+        <source>Air density, kg/m3</source>
+        <translation>Плотность воздуха, кг/м3</translation>
+    </message>
+    <message>
+        <source>Diesel fuel percentage</source>
+        <translation>Процентный состав диз. топлива</translation>
+    </message>
+    <message>
+        <source>Hydrogen, %</source>
+        <translation>Водород, %</translation>
+    </message>
+    <message>
+        <source>Oxygen, %</source>
+        <translation>Кислород, %</translation>
+    </message>
+    <message>
+        <source>Nitrogen, %</source>
+        <translation>Азот, %</translation>
+    </message>
+    <message>
+        <source>Nitrogen dioxide, g/mole</source>
+        <translation>Диоксид азота, г/моль</translation>
+    </message>
+    <message>
+        <source>Carbon oxide, g/mole</source>
+        <translation>Оксид углерода, г/моль</translation>
+    </message>
+    <message>
+        <source>Hydrocarbon, g/mole</source>
+        <translation>Углеводород, г/моль</translation>
+    </message>
+    <message>
+        <source>Opacimeter effective base, m</source>
+        <translation>Эффективная длина дымомера, м</translation>
+    </message>
+    <message>
+        <source>Measuring nozzle diameter, mm</source>
+        <translation>Диаметр измерительного сопла, мм</translation>
+    </message>
+    <message>
+        <source>Rr, J/kgK</source>
+        <translation>Rг, Дж/кгК</translation>
     </message>
 </context>
 <context>
