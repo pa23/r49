@@ -1,4 +1,5 @@
-QT += network
+QT += core gui network
+CONFIG += console
 TARGET = Qr49
 TEMPLATE = app
 SOURCES += preferencesdialog.cpp \
@@ -40,7 +41,6 @@ FORMS += preferencesdialog.ui \
 RESOURCES = qr49.qrc
 RC_FILE = qr49icon.rc
 TRANSLATIONS = qr49_ru.ts
-CONFIG += console
 unix: {
     INCLUDEPATH += ../libtoxic/sources ..
     LIBS += -L../libtoxic/build/unix/bin \
@@ -48,6 +48,7 @@ unix: {
         -Wl,-rpath,.
     DESTDIR = build/unix/bin
     MOC_DIR = build/unix/moc
+    RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/unix/debug
     }
@@ -62,6 +63,7 @@ win32: {
         -Wl,-rpath,.
     DESTDIR = build\\win\\bin
     MOC_DIR = build\\win\\moc
+    RCC_DIR = build\\win\\rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build\\win\\debug
     }

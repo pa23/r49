@@ -2262,6 +2262,18 @@ Maybe you did not enter all source data?</source>
         <source>UN ECE R96 K5</source>
         <translation>Пр. 96 ЕЭК ООН K5</translation>
     </message>
+    <message>
+        <source>Engine charging type</source>
+        <translation>Наддув двигателя</translation>
+    </message>
+    <message>
+        <source>W/o or mechanical</source>
+        <translation>Нет или механический</translation>
+    </message>
+    <message>
+        <source>Gas turbine</source>
+        <translation>Газотурбинный</translation>
+    </message>
 </context>
 <context>
     <name>NewVersions</name>

@@ -22,7 +22,7 @@
 
 // constants
 
-const QString libtoxicVersion  = "5.2.0";
+const QString libtoxicVersion  = "5.3.0";
 
 const QString parameterValueDelimiter = "=";
 const QString commentPattern = "^//";
@@ -97,6 +97,9 @@ enum { STD_EU6,
        STD_G1,
        STD_G2,
        STD_FREECALC };
+
+enum { CHARGINGTYPE_NO,
+       CHARGINGTYPE_GASTURBINE };
 
 enum { FUELTYPE_DIESEL,
        FUELTYPE_MOTOR,

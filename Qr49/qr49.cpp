@@ -524,6 +524,7 @@ bool MainWindow::fillParameters() {
     params.data()->setTask(ui->comboBox_task->currentIndex());
     double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(&Vh);
     params.data()->setStandard(ui->comboBox_standard->currentIndex());
+    params.data()->setChargingType(ui->comboBox_chargingType->currentIndex());
     params.data()->setFuelType(ui->comboBox_FuelType->currentIndex());
     params.data()->setNOxSample(ui->comboBox_NOxSample->currentIndex());
     params.data()->setPTcalc(ui->comboBox_PTcalc->currentIndex());
@@ -918,6 +919,7 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
         ui->comboBox_task->setCurrentIndex(params.data()->val_Task());
         ui->lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));
         ui->comboBox_standard->setCurrentIndex(params.data()->val_Standard());
+        ui->comboBox_chargingType->setCurrentIndex(params.data()->val_ChargingType());
         ui->comboBox_FuelType->setCurrentIndex(params.data()->val_FuelType());
         ui->comboBox_NOxSample->setCurrentIndex(params.data()->val_NOxSample());
         ui->comboBox_PTcalc->setCurrentIndex(params.data()->val_PTcalc());
@@ -954,6 +956,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
         savedOptions.write("task");           savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_task->currentIndex()));             savedOptions.write("\n");
         savedOptions.write("Vh");             savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_Vh->text().toAscii());             savedOptions.write("\n");
         savedOptions.write("standard");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_standard->currentIndex()));         savedOptions.write("\n");
+        savedOptions.write("ChargingType");   savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_chargingType->currentIndex()));     savedOptions.write("\n");
         savedOptions.write("FuelType");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_FuelType->currentIndex()));         savedOptions.write("\n");
         savedOptions.write("NOxSample");      savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_NOxSample->currentIndex()));        savedOptions.write("\n");
         savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_PTcalc->currentIndex()));           savedOptions.write("\n");
@@ -1735,6 +1738,7 @@ void MainWindow::taskChanged(int currtask) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
+        ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
@@ -1792,6 +1796,7 @@ void MainWindow::taskChanged(int currtask) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
+        ui->comboBox_chargingType->setEnabled(true);
 
         ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
@@ -1848,6 +1853,7 @@ void MainWindow::taskChanged(int currtask) {
 
         ui->lineEdit_Vh->setEnabled(true);
         ui->comboBox_standard->setEnabled(false);
+        ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
@@ -1896,6 +1902,7 @@ void MainWindow::standardChanged(int currstd) {
 
     if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
+        ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(true);
 
@@ -1909,6 +1916,7 @@ void MainWindow::standardChanged(int currstd) {
               (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
               (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
 
+        ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(true);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
@@ -1920,6 +1928,7 @@ void MainWindow::standardChanged(int currstd) {
     }
     else {
 
+        ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 

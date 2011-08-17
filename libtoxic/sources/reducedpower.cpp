@@ -220,7 +220,7 @@ QString ReducedPower::createReports() {
     string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
     QString dirnameReports = config.data()->val_dirnameReports();
 
-    fullReportsPath = dirnameReports + "/" + "r85_" + QString::fromStdString(mytime);
+    fullReportsPath = dirnameReports + "/" + "R85_" + QString::fromStdString(mytime);
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 

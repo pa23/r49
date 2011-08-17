@@ -29,6 +29,7 @@ LibtoxicParameters::LibtoxicParameters() :
         task           (TASK_EMISSIONS),
         Vh             (0),
         standard       (STD_EU4),
+        chargingType   (CHARGINGTYPE_GASTURBINE),
         FuelType       (FUELTYPE_DIESEL),
         NOxSample      (NOXSAMPLE_WET),
         PTcalc         (PTCALC_NO),
@@ -56,6 +57,8 @@ void LibtoxicParameters::setTask           (QString    task_          ) { task  
 void LibtoxicParameters::setVh             (double    *Vh_            ) { Vh             = *Vh_;                              }
 void LibtoxicParameters::setStandard       (ptrdiff_t  standart_      ) { standard       =  standart_;                        }
 void LibtoxicParameters::setStandard       (QString    standart_      ) { standard       =  defStandard(standart_);           }
+void LibtoxicParameters::setChargingType   (ptrdiff_t  chargingType_  ) { chargingType   =  chargingType_;                    }
+void LibtoxicParameters::setChargingType   (QString    chargingType_  ) { chargingType   =  defChargingType(chargingType_);   }
 void LibtoxicParameters::setFuelType       (ptrdiff_t  FuelType_      ) { FuelType       =  FuelType_;                        }
 void LibtoxicParameters::setFuelType       (QString    FuelType_      ) { FuelType       =  defFuelType(FuelType_);           }
 void LibtoxicParameters::setNOxSample      (ptrdiff_t  NOxSample_     ) { NOxSample      =  NOxSample_;                       }
@@ -70,6 +73,7 @@ void LibtoxicParameters::setCalcConfigFile (QString    CalcConfigFile_) { CalcCo
 ptrdiff_t LibtoxicParameters::val_Task           () const { return task;           }
 double    LibtoxicParameters::val_Vh             () const { return Vh;             }
 ptrdiff_t LibtoxicParameters::val_Standard       () const { return standard;       }
+ptrdiff_t LibtoxicParameters::val_ChargingType   () const { return chargingType;   }
 ptrdiff_t LibtoxicParameters::val_FuelType       () const { return FuelType;       }
 ptrdiff_t LibtoxicParameters::val_NOxSample      () const { return NOxSample;      }
 ptrdiff_t LibtoxicParameters::val_PTcalc         () const { return PTcalc;         }
@@ -103,6 +107,7 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
             if      (elements[0] == "task"          ) { task = defTask(elements[1]);                   }
             else if (elements[0] == "Vh"            ) { Vh = (elements[1]).toDouble();                 }
             else if (elements[0] == "standard"      ) { standard = defStandard(elements[1]);           }
+            else if (elements[0] == "ChargingType"  ) { chargingType = defChargingType(elements[1]);   }
             else if (elements[0] == "FuelType"      ) { FuelType = defFuelType(elements[1]);           }
             else if (elements[0] == "NOxSample"     ) { NOxSample = defNOxSample(elements[1]);         }
             else if (elements[0] == "PTcalc"        ) { PTcalc = defPTcalc(elements[1]);               }
@@ -127,43 +132,43 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
 
 QString LibtoxicParameters::defStandardName(ptrdiff_t val) const {
 
-    if      ( val == STD_EU6     ) { return "EU6";      }
-    else if ( val == STD_EU5     ) { return "EU5";      }
-    else if ( val == STD_EU4     ) { return "EU4";      }
-    else if ( val == STD_EU3     ) { return "EU3";      }
-    else if ( val == STD_EU2     ) { return "EU2";      }
-    else if ( val == STD_EU1     ) { return "EU1";      }
-    else if ( val == STD_EU0     ) { return "EU0";      }
-    else if ( val == STD_OST     ) { return "OST";      }
-    else if ( val == STD_GOST    ) { return "GOST";     }
-    else if ( val == STD_R96E8   ) { return "r96E8";    }
-    else if ( val == STD_R96F8   ) { return "r96F8";    }
-    else if ( val == STD_R96G8   ) { return "r96G8";    }
-    else if ( val == STD_R96D8   ) { return "r96D8";    }
-    else if ( val == STD_R96E5   ) { return "r96E5";    }
-    else if ( val == STD_R96F5   ) { return "r96F5";    }
-    else if ( val == STD_R96G5   ) { return "r96G5";    }
-    else if ( val == STD_R96D5   ) { return "r96D5";    }
-    else if ( val == STD_R96H8   ) { return "r96H8";    }
-    else if ( val == STD_R96I8   ) { return "r96I8";    }
-    else if ( val == STD_R96J8   ) { return "r96J8";    }
-    else if ( val == STD_R96K8   ) { return "r96K8";    }
-    else if ( val == STD_R96H5   ) { return "r96H5";    }
-    else if ( val == STD_R96I5   ) { return "r96I5";    }
-    else if ( val == STD_R96J5   ) { return "r96J5";    }
-    else if ( val == STD_R96K5   ) { return "r96K5";    }
-    else if ( val == STD_C1      ) { return "C1";       }
-    else if ( val == STD_D1      ) { return "D1";       }
-    else if ( val == STD_D2      ) { return "D2";       }
-    else if ( val == STD_E1      ) { return "E1";       }
-    else if ( val == STD_E2      ) { return "E2";       }
-    else if ( val == STD_E3      ) { return "E3";       }
-    else if ( val == STD_E5      ) { return "E5";       }
-    else if ( val == STD_F       ) { return "F";        }
-    else if ( val == STD_G1      ) { return "G1";       }
-    else if ( val == STD_G2      ) { return "G2";       }
-    else if ( val == STD_FREECALC) { return "FreeCalc"; }
-    else                           { return "Unknown";  }
+    if      ( val == STD_EU6     ) { return "R49_Euro-6";         }
+    else if ( val == STD_EU5     ) { return "R49_Euro-5";         }
+    else if ( val == STD_EU4     ) { return "R49_Euro-4";         }
+    else if ( val == STD_EU3     ) { return "R49_Euro-3";         }
+    else if ( val == STD_EU2     ) { return "R49_Euro-2";         }
+    else if ( val == STD_EU1     ) { return "R49_Euro-1";         }
+    else if ( val == STD_EU0     ) { return "R49_Euro-0";         }
+    else if ( val == STD_OST     ) { return "OST_37.001.234-81";  }
+    else if ( val == STD_GOST    ) { return "GOST_17.2.2.05-97";  }
+    else if ( val == STD_R96E8   ) { return "R96_E8";             }
+    else if ( val == STD_R96F8   ) { return "R96_F8";             }
+    else if ( val == STD_R96G8   ) { return "R96_G8";             }
+    else if ( val == STD_R96D8   ) { return "R96_D8";             }
+    else if ( val == STD_R96E5   ) { return "R96_E5";             }
+    else if ( val == STD_R96F5   ) { return "R96_F5";             }
+    else if ( val == STD_R96G5   ) { return "R96_G5";             }
+    else if ( val == STD_R96D5   ) { return "R96_D5";             }
+    else if ( val == STD_R96H8   ) { return "R96_H8";             }
+    else if ( val == STD_R96I8   ) { return "R96_I8";             }
+    else if ( val == STD_R96J8   ) { return "R96_J8";             }
+    else if ( val == STD_R96K8   ) { return "R96_K8";             }
+    else if ( val == STD_R96H5   ) { return "R96_H5";             }
+    else if ( val == STD_R96I5   ) { return "R96_I5";             }
+    else if ( val == STD_R96J5   ) { return "R96_J5";             }
+    else if ( val == STD_R96K5   ) { return "R96_K5";             }
+    else if ( val == STD_C1      ) { return "GOST_R_51249-99_C1"; }
+    else if ( val == STD_D1      ) { return "GOST_R_51249-99_D1"; }
+    else if ( val == STD_D2      ) { return "GOST_R_51249-99_D2"; }
+    else if ( val == STD_E1      ) { return "GOST_R_51249-99_E1"; }
+    else if ( val == STD_E2      ) { return "GOST_R_51249-99_E2"; }
+    else if ( val == STD_E3      ) { return "GOST_R_51249-99_E3"; }
+    else if ( val == STD_E5      ) { return "GOST_R_51249-99_E5"; }
+    else if ( val == STD_F       ) { return "GOST_R_51249-99_F";  }
+    else if ( val == STD_G1      ) { return "GOST_R_51249-99_G1"; }
+    else if ( val == STD_G2      ) { return "GOST_R_51249-99_G2"; }
+    else if ( val == STD_FREECALC) { return "Free_Calculation";   }
+    else                           { return "Unknown";            }
 }
 
 ptrdiff_t LibtoxicParameters::defTask(QString str) const {
@@ -223,6 +228,17 @@ ptrdiff_t LibtoxicParameters::defStandard(QString str) const {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Invalid parameter value" << str << "!" << "Default value will be used.";
         return STD_EU4;
+    }
+}
+
+ptrdiff_t LibtoxicParameters::defChargingType(QString str) const {
+
+    if      ( str == QString::number(CHARGINGTYPE_NO)         || str == "NoOrMechanical" ) { return CHARGINGTYPE_NO;         }
+    else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) || str == "GasTurbine"     ) { return CHARGINGTYPE_GASTURBINE; }
+    else {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Invalid parameter value" << str << "!" << "Default value will be used.";
+        return CHARGINGTYPE_GASTURBINE;
     }
 }
 

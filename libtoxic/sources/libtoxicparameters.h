@@ -32,6 +32,7 @@ public:
     void setTask(ptrdiff_t);          void setTask(QString);
     void setVh(double *);
     void setStandard(ptrdiff_t);      void setStandard(QString);
+    void setChargingType(ptrdiff_t);  void setChargingType(QString);
     void setFuelType(ptrdiff_t);      void setFuelType(QString);
     void setNOxSample(ptrdiff_t);     void setNOxSample(QString);
     void setPTcalc(ptrdiff_t);        void setPTcalc(QString);
@@ -42,6 +43,7 @@ public:
     ptrdiff_t val_Task()           const;
     double    val_Vh()             const;
     ptrdiff_t val_Standard()       const;
+    ptrdiff_t val_ChargingType()   const;
     ptrdiff_t val_FuelType()       const;
     ptrdiff_t val_NOxSample()      const;
     ptrdiff_t val_PTcalc()         const;
@@ -61,6 +63,7 @@ private:
     ptrdiff_t task;
     double    Vh;
     ptrdiff_t standard;
+    ptrdiff_t chargingType;
     ptrdiff_t FuelType;
     ptrdiff_t NOxSample;
     ptrdiff_t PTcalc;
@@ -72,6 +75,7 @@ private:
 
     ptrdiff_t defTask         (QString) const;
     ptrdiff_t defStandard     (QString) const;
+    ptrdiff_t defChargingType (QString) const;
     ptrdiff_t defFuelType     (QString) const;
     ptrdiff_t defNOxSample    (QString) const;
     ptrdiff_t defPTcalc       (QString) const;

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>950</width>
     <height>600</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>950</width>
     <height>600</height>
    </size>
   </property>
@@ -296,6 +296,26 @@
            <item>
             <property name="text">
              <string>Free Calculation (no standard)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_chargingType">
+           <property name="toolTip">
+            <string>Engine charging type</string>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>W/o or mechanical</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Gas turbine</string>
             </property>
            </item>
           </widget>
@@ -1074,7 +1094,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>950</width>
      <height>25</height>
     </rect>
    </property>

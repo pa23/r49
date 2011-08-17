@@ -1,7 +1,7 @@
 QT -= gui
 TARGET = toxic
 TEMPLATE = lib
-VERSION = 5.2.0
+VERSION = 5.3.0
 SOURCES += sources/reducedpower.cpp \
     sources/precalc.cpp \
     sources/libtoxicparameters.cpp \
@@ -27,6 +27,7 @@ HEADERS += sources/reducedpower.h \
 INCLUDEPATH += ..
 unix: {
     DESTDIR = build/unix/bin
+    RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/unix/debug
     }
@@ -36,6 +37,7 @@ unix: {
 }
 win32: {
     DESTDIR = build\\win\\bin
+    RCC_DIR = build\\win\\rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build\\win\\debug
     }

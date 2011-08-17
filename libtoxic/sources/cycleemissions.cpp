@@ -96,14 +96,12 @@ bool CycleEmissions::calculate() {
     if (!preCalculate()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
     if (!calculate_gNOx()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
@@ -113,7 +111,6 @@ bool CycleEmissions::calculate() {
         if (!calculateAdditionalPoints()) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
             return false;
         }
     }
@@ -121,28 +118,24 @@ bool CycleEmissions::calculate() {
     if (!calculate_gCO()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
     if (!calculate_gCH()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
     if (!calculate_gPT()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
     if (!calculate_rEGR()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
@@ -151,7 +144,6 @@ bool CycleEmissions::calculate() {
         if (!calculate_Means()) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
             return false;
         }
     }
@@ -159,7 +151,6 @@ bool CycleEmissions::calculate() {
     if (!compareAlpha()) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-
         return false;
     }
 
@@ -180,14 +171,12 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         if (array_DataForCalc.isEmpty()) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
             return false;
         }
 
         if ( array_DataForCalc.at(0).size() != PointsFileColumnsNumber ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
             return false;
         }
     }
@@ -331,7 +320,6 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
     ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-
         return false;
     }
 
@@ -580,6 +568,7 @@ bool CycleEmissions::preCalculate() {
     array_Kf.resize(NumberOfPoints);
     array_Kwr.resize(NumberOfPoints);
     array_Khd.resize(NumberOfPoints);
+    array_fa.resize(NumberOfPoints);
 
     ptrdiff_t std = params.data()->val_Standard();
 
@@ -616,7 +605,6 @@ bool CycleEmissions::preCalculate() {
         else {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-
             return false;
         }
     }
@@ -651,14 +639,13 @@ bool CycleEmissions::preCalculate() {
             if (Dn < 1) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-
                 return false;
             }
 
             array_Gair[i] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i] * 7.500616827 * array_B0[i])/(array_t0[i] + 273.0));
         }
 
-        array_alpha[i] = array_Gair[i] / array_Gfuel[i] / L0;
+        array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);
 
         if (CheckMeas) {
 
@@ -667,7 +654,6 @@ bool CycleEmissions::preCalculate() {
             if (ConcO2air < 1) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-
                 return false;
             }
 
@@ -713,7 +699,6 @@ bool CycleEmissions::preCalculate() {
             else {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-
                 return false;
             }
 
@@ -758,7 +743,20 @@ bool CycleEmissions::preCalculate() {
             else {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                return false;
+            }
 
+            if ( params.data()->val_ChargingType() == CHARGINGTYPE_NO ) {
+
+                array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] * array_Pa[i] * 0.01) ) * pow( (array_t0[i] + 273.0) / 298, 0.7 );
+            }
+            else if ( params.data()->val_ChargingType() == CHARGINGTYPE_GASTURBINE ) {
+
+                array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] * array_Pa[i] * 0.01), 0.7 ) * pow( (array_t0[i] + 273.0) / 298, 1.5 );
+            }
+            else {
+
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                 return false;
             }
         }
@@ -1382,9 +1380,32 @@ bool CycleEmissions::compareAlpha() {
     return true;
 }
 
+bool CycleEmissions::checkTestConditions() const {
+
+    for (ptrdiff_t i=0; i<array_fa.count(); i++) {
+
+        if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
 QString CycleEmissions::createReports(bool createrepdir) {
 
     QString message = "";
+    QString testcondres = "?";
+
+    if ( checkTestConditions() ) {
+
+        testcondres = "Check test conditions: OK.";
+    }
+    else {
+
+        testcondres = "Check test conditions: FAILED.";
+    }
 
     if (!createrepdir) {
 
@@ -1416,6 +1437,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
             message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
             qDebug() << "gPTs =" << gPTs << "g/kWh";
         }
+
+        message += "\n" + testcondres + "\n";
+        qDebug() << testcondres;
 
         //
 
@@ -1502,6 +1526,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kf[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kwr[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Khd[-]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "fa[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mNOx[g/h]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mCO[g/h]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gCO[g/kWh]" << csvdelimiter;
@@ -1564,6 +1589,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kf[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kwr[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Khd[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_fa[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mNOx[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCO[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCO[i] << csvdelimiter;
@@ -1711,7 +1737,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
             fout6 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
                     << t0Mean <<  " oC; B0_mean = "
                     << B0Mean << " kPa; Ra_mean = "
-                    << RaMean << " %\n";
+                    << RaMean << " %; " << testcondres.toStdString() << "\n";
 
             fout6 << "Calculation comments   : ";
 
@@ -1923,14 +1949,14 @@ QString CycleEmissions::createReports(bool createrepdir) {
             return message;
         }
 
-        fout5 << "\tr49 distribution version " << r49version.toStdString();
-        fout5 << "\t\tReport on cycle. " << params.data()->defStandardName(std).toStdString() << "\t\tDateTime: " << mytime << "\n\n";
+        fout5 << "r49 distribution version " << r49version.toStdString();
+        fout5 << "     Report on cycle. " << params.data()->defStandardName(std).toStdString() << "     DateTime: " << mytime << "\n\n";
 
         fout5 << "Engine                 : ...\n";
         fout5 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
                 << t0Mean <<  " oC; B0_mean = "
                 << B0Mean << " kPa; Ra_mean = "
-                << RaMean << " %\n";
+                << RaMean << " %; " << testcondres.toStdString() << "\n";
 
         fout5 << "Calculation comments   : ";
 
@@ -2655,6 +2681,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout7 << "task"           << paramValDelim << params.data()->val_Task()                         << "\n";
     fout7 << "Vh"             << paramValDelim << params.data()->val_Vh()                           << "\n";
     fout7 << "standard"       << paramValDelim << params.data()->val_Standard()                     << "\n";
+    fout7 << "ChargingType"   << paramValDelim << params.data()->val_ChargingType()                 << "\n";
     fout7 << "FuelType"       << paramValDelim << params.data()->val_FuelType()                     << "\n";
     fout7 << "NOxSample"      << paramValDelim << params.data()->val_NOxSample()                    << "\n";
     fout7 << "PTcalc"         << paramValDelim << params.data()->val_PTcalc()                       << "\n";
@@ -2699,6 +2726,9 @@ QString CycleEmissions::createReports(bool createrepdir) {
             message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
             qDebug() << "gPTs =" << gPTs << "g/kWh";
         }
+
+        message += "\n" + testcondres + "\n";
+        qDebug() << testcondres;
     }
 
     //

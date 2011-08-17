@@ -103,6 +103,7 @@ private:
     QVector<double> array_Kf;
     QVector<double> array_Kwr;
     QVector<double> array_Khd;
+    QVector<double> array_fa;
     QVector<double> array_mNOx;                     //
     QVector<double> array_mCO;
     QVector<double> array_gCO;
@@ -156,6 +157,7 @@ private:
     bool calculate_rEGR();
     bool calculate_Means();
     bool compareAlpha();
+    bool checkTestConditions() const;
 
     std::string mytime;
     QString fullReportsPath;

@@ -68,9 +68,9 @@ void ShowAbout() {
 
 void ShowHelp() {
 
-    cout << "Usage:\n\n  Qr49 [task=TASK] [Vh=VH] [standard=STANDARD] [FuelType=FUELTYPE] \\\n"
-            "       [NOxSample=NOXSAMPLE] [PTcalc=PTCALC]                       \\\n"
-            "       [PTmass=PTMASS] [AddPoinsCalc=ADDPOINTSCALC]                \\\n"
+    cout << "Usage:\n\n  Qr49 [task=TASK] [Vh=VH] [standard=STANDARD] [ChargingType=CHARGINGTYPE]  \\\n"
+            "       [FuelType=FUELTYPE] [NOxSample=NOXSAMPLE] [PTcalc=PTCALC]            \\\n"
+            "       [PTmass=PTMASS] [AddPoinsCalc=ADDPOINTSCALC]                         \\\n"
             "       [CalcConfigFile=CALCCONFIGFILE]\n\n"
             "  task=TASK\t\tvariants of TASK:\n"
             "\t\t\tpoints       - for ESC points calculation;\n"
@@ -93,6 +93,10 @@ void ShowHelp() {
             "\t\t\tFreeCalc - free calculation without report and\n"
             "\t\t\t           limitation points number (adjusting\n"
             "\t\t\t           characteristics for example).\n\n"
+            "  ChargingType=CHARGINGTYPE\tvariants of CHARGINGTYPE:\n"
+            "\t\t\tNoOrMechanical - engine w/o charging or with\n"
+            "\t\t\t                 mechanical charging;\n"
+            "\t\t\tGasTurbine*    - engine with a gas turbine charging.\n\n"
             "  FuelType=FUELTYPE\tvariants of FUELTYPE:\n"
             "\t\t\tdiesel* - if you use diesel fuel;\n"
             "\t\t\tmotor   - if you use motor fuel;\n"
@@ -190,6 +194,10 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         else if (param == "standard") {
 
             params.data()->setStandard(value);
+        }
+        else if (param == "ChargingType") {
+
+            params.data()->setChargingType(value);
         }
         else if (param == "FuelType") {
 
