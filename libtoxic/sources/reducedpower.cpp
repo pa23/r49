@@ -180,10 +180,12 @@ bool ReducedPower::reducePower() {
 
     setRate();
 
+    double Vh = params.data()->val_Vh();
+
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
         array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
-        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * params.data()->val_Vh()) ) /
+        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * Vh) ) /
                        ( (array_pk[i] + array_B0[i]) / (array_S[i] + array_B0[i]) );
 
         if      (array_qcs[i] < 40.0) { array_fm[i] = 0.3;                         }

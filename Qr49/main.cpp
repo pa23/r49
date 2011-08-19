@@ -178,7 +178,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             double val = value.toDouble();
 
-            if ( (val>0) && (val<666) ) {
+            if ( (val>0) && (val<666000) ) {
 
                 params.data()->setVh(&val);
             }

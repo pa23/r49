@@ -1238,12 +1238,8 @@ bool CycleEmissions::calculate_gPT() {
 
             if (mf == 0) {
 
-                cout << "Enter mass of 1st clean filter, mg: "; cin >> mf1c;
-                cout << "Enter mass of 1st dirty filter, mg: "; cin >> mf1d;
-                cout << "Enter mass of 2nd clean filter, mg: "; cin >> mf2c;
-                cout << "Enter mass of 2nd dirty filter, mg: "; cin >> mf2d;
-
-                mf = (mf1d - mf1c) + (mf2d - mf2c);
+                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (gPT)!";
+                return false;
             }
 
             if (qmdwVSrd) {

@@ -521,6 +521,11 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
 bool MainWindow::fillParameters() {
 
+    if ( ui->lineEdit_PTmass->text().toDouble() == 0 ) {
+
+        on_pushButton_EnterPTmass_clicked();
+    }
+
     params.data()->setTask(ui->comboBox_task->currentIndex());
     double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(&Vh);
     params.data()->setStandard(ui->comboBox_standard->currentIndex());
