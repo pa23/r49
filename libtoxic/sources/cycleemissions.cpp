@@ -386,164 +386,161 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
     //
 
-    if (params.data()->val_Standard() != STD_FREECALC) {
+    if (!nonZeroArray(array_n)) {
 
-        if (!nonZeroArray(array_n)) {
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (n)!";
+        return false;
+    }
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (n)!";
+    if (nonZeroArray(array_Me_brutto)) {
+
+        NenCalcMethod = true;
+    }
+    else if (nonZeroArray(array_Ne_brutto)) {
+
+        NenCalcMethod = false;
+    }
+    else {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Me_b or Ne_b)!";
+        return false;
+    }
+
+    if (!nonZeroArray(array_t0)) {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (t0)!";
+        return false;
+    }
+
+    if (!nonZeroArray(array_B0)) {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (B0)!";
+        return false;
+    }
+
+    if (!nonZeroArray(array_Ra)) {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Ra)!";
+        return false;
+    }
+
+    if (nonZeroArray(array_Gair)) {
+
+        GairVals = true;
+    }
+    else if (nonZeroArray(array_dPn)) {
+
+        GairVals = false;
+    }
+    else {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gair or dPn)!";
+        return false;
+    }
+
+    if (!nonZeroArray(array_Gfuel)) {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gfuel)!";
+        return false;
+    }
+
+    if (nonZeroArray(array_CNOx)) {
+
+        NOxCalcMethod = true;
+    }
+    else if (nonZeroArray(array_gNOx)) {
+
+        NOxCalcMethod = false;
+    }
+    else {
+
+        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (C_NOx or gNOx)!";
+        return false;
+    }
+
+    if (nonZeroArray(array_CCO)) {
+
+        gCOcalc = true;
+    }
+    else {
+
+        gCOcalc = false;
+    }
+
+    if (nonZeroArray(array_CCH)) {
+
+        gCHcalc = true;
+    }
+    else {
+
+        gCHcalc = false;
+    }
+
+    if ( nonZeroArray(array_CCO2in) && nonZeroArray(array_CCO2out) ) {
+
+        EGRcalc = true;
+    }
+    else {
+
+        EGRcalc = false;
+    }
+
+    if (nonZeroArray(array_CO2)) {
+
+        CheckMeas = true;
+    }
+    else {
+
+        CheckMeas = false;
+    }
+
+    if (params.data()->val_PTcalc() != PTCALC_NO) {
+
+        if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
+             ( !nonZeroArray(array_Ka1m)   &&
+               !nonZeroArray(array_KaPerc) &&
+               !nonZeroArray(array_FSN)       ) ) {
+
+            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
             return false;
         }
 
-        if (nonZeroArray(array_Me_brutto)) {
+        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
 
-            NenCalcMethod = true;
-        }
-        else if (nonZeroArray(array_Ne_brutto)) {
-
-            NenCalcMethod = false;
-        }
-        else {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Me_b or Ne_b)!";
-            return false;
-        }
-
-        if (!nonZeroArray(array_t0)) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (t0)!";
-            return false;
-        }
-
-        if (!nonZeroArray(array_B0)) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (B0)!";
-            return false;
-        }
-
-        if (!nonZeroArray(array_Ra)) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Ra)!";
-            return false;
-        }
-
-        if (nonZeroArray(array_Gair)) {
-
-            GairVals = true;
-        }
-        else if (nonZeroArray(array_dPn)) {
-
-            GairVals = false;
-        }
-        else {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gair or dPn)!";
-            return false;
-        }
-
-        if (!nonZeroArray(array_Gfuel)) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gfuel)!";
-            return false;
-        }
-
-        if (nonZeroArray(array_CNOx)) {
-
-            NOxCalcMethod = true;
-        }
-        else if (nonZeroArray(array_gNOx)) {
-
-            NOxCalcMethod = false;
-        }
-        else {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (C_NOx or gNOx)!";
-            return false;
-        }
-
-        if (nonZeroArray(array_CCO)) {
-
-            gCOcalc = true;
-        }
-        else {
-
-            gCOcalc = false;
-        }
-
-        if (nonZeroArray(array_CCH)) {
-
-            gCHcalc = true;
-        }
-        else {
-
-            gCHcalc = false;
-        }
-
-        if ( nonZeroArray(array_CCO2in) && nonZeroArray(array_CCO2out) ) {
-
-            EGRcalc = true;
-        }
-        else {
-
-            EGRcalc = false;
-        }
-
-        if (nonZeroArray(array_CO2)) {
-
-            CheckMeas = true;
-        }
-        else {
-
-            CheckMeas = false;
-        }
-
-        if (params.data()->val_PTcalc() != PTCALC_NO) {
-
-            if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
-                 ( !nonZeroArray(array_Ka1m)   &&
-                   !nonZeroArray(array_KaPerc) &&
-                   !nonZeroArray(array_FSN)       ) ) {
+            if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
+                 ( !nonZeroArray(array_qmdw) &&
+                   !nonZeroArray(array_rd)      ) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                 return false;
             }
 
-            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+            if (nonZeroArray(array_qmdw)) {
 
-                if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
-                     ( !nonZeroArray(array_qmdw) &&
-                       !nonZeroArray(array_rd)      ) ) {
+                qmdwVSrd = true;
+            }
+            else if (nonZeroArray(array_rd)) {
 
-                    qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
-                    return false;
-                }
-
-                if (nonZeroArray(array_qmdw)) {
-
-                    qmdwVSrd = true;
-                }
-                else if (nonZeroArray(array_rd)) {
-
-                    qmdwVSrd = false;
-                }
+                qmdwVSrd = false;
             }
         }
+    }
 
-        if (nonZeroArray(array_FSN)) {
+    if (nonZeroArray(array_FSN)) {
 
-            smoke = 2;
-        }
-        else if (nonZeroArray(array_Ka1m)) {
+        smoke = 2;
+    }
+    else if (nonZeroArray(array_Ka1m)) {
 
-            smoke = 0;
-        }
-        else if (nonZeroArray(array_KaPerc)) {
+        smoke = 0;
+    }
+    else if (nonZeroArray(array_KaPerc)) {
 
-            smoke = 1;
-        }
-        else {
+        smoke = 1;
+    }
+    else {
 
-            smoke = -1;
-        }
+        smoke = -1;
     }
 
     //
@@ -569,6 +566,7 @@ bool CycleEmissions::preCalculate() {
     array_Kwr.resize(NumberOfPoints);
     array_Khd.resize(NumberOfPoints);
     array_fa.resize(NumberOfPoints);
+    array_ge.resize(NumberOfPoints);
 
     ptrdiff_t std = params.data()->val_Standard();
 
@@ -760,6 +758,8 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
         }
+
+        array_ge[i] = array_Gfuel[i] / array_Ne_netto[i] * 1000;
     }
 
     return true;
@@ -1523,6 +1523,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kwr[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Khd[-]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "fa[-]" << csvdelimiter;
+    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ge[g/kWh]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mNOx[g/h]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mCO[g/h]" << csvdelimiter;
     fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gCO[g/kWh]" << csvdelimiter;
@@ -1586,6 +1587,7 @@ QString CycleEmissions::createReports(bool createrepdir) {
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kwr[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Khd[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_fa[i] << csvdelimiter;
+        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ge[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mNOx[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCO[i] << csvdelimiter;
         fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCO[i] << csvdelimiter;

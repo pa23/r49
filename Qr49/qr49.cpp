@@ -521,7 +521,9 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
 bool MainWindow::fillParameters() {
 
-    if ( ui->lineEdit_PTmass->text().toDouble() == 0 ) {
+    if ( ui->comboBox_task->currentIndex() == TASK_EMISSIONS &&
+         ui->comboBox_PTcalc->currentIndex() == PTCALC_THROUGHPTMASS &&
+         ui->lineEdit_PTmass->text().toDouble() == 0 ) {
 
         on_pushButton_EnterPTmass_clicked();
     }
