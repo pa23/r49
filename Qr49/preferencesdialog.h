@@ -1,5 +1,7 @@
 /*
-    preferencesdialog.h
+    Qr49
+
+    File: preferencesdialog.h
 
     Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
 

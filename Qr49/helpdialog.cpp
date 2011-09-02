@@ -1,5 +1,7 @@
 /*
-    helpdialog.cpp
+    Qr49
+
+    File: helpdialog.cpp
 
     Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
 

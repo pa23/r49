@@ -1,5 +1,7 @@
 /*
-    tablewidgetfunctions.h
+    Qr49
+
+    File: tablewidgetfunctions.h
 
     Copyright (C) 2011 Artem Petrov <pa2311@gmail.com>
 

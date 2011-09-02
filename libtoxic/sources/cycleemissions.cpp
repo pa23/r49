@@ -1,5 +1,7 @@
 /*
-    cycleemissions.cpp
+    libtoxic
+
+    File: cycleemissions.cpp
 
     Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
 
@@ -759,7 +761,7 @@ bool CycleEmissions::preCalculate() {
             }
         }
 
-        array_ge[i] = array_Gfuel[i] / array_Ne_netto[i] * 1000;
+        array_ge[i] = array_Gfuel[i] / array_Ne_netto[i] * 1000.0;
     }
 
     return true;

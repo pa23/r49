@@ -1,5 +1,7 @@
 /*
-    tablewidgetfunctions.cpp
+    Qr49
+
+    File: tablewidgetfunctions.cpp
 
     Copyright (C) 2011 Artem Petrov <pa2311@gmail.com>
 
