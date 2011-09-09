@@ -1,5 +1,7 @@
 /*
     Qr49
+    Calculation of modes and specific emissions for stationary
+    diesel engine test cycles.
 
     File: qr49constants.h
 
@@ -24,7 +26,7 @@
 
 // constants
 
-const QString qr49version = "Qr49 v2.1.2";
+const QString qr49version = "Qr49 v2.2.0";
 
 const QString oparandsDelimiter = "=";
 

@@ -1,5 +1,7 @@
 /*
     Qr49
+    Calculation of modes and specific emissions for stationary
+    diesel engine test cycles.
 
     File: qr49.cpp
 
@@ -1896,6 +1898,7 @@ void MainWindow::taskChanged(int currtask) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(false);
+        ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);

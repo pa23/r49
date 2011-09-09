@@ -1,5 +1,7 @@
 /*
     r49
+    Calculation of modes and specific emissions for stationary
+    diesel engine test cycles.
 
     File: r49.h
 
@@ -22,6 +24,6 @@
 
 #include <QString>
 
-const QString r49version = "11.12.4";
+const QString r49version = "11.13";
 
 #endif // R49_H

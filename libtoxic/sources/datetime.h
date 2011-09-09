@@ -1,5 +1,7 @@
 /*
     libtoxic
+    Calculation of modes and specific emissions for stationary
+    diesel engine test cycles.
 
     File: datetime.h
 

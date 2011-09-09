@@ -1,5 +1,6 @@
 Qr49/Makefile
 Qr49/Qr49.pro.user
+Qr49/Qr49.pro.user.2.3pre1
 Qr49/build/
 Qr49/qrc_qr49.cpp
 Qr49/ui_abcspeedscalcdialog.h
@@ -15,3 +16,5 @@ Qr49/qr49_ru.qm
 libtoxic/Makefile
 libtoxic/build/
 libtoxic/libtoxic.pro.user
+libtoxic/libtoxic.pro.user.2.3pre1
+
