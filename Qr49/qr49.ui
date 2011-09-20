@@ -623,540 +623,6 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="groupBox_6">
-      <property name="maximumSize">
-       <size>
-        <width>300</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Calculation parameters</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <item>
-        <widget class="QScrollArea" name="scrollArea">
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>258</width>
-            <height>552</height>
-           </rect>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Calculation task</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_task">
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Cycle points</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Cycle emissions</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Reduced power</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>A, B, C speeds</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>ELR smoke</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Command line help</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Capacity, litres</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_Vh">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="inputMask">
-              <string/>
-             </property>
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Standard</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_standard">
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-6</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-4</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-3</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-2</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R49 Euro-0</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA OST 37.001.234-81</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST 17.2.2.05-97</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 E8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 F8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 G8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 D8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 E5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 F5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 G5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 D5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 H8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 I8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 J8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 K8</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 H5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 I5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 J5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>UN ECE R96 K5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 C1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 D1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 D2</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 E1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 E2</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 E3</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 E5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 F</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 G1</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RUSSIA GOST R 51249-99 G2</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Free Calculation (no standard)</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Engine charging type</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_chargingType">
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>W/o or mechanical</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Gas turbine</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Fuel type</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_FuelType">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Diesel</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Motor</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Mazut</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>NOx sample type</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_NOxSample">
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Wet</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Dry</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>gPT calculation method</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_PTcalc">
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Through smoke values</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Through PT mass</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>No</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>PT mass, mg</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QLineEdit" name="lineEdit_PTmass">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>60</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>60</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_EnterPTmass">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>25</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>25</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>PT filter masses</string>
-               </property>
-               <property name="text">
-                <string>...</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>Additional points calculation</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_AddPointsCalc">
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>Yes</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>No</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_reports">
-             <property name="text">
-              <string>Create reports</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>75</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -1213,11 +679,9 @@
      <string>Calculation</string>
     </property>
     <addaction name="action_Execute"/>
-    <addaction name="separator"/>
-    <addaction name="action_ABCspeeds"/>
-    <addaction name="action_ELRsmoke"/>
-    <addaction name="separator"/>
     <addaction name="action_CheckoutData"/>
+    <addaction name="separator"/>
+    <addaction name="action_additionalCalculations"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -1285,6 +749,549 @@
    <addaction name="action_Equal"/>
    <addaction name="separator"/>
    <addaction name="action_Execute"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="features">
+    <set>QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Calculation parameters</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_9">
+     <item>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="minimumSize">
+        <size>
+         <width>270</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>284</width>
+          <height>552</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Calculation task</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_task">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Cycle points</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cycle emissions</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Reduced power</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>A, B, C speeds</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ELR smoke</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Command line help</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Capacity, litres</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Vh">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Standard</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_standard">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-4</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R49 Euro-0</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA OST 37.001.234-81</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST 17.2.2.05-97</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 E8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 F8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 G8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 D8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 E5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 F5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 G5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 D5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 H8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 I8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 J8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 K8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 H5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 I5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 J5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UN ECE R96 K5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 C1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 D1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 D2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 E1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 E2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 E3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 E5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 F</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 G1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>RUSSIA GOST R 51249-99 G2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Free Calculation (no standard)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Engine charging type</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_chargingType">
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>W/o or mechanical</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Gas turbine</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Fuel type</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_FuelType">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Diesel</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Motor</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Mazut</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>NOx sample type</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_NOxSample">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Wet</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Dry</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>gPT calculation method</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_PTcalc">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Through smoke values</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Through PT mass</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>No</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>PT mass, mg</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_PTmass">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_EnterPTmass">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>PT filter masses</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Additional points calculation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_AddPointsCalc">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Yes</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>No</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_reports">
+           <property name="text">
+            <string>Create reports</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>17</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="action_Quit">
    <property name="icon">
@@ -1566,9 +1573,9 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_ABCspeeds">
+  <action name="action_additionalCalculations">
    <property name="text">
-    <string>ABC speeds</string>
+    <string>Additional Calculations</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

@@ -24,6 +24,9 @@
     <normaloff>:/icons/toxic.png</normaloff>:/icons/toxic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetFixedSize</enum>
+   </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">

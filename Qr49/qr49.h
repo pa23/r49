@@ -40,8 +40,7 @@
 #include "filtermassdialog.h"
 #include "valuedialog.h"
 #include "preferencesdialog.h"
-#include "abcspeedscalcdialog.h"
-#include "elrsmokecalcdialog.h"
+#include "additionalcalculationsdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "helpdialog.h"
@@ -73,8 +72,7 @@ private:
     FilterMassDialog *filterMassDialog;
     ValueDialog *valueDialog;
     PreferencesDialog *preferencesDialog;
-    ABCspeedsCalcDialog *abcSpeedsCalcDialog;
-    ELRsmokeCalcDialog *elrSmokeCalcDialog;
+    AdditionalCalculationsDialog *additionalCalculationsDialog;
     CheckoutDataDialog *checkoutDataDialog;
     HelpDialog *helpDialog;
     DataImportDialog *dataImportDialog;
@@ -150,8 +148,7 @@ private slots:
     void on_action_DeleteRow_activated();
     void on_action_Toolbar_activated();
     void on_action_Execute_activated();
-    void on_action_ABCspeeds_activated();
-    void on_action_ELRsmoke_activated();
+    void on_action_additionalCalculations_activated();
     void on_action_CheckoutData_activated();
     void on_action_StandardsDescription_activated();
     void on_action_AboutQr49_activated();

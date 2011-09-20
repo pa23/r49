@@ -26,7 +26,7 @@
 
 // constants
 
-const QString libtoxicVersion  = "5.3.4";
+const QString libtoxicVersion  = "5.4.0";
 
 const QString parameterValueDelimiter = "=";
 const QString commentPattern = "^//";

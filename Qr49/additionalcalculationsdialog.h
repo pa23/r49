@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: abcspeedscalcdialog.h
+    File: additionalcalculationsdialog.h
 
-    Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,32 +19,37 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ABCSPEEDSCALCDIALOG_H
-#define ABCSPEEDSCALCDIALOG_H
+#ifndef ADDITIONALCALCULATIONSDIALOG_H
+#define ADDITIONALCALCULATIONSDIALOG_H
 
 #include <QDialog>
 #include <QDoubleValidator>
 
-#include "ui_abcspeedscalcdialog.h"
+namespace Ui {
 
-class ABCspeedsCalcDialog : public QDialog {
+    class AdditionalCalculationsDialog;
+}
+
+class AdditionalCalculationsDialog : public QDialog {
 
     Q_OBJECT
 
 public:
 
-    explicit ABCspeedsCalcDialog(QWidget *parent = 0);
-    ~ABCspeedsCalcDialog();
+    explicit AdditionalCalculationsDialog(QWidget *parent = 0);
+    ~AdditionalCalculationsDialog();
 
 private:
 
-    Ui::ABCspeedsCalcDialogClass ui;
+    Ui::AdditionalCalculationsDialog *ui;
+
     QDoubleValidator *doubleValidator;
+    enum{ ABCSPEEDS, ELRSMOKE };
 
 private slots:
 
-    void on_pushButton_CalcABCspeeds_clicked();
+    void on_pushButton_calculate_clicked();
 
 };
 
-#endif // ABCSPEEDSCALCDIALOG_H
+#endif // ADDITIONALCALCULATIONSDIALOG_H

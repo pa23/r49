@@ -5,8 +5,6 @@ TEMPLATE = app
 SOURCES += preferencesdialog.cpp \
     undoredotable.cpp \
     checkoutdatadialog.cpp \
-    elrsmokecalcdialog.cpp \
-    abcspeedscalcdialog.cpp \
     valuedialog.cpp \
     filtermassdialog.cpp \
     main.cpp \
@@ -14,12 +12,11 @@ SOURCES += preferencesdialog.cpp \
     helpdialog.cpp \
     newversions.cpp \
     dataimportdialog.cpp \
-    tablewidgetfunctions.cpp
+    tablewidgetfunctions.cpp \
+    additionalcalculationsdialog.cpp
 HEADERS += preferencesdialog.h \
     checkoutdatadialog.h \
     undoredotable.h \
-    elrsmokecalcdialog.h \
-    abcspeedscalcdialog.h \
     qr49constants.h \
     valuedialog.h \
     filtermassdialog.h \
@@ -28,16 +25,16 @@ HEADERS += preferencesdialog.h \
     newversions.h \
     ../r49.h \
     dataimportdialog.h \
-    tablewidgetfunctions.h
+    tablewidgetfunctions.h \
+    additionalcalculationsdialog.h
 FORMS += preferencesdialog.ui \
     checkoutdatadialog.ui \
-    elrsmokecalcdialog.ui \
-    abcspeedscalcdialog.ui \
     valuedialog.ui \
     filtermassdialog.ui \
     qr49.ui \
     helpdialog.ui \
-    dataimportdialog.ui
+    dataimportdialog.ui \
+    additionalcalculationsdialog.ui
 RESOURCES = qr49.qrc
 RC_FILE = qr49icon.rc
 TRANSLATIONS = qr49_ru.ts
@@ -71,3 +68,12 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
+
+
+
+
+
+
+
+
+

@@ -198,7 +198,16 @@ bool ReducedPower::reducePower() {
 
         array_pa[i] = (0.506 + 0.1 * array_t0[i] - 0.00245 * pow(array_t0[i], 2) + 0.0001 * pow(array_t0[i], 3)) * (array_Ra[i] / 100.0);
         array_ps[i] = array_B0[i] - array_pa[i];
-        array_fa[i] = pow(99.0/array_ps[i], 0.7) * pow((array_t0[i]+273.0)/298.0, 1.5);
+
+        if ( params.data()->val_ChargingType() == CHARGINGTYPE_NO ) {
+
+            array_fa[i] = (99.0 / array_ps[i]) * pow( (array_t0[i] + 273.0) / 298.0, 0.7 );
+        }
+        else {
+
+            array_fa[i] = pow( 99.0 / array_ps[i], 0.7 ) * pow( (array_t0[i] + 273.0) / 298.0, 1.5 );
+        }
+
         array_alphad[i] = pow(array_fa[i], array_fm[i]);
 
         if ( (array_alphad[i] < 0.9) || (array_alphad[i] > 1.1) ) {

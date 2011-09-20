@@ -24,8 +24,7 @@
 #include "filtermassdialog.h"
 #include "valuedialog.h"
 #include "preferencesdialog.h"
-#include "abcspeedscalcdialog.h"
-#include "elrsmokecalcdialog.h"
+#include "additionalcalculationsdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "newversions.h"
@@ -77,8 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
         filterMassDialog(new FilterMassDialog()),
         valueDialog(new ValueDialog()),
         preferencesDialog(new PreferencesDialog()),
-        abcSpeedsCalcDialog(new ABCspeedsCalcDialog()),
-        elrSmokeCalcDialog(new ELRsmokeCalcDialog()),
+        additionalCalculationsDialog(new AdditionalCalculationsDialog()),
         checkoutDataDialog(new CheckoutDataDialog()),
         helpDialog(new HelpDialog()),
         dataImportDialog(new DataImportDialog()),
@@ -208,8 +206,7 @@ MainWindow::~MainWindow() {
     delete filterMassDialog;
     delete valueDialog;
     delete preferencesDialog;
-    delete abcSpeedsCalcDialog;
-    delete elrSmokeCalcDialog;
+    delete additionalCalculationsDialog;
     delete checkoutDataDialog;
     delete helpDialog;
     delete dataImportDialog;
@@ -1615,12 +1612,12 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if (ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS) {
 
-        on_action_ABCspeeds_activated();
+        on_action_additionalCalculations_activated();
         return;
     }
     else if (ui->comboBox_task->currentIndex() == TASK_ELRSMOKE) {
 
-        on_action_ELRsmoke_activated();
+        on_action_additionalCalculations_activated();
         return;
     }
     else if (ui->comboBox_task->currentIndex() == TASK_HELP) {
@@ -1642,14 +1639,9 @@ void MainWindow::on_action_Execute_activated() {
     }
 }
 
-void MainWindow::on_action_ABCspeeds_activated() {
+void MainWindow::on_action_additionalCalculations_activated() {
 
-    abcSpeedsCalcDialog->exec();
-}
-
-void MainWindow::on_action_ELRsmoke_activated() {
-
-    elrSmokeCalcDialog->exec();
+    additionalCalculationsDialog->exec();
 }
 
 void MainWindow::on_action_CheckoutData_activated() {
