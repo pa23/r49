@@ -24,7 +24,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="qr49.qrc">
-    <normaloff>:/icons/toxic.png</normaloff>:/icons/toxic.png</iconset>
+    <normaloff>:/icons/icons/toxic.png</normaloff>:/icons/icons/toxic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>

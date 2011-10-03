@@ -30,7 +30,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="qr49.qrc">
-    <normaloff>:/icons/toxic.png</normaloff>:/icons/toxic.png</iconset>
+    <normaloff>:/icons/icons/toxic.png</normaloff>:/icons/icons/toxic.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -784,7 +784,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>284</width>
+          <width>256</width>
           <height>552</height>
          </rect>
         </property>
@@ -1296,7 +1296,7 @@
   <action name="action_Quit">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/application-exit.png</normaloff>:/icons/application-exit.png</iconset>
+     <normaloff>:/icons/icons/application-exit.png</normaloff>:/icons/icons/application-exit.png</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -1314,7 +1314,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/document-print.png</normaloff>:/icons/document-print.png</iconset>
+     <normaloff>:/icons/icons/document-print.png</normaloff>:/icons/icons/document-print.png</iconset>
    </property>
    <property name="text">
     <string>Print Report...</string>
@@ -1329,7 +1329,7 @@
   <action name="action_Execute">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/execute.png</normaloff>:/icons/execute.png</iconset>
+     <normaloff>:/icons/icons/execute.png</normaloff>:/icons/icons/execute.png</iconset>
    </property>
    <property name="text">
     <string>Execute</string>
@@ -1388,7 +1388,7 @@
   <action name="action_SaveReportAs">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/document-save-as.png</normaloff>:/icons/document-save-as.png</iconset>
+     <normaloff>:/icons/icons/document-save-as.png</normaloff>:/icons/icons/document-save-as.png</iconset>
    </property>
    <property name="text">
     <string>Save Report As...</string>
@@ -1403,7 +1403,7 @@
   <action name="action_CopyFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-copy.png</normaloff>:/icons/edit-copy.png</iconset>
+     <normaloff>:/icons/icons/edit-copy.png</normaloff>:/icons/icons/edit-copy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -1418,7 +1418,7 @@
   <action name="action_PasteToTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-paste.png</normaloff>:/icons/edit-paste.png</iconset>
+     <normaloff>:/icons/icons/edit-paste.png</normaloff>:/icons/icons/edit-paste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -1433,7 +1433,7 @@
   <action name="action_DeleteFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-delete.png</normaloff>:/icons/edit-delete.png</iconset>
+     <normaloff>:/icons/icons/edit-delete.png</normaloff>:/icons/icons/edit-delete.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -1448,7 +1448,7 @@
   <action name="action_CutFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-cut.png</normaloff>:/icons/edit-cut.png</iconset>
+     <normaloff>:/icons/icons/edit-cut.png</normaloff>:/icons/icons/edit-cut.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -1466,7 +1466,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/mult.png</normaloff>:/icons/mult.png</iconset>
+     <normaloff>:/icons/icons/mult.png</normaloff>:/icons/icons/mult.png</iconset>
    </property>
    <property name="text">
     <string>Multiply...</string>
@@ -1484,7 +1484,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/div.png</normaloff>:/icons/div.png</iconset>
+     <normaloff>:/icons/icons/div.png</normaloff>:/icons/icons/div.png</iconset>
    </property>
    <property name="text">
     <string>Divide...</string>
@@ -1502,7 +1502,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/plus.png</normaloff>:/icons/plus.png</iconset>
+     <normaloff>:/icons/icons/plus.png</normaloff>:/icons/icons/plus.png</iconset>
    </property>
    <property name="text">
     <string>Add...</string>
@@ -1520,7 +1520,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/eq.png</normaloff>:/icons/eq.png</iconset>
+     <normaloff>:/icons/icons/eq.png</normaloff>:/icons/icons/eq.png</iconset>
    </property>
    <property name="text">
     <string>Equal...</string>
@@ -1535,7 +1535,7 @@
   <action name="action_SaveSourceData">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/document-save.png</normaloff>:/icons/document-save.png</iconset>
+     <normaloff>:/icons/icons/document-save.png</normaloff>:/icons/icons/document-save.png</iconset>
    </property>
    <property name="text">
     <string>Save Source Data</string>
@@ -1550,7 +1550,7 @@
   <action name="action_OpenReport">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/document-open.png</normaloff>:/icons/document-open.png</iconset>
+     <normaloff>:/icons/icons/document-open.png</normaloff>:/icons/icons/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open Report...</string>
@@ -1581,18 +1581,10 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_ELRsmoke">
-   <property name="text">
-    <string>ELR smoke</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
   <action name="action_ReportToPDF">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/gnome-mime-application-pdf.png</normaloff>:/icons/gnome-mime-application-pdf.png</iconset>
+     <normaloff>:/icons/icons/gnome-mime-application-pdf.png</normaloff>:/icons/icons/gnome-mime-application-pdf.png</iconset>
    </property>
    <property name="text">
     <string>Report To PDF...</string>
@@ -1607,7 +1599,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-undo.png</normaloff>:/icons/edit-undo.png</iconset>
+     <normaloff>:/icons/icons/edit-undo.png</normaloff>:/icons/icons/edit-undo.png</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -1628,7 +1620,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/edit-redo.png</normaloff>:/icons/edit-redo.png</iconset>
+     <normaloff>:/icons/icons/edit-redo.png</normaloff>:/icons/icons/edit-redo.png</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -1676,7 +1668,7 @@
   <action name="action_LoadCalculationOptions">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/loadCalcSerrings.png</normaloff>:/icons/loadCalcSerrings.png</iconset>
+     <normaloff>:/icons/icons/loadCalcSerrings.png</normaloff>:/icons/icons/loadCalcSerrings.png</iconset>
    </property>
    <property name="text">
     <string>Load Calculation Options...</string>
@@ -1699,7 +1691,7 @@
   <action name="action_LoadSourceData">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/changeSourceData.png</normaloff>:/icons/changeSourceData.png</iconset>
+     <normaloff>:/icons/icons/changeSourceData.png</normaloff>:/icons/icons/changeSourceData.png</iconset>
    </property>
    <property name="text">
     <string>Load Source Data...</string>
@@ -1755,7 +1747,7 @@
   <action name="action_DataImport">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/file-dataimport.png</normaloff>:/icons/file-dataimport.png</iconset>
+     <normaloff>:/icons/icons/file-dataimport.png</normaloff>:/icons/icons/file-dataimport.png</iconset>
    </property>
    <property name="text">
     <string>Data Import...</string>

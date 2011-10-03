@@ -27,6 +27,7 @@ using std::string;
 using std::vector;
 using std::ostringstream;
 using std::istringstream;
+using std::ptrdiff_t;
 
 bool replaceInString(string* str, string* str1, string* str2) {
 

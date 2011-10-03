@@ -24,6 +24,7 @@
 #include <ctime>
 
 using std::string;
+using std::ptrdiff_t;
 
 string addZero(string str) {
 

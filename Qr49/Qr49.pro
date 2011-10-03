@@ -36,7 +36,6 @@ FORMS += preferencesdialog.ui \
     dataimportdialog.ui \
     additionalcalculationsdialog.ui
 RESOURCES = qr49.qrc
-RC_FILE = qr49icon.rc
 TRANSLATIONS = qr49_ru.ts
 unix: {
     INCLUDEPATH += ../libtoxic/sources ..
@@ -68,12 +67,3 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
-
-
-
-
-
-
-
-
-
