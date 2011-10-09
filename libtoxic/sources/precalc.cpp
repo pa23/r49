@@ -24,6 +24,8 @@
 
 #include <QVector>
 
+#include <cmath>
+
 bool calcABC(double* n_hi, double* n_lo, double* A, double* B, double* C, double* a1, double* a2, double* a3, double* n_ref) {
 
     if (*n_hi < *n_lo) {
@@ -58,6 +60,11 @@ bool calcELR(double* smoke_A1, double* smoke_A2, double* smoke_A3,
     *smokeELR = 0.43 * smoke_A_mean + 0.56 * smoke_B_mean + 0.01 * smoke_C_mean;
 
     return true;
+}
+
+double calcGair(double *Dn, double *B0, double *t0, double *dPn) {
+
+    return 0.0084591 * pow(*Dn, 2) * sqrt((1.019716213 * *dPn * 7.500616827 * *B0)/(*t0 + 273.0));
 }
 
 double val_Pa(double x) {

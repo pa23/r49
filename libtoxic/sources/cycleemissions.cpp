@@ -644,7 +644,8 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            array_Gair[i] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i] * 7.500616827 * array_B0[i])/(array_t0[i] + 273.0));
+            //array_Gair[i] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i] * 7.500616827 * array_B0[i])/(array_t0[i] + 273.0));
+            array_Gair[i] = calcGair(&Dn, &(array_B0[i]), &(array_t0[i]), &(array_dPn[i]));
         }
 
         array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);

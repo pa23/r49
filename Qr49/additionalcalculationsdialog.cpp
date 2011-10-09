@@ -48,6 +48,12 @@ AdditionalCalculationsDialog::AdditionalCalculationsDialog(QWidget *parent) :
     ui->lineEdit_fC->setValidator(doubleValidator);
     ui->lineEdit_sC->setValidator(doubleValidator);
     ui->lineEdit_tC->setValidator(doubleValidator);
+
+    ui->lineEdit_nozzleDiameter->setValidator(doubleValidator);
+    ui->lineEdit_barometricPressure->setValidator(doubleValidator);
+    ui->lineEdit_airTemperature->setValidator(doubleValidator);
+    ui->lineEdit_nozzleVacuum->setValidator(doubleValidator);
+    ui->lineEdit_airConsumption->setValidator(doubleValidator);
 }
 
 AdditionalCalculationsDialog::~AdditionalCalculationsDialog() {
@@ -104,5 +110,14 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
         }
 
         ui->lineEdit_ELRsmoke->setText(QString::number(ELRsmoke));
+    }
+    else if ( ui->tabWidget->currentIndex() == AIRCONSUMPTION ) {
+
+        double Dn = ui->lineEdit_nozzleDiameter->text().toDouble();
+        double B0 = ui->lineEdit_barometricPressure->text().toDouble();
+        double t0 = ui->lineEdit_airTemperature->text().toDouble();
+        double dPn = ui->lineEdit_nozzleVacuum->text().toDouble();
+
+        ui->lineEdit_airConsumption->setText(QString::number(calcGair(&Dn, &B0, &t0, &dPn)));
     }
 }

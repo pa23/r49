@@ -28,6 +28,7 @@
 
 bool calcABC(double*, double*, double*, double*, double*, double*, double*, double*, double*);
 bool calcELR(double*, double*, double*, double*, double*, double*, double*, double*, double*, double*);
+double calcGair(double*, double*, double*, double*);
 
 double val_Pa(double);
 
