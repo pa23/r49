@@ -110,16 +110,16 @@ bool ReducedPower::readCSV(QVector< QVector<double> > data) {
 
     NumberOfPoints = array_DataForCalc.size();
 
-    array_n.resize(NumberOfPoints);
-    array_Me_brutto.resize(NumberOfPoints);
-    array_t0.resize(NumberOfPoints);
-    array_B0.resize(NumberOfPoints);
-    array_Ra.resize(NumberOfPoints);
-    array_S.resize(NumberOfPoints);
-    array_pk.resize(NumberOfPoints);
-    array_Gfuel.resize(NumberOfPoints);
-    array_N_k.resize(NumberOfPoints);
-    array_N_fan.resize(NumberOfPoints);
+    array_n.clear();         array_n.resize(NumberOfPoints);
+    array_Me_brutto.clear(); array_Me_brutto.resize(NumberOfPoints);
+    array_t0.clear();        array_t0.resize(NumberOfPoints);
+    array_B0.clear();        array_B0.resize(NumberOfPoints);
+    array_Ra.clear();        array_Ra.resize(NumberOfPoints);
+    array_S.clear();         array_S.resize(NumberOfPoints);
+    array_pk.clear();        array_pk.resize(NumberOfPoints);
+    array_Gfuel.clear();     array_Gfuel.resize(NumberOfPoints);
+    array_N_k.clear();       array_N_k.resize(NumberOfPoints);
+    array_N_fan.clear();     array_N_fan.resize(NumberOfPoints);
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -169,18 +169,18 @@ void ReducedPower::setRate() {
 
 bool ReducedPower::reducePower() {
 
-    array_Ne_brutto.resize(NumberOfPoints);
-    array_qcs.resize(NumberOfPoints);
-    array_fm.resize(NumberOfPoints);
-    array_pa.resize(NumberOfPoints);
-    array_ps.resize(NumberOfPoints);
-    array_fa.resize(NumberOfPoints);
-    array_alphad.resize(NumberOfPoints);
-    array_Ne_reduced.resize(NumberOfPoints);
-    array_Ne_brake_reduced.resize(NumberOfPoints);
-    array_Ne_netto_reduced.resize(NumberOfPoints);
-    array_Me_netto_reduced.resize(NumberOfPoints);
-    array_ge_netto_reduced.resize(NumberOfPoints);
+    array_Ne_brutto.clear();        array_Ne_brutto.resize(NumberOfPoints);
+    array_qcs.clear();              array_qcs.resize(NumberOfPoints);
+    array_fm.clear();               array_fm.resize(NumberOfPoints);
+    array_pa.clear();               array_pa.resize(NumberOfPoints);
+    array_ps.clear();               array_ps.resize(NumberOfPoints);
+    array_fa.clear();               array_fa.resize(NumberOfPoints);
+    array_alphad.clear();           array_alphad.resize(NumberOfPoints);
+    array_Ne_reduced.clear();       array_Ne_reduced.resize(NumberOfPoints);
+    array_Ne_brake_reduced.clear(); array_Ne_brake_reduced.resize(NumberOfPoints);
+    array_Ne_netto_reduced.clear(); array_Ne_netto_reduced.resize(NumberOfPoints);
+    array_Me_netto_reduced.clear(); array_Me_netto_reduced.resize(NumberOfPoints);
+    array_ge_netto_reduced.clear(); array_ge_netto_reduced.resize(NumberOfPoints);
 
     setRate();
 

@@ -327,33 +327,33 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
         return false;
     }
 
-    array_n.resize(NumberOfPoints);
-    array_Me_brutto.resize(NumberOfPoints);
-    array_Ne_brutto.resize(NumberOfPoints);
-    array_N_fan.resize(NumberOfPoints);
-    array_w.resize(NumberOfPoints);
-    array_t0.resize(NumberOfPoints);
-    array_B0.resize(NumberOfPoints);
-    array_Ra.resize(NumberOfPoints);
-    array_dPn.resize(NumberOfPoints);
-    array_Gair.resize(NumberOfPoints);
-    array_Gfuel.resize(NumberOfPoints);
-    array_CNOx.resize(NumberOfPoints);
-    array_gNOx.resize(NumberOfPoints);
-    array_CCO.resize(NumberOfPoints);
-    array_CCH.resize(NumberOfPoints);
-    array_CCO2in.resize(NumberOfPoints);
-    array_CCO2out.resize(NumberOfPoints);
-    array_CO2.resize(NumberOfPoints);
-    array_Ka1m.resize(NumberOfPoints);
-    array_KaPerc.resize(NumberOfPoints);
-    array_FSN.resize(NumberOfPoints);
-    array_Pr.resize(NumberOfPoints);
-    array_ts.resize(NumberOfPoints);
-    array_tauf.resize(NumberOfPoints);
-    array_qmdw.resize(NumberOfPoints);
-    array_qmdew.resize(NumberOfPoints);
-    array_rd.resize(NumberOfPoints);
+    array_n.clear();         array_n.resize(NumberOfPoints);
+    array_Me_brutto.clear(); array_Me_brutto.resize(NumberOfPoints);
+    array_Ne_brutto.clear(); array_Ne_brutto.resize(NumberOfPoints);
+    array_N_fan.clear();     array_N_fan.resize(NumberOfPoints);
+    array_w.clear();         array_w.resize(NumberOfPoints);
+    array_t0.clear();        array_t0.resize(NumberOfPoints);
+    array_B0.clear();        array_B0.resize(NumberOfPoints);
+    array_Ra.clear();        array_Ra.resize(NumberOfPoints);
+    array_dPn.clear();       array_dPn.resize(NumberOfPoints);
+    array_Gair.clear();      array_Gair.resize(NumberOfPoints);
+    array_Gfuel.clear();     array_Gfuel.resize(NumberOfPoints);
+    array_CNOx.clear();      array_CNOx.resize(NumberOfPoints);
+    array_gNOx.clear();      array_gNOx.resize(NumberOfPoints);
+    array_CCO.clear();       array_CCO.resize(NumberOfPoints);
+    array_CCH.clear();       array_CCH.resize(NumberOfPoints);
+    array_CCO2in.clear();    array_CCO2in.resize(NumberOfPoints);
+    array_CCO2out.clear();   array_CCO2out.resize(NumberOfPoints);
+    array_CO2.clear();       array_CO2.resize(NumberOfPoints);
+    array_Ka1m.clear();      array_Ka1m.resize(NumberOfPoints);
+    array_KaPerc.clear();    array_KaPerc.resize(NumberOfPoints);
+    array_FSN.clear();       array_FSN.resize(NumberOfPoints);
+    array_Pr.clear();        array_Pr.resize(NumberOfPoints);
+    array_ts.clear();        array_ts.resize(NumberOfPoints);
+    array_tauf.clear();      array_tauf.resize(NumberOfPoints);
+    array_qmdw.clear();      array_qmdw.resize(NumberOfPoints);
+    array_qmdew.clear();     array_qmdew.resize(NumberOfPoints);
+    array_rd.clear();        array_rd.resize(NumberOfPoints);
 
     for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
 
@@ -554,23 +554,23 @@ bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
 
 bool CycleEmissions::preCalculate() {
 
-    array_Ne_netto.resize(NumberOfPoints);
-    array_Me_netto.resize(NumberOfPoints);
-    array_alpha.resize(NumberOfPoints);
-    array_alpha_O2.resize(NumberOfPoints);
-    array_Gexh.resize(NumberOfPoints);
-    array_Gexhd.resize(NumberOfPoints);
-    array_Pb.resize(NumberOfPoints);
-    array_Pa.resize(NumberOfPoints);
-    array_Ha.resize(NumberOfPoints);
-    array_Gaird.resize(NumberOfPoints);
-    array_Kw2.resize(NumberOfPoints);
-    array_Ffh.resize(NumberOfPoints);
-    array_Kf.resize(NumberOfPoints);
-    array_Kwr.resize(NumberOfPoints);
-    array_Khd.resize(NumberOfPoints);
-    array_fa.resize(NumberOfPoints);
-    array_ge.resize(NumberOfPoints);
+    array_Ne_netto.clear(); array_Ne_netto.resize(NumberOfPoints);
+    array_Me_netto.clear(); array_Me_netto.resize(NumberOfPoints);
+    array_alpha.clear();    array_alpha.resize(NumberOfPoints);
+    array_alpha_O2.clear(); array_alpha_O2.resize(NumberOfPoints);
+    array_Gexh.clear();     array_Gexh.resize(NumberOfPoints);
+    array_Gexhd.clear();    array_Gexhd.resize(NumberOfPoints);
+    array_Pb.clear();       array_Pb.resize(NumberOfPoints);
+    array_Pa.clear();       array_Pa.resize(NumberOfPoints);
+    array_Ha.clear();       array_Ha.resize(NumberOfPoints);
+    array_Gaird.clear();    array_Gaird.resize(NumberOfPoints);
+    array_Kw2.clear();      array_Kw2.resize(NumberOfPoints);
+    array_Ffh.clear();      array_Ffh.resize(NumberOfPoints);
+    array_Kf.clear();       array_Kf.resize(NumberOfPoints);
+    array_Kwr.clear();      array_Kwr.resize(NumberOfPoints);
+    array_Khd.clear();      array_Khd.resize(NumberOfPoints);
+    array_fa.clear();       array_fa.resize(NumberOfPoints);
+    array_ge.clear();       array_ge.resize(NumberOfPoints);
 
     ptrdiff_t std = params.data()->val_Standard();
 
@@ -772,7 +772,7 @@ bool CycleEmissions::preCalculate() {
 
 bool CycleEmissions::calculate_gNOx() {
 
-    array_mNOx.resize(NumberOfPoints);
+    array_mNOx.clear(); array_mNOx.resize(NumberOfPoints);
 
     double muNO2 = config.data()->val_muNO2();
 
@@ -1045,8 +1045,8 @@ bool CycleEmissions::calculateAdditionalPoints() {
 
 bool CycleEmissions::calculate_gCO() {
 
-    array_mCO.resize(NumberOfPoints);
-    array_gCO.resize(NumberOfPoints);
+    array_mCO.clear(); array_mCO.resize(NumberOfPoints);
+    array_gCO.clear(); array_gCO.resize(NumberOfPoints);
 
     double muCO = config.data()->val_muCO();
 
@@ -1099,8 +1099,8 @@ bool CycleEmissions::calculate_gCO() {
 
 bool CycleEmissions::calculate_gCH() {
 
-    array_mCH.resize(NumberOfPoints);
-    array_gCH.resize(NumberOfPoints);
+    array_mCH.clear(); array_mCH.resize(NumberOfPoints);
+    array_gCH.clear(); array_gCH.resize(NumberOfPoints);
 
     double muCH = config.data()->val_muCH();
 
@@ -1163,12 +1163,12 @@ bool CycleEmissions::calculate_gPT() {
 
     mf = params.data()->val_PTmass();
 
-    array_ror.resize(NumberOfPoints);
-    array_CPT.resize(NumberOfPoints);
-    array_qmedf.resize(NumberOfPoints);
-    array_msepi.resize(NumberOfPoints);
-    array_mPT.resize(NumberOfPoints);
-    array_gPT.resize(NumberOfPoints);
+    array_ror.clear();   array_ror.resize(NumberOfPoints);
+    array_CPT.clear();   array_CPT.resize(NumberOfPoints);
+    array_qmedf.clear(); array_qmedf.resize(NumberOfPoints);
+    array_msepi.clear(); array_msepi.resize(NumberOfPoints);
+    array_mPT.clear();   array_mPT.resize(NumberOfPoints);
+    array_gPT.clear();   array_gPT.resize(NumberOfPoints);
 
     ptrdiff_t std = params.data()->val_Standard();
 
@@ -1197,7 +1197,8 @@ bool CycleEmissions::calculate_gPT() {
 
             if (smoke == 0) {
 
-                array_KaPerc[i] = 100.0 * (1.0 - exp(- array_Ka1m[i] * L));
+                //array_KaPerc[i] = 100.0 * (1.0 - exp(- array_Ka1m[i] * L));
+                array_KaPerc[i] = Ka1m2KaPerc( &(array_Ka1m[i]), &L );
                 array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
                                (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
                                (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
@@ -1284,8 +1285,8 @@ bool CycleEmissions::calculate_gPT() {
 
 bool CycleEmissions::calculate_rEGR() {
 
-    array_rEGR.resize(NumberOfPoints);
-    array_alpha_res.resize(NumberOfPoints);
+    array_rEGR.clear();      array_rEGR.resize(NumberOfPoints);
+    array_alpha_res.clear(); array_alpha_res.resize(NumberOfPoints);
 
     double CCO2air = config.data()->val_ConcCO2air();
 
@@ -1344,7 +1345,7 @@ bool CycleEmissions::calculate_Means() {
 
 bool CycleEmissions::compareAlpha() {
 
-    array_diff_alpha.resize(NumberOfPoints);
+    array_diff_alpha.clear(); array_diff_alpha.resize(NumberOfPoints);
 
     if (CheckMeas) {
 

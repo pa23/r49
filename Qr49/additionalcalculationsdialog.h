@@ -44,12 +44,13 @@ private:
     Ui::AdditionalCalculationsDialog *ui;
 
     QDoubleValidator *doubleValidator;
-    enum{ ABCSPEEDS, ELRSMOKE, AIRCONSUMPTION, FANPOWER };
+    enum{ ABCSPEEDS, ELRSMOKE, AIRCONSUMPTION, FANPOWER, SMOKETRANSLATION };
 
 private slots:
 
     void on_pushButton_calculate_clicked();
-
+    void on_radioButton_Ka1m_clicked();
+    void on_radioButton_KaPerc_clicked();
 };
 
 #endif // ADDITIONALCALCULATIONSDIALOG_H

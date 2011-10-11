@@ -30,6 +30,8 @@ bool calcABC(double *, double *, double *, double *, double *, double *, double 
 bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
 double calcGair(double *, double *, double *, double *);
 double calcNfan(double *, double *, double *);
+double Ka1m2KaPerc(double *, double *);
+double KaPerc2Ka1m(double *, double *);
 
 double val_Pa(double);
 

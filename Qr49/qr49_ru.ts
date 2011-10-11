@@ -2,20 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
-    <name>ABCspeedsCalcDialog</name>
+    <name>AdditionalCalculationsDialog</name>
     <message>
-        <source>Error during calculation A, B, C speeds!</source>
-        <translation>Ошибка во время выполнения расчета оборотов A, B, C!</translation>
-    </message>
-</context>
-<context>
-    <name>ABCspeedsCalcDialogClass</name>
-    <message>
-        <source>Qr49: A, B, C speeds calculation</source>
-        <translation>Расчет оборотов A, B, C</translation>
+        <source>Qr49: Additional Calculations</source>
+        <translation>Qr49: Дополнительные расчеты</translation>
     </message>
     <message>
-        <source>Source Data</source>
+        <source>A, B, C speeds</source>
+        <translation>Обороты A, B, C</translation>
+    </message>
+    <message>
+        <source>Source data</source>
         <translation>Исходные данные</translation>
     </message>
     <message>
@@ -35,7 +32,7 @@
         <translation>мин-1</translation>
     </message>
     <message>
-        <source>Calculation Results</source>
+        <source>Calculation results</source>
         <translation>Результаты расчета</translation>
     </message>
     <message>
@@ -67,12 +64,148 @@
         <translation>n_ref</translation>
     </message>
     <message>
+        <source>ELR smoke</source>
+        <translation>Дым по циклу ELR</translation>
+    </message>
+    <message>
+        <source>1st peak at A speed</source>
+        <translation>1-й пик на оборотах A</translation>
+    </message>
+    <message>
+        <source>2nd peak at A speed</source>
+        <translation>2-й пик на оборотах A</translation>
+    </message>
+    <message>
+        <source>3rd peak at A speed</source>
+        <translation>3-й пик на оборотах A</translation>
+    </message>
+    <message>
+        <source>1st peak at B speed</source>
+        <translation>1-й пик на оборотах B</translation>
+    </message>
+    <message>
+        <source>2nd peak at B speed</source>
+        <translation>2-й пик на оборотах B</translation>
+    </message>
+    <message>
+        <source>3rd peak at B speed</source>
+        <translation>3-й пик на оборотах B</translation>
+    </message>
+    <message>
+        <source>1st peak at C speed</source>
+        <translation>1-й пик на оборотах C</translation>
+    </message>
+    <message>
+        <source>2nd peak at C speed</source>
+        <translation>2-й пик на оборотах C</translation>
+    </message>
+    <message>
+        <source>3rd peak at C speed</source>
+        <translation>3-й пик на оборотах C</translation>
+    </message>
+    <message>
+        <source>Air consumption</source>
+        <translation>Расход воздуха</translation>
+    </message>
+    <message>
+        <source>Nozzle diameter</source>
+        <translation>Диаметр измерительного сопла</translation>
+    </message>
+    <message>
+        <source>mm</source>
+        <translation>мм</translation>
+    </message>
+    <message>
+        <source>Barometric pressure</source>
+        <translation>Барометрическое давление</translation>
+    </message>
+    <message>
+        <source>kPa</source>
+        <translation>кПа</translation>
+    </message>
+    <message>
+        <source>Air temperature</source>
+        <translation>Температура воздуха</translation>
+    </message>
+    <message>
+        <source>deg C</source>
+        <translation>град C</translation>
+    </message>
+    <message>
+        <source>Nozzle vacuum</source>
+        <translation>Разрежение на измерительном сопле</translation>
+    </message>
+    <message>
+        <source>mm H2O</source>
+        <translation>мм H2O</translation>
+    </message>
+    <message>
+        <source>kg/h</source>
+        <translation>кг/ч</translation>
+    </message>
+    <message>
+        <source>Fan power</source>
+        <translation>Мощность вентилятора</translation>
+    </message>
+    <message>
+        <source>Rated fan power</source>
+        <translation>Мощность вентилятора на номинале</translation>
+    </message>
+    <message>
+        <source>kW</source>
+        <translation>кВт</translation>
+    </message>
+    <message>
+        <source>Rated engine speed</source>
+        <translation>Номинальные обороты двигателя</translation>
+    </message>
+    <message>
+        <source>Engine speed</source>
+        <translation>Обороты двигателя</translation>
+    </message>
+    <message>
+        <source>Smoke translation</source>
+        <translation>Пересчет дымности</translation>
+    </message>
+    <message>
+        <source>Opacimeter effective base</source>
+        <translation>Эффективная длина дымомера</translation>
+    </message>
+    <message>
+        <source>0.43</source>
+        <translation>0.43</translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation>м</translation>
+    </message>
+    <message>
+        <source>[m-1]</source>
+        <translation>[м-1]</translation>
+    </message>
+    <message>
+        <source>[%]</source>
+        <translation>[%]</translation>
+    </message>
+    <message>
+        <source>-&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
         <source>Calculate</source>
         <translation>Рассчитать</translation>
     </message>
     <message>
         <source>Close</source>
         <translation>Закрыть</translation>
+    </message>
+    <message>
+        <source>Error during calculation A, B, C speeds!</source>
+        <translation>Ошибка во время выполнения расчета оборотов A, B, C!</translation>
+    </message>
+    <message>
+        <source>Error during calculation ELR smoke!</source>
+        <translation>Ошибка во время расчета дыма по циклу ELR!</translation>
     </message>
 </context>
 <context>
@@ -173,80 +306,6 @@
     </message>
 </context>
 <context>
-    <name>ELRsmokeCalcDialog</name>
-    <message>
-        <source>Error during calculation ELR smoke!</source>
-        <translation>Ошибка во время расчета дыма по циклу ELR!</translation>
-    </message>
-</context>
-<context>
-    <name>ELRsmokeCalcDialogClass</name>
-    <message>
-        <source>Qr49: ELR smoke calculation</source>
-        <translation>Qr49: Расчет дыма по циклу ELR</translation>
-    </message>
-    <message>
-        <source>Source Data</source>
-        <translation>Исходные данные</translation>
-    </message>
-    <message>
-        <source>1st peak at A speed</source>
-        <translation>1-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>2nd peak at A speed</source>
-        <translation>2-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>3rd peak at A speed</source>
-        <translation>3-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>1st peak at B speed</source>
-        <translation>1-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>2nd peak at B speed</source>
-        <translation>2-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>3rd peak at B speed</source>
-        <translation>3-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>1st peak at C speed</source>
-        <translation>1-й пик на оборотах C</translation>
-    </message>
-    <message>
-        <source>2nd peak at C speed</source>
-        <translation>2-й пик на оборотах C</translation>
-    </message>
-    <message>
-        <source>3rd peak at C speed</source>
-        <translation>3-й пик на оборотах C</translation>
-    </message>
-    <message>
-        <source>Calculation Results</source>
-        <translation>Результаты расчета</translation>
-    </message>
-    <message>
-        <source>ELR smoke</source>
-        <translation>Дым по циклу ELR</translation>
-    </message>
-    <message>
-        <source>Calculate</source>
-        <translation>Рассчитать</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
-    </message>
-</context>
-<context>
     <name>FilterMassDialog</name>
     <message>
         <source>Qr49: PT Filter Mass</source>
@@ -301,7 +360,7 @@ p, li { white-space: pre-wrap; }
 &lt;hr /&gt;
 &lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;Euro-6..Euro-0 UN ECE Regulation No. 49 Revision 4&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на колесных транспортных средствах. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -402,7 +461,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ОСТ 37.001.234-81&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на автомобилях полной массой свыше 3.5 т (за исключением двигателей, находящиеся в эксплуатации). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -435,7 +494,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 17.2.2.05-97&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на сельскохозяйственных, промышленных, лесохозяйственных тракторах, в т.ч. используемых в качестве базы для строительно дорожных машин, тракторных самоходных дизельных шасси, самоходных сельскохозяйственных машинах, работающих в условиях как ограниченного так и неограниченного воздухообмена. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -477,7 +536,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь изготовленных двигателей, работающих в условиях неограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для вновь изготовленных двигателей, работающих в условиях ограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;3&lt;/span&gt; — Для капитально отремонтированных двигателей, работающих в условиях неограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;4&lt;/span&gt; — Для капитально отремонтированных двигателей, работающих в условиях ограниченного воздухозабора.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;UN ECE Regulation No. 96 Revision 1&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на сельскохозяйственных и лесных тракторах, а также внедорожной подвижной технике, предназначенной и пригодной для передвижения или перемещения по земле (дороге или бездорожью), с установленной полезной мощностью от 18 до 560 кВт, в т.ч. эксплуатируемой при постоянном числе оборотов двигателя (включая газовые компрессоры, ирригационные насосы, генераторные агрегаты с переменной нагрузкой, газонокосилки, отбойные молотки, снегоочистительное оборудование, подметальные машины). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблицах ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -552,7 +611,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;0.8 &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -618,7 +677,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (цикл C1)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на внедорожном транспорте и промышленном оборудовании в т.ч. промышленных буровых установках, компрессорах, большегрузных карьерных самосвалах с механической и гидромеханической трансмиссией, строительном оборудовании (включая колесные и гусеничные погрузчики, бульдозеры, передвижные краны), оборудовании для лесной промышленности, сельскохозяйственной технике, экскаваторах, грейдерах, катках, асфальтоукладчиках, снегоуборочных машинах, вспомогательном оборудовании аэропортов. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -654,7 +713,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь изготовленных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы D1, D2)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на силовых установках, в т.ч. электростанциях и приводах ирригационных насосов (D1) и электроустановках с переменной нагрузкой, в т.ч. дизель-генераторах с кратковременной (прерывистой или скачкообразной) нагрузкой (включая судовые, вспомогательные и тепловозные двигатели не для тяги, рефрижераторные агрегаты, сварочные установки) (D2) и имеющие постоянную частоту вращения. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -690,7 +749,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы E1, E2, E3, E5)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на судах длиной менее 24 м кроме буксиров и толкачей (E1), в качестве главных судовых двигателей для тяжелых условий эксплуатации, работающих с постоянной частотой вращения (E2), в качестве главных судовых двигателей для тяжелых условий эксплуатации, работающих по винтовой характеристике (E3), на судах длиной менее 24 м кроме буксиров и толкачей, работающих по винтовой характеристике (E5). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -726,7 +785,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (цикл F)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на тепловозах, дизель-поездах, автомотрисах и большегрузных карьерных самосвалах с электрической трансмиссией. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -762,7 +821,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы G1, G2)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия мощностью менее 20 кВт, предназначенные для использования на газонокосилках, снегоуборочной технике, устройствах для уборки мусора и работающие на промежуточной частоте вращения, а также насосах, сварочных аппаратах, компрессорах, портативных дизель-генераторах и работающие на номинальной частоте вращения. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:120px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -1207,10 +1266,6 @@ p, li { white-space: pre-wrap; }
         <translation>Экспорт</translation>
     </message>
     <message>
-        <source>ABC speeds</source>
-        <translation>Обороты A, B, C</translation>
-    </message>
-    <message>
         <source>ELR smoke</source>
         <translation>Дым по циклу ELR</translation>
     </message>
@@ -1515,10 +1570,6 @@ Maybe you did not enter all source data?</source>
 [%]</translation>
     </message>
     <message>
-        <source>Calculation Parameters</source>
-        <translation>Параметры расчета</translation>
-    </message>
-    <message>
         <source>Cycle Points Calculation</source>
         <translation>Расчет точек цикла</translation>
     </message>
@@ -1769,6 +1820,14 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>Gas turbine</source>
         <translation>Газотурбинный</translation>
+    </message>
+    <message>
+        <source>Calculation parameters</source>
+        <translation>Параметры расчета</translation>
+    </message>
+    <message>
+        <source>Additional calculations</source>
+        <translation>Дополнительные расчеты</translation>
     </message>
 </context>
 <context>

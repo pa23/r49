@@ -41,6 +41,7 @@ using std::setw;
 using std::right;
 using std::setprecision;
 using std::fixed;
+using std::ptrdiff_t;
 
 CyclePoints::CyclePoints(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
         n_hi               (0),
@@ -253,11 +254,7 @@ bool CyclePoints::fillArrays() {
             n = TCyclePointsNumber - TCycleAddPointsNumber;
         }
 
-        array_n.resize(n);
-        array_Me_brutto.resize(n);
-        array_Ne_brutto.resize(n);
-        array_N_fan.resize(n);
-        array_w.resize(n);
+        arraysInit(n);
 
         array_n[ 0] = idle;
         array_n[ 1] = A;
@@ -337,11 +334,7 @@ bool CyclePoints::fillArrays() {
 
         n = TCyclePointsNumber - TCycleAddPointsNumber;
 
-        array_n.resize(n);
-        array_Me_brutto.resize(n);
-        array_Ne_brutto.resize(n);
-        array_N_fan.resize(n);
-        array_w.resize(n);
+        arraysInit(n);
 
         array_n[ 0] = idle;
         array_n[ 1] = n_interim;
@@ -400,11 +393,7 @@ bool CyclePoints::fillArrays() {
 
         n = TCyclePointsNumber - TCycleAddPointsNumber;
 
-        array_n.resize(n);
-        array_Me_brutto.resize(n);
-        array_Ne_brutto.resize(n);
-        array_N_fan.resize(n);
-        array_w.resize(n);
+        arraysInit(n);
 
         array_n[ 0] = idle;
         array_n[ 1] = n_interim;
@@ -483,11 +472,7 @@ bool CyclePoints::fillArrays() {
     else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
               (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
 
-        array_n.resize(ECyclePointsNumber);
-        array_Me_brutto.resize(ECyclePointsNumber);
-        array_Ne_brutto.resize(ECyclePointsNumber);
-        array_N_fan.resize(ECyclePointsNumber);
-        array_w.resize(ECyclePointsNumber);
+        arraysInit(ECyclePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -526,11 +511,7 @@ bool CyclePoints::fillArrays() {
     else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
               (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-        array_n.resize(FCyclePointsNumber);
-        array_Me_brutto.resize(FCyclePointsNumber);
-        array_Ne_brutto.resize(FCyclePointsNumber);
-        array_N_fan.resize(FCyclePointsNumber);
-        array_w.resize(FCyclePointsNumber);
+        arraysInit(FCyclePointsNumber);
 
         array_Ne_brutto[ 0] =         Ne_rated;
         array_Ne_brutto[ 1] = 0.75  * Ne_rated;
@@ -553,11 +534,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_C1) {
 
-        array_n.resize(GC1CylcePointsNumber);
-        array_Me_brutto.resize(GC1CylcePointsNumber);
-        array_Ne_brutto.resize(GC1CylcePointsNumber);
-        array_N_fan.resize(GC1CylcePointsNumber);
-        array_w.resize(GC1CylcePointsNumber);
+        arraysInit(GC1CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -593,11 +570,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_D1) {
 
-        array_n.resize(GD1CylcePointsNumber);
-        array_Me_brutto.resize(GD1CylcePointsNumber);
-        array_Ne_brutto.resize(GD1CylcePointsNumber);
-        array_N_fan.resize(GD1CylcePointsNumber);
-        array_w.resize(GD1CylcePointsNumber);
+        arraysInit(GD1CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -618,11 +591,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_D2) {
 
-        array_n.resize(GD2CylcePointsNumber);
-        array_Me_brutto.resize(GD2CylcePointsNumber);
-        array_Ne_brutto.resize(GD2CylcePointsNumber);
-        array_N_fan.resize(GD2CylcePointsNumber);
-        array_w.resize(GD2CylcePointsNumber);
+        arraysInit(GD2CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -649,11 +618,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_E1) {
 
-        array_n.resize(GE1CylcePointsNumber);
-        array_Me_brutto.resize(GE1CylcePointsNumber);
-        array_Ne_brutto.resize(GE1CylcePointsNumber);
-        array_N_fan.resize(GE1CylcePointsNumber);
-        array_w.resize(GE1CylcePointsNumber);
+        arraysInit(GE1CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -680,11 +645,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_E2) {
 
-        array_n.resize(GE2CylcePointsNumber);
-        array_Me_brutto.resize(GE2CylcePointsNumber);
-        array_Ne_brutto.resize(GE2CylcePointsNumber);
-        array_N_fan.resize(GE2CylcePointsNumber);
-        array_w.resize(GE2CylcePointsNumber);
+        arraysInit(GE2CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -708,11 +669,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_E3) {
 
-        array_n.resize(GE3CylcePointsNumber);
-        array_Me_brutto.resize(GE3CylcePointsNumber);
-        array_Ne_brutto.resize(GE3CylcePointsNumber);
-        array_N_fan.resize(GE3CylcePointsNumber);
-        array_w.resize(GE3CylcePointsNumber);
+        arraysInit(GE3CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = 0.91 * n_rated;
@@ -731,11 +688,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_E5) {
 
-        array_n.resize(GE5CylcePointsNumber);
-        array_Me_brutto.resize(GE5CylcePointsNumber);
-        array_Ne_brutto.resize(GE5CylcePointsNumber);
-        array_N_fan.resize(GE5CylcePointsNumber);
-        array_w.resize(GE5CylcePointsNumber);
+        arraysInit(GE5CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = 0.91 * n_rated;
@@ -757,11 +710,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_F) {
 
-        array_n.resize(GFCylcePointsNumber);
-        array_Me_brutto.resize(GFCylcePointsNumber);
-        array_Ne_brutto.resize(GFCylcePointsNumber);
-        array_N_fan.resize(GFCylcePointsNumber);
-        array_w.resize(GFCylcePointsNumber);
+        arraysInit(GFCylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_interim;
@@ -782,11 +731,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_G1) {
 
-        array_n.resize(GG1CylcePointsNumber);
-        array_Me_brutto.resize(GG1CylcePointsNumber);
-        array_Ne_brutto.resize(GG1CylcePointsNumber);
-        array_N_fan.resize(GG1CylcePointsNumber);
-        array_w.resize(GG1CylcePointsNumber);
+        arraysInit(GG1CylcePointsNumber);
 
         array_n[ 0] = n_interim;
         array_n[ 1] = n_interim;
@@ -816,11 +761,7 @@ bool CyclePoints::fillArrays() {
     }
     else if (std == STD_G2) {
 
-        array_n.resize(GG2CylcePointsNumber);
-        array_Me_brutto.resize(GG2CylcePointsNumber);
-        array_Ne_brutto.resize(GG2CylcePointsNumber);
-        array_N_fan.resize(GG2CylcePointsNumber);
-        array_w.resize(GG2CylcePointsNumber);
+        arraysInit(GG2CylcePointsNumber);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -1023,4 +964,13 @@ QString CyclePoints::createReport() const {
     qDebug() << "libtoxic: Add measured data in this file.";
 
     return message;
+}
+
+void CyclePoints::arraysInit(ptrdiff_t n) {
+
+    array_n.clear();         array_n.resize(n);
+    array_Me_brutto.clear(); array_Me_brutto.resize(n);
+    array_Ne_brutto.clear(); array_Ne_brutto.resize(n);
+    array_N_fan.clear();     array_N_fan.resize(n);
+    array_w.clear();         array_w.resize(n);
 }

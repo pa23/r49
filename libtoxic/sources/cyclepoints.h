@@ -61,6 +61,8 @@ private:
     QVector<double> array_N_fan;
     QVector<double> array_w;
 
+    void arraysInit(std::ptrdiff_t);
+
 };
 
 #endif	/* CYCLEPOINTS_H */

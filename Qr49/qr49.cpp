@@ -287,15 +287,13 @@ void MainWindow::tableCellChangedConnect(bool b) {
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
 
-    if ( object == ui->tableWidget_SrcDataEU0 ||
-         object == ui->tableWidget_SrcDataEU3 ||
-         object == ui->tableWidget_SrcDataPoints ||
-         object == ui->tableWidget_FullLoadCurve ) {
+    if ( ( object == ui->tableWidget_SrcDataEU0 ||
+           object == ui->tableWidget_SrcDataEU3 ||
+           object == ui->tableWidget_SrcDataPoints ||
+           object == ui->tableWidget_FullLoadCurve ) &&
+         ( event->type() == QEvent::FocusIn ) ) {
 
-        if ( event->type() == QEvent::FocusIn ) {
-
-            table = (QTableWidget*)object;
-        }
+        table = (QTableWidget*)object;
     }
 
     return false;

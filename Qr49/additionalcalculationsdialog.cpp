@@ -54,6 +54,14 @@ AdditionalCalculationsDialog::AdditionalCalculationsDialog(QWidget *parent) :
     ui->lineEdit_airTemperature->setValidator(doubleValidator);
     ui->lineEdit_nozzleVacuum->setValidator(doubleValidator);
     ui->lineEdit_airConsumption->setValidator(doubleValidator);
+
+    ui->lineEdit_NfanRated->setValidator(doubleValidator);
+    ui->lineEdit_nRated->setValidator(doubleValidator);
+    ui->lineEdit_n->setValidator(doubleValidator);
+    ui->lineEdit_Nfan->setValidator(doubleValidator);
+
+    ui->lineEdit_Ka1m->setValidator(doubleValidator);
+    ui->lineEdit_KaPerc->setValidator(doubleValidator);
 }
 
 AdditionalCalculationsDialog::~AdditionalCalculationsDialog() {
@@ -128,4 +136,33 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
 
         ui->lineEdit_Nfan->setText(QString::number(calcNfan(&N_fan_rated, &n, &n_rated)));
     }
+    else if ( ui->tabWidget->currentIndex() == SMOKETRANSLATION ) {
+
+        double L = ui->lineEdit_L->text().toDouble();
+        double Ka1m = 0;
+        double KaPerc = 0;
+
+        if ( ui->radioButton_Ka1m->isChecked() ) {
+
+            Ka1m = ui->lineEdit_Ka1m->text().toDouble();
+
+            ui->lineEdit_KaPerc->setText(QString::number( Ka1m2KaPerc(&Ka1m, &L) ));
+        }
+        else {
+
+            KaPerc = ui->lineEdit_KaPerc->text().toDouble();
+
+            ui->lineEdit_Ka1m->setText(QString::number( KaPerc2Ka1m(&KaPerc, &L) ));
+        }
+    }
+}
+
+void AdditionalCalculationsDialog::on_radioButton_Ka1m_clicked() {
+
+    ui->label_smkTrans->setText("->");
+}
+
+void AdditionalCalculationsDialog::on_radioButton_KaPerc_clicked() {
+
+    ui->label_smkTrans->setText("<-");
 }

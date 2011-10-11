@@ -72,6 +72,16 @@ double calcNfan(double *N_fan_rated, double *n, double *n_rated) {
     return *N_fan_rated * pow(*n / *n_rated, 3);
 }
 
+double Ka1m2KaPerc(double *Ka1m, double *L) {
+
+    return 100.0 * (1.0 - exp(- *Ka1m * *L));
+}
+
+double KaPerc2Ka1m(double *KaPerc, double *L) {
+
+    return (-1.0 / *L) * log(1 - *KaPerc / 100.0);
+}
+
 double val_Pa(double x) {
 
     for (ptrdiff_t i=0; i<PaArraySize; i++) {
