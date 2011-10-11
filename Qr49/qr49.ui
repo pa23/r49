@@ -1575,7 +1575,7 @@
   </action>
   <action name="action_additionalCalculations">
    <property name="text">
-    <string>Additional Calculations</string>
+    <string>Additional calculations</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

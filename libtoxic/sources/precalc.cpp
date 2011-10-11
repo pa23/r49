@@ -67,6 +67,11 @@ double calcGair(double *Dn, double *B0, double *t0, double *dPn) {
     return 0.0084591 * pow(*Dn, 2) * sqrt((1.019716213 * *dPn * 7.500616827 * *B0)/(*t0 + 273.0));
 }
 
+double calcNfan(double *N_fan_rated, double *n, double *n_rated) {
+
+    return *N_fan_rated * pow(*n / *n_rated, 3);
+}
+
 double val_Pa(double x) {
 
     for (ptrdiff_t i=0; i<PaArraySize; i++) {

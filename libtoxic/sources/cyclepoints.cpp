@@ -282,7 +282,8 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -358,7 +359,8 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -420,7 +422,8 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -507,7 +510,8 @@ bool CyclePoints::fillArrays() {
         for (ptrdiff_t i=0; i<ECyclePointsNumber; i++) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
-            array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
         }
 
         array_w[ 0] = 0.15;

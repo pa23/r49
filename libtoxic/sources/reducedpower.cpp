@@ -219,7 +219,8 @@ bool ReducedPower::reducePower() {
 
         array_Ne_reduced[i] = array_alphad[i] * array_Ne_brutto[i];
         array_Ne_brake_reduced[i] = array_Ne_brutto[i] + array_N_k[i];
-        array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+        //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
+        array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
         array_Ne_netto_reduced[i] = array_Ne_reduced[i] - array_N_fan[i];
         array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 / array_n[i];
         array_ge_netto_reduced[i] = array_Gfuel[i] / array_Ne_netto_reduced[i] * 1000.0;

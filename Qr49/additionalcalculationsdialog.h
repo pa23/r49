@@ -44,7 +44,7 @@ private:
     Ui::AdditionalCalculationsDialog *ui;
 
     QDoubleValidator *doubleValidator;
-    enum{ ABCSPEEDS, ELRSMOKE, AIRCONSUMPTION };
+    enum{ ABCSPEEDS, ELRSMOKE, AIRCONSUMPTION, FANPOWER };
 
 private slots:
 

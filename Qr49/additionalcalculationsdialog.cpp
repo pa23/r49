@@ -120,4 +120,12 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
 
         ui->lineEdit_airConsumption->setText(QString::number(calcGair(&Dn, &B0, &t0, &dPn)));
     }
+    else if ( ui->tabWidget->currentIndex() == FANPOWER ) {
+
+        double N_fan_rated = ui->lineEdit_NfanRated->text().toDouble();
+        double n = ui->lineEdit_n->text().toDouble();
+        double n_rated = ui->lineEdit_nRated->text().toDouble();
+
+        ui->lineEdit_Nfan->setText(QString::number(calcNfan(&N_fan_rated, &n, &n_rated)));
+    }
 }

@@ -26,9 +26,10 @@
 
 #include <QVector>
 
-bool calcABC(double*, double*, double*, double*, double*, double*, double*, double*, double*);
-bool calcELR(double*, double*, double*, double*, double*, double*, double*, double*, double*, double*);
-double calcGair(double*, double*, double*, double*);
+bool calcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
+bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
+double calcGair(double *, double *, double *, double *);
+double calcNfan(double *, double *, double *);
 
 double val_Pa(double);
 
