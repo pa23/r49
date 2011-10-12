@@ -17,15 +17,15 @@
     </message>
     <message>
         <source>n_hi</source>
-        <translation>n_hi</translation>
+        <translation></translation>
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation></translation>
     </message>
     <message>
         <source>n_lo</source>
-        <translation>n_lo</translation>
+        <translation></translation>
     </message>
     <message>
         <source>min-1</source>
@@ -37,103 +37,51 @@
     </message>
     <message>
         <source>A</source>
-        <translation>A</translation>
+        <translation></translation>
     </message>
     <message>
         <source>B</source>
-        <translation>B</translation>
+        <translation></translation>
     </message>
     <message>
         <source>C</source>
-        <translation>C</translation>
+        <translation></translation>
     </message>
     <message>
         <source>a1</source>
-        <translation>a1</translation>
+        <translation></translation>
     </message>
     <message>
         <source>a2</source>
-        <translation>a2</translation>
+        <translation></translation>
     </message>
     <message>
         <source>a3</source>
-        <translation>a3</translation>
+        <translation></translation>
     </message>
     <message>
         <source>n_ref</source>
-        <translation>n_ref</translation>
+        <translation></translation>
     </message>
     <message>
         <source>ELR smoke</source>
-        <translation>Дым по циклу ELR</translation>
-    </message>
-    <message>
-        <source>1st peak at A speed</source>
-        <translation>1-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>2nd peak at A speed</source>
-        <translation>2-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>3rd peak at A speed</source>
-        <translation>3-й пик на оборотах A</translation>
-    </message>
-    <message>
-        <source>1st peak at B speed</source>
-        <translation>1-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>2nd peak at B speed</source>
-        <translation>2-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>3rd peak at B speed</source>
-        <translation>3-й пик на оборотах B</translation>
-    </message>
-    <message>
-        <source>1st peak at C speed</source>
-        <translation>1-й пик на оборотах C</translation>
-    </message>
-    <message>
-        <source>2nd peak at C speed</source>
-        <translation>2-й пик на оборотах C</translation>
-    </message>
-    <message>
-        <source>3rd peak at C speed</source>
-        <translation>3-й пик на оборотах C</translation>
+        <translation>Дым ELR</translation>
     </message>
     <message>
         <source>Air consumption</source>
         <translation>Расход воздуха</translation>
     </message>
     <message>
-        <source>Nozzle diameter</source>
-        <translation>Диаметр измерительного сопла</translation>
-    </message>
-    <message>
         <source>mm</source>
         <translation>мм</translation>
-    </message>
-    <message>
-        <source>Barometric pressure</source>
-        <translation>Барометрическое давление</translation>
     </message>
     <message>
         <source>kPa</source>
         <translation>кПа</translation>
     </message>
     <message>
-        <source>Air temperature</source>
-        <translation>Температура воздуха</translation>
-    </message>
-    <message>
         <source>deg C</source>
         <translation>град C</translation>
-    </message>
-    <message>
-        <source>Nozzle vacuum</source>
-        <translation>Разрежение на измерительном сопле</translation>
     </message>
     <message>
         <source>mm H2O</source>
@@ -148,32 +96,16 @@
         <translation>Мощность вентилятора</translation>
     </message>
     <message>
-        <source>Rated fan power</source>
-        <translation>Мощность вентилятора на номинале</translation>
-    </message>
-    <message>
         <source>kW</source>
         <translation>кВт</translation>
-    </message>
-    <message>
-        <source>Rated engine speed</source>
-        <translation>Номинальные обороты двигателя</translation>
-    </message>
-    <message>
-        <source>Engine speed</source>
-        <translation>Обороты двигателя</translation>
     </message>
     <message>
         <source>Smoke translation</source>
         <translation>Пересчет дымности</translation>
     </message>
     <message>
-        <source>Opacimeter effective base</source>
-        <translation>Эффективная длина дымомера</translation>
-    </message>
-    <message>
         <source>0.43</source>
-        <translation>0.43</translation>
+        <translation></translation>
     </message>
     <message>
         <source>m</source>
@@ -206,6 +138,82 @@
     <message>
         <source>Error during calculation ELR smoke!</source>
         <translation>Ошибка во время расчета дыма по циклу ELR!</translation>
+    </message>
+    <message>
+        <source>1st peak at A</source>
+        <translation>1-й пик на об. A</translation>
+    </message>
+    <message>
+        <source>2nd peak at A</source>
+        <translation>2-й пик на об. A</translation>
+    </message>
+    <message>
+        <source>3rd peak at A</source>
+        <translation>3-й пик на об. A</translation>
+    </message>
+    <message>
+        <source>1st peak at B</source>
+        <translation>1-й пик на об. B</translation>
+    </message>
+    <message>
+        <source>2nd peak at B</source>
+        <translation>2-й пик на об. B</translation>
+    </message>
+    <message>
+        <source>3rd peak at B</source>
+        <translation>3-й пик на об. B</translation>
+    </message>
+    <message>
+        <source>1st peak at C</source>
+        <translation>1-й пик на об. C</translation>
+    </message>
+    <message>
+        <source>2nd peak at C</source>
+        <translation>2-й пик на об. C</translation>
+    </message>
+    <message>
+        <source>3rd peak at C</source>
+        <translation>3-й пик на об. C</translation>
+    </message>
+    <message>
+        <source>Dn</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>B0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>t0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>dPn</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Gair</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>N_fan_rated</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>n_rated</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>n</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>N_fan</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>L</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -250,7 +258,7 @@
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Delimiter</source>
@@ -258,19 +266,19 @@
     </message>
     <message>
         <source>tab</source>
-        <translation>tab</translation>
+        <translation></translation>
     </message>
     <message>
         <source>;</source>
-        <translation>;</translation>
+        <translation></translation>
     </message>
     <message>
         <source>,</source>
-        <translation>,</translation>
+        <translation></translation>
     </message>
     <message>
         <source>space</source>
-        <translation>space</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Header lines</source>
@@ -278,7 +286,7 @@
     </message>
     <message>
         <source>&gt;&gt;</source>
-        <translation>&gt;&gt;</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Close</source>
@@ -317,7 +325,7 @@
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation></translation>
     </message>
     <message>
         <source>1st Filter Weight (Dirty), mg</source>
@@ -879,7 +887,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Print Report...</source>
@@ -887,7 +895,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Execute</source>
@@ -895,7 +903,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>F9</source>
-        <translation>F9</translation>
+        <translation></translation>
     </message>
     <message>
         <source>About Qt</source>
@@ -959,15 +967,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>F1</source>
-        <translation>F1</translation>
+        <translation></translation>
     </message>
     <message>
         <source>F11</source>
-        <translation>F11</translation>
+        <translation></translation>
     </message>
     <message>
         <source>F12</source>
-        <translation>F12</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Save Report As...</source>
@@ -975,7 +983,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+S</source>
-        <translation>Ctrl+S</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Copy</source>
@@ -983,7 +991,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+C</source>
-        <translation>Ctrl+C</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Paste</source>
@@ -991,7 +999,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+V</source>
-        <translation>Ctrl+V</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Delete</source>
@@ -999,7 +1007,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Del</source>
-        <translation>Del</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Cut</source>
@@ -1007,7 +1015,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+X</source>
-        <translation>Ctrl+X</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Multiply...</source>
@@ -1015,7 +1023,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>*</source>
-        <translation>*</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Divide...</source>
@@ -1023,7 +1031,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>/</source>
-        <translation>/</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Add...</source>
@@ -1031,7 +1039,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>+</source>
-        <translation>+</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Equal...</source>
@@ -1039,15 +1047,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>=</source>
-        <translation>=</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ctrl+O</source>
-        <translation>Ctrl+O</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Close Report</source>
@@ -1055,7 +1063,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+U</source>
-        <translation>Ctrl+U</translation>
+        <translation></translation>
     </message>
     <message>
         <source>idle
@@ -1255,11 +1263,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation></translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Export</source>
@@ -1283,7 +1291,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Checkout data</source>
@@ -1295,7 +1303,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation>Ctrl+Z</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Redo</source>
@@ -1303,7 +1311,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+Shift+Z</source>
-        <translation>Ctrl+Shift+Z</translation>
+        <translation></translation>
     </message>
     <message>
         <source>File</source>
@@ -1337,7 +1345,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Open Calculation Options File...</source>
@@ -1391,11 +1399,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ctrl+E</source>
-        <translation>Ctrl+E</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Ctrl+B</source>
-        <translation>Ctrl+B</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Add Row</source>
@@ -1527,7 +1535,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Data import is not available for the current table!</source>
@@ -1829,6 +1837,10 @@ Maybe you did not enter all source data?</source>
         <source>Additional calculations</source>
         <translation>Дополнительные расчеты</translation>
     </message>
+    <message>
+        <source>Shift+F9</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>NewVersions</name>
@@ -1912,7 +1924,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation></translation>
     </message>
     <message>
         <source>Temporary rewrited source data files</source>
@@ -2031,7 +2043,7 @@ Maybe you did not enter all source data?</source>
     </message>
     <message>
         <source>0</source>
-        <translation>0</translation>
+        <translation></translation>
     </message>
     <message>
         <source>OK</source>

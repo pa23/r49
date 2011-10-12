@@ -1610,10 +1610,16 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if (ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS) {
 
+        QTabWidget *tw = additionalCalculationsDialog->findChild<QTabWidget *>("tabWidget");
+        tw->setCurrentIndex(0);
+
         on_action_additionalCalculations_activated();
         return;
     }
     else if (ui->comboBox_task->currentIndex() == TASK_ELRSMOKE) {
+
+        QTabWidget *tw = additionalCalculationsDialog->findChild<QTabWidget *>("tabWidget");
+        tw->setCurrentIndex(1);
 
         on_action_additionalCalculations_activated();
         return;
