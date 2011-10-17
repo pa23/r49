@@ -2059,7 +2059,8 @@ void MainWindow::tableCellChanged(int n, int m) {
     QString str = table->item(n, m)->text();
     int pos = 0;
 
-    if ( regExpValidator->validate(str, pos) == QValidator::Invalid ) {
+    if ( (regExpValidator->validate(str, pos) == QValidator::Invalid) ||
+         (str.isEmpty()) ) {
 
         QMessageBox::warning(0, "Qr49", tr("Illegal table cell value!"), 0, 0, 0);
 
