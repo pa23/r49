@@ -37,6 +37,7 @@ FORMS += preferencesdialog.ui \
     additionalcalculationsdialog.ui
 RESOURCES = qr49.qrc
 TRANSLATIONS = qr49_ru.ts
+RC_FILE += qr49.rc
 unix: {
     INCLUDEPATH += ../libtoxic/sources ..
     LIBS += -L../libtoxic/build/unix/bin \
