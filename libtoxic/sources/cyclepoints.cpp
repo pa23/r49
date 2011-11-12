@@ -43,7 +43,7 @@ using std::setprecision;
 using std::fixed;
 using std::ptrdiff_t;
 
-CyclePoints::CyclePoints(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
+CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
         n_hi               (0),
         n_lo               (0),
         A                  (0),
@@ -89,7 +89,7 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
     return *this;
 }
 
-bool CyclePoints::readCSV(QVector< QVector<double> > data) {
+bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     ptrdiff_t std = params.data()->val_Standard();
     QString csvdelimiter = config.data()->val_csvDelimiter();
@@ -140,7 +140,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
@@ -202,7 +202,7 @@ bool CyclePoints::readCSV(QVector< QVector<double> > data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
@@ -279,8 +279,7 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
-            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
+            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -352,8 +351,7 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
-            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
+            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -411,8 +409,7 @@ bool CyclePoints::fillArrays() {
 
         for (ptrdiff_t i=0; i<n; i++) {
 
-            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
-            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
+            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -495,8 +492,7 @@ bool CyclePoints::fillArrays() {
         for (ptrdiff_t i=0; i<ECyclePointsNumber; i++) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
-            //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
-            array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
+            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_w[ 0] = 0.15;
@@ -966,7 +962,7 @@ QString CyclePoints::createReport() const {
     return message;
 }
 
-void CyclePoints::arraysInit(ptrdiff_t n) {
+void CyclePoints::arraysInit(const ptrdiff_t &n) {
 
     array_n.clear();         array_n.resize(n);
     array_Me_brutto.clear(); array_Me_brutto.resize(n);

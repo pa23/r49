@@ -26,14 +26,14 @@
 
 #include <QVector>
 
-bool calcABC(double *, double *, double *, double *, double *, double *, double *, double *, double *);
-bool calcELR(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *);
-double calcGair(double *, double *, double *, double *);
-double calcNfan(double *, double *, double *);
-double Ka1m2KaPerc(double *, double *);
-double KaPerc2Ka1m(double *, double *);
+bool calcABC(const double &, const double &, double *, double *, double *, double *, double *, double *, double *);
+bool calcELR(const double &, const double &, const double &, const double &, const double &, const double &, const double &, const double &, const double &, double *);
+double calcGair(const double &, const double &, const double &, const double &);
+double calcNfan(const double &, const double &, const double &);
+double Ka1m2KaPerc(const double &, const double &);
+double KaPerc2Ka1m(const double &, const double &);
 
-double val_Pa(double);
+double val_Pa(const double &);
 
 bool nonZeroArray(QVector<double>);
 

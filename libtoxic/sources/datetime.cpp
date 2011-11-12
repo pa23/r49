@@ -21,16 +21,17 @@
 
 #include "datetime.h"
 #include "stringoperations.h"
+
 #include <ctime>
 
 using std::string;
 using std::ptrdiff_t;
 
-string addZero(string str) {
+string addZero(const string &str) {
 
-    if (str.length() == 1) { str = "0" + str; }
+    //if (str.length() == 1) { str = "0" + str; }
 
-    return str;
+    return str.length() == 1 ? "0" + str : str;
 }
 
 string dateTimeNow() {

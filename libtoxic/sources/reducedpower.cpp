@@ -47,7 +47,7 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-ReducedPower::ReducedPower(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
+ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
         NumberOfPoints    (    0),
         mytime            (  "_"),
         fullReportsPath   (  "_"),
@@ -78,7 +78,7 @@ ReducedPower &ReducedPower::operator =(const ReducedPower &x) {
     return *this;
 }
 
-bool ReducedPower::readCSV(QVector< QVector<double> > data) {
+bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
@@ -219,8 +219,7 @@ bool ReducedPower::reducePower() {
 
         array_Ne_reduced[i] = array_alphad[i] * array_Ne_brutto[i];
         array_Ne_brake_reduced[i] = array_Ne_brutto[i] + array_N_k[i];
-        //array_N_fan[i] = N_fan_rated * pow(array_n[i] / n_rated, 3);
-        array_N_fan[i] = calcNfan(&N_fan_rated, &array_n[i], &n_rated);
+        array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         array_Ne_netto_reduced[i] = array_Ne_reduced[i] - array_N_fan[i];
         array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 / array_n[i];
         array_ge_netto_reduced[i] = array_Gfuel[i] / array_Ne_netto_reduced[i] * 1000.0;

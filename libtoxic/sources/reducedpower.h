@@ -38,10 +38,10 @@ class ReducedPower {
 
 public:
 
-    explicit ReducedPower(QSharedPointer<LibtoxicParameters>, QSharedPointer<CommonParameters>);
+    explicit ReducedPower(const QSharedPointer<LibtoxicParameters> &, const QSharedPointer<CommonParameters> &);
     virtual ~ReducedPower();
 
-    bool readCSV(QVector< QVector<double> >);
+    bool readCSV(const QVector< QVector<double> > &);
     bool reducePower();
     QString createReports();
     QString lastReportsDir() const;

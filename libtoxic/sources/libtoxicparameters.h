@@ -33,16 +33,16 @@ public:
     explicit LibtoxicParameters();
     virtual ~LibtoxicParameters();
 
-    void setTask(ptrdiff_t);          void setTask(QString);
-    void setVh(double *);
-    void setStandard(ptrdiff_t);      void setStandard(QString);
-    void setChargingType(ptrdiff_t);  void setChargingType(QString);
-    void setFuelType(ptrdiff_t);      void setFuelType(QString);
-    void setNOxSample(ptrdiff_t);     void setNOxSample(QString);
-    void setPTcalc(ptrdiff_t);        void setPTcalc(QString);
-    void setPTmass(double *);
-    void setAddPointsCalc(ptrdiff_t); void setAddPointsCalc(QString);
-    void setCalcConfigFile(QString);
+    void setTask          (const ptrdiff_t &); void setTask         (const QString &);
+    void setVh            (const double    &);
+    void setStandard      (const ptrdiff_t &); void setStandard     (const QString &);
+    void setChargingType  (const ptrdiff_t &); void setChargingType (const QString &);
+    void setFuelType      (const ptrdiff_t &); void setFuelType     (const QString &);
+    void setNOxSample     (const ptrdiff_t &); void setNOxSample    (const QString &);
+    void setPTcalc        (const ptrdiff_t &); void setPTcalc       (const QString &);
+    void setPTmass        (const double    &);
+    void setAddPointsCalc (const ptrdiff_t &); void setAddPointsCalc(const QString &);
+    void setCalcConfigFile(const QString   &);
 
     ptrdiff_t val_Task()           const;
     double    val_Vh()             const;
@@ -55,9 +55,9 @@ public:
     ptrdiff_t val_AddPointsCalc()  const;
     QString   val_CalcConfigFile() const;
 
-    bool readCalcConfigFile(QString);
+    bool readCalcConfigFile(const QString &);
 
-    QString defStandardName(ptrdiff_t) const;
+    QString defStandardName(const ptrdiff_t &) const;
 
 private:
 
@@ -77,13 +77,13 @@ private:
 
     //
 
-    ptrdiff_t defTask         (QString) const;
-    ptrdiff_t defStandard     (QString) const;
-    ptrdiff_t defChargingType (QString) const;
-    ptrdiff_t defFuelType     (QString) const;
-    ptrdiff_t defNOxSample    (QString) const;
-    ptrdiff_t defPTcalc       (QString) const;
-    ptrdiff_t defAddPointsCalc(QString) const;
+    ptrdiff_t defTask         (const QString &) const;
+    ptrdiff_t defStandard     (const QString &) const;
+    ptrdiff_t defChargingType (const QString &) const;
+    ptrdiff_t defFuelType     (const QString &) const;
+    ptrdiff_t defNOxSample    (const QString &) const;
+    ptrdiff_t defPTcalc       (const QString &) const;
+    ptrdiff_t defAddPointsCalc(const QString &) const;
 
 };
 

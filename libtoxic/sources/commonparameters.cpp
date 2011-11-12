@@ -67,7 +67,7 @@ CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
     return *this;
 }
 
-bool CommonParameters::readConfigFile(QString configFileName) {
+bool CommonParameters::readConfigFile(const QString &configFileName) {
 
     QFile configFile(configFileName);
 

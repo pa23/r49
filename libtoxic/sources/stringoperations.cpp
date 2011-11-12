@@ -29,35 +29,35 @@ using std::ostringstream;
 using std::istringstream;
 using std::ptrdiff_t;
 
-bool replaceInString(string* str, string* str1, string* str2) {
+bool replaceInString(string *str, const string &str1, const string &str2) {
 
     size_t n;
 
-    while ( (n = (* str).find( (* str1) )) != string::npos ) {
+    while ( (n = (*str).find(str1)) != string::npos ) {
 
-        (* str).replace( n, (* str1).length(), (* str2) );
+        (*str).replace(n, str1.length(), str2);
     }
 
     return true;
 }
 
-bool splitString(string* fullstr, vector<string>& elements, string delimiter) {
+bool splitString(const string &fullstr, vector<string> *elements, const string &delimiter) {
 
-    string::size_type lastpos = (* fullstr).find_first_not_of(delimiter, 0);
-    string::size_type pos     = (* fullstr).find_first_of(delimiter, lastpos);
+    string::size_type lastpos = fullstr.find_first_not_of(delimiter, 0);
+    string::size_type pos     = fullstr.find_first_of(delimiter, lastpos);
 
     while ( (string::npos != pos) || (string::npos != lastpos) ) {
 
-        elements.push_back((* fullstr).substr(lastpos, pos-lastpos));
+        elements->push_back(fullstr.substr(lastpos, pos-lastpos));
 
-        lastpos = (* fullstr).find_first_not_of(delimiter, pos);
-        pos = (* fullstr).find_first_of(delimiter, lastpos);
+        lastpos = fullstr.find_first_not_of(delimiter, pos);
+        pos = fullstr.find_first_of(delimiter, lastpos);
     }
 
     return true;
 }
 
-string numberToString(ptrdiff_t x) {
+string numberToString(const ptrdiff_t &x) {
 
     ostringstream stm;
     stm << x;
@@ -65,7 +65,7 @@ string numberToString(ptrdiff_t x) {
     return stm.str();
 }
 
-string numberToString(double x) {
+string numberToString(const double &x) {
 
     ostringstream stm;
     stm << x;
@@ -73,12 +73,12 @@ string numberToString(double x) {
     return stm.str();
 }
 
-const char* numberToCChar(ptrdiff_t num) {
+const char* numberToCChar(const ptrdiff_t &num) {
 
     return numberToString(num).c_str();
 }
 
-double stringToDouble(string str) {
+double stringToDouble(const string &str) {
 
     istringstream stm;
     double val = 0;

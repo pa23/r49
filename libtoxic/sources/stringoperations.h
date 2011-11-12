@@ -25,11 +25,11 @@
 #include <string>
 #include <vector>
 
-bool replaceInString(std::string*, std::string*, std::string*);
-bool splitString(std::string*, std::vector<std::string>&, std::string);
-std::string numberToString(std::ptrdiff_t);
-std::string numberToString(double);
-const char* numberToCChar(std::ptrdiff_t);
-double stringToDouble(std::string);
+bool replaceInString(std::string *, const std::string &, const std::string &);
+bool splitString(const std::string &, std::vector<std::string> *, const std::string &);
+std::string numberToString(const std::ptrdiff_t &);
+std::string numberToString(const double &);
+const char* numberToCChar(const std::ptrdiff_t &);
+double stringToDouble(const std::string &);
 
 #endif	/* STRINGOPERATIONS_H */

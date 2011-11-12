@@ -51,7 +51,7 @@ using std::right;
 using std::setprecision;
 using std::fixed;
 
-CycleEmissions::CycleEmissions(QSharedPointer<LibtoxicParameters> prms, QSharedPointer<CommonParameters> cfg) :
+CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
         NenCalcMethod (true),
         GairVals      (true),
         NOxCalcMethod (true),
@@ -161,7 +161,7 @@ bool CycleEmissions::calculate() {
     return true;
 }
 
-bool CycleEmissions::readCSV(QVector< QVector<double> > data) {
+bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
@@ -644,8 +644,7 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            //array_Gair[i] = 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * array_dPn[i] * 7.500616827 * array_B0[i])/(array_t0[i] + 273.0));
-            array_Gair[i] = calcGair(&Dn, &(array_B0[i]), &(array_t0[i]), &(array_dPn[i]));
+            array_Gair[i] = calcGair(Dn, array_B0[i], array_t0[i], array_dPn[i]);
         }
 
         array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);
@@ -1197,8 +1196,7 @@ bool CycleEmissions::calculate_gPT() {
 
             if (smoke == 0) {
 
-                //array_KaPerc[i] = 100.0 * (1.0 - exp(- array_Ka1m[i] * L));
-                array_KaPerc[i] = Ka1m2KaPerc( &(array_Ka1m[i]), &L );
+                array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
                 array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
                                (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
                                (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
@@ -1395,7 +1393,7 @@ bool CycleEmissions::checkTestConditions() const {
     return true;
 }
 
-QString CycleEmissions::createReports(bool createrepdir) {
+QString CycleEmissions::createReports(const bool &createrepdir) {
 
     QString message = "";
     QString testcondres = "?";

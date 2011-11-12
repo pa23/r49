@@ -56,23 +56,23 @@ LibtoxicParameters &LibtoxicParameters::operator =(const LibtoxicParameters &x) 
     return *this;
 }
 
-void LibtoxicParameters::setTask           (ptrdiff_t  task_          ) { task           =  task_;                            }
-void LibtoxicParameters::setTask           (QString    task_          ) { task           =  defTask(task_);                   }
-void LibtoxicParameters::setVh             (double    *Vh_            ) { Vh             = *Vh_;                              }
-void LibtoxicParameters::setStandard       (ptrdiff_t  standart_      ) { standard       =  standart_;                        }
-void LibtoxicParameters::setStandard       (QString    standart_      ) { standard       =  defStandard(standart_);           }
-void LibtoxicParameters::setChargingType   (ptrdiff_t  chargingType_  ) { chargingType   =  chargingType_;                    }
-void LibtoxicParameters::setChargingType   (QString    chargingType_  ) { chargingType   =  defChargingType(chargingType_);   }
-void LibtoxicParameters::setFuelType       (ptrdiff_t  FuelType_      ) { FuelType       =  FuelType_;                        }
-void LibtoxicParameters::setFuelType       (QString    FuelType_      ) { FuelType       =  defFuelType(FuelType_);           }
-void LibtoxicParameters::setNOxSample      (ptrdiff_t  NOxSample_     ) { NOxSample      =  NOxSample_;                       }
-void LibtoxicParameters::setNOxSample      (QString    NOxSample_     ) { NOxSample      =  defNOxSample(NOxSample_);         }
-void LibtoxicParameters::setPTcalc         (ptrdiff_t  PTcalc_        ) { PTcalc         =  PTcalc_;                          }
-void LibtoxicParameters::setPTcalc         (QString    PTcalc_        ) { PTcalc         =  defPTcalc(PTcalc_);               }
-void LibtoxicParameters::setPTmass         (double    *PTmass_        ) { PTmass         = *PTmass_;                          }
-void LibtoxicParameters::setAddPointsCalc  (ptrdiff_t  AddPointsCalc_ ) { AddPointsCalc  =  AddPointsCalc_;                   }
-void LibtoxicParameters::setAddPointsCalc  (QString    AddPointsCalc_ ) { AddPointsCalc  =  defAddPointsCalc(AddPointsCalc_); }
-void LibtoxicParameters::setCalcConfigFile (QString    CalcConfigFile_) { CalcConfigFile =  CalcConfigFile_;                  }
+void LibtoxicParameters::setTask           (const ptrdiff_t &task_          ) { task           = task_;                            }
+void LibtoxicParameters::setTask           (const QString   &task_          ) { task           = defTask(task_);                   }
+void LibtoxicParameters::setVh             (const double    &Vh_            ) { Vh             = Vh_;                              }
+void LibtoxicParameters::setStandard       (const ptrdiff_t &standart_      ) { standard       = standart_;                        }
+void LibtoxicParameters::setStandard       (const QString   &standart_      ) { standard       = defStandard(standart_);           }
+void LibtoxicParameters::setChargingType   (const ptrdiff_t &chargingType_  ) { chargingType   = chargingType_;                    }
+void LibtoxicParameters::setChargingType   (const QString   &chargingType_  ) { chargingType   = defChargingType(chargingType_);   }
+void LibtoxicParameters::setFuelType       (const ptrdiff_t &FuelType_      ) { FuelType       = FuelType_;                        }
+void LibtoxicParameters::setFuelType       (const QString   &FuelType_      ) { FuelType       = defFuelType(FuelType_);           }
+void LibtoxicParameters::setNOxSample      (const ptrdiff_t &NOxSample_     ) { NOxSample      = NOxSample_;                       }
+void LibtoxicParameters::setNOxSample      (const QString   &NOxSample_     ) { NOxSample      = defNOxSample(NOxSample_);         }
+void LibtoxicParameters::setPTcalc         (const ptrdiff_t &PTcalc_        ) { PTcalc         = PTcalc_;                          }
+void LibtoxicParameters::setPTcalc         (const QString   &PTcalc_        ) { PTcalc         = defPTcalc(PTcalc_);               }
+void LibtoxicParameters::setPTmass         (const double    &PTmass_        ) { PTmass         = PTmass_;                          }
+void LibtoxicParameters::setAddPointsCalc  (const ptrdiff_t &AddPointsCalc_ ) { AddPointsCalc  = AddPointsCalc_;                   }
+void LibtoxicParameters::setAddPointsCalc  (const QString   &AddPointsCalc_ ) { AddPointsCalc  = defAddPointsCalc(AddPointsCalc_); }
+void LibtoxicParameters::setCalcConfigFile (const QString   &CalcConfigFile_) { CalcConfigFile = CalcConfigFile_;                  }
 
 ptrdiff_t LibtoxicParameters::val_Task           () const { return task;           }
 double    LibtoxicParameters::val_Vh             () const { return Vh;             }
@@ -85,7 +85,7 @@ double    LibtoxicParameters::val_PTmass         () const { return PTmass;      
 ptrdiff_t LibtoxicParameters::val_AddPointsCalc  () const { return AddPointsCalc;  }
 QString   LibtoxicParameters::val_CalcConfigFile () const { return CalcConfigFile; }
 
-bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
+bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
     QFile calcConfigFile(calcConfigFileName);
 
@@ -134,7 +134,7 @@ bool LibtoxicParameters::readCalcConfigFile(QString calcConfigFileName) {
     return true;
 }
 
-QString LibtoxicParameters::defStandardName(ptrdiff_t val) const {
+QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
 
     if      ( val == STD_EU6     ) { return "R49_Euro-6";         }
     else if ( val == STD_EU5     ) { return "R49_Euro-5";         }
@@ -175,7 +175,7 @@ QString LibtoxicParameters::defStandardName(ptrdiff_t val) const {
     else                           { return "Unknown";            }
 }
 
-ptrdiff_t LibtoxicParameters::defTask(QString str) const {
+ptrdiff_t LibtoxicParameters::defTask(const QString &str) const {
 
     if      ( str == QString::number(TASK_POINTS      ) || str == "points"       ) { return TASK_POINTS;       }
     else if ( str == QString::number(TASK_EMISSIONS   ) || str == "emissions"    ) { return TASK_EMISSIONS;    }
@@ -190,7 +190,7 @@ ptrdiff_t LibtoxicParameters::defTask(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defStandard(QString str) const {
+ptrdiff_t LibtoxicParameters::defStandard(const QString &str) const {
 
     if      ( str == QString::number(STD_EU6     ) || str == "EU6"      ) { return STD_EU6;      }
     else if ( str == QString::number(STD_EU5     ) || str == "EU5"      ) { return STD_EU5;      }
@@ -235,7 +235,7 @@ ptrdiff_t LibtoxicParameters::defStandard(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defChargingType(QString str) const {
+ptrdiff_t LibtoxicParameters::defChargingType(const QString &str) const {
 
     if      ( str == QString::number(CHARGINGTYPE_NO)         || str == "NoOrMechanical" ) { return CHARGINGTYPE_NO;         }
     else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) || str == "GasTurbine"     ) { return CHARGINGTYPE_GASTURBINE; }
@@ -246,7 +246,7 @@ ptrdiff_t LibtoxicParameters::defChargingType(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defFuelType(QString str) const {
+ptrdiff_t LibtoxicParameters::defFuelType(const QString &str) const {
 
     if      ( str == QString::number(FUELTYPE_DIESEL) || str == "diesel" ) { return FUELTYPE_DIESEL; }
     else if ( str == QString::number(FUELTYPE_MOTOR ) || str == "motor"  ) { return FUELTYPE_MOTOR;  }
@@ -258,7 +258,7 @@ ptrdiff_t LibtoxicParameters::defFuelType(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defNOxSample(QString str) const {
+ptrdiff_t LibtoxicParameters::defNOxSample(const QString &str) const {
 
     if      ( str == QString::number(NOXSAMPLE_WET) || str == "wet" ) { return NOXSAMPLE_WET; }
     else if ( str == QString::number(NOXSAMPLE_DRY) || str == "dry" ) { return NOXSAMPLE_DRY; }
@@ -269,7 +269,7 @@ ptrdiff_t LibtoxicParameters::defNOxSample(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defPTcalc(QString str) const {
+ptrdiff_t LibtoxicParameters::defPTcalc(const QString &str) const {
 
     if      ( str == QString::number(PTCALC_THROUGHSMOKE ) || str == "ThroughSmoke"  ) { return PTCALC_THROUGHSMOKE;  }
     else if ( str == QString::number(PTCALC_THROUGHPTMASS) || str == "ThroughPTmass" ) { return PTCALC_THROUGHPTMASS; }
@@ -281,7 +281,7 @@ ptrdiff_t LibtoxicParameters::defPTcalc(QString str) const {
     }
 }
 
-ptrdiff_t LibtoxicParameters::defAddPointsCalc(QString str) const {
+ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
 
     if      ( str == QString::number(ADDPOINTSCALC_YES) || str == "yes" ) { return ADDPOINTSCALC_YES; }
     else if ( str == QString::number(ADDPOINTSCALC_NO ) || str == "no"  ) { return ADDPOINTSCALC_NO;  }

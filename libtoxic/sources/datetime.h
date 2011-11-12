@@ -24,7 +24,7 @@
 
 #include <string>
 
-std::string addZero(std::string);
+std::string addZero(const std::string &);
 std::string dateTimeNow();
 
 #endif /* DATETIME_H */

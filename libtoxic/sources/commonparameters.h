@@ -31,7 +31,7 @@ public:
     explicit CommonParameters();
     virtual ~CommonParameters();
 
-    bool readConfigFile(QString);
+    bool readConfigFile(const QString &);
 
     QString val_csvDelimiter() const;
     QString val_filenameSourceEU3() const;

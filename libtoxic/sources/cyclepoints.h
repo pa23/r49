@@ -33,10 +33,10 @@ class CyclePoints {
 
 public:
 
-    explicit CyclePoints(QSharedPointer<LibtoxicParameters>, QSharedPointer<CommonParameters>);
+    explicit CyclePoints(const QSharedPointer<LibtoxicParameters> &, const QSharedPointer<CommonParameters> &);
     virtual ~CyclePoints();
 
-    bool readCSV(QVector< QVector<double> >);
+    bool readCSV(const QVector< QVector<double> > &);
     bool fillArrays();
     QString createReport() const;
 
@@ -61,7 +61,7 @@ private:
     QVector<double> array_N_fan;
     QVector<double> array_w;
 
-    void arraysInit(std::ptrdiff_t);
+    void arraysInit(const std::ptrdiff_t &);
 
 };
 

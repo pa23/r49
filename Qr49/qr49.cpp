@@ -528,13 +528,13 @@ bool MainWindow::fillParameters() {
     }
 
     params.data()->setTask(ui->comboBox_task->currentIndex());
-    double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(&Vh);
+    double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(Vh);
     params.data()->setStandard(ui->comboBox_standard->currentIndex());
     params.data()->setChargingType(ui->comboBox_chargingType->currentIndex());
     params.data()->setFuelType(ui->comboBox_FuelType->currentIndex());
     params.data()->setNOxSample(ui->comboBox_NOxSample->currentIndex());
     params.data()->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params.data()->setPTmass(&PTMass);
+    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params.data()->setPTmass(PTMass);
     params.data()->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;

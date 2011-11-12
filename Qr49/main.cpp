@@ -184,7 +184,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             if ( (val>0) && (val<666000) ) {
 
-                params.data()->setVh(&val);
+                params.data()->setVh(val);
             }
             else {
 
@@ -221,7 +221,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             if ( (val>0) && (val<666000) ) {
 
-                params.data()->setPTmass(&val);
+                params.data()->setPTmass(val);
             }
             else {
 
@@ -340,7 +340,7 @@ int main(int argc, char **argv) {
             cout << "\n" << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            if (!calcABC(&n_hi, &n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
@@ -374,9 +374,9 @@ int main(int argc, char **argv) {
             cout         << "Second smoke peak at speed C: "; if(!(cin >> smoke_C2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "Third  smoke peak at speed C: "; if(!(cin >> smoke_C3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            if (!calcELR(&smoke_A1, &smoke_A2, &smoke_A3,
-                         &smoke_B1, &smoke_B2, &smoke_B3,
-                         &smoke_C1, &smoke_C2, &smoke_C3,
+            if (!calcELR(smoke_A1, smoke_A2, smoke_A3,
+                         smoke_B1, smoke_B2, smoke_B3,
+                         smoke_C1, smoke_C2, smoke_C3,
                          &smokeELR)) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";

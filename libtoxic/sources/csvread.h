@@ -30,7 +30,7 @@ class csvRead {
 
 public:
 
-    explicit csvRead(QString, QString, ptrdiff_t);
+    explicit csvRead(const QString &, const QString &, const ptrdiff_t &);
     virtual ~csvRead();
 
     QVector< QVector<double> > csvData() const;
