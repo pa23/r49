@@ -26,22 +26,13 @@
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
 
-#include <fstream>
-#include <iomanip>
-#include <cmath>
-
 #include <QDebug>
 #include <QString>
 #include <QVector>
+#include <QFile>
+#include <QTextStream>
 
-using std::string;
-using std::ofstream;
-using std::setfill;
-using std::setw;
-using std::right;
-using std::setprecision;
-using std::fixed;
-using std::ptrdiff_t;
+#include <cmath>
 
 CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
         n_hi               (0),
@@ -92,7 +83,7 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
 bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     ptrdiff_t std = params.data()->val_Standard();
-    QString csvdelimiter = config.data()->val_csvDelimiter();
+
     QString filenameSource = "";
 
     QVector< QVector<double> > arraySourceData;
@@ -108,7 +99,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             filenameSource = config.data()->val_filenameSourceEU0();
         }
 
-        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, csvdelimiter, StrsNumberForColumnCaption));
+        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, " ", STRSNUMBERFORCOLUMNCAPTION));
 
         arraySourceData = readerSourceData.data()->csvData();
 
@@ -121,7 +112,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                 return false;
             }
 
-            if (arraySourceData.at(0).size() != EU3SrcDataParamsNumber) {
+            if (arraySourceData.at(0).size() != EU3SRCDATAPARAMSNUMBER) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
@@ -140,7 +131,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if ( !calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
@@ -156,14 +147,14 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                   (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
                   (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-            if (arraySourceData.isEmpty()) {
+            if ( arraySourceData.isEmpty() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
                 return false;
             }
 
-            if (arraySourceData.at(0).size() != EU0SrcDataParamsNumber) {
+            if ( arraySourceData.at(0).size() != EU0SRCDATAPARAMSNUMBER ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
 
@@ -202,7 +193,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            if ( !calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
 
@@ -245,13 +236,13 @@ bool CyclePoints::fillArrays() {
 
     if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if (addpc == ADDPOINTSCALC_YES) {
+        if ( addpc == ADDPOINTSCALC_YES ) {
 
-            n = TCyclePointsNumber;
+            n = TCYCLEPOINTSNUMBER;
         }
         else {
 
-            n = TCyclePointsNumber - TCycleAddPointsNumber;
+            n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
         }
 
         arraysInit(n);
@@ -270,14 +261,14 @@ bool CyclePoints::fillArrays() {
         array_n[11] = C;
         array_n[12] = C;
 
-        if (addpc == ADDPOINTSCALC_YES) {
+        if ( addpc == ADDPOINTSCALC_YES ) {
 
             array_n[13] = a1;
             array_n[14] = a2;
             array_n[15] = a3;
         }
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
@@ -296,14 +287,14 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[11] = 0.75  * (Ne_C - array_N_fan[11]) + array_N_fan[11];
         array_Ne_brutto[12] = 0.50  * (Ne_C - array_N_fan[12]) + array_N_fan[12];
 
-        if (addpc == ADDPOINTSCALC_YES) {
+        if ( addpc == ADDPOINTSCALC_YES ) {
 
             array_Ne_brutto[13] = 0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
             array_Ne_brutto[14] = 0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
             array_Ne_brutto[15] = 0.375 * (Ne_a3 - array_N_fan[15]) + array_N_fan[15];
         }
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -322,7 +313,7 @@ bool CyclePoints::fillArrays() {
         array_w[11] = 0.05;
         array_w[12] = 0.05;
 
-        if (addpc == ADDPOINTSCALC_YES) {
+        if ( addpc == ADDPOINTSCALC_YES ) {
 
             array_w[13] = 1.0;
             array_w[14] = 1.0;
@@ -331,7 +322,7 @@ bool CyclePoints::fillArrays() {
     }
     else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ) {
 
-        n = TCyclePointsNumber - TCycleAddPointsNumber;
+        n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
 
         arraysInit(n);
 
@@ -349,7 +340,7 @@ bool CyclePoints::fillArrays() {
         array_n[11] = n_rated;
         array_n[12] = idle;
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
@@ -368,7 +359,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
         array_Ne_brutto[12] = 0;
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -389,7 +380,7 @@ bool CyclePoints::fillArrays() {
     }
     else if ( (std == STD_OST) || (std == STD_GOST) ) {
 
-        n = TCyclePointsNumber - TCycleAddPointsNumber;
+        n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
 
         arraysInit(n);
 
@@ -407,7 +398,7 @@ bool CyclePoints::fillArrays() {
         array_n[11] = n_rated;
         array_n[12] = idle;
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         }
@@ -424,16 +415,16 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
         array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
         array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
-        if (std == STD_OST) { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
-        else                { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+        if ( std == STD_OST ) { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+        else                  { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
         array_Ne_brutto[12] = 0;
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        if (std == STD_OST) {
+        if ( std == STD_OST ) {
 
             array_w[ 0] = 0.066666667;
             array_w[ 1] = 0.080;
@@ -469,7 +460,7 @@ bool CyclePoints::fillArrays() {
     else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
               (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
 
-        arraysInit(ECyclePointsNumber);
+        arraysInit(ECYCLEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -489,7 +480,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 6] = 0.50  * Ne_interim;
         array_Ne_brutto[ 7] = 0;
 
-        for (ptrdiff_t i=0; i<ECyclePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<ECYCLEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
             array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
@@ -507,7 +498,7 @@ bool CyclePoints::fillArrays() {
     else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
               (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-        arraysInit(FCyclePointsNumber);
+        arraysInit(FCYCLEPOINTSNUMBER);
 
         array_Ne_brutto[ 0] =         Ne_rated;
         array_Ne_brutto[ 1] = 0.75  * Ne_rated;
@@ -515,7 +506,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 2] = 0.25  * Ne_rated;
         array_Ne_brutto[ 3] = 0.10  * Ne_rated;
 
-        for (ptrdiff_t i=0; i<FCyclePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<FCYCLEPOINTSNUMBER; i++ ) {
 
             array_n[i] = n_rated;
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
@@ -528,9 +519,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.30;
         array_w[ 4] = 0.10;
     }
-    else if (std == STD_C1) {
+    else if ( std == STD_C1 ) {
 
-        arraysInit(GC1CylcePointsNumber);
+        arraysInit(GC1CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -550,7 +541,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 6] = 0.5 * Ne_interim;
         array_Ne_brutto[ 7] = 0;
 
-        for (ptrdiff_t i=0; i<GC1CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GC1CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -564,9 +555,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 6] = 0.1;
         array_w[ 7] = 0.15;
     }
-    else if (std == STD_D1) {
+    else if ( std == STD_D1 ) {
 
-        arraysInit(GD1CylcePointsNumber);
+        arraysInit(GD1CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -576,7 +567,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 1] = 0.75 * Ne_rated;
         array_Ne_brutto[ 2] = 0.5 * Ne_rated;
 
-        for (ptrdiff_t i=0; i<GD1CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GD1CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -585,9 +576,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 1] = 0.5;
         array_w[ 2] = 0.2;
     }
-    else if (std == STD_D2) {
+    else if ( std == STD_D2 ) {
 
-        arraysInit(GD2CylcePointsNumber);
+        arraysInit(GD2CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -601,7 +592,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 3] = 0.25 * Ne_rated;
         array_Ne_brutto[ 4] = 0.1 * Ne_rated;
 
-        for (ptrdiff_t i=0; i<GD2CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GD2CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -612,9 +603,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.3;
         array_w[ 4] = 0.1;
     }
-    else if (std == STD_E1) {
+    else if ( std == STD_E1 ) {
 
-        arraysInit(GE1CylcePointsNumber);
+        arraysInit(GE1CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -628,7 +619,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 3] = 0.5 * Ne_interim;
         array_Ne_brutto[ 4] = 0;
 
-        for (ptrdiff_t i=0; i<GE1CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GE1CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -639,9 +630,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.32;
         array_w[ 4] = 0.3;
     }
-    else if (std == STD_E2) {
+    else if ( std == STD_E2 ) {
 
-        arraysInit(GE2CylcePointsNumber);
+        arraysInit(GE2CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -653,7 +644,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 2] = 0.5 * Ne_rated;
         array_Ne_brutto[ 3] = 0.25 * Ne_rated;
 
-        for (ptrdiff_t i=0; i<GE2CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GE2CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -663,9 +654,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 2] = 0.15;
         array_w[ 3] = 0.15;
     }
-    else if (std == STD_E3) {
+    else if ( std == STD_E3 ) {
 
-        arraysInit(GE3CylcePointsNumber);
+        arraysInit(GE3CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = 0.91 * n_rated;
@@ -682,9 +673,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 2] = 0.15;
         array_w[ 3] = 0.15;
     }
-    else if (std == STD_E5) {
+    else if ( std == STD_E5 ) {
 
-        arraysInit(GE5CylcePointsNumber);
+        arraysInit(GE5CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = 0.91 * n_rated;
@@ -704,9 +695,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 3] = 0.32;
         array_w[ 4] = 0.3;
     }
-    else if (std == STD_F) {
+    else if ( std == STD_F ) {
 
-        arraysInit(GFCylcePointsNumber);
+        arraysInit(GFCYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_interim;
@@ -716,7 +707,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 1] = 0.5 * Ne_interim;
         array_Ne_brutto[ 2] = 0;
 
-        for (ptrdiff_t i=0; i<GFCylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GFCYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -725,9 +716,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 1] = 0.15;
         array_w[ 2] = 0.6;
     }
-    else if (std == STD_G1) {
+    else if ( std == STD_G1 ) {
 
-        arraysInit(GG1CylcePointsNumber);
+        arraysInit(GG1CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_interim;
         array_n[ 1] = n_interim;
@@ -743,7 +734,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 4] = 0.1 * Ne_interim;
         array_Ne_brutto[ 5] = 0;
 
-        for (ptrdiff_t i=0; i<GG1CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GG1CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -755,9 +746,9 @@ bool CyclePoints::fillArrays() {
         array_w[ 4] = 0.07;
         array_w[ 5] = 0.05;
     }
-    else if (std == STD_G2) {
+    else if ( std == STD_G2 ) {
 
-        arraysInit(GG2CylcePointsNumber);
+        arraysInit(GG2CYLCEPOINTSNUMBER);
 
         array_n[ 0] = n_rated;
         array_n[ 1] = n_rated;
@@ -773,7 +764,7 @@ bool CyclePoints::fillArrays() {
         array_Ne_brutto[ 4] = 0.1 * Ne_rated;
         array_Ne_brutto[ 5] = 0;
 
-        for (ptrdiff_t i=0; i<GG2CylcePointsNumber; i++) {
+        for ( ptrdiff_t i=0; i<GG2CYLCEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -800,46 +791,26 @@ QString CyclePoints::createReport() const {
     QString message = "";
 
     QString filenamePoints = config.data()->val_filenamePoints();
-    string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
 
-    ofstream fout(filenamePoints.toAscii());
+    QFile data1(filenamePoints);
 
-    if (!fout) {
+    if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout was not created!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "fout was not created!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data1 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data1 to write!";
 
         return message;
     }
 
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Point[-]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "n[min-1]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Me_b[Nm]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Ne_b[kW]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "N_fan[kW]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "w[-]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "t0[oC]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "B0[kPa]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Ra[%]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "dPn[mmH2O]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Gair[kg/h]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_NOx[ppm]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "gNOx[g/kWh]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_CO[ppm]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_CH[ppm]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2in[%]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2out[%]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "C_O2[%]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Ka[m-1]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Ka[%]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "FSN[-]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "Pr[kPa]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "ts[oC]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "tauf[s]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdw[g/s]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
-    fout << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << "\n";
+    QTextStream fout1(&data1);
+
+    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
+             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
+             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
+             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
+             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
+             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
+             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" << "\n";
 
     ptrdiff_t std = params.data()->val_Standard();
 
@@ -847,72 +818,72 @@ QString CyclePoints::createReport() const {
 
     if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) {
+        if ( params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES ) {
 
-            n = TCyclePointsNumber;
+            n = TCYCLEPOINTSNUMBER;
         }
         else {
 
-            n = TCyclePointsNumber - TCycleAddPointsNumber;
+            n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
         }
     }
     else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ) {
 
-        n = TCyclePointsNumber - TCycleAddPointsNumber;
+        n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
     }
     else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
               (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
 
-        n = ECyclePointsNumber;
+        n = ECYCLEPOINTSNUMBER;
     }
     else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
               (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-        n = FCyclePointsNumber;
+        n = FCYCLEPOINTSNUMBER;
     }
-    else if (std == STD_C1) {
+    else if ( std == STD_C1 ) {
 
-        n = GC1CylcePointsNumber;
+        n = GC1CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_D1) {
+    else if ( std == STD_D1 ) {
 
-        n = GD1CylcePointsNumber;
+        n = GD1CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_D2) {
+    else if ( std == STD_D2 ) {
 
-        n = GD2CylcePointsNumber;
+        n = GD2CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_E1) {
+    else if ( std == STD_E1 ) {
 
-        n = GE1CylcePointsNumber;
+        n = GE1CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_E2) {
+    else if ( std == STD_E2 ) {
 
-        n = GE2CylcePointsNumber;
+        n = GE2CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_E3) {
+    else if ( std == STD_E3 ) {
 
-        n = GE3CylcePointsNumber;
+        n = GE3CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_E5) {
+    else if ( std == STD_E5 ) {
 
-        n = GE5CylcePointsNumber;
+        n = GE5CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_F) {
+    else if ( std == STD_F ) {
 
-        n = GFCylcePointsNumber;
+        n = GFCYLCEPOINTSNUMBER;
     }
-    else if (std == STD_G1) {
+    else if ( std == STD_G1 ) {
 
-        n = GG1CylcePointsNumber;
+        n = GG1CYLCEPOINTSNUMBER;
     }
-    else if (std == STD_G2) {
+    else if ( std == STD_G2 ) {
 
-        n = GG2CylcePointsNumber;
+        n = GG2CYLCEPOINTSNUMBER;
     }
     else {
 
-        fout.close();
+        data1.close();
 
         message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Points can be calculated only for cycles!\n";
         qDebug() << Q_FUNC_INFO << ":::" << "Points can be calculated only for cycles!";
@@ -920,39 +891,19 @@ QString CyclePoints::createReport() const {
         return message;
     }
 
-    for (ptrdiff_t i=0; i<n; i++) {
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(        0) << (i + 1) << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_n[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Me_brutto[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_Ne_brutto[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << array_N_fan[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_w[i] << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter;
-        fout << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision) << "0" << csvdelimiter << "\n";
+        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
+        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION) <<
+                 array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i];
+        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION+1) << array_w[i];
+        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
+                 "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" <<
+                 "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" <<
+                 "0" << "0" << "\n";
     }
 
-    fout.close();
+    data1.close();
 
     message += "libtoxic: File \"" + filenamePoints + "\" rewrited.\n";
 

@@ -39,7 +39,9 @@ RESOURCES = qr49.qrc
 TRANSLATIONS = qr49_ru.ts
 RC_FILE += qr49.rc
 unix: {
-    INCLUDEPATH += ../libtoxic/sources ..
+    INCLUDEPATH += .. \
+        ../libtoxic/sources
+        #/usr/include/c++/4.6
     LIBS += -L../libtoxic/build/unix/bin \
         -ltoxic \
         -Wl,-rpath,.
@@ -54,7 +56,9 @@ unix: {
     }
 }
 win32: {
-    INCLUDEPATH += ..\\libtoxic\\sources ..
+    INCLUDEPATH += .. \
+        ..\\libtoxic\\sources
+        #C:\\MinGW32\\lib\\gcc\\mingw32\\4.5.2\\include\\c++
     LIBS += -L..\\libtoxic\\build\\win\\bin \
         -ltoxic5 \
         -Wl,-rpath,.

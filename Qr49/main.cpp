@@ -30,9 +30,6 @@
 #include "commonparameters.h"
 #include "r49.h"
 
-#include <iostream>
-#include <string>
-
 #include <QSharedPointer>
 #include <QDebug>
 #include <QString>
@@ -43,15 +40,15 @@
 #include <QTranslator>
 #include <QTextCodec>
 
-using std::string;
+#include <iostream>
+
 using std::cout;
 using std::cin;
-using std::vector;
 
 void ShowAbout() {
 
     cout << "\n\t" << "r49 distribution version " << r49version.toStdString();
-    cout << "\n\t" << qr49version.toStdString() << " libtoxic v" << libtoxicVersion.toStdString();
+    cout << "\n\t" << QR49VERSION.toStdString() << " libtoxic v" << LIBTOXICVERSION.toStdString();
 
     cout << "\n\nCopyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>"
             "\n\nSite: https://github.com/pa23/r49\n\n"
@@ -165,20 +162,20 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
     QString param;
     QString value;
 
-    for (ptrdiff_t i=1; i<argc; i++) {
+    for ( ptrdiff_t i=1; i<argc; i++ ) {
 
         operandstr = QString::fromAscii(argv[i]);
 
-        elements = operandstr.split(oparandsDelimiter);
+        elements = operandstr.split(OPERANDSDELIMITER);
 
         param = elements.at(0);
         value = elements.at(1);
 
-        if (param == "task") {
+        if ( param == "task" ) {
 
             params.data()->setTask(value);
         }
-        else if (param == "Vh") {
+        else if ( param == "Vh" ) {
 
             double val = value.toDouble();
 
@@ -195,27 +192,27 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
                 return 1;
             }
         }
-        else if (param == "standard") {
+        else if ( param == "standard" ) {
 
             params.data()->setStandard(value);
         }
-        else if (param == "ChargingType") {
+        else if ( param == "ChargingType" ) {
 
             params.data()->setChargingType(value);
         }
-        else if (param == "FuelType") {
+        else if ( param == "FuelType" ) {
 
             params.data()->setFuelType(value);
         }
-        else if (param == "NOxSample") {
+        else if ( param == "NOxSample" ) {
 
             params.data()->setNOxSample(value);
         }
-        else if (param == "PTcalc") {
+        else if ( param == "PTcalc" ) {
 
             params.data()->setPTcalc(value);
         }
-        else if (param == "PTmass") {
+        else if ( param == "PTmass" ) {
 
             double val = value.toDouble();
 
@@ -232,11 +229,11 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
                 return false;
             }
         }
-        else if (param == "AddPointsCalc") {
+        else if ( param == "AddPointsCalc" ) {
 
             params.data()->setAddPointsCalc(value);
         }
-        else if (param == "CalcConfigFile") {
+        else if ( param == "CalcConfigFile" ) {
 
             params.data()->setCalcConfigFile(value);
         }
@@ -257,11 +254,13 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
 int main(int argc, char **argv) {
 
-    if (argc > 1) {
+    if ( argc > 1 ) {
+
+        //
 
         QSharedPointer<LibtoxicParameters> params(new LibtoxicParameters());
 
-        if (!ParsingParameters(params, argc, argv)) {
+        if ( !ParsingParameters(params, argc, argv) ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
             return false;
@@ -269,7 +268,7 @@ int main(int argc, char **argv) {
 
         QSharedPointer<CommonParameters> config(new CommonParameters());
 
-        if (!config.data()->readConfigFile(configFileName)) {
+        if ( !config.data()->readConfigFile(CONFIGFILENAME) ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false! Default values will be used.";
         }
@@ -278,17 +277,17 @@ int main(int argc, char **argv) {
 
         ptrdiff_t currtask = params.data()->val_Task();
 
-        if (currtask == TASK_POINTS) {
+        if ( currtask == TASK_POINTS ) {
 
             QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-            if (!myPoints.data()->readCSV(data)) {
+            if ( !myPoints.data()->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if (!myPoints.data()->fillArrays()) {
+            if ( !myPoints.data()->fillArrays() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
@@ -296,17 +295,17 @@ int main(int argc, char **argv) {
 
             myPoints.data()->createReport();
         }
-        else if (currtask == TASK_EMISSIONS) {
+        else if ( currtask == TASK_EMISSIONS ) {
 
             QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-            if (!myEmissions.data()->readCSV(data)) {
+            if ( !myEmissions.data()->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if (!myEmissions.data()->calculate()) {
+            if ( !myEmissions.data()->calculate() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
@@ -314,17 +313,17 @@ int main(int argc, char **argv) {
 
             myEmissions.data()->createReports(true);
         }
-        else if (currtask == TASK_REDUCEDPOWER) {
+        else if ( currtask == TASK_REDUCEDPOWER ) {
 
             QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-            if (!myReducedPower.data()->readCSV(data)) {
+            if ( !myReducedPower.data()->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if (!myReducedPower.data()->reducePower()) {
+            if ( !myReducedPower.data()->reducePower() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
@@ -332,7 +331,7 @@ int main(int argc, char **argv) {
 
             myReducedPower.data()->createReports();
         }
-        else if (currtask == TASK_ABCSPEEDS) {
+        else if ( currtask == TASK_ABCSPEEDS ) {
 
             double n_hi = 0, n_lo = 0;
             double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
@@ -354,7 +353,7 @@ int main(int argc, char **argv) {
             cout << "\na3   = " << a3;
             cout << "\nnref = " << n_ref << "\n\n";
         }
-        else if (currtask == TASK_ELRSMOKE) {
+        else if ( currtask == TASK_ELRSMOKE ) {
 
             double smoke_A1 = 0, smoke_A2 = 0, smoke_A3 = 0;
             double smoke_B1 = 0, smoke_B2 = 0, smoke_B3 = 0;
@@ -385,7 +384,7 @@ int main(int argc, char **argv) {
 
             cout << "\nELR smoke = " << smokeELR << "\n\n";
         }
-        else if (currtask == TASK_HELP) {
+        else if ( currtask == TASK_HELP ) {
 
             ShowAbout();
             ShowHelp();

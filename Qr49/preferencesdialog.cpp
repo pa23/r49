@@ -29,8 +29,6 @@
 #include <QString>
 #include <QDir>
 
-using std::string;
-
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
         QDialog(parent) {
 
@@ -121,7 +119,6 @@ void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
 void PreferencesDialog::on_pushButton_OK_clicked() {
 
     QString myPreferences = "//\n// This is r49 configuration file. Parameter-Value delimeter is \"=\" symbol.\n// Text after \"//\" is comment.\n//\n\n"
-                            "// CSV files delimeter\ncsvdelimiter=" + ui.comboBox_csvdelimiter->currentText() + "\n\n"
                             "// Temporary rewrited source data files\nfilenameSourceEU3=" + ui.lineEdit_filenameSourceEU3->text() + "\n"
                             "filenameSourceEU0=" + ui.lineEdit_filenameSourceEU0->text() + "\n"
                             "filenamePoints=" + ui.lineEdit_filenamePoints->text() + "\n"
@@ -141,7 +138,7 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
                             "muCO=" + QString::number(ui.doubleSpinBox_muCO->value()) + "\n"
                             "muCH=" + QString::number(ui.doubleSpinBox_muCH->value()) + "\n";
 
-    QFile preferencesFile(configFileName);
+    QFile preferencesFile(CONFIGFILENAME);
 
     if (!preferencesFile.open(QIODevice::WriteOnly)) {
 

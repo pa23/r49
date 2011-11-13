@@ -26,8 +26,6 @@
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
 
-#include <string>
-
 #include <QSharedPointer>
 #include <QString>
 #include <QVector>
@@ -79,7 +77,7 @@ private:
     QVector<double> array_ge_netto_reduced;
 
     ptrdiff_t NumberOfPoints;
-    std::string mytime;
+    QString mytime;
     QString fullReportsPath;
     double n_rated;
     ptrdiff_t i_rated;

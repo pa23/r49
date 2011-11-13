@@ -54,7 +54,7 @@ void NewVersions::checkAvailableVersions() {
     urls.clear();
     files.clear();
 
-    netmanager->get(QNetworkRequest(QUrl(pageUrl)));
+    netmanager->get(QNetworkRequest(QUrl(PAGEURL)));
 }
 
 void NewVersions::replyFinished(QNetworkReply* reply) {
@@ -77,8 +77,8 @@ void NewVersions::parseHtmlData() {
 
     QStringList strs = htmlData.split("\n", QString::SkipEmptyParts);
 
-    QString regexpstr1 = "(<a href=\"" + filesUrl + "/r49-.+</a>)";
-    QString regexpstr2 = "(\"" + filesUrl + "/r49-.+\")";
+    QString regexpstr1 = "(<a href=\"" + FILESURL + "/r49-.+</a>)";
+    QString regexpstr2 = "(\"" + FILESURL + "/r49-.+\")";
 
     QRegExp regExp1(regexpstr1);
     QRegExp regExp2(regexpstr2);
@@ -100,7 +100,7 @@ void NewVersions::parseHtmlData() {
 
     for (ptrdiff_t i=0; i<files.count(); i++) {
 
-        urls << pageUrl + files.at(i);
+        urls << PAGEURL + files.at(i);
     }
 
     //

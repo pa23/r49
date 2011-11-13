@@ -26,13 +26,9 @@
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
 
-#include <string>
-
 #include <QSharedPointer>
 #include <QString>
 #include <QVector>
-
-using std::string;
 
 class CycleEmissions {
 
@@ -164,7 +160,7 @@ private:
     bool compareAlpha();
     bool checkTestConditions() const;
 
-    std::string mytime;
+    QString mytime;
     QString fullReportsPath;
 
 };

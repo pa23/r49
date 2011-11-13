@@ -26,12 +26,12 @@
 
 // constants
 
-const QString qr49version = "Qr49 v2.2.3";
+const QString QR49VERSION = "Qr49 v2.2.4";
 
-const QString oparandsDelimiter = "=";
+const QString OPERANDSDELIMITER = "=";
 
-const QString configFileName = "r49.conf";
-const QString pageUrl = "https://github.com/pa23/r49/downloads/";
-const QString filesUrl = "/downloads/pa23/r49";
+const QString CONFIGFILENAME = "r49.conf";
+const QString PAGEURL = "https://github.com/pa23/r49/downloads/";
+const QString FILESURL = "/downloads/pa23/r49";
 
 #endif	/* QR49CONSTANTS_H */

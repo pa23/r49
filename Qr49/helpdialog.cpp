@@ -23,10 +23,6 @@
 #include "ui_helpdialog.h"
 
 #include <QFileDialog>
-#include <QFile>
-#include <QTextStream>
-
-using std::string;
 
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),

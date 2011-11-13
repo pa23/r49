@@ -24,32 +24,20 @@
 #include "libtoxicconstants.h"
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
-#include "datetime.h"
 #include "emissionlimits.h"
 #include "precalc.h"
 #include "r49.h"
-
-#include <string>
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
 
 #include <QSharedPointer>
 #include <QDebug>
 #include <QString>
 #include <QVector>
 #include <QDir>
+#include <QDateTime>
+#include <QFile>
+#include <QTextStream>
 
-using std::string;
-using std::cout;
-using std::cin;
-using std::ofstream;
-using std::setfill;
-using std::setw;
-using std::right;
-using std::setprecision;
-using std::fixed;
+#include <cmath>
 
 CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
         NenCalcMethod (true),
@@ -97,20 +85,20 @@ bool CycleEmissions::calculate() {
 
     ptrdiff_t std = params.data()->val_Standard();
 
-    if (!preCalculate()) {
+    if ( !preCalculate() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
-    if (!calculate_gNOx()) {
+    if ( !calculate_gNOx() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) &&
-           (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) && (NumberOfPoints == TCyclePointsNumber) ) {
+           (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) && (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
 
         if (!calculateAdditionalPoints()) {
 
@@ -119,40 +107,40 @@ bool CycleEmissions::calculate() {
         }
     }
 
-    if (!calculate_gCO()) {
+    if ( !calculate_gCO() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
-    if (!calculate_gCH()) {
+    if ( !calculate_gCH() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
-    if (!calculate_gPT()) {
+    if ( !calculate_gPT() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
-    if (!calculate_rEGR()) {
+    if ( !calculate_rEGR() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
     }
 
-    if (std != STD_FREECALC) {
+    if ( std != STD_FREECALC ) {
 
-        if (!calculate_Means()) {
+        if ( !calculate_Means() ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
             return false;
         }
     }
 
-    if (!compareAlpha()) {
+    if ( !compareAlpha() ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
         return false;
@@ -166,19 +154,18 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     if ( data.isEmpty() ) {
 
         QString filenamePoints = config.data()->val_filenamePoints();
-        QString csvdelimiter = config.data()->val_csvDelimiter();
 
-        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePoints, csvdelimiter, StrsNumberForColumnCaption));
+        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePoints, " ", STRSNUMBERFORCOLUMNCAPTION));
 
         array_DataForCalc = readerDataForCalc.data()->csvData();
 
-        if (array_DataForCalc.isEmpty()) {
+        if ( array_DataForCalc.isEmpty() ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
             return false;
         }
 
-        if ( array_DataForCalc.at(0).size() != PointsFileColumnsNumber ) {
+        if ( array_DataForCalc.at(0).size() != POINTSFILECOLUMNSNUMBER ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
             return false;
@@ -203,7 +190,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (addpc == ADDPOINTSCALC_YES)
                     ) &&
                     (
-                            (NumberOfPoints != TCyclePointsNumber)
+                            (NumberOfPoints != TCYCLEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -214,7 +201,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (addpc == ADDPOINTSCALC_NO)
                     ) &&
                     (
-                            (NumberOfPoints != (TCyclePointsNumber-TCycleAddPointsNumber))
+                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-TCYCLEADDPOINTSNUMBER))
                     )
             ) ||
             (
@@ -222,7 +209,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST)
                     ) &&
                     (
-                            (NumberOfPoints != (TCyclePointsNumber-TCycleAddPointsNumber))
+                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-TCYCLEADDPOINTSNUMBER))
                     )
             ) ||
             (
@@ -230,7 +217,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) || (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8)
                     ) &&
                     (
-                            (NumberOfPoints != ECyclePointsNumber)
+                            (NumberOfPoints != ECYCLEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -238,7 +225,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) || (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5)
                     ) &&
                     (
-                            (NumberOfPoints != FCyclePointsNumber)
+                            (NumberOfPoints != FCYCLEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -246,7 +233,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_C1)
                     ) &&
                     (
-                            (NumberOfPoints != GC1CylcePointsNumber)
+                            (NumberOfPoints != GC1CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -254,7 +241,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_D1)
                     ) &&
                     (
-                            (NumberOfPoints != GD1CylcePointsNumber)
+                            (NumberOfPoints != GD1CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -262,7 +249,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_D2)
                     ) &&
                     (
-                            (NumberOfPoints != GD2CylcePointsNumber)
+                            (NumberOfPoints != GD2CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -270,7 +257,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_E1)
                     ) &&
                     (
-                            (NumberOfPoints != GE1CylcePointsNumber)
+                            (NumberOfPoints != GE1CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -278,7 +265,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_E2)
                     ) &&
                     (
-                            (NumberOfPoints != GE2CylcePointsNumber)
+                            (NumberOfPoints != GE2CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -286,7 +273,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_E3)
                     ) &&
                     (
-                            (NumberOfPoints != GE3CylcePointsNumber)
+                            (NumberOfPoints != GE3CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -294,7 +281,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_E5)
                     ) &&
                     (
-                            (NumberOfPoints != GE5CylcePointsNumber)
+                            (NumberOfPoints != GE5CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -302,7 +289,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_F)
                     ) &&
                     (
-                            (NumberOfPoints != GFCylcePointsNumber)
+                            (NumberOfPoints != GFCYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -310,7 +297,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_G1)
                     ) &&
                     (
-                            (NumberOfPoints != GG1CylcePointsNumber)
+                            (NumberOfPoints != GG1CYLCEPOINTSNUMBER)
                     )
             ) ||
             (
@@ -318,7 +305,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                             (std == STD_G2)
                     ) &&
                     (
-                            (NumberOfPoints != GG2CylcePointsNumber)
+                            (NumberOfPoints != GG2CYLCEPOINTSNUMBER)
                     )
             )
     ) {
@@ -386,21 +373,21 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         array_rd       [i] = array_DataForCalc[i][27];
     }
 
-    mytime = dateTimeNow();
+    mytime = QDateTime::currentDateTime().toString("dd-MM-yyyy_hh-mm-ss");
 
     //
 
-    if (!nonZeroArray(array_n)) {
+    if ( !nonZeroArray(array_n) ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (n)!";
         return false;
     }
 
-    if (nonZeroArray(array_Me_brutto)) {
+    if ( nonZeroArray(array_Me_brutto) ) {
 
         NenCalcMethod = true;
     }
-    else if (nonZeroArray(array_Ne_brutto)) {
+    else if ( nonZeroArray(array_Ne_brutto) ) {
 
         NenCalcMethod = false;
     }
@@ -410,29 +397,29 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         return false;
     }
 
-    if (!nonZeroArray(array_t0)) {
+    if ( !nonZeroArray(array_t0) ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (t0)!";
         return false;
     }
 
-    if (!nonZeroArray(array_B0)) {
+    if ( !nonZeroArray(array_B0) ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (B0)!";
         return false;
     }
 
-    if (!nonZeroArray(array_Ra)) {
+    if ( !nonZeroArray(array_Ra) ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Ra)!";
         return false;
     }
 
-    if (nonZeroArray(array_Gair)) {
+    if ( nonZeroArray(array_Gair) ) {
 
         GairVals = true;
     }
-    else if (nonZeroArray(array_dPn)) {
+    else if ( nonZeroArray(array_dPn) ) {
 
         GairVals = false;
     }
@@ -442,17 +429,17 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         return false;
     }
 
-    if (!nonZeroArray(array_Gfuel)) {
+    if ( !nonZeroArray(array_Gfuel) ) {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gfuel)!";
         return false;
     }
 
-    if (nonZeroArray(array_CNOx)) {
+    if ( nonZeroArray(array_CNOx) ) {
 
         NOxCalcMethod = true;
     }
-    else if (nonZeroArray(array_gNOx)) {
+    else if ( nonZeroArray(array_gNOx) ) {
 
         NOxCalcMethod = false;
     }
@@ -462,7 +449,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         return false;
     }
 
-    if (nonZeroArray(array_CCO)) {
+    if ( nonZeroArray(array_CCO) ) {
 
         gCOcalc = true;
     }
@@ -471,7 +458,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         gCOcalc = false;
     }
 
-    if (nonZeroArray(array_CCH)) {
+    if ( nonZeroArray(array_CCH) ) {
 
         gCHcalc = true;
     }
@@ -489,7 +476,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         EGRcalc = false;
     }
 
-    if (nonZeroArray(array_CO2)) {
+    if ( nonZeroArray(array_CO2) ) {
 
         CheckMeas = true;
     }
@@ -498,7 +485,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         CheckMeas = false;
     }
 
-    if (params.data()->val_PTcalc() != PTCALC_NO) {
+    if ( params.data()->val_PTcalc() != PTCALC_NO ) {
 
         if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
              ( !nonZeroArray(array_Ka1m)   &&
@@ -509,7 +496,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
             return false;
         }
 
-        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+        if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
             if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
                  ( !nonZeroArray(array_qmdw) &&
@@ -519,26 +506,26 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                 return false;
             }
 
-            if (nonZeroArray(array_qmdw)) {
+            if ( nonZeroArray(array_qmdw) ) {
 
                 qmdwVSrd = true;
             }
-            else if (nonZeroArray(array_rd)) {
+            else if ( nonZeroArray(array_rd) ) {
 
                 qmdwVSrd = false;
             }
         }
     }
 
-    if (nonZeroArray(array_FSN)) {
+    if ( nonZeroArray(array_FSN) ) {
 
         smoke = 2;
     }
-    else if (nonZeroArray(array_Ka1m)) {
+    else if ( nonZeroArray(array_Ka1m) ) {
 
         smoke = 0;
     }
-    else if (nonZeroArray(array_KaPerc)) {
+    else if ( nonZeroArray(array_KaPerc) ) {
 
         smoke = 1;
     }
@@ -589,17 +576,17 @@ bool CycleEmissions::preCalculate() {
 
         ptrdiff_t FuelType = params.data()->val_FuelType();
 
-        if (FuelType == FUELTYPE_DIESEL) {
+        if ( FuelType == FUELTYPE_DIESEL ) {
 
             Ffw = 0.75;
             Ffd = -0.77;
         }
-        else if (FuelType == FUELTYPE_MOTOR) {
+        else if ( FuelType == FUELTYPE_MOTOR ) {
 
             Ffw = 0.72;
             Ffd = -0.74;
         }
-        else if (FuelType == FUELTYPE_MAZUT) {
+        else if ( FuelType == FUELTYPE_MAZUT ) {
 
             Ffw = 0.69;
             Ffd = -0.71;
@@ -611,13 +598,13 @@ bool CycleEmissions::preCalculate() {
         }
     }
 
-    for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+    for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-        if (NenCalcMethod) {
+        if ( NenCalcMethod ) {
 
             array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
         }
-        else if (!NenCalcMethod) {
+        else if ( !NenCalcMethod ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
@@ -634,11 +621,11 @@ bool CycleEmissions::preCalculate() {
 
         array_Me_netto[i] = array_Ne_netto[i] * 9550.0 / array_n[i];
 
-        if (!GairVals) {
+        if ( !GairVals ) {
 
             double Dn = config.data()->val_Dn();
 
-            if (Dn < 1) {
+            if ( Dn < 1 ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                 return false;
@@ -649,17 +636,17 @@ bool CycleEmissions::preCalculate() {
 
         array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);
 
-        if (CheckMeas) {
+        if ( CheckMeas ) {
 
             double ConcO2air = config.data()->val_ConcO2air();
 
-            if (ConcO2air < 1) {
+            if ( ConcO2air < 1 ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
                 return false;
             }
 
-            if (!EGRcalc) {
+            if ( !EGRcalc ) {
 
                 array_alpha_O2[i] = (0.01 * ConcO2air * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
                                     (0.01 * ConcO2air - 0.01 * array_CO2[i]);
@@ -704,7 +691,7 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            if (std != STD_OST) {
+            if ( std != STD_OST ) {
 
                 array_Kw2[i] = 1.608 * array_Ha[i] / (1000.0 + 1.608 * array_Ha[i]);
                 array_Ffh[i] = 1.969 / (1.0 + array_Gfuel[i] / array_Gair[i]);
@@ -732,11 +719,11 @@ bool CycleEmissions::preCalculate() {
                 array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gaird[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
                                             (-0.116 * array_Gfuel[i] / array_Gaird[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
             }
-            else if (std == STD_OST) {
+            else if ( std == STD_OST ) {
 
                 array_Kwr[i] = 1.0 - 1.8 * array_Gfuel[i] / array_Gair[i];
             }
-            else if (std == STD_GOST) {
+            else if ( std == STD_GOST ) {
 
                 array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gair[i];
                 array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gair[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
@@ -786,7 +773,7 @@ bool CycleEmissions::calculate_gNOx() {
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-        n = NumberOfPoints - TCycleAddPointsNumber;
+        n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
     else {
 
@@ -797,9 +784,9 @@ bool CycleEmissions::calculate_gNOx() {
          (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+        if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
                 summ_numerator += array_CNOx[i] / 10000.0 * array_Gexhd[i] * array_w[i];
                 summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
@@ -807,7 +794,7 @@ bool CycleEmissions::calculate_gNOx() {
         }
         else {
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
                 summ_numerator += array_CNOx[i] / 10000.0 * array_Gexh[i] * array_w[i];
                 summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
@@ -818,13 +805,13 @@ bool CycleEmissions::calculate_gNOx() {
     }
     else {
 
-        if (NOxCalcMethod) {
+        if ( NOxCalcMethod ) {
 
-            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+            if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                    if (std == STD_OST) {
+                    if ( std == STD_OST ) {
 
                         array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
                     }
@@ -841,9 +828,9 @@ bool CycleEmissions::calculate_gNOx() {
             }
             else {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                    if (std == STD_OST) {
+                    if ( std == STD_OST ) {
 
                         array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
                     }
@@ -859,15 +846,15 @@ bool CycleEmissions::calculate_gNOx() {
                 }
             }
         }
-        else if (!NOxCalcMethod) {
+        else if ( !NOxCalcMethod ) {
 
-            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+            if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
                     array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
-                    if (std == STD_OST) {
+                    if ( std == STD_OST ) {
 
                         array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Gexh[i]);
                     }
@@ -882,11 +869,11 @@ bool CycleEmissions::calculate_gNOx() {
             }
             else {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
                     array_mNOx[i] = array_gNOx[i] * array_Ne_netto[i];
 
-                    if (std == STD_OST) {
+                    if ( std == STD_OST ) {
 
                         array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Gexh[i]);
                     }
@@ -931,11 +918,11 @@ bool CycleEmissions::calculateAdditionalPoints() {
 
     ptrdiff_t std = params.data()->val_Standard();
 
-    for (ptrdiff_t i=(NumberOfPoints - TCycleAddPointsNumber); i<NumberOfPoints; i++) {
+    for ( ptrdiff_t i=(NumberOfPoints - TCYCLEADDPOINTSNUMBER); i<NumberOfPoints; i++ ) {
 
-        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+        if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
-            if (std == STD_OST) {
+            if ( std == STD_OST ) {
 
                 array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
             }
@@ -946,7 +933,7 @@ bool CycleEmissions::calculateAdditionalPoints() {
         }
         else {
 
-            if (std == STD_OST) {
+            if ( std == STD_OST ) {
 
                 array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
             }
@@ -1060,7 +1047,7 @@ bool CycleEmissions::calculate_gCO() {
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-        n = NumberOfPoints - TCycleAddPointsNumber;
+        n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
     else {
 
@@ -1071,7 +1058,7 @@ bool CycleEmissions::calculate_gCO() {
          (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             summ_numerator += array_CCO[i] / 10000.0 * array_Gexhd[i] * array_w[i];
             summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
@@ -1081,7 +1068,7 @@ bool CycleEmissions::calculate_gCO() {
     }
     else {
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             array_mCO[i] = 0.000966 * array_CCO[i] * array_Kwr[i] * array_Gexh[i]; // always is dry
             array_gCO[i] = array_mCO[i] / array_Ne_netto[i];
@@ -1114,7 +1101,7 @@ bool CycleEmissions::calculate_gCH() {
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-        n = NumberOfPoints - TCycleAddPointsNumber;
+        n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
     else {
 
@@ -1125,7 +1112,7 @@ bool CycleEmissions::calculate_gCH() {
          (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             summ_numerator += array_CCH[i] / 10000.0 * array_Gexh[i] * array_w[i];
             summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
@@ -1135,9 +1122,9 @@ bool CycleEmissions::calculate_gCH() {
     }
     else {
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            if (std == STD_OST) {
+            if ( std == STD_OST ) {
 
                 array_mCH[i] = 0.000485 * array_CCH[i] * array_Gexh[i]; // always is wet
             }
@@ -1179,7 +1166,7 @@ bool CycleEmissions::calculate_gPT() {
         ptrdiff_t n = 0;
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-            n = NumberOfPoints - TCycleAddPointsNumber;
+            n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
         else {
 
@@ -1192,9 +1179,9 @@ bool CycleEmissions::calculate_gPT() {
         double summ_mPT = 0;
         double summ_Ne_netto = 0;
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            if (smoke == 0) {
+            if ( smoke == 0 ) {
 
                 array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
                 array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
@@ -1238,17 +1225,17 @@ bool CycleEmissions::calculate_gPT() {
         summ_mPT = 0;
         summ_Ne_netto = 0;
 
-        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+        if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-            if (mf == 0) {
+            if ( mf == 0 ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (gPT)!";
                 return false;
             }
 
-            if (qmdwVSrd) {
+            if ( qmdwVSrd ) {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
                     array_rd[i] = array_qmdew[i] / (array_qmdew[i] - array_qmdw[i]);
                     array_qmedf[i] = array_Gexh[i] * array_rd[i];
@@ -1259,9 +1246,9 @@ bool CycleEmissions::calculate_gPT() {
                     summ_Ne_netto += array_Ne_netto[i] * array_w[i];
                 }
             }
-            else if (!qmdwVSrd) {
+            else if ( !qmdwVSrd ) {
 
-                for (ptrdiff_t i=0; i<n; i++) {
+                for ( ptrdiff_t i=0; i<n; i++ ) {
 
                     array_qmdw[i] = (array_qmdew[i] * array_rd[i] - array_qmdew[i]) / array_rd[i];
                     array_qmedf[i] = array_Gexh[i] * array_rd[i];
@@ -1288,9 +1275,9 @@ bool CycleEmissions::calculate_rEGR() {
 
     double CCO2air = config.data()->val_ConcCO2air();
 
-    if (EGRcalc) {
+    if ( EGRcalc ) {
 
-        for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+        for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
             array_rEGR[i] = (array_CCO2in[i] - CCO2air) / (array_CCO2out[i] - CCO2air) * 100.0;
             array_alpha_res[i] = (array_alpha[i] - array_alpha[i] * array_rEGR[i] / 100.0 - array_rEGR[i] / 100.0) / (1.0 - 2.0 * array_rEGR[i] / 100.0);
@@ -1315,14 +1302,14 @@ bool CycleEmissions::calculate_Means() {
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-        n = NumberOfPoints - TCycleAddPointsNumber;
+        n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
     else {
 
         n = NumberOfPoints;
     }
 
-    for (ptrdiff_t i=0; i<n; i++) {
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         summ_Gfuel    += array_Gfuel[i] * array_w[i];
         summ_Ne_netto += array_Ne_netto[i] * array_w[i];
@@ -1345,21 +1332,21 @@ bool CycleEmissions::compareAlpha() {
 
     array_diff_alpha.clear(); array_diff_alpha.resize(NumberOfPoints);
 
-    if (CheckMeas) {
+    if ( CheckMeas ) {
 
-        if (EGRcalc) {
+        if ( EGRcalc ) {
 
             double ConcO2mix = 0;
             double ConcO2air = config.data()->val_ConcO2air();
 
-            if (ConcO2air < 1) {
+            if ( ConcO2air < 1 ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
 
                 return false;
             }
 
-            for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+            for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
                 ConcO2mix = ConcO2air * (1.0 - array_rEGR[i] / 100.0) + array_CO2[i] * array_rEGR[i] / 100.0;
                 array_alpha_O2[i] = (0.01 * ConcO2mix * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
@@ -1369,7 +1356,7 @@ bool CycleEmissions::compareAlpha() {
         }
         else {
 
-            for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+            for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
                 array_diff_alpha[i] = (array_alpha[i] - array_alpha_O2[i]) / array_alpha_O2[i] * 100.0;
             }
@@ -1382,7 +1369,7 @@ bool CycleEmissions::compareAlpha() {
 
 bool CycleEmissions::checkTestConditions() const {
 
-    for (ptrdiff_t i=0; i<array_fa.count(); i++) {
+    for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
 
         if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
 
@@ -1407,18 +1394,18 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         testcondres = "Check test conditions: FAILED.";
     }
 
-    if (!createrepdir) {
+    if ( !createrepdir ) {
 
         message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
         qDebug() << "\ngNOx =" << gNOx << "g/kWh";
 
-        if (gCOcalc) {
+        if ( gCOcalc ) {
 
             message += "gCO = " + QString::number(gCO) + " g/kWh\n";
             qDebug() << "gCO =" << gCO << "g/kWh";
         }
 
-        if (gCHcalc) {
+        if ( gCHcalc ) {
 
             message += "gCH = " + QString::number(gCH) + " g/kWh\n";
             qDebug() << "gCH =" << gCH << "g/kWh";
@@ -1426,9 +1413,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         ptrdiff_t ptcalc = params.data()->val_PTcalc();
 
-        if (ptcalc != PTCALC_NO) {
+        if ( ptcalc != PTCALC_NO ) {
 
-            if (ptcalc == PTCALC_THROUGHPTMASS) {
+            if ( ptcalc == PTCALC_THROUGHPTMASS ) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
                 qDebug() << "gPT =" << gPT << "g/kWh";
@@ -1449,301 +1436,198 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
     ptrdiff_t std = params.data()->val_Standard();
 
     QString dirnameReports = config.data()->val_dirnameReports();
-    string csvdelimiter = (config.data()->val_csvDelimiter()).toStdString();
 
-    fullReportsPath = dirnameReports + "/" + params.data()->defStandardName(std) + "_" + QString::fromStdString(mytime);
+    fullReportsPath = dirnameReports + "/" + params.data()->defStandardName(std) + "_" + mytime;
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 
     //
 
-    string CheckoutDataFileName;
-    CheckoutDataFileName = "CheckoutData_" + mytime + ".csv";
+    QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
 
-    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + QString::fromStdString(CheckoutDataFileName);
-    ofstream fout1(checkoutdata.toAscii());
+    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + checkoutDataFileName;
 
-    if (!fout1) {
+    QFile data1(checkoutdata);
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout1 was not created!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "fout1 was not created!";
+    if ( !data1.open(QFile::WriteOnly) ) {
+
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data1 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data1 to write!";
 
         return message;
     }
 
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Point[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "n[min-1]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Me_b[Nm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ne_b[kW]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "N_fan[kW]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "w[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "t0[oC]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "B0[kPa]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ra[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "dPn[mmH2O]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gair[kg/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_NOx[ppm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gNOx[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO[ppm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CH[ppm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2in[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2out[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "C_O2[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[m-1]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "FSN[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Pr[kPa]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ts[oC]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "tauf[s]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "qmdw[g/s]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ne_n[kW]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Me_n[Nm]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha_O2[-]" << csvdelimiter;
+    QTextStream fout1(&data1);
+
+    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
+             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
+             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
+             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
+             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
+             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
+             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" << "Ne_n[kW]" << "Me_n[Nm]" <<
+             "alpha[-]" << "alpha_O2[-]";
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
          (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexh[m3/h]" << csvdelimiter;
-        fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexhd[m3/h]" << csvdelimiter;
+        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "Gexh[m3/h]" << "Gexhd[m3/h]";
     }
     else {
 
-        fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexh[kg/h]" << csvdelimiter;
-        fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gexhd[kg/h]" << csvdelimiter;
+        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "Gexh[kg/h]" << "Gexhd[kg/h]";
     }
 
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Pb[kPa]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Pa[kPa]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ha[g/kg]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Gaird[kg/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kw2[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Ffh[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kf[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Kwr[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "Khd[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "fa[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ge[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mNOx[g/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mCO[g/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gCO[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mCH[g/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gCH[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "ror[kg/m3]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "CPT[mg/m3]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "mPT[g/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "gPT[g/kWh]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "qmedf[kg/h]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "msepi[g]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "rEGR[%]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "alpha_res[-]" << csvdelimiter;
-    fout1 << right << setw(WidthOfColumn) << setfill(' ') << "diff_alpha[%]" << csvdelimiter << "\n";
+    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
+             "Pb[kPa]" << "Pa[kPa]" << "Ha[g/kg]" << "Gaird[kg/h]" << "Kw2[-]" <<
+             "Ffh[-]" << "Kf[-]" << "Kwr[-]" << "Khd[-]" << "fa[-]" <<
+             "ge[g/kWh]" << "mNOx[g/h]" << "mCO[g/h]" << "gCO[g/kWh]" << "mCH[g/h]" <<
+             "gCH[g/kWh]" << "ror[kg/m3]" << "CPT[mg/m3]" << "mPT[g/h]" << "gPT[g/kWh]" <<
+             "qmedf[kg/h]" << "msepi[g]" << "rEGR[%]" << "alpha_res[-]" << "diff_alpha[%]" <<
+             qSetFieldWidth(0) << "\n";
 
-    ptrdiff_t prec = Precision + 1;
+    ptrdiff_t prec = PRECISION + 1;
 
-    for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+    for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(0) << (i + 1) << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(0) << array_n[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_brutto[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_brutto[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_N_fan[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_w[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_t0[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_B0[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ra[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_dPn[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gair[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gfuel[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CNOx[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gNOx[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCH[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2in[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CCO2out[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CO2[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ka1m[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_KaPerc[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_FSN[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pr[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ts[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_tauf[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdw[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmdew[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rd[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ne_netto[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Me_netto[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_O2[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexh[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gexhd[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pb[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Pa[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ha[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Gaird[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kw2[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Ffh[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kf[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Kwr[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_Khd[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_fa[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ge[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mNOx[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCO[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCO[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mCH[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gCH[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_ror[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_CPT[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_mPT[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_gPT[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_qmedf[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_msepi[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_rEGR[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_alpha_res[i] << csvdelimiter;
-        fout1 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(prec) << array_diff_alpha[i] << csvdelimiter << "\n";
+        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
+        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(prec) <<
+                 array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i] << array_w[i] << array_t0[i] <<
+                 array_B0[i] << array_Ra[i] << array_dPn[i] << array_Gair[i] << array_Gfuel[i] <<
+                 array_CNOx[i] << array_gNOx[i] << array_CCO[i] << array_CCH[i] << array_CCO2in[i] <<
+                 array_CCO2out[i] << array_CO2[i] << array_Ka1m[i] << array_KaPerc[i] << array_FSN[i] <<
+                 array_Pr[i] << array_ts[i] << array_tauf[i] << array_qmdw[i] << array_qmdew[i] <<
+                 array_rd[i] << array_Ne_netto[i] << array_Me_netto[i] << array_alpha[i] << array_alpha_O2[i] <<
+                 array_Gexh[i] << array_Gexhd[i] << array_Pb[i] << array_Pa[i] << array_Ha[i] <<
+                 array_Gaird[i] << array_Kw2[i] << array_Ffh[i] << array_Kf[i] << array_Kwr[i] <<
+                 array_Khd[i] << array_fa[i] << array_ge[i] << array_mNOx[i] << array_mCO[i] <<
+                 array_gCO[i] << array_mCH[i] << array_gCH[i] << array_ror[i] << array_CPT[i] <<
+                 array_mPT[i] << array_gPT[i] << array_qmedf[i] << array_msepi[i] << array_rEGR[i] <<
+                 array_alpha_res[i] << array_diff_alpha[i] <<
+                 qSetFieldWidth(0) << "\n";
     }
 
-    fout1.close();
+    data1.close();
 
-    message += "libtoxic: Additional file \"" + QString::fromStdString(CheckoutDataFileName) + "\" rewrited.\n";
-    qDebug() << "\nlibtoxic: Additional file" << QString::fromStdString(CheckoutDataFileName) << "rewrited.";
+    message += "libtoxic: Additional file \"" + checkoutDataFileName + "\" created.\n";
+    qDebug() << "\nlibtoxic: Additional file" << checkoutDataFileName << "created.";
 
     //
 
-    string SourceDataFileName;
+    QString sourceDataFileName;
 
     if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
          (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
          (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
          (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-        SourceDataFileName = "SourceData96_" + mytime + ".csv";
+        sourceDataFileName = "SourceData96_" + mytime + ".csv";
     }
-    else if (std == STD_OST) {
+    else if ( std == STD_OST ) {
 
-        SourceDataFileName = "SourceDataOST_" + mytime + ".csv";
+        sourceDataFileName = "SourceDataOST_" + mytime + ".csv";
     }
-    else if (std == STD_GOST) {
+    else if ( std == STD_GOST ) {
 
-        SourceDataFileName = "SourceDataGOST_" + mytime + ".csv";
+        sourceDataFileName = "SourceDataGOST_" + mytime + ".csv";
     }
     else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
               (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
               (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        SourceDataFileName = "SourceDataGOST51249_" + mytime + ".csv";
+        sourceDataFileName = "SourceDataGOST51249_" + mytime + ".csv";
     }
     else {
 
-        SourceDataFileName = "SourceData49_" + mytime + ".csv";
+        sourceDataFileName = "SourceData49_" + mytime + ".csv";
     }
 
-    QString srcdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + QString::fromStdString(SourceDataFileName);
-    ofstream fout4(srcdata.toAscii());
+    QString srcdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + sourceDataFileName;
 
-    if (!fout4) {
+    QFile data4(srcdata);
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout4 was not created!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "fout4 was not created!";
+    if ( !data4.open(QFile::WriteOnly) ) {
+
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data4 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data4 to write!";
 
         return message;
     }
 
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Point[-]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "n[min-1]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Me_b[Nm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ne_b[kW]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "N_fan[kW]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "w[-]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "t0[oC]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "B0[kPa]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ra[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "dPn[mmH2O]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Gair[kg/h]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Gfuel[kg/h]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_NOx[ppm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "gNOx[g/kWh]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO[ppm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CH[ppm]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2in[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_CO2out[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "C_O2[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[m-1]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Ka[%]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "FSN[-]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "Pr[kPa]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "ts[oC]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "tauf[s]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "qmdw[g/s]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "qmdew[g/s]" << csvdelimiter;
-    fout4 << right << setw(WidthOfColumn) << setfill(' ') << "rd[-]" << csvdelimiter << "\n";
+    QTextStream fout4(&data4);
 
-    for (ptrdiff_t i=0; i<NumberOfPoints; i++) {
+    fout4 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
+             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
+             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
+             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
+             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
+             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
+             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" <<
+             qSetFieldWidth(0) << "\n";
 
-        for (ptrdiff_t j=0; j<PointsFileColumnsNumber; j++) {
+    for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-            fout4 << fixed << right << setw(WidthOfColumn) << setfill(' ') << setprecision(Precision+1) << array_DataForCalc[i][j] << csvdelimiter;
+        for ( ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++ ) {
+
+            fout4 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION+1) << array_DataForCalc[i][j];
         }
 
-        fout4 << "\n";
+        fout4 << qSetFieldWidth(0) << "\n";
     }
 
-    fout4.close();
+    data4.close();
 
-    message += "libtoxic: SourceData file \"" + QString::fromStdString(SourceDataFileName) + "\" created.\n";
-    qDebug() << "libtoxic: SourceData file" << QString::fromStdString(SourceDataFileName) << "created.";
+    message += "libtoxic: SourceData file \"" + sourceDataFileName + "\" created.\n";
+    qDebug() << "libtoxic: SourceData file" << sourceDataFileName << "created.";
 
     //
 
-    if (std != STD_FREECALC) {
+    if ( std != STD_FREECALC ) {
 
         if ( (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) && ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
                                                                         (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                                                                         (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
                                                                         (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) ) {
 
-            string ReportFileNamePT;
+            QString reportFileNamePT;
 
             if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
                  (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
                  (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
                  (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-                ReportFileNamePT = "Report96_PT_" + mytime + ".txt";
+                reportFileNamePT = "Report96_PT_" + mytime + ".txt";
             }
             else {
 
-                ReportFileNamePT = "Report49_PT_" + mytime + ".txt";
+                reportFileNamePT = "Report49_PT_" + mytime + ".txt";
             }
 
-            QString reppt = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + QString::fromStdString(ReportFileNamePT);
-            ofstream fout6(reppt.toAscii());
+            QString reppt = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + reportFileNamePT;
 
-            if (!fout6) {
+            QFile data6(reppt);
 
-                message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout6 was not created!\n";
-                qDebug() << Q_FUNC_INFO << ":::" << "fout6 was not created!";
+            if ( !data6.open(QFile::WriteOnly) ) {
+
+                message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data6 to write!\n";
+                qDebug() << Q_FUNC_INFO << ":::" << "Can not open data6 to write!";
 
                 return message;
             }
 
-            fout6 << "\tr49 distribution version " << r49version.toStdString();
-            fout6 << "\t\tReport on cycle. " << params.data()->defStandardName(std).toStdString() << "\t\tDateTime: " << mytime << "\n\n";
+            QTextStream fout6(&data6);
+
+            fout6 << "\tr49 distribution version " << r49version;
+            fout6 << "\t\tReport on cycle. " << params.data()->defStandardName(std) << "\t\tDateTime: " << mytime << "\n\n";
 
             fout6 << "Engine                 : ...\n";
-            fout6 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
-                    << t0Mean <<  " oC; B0_mean = "
-                    << B0Mean << " kPa; Ra_mean = "
-                    << RaMean << " %; " << testcondres.toStdString() << "\n";
+            fout6 << fixed << qSetRealNumberPrecision(PRECISION) <<
+                     "Environment parameters : t0_mean = " << t0Mean << " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = " << RaMean << " %; " << testcondres << "\n";
 
             fout6 << "Calculation comments   : ";
 
-            if (!GairVals) {
+            if ( !GairVals ) {
 
                 fout6 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
             }
@@ -1752,7 +1636,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 fout6 << "direct Gair meas; ";
             }
 
-            if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+            if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
                 fout6 << "NOxSample type is dry; ";
             }
@@ -1761,11 +1645,11 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 fout6 << "NOxSample type is wet; ";
             }
 
-            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+            if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-                fout6 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
+                fout6 << fixed << qSetRealNumberPrecision(PRECISION+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
             }
-            else if (params.data()->val_PTcalc() == PTCALC_NO) {
+            else if ( params.data()->val_PTcalc() == PTCALC_NO ) {
 
                 fout6 << "PT was not calculated;\n";
             }
@@ -1774,9 +1658,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 fout6 << "PT calc method is smoke meas based;\n";
             }
 
-            if (CheckMeas) {
+            if ( CheckMeas ) {
 
-                fout6 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
+                fout6 << fixed << qSetRealNumberPrecision(PRECISION) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
             }
             else {
 
@@ -1785,184 +1669,177 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             fout6 << "\n\n";
 
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "n[min-1]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ne_n[kW]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gair[kg/h]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gfuel[kg/h]";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
+                     "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]";
 
-            if (EGRcalc) {
+            if ( EGRcalc ) {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha_res[-]";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha_res[-]";
             }
             else {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha[-]";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha[-]";
             }
 
-            if (smoke == 0) {
+            if ( smoke == 0 ) {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ka[m-1]";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[m-1]";
             }
-            else if (smoke == 1) {
+            else if ( smoke == 1 ) {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ka[%]";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[%]";
             }
             else if (smoke == 2) {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "FSN[-]";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "FSN[-]";
             }
 
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "tauf[s]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdw[g/s]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmdew[g/s]" << "\n";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "tauf[s]" << "qmdw[g/s]" << "qmdew[g/s]" <<
+                     qSetFieldWidth(0) << "\n";
 
             ptrdiff_t n = 0;
             if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-                n = NumberOfPoints - TCycleAddPointsNumber;
+                n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
             }
             else {
 
                 n = NumberOfPoints;
             }
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i];
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                         array_Ne_netto[i] << array_Gair[i] << array_Gfuel[i];
 
-                if (EGRcalc) {
+                if ( EGRcalc ) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i];
+                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha_res[i];
                 }
                 else {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i];
+                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha[i];
                 }
 
-                if (smoke == 0) {
+                if ( smoke == 0 ) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i];
+                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_Ka1m[i];
                 }
-                else if (smoke == 1) {
+                else if ( smoke == 1 ) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i];
+                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_KaPerc[i];
                 }
-                else if (smoke == 2) {
+                else if ( smoke == 2 ) {
 
-                    fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i];
+                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_FSN[i];
                 }
 
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_tauf[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdw[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_qmdew[i] << "\n";
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_tauf[i];
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                         array_qmdw[i] << array_qmdew[i] <<
+                         qSetFieldWidth(0) << "\n";
             }
 
             fout6 << "\n";
 
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "rd[-]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "qmedf[kg/h]";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "msepi[g]" << "\n";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]" << "rd[-]" << "qmedf[kg/h]" << "msepi[g]" <<
+                     qSetFieldWidth(0) << "\n";
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_rd[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_qmedf[i];
-                fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_msepi[i] << "\n";
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1);
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_rd[i];
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_qmedf[i];
+                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_msepi[i] <<
+                         qSetFieldWidth(0) << "\n";
             }
 
             fout6 << "\n";
 
-            fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << " ";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limitation";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "CalcResult";
-            fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "Conclusion\n";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limitation" << "CalcResult" << "Conclusion" <<
+                     qSetFieldWidth(0) << "\n";
 
             double gPTLimit = 0;
             gPTLimit = val_PTLimit(std);
 
-            fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
-            fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gPTLimit;
-            fout6 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gPT;
+            fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                     gPTLimit << gPT;
 
             if ( (gPT < gPTLimit) || (gPT == gPTLimit) ) {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "OK\n";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK" << qSetFieldWidth(0) << "\n";
             }
             else {
 
-                fout6 << right << setw(WidthOfColumn-1) << setfill(' ') << "failed\n";
+                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed" << qSetFieldWidth(0) << "\n";
             }
 
-            fout6 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPTs[g/kWh]";
-            fout6 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << "\n\n";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+            fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2) << qSetRealNumberPrecision(PRECISION+1) << gPTs << qSetFieldWidth(0) << "\n\n";
 
-            fout6.close();
+            data6.close();
 
-            message += "libtoxic: Report file \"" + QString::fromStdString(ReportFileNamePT) + "\" created.\n";
-            qDebug() << "libtoxic: Report file" << QString::fromStdString(ReportFileNamePT) << "created.";
+            message += "libtoxic: Report file \"" + reportFileNamePT + "\" created.\n";
+            qDebug() << "libtoxic: Report file" << reportFileNamePT << "created.";
         }
 
         //
 
-        string ReportFileNameGAS;
+        QString reportFileNameGAS;
 
         if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
              (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
              (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
              (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-            ReportFileNameGAS = "Report96_GAS_" + mytime + ".txt";
+            reportFileNameGAS = "Report96_GAS_" + mytime + ".txt";
         }
         else if (std == STD_OST) {
 
-            ReportFileNameGAS = "ReportOST_GAS_" + mytime + ".txt";
+            reportFileNameGAS = "ReportOST_GAS_" + mytime + ".txt";
         }
         else if (std == STD_GOST) {
 
-            ReportFileNameGAS = "ReportGOST_GAS_" + mytime + ".txt";
+            reportFileNameGAS = "ReportGOST_GAS_" + mytime + ".txt";
         }
         else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
                   (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
                   (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-            ReportFileNameGAS = "ReportGOST51249_GAS_" + mytime + ".txt";
+            reportFileNameGAS = "ReportGOST51249_GAS_" + mytime + ".txt";
         }
         else {
 
-            ReportFileNameGAS = "Report49_GAS_" + mytime + ".txt";
+            reportFileNameGAS = "Report49_GAS_" + mytime + ".txt";
         }
 
-        QString repgas = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + QString::fromStdString(ReportFileNameGAS);
-        ofstream fout5(repgas.toAscii());
+        QString repgas = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + reportFileNameGAS;
 
-        if (!fout5) {
+        QFile data5(repgas);
 
-            message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout5 was not created!\n";
-            qDebug() << Q_FUNC_INFO << ":::" << "fout5 was not created!";
+        if ( !data5.open(QFile::WriteOnly) ) {
+
+            message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data6 to write!\n";
+            qDebug() << Q_FUNC_INFO << ":::" << "Can not open data6 to write!";
 
             return message;
         }
 
-        fout5 << "r49 distribution version " << r49version.toStdString();
-        fout5 << "     Report on cycle. " << params.data()->defStandardName(std).toStdString() << "     DateTime: " << mytime << "\n\n";
+        QTextStream fout5(&data5);
+
+        fout5 << "r49 distribution version " << r49version;
+        fout5 << "     Report on cycle. " << params.data()->defStandardName(std) << "     DateTime: " << mytime << "\n\n";
 
         fout5 << "Engine                 : ...\n";
-        fout5 << fixed << setprecision(Precision) << "Environment parameters : t0_mean = "
-                << t0Mean <<  " oC; B0_mean = "
-                << B0Mean << " kPa; Ra_mean = "
-                << RaMean << " %; " << testcondres.toStdString() << "\n";
+        fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "Environment parameters : t0_mean = " << t0Mean <<  " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = " << RaMean << " %; " << testcondres << "\n";
 
         fout5 << "Calculation comments   : ";
 
-        if (!GairVals) {
+        if ( !GairVals ) {
 
             fout5 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
         }
@@ -1971,7 +1848,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             fout5 << "direct Gair meas; ";
         }
 
-        if (params.data()->val_NOxSample() == NOXSAMPLE_DRY) {
+        if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
             fout5 << "NOxSample type is dry; ";
         }
@@ -1980,11 +1857,11 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             fout5 << "NOxSample type is wet; ";
         }
 
-        if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+        if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-            fout5 << fixed << setprecision(Precision+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
+            fout5 << fixed << qSetRealNumberPrecision(PRECISION+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
         }
-        else if (params.data()->val_PTcalc() == PTCALC_NO) {
+        else if ( params.data()->val_PTcalc() == PTCALC_NO ) {
 
             fout5 << "PT was not calculated;\n";
         }
@@ -1993,9 +1870,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             fout5 << "PT calc method is smoke meas based;\n";
         }
 
-        if (CheckMeas) {
+        if ( CheckMeas ) {
 
-            fout5 << fixed << setprecision(Precision) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
+            fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
         }
         else {
 
@@ -2004,299 +1881,290 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         fout5 << "\n\n";
 
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "n[min-1]";
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ne_n[kW]";
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gair[kg/h]";
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gfuel[kg/h]";
+        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
+                 "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]";
 
-        if (EGRcalc) {
+        if ( EGRcalc ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha_res[-]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha_res[-]";
         }
         else {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha[-]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha[-]";
         }
 
-        if (smoke == 0) {
+        if ( smoke == 0 ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ka[m-1]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[m-1]";
         }
         else if (smoke == 1) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ka[%]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[%]";
         }
         else if (smoke == 2) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "FSN[-]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "FSN[-]";
         }
 
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_NOx[ppm]";
+        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_NOx[ppm]";
 
         if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
              (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mNOx[g/h]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOx[g/kWh]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mNOx[g/h]" << "gNOx[g/kWh]";
         }
 
-        fout5 << "\n";
+        fout5 << qSetFieldWidth(0) << "\n";
 
         ptrdiff_t n = 0;
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
-            n = NumberOfPoints - TCycleAddPointsNumber;
+            n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
         else {
 
             n = NumberOfPoints;
         }
 
-        for (ptrdiff_t i=0; i<n; i++) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << (i + 1);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(0) << array_n[i];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[i];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[i];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[i];
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                     array_Ne_netto[i] << array_Gair[i] << array_Gfuel[i];
 
-            if (EGRcalc) {
+            if ( EGRcalc ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha_res[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha_res[i];
             }
             else {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha[i];
             }
 
-            if (smoke == 0) {
+            if ( smoke == 0 ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_Ka1m[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_Ka1m[i];
             }
-            else if (smoke == 1) {
+            else if ( smoke == 1 ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_KaPerc[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_KaPerc[i];
             }
-            else if (smoke == 2) {
+            else if ( smoke == 2 ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_FSN[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_FSN[i];
             }
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CNOx[i];
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CNOx[i];
 
             if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                  (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mNOx[i];
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gNOx[i];
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                         array_mNOx[i] << array_gNOx[i];
             }
 
-            fout5 << "\n";
+            fout5 << qSetFieldWidth(0) << "\n";
         }
 
         fout5 << "\n";
 
         if ( (!EGRcalc) && (!CheckMeas) ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]";
 
-            if (gCOcalc) {
+            if ( gCOcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CO[ppm]";
             }
 
             if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                  (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                if (gCOcalc) {
+                if ( gCOcalc ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mCO[g/h]";
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gCO[g/kWh]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCO[g/h]" << "gCO[g/kWh]";
                 }
             }
 
-            if (gCHcalc) {
+            if ( gCHcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CH[ppm]";
             }
 
             if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                  (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                if (gCHcalc) {
+                if ( gCHcalc ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mCH[g/h]";
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gCH[g/kWh]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCH[g/h]" << "gCH[g/kWh]";
                 }
             }
 
-            if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
+            if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mPTs[g/h]";
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gPTs[g/kWh]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mPTs[g/h]" << "gPTs[g/kWh]";
                 }
             }
 
-            fout5 << "\n";
+            fout5 << qSetFieldWidth(0) << "\n";
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (i + 1);
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << (i + 1);
 
-                if (gCOcalc) {
+                if ( gCOcalc ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCO[i];
                 }
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    if (gCOcalc) {
+                    if ( gCOcalc ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCO[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                                 array_mCO[i] << array_gCO[i];
                     }
                 }
 
-                if (gCHcalc) {
+                if ( gCHcalc ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCH[i];
                 }
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    if (gCHcalc) {
+                    if ( gCHcalc ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_gCH[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                                 array_mCH[i] << array_gCH[i];
                     }
                 }
 
-                if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
+                if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
                     if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                          (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mPT[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_gPT[i];
                     }
                 }
 
-                fout5 << "\n";
+                fout5 << qSetFieldWidth(0) << "\n";
             }
         }
         else {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]";
 
-            if (gCOcalc) {
+            if ( gCOcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CO[ppm]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CO[ppm]";
             }
 
             if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                  (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                if (gCOcalc) {
+                if ( gCOcalc ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mCO[g/h]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCO[g/h]";
                 }
             }
 
-            if (gCHcalc) {
+            if ( gCHcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "C_CH[ppm]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CH[ppm]";
             }
 
             if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                  (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                if (gCHcalc) {
+                if ( gCHcalc ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mCH[g/h]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCH[g/h]";
                 }
             }
 
-            if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
+            if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "mPTs[g/h]";
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gPTs[g/kWh]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mPTs[g/h]";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "gPTs[g/kWh]";
                 }
             }
 
-            if (EGRcalc) {
+            if ( EGRcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "rEGR[%]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "rEGR[%]";
             }
 
-            if (CheckMeas) {
+            if ( CheckMeas ) {
 
-                fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff_alpha[%]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "diff_alpha[%]";
             }
 
-            fout5 << "\n";
+            fout5 << qSetFieldWidth(0) << "\n";
 
-            for (ptrdiff_t i=0; i<n; i++) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (i + 1);
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << (i + 1);
 
-                if (gCOcalc) {
+                if ( gCOcalc ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCO[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCO[i];
                 }
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    if (gCOcalc) {
+                    if ( gCOcalc ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCO[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mCO[i];
                     }
                 }
 
-                if (gCHcalc) {
+                if ( gCHcalc ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_CCH[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCH[i];
                 }
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                      (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                    if (gCHcalc) {
+                    if ( gCHcalc ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mCH[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mCH[i];
                     }
                 }
 
-                if (params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE) {
+                if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
                     if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
                          (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
 
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_mPT[i];
-                        fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << array_gPT[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mPT[i];
+                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_gPT[i];
                     }
                 }
 
-                if (EGRcalc) {
+                if ( EGRcalc ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_rEGR[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN - 1) << qSetRealNumberPrecision(PRECISION) << array_rEGR[i];
                 }
 
-                if (CheckMeas) {
+                if ( CheckMeas ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn - 1) << setfill(' ') << setprecision(Precision) << array_diff_alpha[i];
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN - 1) << qSetRealNumberPrecision(PRECISION) << array_diff_alpha[i];
                 }
 
-                fout5 << "\n";
+                fout5 << qSetFieldWidth(0) << "\n";
             }
         }
 
@@ -2307,82 +2175,61 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             fout5 << "Additional points:\n\n";
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Point[-]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "n[min-1]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Ne_n[kW]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gair[kg/h]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Gfuel[kg/h]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "alpha[-]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOm[g/kWh]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "gNOc[g/kWh]";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "diff[%]\n";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
+                     "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]" <<
+                     "alpha[-]" << "gNOm[g/kWh]" << "gNOc[g/kWh]" << "diff[%]" <<
+                     qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 2);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 3];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 3];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 3];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 3];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 3];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1m;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx1c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx1 << "\n";
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                     (TCYCLEPOINTSNUMBER-2) << array_n[TCYCLEPOINTSNUMBER-3] << array_Ne_netto[TCYCLEPOINTSNUMBER-3] <<
+                     array_Gair[TCYCLEPOINTSNUMBER-3] << array_Gfuel[TCYCLEPOINTSNUMBER-3] << array_alpha[TCYCLEPOINTSNUMBER-3] <<
+                     gNOx1m << gNOx1c << diffNOx1 <<
+                     qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber - 1);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 2];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 2];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 2];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 2];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 2];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2m;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx2c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx2 << "\n";
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                     (TCYCLEPOINTSNUMBER-1) << array_n[TCYCLEPOINTSNUMBER-2] << array_Ne_netto[TCYCLEPOINTSNUMBER-2] <<
+                     array_Gair[TCYCLEPOINTSNUMBER-2] << array_Gfuel[TCYCLEPOINTSNUMBER-2] << array_alpha[TCYCLEPOINTSNUMBER-2] <<
+                     gNOx2m << gNOx2c << diffNOx2 <<
+                     qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << (TCyclePointsNumber);
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_n[TCyclePointsNumber - 1];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Ne_netto[TCyclePointsNumber - 1];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gair[TCyclePointsNumber - 1];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_Gfuel[TCyclePointsNumber - 1];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << array_alpha[TCyclePointsNumber - 1];
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3m;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << gNOx3c;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision) << diffNOx3 << "\n";
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                     (TCYCLEPOINTSNUMBER) << array_n[TCYCLEPOINTSNUMBER-1] << array_Ne_netto[TCYCLEPOINTSNUMBER-1] <<
+                     array_Gair[TCYCLEPOINTSNUMBER-1] << array_Gfuel[TCYCLEPOINTSNUMBER-1] << array_alpha[TCYCLEPOINTSNUMBER-1] <<
+                     gNOx3m << gNOx3c << diffNOx3 <<
+                     qSetFieldWidth(0) << "\n";
 
             fout5 << "\n";
         }
 
         fout5 << "Specific emissions:\n\n";
 
-        fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << " ";
+        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
 
         if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
              (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
              (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old)";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (new)";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limit (old)" << "Limit (new)";
         }
-        else if (std == STD_GOST) {
+        else if ( std == STD_GOST ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old1)";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (old2)";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (new1)";
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limit (new2)";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limit (old1)" << "Limit (old2)" << "Limit (new1)" << "Limit (new2)";
         }
         else {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Limitation";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limitation";
         }
 
-        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "CalcResult";
+        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "CalcResult";
 
         if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
              (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
              (std != STD_F) && (std != STD_G1) && (std != STD_G2) && (std != STD_GOST) ) {
 
-            fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "Conclusion";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Conclusion";
         }
 
-        fout5 << "\n";
+        fout5 << qSetFieldWidth(0) << "\n";
 
         double gNOxLimit   = 0;
         double gNOxLimit1  = 0;
@@ -2409,32 +2256,36 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             gCOLimit = val_COLimit(std);
             gPTLimit = val_PTLimit(std);
 
-            fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gNOx+gCH[g/kWh]";
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxCHLimit;
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOx+gCH;
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx+gCH[g/kWh]";
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                     gNOxCHLimit << gNOx+gCH;
 
             if ( ( (gNOx+gCH) < gNOxCHLimit) || ( (gNOx+gCH) == gNOxCHLimit) ) {
 
-                fout5 << right << setw(WidthOfColumn) << setfill(' ') << "OK\n";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "OK" <<
+                         qSetFieldWidth(0) << "\n";
             }
             else {
 
-                fout5 << right << setw(WidthOfColumn) << setfill(' ') << "failed\n";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "failed" <<
+                         qSetFieldWidth(0) << "\n";
             }
 
-            if (gCOcalc) {
+            if ( gCOcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gCO[g/kWh]";
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCO;
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                         gCOLimit << gCO;
 
                 if ( (gCO < gCOLimit) || (gCO == gCOLimit) ) {
 
-                    fout5 << right << setw(WidthOfColumn) << setfill(' ') << "OK\n";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "OK" <<
+                             qSetFieldWidth(0) << "\n";
                 }
                 else {
 
-                    fout5 << right << setw(WidthOfColumn) << setfill(' ') << "failed\n";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "failed" <<
+                             qSetFieldWidth(0) << "\n";
                 }
             }
         }
@@ -2503,28 +2354,26 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 gPTLimit = val_PTLimit(std);
             }
 
-            fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gNOx[g/kWh]";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx[g/kWh]";
 
             if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit1;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit2;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                         gNOxLimit1 << gNOxLimit2;
             }
-            else if (std == STD_GOST) {
+            else if ( std == STD_GOST ) {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit1;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit2;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit3;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit4;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                         gNOxLimit1 << gNOxLimit2 << gNOxLimit3 << gNOxLimit4;
             }
             else {
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOxLimit;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gNOxLimit;
             }
 
-            fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gNOx;
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gNOx;
 
             if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                  (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
@@ -2532,40 +2381,38 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
                 if ( (gNOx < gNOxLimit) || (gNOx == gNOxLimit) ) {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "OK";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
                 }
                 else {
 
-                    fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "failed";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
                 }
             }
 
-            fout5 << "\n";
+            fout5 << qSetFieldWidth(0) << "\n";
 
-            if (gCOcalc) {
+            if ( gCOcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gCO[g/kWh]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
 
                 if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
                      (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
                      (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit1;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit2;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                             gCOLimit1 << gCOLimit2;
                 }
-                else if (std == STD_GOST) {
+                else if ( std == STD_GOST ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit1;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit2;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit3;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit4;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                             gCOLimit1 << gCOLimit2 << gCOLimit3 << gCOLimit4;
                 }
                 else {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCOLimit;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCOLimit;
                 }
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCO;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCO;
 
                 if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                      (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
@@ -2573,41 +2420,39 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
                     if ( (gCO < gCOLimit) || (gCO == gCOLimit) ) {
 
-                        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "OK";
+                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
                     }
                     else {
 
-                        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "failed";
+                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
                     }
                 }
 
-                fout5 << "\n";
+                fout5 << qSetFieldWidth(0) << "\n";
             }
 
-            if (gCHcalc) {
+            if ( gCHcalc ) {
 
-                fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gCH[g/kWh]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCH[g/kWh]";
 
                 if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
                      (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
                      (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit1;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit2;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                             gCHLimit1 << gCHLimit2;
                 }
-                else if (std == STD_GOST) {
+                else if ( std == STD_GOST ) {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit1;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit2;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit3;
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit4;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                             gCHLimit1 << gCHLimit2 << gCHLimit3 << gCHLimit4;
                 }
                 else {
 
-                    fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCHLimit;
+                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCHLimit;
                 }
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gCH;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCH;
 
                 if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                      (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
@@ -2615,15 +2460,15 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
                     if ( (gCH < gCHLimit) || (gCH == gCHLimit) ) {
 
-                        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "OK";
+                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
                     }
                     else {
 
-                        fout5 << right << setw(WidthOfColumn-1) << setfill(' ') << "failed";
+                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
                     }
                 }
 
-                fout5 << "\n";
+                fout5 << qSetFieldWidth(0) << "\n";
             }
         }
 
@@ -2632,84 +2477,88 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                                                              (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
                                                              (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) ) {
 
-            if (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) {
+            if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-                fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPT[g/kWh]";
+                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gPTLimit;
-                fout5 << fixed << right << setw(WidthOfColumn-1) << setfill(' ') << setprecision(Precision+1) << gPT;
+                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
+                         gPTLimit << gPT;
 
                 if ( (gPT < gPTLimit) || (gPT == gPTLimit) ) {
 
-                    fout5 << right << setw(WidthOfColumn) << setfill(' ') << "OK\n";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK" <<
+                             qSetFieldWidth(0) << "\n";
                 }
                 else {
 
-                    fout5 << right << setw(WidthOfColumn) << setfill(' ') << "failed\n";
+                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed" <<
+                             qSetFieldWidth(0) << "\n";
                 }
             }
 
-            fout5 << right << setw(WidthOfColumn-1+2) << setfill(' ') << "gPTs[g/kWh]";
-            fout5 << fixed << right << setw(WidthOfColumn+WidthOfColumn-2) << setfill(' ') << setprecision(Precision+1) << gPTs << "\n";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2) << qSetRealNumberPrecision(PRECISION+1) << gPTs <<
+                     qSetFieldWidth(0) << "\n";
         }
 
         fout5 << "\n";
 
-        fout5 << fixed << setprecision(Precision) << "Mean specific fuel consumption: " << geMean << " g/kWh\n";
+        fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "Mean specific fuel consumption: " << geMean << " g/kWh\n";
 
-        fout5.close();
+        data5.close();
 
-        message += "libtoxic: Report file \"" + QString::fromStdString(ReportFileNameGAS) + "\" created.\n";
-        qDebug() << "libtoxic: Report file" << QString::fromStdString(ReportFileNameGAS) << "created.";
+        message += "libtoxic: Report file \"" + reportFileNameGAS + "\" created.\n";
+        qDebug() << "libtoxic: Report file" << reportFileNameGAS << "created.";
     }
 
     //
 
-    string CalcConfigFileName = mytime + ".conf";
+    QString calcConfigFileName = mytime + ".conf";
 
-    QString calcparam = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + QString::fromStdString(CalcConfigFileName);
-    ofstream fout7(calcparam.toAscii());
+    QString calcparam = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + calcConfigFileName;
 
-    if (!fout7) {
+    QFile data7(calcparam);
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "fout7 was not created!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "fout7 was not created!";
+    if ( !data7.open(QFile::WriteOnly) ) {
+
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data7 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data7 to write!";
 
         return message;
     }
 
-    string paramValDelim = parameterValueDelimiter.toStdString();
+    QTextStream fout7(&data7);
 
-    fout7 << "task"           << paramValDelim << params.data()->val_Task()                         << "\n";
-    fout7 << "Vh"             << paramValDelim << params.data()->val_Vh()                           << "\n";
-    fout7 << "standard"       << paramValDelim << params.data()->val_Standard()                     << "\n";
-    fout7 << "ChargingType"   << paramValDelim << params.data()->val_ChargingType()                 << "\n";
-    fout7 << "FuelType"       << paramValDelim << params.data()->val_FuelType()                     << "\n";
-    fout7 << "NOxSample"      << paramValDelim << params.data()->val_NOxSample()                    << "\n";
-    fout7 << "PTcalc"         << paramValDelim << params.data()->val_PTcalc()                       << "\n";
-    fout7 << "PTmass"         << paramValDelim << params.data()->val_PTmass()                       << "\n";
-    fout7 << "AddPointsCalc"  << paramValDelim << params.data()->val_AddPointsCalc()                << "\n";
-    fout7 << "CalcConfigFile" << paramValDelim << params.data()->val_CalcConfigFile().toStdString() << "\n";
+    fout7 << "task"           << PARAMETERVALUEDELIMITER << params.data()->val_Task()           << "\n" <<
+             "Vh"             << PARAMETERVALUEDELIMITER << params.data()->val_Vh()             << "\n" <<
+             "standard"       << PARAMETERVALUEDELIMITER << params.data()->val_Standard()       << "\n" <<
+             "ChargingType"   << PARAMETERVALUEDELIMITER << params.data()->val_ChargingType()   << "\n" <<
+             "FuelType"       << PARAMETERVALUEDELIMITER << params.data()->val_FuelType()       << "\n" <<
+             "NOxSample"      << PARAMETERVALUEDELIMITER << params.data()->val_NOxSample()      << "\n" <<
+             "PTcalc"         << PARAMETERVALUEDELIMITER << params.data()->val_PTcalc()         << "\n" <<
+             "PTmass"         << PARAMETERVALUEDELIMITER << params.data()->val_PTmass()         << "\n" <<
+             "AddPointsCalc"  << PARAMETERVALUEDELIMITER << params.data()->val_AddPointsCalc()  << "\n" <<
+             "CalcConfigFile" << PARAMETERVALUEDELIMITER << params.data()->val_CalcConfigFile() << "\n";
 
-    fout7.close();
+    data7.close();
 
-    message += "libtoxic: Calculation config file \"" + QString::fromStdString(CalcConfigFileName) + "\" created.\n";
-    qDebug() << "libtoxic: Calculation config file" << QString::fromStdString(CalcConfigFileName) << "created.";
+    message += "libtoxic: Calculation config file \"" + calcConfigFileName + "\" created.\n";
+    qDebug() << "libtoxic: Calculation config file" << calcConfigFileName << "created.";
 
     //
 
-    if (std != STD_FREECALC) {
+    if ( std != STD_FREECALC ) {
 
         message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
         qDebug() << "\ngNOx =" << gNOx << "g/kWh";
 
-        if (gCOcalc) {
+        if ( gCOcalc ) {
 
             message += "gCO = " + QString::number(gCO) + " g/kWh\n";
             qDebug() << "gCO =" << gCO << "g/kWh";
         }
 
-        if (gCHcalc) {
+        if ( gCHcalc ) {
 
             message += "gCH = " + QString::number(gCH) + " g/kWh\n";
             qDebug() << "gCH =" << gCH << "g/kWh";
@@ -2717,9 +2566,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         ptrdiff_t ptcalc = params.data()->val_PTcalc();
 
-        if (ptcalc != PTCALC_NO) {
+        if ( ptcalc != PTCALC_NO ) {
 
-            if (ptcalc == PTCALC_THROUGHPTMASS) {
+            if ( ptcalc == PTCALC_THROUGHPTMASS ) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
                 qDebug() << "gPT =" << gPT << "g/kWh";

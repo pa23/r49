@@ -33,7 +33,6 @@ public:
 
     bool readConfigFile(const QString &);
 
-    QString val_csvDelimiter() const;
     QString val_filenameSourceEU3() const;
     QString val_filenameSourceEU0() const;
     QString val_filenamePoints() const;
@@ -58,7 +57,6 @@ private:
     CommonParameters(const CommonParameters &orig);
     CommonParameters &operator =(const CommonParameters &);
 
-    QString csvDelimiter;
     QString filenameSourceEU3;
     QString filenameSourceEU0;
     QString filenamePoints;

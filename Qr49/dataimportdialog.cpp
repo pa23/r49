@@ -40,8 +40,8 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
         ui(new Ui::DataImportDialog),
         delimiter("\t"),
         headerLines(2),
-        table_points_headers("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-]"),
-        table_fullLoadCurve_headers("Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW]"),
+        table_points_headers("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]"),
+        table_fullLoadCurve_headers("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]"),
         dataDirName(QDir::currentPath()),
         table_lid(0),
         dtable(0) {
@@ -165,11 +165,11 @@ void DataImportDialog::combosUpdate(QString str) {
 
         if (table_lid == 2) {
 
-            ui->comboBox_r49parameter->addItems(table_points_headers.split(";"));
+            ui->comboBox_r49parameter->addItems(table_points_headers.split(" "));
         }
         else if (table_lid == 3) {
 
-            ui->comboBox_r49parameter->addItems(table_fullLoadCurve_headers.split(";"));
+            ui->comboBox_r49parameter->addItems(table_fullLoadCurve_headers.split(" "));
         }
         else {
 

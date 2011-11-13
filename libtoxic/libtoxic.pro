@@ -9,9 +9,7 @@ SOURCES += sources/reducedpower.cpp \
     sources/cyclepoints.cpp \
     sources/cycleemissions.cpp \
     sources/commonparameters.cpp \
-    sources/csvread.cpp \
-    sources/datetime.cpp \
-    sources/stringoperations.cpp
+    sources/csvread.cpp
 HEADERS += sources/reducedpower.h \
     sources/precalc.h \
     sources/libtoxicparameters.h \
@@ -21,11 +19,10 @@ HEADERS += sources/reducedpower.h \
     sources/cycleemissions.h \
     sources/commonparameters.h \
     sources/csvread.h \
-    sources/datetime.h \
-    sources/stringoperations.h \
     ../r49.h
-INCLUDEPATH += ..
 unix: {
+    INCLUDEPATH += ..
+        #/usr/include/c++/4.6
     DESTDIR = build/unix/bin
     RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
@@ -36,6 +33,8 @@ unix: {
     }
 }
 win32: {
+    INCLUDEPATH += ..
+        #C:\\MinGW32\\lib\\gcc\\mingw32\\4.5.2\\include\\c++
     DESTDIR = build\\win\\bin
     RCC_DIR = build\\win\\rc
     CONFIG (debug, debug|release) {
@@ -45,3 +44,7 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
+
+
+
+

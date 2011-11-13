@@ -32,7 +32,6 @@
 #include <QIODevice>
 
 CommonParameters::CommonParameters() :
-        csvDelimiter      (";"),
         filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
         filenameSourceEU0 ("TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
         filenamePoints    ("TempSourceData/SourceData2-CyclePoints.csv"),
@@ -80,7 +79,7 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
 
     QString s;
     QStringList elements;
-    QRegExp rx(commentPattern);
+    QRegExp rx(COMMENTPATTERN);
 
     while ( !configFile.atEnd() ) {
 
@@ -88,10 +87,9 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
 
         if ( (!s.isEmpty()) && (!s.isNull()) && (!s.contains(rx)) ) {
 
-            elements = s.split(parameterValueDelimiter, QString::SkipEmptyParts);
+            elements = s.split(PARAMETERVALUEDELIMITER, QString::SkipEmptyParts);
 
-            if      ( elements[0] == "csvdelimiter"      ) { csvDelimiter      = elements[1]; }
-            else if ( elements[0] == "filenameSourceEU3" ) { filenameSourceEU3 = elements[1]; }
+            if      ( elements[0] == "filenameSourceEU3" ) { filenameSourceEU3 = elements[1]; }
             else if ( elements[0] == "filenameSourceEU0" ) { filenameSourceEU0 = elements[1]; }
             else if ( elements[0] == "filenamePoints"    ) { filenamePoints    = elements[1]; }
             else if ( elements[0] == "filenamePowers"    ) { filenamePowers    = elements[1]; }
@@ -129,33 +127,33 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
 
     fileinfo.setFile(filenameSourceEU3);
 
-    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
 
         dir.mkdir(fileinfo.absoluteDir().absolutePath());
     }
 
     fileinfo.setFile(filenameSourceEU0);
 
-    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
 
         dir.mkdir(fileinfo.absoluteDir().absolutePath());
     }
 
     fileinfo.setFile(filenamePoints);
 
-    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
 
         dir.mkdir(fileinfo.absoluteDir().absolutePath());
     }
 
     fileinfo.setFile(filenamePowers);
 
-    if (!dir.exists(fileinfo.absoluteDir().absolutePath())) {
+    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
 
         dir.mkdir(fileinfo.absoluteDir().absolutePath());
     }
 
-    if (!dir.exists(dirnameReports)) {
+    if ( !dir.exists(dirnameReports) ) {
 
         dir.mkdir(dirnameReports);
     }
@@ -165,7 +163,6 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
     return true;
 }
 
-QString CommonParameters::val_csvDelimiter      () const { return csvDelimiter;      }
 QString CommonParameters::val_filenameSourceEU3 () const { return filenameSourceEU3; }
 QString CommonParameters::val_filenameSourceEU0 () const { return filenameSourceEU0; }
 QString CommonParameters::val_filenamePoints    () const { return filenamePoints;    }

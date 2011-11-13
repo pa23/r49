@@ -22,8 +22,6 @@
 #ifndef PRECALC_H
 #define	PRECALC_H
 
-#include <iostream>
-
 #include <QVector>
 
 bool calcABC(const double &, const double &, double *, double *, double *, double *, double *, double *, double *);
@@ -35,6 +33,6 @@ double KaPerc2Ka1m(const double &, const double &);
 
 double val_Pa(const double &);
 
-bool nonZeroArray(QVector<double>);
+bool nonZeroArray(const QVector<double> &);
 
 #endif	/* PRECALC_H */

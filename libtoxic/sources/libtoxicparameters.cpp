@@ -98,7 +98,7 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
     QString s;
     QStringList elements;
-    QRegExp rx(commentPattern);
+    QRegExp rx(COMMENTPATTERN);
 
     while ( !calcConfigFile.atEnd() ) {
 
@@ -106,7 +106,7 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
         if ( (!s.isEmpty()) && (!s.isNull()) && (!s.contains(rx)) ) {
 
-            elements = s.split(parameterValueDelimiter, QString::SkipEmptyParts);
+            elements = s.split(PARAMETERVALUEDELIMITER, QString::SkipEmptyParts);
 
             if      (elements[0] == "task"          ) { task = defTask(elements[1]);                   }
             else if (elements[0] == "Vh"            ) { Vh = (elements[1]).toDouble();                 }

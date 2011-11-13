@@ -80,9 +80,9 @@ void csvRead::readFile() {
 
     QVector<double> row;
 
-    for (ptrdiff_t i=headerLinesNumber; i<data.size(); i++) {
+    for ( ptrdiff_t i=headerLinesNumber; i<data.size(); i++ ) {
 
-        for (ptrdiff_t j=0; j<data.at(i).size(); j++) {
+        for ( ptrdiff_t j=0; j<data.at(i).size(); j++ ) {
 
             row.push_back( data.at(i).at(j).toDouble() );
         }
@@ -96,6 +96,11 @@ void csvRead::readFile() {
     if ( !data.isEmpty() ) {
 
         headers = data.at(0);
+
+        for ( ptrdiff_t i=0; i<headers.size(); i++ ) {
+
+            headers[i] = headers[i].trimmed();
+        }
     }
 }
 

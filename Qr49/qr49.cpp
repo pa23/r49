@@ -40,7 +40,6 @@
 #include "cycleemissions.h"
 #include "reducedpower.h"
 #include "commonparameters.h"
-#include "stringoperations.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -63,6 +62,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
 
@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    this->setWindowTitle(qr49version);
+    this->setWindowTitle(QR49VERSION);
 
     contextMenu->addMenu(ui->menuFile);
     contextMenu->addMenu(ui->menuEdit);
@@ -312,7 +312,7 @@ void MainWindow::setDoubleValidators() {
 
 void MainWindow::readPreferences() {
 
-    if (!config.data()->readConfigFile(configFileName)) {
+    if (!config.data()->readConfigFile(CONFIGFILENAME)) {
 
         QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false! Default values will be used."), 0, 0, 0);
     }
@@ -404,11 +404,11 @@ bool MainWindow::fillTableEU0(QString filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
+    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData();
 
-    if (arraySourceDataEU0.at(0).size() != EU0SrcDataParamsNumber) {
+    if (arraySourceDataEU0.at(0).size() != EU0SRCDATAPARAMSNUMBER) {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
@@ -429,11 +429,11 @@ bool MainWindow::fillTableEU3(QString filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
+    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData();
 
-    if (arraySourceDataEU3.at(0).size() != EU3SrcDataParamsNumber) {
+    if (arraySourceDataEU3.at(0).size() != EU3SRCDATAPARAMSNUMBER) {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
@@ -451,11 +451,11 @@ bool MainWindow::fillTableEU3(QString filename) {
 
 bool MainWindow::fillTablePoints(QString filename) {
 
-    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
+    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData();
 
-    if (arraySourceDataPoints.at(0).size() != PointsFileColumnsNumber) {
+    if (arraySourceDataPoints.at(0).size() != POINTSFILECOLUMNSNUMBER) {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
@@ -486,11 +486,11 @@ bool MainWindow::fillTablePoints(QString filename) {
 
 bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
-    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, config.data()->val_csvDelimiter(), StrsNumberForColumnCaption));
+    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData();
 
-    if (arrayFullLoadCurve.at(0).size() != PowersFileColumnsNumber) {
+    if (arrayFullLoadCurve.at(0).size() != POWERSFILECOLUMNSNUMBER) {
 
         QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Incorrect source data!"), 0, 0, 0);
 
@@ -758,12 +758,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU0File.write("idle[min-1];n_interim[min-1];n_rated[min-1];N_fan_rated[kW];Ne_interim[Nm];Ne_rated[Nm];\n");
+        SrcDataEU0File.write("idle[min-1] n_interim[min-1] n_rated[min-1] N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
 
-        for (ptrdiff_t j=0; j<EU0SrcDataParamsNumber; j++) {
+        for (ptrdiff_t j=0; j<EU0SRCDATAPARAMSNUMBER; j++) {
 
             SrcDataEU0File.write(ui->tableWidget_SrcDataEU0->item(0, j)->text().toAscii().data());
-            SrcDataEU0File.write(";");
+            SrcDataEU0File.write(" ");
         }
 
         SrcDataEU0File.write("\n");
@@ -783,12 +783,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU3File.write("n_hi[min-1];n_lo[min-1];idle[min-1];n_rated[min-1];N_fan_rated[kW];Ne_A[Nm];Ne_B[Nm];Ne_C[Nm];Ne_a1[Nm];Ne_a2[Nm];Ne_a3[Nm];\n");
+        SrcDataEU3File.write("n_hi[min-1] n_lo[min-1] idle[min-1] n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] Ne_a3[Nm]\n");
 
-        for (ptrdiff_t j=0; j<EU3SrcDataParamsNumber; j++) {
+        for (ptrdiff_t j=0; j<EU3SRCDATAPARAMSNUMBER; j++) {
 
             SrcDataEU3File.write(ui->tableWidget_SrcDataEU3->item(0, j)->text().toAscii().data());
-            SrcDataEU3File.write(";");
+            SrcDataEU3File.write(" ");
         }
 
         SrcDataEU3File.write("\n");
@@ -808,14 +808,14 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPointsFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
+        SrcDataPointsFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]\n");
 
         for (ptrdiff_t i=0; i<ui->tableWidget_SrcDataPoints->rowCount(); i++) {
 
-            for (ptrdiff_t j=0; j<PointsFileColumnsNumber; j++) {
+            for (ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++) {
 
                 SrcDataPointsFile.write(ui->tableWidget_SrcDataPoints->item(i, j)->text().toAscii().data());
-                SrcDataPointsFile.write(";");
+                SrcDataPointsFile.write(" ");
             }
 
             SrcDataPointsFile.write("\n");
@@ -836,14 +836,14 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPowersFile.write("Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW];\n");
+        SrcDataPowersFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]\n");
 
         for (ptrdiff_t i=0; i<ui->tableWidget_FullLoadCurve->rowCount(); i++) {
 
-            for (ptrdiff_t j=0; j<PowersFileColumnsNumber; j++) {
+            for (ptrdiff_t j=0; j<POWERSFILECOLUMNSNUMBER; j++) {
 
                 SrcDataPowersFile.write(ui->tableWidget_FullLoadCurve->item(i, j)->text().toAscii().data());
-                SrcDataPowersFile.write(";");
+                SrcDataPowersFile.write(" ");
             }
 
             SrcDataPowersFile.write("\n");
@@ -876,19 +876,19 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
         if (table == ui->tableWidget_SrcDataEU0) {
 
-            SrcDataFile.write("idle[min-1];n_interim[min-1];n_rated[min-1];N_fan_rated[kW];Ne_interim[Nm];Ne_rated[Nm];\n");
+            SrcDataFile.write("idle[min-1] n_interim[min-1] n_rated[min-1] N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
         }
         else if (table == ui->tableWidget_SrcDataEU3) {
 
-            SrcDataFile.write("n_hi[min-1];n_lo[min-1];idle[min-1];n_rated[min-1];N_fan_rated[kW];Ne_A[Nm];Ne_B[Nm];Ne_C[Nm];Ne_a1[Nm];Ne_a2[Nm];Ne_a3[Nm];\n");
+            SrcDataFile.write("n_hi[min-1] n_lo[min-1] idle[min-1] n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] Ne_a3[Nm]\n");
         }
         else if (table == ui->tableWidget_SrcDataPoints) {
 
-            SrcDataFile.write("Point[-];n[min-1];Me_b[Nm];Ne_b[kW];N_fan[kW];w[-];t0[oC];B0[kPa];Ra[%];dPn[mmH2O];Gair[kg/h];Gfuel[kg/h];C_NOx[ppm];gNOx[g/kWh];C_CO[ppm];C_CH[ppm];C_CO2in[%];C_CO2out[%];C_O2[%];Ka[m-1];Ka[%];FSN[-];Pr[kPa];ts[oC];tauf[s];qmdw[g/s];qmdew[g/s];rd[-];\n");
+            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]\n");
         }
         else if (table == ui->tableWidget_FullLoadCurve) {
 
-            SrcDataFile.write("Point[-];n[min-1];Me_b[Nm];t0[oC];B0[kPa];Ra[%];S[kPa];pk[kPa];Gfuel[kg/h];N_k[kW];N_fan[kW];\n");
+            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]\n");
         }
 
         for (ptrdiff_t i=0; i<table->rowCount(); i++) {
@@ -896,7 +896,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
             for (ptrdiff_t j=0; j<table->columnCount(); j++) {
 
                 SrcDataFile.write(table->item(i, j)->text().toAscii().data());
-                SrcDataFile.write(";");
+                SrcDataFile.write(" ");
             }
 
             SrcDataFile.write("\n");
@@ -959,16 +959,55 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
             return;
         }
 
-        savedOptions.write("task");           savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_task->currentIndex()));             savedOptions.write("\n");
-        savedOptions.write("Vh");             savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_Vh->text().toAscii());             savedOptions.write("\n");
-        savedOptions.write("standard");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_standard->currentIndex()));         savedOptions.write("\n");
-        savedOptions.write("ChargingType");   savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_chargingType->currentIndex()));     savedOptions.write("\n");
-        savedOptions.write("FuelType");       savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_FuelType->currentIndex()));         savedOptions.write("\n");
-        savedOptions.write("NOxSample");      savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_NOxSample->currentIndex()));        savedOptions.write("\n");
-        savedOptions.write("PTcalc");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_PTcalc->currentIndex()));           savedOptions.write("\n");
-        savedOptions.write("PTmass");         savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(ui->lineEdit_PTmass->text().toAscii());         savedOptions.write("\n");
-        savedOptions.write("AddPointsCalc");  savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(numberToCChar(ui->comboBox_AddPointsCalc->currentIndex()));    savedOptions.write("\n");
-        savedOptions.write("CalcConfigFile"); savedOptions.write(parameterValueDelimiter.toAscii()); savedOptions.write(params.data()->val_CalcConfigFile().toAscii()); savedOptions.write("\n");
+        savedOptions.write("task");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_task->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("Vh");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(ui->lineEdit_Vh->text().toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("standard");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_standard->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("ChargingType");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_chargingType->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("FuelType");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_FuelType->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("NOxSample");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_NOxSample->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("PTcalc");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_PTcalc->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("PTmass");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(ui->lineEdit_PTmass->text().toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("AddPointsCalc");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(QString::number(ui->comboBox_AddPointsCalc->currentIndex()).toAscii());
+        savedOptions.write("\n");
+
+        savedOptions.write("CalcConfigFile");
+        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
+        savedOptions.write(params.data()->val_CalcConfigFile().toAscii());
+        savedOptions.write("\n");
 
         savedOptions.close();
     }
@@ -1084,14 +1123,6 @@ void MainWindow::on_action_PrintReport_activated() {
 }
 
 void MainWindow::on_action_Preferences_activated() {
-
-    QComboBox *myComboBox_csvdelimiter = preferencesDialog->findChild<QComboBox *>("comboBox_csvdelimiter");
-
-    if (!myComboBox_csvdelimiter) {
-
-        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
 
     QLineEdit *myLineEdit_filenameSourceEU3 = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
 
@@ -1238,15 +1269,6 @@ void MainWindow::on_action_Preferences_activated() {
     }
 
     //
-
-    for (ptrdiff_t i=0; i<myComboBox_csvdelimiter->count(); i++) {
-
-        if (myComboBox_csvdelimiter->itemText(i) == config.data()->val_csvDelimiter()) {
-
-            myComboBox_csvdelimiter->setCurrentIndex(i);
-            break;
-        }
-    }
 
     myLineEdit_filenameSourceEU3->setText(config.data()->val_filenameSourceEU3());
     myLineEdit_filenameSourceEU0->setText(config.data()->val_filenameSourceEU0());
@@ -1689,10 +1711,13 @@ void MainWindow::on_action_StandardsDescription_activated() {
 
 void MainWindow::on_action_AboutQr49_activated() {
 
-    QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + qr49version + ", libtoxic v" + libtoxicVersion +
+    QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
                   "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
                   "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
                   "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
+                  "<br>Author's blog (RU): "
+                  "<a href= \"http://pa2311.blogspot.com\">"
+                  "http://pa2311.blogspot.com</a>"
                   "<br><br>This program is free software: you can redistribute it and/or modify "
                   "it under the terms of the GNU General Public License as published by "
                   "the Free Software Foundation, either version 3 of the License, or "

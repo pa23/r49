@@ -22,10 +22,10 @@
 #include "emissionlimits.h"
 #include "libtoxicconstants.h"
 
-#include <cmath>
-
 #include <QDebug>
 #include <QString>
+
+#include <cmath>
 
 double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
 
