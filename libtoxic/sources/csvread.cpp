@@ -28,7 +28,9 @@
 #include <QVector>
 #include <QFile>
 
-csvRead::csvRead(const QString &fname, const QString &csvdelim, const ptrdiff_t &hdrLinesNum) {
+csvRead::csvRead(const QString &fname,
+                 const QString &csvdelim,
+                 const ptrdiff_t &hdrLinesNum) {
 
     filename = fname;
     csvdelimiter = csvdelim;

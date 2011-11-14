@@ -34,7 +34,8 @@ class CycleEmissions {
 
 public:
 
-    explicit CycleEmissions(const QSharedPointer<LibtoxicParameters> &, const QSharedPointer<CommonParameters> &);
+    explicit CycleEmissions(const QSharedPointer<LibtoxicParameters> &,
+                            const QSharedPointer<CommonParameters> &);
     virtual ~CycleEmissions();
 
     bool readCSV(const QVector< QVector<double> > &);

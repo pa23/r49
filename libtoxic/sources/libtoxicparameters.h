@@ -33,16 +33,32 @@ public:
     explicit LibtoxicParameters();
     virtual ~LibtoxicParameters();
 
-    void setTask          (const ptrdiff_t &); void setTask         (const QString &);
-    void setVh            (const double    &);
-    void setStandard      (const ptrdiff_t &); void setStandard     (const QString &);
-    void setChargingType  (const ptrdiff_t &); void setChargingType (const QString &);
-    void setFuelType      (const ptrdiff_t &); void setFuelType     (const QString &);
-    void setNOxSample     (const ptrdiff_t &); void setNOxSample    (const QString &);
-    void setPTcalc        (const ptrdiff_t &); void setPTcalc       (const QString &);
-    void setPTmass        (const double    &);
-    void setAddPointsCalc (const ptrdiff_t &); void setAddPointsCalc(const QString &);
-    void setCalcConfigFile(const QString   &);
+    void setTask(const ptrdiff_t &);
+    void setTask(const QString &);
+
+    void setVh(const double &);
+
+    void setStandard(const ptrdiff_t &);
+    void setStandard(const QString &);
+
+    void setChargingType(const ptrdiff_t &);
+    void setChargingType(const QString &);
+
+    void setFuelType(const ptrdiff_t &);
+    void setFuelType(const QString &);
+
+    void setNOxSample(const ptrdiff_t &);
+    void setNOxSample(const QString &);
+
+    void setPTcalc(const ptrdiff_t &);
+    void setPTcalc(const QString &);
+
+    void setPTmass(const double &);
+
+    void setAddPointsCalc(const ptrdiff_t &);
+    void setAddPointsCalc(const QString &);
+
+    void setCalcConfigFile(const QString &);
 
     ptrdiff_t val_Task()           const;
     double    val_Vh()             const;

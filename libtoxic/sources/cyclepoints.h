@@ -33,7 +33,8 @@ class CyclePoints {
 
 public:
 
-    explicit CyclePoints(const QSharedPointer<LibtoxicParameters> &, const QSharedPointer<CommonParameters> &);
+    explicit CyclePoints(const QSharedPointer<LibtoxicParameters> &,
+                         const QSharedPointer<CommonParameters> &);
     virtual ~CyclePoints();
 
     bool readCSV(const QVector< QVector<double> > &);

@@ -39,7 +39,8 @@
 
 #include <cmath>
 
-CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
+CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
+                               const QSharedPointer<CommonParameters> &cfg) :
         NenCalcMethod (true),
         GairVals      (true),
         NOxCalcMethod (true),
@@ -97,8 +98,10 @@ bool CycleEmissions::calculate() {
         return false;
     }
 
-    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) &&
-           (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) && (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) ||
+           (std == STD_EU4) || (std == STD_EU3) ) &&
+         (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) &&
+         (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
 
         if (!calculateAdditionalPoints()) {
 
@@ -155,7 +158,10 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
         QString filenamePoints = config.data()->val_filenamePoints();
 
-        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePoints, " ", STRSNUMBERFORCOLUMNCAPTION));
+        QSharedPointer<csvRead>
+                readerDataForCalc(
+                    new csvRead(filenamePoints, " ", STRSNUMBERFORCOLUMNCAPTION)
+                    );
 
         array_DataForCalc = readerDataForCalc.data()->csvData();
 
@@ -184,7 +190,8 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     if (
             (
                     (
-                            (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3)
+                            (std == STD_EU6) || (std == STD_EU5) ||
+                            (std == STD_EU4) || (std == STD_EU3)
                     ) &&
                     (
                             (addpc == ADDPOINTSCALC_YES)
@@ -195,26 +202,34 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
             ) ||
             (
                     (
-                            (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3)
+                            (std == STD_EU6) || (std == STD_EU5) ||
+                            (std == STD_EU4) || (std == STD_EU3)
                     ) &&
                     (
                             (addpc == ADDPOINTSCALC_NO)
                     ) &&
                     (
-                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-TCYCLEADDPOINTSNUMBER))
+                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-
+                                                TCYCLEADDPOINTSNUMBER))
                     )
             ) ||
             (
                     (
-                            (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST)
+                            (std == STD_EU2) || (std == STD_EU1) ||
+                            (std == STD_EU0) || (std == STD_OST) ||
+                            (std == STD_GOST)
                     ) &&
                     (
-                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-TCYCLEADDPOINTSNUMBER))
+                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-
+                                                TCYCLEADDPOINTSNUMBER))
                     )
             ) ||
             (
                     (
-                            (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) || (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8)
+                            (std == STD_R96E8) || (std == STD_R96F8) ||
+                            (std == STD_R96G8) || (std == STD_R96D8) ||
+                            (std == STD_R96H8) || (std == STD_R96I8) ||
+                            (std == STD_R96J8) || (std == STD_R96K8)
                     ) &&
                     (
                             (NumberOfPoints != ECYCLEPOINTSNUMBER)
@@ -222,7 +237,10 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
             ) ||
             (
                     (
-                            (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) || (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5)
+                            (std == STD_R96E5) || (std == STD_R96F5) ||
+                            (std == STD_R96G5) || (std == STD_R96D5) ||
+                            (std == STD_R96H5) || (std == STD_R96I5) ||
+                            (std == STD_R96J5) || (std == STD_R96K5)
                     ) &&
                     (
                             (NumberOfPoints != FCYCLEPOINTSNUMBER)
@@ -310,7 +328,8 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
             )
     ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings!";
         return false;
     }
 
@@ -379,7 +398,8 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( !nonZeroArray(array_n) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (n)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (n)!";
         return false;
     }
 
@@ -393,25 +413,29 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Me_b or Ne_b)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (Me_b or Ne_b)!";
         return false;
     }
 
     if ( !nonZeroArray(array_t0) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (t0)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (t0)!";
         return false;
     }
 
     if ( !nonZeroArray(array_B0) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (B0)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (B0)!";
         return false;
     }
 
     if ( !nonZeroArray(array_Ra) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Ra)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (Ra)!";
         return false;
     }
 
@@ -425,13 +449,15 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gair or dPn)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (Gair or dPn)!";
         return false;
     }
 
     if ( !nonZeroArray(array_Gfuel) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (Gfuel)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (Gfuel)!";
         return false;
     }
 
@@ -445,7 +471,8 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (C_NOx or gNOx)!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings (C_NOx or gNOx)!";
         return false;
     }
 
@@ -488,11 +515,12 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     if ( params.data()->val_PTcalc() != PTCALC_NO ) {
 
         if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
-             ( !nonZeroArray(array_Ka1m)   &&
+             ( !nonZeroArray(array_Ka1m) &&
                !nonZeroArray(array_KaPerc) &&
-               !nonZeroArray(array_FSN)       ) ) {
+               !nonZeroArray(array_FSN) ) ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "Bad source data or calculation settings!";
             return false;
         }
 
@@ -500,9 +528,10 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
             if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
                  ( !nonZeroArray(array_qmdw) &&
-                   !nonZeroArray(array_rd)      ) ) {
+                   !nonZeroArray(array_rd) ) ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
 
@@ -571,7 +600,8 @@ bool CycleEmissions::preCalculate() {
     double Ffd = 0;
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+         (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         ptrdiff_t FuelType = params.data()->val_FuelType();
@@ -593,7 +623,8 @@ bool CycleEmissions::preCalculate() {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "Bad source data or calculation settings!";
             return false;
         }
     }
@@ -609,8 +640,10 @@ bool CycleEmissions::preCalculate() {
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
         }
 
-        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ||
-             (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_FREECALC) ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+             (std == STD_EU3) ||
+             (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ||
+             (std == STD_FREECALC) ) {
 
             array_Ne_netto[i] = array_Ne_brutto[i] - array_N_fan[i];
         }
@@ -627,11 +660,13 @@ bool CycleEmissions::preCalculate() {
 
             if ( Dn < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
 
-            array_Gair[i] = calcGair(Dn, array_B0[i], array_t0[i], array_dPn[i]);
+            array_Gair[i] = calcGair(Dn, array_B0[i], array_t0[i],
+                                     array_dPn[i]);
         }
 
         array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);
@@ -642,19 +677,23 @@ bool CycleEmissions::preCalculate() {
 
             if ( ConcO2air < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
 
             if ( !EGRcalc ) {
 
-                array_alpha_O2[i] = (0.01 * ConcO2air * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
+                array_alpha_O2[i] = (0.01 * ConcO2air *
+                                     (1.0 - 0.01 * array_CO2[i]) +
+                                     0.273274 * 0.01 * array_CO2[i]) /
                                     (0.01 * ConcO2air - 0.01 * array_CO2[i]);
             }
         }
 
         if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+             (std == STD_E5) ||
              (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
             array_Gexh[i] = array_Gair[i] / roAir + Ffw * array_Gfuel[i];
@@ -666,58 +705,93 @@ bool CycleEmissions::preCalculate() {
         }
 
         if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
+             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+             (std != STD_E5) &&
              (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) {
 
             array_Pb[i] = array_B0[i];
             array_Pa[i] = val_Pa(array_t0[i]);
-            array_Ha[i] = 6.22 * array_Ra[i] * array_Pa[i] / (array_Pb[i] - array_Pa[i] * array_Ra[i] * 0.01);
 
-            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) || (std == STD_FREECALC) ||
-                 (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-                 (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-                 (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-                 (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+            array_Ha[i] = 6.22 * array_Ra[i] * array_Pa[i] /
+                    (array_Pb[i] - array_Pa[i] * array_Ra[i] * 0.01);
+
+            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+                 (std == STD_EU3) || (std == STD_FREECALC) ||
+                 (std == STD_R96E8) || (std == STD_R96F8) ||
+                 (std == STD_R96G8) || (std == STD_R96D8) ||
+                 (std == STD_R96E5) || (std == STD_R96F5) ||
+                 (std == STD_R96G5) || (std == STD_R96D5) ||
+                 (std == STD_R96H8) || (std == STD_R96I8) ||
+                 (std == STD_R96J8) || (std == STD_R96K8) ||
+                 (std == STD_R96H5) || (std == STD_R96I5) ||
+                 (std == STD_R96J5) || (std == STD_R96K5) ) {
 
                 array_Gaird[i] = (1.0 - array_Ha[i] / 1000.0) * array_Gair[i];
             }
-            else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ) {
+            else if ( (std == STD_EU2) || (std == STD_EU1) ||
+                      (std == STD_EU0) || (std == STD_OST) ||
+                      (std == STD_GOST) ) {
 
                 array_Gaird[i] = array_Gair[i] / (1.0 + array_Ha[i] / 1000.0);
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
 
             if ( std != STD_OST ) {
 
-                array_Kw2[i] = 1.608 * array_Ha[i] / (1000.0 + 1.608 * array_Ha[i]);
+                array_Kw2[i] = 1.608 * array_Ha[i] /
+                        (1000.0 + 1.608 * array_Ha[i]);
+
                 array_Ffh[i] = 1.969 / (1.0 + array_Gfuel[i] / array_Gair[i]);
                 array_Kf[i] = 0.055594 * WH + 0.0080021 * WN + 0.0070046 * WO2;
             }
 
-            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) || (std == STD_FREECALC) ) {
+            if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+                 (std == STD_EU3) || (std == STD_FREECALC) ) {
 
-                array_Kwr[i] = (1.0 - (1.2442 * array_Ha[i] + 111.19 * WH * array_Gfuel[i] / array_Gaird[i]) /
-                                      (773.4 + 1.2442 * array_Ha[i] + array_Gfuel[i] / array_Gaird[i] * array_Kf[i] * 1000.0)) * 1.008;
-                array_Khd[i] = 1.0 / (1.0 - 0.0182 * (array_Ha[i] - 10.71) + 0.0045 * (array_t0[i] + 273.0 - 298.0));
-            }
-            else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-                      (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-                      (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-                      (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+                array_Kwr[i] = (1.0 - (1.2442 * array_Ha[i] + 111.19 * WH *
+                                       array_Gfuel[i] / array_Gaird[i]) /
+                                      (773.4 + 1.2442 * array_Ha[i] +
+                                       array_Gfuel[i] / array_Gaird[i] *
+                                       array_Kf[i] * 1000.0)) * 1.008;
 
-                array_Kwr[i] = (1.0 - array_Ffh[i] * array_Gfuel[i] / array_Gaird[i]) - array_Kw2[i];
-                array_Khd[i] = 1.0 / (1.0 + (0.309 * array_Gfuel[i] / array_Gaird[i] - 0.0266) * (array_Ha[i] - 10.71) +
-                                     (-0.209 * array_Gfuel[i] / array_Gaird[i] + 0.00954) * (array_t0[i] + 273.0 - 298.0));
+                array_Khd[i] = 1.0 / (1.0 - 0.0182 * (array_Ha[i] - 10.71) +
+                                      0.0045 * (array_t0[i] + 273.0 - 298.0));
             }
-            else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ) {
+            else if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+                      (std == STD_R96G8) || (std == STD_R96D8) ||
+                      (std == STD_R96E5) || (std == STD_R96F5) ||
+                      (std == STD_R96G5) || (std == STD_R96D5) ||
+                      (std == STD_R96H8) || (std == STD_R96I8) ||
+                      (std == STD_R96J8) || (std == STD_R96K8) ||
+                      (std == STD_R96H5) || (std == STD_R96I5) ||
+                      (std == STD_R96J5) || (std == STD_R96K5) ) {
+
+                array_Kwr[i] = (1.0 - array_Ffh[i] * array_Gfuel[i] /
+                                array_Gaird[i]) - array_Kw2[i];
+
+                array_Khd[i] = 1.0 / (1.0 + (0.309 * array_Gfuel[i] /
+                                             array_Gaird[i] - 0.0266) *
+                                      (array_Ha[i] - 10.71) +
+                                     (-0.209 * array_Gfuel[i] /
+                                      array_Gaird[i] + 0.00954) *
+                                      (array_t0[i] + 273.0 - 298.0));
+            }
+            else if ( (std == STD_EU2) || (std == STD_EU1) ||
+                      (std == STD_EU0) ) {
 
                 array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gaird[i];
-                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gaird[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
-                                            (-0.116 * array_Gfuel[i] / array_Gaird[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
+
+                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] /
+                                             array_Gaird[i] - 0.0038) *
+                                      (7.0 * array_Ha[i] - 75.0) +
+                                      (-0.116 * array_Gfuel[i] /
+                                       array_Gaird[i] + 0.0053) * 1.8 *
+                                      (array_t0[i] + 273.0 - 302.0));
             }
             else if ( std == STD_OST ) {
 
@@ -726,26 +800,38 @@ bool CycleEmissions::preCalculate() {
             else if ( std == STD_GOST ) {
 
                 array_Kwr[i] = 1.0 - 1.85 * array_Gfuel[i] / array_Gair[i];
-                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] / array_Gair[i] - 0.0038) * (7.0 * array_Ha[i] - 75.0) +
-                                            (-0.116 * array_Gfuel[i] / array_Gair[i] + 0.0053) * 1.8 * (array_t0[i] + 273.0 - 302.0));
+
+                array_Khd[i] = 1.0 / (1.0 + (0.044 * array_Gfuel[i] /
+                                             array_Gair[i] - 0.0038) *
+                                      (7.0 * array_Ha[i] - 75.0) +
+                                      (-0.116 * array_Gfuel[i] / array_Gair[i] +
+                                       0.0053) * 1.8 *
+                                      (array_t0[i] + 273.0 - 302.0));
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
 
             if ( params.data()->val_ChargingType() == CHARGINGTYPE_NO ) {
 
-                array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] * array_Pa[i] * 0.01) ) * pow( (array_t0[i] + 273.0) / 298, 0.7 );
+                array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] *
+                                        array_Pa[i] * 0.01) ) *
+                        pow( (array_t0[i] + 273.0) / 298, 0.7 );
             }
-            else if ( params.data()->val_ChargingType() == CHARGINGTYPE_GASTURBINE ) {
+            else if ( params.data()->val_ChargingType() ==
+                      CHARGINGTYPE_GASTURBINE ) {
 
-                array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] * array_Pa[i] * 0.01), 0.7 ) * pow( (array_t0[i] + 273.0) / 298, 1.5 );
+                array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] *
+                                           array_Pa[i] * 0.01), 0.7 ) *
+                        pow( (array_t0[i] + 273.0) / 298, 1.5 );
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
                 return false;
             }
         }
@@ -771,7 +857,9 @@ bool CycleEmissions::calculate_gNOx() {
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+           (std == STD_EU3) ) &&
+         (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -781,27 +869,35 @@ bool CycleEmissions::calculate_gNOx() {
     }
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+         (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                summ_numerator += array_CNOx[i] / 10000.0 * array_Gexhd[i] * array_w[i];
-                summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
+                summ_numerator += array_CNOx[i] /
+                        10000.0 * array_Gexhd[i] * array_w[i];
+
+                summ_denominator += array_Ne_brutto[i] /
+                        array_Ne_brutto[0] * array_w[i];
             }
         }
         else {
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                summ_numerator += array_CNOx[i] / 10000.0 * array_Gexh[i] * array_w[i];
-                summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
+                summ_numerator += array_CNOx[i] /
+                        10000.0 * array_Gexh[i] * array_w[i];
+
+                summ_denominator += array_Ne_brutto[i] /
+                        array_Ne_brutto[0] * array_w[i];
             }
         }
 
-        gNOx = 0.446 * muNO2 * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
+        gNOx = 0.446 * muNO2 * summ_numerator /
+                (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
@@ -813,11 +909,13 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if ( std == STD_OST ) {
 
-                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] *
+                                array_Kwr[i] * array_Gexh[i];
                     }
                     else {
 
-                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Khd[i] * array_Gexh[i];
+                        array_mNOx[i] = 0.001587 * array_CNOx[i] *
+                                array_Kwr[i] * array_Khd[i] * array_Gexh[i];
                     }
 
                     array_gNOx[i] = array_mNOx[i] / array_Ne_netto[i];
@@ -832,11 +930,13 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if ( std == STD_OST ) {
 
-                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Gexh[i];
+                        array_mNOx[i] = 0.001587 *
+                                array_CNOx[i] * array_Gexh[i];
                     }
                     else {
 
-                        array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Khd[i] * array_Gexh[i];
+                        array_mNOx[i] = 0.001587 *
+                                array_CNOx[i] * array_Khd[i] * array_Gexh[i];
                     }
 
                     array_gNOx[i] = array_mNOx[i] / array_Ne_netto[i];
@@ -856,11 +956,14 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if ( std == STD_OST ) {
 
-                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Gexh[i]);
+                        array_CNOx[i] = array_mNOx[i] /
+                                (0.001587 * array_Kwr[i] * array_Gexh[i]);
                     }
                     else {
 
-                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Kwr[i] * array_Khd[i] * array_Gexh[i]);
+                        array_CNOx[i] = array_mNOx[i] /
+                                (0.001587 * array_Kwr[i] * array_Khd[i] *
+                                 array_Gexh[i]);
                     }
 
                     summ_mNOx += array_mNOx[i] * array_w[i];
@@ -875,11 +978,13 @@ bool CycleEmissions::calculate_gNOx() {
 
                     if ( std == STD_OST ) {
 
-                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Gexh[i]);
+                        array_CNOx[i] = array_mNOx[i] /
+                                (0.001587 * array_Gexh[i]);
                     }
                     else {
 
-                        array_CNOx[i] = array_mNOx[i] / (0.001587 * array_Khd[i] * array_Gexh[i]);
+                        array_CNOx[i] = array_mNOx[i] /
+                                (0.001587 * array_Khd[i] * array_Gexh[i]);
                     }
 
                     summ_mNOx += array_mNOx[i] * array_w[i];
@@ -918,17 +1023,20 @@ bool CycleEmissions::calculateAdditionalPoints() {
 
     ptrdiff_t std = params.data()->val_Standard();
 
-    for ( ptrdiff_t i=(NumberOfPoints - TCYCLEADDPOINTSNUMBER); i<NumberOfPoints; i++ ) {
+    for ( ptrdiff_t i=(NumberOfPoints - TCYCLEADDPOINTSNUMBER);
+          i<NumberOfPoints; i++ ) {
 
         if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
             if ( std == STD_OST ) {
 
-                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Gexh[i];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] *
+                        array_Gexh[i];
             }
             else {
 
-                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] * array_Khd[i] * array_Gexh[i];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Kwr[i] *
+                        array_Khd[i] * array_Gexh[i];
             }
         }
         else {
@@ -939,7 +1047,8 @@ bool CycleEmissions::calculateAdditionalPoints() {
             }
             else {
 
-                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Khd[i] * array_Gexh[i];
+                array_mNOx[i] = 0.001587 * array_CNOx[i] * array_Khd[i] *
+                        array_Gexh[i];
             }
         }
 
@@ -1045,7 +1154,9 @@ bool CycleEmissions::calculate_gCO() {
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+           (std == STD_EU3) ) &&
+         (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1055,22 +1166,29 @@ bool CycleEmissions::calculate_gCO() {
     }
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+         (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            summ_numerator += array_CCO[i] / 10000.0 * array_Gexhd[i] * array_w[i];
-            summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
+            summ_numerator += array_CCO[i] /
+                    10000.0 * array_Gexhd[i] * array_w[i];
+
+            summ_denominator += array_Ne_brutto[i] /
+                    array_Ne_brutto[0] * array_w[i];
         }
 
-        gCO = 0.446 * muCO * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
+        gCO = 0.446 * muCO * summ_numerator /
+                (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            array_mCO[i] = 0.000966 * array_CCO[i] * array_Kwr[i] * array_Gexh[i]; // always is dry
+            array_mCO[i] = 0.000966 * array_CCO[i] * array_Kwr[i] *
+                    array_Gexh[i]; // always is dry
+
             array_gCO[i] = array_mCO[i] / array_Ne_netto[i];
 
             summ_mCO += array_mCO[i] * array_w[i];
@@ -1099,7 +1217,9 @@ bool CycleEmissions::calculate_gCH() {
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+           (std == STD_EU3) ) &&
+         (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1109,16 +1229,21 @@ bool CycleEmissions::calculate_gCH() {
     }
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+         (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            summ_numerator += array_CCH[i] / 10000.0 * array_Gexh[i] * array_w[i];
-            summ_denominator += array_Ne_brutto[i] / array_Ne_brutto[0] * array_w[i];
+            summ_numerator += array_CCH[i] /
+                    10000.0 * array_Gexh[i] * array_w[i];
+
+            summ_denominator += array_Ne_brutto[i] /
+                    array_Ne_brutto[0] * array_w[i];
         }
 
-        gCH = 0.446 * muCH * summ_numerator / (array_Ne_brutto[0] * summ_denominator);
+        gCH = 0.446 * muCH * summ_numerator /
+                (array_Ne_brutto[0] * summ_denominator);
     }
     else {
 
@@ -1126,11 +1251,13 @@ bool CycleEmissions::calculate_gCH() {
 
             if ( std == STD_OST ) {
 
-                array_mCH[i] = 0.000485 * array_CCH[i] * array_Gexh[i]; // always is wet
+                array_mCH[i] = 0.000485 * array_CCH[i] *
+                        array_Gexh[i]; // always is wet
             }
             else {
 
-                array_mCH[i] = 0.000479 * array_CCH[i] * array_Gexh[i]; // always is wet
+                array_mCH[i] = 0.000479 * array_CCH[i] *
+                        array_Gexh[i]; // always is wet
             }
 
             array_gCH[i] = array_mCH[i] / array_Ne_netto[i];
@@ -1158,13 +1285,17 @@ bool CycleEmissions::calculate_gPT() {
 
     ptrdiff_t std = params.data()->val_Standard();
 
-    if ( (params.data()->val_PTcalc() != PTCALC_NO) && ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
-                                                         (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-                                                         (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                                                         (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) ) {
+    if ( (params.data()->val_PTcalc() != PTCALC_NO) &&
+         ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
+           (std != STD_C1)  && (std != STD_D1)   && (std != STD_D2)  &&
+           (std != STD_E1)  && (std != STD_E2)   && (std != STD_E3)  &&
+           (std != STD_E5)  &&
+           (std != STD_F )  && (std != STD_G1)   && (std != STD_G2) ) ) {
 
         ptrdiff_t n = 0;
-        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+               (std == STD_EU3) ) &&
+             (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
@@ -1184,35 +1315,39 @@ bool CycleEmissions::calculate_gPT() {
             if ( smoke == 0 ) {
 
                 array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
-                array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
-                               (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
-                               (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
-                               (-0.00000000026927)     * pow(array_KaPerc[i],  7) +
-                               (0.00000000040933)      * pow(array_KaPerc[i],  6) +
-                               (0.0000010658)          * pow(array_KaPerc[i],  5) +
-                               (-0.000069165)          * pow(array_KaPerc[i],  4) +
-                               (0.0020088)             * pow(array_KaPerc[i],  3) +
-                               (-0.028758)             * pow(array_KaPerc[i],  2) +
-                               (0.26502)               * pow(array_KaPerc[i],  1) +
-                               (0.0087517)             * pow(array_KaPerc[i],  0);
+                array_FSN[i] = (6.6527E-017)          *pow(array_KaPerc[i],10)+
+                               (-0.000000000000026602)*pow(array_KaPerc[i], 9)+
+                               (0.0000000000040987)   *pow(array_KaPerc[i], 8)+
+                               (-0.00000000026927)    *pow(array_KaPerc[i], 7)+
+                               (0.00000000040933)     *pow(array_KaPerc[i], 6)+
+                               (0.0000010658)         *pow(array_KaPerc[i], 5)+
+                               (-0.000069165)         *pow(array_KaPerc[i], 4)+
+                               (0.0020088)            *pow(array_KaPerc[i], 3)+
+                               (-0.028758)            *pow(array_KaPerc[i], 2)+
+                               (0.26502)              *pow(array_KaPerc[i], 1)+
+                               (0.0087517)            *pow(array_KaPerc[i], 0);
             }
             else if (smoke == 1) {
 
-                array_FSN[i] = (6.6527E-017)           * pow(array_KaPerc[i], 10) +
-                               (-0.000000000000026602) * pow(array_KaPerc[i],  9) +
-                               (0.0000000000040987)    * pow(array_KaPerc[i],  8) +
-                               (-0.00000000026927)     * pow(array_KaPerc[i],  7) +
-                               (0.00000000040933)      * pow(array_KaPerc[i],  6) +
-                               (0.0000010658)          * pow(array_KaPerc[i],  5) +
-                               (-0.000069165)          * pow(array_KaPerc[i],  4) +
-                               (0.0020088)             * pow(array_KaPerc[i],  3) +
-                               (-0.028758)             * pow(array_KaPerc[i],  2) +
-                               (0.26502)               * pow(array_KaPerc[i],  1) +
-                               (0.0087517)             * pow(array_KaPerc[i],  0);
+                array_FSN[i] = (6.6527E-017)          * pow(array_KaPerc[i],10)+
+                               (-0.000000000000026602)* pow(array_KaPerc[i], 9)+
+                               (0.0000000000040987)   * pow(array_KaPerc[i], 8)+
+                               (-0.00000000026927)    * pow(array_KaPerc[i], 7)+
+                               (0.00000000040933)     * pow(array_KaPerc[i], 6)+
+                               (0.0000010658)         * pow(array_KaPerc[i], 5)+
+                               (-0.000069165)         * pow(array_KaPerc[i], 4)+
+                               (0.0020088)            * pow(array_KaPerc[i], 3)+
+                               (-0.028758)            * pow(array_KaPerc[i], 2)+
+                               (0.26502)              * pow(array_KaPerc[i], 1)+
+                               (0.0087517)            * pow(array_KaPerc[i], 0);
             }
 
-            array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr / (array_ts[i] + 273.0);
-            array_CPT[i] = (-184.0 * array_FSN[i] - 727.5) * log10(1.0 - array_FSN[i] / 10.0);
+            array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr /
+                    (array_ts[i] + 273.0);
+
+            array_CPT[i] = (-184.0 * array_FSN[i] - 727.5) *
+                    log10(1.0 - array_FSN[i] / 10.0);
+
             array_mPT[i] = array_CPT[i] * array_Gexh[i] / array_ror[i] / 1000.0;
             array_gPT[i] = array_mPT[i] / array_Ne_netto[i];
 
@@ -1229,7 +1364,8 @@ bool CycleEmissions::calculate_gPT() {
 
             if ( mf == 0 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings (gPT)!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings (gPT)!";
                 return false;
             }
 
@@ -1237,7 +1373,9 @@ bool CycleEmissions::calculate_gPT() {
 
                 for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                    array_rd[i] = array_qmdew[i] / (array_qmdew[i] - array_qmdw[i]);
+                    array_rd[i] = array_qmdew[i] /
+                            (array_qmdew[i] - array_qmdw[i]);
+
                     array_qmedf[i] = array_Gexh[i] * array_rd[i];
                     qmedfl += array_qmedf[i] * array_w[i];
                     array_msepi[i] = array_qmdew[i] * array_tauf[i];
@@ -1250,7 +1388,9 @@ bool CycleEmissions::calculate_gPT() {
 
                 for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                    array_qmdw[i] = (array_qmdew[i] * array_rd[i] - array_qmdew[i]) / array_rd[i];
+                    array_qmdw[i] = (array_qmdew[i] * array_rd[i] -
+                                     array_qmdew[i]) / array_rd[i];
+
                     array_qmedf[i] = array_Gexh[i] * array_rd[i];
                     qmedfl += array_qmedf[i] * array_w[i];
                     array_msepi[i] = array_qmdew[i] * array_tauf[i];
@@ -1279,8 +1419,13 @@ bool CycleEmissions::calculate_rEGR() {
 
         for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-            array_rEGR[i] = (array_CCO2in[i] - CCO2air) / (array_CCO2out[i] - CCO2air) * 100.0;
-            array_alpha_res[i] = (array_alpha[i] - array_alpha[i] * array_rEGR[i] / 100.0 - array_rEGR[i] / 100.0) / (1.0 - 2.0 * array_rEGR[i] / 100.0);
+            array_rEGR[i] = (array_CCO2in[i] - CCO2air) /
+                    (array_CCO2out[i] - CCO2air) * 100.0;
+
+            array_alpha_res[i] = (array_alpha[i] - array_alpha[i] *
+                                  array_rEGR[i] / 100.0 -
+                                  array_rEGR[i] / 100.0) /
+                    (1.0 - 2.0 * array_rEGR[i] / 100.0);
         }
 
     }
@@ -1300,7 +1445,9 @@ bool CycleEmissions::calculate_Means() {
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
-    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+    if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+           (std == STD_EU3) ) &&
+         (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1341,24 +1488,32 @@ bool CycleEmissions::compareAlpha() {
 
             if ( ConcO2air < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Bad source data or calculation settings!";
 
                 return false;
             }
 
             for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-                ConcO2mix = ConcO2air * (1.0 - array_rEGR[i] / 100.0) + array_CO2[i] * array_rEGR[i] / 100.0;
-                array_alpha_O2[i] = (0.01 * ConcO2mix * (1.0 - 0.01 * array_CO2[i]) + 0.273274 * 0.01 * array_CO2[i]) /
-                                    (0.01 * ConcO2mix - 0.01 * array_CO2[i]);
-                array_diff_alpha[i] = (array_alpha_res[i] - array_alpha_O2[i]) / array_alpha_O2[i] * 100.0;
+                ConcO2mix = ConcO2air * (1.0 - array_rEGR[i] / 100.0) +
+                        array_CO2[i] * array_rEGR[i] / 100.0;
+
+                array_alpha_O2[i] = (0.01 * ConcO2mix *
+                                     (1.0 - 0.01 * array_CO2[i]) + 0.273274 *
+                                     0.01 * array_CO2[i]) /
+                        (0.01 * ConcO2mix - 0.01 * array_CO2[i]);
+
+                array_diff_alpha[i] = (array_alpha_res[i] - array_alpha_O2[i]) /
+                        array_alpha_O2[i] * 100.0;
             }
         }
         else {
 
             for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-                array_diff_alpha[i] = (array_alpha[i] - array_alpha_O2[i]) / array_alpha_O2[i] * 100.0;
+                array_diff_alpha[i] = (array_alpha[i] - array_alpha_O2[i]) /
+                        array_alpha_O2[i] * 100.0;
             }
         }
 
@@ -1437,7 +1592,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     QString dirnameReports = config.data()->val_dirnameReports();
 
-    fullReportsPath = dirnameReports + "/" + params.data()->defStandardName(std) + "_" + mytime;
+    fullReportsPath = dirnameReports + "/" +
+            params.data()->defStandardName(std) + "_" + mytime;
+
     QDir reportdir;
     reportdir.mkdir(fullReportsPath);
 
@@ -1445,82 +1602,114 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
 
-    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + checkoutDataFileName;
+    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) +
+            reportdir.separator() + checkoutDataFileName;
 
     QFile data1(checkoutdata);
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data1 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data1 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data1 to write!";
 
         return message;
     }
 
     QTextStream fout1(&data1);
 
-    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
-             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
-             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
-             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
-             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
-             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" << "Ne_n[kW]" << "Me_n[Nm]" <<
-             "alpha[-]" << "alpha_O2[-]";
+    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN);
+
+    fout1 << "Point[-]"   << "n[min-1]"    << "Me_b[Nm]"
+          << "Ne_b[kW]"   << "N_fan[kW]"   << "w[-]"
+          << "t0[oC]"     << "B0[kPa]"     << "Ra[%]"
+          << "dPn[mmH2O]" << "Gair[kg/h]"  << "Gfuel[kg/h]"
+          << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]"
+          << "C_CH[ppm]"  << "C_CO2in[%]"  << "C_CO2out[%]"
+          << "C_O2[%]"    << "Ka[m-1]"     << "Ka[%]"
+          << "FSN[-]"     << "Pr[kPa]"     << "ts[oC]"
+          << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
+          << "rd[-]"      << "Ne_n[kW]"    << "Me_n[Nm]"
+          << "alpha[-]"   << "alpha_O2[-]";
 
     if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+         (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+         (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "Gexh[m3/h]" << "Gexhd[m3/h]";
+        fout1 << "Gexh[m3/h]" << "Gexhd[m3/h]";
     }
     else {
 
-        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "Gexh[kg/h]" << "Gexhd[kg/h]";
+        fout1 << "Gexh[kg/h]" << "Gexhd[kg/h]";
     }
 
-    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Pb[kPa]" << "Pa[kPa]" << "Ha[g/kg]" << "Gaird[kg/h]" << "Kw2[-]" <<
-             "Ffh[-]" << "Kf[-]" << "Kwr[-]" << "Khd[-]" << "fa[-]" <<
-             "ge[g/kWh]" << "mNOx[g/h]" << "mCO[g/h]" << "gCO[g/kWh]" << "mCH[g/h]" <<
-             "gCH[g/kWh]" << "ror[kg/m3]" << "CPT[mg/m3]" << "mPT[g/h]" << "gPT[g/kWh]" <<
-             "qmedf[kg/h]" << "msepi[g]" << "rEGR[%]" << "alpha_res[-]" << "diff_alpha[%]" <<
-             qSetFieldWidth(0) << "\n";
+    fout1 << "Pb[kPa]"     << "Pa[kPa]"    << "Ha[g/kg]"
+          << "Gaird[kg/h]" << "Kw2[-]"     << "Ffh[-]"
+          << "Kf[-]"       << "Kwr[-]"     << "Khd[-]"
+          << "fa[-]"       << "ge[g/kWh]"  << "mNOx[g/h]"
+          << "mCO[g/h]"    << "gCO[g/kWh]" << "mCH[g/h]"
+          << "gCH[g/kWh]"  << "ror[kg/m3]" << "CPT[mg/m3]"
+          << "mPT[g/h]"    << "gPT[g/kWh]" << "qmedf[kg/h]"
+          << "msepi[g]"    << "rEGR[%]"    << "alpha_res[-]"
+          << "diff_alpha[%]";
+
+    fout1.reset();
+
+    fout1 << "\n";
 
     ptrdiff_t prec = PRECISION + 1;
 
+    fout1 << fixed << right;
+
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(prec) <<
-                 array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i] << array_w[i] << array_t0[i] <<
-                 array_B0[i] << array_Ra[i] << array_dPn[i] << array_Gair[i] << array_Gfuel[i] <<
-                 array_CNOx[i] << array_gNOx[i] << array_CCO[i] << array_CCH[i] << array_CCO2in[i] <<
-                 array_CCO2out[i] << array_CO2[i] << array_Ka1m[i] << array_KaPerc[i] << array_FSN[i] <<
-                 array_Pr[i] << array_ts[i] << array_tauf[i] << array_qmdw[i] << array_qmdew[i] <<
-                 array_rd[i] << array_Ne_netto[i] << array_Me_netto[i] << array_alpha[i] << array_alpha_O2[i] <<
-                 array_Gexh[i] << array_Gexhd[i] << array_Pb[i] << array_Pa[i] << array_Ha[i] <<
-                 array_Gaird[i] << array_Kw2[i] << array_Ffh[i] << array_Kf[i] << array_Kwr[i] <<
-                 array_Khd[i] << array_fa[i] << array_ge[i] << array_mNOx[i] << array_mCO[i] <<
-                 array_gCO[i] << array_mCH[i] << array_gCH[i] << array_ror[i] << array_CPT[i] <<
-                 array_mPT[i] << array_gPT[i] << array_qmedf[i] << array_msepi[i] << array_rEGR[i] <<
-                 array_alpha_res[i] << array_diff_alpha[i] <<
-                 qSetFieldWidth(0) << "\n";
+        fout1 << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(0)
+              << (i + 1) << array_n[i];
+
+        fout1 << qSetRealNumberPrecision(prec)
+              << array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i]
+              << array_w[i]         << array_t0[i]        << array_B0[i]
+              << array_Ra[i]        << array_dPn[i]       << array_Gair[i]
+              << array_Gfuel[i]     << array_CNOx[i]      << array_gNOx[i]
+              << array_CCO[i]       << array_CCH[i]       << array_CCO2in[i]
+              << array_CCO2out[i]   << array_CO2[i]       << array_Ka1m[i]
+              << array_KaPerc[i]    << array_FSN[i]       << array_Pr[i]
+              << array_ts[i]        << array_tauf[i]      << array_qmdw[i]
+              << array_qmdew[i]     << array_rd[i]        << array_Ne_netto[i]
+              << array_Me_netto[i]  << array_alpha[i]     << array_alpha_O2[i]
+              << array_Gexh[i]      << array_Gexhd[i]     << array_Pb[i]
+              << array_Pa[i]        << array_Ha[i]        << array_Gaird[i]
+              << array_Kw2[i]       << array_Ffh[i]       << array_Kf[i]
+              << array_Kwr[i]       << array_Khd[i]       << array_fa[i]
+              << array_ge[i]        << array_mNOx[i]      << array_mCO[i]
+              << array_gCO[i]       << array_mCH[i]       << array_gCH[i]
+              << array_ror[i]       << array_CPT[i]       << array_mPT[i]
+              << array_gPT[i]       << array_qmedf[i]     << array_msepi[i]
+              << array_rEGR[i]      << array_alpha_res[i] << array_diff_alpha[i]
+              << qSetFieldWidth(0) << "\n";
     }
 
     data1.close();
 
-    message += "libtoxic: Additional file \"" + checkoutDataFileName + "\" created.\n";
-    qDebug() << "\nlibtoxic: Additional file" << checkoutDataFileName << "created.";
+    message += "libtoxic: Additional file \"" +
+            checkoutDataFileName + "\" created.\n";
+    qDebug() << "\nlibtoxic: Additional file"
+             << checkoutDataFileName << "created.";
 
     //
 
     QString sourceDataFileName;
 
-    if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-         (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-         (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-         (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+    if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+         (std == STD_R96G8) || (std == STD_R96D8) ||
+         (std == STD_R96E5) || (std == STD_R96F5) ||
+         (std == STD_R96G5) || (std == STD_R96D5) ||
+         (std == STD_R96H8) || (std == STD_R96I8) ||
+         (std == STD_R96J8) || (std == STD_R96K8) ||
+         (std == STD_R96H5) || (std == STD_R96I5) ||
+         (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         sourceDataFileName = "SourceData96_" + mytime + ".csv";
     }
@@ -1533,7 +1722,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         sourceDataFileName = "SourceDataGOST_" + mytime + ".csv";
     }
     else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-              (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+              (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+              (std == STD_E5) ||
               (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
         sourceDataFileName = "SourceDataGOST51249_" + mytime + ".csv";
@@ -1543,34 +1733,47 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         sourceDataFileName = "SourceData49_" + mytime + ".csv";
     }
 
-    QString srcdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + sourceDataFileName;
+    QString srcdata = reportdir.relativeFilePath(fullReportsPath) +
+            reportdir.separator() + sourceDataFileName;
 
     QFile data4(srcdata);
 
     if ( !data4.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data4 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data4 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data4 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data4 to write!";
 
         return message;
     }
 
     QTextStream fout4(&data4);
 
-    fout4 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
-             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
-             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
-             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
-             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
-             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" <<
-             qSetFieldWidth(0) << "\n";
+    fout4 << right << qSetFieldWidth(WIDTHOFCOLUMN);
+
+    fout4 << "Point[-]"   << "n[min-1]"    << "Me_b[Nm]"
+          << "Ne_b[kW]"   << "N_fan[kW]"   << "w[-]"
+          << "t0[oC]"     << "B0[kPa]"     << "Ra[%]"
+          << "dPn[mmH2O]" << "Gair[kg/h]"  << "Gfuel[kg/h]"
+          << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]"
+          << "C_CH[ppm]"  << "C_CO2in[%]"  << "C_CO2out[%]"
+          << "C_O2[%]"    << "Ka[m-1]"     << "Ka[%]"
+          << "FSN[-]"     << "Pr[kPa]"     << "ts[oC]"
+          << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
+          << "rd[-]"
+          << qSetFieldWidth(0) << "\n";
+
+    fout4 << fixed << qSetFieldWidth(WIDTHOFCOLUMN)
+          << qSetRealNumberPrecision(PRECISION+1);
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
+        fout4 << qSetFieldWidth(WIDTHOFCOLUMN);
+
         for ( ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++ ) {
 
-            fout4 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION+1) << array_DataForCalc[i][j];
+            fout4 << array_DataForCalc[i][j];
         }
 
         fout4 << qSetFieldWidth(0) << "\n";
@@ -1578,24 +1781,32 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     data4.close();
 
-    message += "libtoxic: SourceData file \"" + sourceDataFileName + "\" created.\n";
-    qDebug() << "libtoxic: SourceData file" << sourceDataFileName << "created.";
+    message += "libtoxic: SourceData file \"" +
+            sourceDataFileName + "\" created.\n";
+    qDebug() << "libtoxic: SourceData file"
+             << sourceDataFileName << "created.";
 
     //
 
     if ( std != STD_FREECALC ) {
 
-        if ( (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) && ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
-                                                                        (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-                                                                        (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                                                                        (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) ) {
+        if ( (params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS) &&
+             ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
+               (std != STD_C1)  && (std != STD_D1)   && (std != STD_D2)  &&
+               (std != STD_E1)  && (std != STD_E2)   && (std != STD_E3)  &&
+               (std != STD_E5)  &&
+               (std != STD_F )  && (std != STD_G1)   && (std != STD_G2) ) ) {
 
             QString reportFileNamePT;
 
-            if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-                 (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-                 (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-                 (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+            if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+                 (std == STD_R96G8) || (std == STD_R96D8) ||
+                 (std == STD_R96E5) || (std == STD_R96F5) ||
+                 (std == STD_R96G5) || (std == STD_R96D5) ||
+                 (std == STD_R96H8) || (std == STD_R96I8) ||
+                 (std == STD_R96J8) || (std == STD_R96K8) ||
+                 (std == STD_R96H5) || (std == STD_R96I5) ||
+                 (std == STD_R96J5) || (std == STD_R96K5) ) {
 
                 reportFileNamePT = "Report96_PT_" + mytime + ".txt";
             }
@@ -1604,14 +1815,17 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 reportFileNamePT = "Report49_PT_" + mytime + ".txt";
             }
 
-            QString reppt = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + reportFileNamePT;
+            QString reppt = reportdir.relativeFilePath(fullReportsPath) +
+                    reportdir.separator() + reportFileNamePT;
 
             QFile data6(reppt);
 
             if ( !data6.open(QFile::WriteOnly) ) {
 
-                message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data6 to write!\n";
-                qDebug() << Q_FUNC_INFO << ":::" << "Can not open data6 to write!";
+                message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                        "Can not open data6 to write!\n";
+                qDebug() << Q_FUNC_INFO << ":::"
+                         << "Can not open data6 to write!";
 
                 return message;
             }
@@ -1619,17 +1833,22 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             QTextStream fout6(&data6);
 
             fout6 << "\tr49 distribution version " << r49version;
-            fout6 << "\t\tReport on cycle. " << params.data()->defStandardName(std) << "\t\tDateTime: " << mytime << "\n\n";
+            fout6 << "\t\tReport on cycle. "
+                  << params.data()->defStandardName(std) << "\t\tDateTime: "
+                  << mytime << "\n\n";
 
             fout6 << "Engine                 : ...\n";
-            fout6 << fixed << qSetRealNumberPrecision(PRECISION) <<
-                     "Environment parameters : t0_mean = " << t0Mean << " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = " << RaMean << " %; " << testcondres << "\n";
+            fout6 << fixed << qSetRealNumberPrecision(PRECISION)
+                  << "Environment parameters : t0_mean = " << t0Mean
+                  << " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = "
+                  << RaMean << " %; " << testcondres << "\n";
 
             fout6 << "Calculation comments   : ";
 
             if ( !GairVals ) {
 
-                fout6 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
+                fout6 << "Gair meas by nozzle (Dn = "
+                      << config.data()->val_Dn() << "); ";
             }
             else {
 
@@ -1647,7 +1866,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-                fout6 << fixed << qSetRealNumberPrecision(PRECISION+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
+                fout6 << qSetRealNumberPrecision(PRECISION+1)
+                      << "PT calc method is PT mass based (mf = " << mf
+                      << " mg);\n";
             }
             else if ( params.data()->val_PTcalc() == PTCALC_NO ) {
 
@@ -1660,45 +1881,37 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             if ( CheckMeas ) {
 
-                fout6 << fixed << qSetRealNumberPrecision(PRECISION) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
+                fout6 << qSetRealNumberPrecision(PRECISION)
+                      << "                         "
+                      << "concentrations meas checked (conc O2air = "
+                      << config.data()->val_ConcO2air() << " %)";
             }
             else {
 
-                fout6 << "                         concentrations meas were not checked";
+                fout6 << "                         "
+                      << "concentrations meas were not checked";
             }
 
             fout6 << "\n\n";
 
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
-                     "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]";
+            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Point[-]"   << "n[min-1]" << "Ne_n[kW]"
+                  << "Gair[kg/h]" << "Gfuel[kg/h]";
 
-            if ( EGRcalc ) {
+            if ( EGRcalc ) { fout6 << "alpha_res[-]"; }
+            else           { fout6 << "alpha[-]";     }
 
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha_res[-]";
-            }
-            else {
+            if      ( smoke == 0 ) { fout6 << "Ka[m-1]"; }
+            else if ( smoke == 1 ) { fout6 << "Ka[%]";   }
+            else if ( smoke == 2 ) { fout6 << "FSN[-]";  }
 
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha[-]";
-            }
-
-            if ( smoke == 0 ) {
-
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[m-1]";
-            }
-            else if ( smoke == 1 ) {
-
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[%]";
-            }
-            else if (smoke == 2) {
-
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "FSN[-]";
-            }
-
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "tauf[s]" << "qmdw[g/s]" << "qmdew[g/s]" <<
-                     qSetFieldWidth(0) << "\n";
+            fout6 << "tauf[s]" << "qmdw[g/s]" << "qmdew[g/s]"
+                  << qSetFieldWidth(0) << "\n";
 
             ptrdiff_t n = 0;
-            if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+            if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+                   (std == STD_EU3) ) &&
+                 (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
                 n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
             }
@@ -1709,92 +1922,109 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
+                fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                      << qSetRealNumberPrecision(0)
+                      << (i + 1) << array_n[i];
+
+                fout6 << qSetRealNumberPrecision(PRECISION) <<
                          array_Ne_netto[i] << array_Gair[i] << array_Gfuel[i];
 
-                if ( EGRcalc ) {
-
-                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha_res[i];
-                }
-                else {
-
-                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha[i];
-                }
+                if ( EGRcalc ) { fout6 << array_alpha_res[i]; }
+                else           { fout6 << array_alpha[i];     }
 
                 if ( smoke == 0 ) {
 
-                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_Ka1m[i];
+                    fout6 << qSetRealNumberPrecision(PRECISION+1)
+                          << array_Ka1m[i];
                 }
                 else if ( smoke == 1 ) {
 
-                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_KaPerc[i];
+                    fout6 << qSetRealNumberPrecision(PRECISION+1)
+                          << array_KaPerc[i];
                 }
                 else if ( smoke == 2 ) {
 
-                    fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_FSN[i];
+                    fout6 << qSetRealNumberPrecision(PRECISION+1)
+                          << array_FSN[i];
                 }
 
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_tauf[i];
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                         array_qmdw[i] << array_qmdew[i] <<
-                         qSetFieldWidth(0) << "\n";
+                fout6 << qSetRealNumberPrecision(PRECISION) << array_tauf[i];
+
+                fout6 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_qmdw[i] << array_qmdew[i]
+                      << qSetFieldWidth(0) << "\n";
             }
 
             fout6 << "\n";
 
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]" << "rd[-]" << "qmedf[kg/h]" << "msepi[g]" <<
-                     qSetFieldWidth(0) << "\n";
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Point[-]" << "rd[-]" << "qmedf[kg/h]"
+                  << "msepi[g]"
+                  << qSetFieldWidth(0) << "\n";
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1);
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_rd[i];
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_qmedf[i];
-                fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_msepi[i] <<
-                         qSetFieldWidth(0) << "\n";
+                fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                      << qSetRealNumberPrecision(0)
+                      << (i + 1);
+
+                fout6 << qSetRealNumberPrecision(PRECISION+1) << array_rd[i];
+                fout6 << qSetRealNumberPrecision(PRECISION)   << array_qmedf[i];
+                fout6 << qSetRealNumberPrecision(PRECISION+1) << array_msepi[i];
+
+                fout6 << qSetFieldWidth(0) << "\n";
             }
 
             fout6 << "\n";
 
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limitation" << "CalcResult" << "Conclusion" <<
-                     qSetFieldWidth(0) << "\n";
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
+
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Limitation" << "CalcResult" << "Conclusion"
+                  << qSetFieldWidth(0) << "\n";
 
             double gPTLimit = 0;
             gPTLimit = val_PTLimit(std);
 
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
-            fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                     gPTLimit << gPT;
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1) << gPTLimit << gPT;
 
             if ( (gPT < gPTLimit) || (gPT == gPTLimit) ) {
 
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK" << qSetFieldWidth(0) << "\n";
+                fout6 << "OK" << qSetFieldWidth(0) << "\n";
             }
             else {
 
-                fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed" << qSetFieldWidth(0) << "\n";
+                fout6 << "failed" << qSetFieldWidth(0) << "\n";
             }
 
-            fout6 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
-            fout6 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2) << qSetRealNumberPrecision(PRECISION+1) << gPTs << qSetFieldWidth(0) << "\n\n";
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+
+            fout6 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                  << qSetRealNumberPrecision(PRECISION+1)
+                  << gPTs << qSetFieldWidth(0) << "\n\n";
 
             data6.close();
 
-            message += "libtoxic: Report file \"" + reportFileNamePT + "\" created.\n";
-            qDebug() << "libtoxic: Report file" << reportFileNamePT << "created.";
+            message += "libtoxic: Report file \"" +
+                    reportFileNamePT + "\" created.\n";
+            qDebug() << "libtoxic: Report file"
+                     << reportFileNamePT << "created.";
         }
 
         //
 
         QString reportFileNameGAS;
 
-        if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-             (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-             (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-             (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+        if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+             (std == STD_R96G8) || (std == STD_R96D8) ||
+             (std == STD_R96E5) || (std == STD_R96F5) ||
+             (std == STD_R96G5) || (std == STD_R96D5) ||
+             (std == STD_R96H8) || (std == STD_R96I8) ||
+             (std == STD_R96J8) || (std == STD_R96K8) ||
+             (std == STD_R96H5) || (std == STD_R96I5) ||
+             (std == STD_R96J5) || (std == STD_R96K5) ) {
 
             reportFileNameGAS = "Report96_GAS_" + mytime + ".txt";
         }
@@ -1807,7 +2037,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             reportFileNameGAS = "ReportGOST_GAS_" + mytime + ".txt";
         }
         else if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                  (std == STD_E5) ||
                   (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             reportFileNameGAS = "ReportGOST51249_GAS_" + mytime + ".txt";
@@ -1817,14 +2048,17 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             reportFileNameGAS = "Report49_GAS_" + mytime + ".txt";
         }
 
-        QString repgas = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + reportFileNameGAS;
+        QString repgas = reportdir.relativeFilePath(fullReportsPath) +
+                reportdir.separator() + reportFileNameGAS;
 
         QFile data5(repgas);
 
         if ( !data5.open(QFile::WriteOnly) ) {
 
-            message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data6 to write!\n";
-            qDebug() << Q_FUNC_INFO << ":::" << "Can not open data6 to write!";
+            message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                    "Can not open data6 to write!\n";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "Can not open data6 to write!";
 
             return message;
         }
@@ -1832,16 +2066,22 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         QTextStream fout5(&data5);
 
         fout5 << "r49 distribution version " << r49version;
-        fout5 << "     Report on cycle. " << params.data()->defStandardName(std) << "     DateTime: " << mytime << "\n\n";
+        fout5 << "     Report on cycle. "
+              << params.data()->defStandardName(std)
+              << "     DateTime: " << mytime << "\n\n";
 
         fout5 << "Engine                 : ...\n";
-        fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "Environment parameters : t0_mean = " << t0Mean <<  " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = " << RaMean << " %; " << testcondres << "\n";
+        fout5 << fixed << qSetRealNumberPrecision(PRECISION)
+              << "Environment parameters : t0_mean = " << t0Mean
+              <<  " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = "
+              << RaMean << " %; " << testcondres << "\n";
 
         fout5 << "Calculation comments   : ";
 
         if ( !GairVals ) {
 
-            fout5 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn() << "); ";
+            fout5 << "Gair meas by nozzle (Dn = " << config.data()->val_Dn()
+                  << "); ";
         }
         else {
 
@@ -1859,7 +2099,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-            fout5 << fixed << qSetRealNumberPrecision(PRECISION+1) << "PT calc method is PT mass based (mf = " << mf << " mg);\n";
+            fout5 << qSetRealNumberPrecision(PRECISION+1)
+                  << "PT calc method is PT mass based (mf = " << mf
+                  << " mg);\n";
         }
         else if ( params.data()->val_PTcalc() == PTCALC_NO ) {
 
@@ -1872,52 +2114,46 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         if ( CheckMeas ) {
 
-            fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "                         concentrations meas checked (conc O2air = " << config.data()->val_ConcO2air() << " %)";
+            fout5 << qSetRealNumberPrecision(PRECISION)
+                  << "                         "
+                  << "concentrations meas checked (conc O2air = "
+                  << config.data()->val_ConcO2air() << " %)";
         }
         else {
 
-            fout5 << "                         concentrations meas were not checked";
+            fout5 << "                         "
+                  << "concentrations meas were not checked";
         }
 
         fout5 << "\n\n";
 
-        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
-                 "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]";
+        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1)
+              << "Point[-]" << "n[min-1]" << "Ne_n[kW]"
+              << "Gair[kg/h]" << "Gfuel[kg/h]";
 
-        if ( EGRcalc ) {
+        if ( EGRcalc ) { fout5 << "alpha_res[-]"; }
+        else           { fout5 << "alpha[-]";     }
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha_res[-]";
-        }
-        else {
+        if      ( smoke == 0 ) { fout5 << "Ka[m-1]"; }
+        else if ( smoke == 1 ) { fout5 << "Ka[%]";   }
+        else if ( smoke == 2 ) { fout5 << "FSN[-]";  }
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "alpha[-]";
-        }
+        fout5 << "C_NOx[ppm]";
 
-        if ( smoke == 0 ) {
+        if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+             (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+             (std != STD_G2) ) {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[m-1]";
-        }
-        else if (smoke == 1) {
-
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Ka[%]";
-        }
-        else if (smoke == 2) {
-
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "FSN[-]";
-        }
-
-        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_NOx[ppm]";
-
-        if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-             (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
-
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mNOx[g/h]" << "gNOx[g/kWh]";
+            fout5 << "mNOx[g/h]" << "gNOx[g/kWh]";
         }
 
         fout5 << qSetFieldWidth(0) << "\n";
 
         ptrdiff_t n = 0;
-        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) && (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+               (std == STD_EU3) ) &&
+             (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
@@ -1928,39 +2164,40 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                     array_Ne_netto[i] << array_Gair[i] << array_Gfuel[i];
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1);
 
-            if ( EGRcalc ) {
+            fout5 << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha_res[i];
-            }
-            else {
+            fout5 << qSetRealNumberPrecision(PRECISION)
+                  << array_Ne_netto[i] << array_Gair[i] << array_Gfuel[i];
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_alpha[i];
-            }
+            if ( EGRcalc ) { fout5 << array_alpha_res[i]; }
+            else           { fout5 << array_alpha[i];     }
 
             if ( smoke == 0 ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_Ka1m[i];
+                fout5 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_Ka1m[i];
             }
             else if ( smoke == 1 ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_KaPerc[i];
+                fout5 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_KaPerc[i];
             }
             else if ( smoke == 2 ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_FSN[i];
+                fout5 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_FSN[i];
             }
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CNOx[i];
+            fout5 << qSetRealNumberPrecision(PRECISION) << array_CNOx[i];
 
-            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                 (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                 (std != STD_G2) ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                         array_mNOx[i] << array_gNOx[i];
+                fout5 << array_mNOx[i] << array_gNOx[i];
             }
 
             fout5 << qSetFieldWidth(0) << "\n";
@@ -1968,44 +2205,40 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         fout5 << "\n";
 
+        fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1);
+
         if ( (!EGRcalc) && (!CheckMeas) ) {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]";
+            fout5 << "Point[-]";
 
-            if ( gCOcalc ) {
+            if ( gCOcalc ) { fout5 << "C_CO[ppm]"; }
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CO[ppm]";
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                 (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                 (std != STD_G2) ) {
+
+                if ( gCOcalc ) { fout5 << "mCO[g/h]" << "gCO[g/kWh]"; }
             }
 
-            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+            if ( gCHcalc ) { fout5 << "C_CH[ppm]"; }
 
-                if ( gCOcalc ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                 (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                 (std != STD_G2) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCO[g/h]" << "gCO[g/kWh]";
-                }
-            }
-
-            if ( gCHcalc ) {
-
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CH[ppm]";
-            }
-
-            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
-
-                if ( gCHcalc ) {
-
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCH[g/h]" << "gCH[g/kWh]";
-                }
+                if ( gCHcalc ) { fout5 << "mCH[g/h]" << "gCH[g/kWh]"; }
             }
 
             if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mPTs[g/h]" << "gPTs[g/kWh]";
+                    fout5 << "mPTs[g/h]" << "gPTs[g/kWh]";
                 }
             }
 
@@ -2013,45 +2246,42 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << (i + 1);
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1);
 
-                if ( gCOcalc ) {
+                fout5 << qSetRealNumberPrecision(PRECISION) << (i + 1);
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCO[i];
+                if ( gCOcalc ) { fout5 << array_CCO[i]; }
+
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
+
+                    if ( gCOcalc ) { fout5 << array_mCO[i] << array_gCO[i]; }
                 }
 
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( gCHcalc ) { fout5 << array_CCH[i]; }
 
-                    if ( gCOcalc ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
 
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                                 array_mCO[i] << array_gCO[i];
-                    }
-                }
-
-                if ( gCHcalc ) {
-
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCH[i];
-                }
-
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
-
-                    if ( gCHcalc ) {
-
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                                 array_mCH[i] << array_gCH[i];
-                    }
+                    if ( gCHcalc ) { fout5 << array_mCH[i] << array_gCH[i]; }
                 }
 
                 if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
-                    if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                         (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                    if ( (std != STD_C1) && (std != STD_D1) &&
+                         (std != STD_D2) && (std != STD_E1) &&
+                         (std != STD_E2) && (std != STD_E3) &&
+                         (std != STD_E5) && (std != STD_F)  &&
+                         (std != STD_G1) && (std != STD_G2) ) {
 
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mPT[i];
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_gPT[i];
+                        fout5 << array_mPT[i];
+
+                        fout5 << qSetRealNumberPrecision(PRECISION+1)
+                              << array_gPT[i];
                     }
                 }
 
@@ -2060,109 +2290,92 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         }
         else {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Point[-]";
+            fout5 << "Point[-]";
 
-            if ( gCOcalc ) {
+            if ( gCOcalc ) { fout5 << "C_CO[ppm]"; }
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CO[ppm]";
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                 (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                 (std != STD_G2) ) {
+
+                if ( gCOcalc ) { fout5 << "mCO[g/h]"; }
             }
 
-            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+            if ( gCHcalc ) { fout5 << "C_CH[ppm]"; }
 
-                if ( gCOcalc ) {
+            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                 (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                 (std != STD_G2) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCO[g/h]";
-                }
-            }
-
-            if ( gCHcalc ) {
-
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "C_CH[ppm]";
-            }
-
-            if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                 (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
-
-                if ( gCHcalc ) {
-
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mCH[g/h]";
-                }
+                if ( gCHcalc ) { fout5 << "mCH[g/h]"; }
             }
 
             if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "mPTs[g/h]";
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "gPTs[g/kWh]";
+                    fout5 << "mPTs[g/h]" << "gPTs[g/kWh]";
                 }
             }
 
-            if ( EGRcalc ) {
-
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "rEGR[%]";
-            }
-
-            if ( CheckMeas ) {
-
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "diff_alpha[%]";
-            }
+            if ( EGRcalc   ) { fout5 << "rEGR[%]";       }
+            if ( CheckMeas ) { fout5 << "diff_alpha[%]"; }
 
             fout5 << qSetFieldWidth(0) << "\n";
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << (i + 1);
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1);
 
-                if ( gCOcalc ) {
+                fout5 << qSetRealNumberPrecision(PRECISION) << (i + 1);
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCO[i];
+                if ( gCOcalc ) { fout5 << array_CCO[i]; }
+
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
+
+                    if ( gCOcalc ) { fout5 << array_mCO[i]; }
                 }
 
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( gCHcalc ) { fout5 << array_CCH[i]; }
 
-                    if ( gCOcalc ) {
+                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
+                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+                     (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+                     (std != STD_G2) ) {
 
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mCO[i];
-                    }
-                }
-
-                if ( gCHcalc ) {
-
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_CCH[i];
-                }
-
-                if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                     (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
-
-                    if ( gCHcalc ) {
-
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mCH[i];
-                    }
+                    if ( gCHcalc ) { fout5 << array_mCH[i]; }
                 }
 
                 if ( params.data()->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
 
-                    if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) && (std != STD_E1) && (std != STD_E2) &&
-                         (std != STD_E3) && (std != STD_E5) && (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                    if ( (std != STD_C1) && (std != STD_D1) &&
+                         (std != STD_D2) && (std != STD_E1) &&
+                         (std != STD_E2) && (std != STD_E3) &&
+                         (std != STD_E5) && (std != STD_F)  &&
+                         (std != STD_G1) && (std != STD_G2) ) {
 
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) << array_mPT[i];
-                        fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << array_gPT[i];
+                        fout5 << array_mPT[i];
+
+                        fout5 << qSetRealNumberPrecision(PRECISION+1)
+                              << array_gPT[i];
                     }
                 }
 
                 if ( EGRcalc ) {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN - 1) << qSetRealNumberPrecision(PRECISION) << array_rEGR[i];
+                    fout5 << qSetRealNumberPrecision(PRECISION)
+                          << array_rEGR[i];
                 }
 
-                if ( CheckMeas ) {
-
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN - 1) << qSetRealNumberPrecision(PRECISION) << array_diff_alpha[i];
-                }
+                if ( CheckMeas ) { fout5 << array_diff_alpha[i]; }
 
                 fout5 << qSetFieldWidth(0) << "\n";
             }
@@ -2170,63 +2383,83 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         fout5 << "\n";
 
-        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) &&
+        if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
+               (std == STD_EU3) ) &&
              (params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             fout5 << "Additional points:\n\n";
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) <<
-                     "Point[-]" << "n[min-1]" << "Ne_n[kW]" << "Gair[kg/h]" << "Gfuel[kg/h]" <<
-                     "alpha[-]" << "gNOm[g/kWh]" << "gNOc[g/kWh]" << "diff[%]" <<
-                     qSetFieldWidth(0) << "\n";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Point[-]"    << "n[min-1]"    << "Ne_n[kW]"
+                  << "Gair[kg/h]"  << "Gfuel[kg/h]" << "alpha[-]"
+                  << "gNOm[g/kWh]" << "gNOc[g/kWh]" << "diff[%]"
+                  << qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                     (TCYCLEPOINTSNUMBER-2) << array_n[TCYCLEPOINTSNUMBER-3] << array_Ne_netto[TCYCLEPOINTSNUMBER-3] <<
-                     array_Gair[TCYCLEPOINTSNUMBER-3] << array_Gfuel[TCYCLEPOINTSNUMBER-3] << array_alpha[TCYCLEPOINTSNUMBER-3] <<
-                     gNOx1m << gNOx1c << diffNOx1 <<
-                     qSetFieldWidth(0) << "\n";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << (TCYCLEPOINTSNUMBER-2)
+                  << array_n[TCYCLEPOINTSNUMBER-3]
+                  << array_Ne_netto[TCYCLEPOINTSNUMBER-3]
+                  << array_Gair[TCYCLEPOINTSNUMBER-3]
+                  << array_Gfuel[TCYCLEPOINTSNUMBER-3]
+                  << array_alpha[TCYCLEPOINTSNUMBER-3]
+                  << gNOx1m << gNOx1c << diffNOx1
+                  << qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                     (TCYCLEPOINTSNUMBER-1) << array_n[TCYCLEPOINTSNUMBER-2] << array_Ne_netto[TCYCLEPOINTSNUMBER-2] <<
-                     array_Gair[TCYCLEPOINTSNUMBER-2] << array_Gfuel[TCYCLEPOINTSNUMBER-2] << array_alpha[TCYCLEPOINTSNUMBER-2] <<
-                     gNOx2m << gNOx2c << diffNOx2 <<
-                     qSetFieldWidth(0) << "\n";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << (TCYCLEPOINTSNUMBER-1)
+                  << array_n[TCYCLEPOINTSNUMBER-2]
+                  << array_Ne_netto[TCYCLEPOINTSNUMBER-2]
+                  << array_Gair[TCYCLEPOINTSNUMBER-2]
+                  << array_Gfuel[TCYCLEPOINTSNUMBER-2]
+                  << array_alpha[TCYCLEPOINTSNUMBER-2]
+                  << gNOx2m << gNOx2c << diffNOx2
+                  << qSetFieldWidth(0) << "\n";
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION) <<
-                     (TCYCLEPOINTSNUMBER) << array_n[TCYCLEPOINTSNUMBER-1] << array_Ne_netto[TCYCLEPOINTSNUMBER-1] <<
-                     array_Gair[TCYCLEPOINTSNUMBER-1] << array_Gfuel[TCYCLEPOINTSNUMBER-1] << array_alpha[TCYCLEPOINTSNUMBER-1] <<
-                     gNOx3m << gNOx3c << diffNOx3 <<
-                     qSetFieldWidth(0) << "\n";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << (TCYCLEPOINTSNUMBER)
+                  << array_n[TCYCLEPOINTSNUMBER-1]
+                  << array_Ne_netto[TCYCLEPOINTSNUMBER-1]
+                  << array_Gair[TCYCLEPOINTSNUMBER-1]
+                  << array_Gfuel[TCYCLEPOINTSNUMBER-1]
+                  << array_alpha[TCYCLEPOINTSNUMBER-1]
+                  << gNOx3m << gNOx3c << diffNOx3
+                  << qSetFieldWidth(0) << "\n";
 
             fout5 << "\n";
         }
 
         fout5 << "Specific emissions:\n\n";
 
-        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
+        fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << " ";
 
         if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+             (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+             (std == STD_E5) ||
              (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limit (old)" << "Limit (new)";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Limit (old)" << "Limit (new)";
         }
         else if ( std == STD_GOST ) {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limit (old1)" << "Limit (old2)" << "Limit (new1)" << "Limit (new2)";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Limit (old1)" << "Limit (old2)"
+                  << "Limit (new1)" << "Limit (new2)";
         }
         else {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Limitation";
+            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << "Limitation";
         }
 
-        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "CalcResult";
+        fout5 << "CalcResult";
 
         if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-             (std != STD_F) && (std != STD_G1) && (std != STD_G2) && (std != STD_GOST) ) {
+             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
+             (std != STD_E5) && (std != STD_F)  && (std != STD_G1) &&
+             (std != STD_G2) && (std != STD_GOST) ) {
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "Conclusion";
+            fout5 << "Conclusion";
         }
 
         fout5 << qSetFieldWidth(0) << "\n";
@@ -2249,43 +2482,47 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         double gPTLimit    = 0;
         double gNOxCHLimit = 0;
 
-        if ( (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-             (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+        if ( (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) ||
+             (std == STD_R96K8) || (std == STD_R96H5) || (std == STD_R96I5) ||
+             (std == STD_R96J5) || (std == STD_R96K5) ) {
 
             gNOxCHLimit = val_NOxCHLimit(std);
             gCOLimit = val_COLimit(std);
             gPTLimit = val_PTLimit(std);
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx+gCH[g/kWh]";
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                     gNOxCHLimit << gNOx+gCH;
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx+gCH[g/kWh]";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << qSetRealNumberPrecision(PRECISION+1)
+                  << gNOxCHLimit << gNOx+gCH;
 
             if ( ( (gNOx+gCH) < gNOxCHLimit) || ( (gNOx+gCH) == gNOxCHLimit) ) {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "OK" <<
-                         qSetFieldWidth(0) << "\n";
+                fout5 << "OK"
+                      << qSetFieldWidth(0) << "\n";
             }
             else {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "failed" <<
-                         qSetFieldWidth(0) << "\n";
+                fout5 << "failed"
+                      << qSetFieldWidth(0) << "\n";
             }
 
             if ( gCOcalc ) {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                         gCOLimit << gCO;
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
+
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                      << gCOLimit << gCO;
 
                 if ( (gCO < gCOLimit) || (gCO == gCOLimit) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "OK" <<
-                             qSetFieldWidth(0) << "\n";
+                    fout5 << "OK"
+                          << qSetFieldWidth(0) << "\n";
                 }
                 else {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN) << "failed" <<
-                             qSetFieldWidth(0) << "\n";
+                    fout5 << "failed"
+                          << qSetFieldWidth(0) << "\n";
                 }
             }
         }
@@ -2306,7 +2543,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 gCOLimit2 = val_COLimit(std2);
                 gCHLimit2 = val_CHLimit(std2);
             }
-            else if ( (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ) {
+            else if ( (std == STD_E1) || (std == STD_E2) ||
+                      (std == STD_E3) || (std == STD_E5) ) {
 
                 ptrdiff_t std1 = std + 20; // old
 
@@ -2354,38 +2592,41 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 gPTLimit = val_PTLimit(std);
             }
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx[g/kWh]";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx[g/kWh]";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                  << qSetRealNumberPrecision(PRECISION+1);
 
             if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                 (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                 (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                 (std == STD_E5) ||
                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                         gNOxLimit1 << gNOxLimit2;
+                fout5 << gNOxLimit1 << gNOxLimit2;
             }
             else if ( std == STD_GOST ) {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                         gNOxLimit1 << gNOxLimit2 << gNOxLimit3 << gNOxLimit4;
+                fout5 << gNOxLimit1 << gNOxLimit2 << gNOxLimit3 << gNOxLimit4;
             }
             else {
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gNOxLimit;
+                fout5 << gNOxLimit;
             }
 
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gNOx;
+            fout5 << gNOx;
 
-            if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-                 (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                 (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+            if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) &&
+                 (std != STD_D2)   && (std != STD_E1) && (std != STD_E2) &&
+                 (std != STD_E3)   && (std != STD_E5) && (std != STD_F)  &&
+                 (std != STD_G1)   && (std != STD_G2) ) {
 
                 if ( (gNOx < gNOxLimit) || (gNOx == gNOxLimit) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
+                    fout5 << "OK";
                 }
                 else {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
+                    fout5 << "failed";
                 }
             }
 
@@ -2393,38 +2634,41 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             if ( gCOcalc ) {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
 
                 if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                     (std == STD_E5) ||
                      (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                             gCOLimit1 << gCOLimit2;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCOLimit1 << gCOLimit2;
                 }
                 else if ( std == STD_GOST ) {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                             gCOLimit1 << gCOLimit2 << gCOLimit3 << gCOLimit4;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCOLimit1 << gCOLimit2 << gCOLimit3 << gCOLimit4;
                 }
                 else {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCOLimit;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCOLimit;
                 }
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCO;
+                fout5 << gCO;
 
-                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                     (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) &&
+                     (std != STD_D2)   && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3)   && (std != STD_E5) && (std != STD_F)  &&
+                     (std != STD_G1)   && (std != STD_G2) ) {
 
                     if ( (gCO < gCOLimit) || (gCO == gCOLimit) ) {
 
-                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
+                        fout5 << "OK";
                     }
                     else {
 
-                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
+                        fout5 << "failed";
                     }
                 }
 
@@ -2433,38 +2677,41 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             if ( gCHcalc ) {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCH[g/kWh]";
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCH[g/kWh]";
 
                 if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                     (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                     (std == STD_E5) ||
                      (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                             gCHLimit1 << gCHLimit2;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCHLimit1 << gCHLimit2;
                 }
                 else if ( std == STD_GOST ) {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                             gCHLimit1 << gCHLimit2 << gCHLimit3 << gCHLimit4;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCHLimit1 << gCHLimit2 << gCHLimit3 << gCHLimit4;
                 }
                 else {
 
-                    fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCHLimit;
+                    fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                          << gCHLimit;
                 }
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) << gCH;
+                fout5 << gCH;
 
-                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
-                     (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                     (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) {
+                if ( (std != STD_GOST) && (std != STD_C1) && (std != STD_D1) &&
+                     (std != STD_D2)   && (std != STD_E1) && (std != STD_E2) &&
+                     (std != STD_E3)   && (std != STD_E5) && (std != STD_F)  &&
+                     (std != STD_G1)   && (std != STD_G2) ) {
 
                     if ( (gCH < gCHLimit) || (gCH == gCHLimit) ) {
 
-                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK";
+                        fout5 << "OK";
                     }
                     else {
 
-                        fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed";
+                        fout5 << "failed";
                     }
                 }
 
@@ -2472,38 +2719,45 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             }
         }
 
-        if ( (params.data()->val_PTcalc() != PTCALC_NO) && ( (std != STD_GOST) && (std != STD_OST) && (std != STD_EU0) && (std != STD_C1) &&
-                                                             (std != STD_D1) && (std != STD_D2) &&
-                                                             (std != STD_E1) && (std != STD_E2) && (std != STD_E3) && (std != STD_E5) &&
-                                                             (std != STD_F) && (std != STD_G1) && (std != STD_G2) ) ) {
+        if ( (params.data()->val_PTcalc() != PTCALC_NO) &&
+             ( (std != STD_GOST) && (std != STD_OST) &&
+               (std != STD_EU0)  && (std != STD_C1)  &&
+               (std != STD_D1)   && (std != STD_D2)  &&
+               (std != STD_E1)   && (std != STD_E2)  &&
+               (std != STD_E3)   && (std != STD_E5)  &&
+               (std != STD_F)    && (std != STD_G1)  &&
+               (std != STD_G2) ) ) {
 
             if ( params.data()->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
 
-                fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
-                fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << qSetRealNumberPrecision(PRECISION+1) <<
-                         gPTLimit << gPT;
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1)
+                      <<  gPTLimit << gPT;
 
                 if ( (gPT < gPTLimit) || (gPT == gPTLimit) ) {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "OK" <<
-                             qSetFieldWidth(0) << "\n";
+                    fout5 << "OK"
+                          << qSetFieldWidth(0) << "\n";
                 }
                 else {
 
-                    fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1) << "failed" <<
-                             qSetFieldWidth(0) << "\n";
+                    fout5 << "failed"
+                          << qSetFieldWidth(0) << "\n";
                 }
             }
 
-            fout5 << right << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
-            fout5 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2) << qSetRealNumberPrecision(PRECISION+1) << gPTs <<
-                     qSetFieldWidth(0) << "\n";
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                  << gPTs
+                  << qSetFieldWidth(0) << "\n";
         }
 
         fout5 << "\n";
 
-        fout5 << fixed << qSetRealNumberPrecision(PRECISION) << "Mean specific fuel consumption: " << geMean << " g/kWh\n";
+        fout5 << qSetRealNumberPrecision(PRECISION)
+              << "Mean specific fuel consumption: " << geMean << " g/kWh\n";
 
         data5.close();
 
@@ -2515,35 +2769,50 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     QString calcConfigFileName = mytime + ".conf";
 
-    QString calcparam = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + calcConfigFileName;
+    QString calcparam = reportdir.relativeFilePath(fullReportsPath) +
+            reportdir.separator() + calcConfigFileName;
 
     QFile data7(calcparam);
 
     if ( !data7.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data7 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data7 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data7 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data7 to write!";
 
         return message;
     }
 
     QTextStream fout7(&data7);
 
-    fout7 << "task"           << PARAMETERVALUEDELIMITER << params.data()->val_Task()           << "\n" <<
-             "Vh"             << PARAMETERVALUEDELIMITER << params.data()->val_Vh()             << "\n" <<
-             "standard"       << PARAMETERVALUEDELIMITER << params.data()->val_Standard()       << "\n" <<
-             "ChargingType"   << PARAMETERVALUEDELIMITER << params.data()->val_ChargingType()   << "\n" <<
-             "FuelType"       << PARAMETERVALUEDELIMITER << params.data()->val_FuelType()       << "\n" <<
-             "NOxSample"      << PARAMETERVALUEDELIMITER << params.data()->val_NOxSample()      << "\n" <<
-             "PTcalc"         << PARAMETERVALUEDELIMITER << params.data()->val_PTcalc()         << "\n" <<
-             "PTmass"         << PARAMETERVALUEDELIMITER << params.data()->val_PTmass()         << "\n" <<
-             "AddPointsCalc"  << PARAMETERVALUEDELIMITER << params.data()->val_AddPointsCalc()  << "\n" <<
-             "CalcConfigFile" << PARAMETERVALUEDELIMITER << params.data()->val_CalcConfigFile() << "\n";
+    fout7 << "task"           << PARAMETERVALUEDELIMITER
+          << params.data()->val_Task()           << "\n"
+          << "Vh"             << PARAMETERVALUEDELIMITER
+          << params.data()->val_Vh() <<             "\n"
+          << "standard"       << PARAMETERVALUEDELIMITER
+          << params.data()->val_Standard()       << "\n"
+          << "ChargingType"   << PARAMETERVALUEDELIMITER
+          << params.data()->val_ChargingType()   << "\n"
+          << "FuelType"       << PARAMETERVALUEDELIMITER
+          << params.data()->val_FuelType()       << "\n"
+          << "NOxSample"      << PARAMETERVALUEDELIMITER
+          << params.data()->val_NOxSample()      << "\n"
+          << "PTcalc"         << PARAMETERVALUEDELIMITER
+          << params.data()->val_PTcalc()         << "\n"
+          << "PTmass"         << PARAMETERVALUEDELIMITER
+          << params.data()->val_PTmass()         << "\n"
+          << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
+          << params.data()->val_AddPointsCalc()  << "\n"
+          << "CalcConfigFile" << PARAMETERVALUEDELIMITER
+          << params.data()->val_CalcConfigFile() << "\n";
 
     data7.close();
 
-    message += "libtoxic: Calculation config file \"" + calcConfigFileName + "\" created.\n";
-    qDebug() << "libtoxic: Calculation config file" << calcConfigFileName << "created.";
+    message += "libtoxic: Calculation config file \"" +
+            calcConfigFileName + "\" created.\n";
+    qDebug() << "libtoxic: Calculation config file"
+             << calcConfigFileName << "created.";
 
     //
 

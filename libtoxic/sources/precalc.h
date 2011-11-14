@@ -24,12 +24,41 @@
 
 #include <QVector>
 
-bool calcABC(const double &, const double &, double *, double *, double *, double *, double *, double *, double *);
-bool calcELR(const double &, const double &, const double &, const double &, const double &, const double &, const double &, const double &, const double &, double *);
-double calcGair(const double &, const double &, const double &, const double &);
-double calcNfan(const double &, const double &, const double &);
-double Ka1m2KaPerc(const double &, const double &);
-double KaPerc2Ka1m(const double &, const double &);
+bool calcABC(const double &,
+             const double &,
+             double *,
+             double *,
+             double *,
+             double *,
+             double *,
+             double *,
+             double *);
+
+bool calcELR(const double &,
+             const double &,
+             const double &,
+             const double &,
+             const double &,
+             const double &,
+             const double &,
+             const double &,
+             const double &,
+             double *);
+
+double calcGair(const double &,
+                const double &,
+                const double &,
+                const double &);
+
+double calcNfan(const double &,
+                const double &,
+                const double &);
+
+double Ka1m2KaPerc(const double &,
+                   const double &);
+
+double KaPerc2Ka1m(const double &,
+                   const double &);
 
 double val_Pa(const double &);
 
