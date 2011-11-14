@@ -26,7 +26,15 @@
 
 #include <cmath>
 
-bool calcABC(const double &n_hi, const double &n_lo, double *A, double *B, double *C, double *a1, double *a2, double *a3, double *n_ref) {
+bool calcABC(const double &n_hi,
+             const double &n_lo,
+             double *A,
+             double *B,
+             double *C,
+             double *a1,
+             double *a2,
+             double *a3,
+             double *n_ref) {
 
     if (n_hi < n_lo) {
 
@@ -48,9 +56,15 @@ bool calcABC(const double &n_hi, const double &n_lo, double *A, double *B, doubl
     return true;
 }
 
-bool calcELR(const double &smoke_A1, const double &smoke_A2, const double &smoke_A3,
-             const double &smoke_B1, const double &smoke_B2, const double &smoke_B3,
-             const double &smoke_C1, const double &smoke_C2, const double &smoke_C3,
+bool calcELR(const double &smoke_A1,
+             const double &smoke_A2,
+             const double &smoke_A3,
+             const double &smoke_B1,
+             const double &smoke_B2,
+             const double &smoke_B3,
+             const double &smoke_C1,
+             const double &smoke_C2,
+             const double &smoke_C3,
              double* smokeELR) {
 
     double smoke_A_mean = (smoke_A1 + smoke_A2 + smoke_A3) / 3.0;
@@ -62,12 +76,18 @@ bool calcELR(const double &smoke_A1, const double &smoke_A2, const double &smoke
     return true;
 }
 
-double calcGair(const double &Dn, const double &B0, const double &t0, const double &dPn) {
+double calcGair(const double &Dn,
+                const double &B0,
+                const double &t0,
+                const double &dPn) {
 
-    return 0.0084591 * pow(Dn, 2) * sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
+    return 0.0084591 * pow(Dn, 2) *
+            sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
 }
 
-double calcNfan(const double &N_fan_rated, const double &n, const double &n_rated) {
+double calcNfan(const double &N_fan_rated,
+                const double &n,
+                const double &n_rated) {
 
     return N_fan_rated * pow(n / n_rated, 3);
 }
@@ -88,7 +108,8 @@ double val_Pa(const double &x) {
 
         if ( (x > ARRAYT0[i]) && (x < ARRAYT0[i+1]) ) {
 
-            return ARRAYPA[i] + (ARRAYPA[i+1] - ARRAYPA[i]) * (x - ARRAYT0[i]) / (ARRAYT0[i+1] - ARRAYT0[i]);
+            return ARRAYPA[i] + (ARRAYPA[i+1] - ARRAYPA[i]) *
+                    (x - ARRAYT0[i]) / (ARRAYT0[i+1] - ARRAYT0[i]);
         }
         else if (x == ARRAYT0[i]) {
 
@@ -107,7 +128,8 @@ bool nonZeroArray(const QVector<double> &data) {
 
     double sum = 0;
 
-    for ( QVector<double>::const_iterator it=data.begin(); it!=data.end(); it++ ) {
+    for ( QVector<double>::const_iterator it=data.begin(); it!=data.end();
+          it++ ) {
 
         sum += *it;
     }

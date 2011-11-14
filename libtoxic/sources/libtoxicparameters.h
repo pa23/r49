@@ -60,16 +60,16 @@ public:
 
     void setCalcConfigFile(const QString &);
 
-    ptrdiff_t val_Task()           const;
-    double    val_Vh()             const;
-    ptrdiff_t val_Standard()       const;
-    ptrdiff_t val_ChargingType()   const;
-    ptrdiff_t val_FuelType()       const;
-    ptrdiff_t val_NOxSample()      const;
-    ptrdiff_t val_PTcalc()         const;
-    double    val_PTmass()         const;
-    ptrdiff_t val_AddPointsCalc()  const;
-    QString   val_CalcConfigFile() const;
+    ptrdiff_t val_Task() const { return task; }
+    double val_Vh() const { return Vh; }
+    ptrdiff_t val_Standard() const { return standard; }
+    ptrdiff_t val_ChargingType() const { return chargingType; }
+    ptrdiff_t val_FuelType() const { return FuelType; }
+    ptrdiff_t val_NOxSample() const { return NOxSample; }
+    ptrdiff_t val_PTcalc() const { return PTcalc; }
+    double val_PTmass() const { return PTmass; }
+    ptrdiff_t val_AddPointsCalc() const { return AddPointsCalc; }
+    QString val_CalcConfigFile() const { return CalcConfigFile; }
 
     bool readCalcConfigFile(const QString &);
 

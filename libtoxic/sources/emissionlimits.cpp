@@ -47,9 +47,14 @@ double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
     else if ( (stnd == STD_R96D8) || (stnd == STD_R96D5) ) { return  8.00; }
     else if ( (stnd == STD_F+10) ) { return        12.0; } // new
     else if ( (stnd == STD_F+20) ) { return 0.95 * 12.0; } // old
-    else if ( (stnd == STD_C1+10) || (stnd == STD_D1+10) || (stnd == STD_D2+10) || (stnd == STD_G1+10) || (stnd == STD_G2+10) ) { return        10.0; } // new
-    else if ( (stnd == STD_C1+20) || (stnd == STD_D1+20) || (stnd == STD_D2+20) || (stnd == STD_G1+20) || (stnd == STD_G2+20) ) { return 0.95 * 10.0; } // old
-    else if ( (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) {
+    else if ( (stnd == STD_C1+10) || (stnd == STD_D1+10) ||
+              (stnd == STD_D2+10) || (stnd == STD_G1+10) ||
+              (stnd == STD_G2+10) ) { return        10.0; } // new
+    else if ( (stnd == STD_C1+20) || (stnd == STD_D1+20) ||
+              (stnd == STD_D2+20) || (stnd == STD_G1+20) ||
+              (stnd == STD_G2+20) ) { return 0.95 * 10.0; } // old
+    else if ( (stnd == STD_E1+10) || (stnd == STD_E2+10) ||
+              (stnd == STD_E3+10) || (stnd == STD_E5+10) ) {
 
         if ( (n_rated < 130) || (n_rated == 130) ) {
 
@@ -64,7 +69,8 @@ double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
             return 9.8;
         }
     } // new
-    else if ( (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) {
+    else if ( (stnd == STD_E1+20) || (stnd == STD_E2+20) ||
+              (stnd == STD_E3+20) || (stnd == STD_E5+20) ) {
 
         if ( (n_rated < 130) || (n_rated == 130) ) {
 
@@ -114,11 +120,15 @@ double val_COLimit(ptrdiff_t stnd) {
     else if ( (stnd == STD_F+10 ) || (stnd == STD_C1+10) ||
               (stnd == STD_D1+10) || (stnd == STD_D2+10) ||
               (stnd == STD_G1+10) || (stnd == STD_G2+10) ||
-              (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) { return       3.0; } // new
+              (stnd == STD_E1+10) || (stnd == STD_E2+10) ||
+              (stnd == STD_E3+10) ||
+              (stnd == STD_E5+10) ) { return 3.0;       } // new
     else if ( (stnd == STD_F+20 ) || (stnd == STD_C1+20) ||
               (stnd == STD_D1+20) || (stnd == STD_D2+20) ||
               (stnd == STD_G1+20) || (stnd == STD_G2+20) ||
-              (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) { return 1.2 * 3.0; } // old
+              (stnd == STD_E1+20) || (stnd == STD_E2+20) ||
+              (stnd == STD_E3+20) ||
+              (stnd == STD_E5+20) ) { return 1.2 * 3.0; } // old
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
@@ -148,11 +158,15 @@ double val_CHLimit(ptrdiff_t stnd) {
     else if ( (stnd == STD_F+10 ) || (stnd == STD_C1+10) ||
               (stnd == STD_D1+10) || (stnd == STD_D2+10) ||
               (stnd == STD_G1+10) || (stnd == STD_G2+10) ||
-              (stnd == STD_E1+10) || (stnd == STD_E2+10) || (stnd == STD_E3+10) || (stnd == STD_E5+10) ) { return        1.0; } // new
+              (stnd == STD_E1+10) || (stnd == STD_E2+10) ||
+              (stnd == STD_E3+10) ||
+              (stnd == STD_E5+10) ) { return        1.0; } // new
     else if ( (stnd == STD_F+20 ) || (stnd == STD_C1+20) ||
               (stnd == STD_D1+20) || (stnd == STD_D2+20) ||
               (stnd == STD_G1+20) || (stnd == STD_G2+20) ||
-              (stnd == STD_E1+20) || (stnd == STD_E2+20) || (stnd == STD_E3+20) || (stnd == STD_E5+20) ) { return 1.25 * 1.0; } // old
+              (stnd == STD_E1+20) || (stnd == STD_E2+20) ||
+              (stnd == STD_E3+20) ||
+              (stnd == STD_E5+20) ) { return 1.25 * 1.0; } // old
     else {
 
         qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";

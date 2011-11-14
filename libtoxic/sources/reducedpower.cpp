@@ -37,7 +37,8 @@
 
 #include <cmath>
 
-ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
+ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
+                           const QSharedPointer<CommonParameters> &cfg) :
         NumberOfPoints    (    0),
         mytime            (  "_"),
         fullReportsPath   (  "_"),
@@ -74,7 +75,10 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
         QString filenamePowers = config.data()->val_filenamePowers();
 
-        QSharedPointer<csvRead> readerDataForCalc(new csvRead(filenamePowers, " ", STRSNUMBERFORCOLUMNCAPTION));
+        QSharedPointer<csvRead>
+                readerDataForCalc(new csvRead(filenamePowers,
+                                              " ",
+                                              STRSNUMBERFORCOLUMNCAPTION));
 
         array_DataForCalc = readerDataForCalc.data()->csvData();
 
@@ -137,7 +141,8 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
          !nonZeroArray(array_Gfuel) ||
          (params.data()->val_Vh() < 0.0000001) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Bad source data or calculation settings!";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Bad source data or calculation settings!";
         return false;
     }
 
@@ -178,30 +183,47 @@ bool ReducedPower::reducePower() {
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
         array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
-        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) / (30.0 * array_n[i] * Vh) ) /
-                       ( (array_pk[i] + array_B0[i]) / (array_S[i] + array_B0[i]) );
 
-        if      ( array_qcs[i] < 40.0 ) { array_fm[i] = 0.3;                         }
-        else if ( array_qcs[i] > 65.0 ) { array_fm[i] = 1.2;                         }
-        else                            { array_fm[i] = 0.036 * array_qcs[i] - 1.14; }
+        array_qcs[i] = ( (array_Gfuel[i] * 1000000.0) /
+                         (30.0 * array_n[i] * Vh) ) /
+                ( (array_pk[i] + array_B0[i]) / (array_S[i] + array_B0[i]) );
 
-        array_pa[i] = (0.506 + 0.1 * array_t0[i] - 0.00245 * pow(array_t0[i], 2) + 0.0001 * pow(array_t0[i], 3)) * (array_Ra[i] / 100.0);
+        if ( array_qcs[i] < 40.0 ) {
+
+            array_fm[i] = 0.3;
+        }
+        else if ( array_qcs[i] > 65.0 ) {
+
+            array_fm[i] = 1.2;
+        }
+        else {
+
+            array_fm[i] = 0.036 * array_qcs[i] - 1.14;
+        }
+
+        array_pa[i] = (0.506 + 0.1 * array_t0[i] - 0.00245 *
+                       pow(array_t0[i], 2) + 0.0001 * pow(array_t0[i], 3)) *
+                (array_Ra[i] / 100.0);
+
         array_ps[i] = array_B0[i] - array_pa[i];
 
         if ( params.data()->val_ChargingType() == CHARGINGTYPE_NO ) {
 
-            array_fa[i] = (99.0 / array_ps[i]) * pow( (array_t0[i] + 273.0) / 298.0, 0.7 );
+            array_fa[i] = (99.0 / array_ps[i]) *
+                    pow( (array_t0[i] + 273.0) / 298.0, 0.7 );
         }
         else {
 
-            array_fa[i] = pow( 99.0 / array_ps[i], 0.7 ) * pow( (array_t0[i] + 273.0) / 298.0, 1.5 );
+            array_fa[i] = pow( 99.0 / array_ps[i], 0.7 ) *
+                    pow( (array_t0[i] + 273.0) / 298.0, 1.5 );
         }
 
         array_alphad[i] = pow(array_fa[i], array_fm[i]);
 
         if ( (array_alphad[i] < 0.9) || (array_alphad[i] > 1.1) ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "alphad is out-of-range (0.9..1.1)!";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "alphad is out-of-range (0.9..1.1)!";
 
             return false;
         }
@@ -210,8 +232,12 @@ bool ReducedPower::reducePower() {
         array_Ne_brake_reduced[i] = array_Ne_brutto[i] + array_N_k[i];
         array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
         array_Ne_netto_reduced[i] = array_Ne_reduced[i] - array_N_fan[i];
-        array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 / array_n[i];
-        array_ge_netto_reduced[i] = array_Gfuel[i] / array_Ne_netto_reduced[i] * 1000.0;
+
+        array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 /
+                array_n[i];
+
+        array_ge_netto_reduced[i] = array_Gfuel[i] /
+                array_Ne_netto_reduced[i] * 1000.0;
     }
 
     return true;
@@ -231,82 +257,111 @@ QString ReducedPower::createReports() {
 
     QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
 
-    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) + reportdir.separator() + checkoutDataFileName;
+    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) +
+            reportdir.separator() + checkoutDataFileName;
 
     QFile data1(checkoutdata);
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data1 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data1 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data1 to write!";
 
         return message;
     }
 
     QTextStream fout1(&data1);
 
-    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "t0[oC]" << "B0[kPa]" <<
-             "Ra[%]" << "S[kPa]" << "pk[kPa]" << "Gfuel[kg/h]" << "N_k[kW]" <<
-             "N_fan[kW]" << "Ne_b[kW]" << "qcs[mg/cyc.l]" << "fm[-]" << "pa[kPa]" <<
-             "ps[kPa]" << "fa[-]" << "alphad[-]" << "Ne_r[kW]" << "N_br[kW]" <<
-             "Ne_nr[kW]" << "Me_nr[Nm]" << "ge_nr[g/kWh]" << "\n";
+    fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN)
+          << "Point[-]"      << "n[min-1]"     << "Me_b[Nm]"
+          << "t0[oC]"        << "B0[kPa]"      << "Ra[%]"
+          << "S[kPa]"        << "pk[kPa]"      << "Gfuel[kg/h]"
+          << "N_k[kW]"       << "N_fan[kW]"    << "Ne_b[kW]"
+          << "qcs[mg/cyc.l]" << "fm[-]"        << "pa[kPa]"
+          << "ps[kPa]"       << "fa[-]"        << "alphad[-]"
+          << "Ne_r[kW]"      << "N_br[kW]"     << "Ne_nr[kW]"
+          << "Me_nr[Nm]"     << "ge_nr[g/kWh]"
+          << qSetFieldWidth(0) << "\n";
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION) <<
-                 (i + 1) << array_n[i] << array_Me_brutto[i] << array_t0[i] << array_B0[i] <<
-                 array_Ra[i] << array_S[i] << array_pk[i] << array_Gfuel[i] << array_N_k[i] <<
-                 array_N_fan[i] << array_Ne_brutto[i] << array_qcs[i] << array_fm[i] << array_pa[i] <<
-                 array_ps[i];
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION+2) <<
-                 array_fa[i] << array_alphad[i];
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION) <<
-                 array_Ne_reduced[i] << array_Ne_brake_reduced[i] << array_Ne_netto_reduced[i] << array_Me_netto_reduced[i] << array_ge_netto_reduced[i] << "\n";
+        fout1 << qSetFieldWidth(WIDTHOFCOLUMN);
+
+        fout1 << qSetRealNumberPrecision(PRECISION)
+              << (i + 1)      << array_n[i]     << array_Me_brutto[i]
+              << array_t0[i]  << array_B0[i]    << array_Ra[i]
+              << array_S[i]   << array_pk[i]    << array_Gfuel[i]
+              << array_N_k[i] << array_N_fan[i] << array_Ne_brutto[i]
+              << array_qcs[i] << array_fm[i]    << array_pa[i]
+              << array_ps[i];
+
+        fout1 << qSetRealNumberPrecision(PRECISION+2)
+              << array_fa[i] << array_alphad[i];
+
+        fout1 << qSetRealNumberPrecision(PRECISION)
+              << array_Ne_reduced[i]       << array_Ne_brake_reduced[i]
+              << array_Ne_netto_reduced[i] << array_Me_netto_reduced[i]
+              << array_ge_netto_reduced[i];
+
+        fout1 << qSetFieldWidth(0) << "\n";
     }
 
     data1.close();
 
-    message += "libtoxic: Additional file \"" + checkoutDataFileName + "\" rewrited.\n";
-    qDebug() << "\nlibtoxic: Additional file" << checkoutDataFileName << "rewrited.";
+    message += "libtoxic: Additional file \"" +
+            checkoutDataFileName + "\" rewrited.\n";
+    qDebug() << "\nlibtoxic: Additional file"
+             << checkoutDataFileName << "rewrited.";
 
     //
 
     QString sourceDataFileName = "SourceData85_" + mytime + ".csv";
 
-    QString srcdata = reportdir.absoluteFilePath(fullReportsPath) + reportdir.separator() + sourceDataFileName;
+    QString srcdata = reportdir.absoluteFilePath(fullReportsPath) +
+            reportdir.separator() + sourceDataFileName;
 
     QFile data4(srcdata);
 
     if ( !data4.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data4 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data4 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data4 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data4 to write!";
 
         return message;
     }
 
     QTextStream fout4(&data4);
 
-    fout4 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "t0[oC]" << "B0[kPa]" <<
-             "Ra[%]" << "S[kPa]" << "pk[kPa]" << "Gfuel[kg/h]" << "N_k[kW]" <<
-             "N_fan[kW]" << "\n";
+    fout4 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN)
+          << qSetRealNumberPrecision(PRECISION+1)
+          << "Point[-]" << "n[min-1]"  << "Me_b[Nm]"
+          << "t0[oC]"   << "B0[kPa]"   << "Ra[%]"
+          << "S[kPa]"   << "pk[kPa]"   << "Gfuel[kg/h]"
+          << "N_k[kW]"  << "N_fan[kW]"
+          << qSetFieldWidth(0) << "\n";
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
+        fout4 << qSetFieldWidth(WIDTHOFCOLUMN);
+
         for ( ptrdiff_t j=0; j<POWERSFILECOLUMNSNUMBER; j++ ) {
 
-            fout4 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION + 1) << array_DataForCalc[i][j];
+            fout4 << array_DataForCalc[i][j];
         }
 
-        fout4 << "\n";
+        fout4 << qSetFieldWidth(0) << "\n";
     }
 
     data4.close();
 
-    message += "libtoxic: SourceData file \"" + sourceDataFileName + "\" created.\n";
-    qDebug() << "libtoxic: SourceData file" << sourceDataFileName << "created.";
+    message += "libtoxic: SourceData file \"" +
+            sourceDataFileName + "\" created.\n";
+    qDebug() << "libtoxic: SourceData file"
+             << sourceDataFileName << "created.";
 
     return message;
 }

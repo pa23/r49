@@ -34,7 +34,8 @@
 
 #include <cmath>
 
-CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms, const QSharedPointer<CommonParameters> &cfg) :
+CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
+                         const QSharedPointer<CommonParameters> &cfg) :
         n_hi               (0),
         n_lo               (0),
         A                  (0),
@@ -90,7 +91,8 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) ||
+             (std == STD_EU4) || (std == STD_EU3) ) {
 
             filenameSource = config.data()->val_filenameSourceEU3();
         }
@@ -99,11 +101,15 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             filenameSource = config.data()->val_filenameSourceEU0();
         }
 
-        QSharedPointer<csvRead> readerSourceData(new csvRead(filenameSource, " ", STRSNUMBERFORCOLUMNCAPTION));
+        QSharedPointer<csvRead>
+                readerSourceData(new csvRead(filenameSource,
+                                             " ",
+                                             STRSNUMBERFORCOLUMNCAPTION));
 
         arraySourceData = readerSourceData.data()->csvData();
 
-        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) ||
+             (std == STD_EU4) || (std == STD_EU3) ) {
 
             if (arraySourceData.isEmpty()) {
 
@@ -138,13 +144,19 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                 return false;
             }
         }
-        else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ||
-                  (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-                  (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-                  (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-                  (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ||
+        else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
+                  (std == STD_OST) || (std == STD_GOST) ||
+                  (std == STD_R96E8) || (std == STD_R96F8) ||
+                  (std == STD_R96G8) || (std == STD_R96D8) ||
+                  (std == STD_R96E5) || (std == STD_R96F5) ||
+                  (std == STD_R96G5) || (std == STD_R96D5) ||
+                  (std == STD_R96H8) || (std == STD_R96I8) ||
+                  (std == STD_R96J8) || (std == STD_R96K8) ||
+                  (std == STD_R96H5) || (std == STD_R96I5) ||
+                  (std == STD_R96J5) || (std == STD_R96K5) ||
                   (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                  (std == STD_E5) ||
                   (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             if ( arraySourceData.isEmpty() ) {
@@ -170,7 +182,8 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "Incorrect program configuration!";
 
             return false;
         }
@@ -179,7 +192,8 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
         arraySourceData = data;
 
-        if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
+        if ( (std == STD_EU6) || (std == STD_EU5) ||
+             (std == STD_EU4) || (std == STD_EU3) ) {
 
             n_hi        = arraySourceData[0][ 0];
             n_lo        = arraySourceData[0][ 1];
@@ -200,13 +214,19 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                 return false;
             }
         }
-        else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ||
-                  (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-                  (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-                  (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ||
-                  (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ||
+        else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
+                  (std == STD_OST) || (std == STD_GOST) ||
+                  (std == STD_R96E8) || (std == STD_R96F8) ||
+                  (std == STD_R96G8) || (std == STD_R96D8) ||
+                  (std == STD_R96E5) || (std == STD_R96F5) ||
+                  (std == STD_R96G5) || (std == STD_R96D5) ||
+                  (std == STD_R96H8) || (std == STD_R96I8) ||
+                  (std == STD_R96J8) || (std == STD_R96K8) ||
+                  (std == STD_R96H5) || (std == STD_R96I5) ||
+                  (std == STD_R96J5) || (std == STD_R96K5) ||
                   (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
-                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) || (std == STD_E5) ||
+                  (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
+                  (std == STD_E5) ||
                   (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
             idle        = arraySourceData[0][ 0];
@@ -218,7 +238,8 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
+            qDebug() << Q_FUNC_INFO << ":::"
+                     << "Incorrect program configuration!";
 
             return false;
         }
@@ -234,7 +255,8 @@ bool CyclePoints::fillArrays() {
 
     ptrdiff_t n = 0;
 
-    if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
+    if ( (std == STD_EU6) || (std == STD_EU5) ||
+         (std == STD_EU4) || (std == STD_EU3) ) {
 
         if ( addpc == ADDPOINTSCALC_YES ) {
 
@@ -275,23 +297,28 @@ bool CyclePoints::fillArrays() {
 
         array_Ne_brutto[ 0] = 0;
         array_Ne_brutto[ 1] = Ne_A;
-        array_Ne_brutto[ 2] = 0.50  * (Ne_B - array_N_fan[2]) + array_N_fan[2];
-        array_Ne_brutto[ 3] = 0.75  * (Ne_B - array_N_fan[3]) + array_N_fan[3];
-        array_Ne_brutto[ 4] = 0.50  * (Ne_A - array_N_fan[4]) + array_N_fan[4];
-        array_Ne_brutto[ 5] = 0.75  * (Ne_A - array_N_fan[5]) + array_N_fan[5];
-        array_Ne_brutto[ 6] = 0.25  * (Ne_A - array_N_fan[6]) + array_N_fan[6];
+        array_Ne_brutto[ 2] = 0.50 * (Ne_B - array_N_fan[2]) + array_N_fan[2];
+        array_Ne_brutto[ 3] = 0.75 * (Ne_B - array_N_fan[3]) + array_N_fan[3];
+        array_Ne_brutto[ 4] = 0.50 * (Ne_A - array_N_fan[4]) + array_N_fan[4];
+        array_Ne_brutto[ 5] = 0.75 * (Ne_A - array_N_fan[5]) + array_N_fan[5];
+        array_Ne_brutto[ 6] = 0.25 * (Ne_A - array_N_fan[6]) + array_N_fan[6];
         array_Ne_brutto[ 7] = Ne_B;
-        array_Ne_brutto[ 8] = 0.25  * (Ne_B - array_N_fan[8]) + array_N_fan[8];
+        array_Ne_brutto[ 8] = 0.25 * (Ne_B - array_N_fan[8]) + array_N_fan[8];
         array_Ne_brutto[ 9] = Ne_C;
-        array_Ne_brutto[10] = 0.25  * (Ne_C - array_N_fan[10]) + array_N_fan[10];
-        array_Ne_brutto[11] = 0.75  * (Ne_C - array_N_fan[11]) + array_N_fan[11];
-        array_Ne_brutto[12] = 0.50  * (Ne_C - array_N_fan[12]) + array_N_fan[12];
+        array_Ne_brutto[10] = 0.25 * (Ne_C - array_N_fan[10]) + array_N_fan[10];
+        array_Ne_brutto[11] = 0.75 * (Ne_C - array_N_fan[11]) + array_N_fan[11];
+        array_Ne_brutto[12] = 0.50 * (Ne_C - array_N_fan[12]) + array_N_fan[12];
 
         if ( addpc == ADDPOINTSCALC_YES ) {
 
-            array_Ne_brutto[13] = 0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
-            array_Ne_brutto[14] = 0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
-            array_Ne_brutto[15] = 0.375 * (Ne_a3 - array_N_fan[15]) + array_N_fan[15];
+            array_Ne_brutto[13] =
+                    0.875 * (Ne_a1 - array_N_fan[13]) + array_N_fan[13];
+
+            array_Ne_brutto[14] =
+                    0.625 * (Ne_a2 - array_N_fan[14]) + array_N_fan[14];
+
+            array_Ne_brutto[15] =
+                    0.375 * (Ne_a3 - array_N_fan[15]) + array_N_fan[15];
         }
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
@@ -346,17 +373,37 @@ bool CyclePoints::fillArrays() {
         }
 
         array_Ne_brutto[ 0] = 0;
-        array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1];
-        array_Ne_brutto[ 2] = 0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
-        array_Ne_brutto[ 3] = 0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
-        array_Ne_brutto[ 4] = 0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+
+        array_Ne_brutto[ 1] =
+                0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1];
+
+        array_Ne_brutto[ 2] =
+                0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
+
+        array_Ne_brutto[ 3] =
+                0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
+
+        array_Ne_brutto[ 4] =
+                0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+
         array_Ne_brutto[ 5] = Ne_interim;
+
         array_Ne_brutto[ 6] = 0;
+
         array_Ne_brutto[ 7] = Ne_rated;
-        array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
-        array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
-        array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
-        array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
+
+        array_Ne_brutto[ 8] =
+                0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
+
+        array_Ne_brutto[ 9] =
+                0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
+
+        array_Ne_brutto[10] =
+                0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
+
+        array_Ne_brutto[11] =
+                0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
+
         array_Ne_brutto[12] = 0;
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
@@ -404,19 +451,53 @@ bool CyclePoints::fillArrays() {
         }
 
         array_Ne_brutto[ 0] = 0;
-        if (std == STD_OST) { array_Ne_brutto[ 1] = 0.02 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
-        else                { array_Ne_brutto[ 1] = 0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1]; }
-        array_Ne_brutto[ 2] = 0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
-        array_Ne_brutto[ 3] = 0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
-        array_Ne_brutto[ 4] = 0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+
+        if (std == STD_OST) {
+
+            array_Ne_brutto[ 1] =
+                    0.02 * (Ne_interim - array_N_fan[1]) + array_N_fan[1];
+        }
+        else {
+
+            array_Ne_brutto[ 1] =
+                    0.10 * (Ne_interim - array_N_fan[1]) + array_N_fan[1];
+        }
+
+        array_Ne_brutto[ 2] =
+                0.25 * (Ne_interim - array_N_fan[2]) + array_N_fan[2];
+
+        array_Ne_brutto[ 3] =
+                0.50 * (Ne_interim - array_N_fan[3]) + array_N_fan[3];
+
+        array_Ne_brutto[ 4] =
+                0.75 * (Ne_interim - array_N_fan[4]) + array_N_fan[4];
+
         array_Ne_brutto[ 5] = Ne_interim;
+
         array_Ne_brutto[ 6] = 0;
+
         array_Ne_brutto[ 7] = Ne_rated;
-        array_Ne_brutto[ 8] = 0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
-        array_Ne_brutto[ 9] = 0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
-        array_Ne_brutto[10] = 0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
-        if ( std == STD_OST ) { array_Ne_brutto[11] = 0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
-        else                  { array_Ne_brutto[11] = 0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11]; }
+
+        array_Ne_brutto[ 8] =
+                0.75 * (Ne_rated - array_N_fan[8]) + array_N_fan[8];
+
+        array_Ne_brutto[ 9] =
+                0.50 * (Ne_rated - array_N_fan[9]) + array_N_fan[9];
+
+        array_Ne_brutto[10] =
+                0.25 * (Ne_rated - array_N_fan[10]) + array_N_fan[10];
+
+        if ( std == STD_OST ) {
+
+            array_Ne_brutto[11] =
+                    0.02 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
+        }
+        else {
+
+            array_Ne_brutto[11] =
+                    0.10 * (Ne_rated - array_N_fan[11]) + array_N_fan[11];
+        }
+
         array_Ne_brutto[12] = 0;
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
@@ -457,8 +538,10 @@ bool CyclePoints::fillArrays() {
             array_w[12] = 0.0833;
         }
     }
-    else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-              (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
+    else if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+              (std == STD_R96G8) || (std == STD_R96D8) ||
+              (std == STD_R96H8) || (std == STD_R96I8) ||
+              (std == STD_R96J8) || (std == STD_R96K8) ) {
 
         arraysInit(ECYCLEPOINTSNUMBER);
 
@@ -495,8 +578,10 @@ bool CyclePoints::fillArrays() {
         array_w[ 6] = 0.10;
         array_w[ 7] = 0.15;
     }
-    else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-              (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+    else if ( (std == STD_R96E5) || (std == STD_R96F5) ||
+              (std == STD_R96G5) || (std == STD_R96D5) ||
+              (std == STD_R96H5) || (std == STD_R96I5) ||
+              (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         arraysInit(FCYCLEPOINTSNUMBER);
 
@@ -796,27 +881,34 @@ QString CyclePoints::createReport() const {
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Can not open data1 to write!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Can not open data1 to write!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Can not open data1 to write!";
 
         return message;
     }
 
     QTextStream fout1(&data1);
 
-    fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-             "Point[-]" << "n[min-1]" << "Me_b[Nm]" << "Ne_b[kW]" << "N_fan[kW]" <<
-             "w[-]" << "t0[oC]" << "B0[kPa]" << "Ra[%]" << "dPn[mmH2O]" <<
-             "Gair[kg/h]" << "Gfuel[kg/h]" << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]" <<
-             "C_CH[ppm]" << "C_CO2in[%]" << "C_CO2out[%]" << "C_O2[%]" << "Ka[m-1]" <<
-             "Ka[%]" << "FSN[-]" << "Pr[kPa]" << "ts[oC]" << "tauf[s]" <<
-             "qmdw[g/s]" << "qmdew[g/s]" << "rd[-]" << "\n";
+    fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN)
+          << "Point[-]"   << "n[min-1]"    << "Me_b[Nm]"
+          << "Ne_b[kW]"   << "N_fan[kW]"   << "w[-]"
+          << "t0[oC]"     << "B0[kPa]"     << "Ra[%]"
+          << "dPn[mmH2O]" << "Gair[kg/h]"  << "Gfuel[kg/h]"
+          << "C_NOx[ppm]" << "gNOx[g/kWh]" << "C_CO[ppm]"
+          << "C_CH[ppm]"  << "C_CO2in[%]"  << "C_CO2out[%]"
+          << "C_O2[%]"    << "Ka[m-1]"     << "Ka[%]"
+          << "FSN[-]"     << "Pr[kPa]"     << "ts[oC]"
+          << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
+          << "rd[-]"      << "\n";
 
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
 
-    if ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) || (std == STD_EU3) ) {
+    if ( (std == STD_EU6) || (std == STD_EU5) ||
+         (std == STD_EU4) || (std == STD_EU3) ) {
 
         if ( params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES ) {
 
@@ -827,17 +919,22 @@ QString CyclePoints::createReport() const {
             n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
         }
     }
-    else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) || (std == STD_OST) || (std == STD_GOST) ) {
+    else if ( (std == STD_EU2) || (std == STD_EU1) || (std == STD_EU0) ||
+              (std == STD_OST) || (std == STD_GOST) ) {
 
         n = TCYCLEPOINTSNUMBER - TCYCLEADDPOINTSNUMBER;
     }
-    else if ( (std == STD_R96E8) || (std == STD_R96F8) || (std == STD_R96G8) || (std == STD_R96D8) ||
-              (std == STD_R96H8) || (std == STD_R96I8) || (std == STD_R96J8) || (std == STD_R96K8) ) {
+    else if ( (std == STD_R96E8) || (std == STD_R96F8) ||
+              (std == STD_R96G8) || (std == STD_R96D8) ||
+              (std == STD_R96H8) || (std == STD_R96I8) ||
+              (std == STD_R96J8) || (std == STD_R96K8) ) {
 
         n = ECYCLEPOINTSNUMBER;
     }
-    else if ( (std == STD_R96E5) || (std == STD_R96F5) || (std == STD_R96G5) || (std == STD_R96D5) ||
-              (std == STD_R96H5) || (std == STD_R96I5) || (std == STD_R96J5) || (std == STD_R96K5) ) {
+    else if ( (std == STD_R96E5) || (std == STD_R96F5) ||
+              (std == STD_R96G5) || (std == STD_R96D5) ||
+              (std == STD_R96H5) || (std == STD_R96I5) ||
+              (std == STD_R96J5) || (std == STD_R96K5) ) {
 
         n = FCYCLEPOINTSNUMBER;
     }
@@ -885,22 +982,30 @@ QString CyclePoints::createReport() const {
 
         data1.close();
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" + "Points can be calculated only for cycles!\n";
-        qDebug() << Q_FUNC_INFO << ":::" << "Points can be calculated only for cycles!";
+        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                "Points can be calculated only for cycles!\n";
+        qDebug() << Q_FUNC_INFO << ":::"
+                 << "Points can be calculated only for cycles!";
 
         return message;
     }
 
     for ( ptrdiff_t i=0; i<n; i++ ) {
 
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION) <<
-                 array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i];
-        fout1 << fixed << right << qSetFieldWidth(WIDTHOFCOLUMN) << qSetRealNumberPrecision(PRECISION+1) << array_w[i];
-        fout1 << right << qSetFieldWidth(WIDTHOFCOLUMN) <<
-                 "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" <<
-                 "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" <<
-                 "0" << "0" << "\n";
+        fout1 << qSetFieldWidth(WIDTHOFCOLUMN);
+
+        fout1 << qSetRealNumberPrecision(0) << (i + 1) << array_n[i];
+
+        fout1 << qSetRealNumberPrecision(PRECISION)
+              << array_Me_brutto[i] << array_Ne_brutto[i] << array_N_fan[i];
+
+        fout1 << qSetRealNumberPrecision(PRECISION+1) << array_w[i];
+
+        fout1 << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0"
+              << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0" << "0"
+              << "0" << "0" << "0" << "0";
+
+        fout1 << qSetFieldWidth(0) << "\n";
     }
 
     data1.close();
