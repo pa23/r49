@@ -2507,6 +2507,18 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                       << qSetFieldWidth(0) << "\n";
             }
 
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx[g/kWh]";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                  << gNOx
+                  << qSetFieldWidth(0) << "\n";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCH[g/kWh]";
+
+            fout5 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                  << gCH
+                  << qSetFieldWidth(0) << "\n";
+
             if ( gCOcalc ) {
 
                 fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gCO[g/kWh]";
