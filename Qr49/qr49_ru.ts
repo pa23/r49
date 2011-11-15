@@ -2,221 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
 <context>
-    <name>AdditionalCalculationsDialog</name>
-    <message>
-        <source>Qr49: Additional Calculations</source>
-        <translation>Qr49: Дополнительные расчеты</translation>
-    </message>
-    <message>
-        <source>A, B, C speeds</source>
-        <translation>Обороты A, B, C</translation>
-    </message>
-    <message>
-        <source>Source data</source>
-        <translation>Исходные данные</translation>
-    </message>
-    <message>
-        <source>n_hi</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>n_lo</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>min-1</source>
-        <translation>мин-1</translation>
-    </message>
-    <message>
-        <source>Calculation results</source>
-        <translation>Результаты расчета</translation>
-    </message>
-    <message>
-        <source>A</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>B</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>C</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>a1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>a2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>a3</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>n_ref</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>ELR smoke</source>
-        <translation>Дым ELR</translation>
-    </message>
-    <message>
-        <source>Air consumption</source>
-        <translation>Расход воздуха</translation>
-    </message>
-    <message>
-        <source>mm</source>
-        <translation>мм</translation>
-    </message>
-    <message>
-        <source>kPa</source>
-        <translation>кПа</translation>
-    </message>
-    <message>
-        <source>deg C</source>
-        <translation>град C</translation>
-    </message>
-    <message>
-        <source>mm H2O</source>
-        <translation>мм H2O</translation>
-    </message>
-    <message>
-        <source>kg/h</source>
-        <translation>кг/ч</translation>
-    </message>
-    <message>
-        <source>Fan power</source>
-        <translation>Мощность вентилятора</translation>
-    </message>
-    <message>
-        <source>kW</source>
-        <translation>кВт</translation>
-    </message>
-    <message>
-        <source>Smoke translation</source>
-        <translation>Пересчет дымности</translation>
-    </message>
-    <message>
-        <source>0.43</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>m</source>
-        <translation>м</translation>
-    </message>
-    <message>
-        <source>[m-1]</source>
-        <translation>[м-1]</translation>
-    </message>
-    <message>
-        <source>[%]</source>
-        <translation>[%]</translation>
-    </message>
-    <message>
-        <source>-&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Calculate</source>
-        <translation>Рассчитать</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
-    </message>
-    <message>
-        <source>Error during calculation A, B, C speeds!</source>
-        <translation>Ошибка во время выполнения расчета оборотов A, B, C!</translation>
-    </message>
-    <message>
-        <source>Error during calculation ELR smoke!</source>
-        <translation>Ошибка во время расчета дыма по циклу ELR!</translation>
-    </message>
-    <message>
-        <source>1st peak at A</source>
-        <translation>1-й пик на об. A</translation>
-    </message>
-    <message>
-        <source>2nd peak at A</source>
-        <translation>2-й пик на об. A</translation>
-    </message>
-    <message>
-        <source>3rd peak at A</source>
-        <translation>3-й пик на об. A</translation>
-    </message>
-    <message>
-        <source>1st peak at B</source>
-        <translation>1-й пик на об. B</translation>
-    </message>
-    <message>
-        <source>2nd peak at B</source>
-        <translation>2-й пик на об. B</translation>
-    </message>
-    <message>
-        <source>3rd peak at B</source>
-        <translation>3-й пик на об. B</translation>
-    </message>
-    <message>
-        <source>1st peak at C</source>
-        <translation>1-й пик на об. C</translation>
-    </message>
-    <message>
-        <source>2nd peak at C</source>
-        <translation>2-й пик на об. C</translation>
-    </message>
-    <message>
-        <source>3rd peak at C</source>
-        <translation>3-й пик на об. C</translation>
-    </message>
-    <message>
-        <source>Dn</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>B0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>t0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>dPn</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Gair</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>N_fan_rated</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>n_rated</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>n</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>N_fan</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>L</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>CheckoutDataDialog</name>
     <message>
         <source>Save Checkout Data As...</source>
@@ -1274,10 +1059,6 @@ p, li { white-space: pre-wrap; }
         <translation>Экспорт</translation>
     </message>
     <message>
-        <source>ELR smoke</source>
-        <translation>Дым по циклу ELR</translation>
-    </message>
-    <message>
         <source>Report To PDF...</source>
         <translation>Отчет в PDF...</translation>
     </message>
@@ -1830,15 +1611,151 @@ Maybe you did not enter all source data?</source>
         <translation>Газотурбинный</translation>
     </message>
     <message>
-        <source>Calculation parameters</source>
-        <translation>Параметры расчета</translation>
-    </message>
-    <message>
         <source>Additional calculations</source>
         <translation>Дополнительные расчеты</translation>
     </message>
     <message>
         <source>Shift+F9</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Calculations panel</source>
+        <translation>Панель расчетов</translation>
+    </message>
+    <message>
+        <source>Emission calculation parameters</source>
+        <translation>Параметры расчета выбросов ВВ</translation>
+    </message>
+    <message>
+        <source>n_hi</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>n_lo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>A</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>C</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>a1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>a2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>a3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>n_ref</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>min-1</source>
+        <translation>мин-1</translation>
+    </message>
+    <message>
+        <source>Air consumption</source>
+        <translation>Расход воздуха</translation>
+    </message>
+    <message>
+        <source>Dn</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>B0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>t0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>dPn</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Gair</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>mm</source>
+        <translation>мм</translation>
+    </message>
+    <message>
+        <source>kPa</source>
+        <translation>кПа</translation>
+    </message>
+    <message>
+        <source>oC</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>mmH2O</source>
+        <translation>ммH2O</translation>
+    </message>
+    <message>
+        <source>kg/h</source>
+        <translation>кг/ч</translation>
+    </message>
+    <message>
+        <source>Fan power</source>
+        <translation>Мощность вентилятора</translation>
+    </message>
+    <message>
+        <source>N_fan_rated</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>kW</source>
+        <translation>кВт</translation>
+    </message>
+    <message>
+        <source>n_rated</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>n</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>N_fan</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Smoke values converting</source>
+        <translation>Конверт. значений дымности</translation>
+    </message>
+    <message>
+        <source>L</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation>м</translation>
+    </message>
+    <message>
+        <source>Ka</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>m-1</source>
+        <translation>м-1</translation>
+    </message>
+    <message>
+        <source>%</source>
         <translation></translation>
     </message>
 </context>
@@ -1891,26 +1808,6 @@ Maybe you did not enter all source data?</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <source>CSV format settings</source>
-        <translation>Настройки формата CSV</translation>
-    </message>
-    <message>
-        <source>CSV files delimeter</source>
-        <translation>Разделитель в файлах CSV</translation>
-    </message>
-    <message>
-        <source>;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>,</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>\t</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Directories</source>
         <translation>Каталоги</translation>
     </message>
@@ -1937,10 +1834,6 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>TempSourceData/SourceData1-EU3456.csv</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>OST..EU2, r96**, GOST 30574 cycle points calculation</source>
-        <translation>Расчет точек циклов ОСТ..Евро-2, Правила 96**, ГОСТ 30574</translation>
     </message>
     <message>
         <source>TempSourceData/SourceData1-EU012-r96-GOST30574.csv</source>
@@ -2029,6 +1922,10 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>Rr, J/kgK</source>
         <translation>Rг, Дж/кгК</translation>
+    </message>
+    <message>
+        <source>OST..EU2, r96**, GOST 30574 cycle points calc</source>
+        <translation>Расчет точек циклов ОСТ..Евро-2, Правила 96**, ГОСТ 30574</translation>
     </message>
 </context>
 <context>
