@@ -142,7 +142,10 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
 
     if (!preferencesFile.open(QIODevice::WriteOnly)) {
 
-        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Preferences could not be saved!"), 0, 0, 0);
+        QMessageBox::critical(0, "Qr49",
+                              QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                              tr("Preferences could not be saved!"),
+                              0, 0, 0);
 
         return;
     }

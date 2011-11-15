@@ -40,7 +40,11 @@ NewVersions::NewVersions() :
         htmlData("") {
 
     netmanager = new QNetworkAccessManager();
-    connect(netmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+
+    connect(netmanager,
+            SIGNAL(finished(QNetworkReply*)),
+            this,
+            SLOT(replyFinished(QNetworkReply*)));
 }
 
 NewVersions::~NewVersions() {
@@ -61,7 +65,8 @@ void NewVersions::replyFinished(QNetworkReply* reply) {
 
     if (reply->error()) {
 
-        QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" + reply->errorString();
+        QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                reply->errorString();
         QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
         return;
@@ -109,9 +114,12 @@ void NewVersions::parseHtmlData() {
 
     for (ptrdiff_t i=0; i<files.count(); i++) {
 
-        allfiles += files.at(i) + " (" + "<a href= \"" + urls.at(i) + "\" >" + tr("Download") + "</a>)<br>";
+        allfiles += files.at(i) + " (" + "<a href= \"" + urls.at(i) + "\" >" +
+                tr("Download") + "</a>)<br>";
     }
 
-    QString msg = tr("You use ") + tr("r49 distribution version ") + r49version + "<br><br>" + tr("Available distributions:<br><br>") + allfiles;
+    QString msg = tr("You use ") + tr("r49 distribution version ") +
+            r49version + "<br><br>" + tr("Available distributions:<br><br>") +
+            allfiles;
     QMessageBox::information(0, "Qr49", msg, 0, 0, 0);
 }

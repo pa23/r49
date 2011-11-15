@@ -87,7 +87,10 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
 
         if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
 
-            QMessageBox::critical(0, "Qr49", tr("Error during calculation A, B, C speeds!"), 0, 0, 0);
+            QMessageBox::
+                    critical(0, "Qr49",
+                             tr("Error during calculation A, B, C speeds!"),
+                             0, 0, 0);
         }
 
         ui->lineEdit_A->setText(QString::number(A));
@@ -114,7 +117,10 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
 
         if (!calcELR(fA, sA, tA, fB, sB, tB, fC, sC, tC, &ELRsmoke)) {
 
-            QMessageBox::critical(0, "Qr49", tr("Error during calculation ELR smoke!"), 0, 0, 0);
+            QMessageBox::
+                    critical(0, "Qr49",
+                             tr("Error during calculation ELR smoke!"),
+                             0, 0, 0);
         }
 
         ui->lineEdit_ELRsmoke->setText(QString::number(ELRsmoke));
@@ -126,7 +132,8 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
         double t0 = ui->lineEdit_airTemperature->text().toDouble();
         double dPn = ui->lineEdit_nozzleVacuum->text().toDouble();
 
-        ui->lineEdit_airConsumption->setText(QString::number(calcGair(Dn, B0, t0, dPn)));
+        ui->lineEdit_airConsumption->
+                setText(QString::number(calcGair(Dn, B0, t0, dPn)));
     }
     else if ( ui->tabWidget->currentIndex() == FANPOWER ) {
 
@@ -134,7 +141,8 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
         double n = ui->lineEdit_n->text().toDouble();
         double n_rated = ui->lineEdit_nRated->text().toDouble();
 
-        ui->lineEdit_Nfan->setText(QString::number(calcNfan(N_fan_rated, n, n_rated)));
+        ui->lineEdit_Nfan->
+                setText(QString::number(calcNfan(N_fan_rated, n, n_rated)));
     }
     else if ( ui->tabWidget->currentIndex() == SMOKETRANSLATION ) {
 
@@ -146,13 +154,15 @@ void AdditionalCalculationsDialog::on_pushButton_calculate_clicked() {
 
             Ka1m = ui->lineEdit_Ka1m->text().toDouble();
 
-            ui->lineEdit_KaPerc->setText(QString::number( Ka1m2KaPerc(Ka1m, L) ));
+            ui->lineEdit_KaPerc->
+                    setText(QString::number( Ka1m2KaPerc(Ka1m, L) ));
         }
         else {
 
             KaPerc = ui->lineEdit_KaPerc->text().toDouble();
 
-            ui->lineEdit_Ka1m->setText(QString::number( KaPerc2Ka1m(KaPerc, L) ));
+            ui->lineEdit_Ka1m->
+                    setText(QString::number( KaPerc2Ka1m(KaPerc, L) ));
         }
     }
 }

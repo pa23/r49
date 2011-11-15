@@ -98,11 +98,30 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    connect(ui->comboBox_task, SIGNAL(activated(int)), this, SLOT(taskChanged(int)));
-    connect(ui->comboBox_standard, SIGNAL(activated(int)), this, SLOT(standardChanged(int)));
-    connect(ui->comboBox_PTcalc, SIGNAL(activated(int)), this, SLOT(PTcalcChanged(int)));
-    connect(ui->comboBox_OpenedReports, SIGNAL(activated(QString)), this, SLOT(reportChanged(QString)));
-    connect(ui->tabWidget_Data, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+    connect(ui->comboBox_task,
+            SIGNAL(activated(int)),
+            this,
+            SLOT(taskChanged(int)));
+
+    connect(ui->comboBox_standard,
+            SIGNAL(activated(int)),
+            this,
+            SLOT(standardChanged(int)));
+
+    connect(ui->comboBox_PTcalc,
+            SIGNAL(activated(int)),
+            this,
+            SLOT(PTcalcChanged(int)));
+
+    connect(ui->comboBox_OpenedReports,
+            SIGNAL(activated(QString)),
+            this,
+            SLOT(reportChanged(QString)));
+
+    connect(ui->tabWidget_Data,
+            SIGNAL(currentChanged(int)),
+            this,
+            SLOT(tabChanged(int)));
 
     tableCellChangedConnect(true);
 

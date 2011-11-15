@@ -612,6 +612,12 @@
           </item>
           <item>
            <widget class="QPlainTextEdit" name="plainTextEdit_Report">
+            <property name="font">
+             <font>
+              <family>Liberation Mono</family>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
             <property name="lineWrapMode">
              <enum>QPlainTextEdit::NoWrap</enum>
             </property>

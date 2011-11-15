@@ -51,7 +51,8 @@ void ShowAbout() {
     cout << "\n\t" << QR49VERSION.toStdString() << " libtoxic v" << LIBTOXICVERSION.toStdString();
 
     cout << "\n\nCopyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>"
-            "\n\nSite: https://github.com/pa23/r49\n\n"
+            "\n\nProgram hosting: https://github.com/pa23/r49\n"
+            "Author's blog (RU): http://pa2311.blogspot.com\n\n"
             "This program is free software: you can redistribute it and/or modify\n"
             "it under the terms of the GNU General Public License as published by\n"
             "the Free Software Foundation, either version 3 of the License, or\n"

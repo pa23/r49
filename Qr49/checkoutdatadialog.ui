@@ -23,6 +23,12 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QPlainTextEdit" name="plainTextEdit_CheckoutData">
+     <property name="font">
+      <font>
+       <family>Liberation Mono</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="lineWrapMode">
       <enum>QPlainTextEdit::NoWrap</enum>
      </property>

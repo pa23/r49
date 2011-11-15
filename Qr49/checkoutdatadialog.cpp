@@ -53,7 +53,8 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
         if ( !checkoutDataFile.open(QIODevice::WriteOnly) ) {
 
-            QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" + newCheckoutDataFileName + tr(" could not be saved!");
+            QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" +
+                    newCheckoutDataFileName + tr(" could not be saved!");
             QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
             return;
