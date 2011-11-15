@@ -56,38 +56,18 @@ bool calcABC(const double &n_hi,
     return true;
 }
 
-bool calcELR(const double &smoke_A1,
-             const double &smoke_A2,
-             const double &smoke_A3,
-             const double &smoke_B1,
-             const double &smoke_B2,
-             const double &smoke_B3,
-             const double &smoke_C1,
-             const double &smoke_C2,
-             const double &smoke_C3,
-             double* smokeELR) {
-
-    double smoke_A_mean = (smoke_A1 + smoke_A2 + smoke_A3) / 3.0;
-    double smoke_B_mean = (smoke_B1 + smoke_B2 + smoke_B3) / 3.0;
-    double smoke_C_mean = (smoke_C1 + smoke_C2 + smoke_C3) / 3.0;
-
-    *smokeELR = 0.43 * smoke_A_mean + 0.56 * smoke_B_mean + 0.01 * smoke_C_mean;
-
-    return true;
-}
-
-double calcGair(const double &Dn,
-                const double &B0,
-                const double &t0,
-                const double &dPn) {
+double Gair(const double &Dn,
+            const double &B0,
+            const double &t0,
+            const double &dPn) {
 
     return 0.0084591 * pow(Dn, 2) *
             sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
 }
 
-double calcNfan(const double &N_fan_rated,
-                const double &n,
-                const double &n_rated) {
+double N_fan(const double &N_fan_rated,
+             const double &n,
+             const double &n_rated) {
 
     return N_fan_rated * pow(n / n_rated, 3);
 }

@@ -34,25 +34,14 @@ bool calcABC(const double &,
              double *,
              double *);
 
-bool calcELR(const double &,
-             const double &,
-             const double &,
-             const double &,
-             const double &,
-             const double &,
-             const double &,
-             const double &,
-             const double &,
-             double *);
+double Gair(const double &,
+            const double &,
+            const double &,
+            const double &);
 
-double calcGair(const double &,
-                const double &,
-                const double &,
-                const double &);
-
-double calcNfan(const double &,
-                const double &,
-                const double &);
+double N_fan(const double &,
+             const double &,
+             const double &);
 
 double Ka1m2KaPerc(const double &,
                    const double &);

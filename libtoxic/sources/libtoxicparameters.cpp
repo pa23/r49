@@ -30,16 +30,16 @@
 #include <QRegExp>
 
 LibtoxicParameters::LibtoxicParameters() :
-        task           (TASK_EMISSIONS),
-        Vh             (0),
-        standard       (STD_EU4),
-        chargingType   (CHARGINGTYPE_GASTURBINE),
-        FuelType       (FUELTYPE_DIESEL),
-        NOxSample      (NOXSAMPLE_WET),
-        PTcalc         (PTCALC_NO),
-        PTmass         (0),
-        AddPointsCalc  (ADDPOINTSCALC_NO),
-        CalcConfigFile ("_._") {
+    task           (TASK_EMISSIONS),
+    Vh             (0),
+    standard       (STD_EU4),
+    chargingType   (CHARGINGTYPE_GASTURBINE),
+    FuelType       (FUELTYPE_DIESEL),
+    NOxSample      (NOXSAMPLE_WET),
+    PTcalc         (PTCALC_NO),
+    PTmass         (0),
+    AddPointsCalc  (ADDPOINTSCALC_NO),
+    CalcConfigFile ("_._") {
 }
 
 LibtoxicParameters::~LibtoxicParameters() {
@@ -273,8 +273,6 @@ ptrdiff_t LibtoxicParameters::defTask(const QString &str) const {
               str == "ReducedPower" ) { return TASK_REDUCEDPOWER; }
     else if ( str == QString::number(TASK_ABCSPEEDS   ) ||
               str == "ABCspeeds"    ) { return TASK_ABCSPEEDS;    }
-    else if ( str == QString::number(TASK_ELRSMOKE    ) ||
-              str == "ELRsmoke"     ) { return TASK_ELRSMOKE;     }
     else if ( str == QString::number(TASK_HELP        ) ||
               str == "help"         ) { return TASK_HELP;         }
     else {

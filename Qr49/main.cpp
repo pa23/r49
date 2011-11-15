@@ -80,7 +80,6 @@ void ShowHelp() {
             "\t\t\tReducedPower - for reduce power calculation\n"
             "\t\t\t               (regulation 85);\n"
             "\t\t\tABCspeeds    - for A,B,C calculation;\n"
-            "\t\t\tELRsmoke     - for ELR smoke calculation;\n"
             "\t\t\thelp         - for show help.\n\n"
             "  Vh=VH\t\t\tvariants of VH:\n"
             "\t\t\tNumber - engine capacity, litres.\n\n"
@@ -353,37 +352,6 @@ int main(int argc, char **argv) {
             cout << "\na2   = " << a2;
             cout << "\na3   = " << a3;
             cout << "\nnref = " << n_ref << "\n\n";
-        }
-        else if ( currtask == TASK_ELRSMOKE ) {
-
-            double smoke_A1 = 0, smoke_A2 = 0, smoke_A3 = 0;
-            double smoke_B1 = 0, smoke_B2 = 0, smoke_B3 = 0;
-            double smoke_C1 = 0, smoke_C2 = 0, smoke_C3 = 0;
-
-            double smokeELR = 0;
-
-            cout << "\n" << "First  smoke peak at speed A: "; if(!(cin >> smoke_A1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Second smoke peak at speed A: "; if(!(cin >> smoke_A2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Third  smoke peak at speed A: "; if(!(cin >> smoke_A3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-
-            cout << "\n" << "First  smoke peak at speed B: "; if(!(cin >> smoke_B1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Second smoke peak at speed B: "; if(!(cin >> smoke_B2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Third  smoke peak at speed B: "; if(!(cin >> smoke_B3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-
-            cout << "\n" << "First  smoke peak at speed C: "; if(!(cin >> smoke_C1)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Second smoke peak at speed C: "; if(!(cin >> smoke_C2)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "Third  smoke peak at speed C: "; if(!(cin >> smoke_C3)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
-
-            if (!calcELR(smoke_A1, smoke_A2, smoke_A3,
-                         smoke_B1, smoke_B2, smoke_B3,
-                         smoke_C1, smoke_C2, smoke_C3,
-                         &smokeELR)) {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
-            }
-
-            cout << "\nELR smoke = " << smokeELR << "\n\n";
         }
         else if ( currtask == TASK_HELP ) {
 

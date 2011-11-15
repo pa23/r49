@@ -36,22 +36,22 @@
 #include "csvread.h"
 
 DataImportDialog::DataImportDialog(QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::DataImportDialog),
-        delimiter("\t"),
-        headerLines(2),
-        table_points_headers("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] "
-                             "w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] "
-                             "Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] "
-                             "C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] "
-                             "Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] "
-                             "qmdew[g/s] rd[-]"),
-        table_fullLoadCurve_headers("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
-                                    "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
-                                    "N_fan[kW]"),
-        dataDirName(QDir::currentPath()),
-        table_lid(0),
-        dtable(0) {
+    QDialog(parent),
+    ui(new Ui::DataImportDialog),
+    delimiter("\t"),
+    headerLines(2),
+    table_points_headers("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] "
+                         "w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] "
+                         "Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] "
+                         "C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] "
+                         "Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] "
+                         "qmdew[g/s] rd[-]"),
+    table_fullLoadCurve_headers("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
+                                "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
+                                "N_fan[kW]"),
+    dataDirName(QDir::currentPath()),
+    table_lid(0),
+    dtable(0) {
 
     ui->setupUi(this);
 
@@ -97,14 +97,14 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     }
 
     dataFileName = QFileDialog::getOpenFileName(
-            this,
-            tr("Open Data File..."),
-            dataDirName,
-            QString::fromAscii("Text files (*.txt);;"
-                               "CSV files (*.csv);;"
-                               "All files (*.*)"),
-            0,
-            0);
+                this,
+                tr("Open Data File..."),
+                dataDirName,
+                QString::fromAscii("Text files (*.txt);;"
+                                   "CSV files (*.csv);;"
+                                   "All files (*.*)"),
+                0,
+                0);
 
     QFileInfo fileInfo(dataFileName);
     dataDirName = fileInfo.absolutePath();

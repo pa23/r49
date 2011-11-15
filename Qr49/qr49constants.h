@@ -26,7 +26,7 @@
 
 // constants
 
-const QString QR49VERSION = "Qr49 v2.2.4";
+const QString QR49VERSION = "Qr49 v2.3.0";
 
 const QString OPERANDSDELIMITER = "=";
 

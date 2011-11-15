@@ -24,7 +24,7 @@
 #include <QDoubleValidator>
 
 FilterMassDialog::FilterMassDialog(QWidget *parent) :
-        QDialog(parent) {
+    QDialog(parent) {
 
     ui.setupUi(this);
 

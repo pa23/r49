@@ -40,7 +40,6 @@
 #include "filtermassdialog.h"
 #include "valuedialog.h"
 #include "preferencesdialog.h"
-#include "additionalcalculationsdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "helpdialog.h"
@@ -49,7 +48,7 @@
 
 namespace Ui {
 
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -72,7 +71,6 @@ private:
     FilterMassDialog *filterMassDialog;
     ValueDialog *valueDialog;
     PreferencesDialog *preferencesDialog;
-    AdditionalCalculationsDialog *additionalCalculationsDialog;
     CheckoutDataDialog *checkoutDataDialog;
     HelpDialog *helpDialog;
     DataImportDialog *dataImportDialog;
@@ -148,7 +146,6 @@ private slots:
     void on_action_DeleteRow_activated();
     void on_action_Toolbar_activated();
     void on_action_Execute_activated();
-    void on_action_additionalCalculations_activated();
     void on_action_CheckoutData_activated();
     void on_action_StandardsDescription_activated();
     void on_action_AboutQr49_activated();
@@ -162,6 +159,13 @@ private slots:
     void reportChanged(QString);
     void tabChanged(int);
     void tableCellChanged(int, int);
+
+    void abcCalculation();
+    void gairCalculation();
+    void nfanCalculation();
+    void ka1mCalculation();
+    void kapercCalculation();
+    void smokeBaseChanged();
 
 };
 

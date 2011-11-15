@@ -12,8 +12,7 @@ SOURCES += preferencesdialog.cpp \
     helpdialog.cpp \
     newversions.cpp \
     dataimportdialog.cpp \
-    tablewidgetfunctions.cpp \
-    additionalcalculationsdialog.cpp
+    tablewidgetfunctions.cpp
 HEADERS += preferencesdialog.h \
     checkoutdatadialog.h \
     undoredotable.h \
@@ -25,16 +24,14 @@ HEADERS += preferencesdialog.h \
     newversions.h \
     ../r49.h \
     dataimportdialog.h \
-    tablewidgetfunctions.h \
-    additionalcalculationsdialog.h
+    tablewidgetfunctions.h
 FORMS += preferencesdialog.ui \
     checkoutdatadialog.ui \
     valuedialog.ui \
     filtermassdialog.ui \
     qr49.ui \
     helpdialog.ui \
-    dataimportdialog.ui \
-    additionalcalculationsdialog.ui
+    dataimportdialog.ui
 RESOURCES = qr49.qrc
 TRANSLATIONS = qr49_ru.ts
 RC_FILE += qr49.rc
@@ -72,3 +69,6 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
+
+
+

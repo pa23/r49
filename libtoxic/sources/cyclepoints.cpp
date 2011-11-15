@@ -36,27 +36,27 @@
 
 CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
                          const QSharedPointer<CommonParameters> &cfg) :
-        n_hi               (0),
-        n_lo               (0),
-        A                  (0),
-        B                  (0),
-        C                  (0),
-        a1                 (0),
-        a2                 (0),
-        a3                 (0),
-        n_ref              (0),
-        idle               (0),
-        n_rated            (0),
-        N_fan_rated        (0),
-        Ne_A               (0),
-        Ne_B               (0),
-        Ne_C               (0),
-        Ne_a1              (0),
-        Ne_a2              (0),
-        Ne_a3              (0),
-        n_interim          (0),
-        Ne_interim         (0),
-        Ne_rated           (0) {
+    n_hi               (0),
+    n_lo               (0),
+    A                  (0),
+    B                  (0),
+    C                  (0),
+    a1                 (0),
+    a2                 (0),
+    a3                 (0),
+    n_ref              (0),
+    idle               (0),
+    n_rated            (0),
+    N_fan_rated        (0),
+    Ne_A               (0),
+    Ne_B               (0),
+    Ne_C               (0),
+    Ne_a1              (0),
+    Ne_a2              (0),
+    Ne_a3              (0),
+    n_interim          (0),
+    Ne_interim         (0),
+    Ne_rated           (0) {
 
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
@@ -292,7 +292,7 @@ bool CyclePoints::fillArrays() {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
+            array_N_fan[i] = N_fan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -369,7 +369,7 @@ bool CyclePoints::fillArrays() {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
+            array_N_fan[i] = N_fan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -447,7 +447,7 @@ bool CyclePoints::fillArrays() {
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
-            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
+            array_N_fan[i] = N_fan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_Ne_brutto[ 0] = 0;
@@ -566,7 +566,7 @@ bool CyclePoints::fillArrays() {
         for ( ptrdiff_t i=0; i<ECYCLEPOINTSNUMBER; i++ ) {
 
             array_Me_brutto[i] = array_Ne_brutto[i] * 9550.0 / array_n[i];
-            array_N_fan[i] = calcNfan(N_fan_rated, array_n[i], n_rated);
+            array_N_fan[i] = N_fan(N_fan_rated, array_n[i], n_rated);
         }
 
         array_w[ 0] = 0.15;

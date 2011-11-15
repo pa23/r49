@@ -37,7 +37,7 @@
 #include <QDebug>
 
 NewVersions::NewVersions() :
-        htmlData("") {
+    htmlData("") {
 
     netmanager = new QNetworkAccessManager();
 

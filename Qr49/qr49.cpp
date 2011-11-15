@@ -24,7 +24,6 @@
 #include "filtermassdialog.h"
 #include "valuedialog.h"
 #include "preferencesdialog.h"
-#include "additionalcalculationsdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "newversions.h"
@@ -40,6 +39,7 @@
 #include "cycleemissions.h"
 #include "reducedpower.h"
 #include "commonparameters.h"
+#include "precalc.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -66,25 +66,24 @@
 
 MainWindow::MainWindow(QWidget *parent) :
 
-        QMainWindow(parent),
-        ui(new Ui::MainWindow),
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
 
-        qr49settings("pa23software", "Qr49"),
+    qr49settings("pa23software", "Qr49"),
 
-        contextMenu(new QMenu()),
+    contextMenu(new QMenu()),
 
-        filterMassDialog(new FilterMassDialog()),
-        valueDialog(new ValueDialog()),
-        preferencesDialog(new PreferencesDialog()),
-        additionalCalculationsDialog(new AdditionalCalculationsDialog()),
-        checkoutDataDialog(new CheckoutDataDialog()),
-        helpDialog(new HelpDialog()),
-        dataImportDialog(new DataImportDialog()),
+    filterMassDialog(new FilterMassDialog()),
+    valueDialog(new ValueDialog()),
+    preferencesDialog(new PreferencesDialog()),
+    checkoutDataDialog(new CheckoutDataDialog()),
+    helpDialog(new HelpDialog()),
+    dataImportDialog(new DataImportDialog()),
 
-        regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
+    regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
-        undoCount(0),
-        redoCount(0) {
+    undoCount(0),
+    redoCount(0) {
 
     ui->setupUi(this);
 
@@ -202,6 +201,68 @@ MainWindow::MainWindow(QWidget *parent) :
     //
 
     newVersions = QSharedPointer<NewVersions>(new NewVersions());
+
+    //
+
+    connect(ui->doubleSpinBox_nhi,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(abcCalculation()));
+
+    connect(ui->doubleSpinBox_nlo,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(abcCalculation()));
+
+    connect(ui->doubleSpinBox_Dn,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(gairCalculation()));
+
+    connect(ui->doubleSpinBox_B0,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(gairCalculation()));
+
+    connect(ui->doubleSpinBox_t0,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(gairCalculation()));
+
+    connect(ui->doubleSpinBox_dPn,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(gairCalculation()));
+
+    connect(ui->doubleSpinBox_nFanRated,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(nfanCalculation()));
+
+    connect(ui->doubleSpinBox_nRated,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(nfanCalculation()));
+
+    connect(ui->doubleSpinBox_n,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(nfanCalculation()));
+
+    connect(ui->doubleSpinBox_L,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(smokeBaseChanged()));
+
+    connect(ui->doubleSpinBox_Ka1m,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(kapercCalculation()));
+
+    connect(ui->doubleSpinBox_KaPerc,
+            SIGNAL(editingFinished()),
+            this,
+            SLOT(ka1mCalculation()));
 }
 
 MainWindow::~MainWindow() {
@@ -225,7 +286,6 @@ MainWindow::~MainWindow() {
     delete filterMassDialog;
     delete valueDialog;
     delete preferencesDialog;
-    delete additionalCalculationsDialog;
     delete checkoutDataDialog;
     delete helpDialog;
     delete dataImportDialog;
@@ -681,12 +741,12 @@ void MainWindow::on_action_LoadSourceData_activated() {
     QString dir(config.data()->val_dirnameReports());
 
     QString anotherSourceFile(QFileDialog::getOpenFileName(
-            this,
-            tr("Open Source Data File..."),
-            dir,
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                  this,
+                                  tr("Open Source Data File..."),
+                                  dir,
+                                  QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                  0,
+                                  0));
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
@@ -875,12 +935,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
 void MainWindow::on_action_SaveSourceDataAs_activated() {
 
     QString newSourceDataFileName(QFileDialog::getSaveFileName(
-            this,
-            tr("Save Source Data File As..."),
-            "noname.csv",
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                      this,
+                                      tr("Save Source Data File As..."),
+                                      "noname.csv",
+                                      QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                      0,
+                                      0));
 
     if (!newSourceDataFileName.isEmpty()) {
 
@@ -930,12 +990,12 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
     QString dir(config.data()->val_dirnameReports());
 
     QString anotherOptions(QFileDialog::getOpenFileName(
-            this,
-            tr("Open Calculation Options File..."),
-            dir,
-            QString::fromAscii("Config files (*.conf);;All files (*.*)"),
-            0,
-            0));
+                               this,
+                               tr("Open Calculation Options File..."),
+                               dir,
+                               QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                               0,
+                               0));
 
     if (!anotherOptions.isEmpty()) {
 
@@ -960,12 +1020,12 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
     QString optionsFileName(QFileDialog::getSaveFileName(
-            this,
-            tr("Save Options..."),
-            "noname.conf",
-            QString::fromAscii("Config files (*.conf);;All files (*.*)"),
-            0,
-            0));
+                                this,
+                                tr("Save Options..."),
+                                "noname.conf",
+                                QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                                0,
+                                0));
 
     if (!optionsFileName.isEmpty()) {
 
@@ -1037,12 +1097,12 @@ void MainWindow::on_action_OpenReport_activated() {
     QString dir(config.data()->val_dirnameReports());
 
     QString anotherReport(QFileDialog::getOpenFileName(
-            this,
-            tr("Open Report..."),
-            dir,
-            QString::fromAscii("Text files (*.txt);;All files (*.*)"),
-            0,
-            0));
+                              this,
+                              tr("Open Report..."),
+                              dir,
+                              QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                              0,
+                              0));
 
     if (!anotherReport.isEmpty()) {
 
@@ -1056,12 +1116,12 @@ void MainWindow::on_action_OpenReport_activated() {
 void MainWindow::on_action_SaveReportAs_activated() {
 
     QString newReportFileName(QFileDialog::getSaveFileName(
-            this,
-            tr("Save Report As..."),
-            ui->comboBox_OpenedReports->currentText(),
-            QString::fromAscii("Text files (*.txt);;All files (*.*)"),
-            0,
-            0));
+                                  this,
+                                  tr("Save Report As..."),
+                                  ui->comboBox_OpenedReports->currentText(),
+                                  QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                                  0,
+                                  0));
 
     if (!newReportFileName.isEmpty()) {
 
@@ -1106,12 +1166,12 @@ void MainWindow::on_action_ReportToPDF_activated() {
     QString filename = ui->comboBox_OpenedReports->currentText() + ".pdf";
 
     QString newReportFileName(QFileDialog::getSaveFileName(
-            this,
-            tr("Export Report to PDF..."),
-            filename,
-            QString::fromAscii("PDF files (*.pdf);;All files (*.*)"),
-            0,
-            0));
+                                  this,
+                                  tr("Export Report to PDF..."),
+                                  filename,
+                                  QString::fromAscii("PDF files (*.pdf);;All files (*.*)"),
+                                  0,
+                                  0));
 
     QPrinter printer;
 
@@ -1130,8 +1190,8 @@ void MainWindow::on_action_PrintReport_activated() {
 
     printer.setOrientation(QPrinter::Landscape);
     printer.setPageMargins(20, 20, 10, 10, QPrinter::Millimeter);
-//	printer.setPrintRange(QPrinter::PageRange);
-//	printer.setFromTo(1, 1);
+    //	printer.setPrintRange(QPrinter::PageRange);
+    //	printer.setFromTo(1, 1);
 
     QPrintDialog printDialog(&printer, this);
 
@@ -1651,18 +1711,7 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if (ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS) {
 
-        QTabWidget *tw = additionalCalculationsDialog->findChild<QTabWidget *>("tabWidget");
-        tw->setCurrentIndex(0);
-
-        on_action_additionalCalculations_activated();
-        return;
-    }
-    else if (ui->comboBox_task->currentIndex() == TASK_ELRSMOKE) {
-
-        QTabWidget *tw = additionalCalculationsDialog->findChild<QTabWidget *>("tabWidget");
-        tw->setCurrentIndex(1);
-
-        on_action_additionalCalculations_activated();
+        ui->toolBox->setCurrentIndex(1);
         return;
     }
     else if (ui->comboBox_task->currentIndex() == TASK_HELP) {
@@ -1682,11 +1731,6 @@ void MainWindow::on_action_Execute_activated() {
 
         on_action_CheckoutData_activated();
     }
-}
-
-void MainWindow::on_action_additionalCalculations_activated() {
-
-    additionalCalculationsDialog->exec();
 }
 
 void MainWindow::on_action_CheckoutData_activated() {
@@ -1731,22 +1775,22 @@ void MainWindow::on_action_StandardsDescription_activated() {
 void MainWindow::on_action_AboutQr49_activated() {
 
     QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
-                  "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
-                  "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
-                  "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
-                  "<br>Author's blog (RU): "
-                  "<a href= \"http://pa2311.blogspot.com\">"
-                  "http://pa2311.blogspot.com</a>"
-                  "<br><br>This program is free software: you can redistribute it and/or modify "
-                  "it under the terms of the GNU General Public License as published by "
-                  "the Free Software Foundation, either version 3 of the License, or "
-                  "(at your option) any later version. "
-                  "<br>This program is distributed in the hope that it will be useful, "
-                  "but WITHOUT ANY WARRANTY; without even the implied warranty of "
-                  "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
-                  "GNU General Public License for more details. "
-                  "<br>You should have received a copy of the GNU General Public License "
-                  "along with this program. If not, see <a href= \"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
+            "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
+            "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
+            "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
+            "<br>Author's blog (RU): "
+            "<a href= \"http://pa2311.blogspot.com\">"
+            "http://pa2311.blogspot.com</a>"
+            "<br><br>This program is free software: you can redistribute it and/or modify "
+            "it under the terms of the GNU General Public License as published by "
+            "the Free Software Foundation, either version 3 of the License, or "
+            "(at your option) any later version. "
+            "<br>This program is distributed in the hope that it will be useful, "
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
+            "GNU General Public License for more details. "
+            "<br>You should have received a copy of the GNU General Public License "
+            "along with this program. If not, see <a href= \"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
 
     QMessageBox::about(this, tr("About Qr49"), str);
 }
@@ -2265,4 +2309,71 @@ void MainWindow::on_action_RedoTable_activated() {
     }
 
     tableCellChangedConnect(true);
+}
+
+void MainWindow::abcCalculation() {
+
+    double n_hi = ui->doubleSpinBox_nhi->value();
+    double n_lo = ui->doubleSpinBox_nlo->value();
+
+    double A = 0;
+    double B = 0;
+    double C = 0;
+    double a1 = 0;
+    double a2 = 0;
+    double a3 = 0;
+    double n_ref = 0;
+
+    calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+
+    ui->label_A->setText(QString::number(A));
+    ui->label_B->setText(QString::number(B));
+    ui->label_C->setText(QString::number(C));
+    ui->label_a1->setText(QString::number(a1));
+    ui->label_a2->setText(QString::number(a2));
+    ui->label_a3->setText(QString::number(a3));
+    ui->label_nref->setText(QString::number(n_ref));
+}
+
+void MainWindow::gairCalculation() {
+
+    ui->label_Gair->
+            setText(QString::number(
+                        Gair(ui->doubleSpinBox_Dn->value(),
+                             ui->doubleSpinBox_B0->value(),
+                             ui->doubleSpinBox_t0->value(),
+                             ui->doubleSpinBox_dPn->value())
+                        )
+                    );
+}
+
+void MainWindow::nfanCalculation() {
+
+    ui->label_Nfan->
+            setText(QString::number(
+                        N_fan(ui->doubleSpinBox_nFanRated->value(),
+                              ui->doubleSpinBox_n->value(),
+                              ui->doubleSpinBox_nRated->value())
+                        )
+                    );
+}
+
+void MainWindow::ka1mCalculation() {
+
+    ui->doubleSpinBox_Ka1m->
+            setValue(KaPerc2Ka1m(ui->doubleSpinBox_KaPerc->value(),
+                                 ui->doubleSpinBox_L->value()));
+}
+
+void MainWindow::kapercCalculation() {
+
+    ui->doubleSpinBox_KaPerc->
+            setValue(Ka1m2KaPerc(ui->doubleSpinBox_Ka1m->value(),
+                                 ui->doubleSpinBox_L->value()));
+}
+
+void MainWindow::smokeBaseChanged() {
+
+    ka1mCalculation();
+    kapercCalculation();
 }

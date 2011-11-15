@@ -30,7 +30,7 @@
 
 namespace Ui {
 
-    class DataImportDialog;
+class DataImportDialog;
 }
 
 class DataImportDialog : public QDialog {

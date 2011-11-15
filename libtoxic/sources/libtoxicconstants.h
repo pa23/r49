@@ -62,7 +62,6 @@ enum { TASK_POINTS,
        TASK_EMISSIONS,
        TASK_REDUCEDPOWER,
        TASK_ABCSPEEDS,
-       TASK_ELRSMOKE,
        TASK_HELP };
 
 enum { STD_EU6,

@@ -41,23 +41,23 @@
 
 CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
                                const QSharedPointer<CommonParameters> &cfg) :
-        NenCalcMethod (true),
-        GairVals      (true),
-        NOxCalcMethod (true),
-        gCOcalc       (true),
-        gCHcalc       (true),
-        EGRcalc       (false),
-        smoke         (-1),
-        CheckMeas     (false),
-        qmdwVSrd      (true),
-        gNOx     (0), gCO      (0), gCH      (0), gPT    (0), gPTs (0),
-        gNOx1m   (0), gNOx2m   (0), gNOx3m   (0),
-        gNOx1c   (0), gNOx2c   (0), gNOx3c   (0),
-        diffNOx1 (0), diffNOx2 (0), diffNOx3 (0),
-        geMean   (0), t0Mean   (0), B0Mean   (0), RaMean (0),
-        mf1c     (0), mf1d     (0), mf2c     (0), mf2d   (0), mf   (0),
-        qmedfl   (0), msep     (0), mPT      (0),
-        NumberOfPoints (0), mytime ("_"), fullReportsPath("_") {
+    NenCalcMethod (true),
+    GairVals      (true),
+    NOxCalcMethod (true),
+    gCOcalc       (true),
+    gCHcalc       (true),
+    EGRcalc       (false),
+    smoke         (-1),
+    CheckMeas     (false),
+    qmdwVSrd      (true),
+    gNOx     (0), gCO      (0), gCH      (0), gPT    (0), gPTs (0),
+    gNOx1m   (0), gNOx2m   (0), gNOx3m   (0),
+    gNOx1c   (0), gNOx2c   (0), gNOx3c   (0),
+    diffNOx1 (0), diffNOx2 (0), diffNOx3 (0),
+    geMean   (0), t0Mean   (0), B0Mean   (0), RaMean (0),
+    mf1c     (0), mf1d     (0), mf2c     (0), mf2d   (0), mf   (0),
+    qmedfl   (0), msep     (0), mPT      (0),
+    NumberOfPoints (0), mytime ("_"), fullReportsPath("_") {
 
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
@@ -189,144 +189,144 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if (
             (
-                    (
-                            (std == STD_EU6) || (std == STD_EU5) ||
-                            (std == STD_EU4) || (std == STD_EU3)
+                (
+                    (std == STD_EU6) || (std == STD_EU5) ||
+                    (std == STD_EU4) || (std == STD_EU3)
                     ) &&
-                    (
-                            (addpc == ADDPOINTSCALC_YES)
+                (
+                    (addpc == ADDPOINTSCALC_YES)
                     ) &&
-                    (
-                            (NumberOfPoints != TCYCLEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != TCYCLEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_EU6) || (std == STD_EU5) ||
-                            (std == STD_EU4) || (std == STD_EU3)
+                (
+                    (std == STD_EU6) || (std == STD_EU5) ||
+                    (std == STD_EU4) || (std == STD_EU3)
                     ) &&
-                    (
-                            (addpc == ADDPOINTSCALC_NO)
+                (
+                    (addpc == ADDPOINTSCALC_NO)
                     ) &&
-                    (
-                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-
-                                                TCYCLEADDPOINTSNUMBER))
+                (
+                    (NumberOfPoints != (TCYCLEPOINTSNUMBER-
+                                        TCYCLEADDPOINTSNUMBER))
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_EU2) || (std == STD_EU1) ||
-                            (std == STD_EU0) || (std == STD_OST) ||
-                            (std == STD_GOST)
+                (
+                    (std == STD_EU2) || (std == STD_EU1) ||
+                    (std == STD_EU0) || (std == STD_OST) ||
+                    (std == STD_GOST)
                     ) &&
-                    (
-                            (NumberOfPoints != (TCYCLEPOINTSNUMBER-
-                                                TCYCLEADDPOINTSNUMBER))
+                (
+                    (NumberOfPoints != (TCYCLEPOINTSNUMBER-
+                                        TCYCLEADDPOINTSNUMBER))
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_R96E8) || (std == STD_R96F8) ||
-                            (std == STD_R96G8) || (std == STD_R96D8) ||
-                            (std == STD_R96H8) || (std == STD_R96I8) ||
-                            (std == STD_R96J8) || (std == STD_R96K8)
+                (
+                    (std == STD_R96E8) || (std == STD_R96F8) ||
+                    (std == STD_R96G8) || (std == STD_R96D8) ||
+                    (std == STD_R96H8) || (std == STD_R96I8) ||
+                    (std == STD_R96J8) || (std == STD_R96K8)
                     ) &&
-                    (
-                            (NumberOfPoints != ECYCLEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != ECYCLEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_R96E5) || (std == STD_R96F5) ||
-                            (std == STD_R96G5) || (std == STD_R96D5) ||
-                            (std == STD_R96H5) || (std == STD_R96I5) ||
-                            (std == STD_R96J5) || (std == STD_R96K5)
+                (
+                    (std == STD_R96E5) || (std == STD_R96F5) ||
+                    (std == STD_R96G5) || (std == STD_R96D5) ||
+                    (std == STD_R96H5) || (std == STD_R96I5) ||
+                    (std == STD_R96J5) || (std == STD_R96K5)
                     ) &&
-                    (
-                            (NumberOfPoints != FCYCLEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != FCYCLEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_C1)
+                (
+                    (std == STD_C1)
                     ) &&
-                    (
-                            (NumberOfPoints != GC1CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GC1CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_D1)
+                (
+                    (std == STD_D1)
                     ) &&
-                    (
-                            (NumberOfPoints != GD1CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GD1CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_D2)
+                (
+                    (std == STD_D2)
                     ) &&
-                    (
-                            (NumberOfPoints != GD2CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GD2CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_E1)
+                (
+                    (std == STD_E1)
                     ) &&
-                    (
-                            (NumberOfPoints != GE1CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GE1CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_E2)
+                (
+                    (std == STD_E2)
                     ) &&
-                    (
-                            (NumberOfPoints != GE2CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GE2CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_E3)
+                (
+                    (std == STD_E3)
                     ) &&
-                    (
-                            (NumberOfPoints != GE3CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GE3CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_E5)
+                (
+                    (std == STD_E5)
                     ) &&
-                    (
-                            (NumberOfPoints != GE5CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GE5CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_F)
+                (
+                    (std == STD_F)
                     ) &&
-                    (
-                            (NumberOfPoints != GFCYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GFCYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_G1)
+                (
+                    (std == STD_G1)
                     ) &&
-                    (
-                            (NumberOfPoints != GG1CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GG1CYLCEPOINTSNUMBER)
                     )
-            ) ||
+                ) ||
             (
-                    (
-                            (std == STD_G2)
+                (
+                    (std == STD_G2)
                     ) &&
-                    (
-                            (NumberOfPoints != GG2CYLCEPOINTSNUMBER)
+                (
+                    (NumberOfPoints != GG2CYLCEPOINTSNUMBER)
                     )
-            )
-    ) {
+                )
+            ) {
 
         qDebug() << Q_FUNC_INFO << ":::"
                  << "Bad source data or calculation settings!";
@@ -665,8 +665,8 @@ bool CycleEmissions::preCalculate() {
                 return false;
             }
 
-            array_Gair[i] = calcGair(Dn, array_B0[i], array_t0[i],
-                                     array_dPn[i]);
+            array_Gair[i] = Gair(Dn, array_B0[i], array_t0[i],
+                                 array_dPn[i]);
         }
 
         array_alpha[i] = array_Gair[i] / (array_Gfuel[i] * L0);
@@ -755,9 +755,9 @@ bool CycleEmissions::preCalculate() {
 
                 array_Kwr[i] = (1.0 - (1.2442 * array_Ha[i] + 111.19 * WH *
                                        array_Gfuel[i] / array_Gaird[i]) /
-                                      (773.4 + 1.2442 * array_Ha[i] +
-                                       array_Gfuel[i] / array_Gaird[i] *
-                                       array_Kf[i] * 1000.0)) * 1.008;
+                                (773.4 + 1.2442 * array_Ha[i] +
+                                 array_Gfuel[i] / array_Gaird[i] *
+                                 array_Kf[i] * 1000.0)) * 1.008;
 
                 array_Khd[i] = 1.0 / (1.0 - 0.0182 * (array_Ha[i] - 10.71) +
                                       0.0045 * (array_t0[i] + 273.0 - 298.0));
@@ -777,8 +777,8 @@ bool CycleEmissions::preCalculate() {
                 array_Khd[i] = 1.0 / (1.0 + (0.309 * array_Gfuel[i] /
                                              array_Gaird[i] - 0.0266) *
                                       (array_Ha[i] - 10.71) +
-                                     (-0.209 * array_Gfuel[i] /
-                                      array_Gaird[i] + 0.00954) *
+                                      (-0.209 * array_Gfuel[i] /
+                                       array_Gaird[i] + 0.00954) *
                                       (array_t0[i] + 273.0 - 298.0));
             }
             else if ( (std == STD_EU2) || (std == STD_EU1) ||
@@ -1316,30 +1316,30 @@ bool CycleEmissions::calculate_gPT() {
 
                 array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
                 array_FSN[i] = (6.6527E-017)          *pow(array_KaPerc[i],10)+
-                               (-0.000000000000026602)*pow(array_KaPerc[i], 9)+
-                               (0.0000000000040987)   *pow(array_KaPerc[i], 8)+
-                               (-0.00000000026927)    *pow(array_KaPerc[i], 7)+
-                               (0.00000000040933)     *pow(array_KaPerc[i], 6)+
-                               (0.0000010658)         *pow(array_KaPerc[i], 5)+
-                               (-0.000069165)         *pow(array_KaPerc[i], 4)+
-                               (0.0020088)            *pow(array_KaPerc[i], 3)+
-                               (-0.028758)            *pow(array_KaPerc[i], 2)+
-                               (0.26502)              *pow(array_KaPerc[i], 1)+
-                               (0.0087517)            *pow(array_KaPerc[i], 0);
+                        (-0.000000000000026602)*pow(array_KaPerc[i], 9)+
+                        (0.0000000000040987)   *pow(array_KaPerc[i], 8)+
+                        (-0.00000000026927)    *pow(array_KaPerc[i], 7)+
+                        (0.00000000040933)     *pow(array_KaPerc[i], 6)+
+                        (0.0000010658)         *pow(array_KaPerc[i], 5)+
+                        (-0.000069165)         *pow(array_KaPerc[i], 4)+
+                        (0.0020088)            *pow(array_KaPerc[i], 3)+
+                        (-0.028758)            *pow(array_KaPerc[i], 2)+
+                        (0.26502)              *pow(array_KaPerc[i], 1)+
+                        (0.0087517)            *pow(array_KaPerc[i], 0);
             }
             else if (smoke == 1) {
 
                 array_FSN[i] = (6.6527E-017)          * pow(array_KaPerc[i],10)+
-                               (-0.000000000000026602)* pow(array_KaPerc[i], 9)+
-                               (0.0000000000040987)   * pow(array_KaPerc[i], 8)+
-                               (-0.00000000026927)    * pow(array_KaPerc[i], 7)+
-                               (0.00000000040933)     * pow(array_KaPerc[i], 6)+
-                               (0.0000010658)         * pow(array_KaPerc[i], 5)+
-                               (-0.000069165)         * pow(array_KaPerc[i], 4)+
-                               (0.0020088)            * pow(array_KaPerc[i], 3)+
-                               (-0.028758)            * pow(array_KaPerc[i], 2)+
-                               (0.26502)              * pow(array_KaPerc[i], 1)+
-                               (0.0087517)            * pow(array_KaPerc[i], 0);
+                        (-0.000000000000026602)* pow(array_KaPerc[i], 9)+
+                        (0.0000000000040987)   * pow(array_KaPerc[i], 8)+
+                        (-0.00000000026927)    * pow(array_KaPerc[i], 7)+
+                        (0.00000000040933)     * pow(array_KaPerc[i], 6)+
+                        (0.0000010658)         * pow(array_KaPerc[i], 5)+
+                        (-0.000069165)         * pow(array_KaPerc[i], 4)+
+                        (0.0020088)            * pow(array_KaPerc[i], 3)+
+                        (-0.028758)            * pow(array_KaPerc[i], 2)+
+                        (0.26502)              * pow(array_KaPerc[i], 1)+
+                        (0.0087517)            * pow(array_KaPerc[i], 0);
             }
 
             array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr /
@@ -2074,7 +2074,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         fout5 << fixed << qSetRealNumberPrecision(PRECISION)
               << "Environment parameters : t0_mean = " << t0Mean
               <<  " oC; B0_mean = " << B0Mean << " kPa; Ra_mean = "
-              << RaMean << " %; " << testcondres << "\n";
+               << RaMean << " %; " << testcondres << "\n";
 
         fout5 << "Calculation comments   : ";
 
@@ -2242,7 +2242,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                 }
             }
 
-            fout5 << qSetFieldWidth(0) << "\n";
+            fout5 << "fa[-]"
+                  << qSetFieldWidth(0) << "\n";
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -2285,7 +2286,9 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
                     }
                 }
 
-                fout5 << qSetFieldWidth(0) << "\n";
+                fout5 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_fa[i]
+                      << qSetFieldWidth(0) << "\n";
             }
         }
         else {
@@ -2326,7 +2329,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             if ( EGRcalc   ) { fout5 << "rEGR[%]";       }
             if ( CheckMeas ) { fout5 << "diff_alpha[%]"; }
 
-            fout5 << qSetFieldWidth(0) << "\n";
+            fout5 << "fa[-]"
+                  << qSetFieldWidth(0) << "\n";
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -2377,11 +2381,14 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
                 if ( CheckMeas ) { fout5 << array_diff_alpha[i]; }
 
-                fout5 << qSetFieldWidth(0) << "\n";
+                fout5 << qSetRealNumberPrecision(PRECISION+1)
+                      << array_fa[i]
+                      << qSetFieldWidth(0) << "\n";
             }
         }
 
         fout5 << "\n";
+        fout5 << qSetRealNumberPrecision(PRECISION);
 
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
                (std == STD_EU3) ) &&

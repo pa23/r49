@@ -30,7 +30,7 @@
 #include <QDir>
 
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
-        QDialog(parent) {
+    QDialog(parent) {
 
     ui.setupUi(this);
 }
@@ -41,12 +41,12 @@ PreferencesDialog::~PreferencesDialog() {
 void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
 
     QString anotherFilenameSourceEU3(QFileDialog::getSaveFileName(
-            this,
-            tr("Select file..."),
-            "noname.csv",
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                         this,
+                                         tr("Select file..."),
+                                         "noname.csv",
+                                         QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                         0,
+                                         0));
 
     if (!anotherFilenameSourceEU3.isEmpty()) {
 
@@ -57,12 +57,12 @@ void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
 void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
 
     QString anotherFilenameSourceEU0(QFileDialog::getSaveFileName(
-            this,
-            tr("Select file..."),
-            "noname.csv",
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                         this,
+                                         tr("Select file..."),
+                                         "noname.csv",
+                                         QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                         0,
+                                         0));
 
     if (!anotherFilenameSourceEU0.isEmpty()) {
 
@@ -73,12 +73,12 @@ void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
 void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
 
     QString anotherFilenamePoints(QFileDialog::getSaveFileName(
-            this,
-            tr("Select file..."),
-            "noname.csv",
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                      this,
+                                      tr("Select file..."),
+                                      "noname.csv",
+                                      QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                      0,
+                                      0));
 
     if (!anotherFilenamePoints.isEmpty()) {
 
@@ -89,12 +89,12 @@ void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
 void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
 
     QString anotherFilenamePowers(QFileDialog::getSaveFileName(
-            this,
-            tr("Select file..."),
-            "noname.csv",
-            QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-            0,
-            0));
+                                      this,
+                                      tr("Select file..."),
+                                      "noname.csv",
+                                      QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                                      0,
+                                      0));
 
     if (!anotherFilenamePowers.isEmpty()) {
 
@@ -105,10 +105,10 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
 void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
 
     QString anotherDirnameReports(QFileDialog::getExistingDirectory(
-            this,
-            tr("Select directory..."),
-            QDir::currentPath()
-    ));
+                                      this,
+                                      tr("Select directory..."),
+                                      QDir::currentPath()
+                                      ));
 
     if (!anotherDirnameReports.isEmpty()) {
 
@@ -119,24 +119,24 @@ void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
 void PreferencesDialog::on_pushButton_OK_clicked() {
 
     QString myPreferences = "//\n// This is r49 configuration file. Parameter-Value delimeter is \"=\" symbol.\n// Text after \"//\" is comment.\n//\n\n"
-                            "// Temporary rewrited source data files\nfilenameSourceEU3=" + ui.lineEdit_filenameSourceEU3->text() + "\n"
-                            "filenameSourceEU0=" + ui.lineEdit_filenameSourceEU0->text() + "\n"
-                            "filenamePoints=" + ui.lineEdit_filenamePoints->text() + "\n"
-                            "filenamePowers=" + ui.lineEdit_filenamePowers->text() + "\n\n"
-                            "// Directory for calculation results\ndirnameReports=" + ui.lineEdit_dirnameReports->text() + "\n\n"
-                            "// Measuring nozzle diameter (engine inlet air mass flow calculation)\nDn=" + QString::number(ui.doubleSpinBox_Dn->value()) + "\n\n"
-                            "// Air oxygen concentration\nConcO2air=" + QString::number(ui.doubleSpinBox_ConcO2air->value()) + "\n\n"
-                            "//\nRr=" + QString::number(ui.doubleSpinBox_Rr->value()) + "\n\n"
-                            "// Stoichiometric air/fuel ratio\nL0=" + QString::number(ui.doubleSpinBox_L0->value()) + "\n\n"
-                            "// Opacimeter effective base\nL=" + QString::number(ui.doubleSpinBox_L->value()) + "\n\n"
-                            "// Air carbon dioxide concentration\nConcCO2air=" + QString::number(ui.doubleSpinBox_ConcCO2air->value()) + "\n\n"
-                            "// Fuel percentage\nWH=" + QString::number(ui.doubleSpinBox_WH->value()) + "\n"
-                            "WO2=" + QString::number(ui.doubleSpinBox_WO2->value()) + "\n"
-                            "WN=" + QString::number(ui.doubleSpinBox_WN->value()) + "\n\n"
-                            "// Air density\nroAir=" + QString::number(ui.doubleSpinBox_roAir->value()) + "\n\n"
-                            "// Molecular weights\nmuNO2=" + QString::number(ui.doubleSpinBox_muNO2->value()) + "\n"
-                            "muCO=" + QString::number(ui.doubleSpinBox_muCO->value()) + "\n"
-                            "muCH=" + QString::number(ui.doubleSpinBox_muCH->value()) + "\n";
+            "// Temporary rewrited source data files\nfilenameSourceEU3=" + ui.lineEdit_filenameSourceEU3->text() + "\n"
+            "filenameSourceEU0=" + ui.lineEdit_filenameSourceEU0->text() + "\n"
+            "filenamePoints=" + ui.lineEdit_filenamePoints->text() + "\n"
+            "filenamePowers=" + ui.lineEdit_filenamePowers->text() + "\n\n"
+            "// Directory for calculation results\ndirnameReports=" + ui.lineEdit_dirnameReports->text() + "\n\n"
+            "// Measuring nozzle diameter (engine inlet air mass flow calculation)\nDn=" + QString::number(ui.doubleSpinBox_Dn->value()) + "\n\n"
+            "// Air oxygen concentration\nConcO2air=" + QString::number(ui.doubleSpinBox_ConcO2air->value()) + "\n\n"
+            "//\nRr=" + QString::number(ui.doubleSpinBox_Rr->value()) + "\n\n"
+            "// Stoichiometric air/fuel ratio\nL0=" + QString::number(ui.doubleSpinBox_L0->value()) + "\n\n"
+            "// Opacimeter effective base\nL=" + QString::number(ui.doubleSpinBox_L->value()) + "\n\n"
+            "// Air carbon dioxide concentration\nConcCO2air=" + QString::number(ui.doubleSpinBox_ConcCO2air->value()) + "\n\n"
+            "// Fuel percentage\nWH=" + QString::number(ui.doubleSpinBox_WH->value()) + "\n"
+            "WO2=" + QString::number(ui.doubleSpinBox_WO2->value()) + "\n"
+            "WN=" + QString::number(ui.doubleSpinBox_WN->value()) + "\n\n"
+            "// Air density\nroAir=" + QString::number(ui.doubleSpinBox_roAir->value()) + "\n\n"
+            "// Molecular weights\nmuNO2=" + QString::number(ui.doubleSpinBox_muNO2->value()) + "\n"
+            "muCO=" + QString::number(ui.doubleSpinBox_muCO->value()) + "\n"
+            "muCH=" + QString::number(ui.doubleSpinBox_muCH->value()) + "\n";
 
     QFile preferencesFile(CONFIGFILENAME);
 

@@ -27,7 +27,7 @@
 #include <QTableWidget>
 
 UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
-        position(-1) {
+    position(-1) {
 
     table = tbl;
 }
