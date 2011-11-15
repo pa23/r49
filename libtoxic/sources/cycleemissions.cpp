@@ -686,8 +686,8 @@ bool CycleEmissions::preCalculate() {
 
                 array_alpha_O2[i] = (0.01 * ConcO2air *
                                      (1.0 - 0.01 * array_CO2[i]) +
-                                     0.273274 * 0.01 * array_CO2[i]) /
-                                    (0.01 * ConcO2air - 0.01 * array_CO2[i]);
+                                     0.0683185 * 0.01 * array_CO2[i]) /
+                        (0.01 * ConcO2air - 0.01 * array_CO2[i]);
             }
         }
 
@@ -1500,7 +1500,7 @@ bool CycleEmissions::compareAlpha() {
                         array_CO2[i] * array_rEGR[i] / 100.0;
 
                 array_alpha_O2[i] = (0.01 * ConcO2mix *
-                                     (1.0 - 0.01 * array_CO2[i]) + 0.273274 *
+                                     (1.0 - 0.01 * array_CO2[i]) + 0.0683185 *
                                      0.01 * array_CO2[i]) /
                         (0.01 * ConcO2mix - 0.01 * array_CO2[i]);
 
