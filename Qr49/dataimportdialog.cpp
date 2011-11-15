@@ -141,6 +141,30 @@ void DataImportDialog::on_pushButton_Next_clicked() {
         dtable->item(i, dj)->
                 setText(QString::number(arrayImportedData.at(i).at(sj)));
     }
+
+    if ( ui->comboBox_r49parameter->currentIndex() ==
+         ui->comboBox_r49parameter->count()-1 ) {
+
+        ui->comboBox_r49parameter->setCurrentIndex(0);
+    }
+    else {
+
+        ui->comboBox_r49parameter->setCurrentIndex(
+                    ui->comboBox_r49parameter->currentIndex() + 1
+                    );
+    }
+
+    if ( ui->comboBox_AnotherParameter->currentIndex() ==
+         ui->comboBox_AnotherParameter->count()-1 ) {
+
+        ui->comboBox_AnotherParameter->setCurrentIndex(0);
+    }
+    else {
+
+        ui->comboBox_AnotherParameter->setCurrentIndex(
+                    ui->comboBox_AnotherParameter->currentIndex() + 1
+                    );
+    }
 }
 
 void DataImportDialog::combosUpdate(QString str) {
