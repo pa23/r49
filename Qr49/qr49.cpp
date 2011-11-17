@@ -2158,6 +2158,13 @@ void MainWindow::tableCellChanged(int n, int m) {
     }
 
     saveState();
+
+    //
+
+    if ( n != table->rowCount()-1 ) {
+
+        table->setCurrentCell(n+1, m);
+    }
 }
 
 void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {

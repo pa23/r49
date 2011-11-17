@@ -142,6 +142,8 @@ void DataImportDialog::on_pushButton_Next_clicked() {
                 setText(QString::number(arrayImportedData.at(i).at(sj)));
     }
 
+    //
+
     if ( ui->comboBox_r49parameter->currentIndex() ==
          ui->comboBox_r49parameter->count()-1 ) {
 
