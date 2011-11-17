@@ -26,7 +26,8 @@
 
 namespace Ui {
 
-    class HelpDialog;
+class HelpDialog;
+
 }
 
 class HelpDialog : public QDialog {

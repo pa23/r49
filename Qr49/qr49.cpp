@@ -1038,55 +1038,28 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
             return;
         }
 
-        savedOptions.write("task");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_task->currentIndex()).toAscii());
-        savedOptions.write("\n");
+        QTextStream fout(&savedOptions);
 
-        savedOptions.write("Vh");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(ui->lineEdit_Vh->text().toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("standard");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_standard->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("ChargingType");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_chargingType->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("FuelType");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_FuelType->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("NOxSample");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_NOxSample->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("PTcalc");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_PTcalc->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("PTmass");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(ui->lineEdit_PTmass->text().toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("AddPointsCalc");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(QString::number(ui->comboBox_AddPointsCalc->currentIndex()).toAscii());
-        savedOptions.write("\n");
-
-        savedOptions.write("CalcConfigFile");
-        savedOptions.write(PARAMETERVALUEDELIMITER.toAscii());
-        savedOptions.write(params.data()->val_CalcConfigFile().toAscii());
-        savedOptions.write("\n");
+        fout << "task"           << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_task->currentIndex())          << "\n"
+             << "Vh"             << PARAMETERVALUEDELIMITER
+             << ui->lineEdit_Vh->text()                                     << "\n"
+             << "standard"       << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_standard->currentIndex())      << "\n"
+             << "ChargingType"   << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_chargingType->currentIndex())  << "\n"
+             << "FuelType"       << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_FuelType->currentIndex())      << "\n"
+             << "NOxSample"      << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_NOxSample->currentIndex())     << "\n"
+             << "PTcalc"         << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_PTcalc->currentIndex())        << "\n"
+             << "PTmass"         << PARAMETERVALUEDELIMITER
+             << ui->lineEdit_PTmass->text()                                 << "\n"
+             << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
+             << QString::number(ui->comboBox_AddPointsCalc->currentIndex()) << "\n"
+             << "CalcConfigFile" << PARAMETERVALUEDELIMITER
+             << params.data()->val_CalcConfigFile()                         << "\n";
 
         savedOptions.close();
     }

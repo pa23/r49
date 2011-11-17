@@ -30,8 +30,6 @@
 #include <QString>
 #include <QVector>
 
-using std::string;
-
 class ReducedPower {
 
 public:

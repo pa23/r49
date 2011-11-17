@@ -203,7 +203,7 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
             }
             else if ( elements[0] == "CalcConfigFile" ) {
 
-                CalcConfigFile = elements[1];
+                //
             }
             else {
 
@@ -218,6 +218,12 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
     elements.clear();
 
     calcConfigFile.close();
+
+    //
+
+    CalcConfigFile = calcConfigFileName;
+
+    //
 
     return true;
 }
