@@ -109,17 +109,11 @@ bool nonZeroArray(const QVector<double> &data) {
     double sum = 0;
 
     for ( QVector<double>::const_iterator it=data.begin(); it!=data.end();
-          it++ ) {
+          ++it ) {
 
         sum += *it;
     }
 
-    if (sum < 0.0000001) {
-
-        return false;
-    }
-    else {
-
-        return true;
-    }
+    if (sum < 0.0000001) { return false; }
+    else                 { return true;  }
 }

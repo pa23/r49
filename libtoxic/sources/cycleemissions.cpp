@@ -848,12 +848,6 @@ bool CycleEmissions::calculate_gNOx() {
 
     double muNO2 = config.data()->val_muNO2();
 
-    double summ_mNOx = 0;
-    double summ_Ne_netto = 0;
-
-    double summ_numerator = 0;
-    double summ_denominator = 0;
-
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
@@ -872,6 +866,9 @@ bool CycleEmissions::calculate_gNOx() {
          (std == STD_E1) || (std == STD_E2) || (std == STD_E3) ||
          (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
+
+        double summ_numerator = 0;
+        double summ_denominator = 0;
 
         if ( params.data()->val_NOxSample() == NOXSAMPLE_DRY ) {
 
@@ -900,6 +897,9 @@ bool CycleEmissions::calculate_gNOx() {
                 (array_Ne_brutto[0] * summ_denominator);
     }
     else {
+
+        double summ_mNOx = 0;
+        double summ_Ne_netto = 0;
 
         if ( NOxCalcMethod ) {
 
@@ -1145,12 +1145,6 @@ bool CycleEmissions::calculate_gCO() {
 
     double muCO = config.data()->val_muCO();
 
-    double summ_mCO = 0;
-    double summ_Ne_netto = 0;
-
-    double summ_numerator = 0;
-    double summ_denominator = 0;
-
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
@@ -1170,6 +1164,9 @@ bool CycleEmissions::calculate_gCO() {
          (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
+        double summ_numerator = 0;
+        double summ_denominator = 0;
+
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
             summ_numerator += array_CCO[i] /
@@ -1183,6 +1180,9 @@ bool CycleEmissions::calculate_gCO() {
                 (array_Ne_brutto[0] * summ_denominator);
     }
     else {
+
+        double summ_mCO = 0;
+        double summ_Ne_netto = 0;
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -1208,12 +1208,6 @@ bool CycleEmissions::calculate_gCH() {
 
     double muCH = config.data()->val_muCH();
 
-    double summ_mCH = 0;
-    double summ_Ne_netto = 0;
-
-    double summ_numerator = 0;
-    double summ_denominator = 0;
-
     ptrdiff_t std = params.data()->val_Standard();
 
     ptrdiff_t n = 0;
@@ -1233,6 +1227,9 @@ bool CycleEmissions::calculate_gCH() {
          (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
+        double summ_numerator = 0;
+        double summ_denominator = 0;
+
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
             summ_numerator += array_CCH[i] /
@@ -1246,6 +1243,9 @@ bool CycleEmissions::calculate_gCH() {
                 (array_Ne_brutto[0] * summ_denominator);
     }
     else {
+
+        double summ_mCH = 0;
+        double summ_Ne_netto = 0;
 
         for ( ptrdiff_t i=0; i<n; i++ ) {
 
