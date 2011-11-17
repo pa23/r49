@@ -49,9 +49,9 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
     params = prms;
     config = cfg;
 
-    if (params.data()->val_CalcConfigFile() != "_._") {
+    if (params->val_CalcConfigFile() != "_._") {
 
-        params.data()->readCalcConfigFile(params.data()->val_CalcConfigFile());
+        params->readCalcConfigFile(params->val_CalcConfigFile());
     }
 }
 
@@ -73,14 +73,14 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePowers = config.data()->val_filenamePowers();
+        QString filenamePowers = config->val_filenamePowers();
 
         QSharedPointer<csvRead>
                 readerDataForCalc(new csvRead(filenamePowers,
                                               " ",
                                               STRSNUMBERFORCOLUMNCAPTION));
 
-        array_DataForCalc = readerDataForCalc.data()->csvData();
+        array_DataForCalc = readerDataForCalc->csvData();
 
         if ( array_DataForCalc.isEmpty() ) {
 
@@ -139,7 +139,7 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
          !nonZeroArray(array_Ra) ||
          !nonZeroArray(array_pk) ||
          !nonZeroArray(array_Gfuel) ||
-         (params.data()->val_Vh() < 0.0000001) ) {
+         (params->val_Vh() < 0.0000001) ) {
 
         qDebug() << Q_FUNC_INFO << ":::"
                  << "Bad source data or calculation settings!";
@@ -178,7 +178,7 @@ bool ReducedPower::reducePower() {
 
     setRate();
 
-    double Vh = params.data()->val_Vh();
+    double Vh = params->val_Vh();
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
@@ -207,7 +207,7 @@ bool ReducedPower::reducePower() {
 
         array_ps[i] = array_B0[i] - array_pa[i];
 
-        if ( params.data()->val_ChargingType() == CHARGINGTYPE_NO ) {
+        if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
 
             array_fa[i] = (99.0 / array_ps[i]) *
                     pow( (array_t0[i] + 273.0) / 298.0, 0.7 );
@@ -247,7 +247,7 @@ QString ReducedPower::createReports() {
 
     QString message = "";
 
-    QString dirnameReports = config.data()->val_dirnameReports();
+    QString dirnameReports = config->val_dirnameReports();
 
     fullReportsPath = dirnameReports + "/" + "R85_" + mytime;
     QDir reportdir;

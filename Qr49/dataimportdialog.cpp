@@ -219,8 +219,8 @@ void DataImportDialog::combosUpdate(QString str) {
                                                delimiter,
                                                headerLines));
 
-        arrayImportedData = importedDataReader.data()->csvData();
-        headersImportedData = importedDataReader.data()->csvHeaders();
+        arrayImportedData = importedDataReader->csvData();
+        headersImportedData = importedDataReader->csvHeaders();
 
         if (table_lid == 2) {
 

@@ -391,7 +391,7 @@ void MainWindow::setDoubleValidators() {
 
 void MainWindow::readPreferences() {
 
-    if (!config.data()->readConfigFile(CONFIGFILENAME)) {
+    if (!config->readConfigFile(CONFIGFILENAME)) {
 
         QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false! Default values will be used."), 0, 0, 0);
     }
@@ -399,7 +399,7 @@ void MainWindow::readPreferences() {
 
 void MainWindow::loadAllSourceData() {
 
-    QString filenameSourceEU0 = config.data()->val_filenameSourceEU0();
+    QString filenameSourceEU0 = config->val_filenameSourceEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -419,7 +419,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenameSourceEU3 = config.data()->val_filenameSourceEU3();
+    QString filenameSourceEU3 = config->val_filenameSourceEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -439,7 +439,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePoints = config.data()->val_filenamePoints();
+    QString filenamePoints = config->val_filenamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -459,7 +459,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePowers = config.data()->val_filenamePowers();
+    QString filenamePowers = config->val_filenamePowers();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -485,7 +485,7 @@ bool MainWindow::fillTableEU0(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
-    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0.data()->csvData();
+    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0->csvData();
 
     if (arraySourceDataEU0.at(0).size() != EU0SRCDATAPARAMSNUMBER) {
 
@@ -510,7 +510,7 @@ bool MainWindow::fillTableEU3(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
-    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3.data()->csvData();
+    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3->csvData();
 
     if (arraySourceDataEU3.at(0).size() != EU3SRCDATAPARAMSNUMBER) {
 
@@ -532,7 +532,7 @@ bool MainWindow::fillTablePoints(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
-    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints.data()->csvData();
+    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints->csvData();
 
     if (arraySourceDataPoints.at(0).size() != POINTSFILECOLUMNSNUMBER) {
 
@@ -567,7 +567,7 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
     QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
-    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve.data()->csvData();
+    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve->csvData();
 
     if (arrayFullLoadCurve.at(0).size() != POWERSFILECOLUMNSNUMBER) {
 
@@ -606,15 +606,15 @@ bool MainWindow::fillParameters() {
         on_pushButton_EnterPTmass_clicked();
     }
 
-    params.data()->setTask(ui->comboBox_task->currentIndex());
-    double Vh = ui->lineEdit_Vh->text().toDouble(); params.data()->setVh(Vh);
-    params.data()->setStandard(ui->comboBox_standard->currentIndex());
-    params.data()->setChargingType(ui->comboBox_chargingType->currentIndex());
-    params.data()->setFuelType(ui->comboBox_FuelType->currentIndex());
-    params.data()->setNOxSample(ui->comboBox_NOxSample->currentIndex());
-    params.data()->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params.data()->setPTmass(PTMass);
-    params.data()->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
+    params->setTask(ui->comboBox_task->currentIndex());
+    double Vh = ui->lineEdit_Vh->text().toDouble(); params->setVh(Vh);
+    params->setStandard(ui->comboBox_standard->currentIndex());
+    params->setChargingType(ui->comboBox_chargingType->currentIndex());
+    params->setFuelType(ui->comboBox_FuelType->currentIndex());
+    params->setNOxSample(ui->comboBox_NOxSample->currentIndex());
+    params->setPTcalc(ui->comboBox_PTcalc->currentIndex());
+    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params->setPTmass(PTMass);
+    params->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
 }
@@ -738,7 +738,7 @@ void MainWindow::on_action_DataImport_activated() {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    QString dir(config.data()->val_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherSourceFile(QFileDialog::getOpenFileName(
                                   this,
@@ -826,7 +826,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        QString filenameSourceEU0 = config.data()->val_filenameSourceEU0();
+        QString filenameSourceEU0 = config->val_filenameSourceEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -851,7 +851,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        QString filenameSourceEU3 = config.data()->val_filenameSourceEU3();
+        QString filenameSourceEU3 = config->val_filenameSourceEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -876,7 +876,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        QString filenamePoints = config.data()->val_filenamePoints();
+        QString filenamePoints = config->val_filenamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -904,7 +904,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        QString filenamePowers = config.data()->val_filenamePowers();
+        QString filenamePowers = config->val_filenamePowers();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -987,7 +987,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    QString dir(config.data()->val_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherOptions(QFileDialog::getOpenFileName(
                                this,
@@ -999,17 +999,17 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
     if (!anotherOptions.isEmpty()) {
 
-        params.data()->readCalcConfigFile(anotherOptions);
+        params->readCalcConfigFile(anotherOptions);
 
-        ui->comboBox_task->setCurrentIndex(params.data()->val_Task());
-        ui->lineEdit_Vh->setText(QString::number(params.data()->val_Vh()));
-        ui->comboBox_standard->setCurrentIndex(params.data()->val_Standard());
-        ui->comboBox_chargingType->setCurrentIndex(params.data()->val_ChargingType());
-        ui->comboBox_FuelType->setCurrentIndex(params.data()->val_FuelType());
-        ui->comboBox_NOxSample->setCurrentIndex(params.data()->val_NOxSample());
-        ui->comboBox_PTcalc->setCurrentIndex(params.data()->val_PTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(params.data()->val_PTmass()));
-        ui->comboBox_AddPointsCalc->setCurrentIndex(params.data()->val_AddPointsCalc());
+        ui->comboBox_task->setCurrentIndex(params->val_Task());
+        ui->lineEdit_Vh->setText(QString::number(params->val_Vh()));
+        ui->comboBox_standard->setCurrentIndex(params->val_Standard());
+        ui->comboBox_chargingType->setCurrentIndex(params->val_ChargingType());
+        ui->comboBox_FuelType->setCurrentIndex(params->val_FuelType());
+        ui->comboBox_NOxSample->setCurrentIndex(params->val_NOxSample());
+        ui->comboBox_PTcalc->setCurrentIndex(params->val_PTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(params->val_PTmass()));
+        ui->comboBox_AddPointsCalc->setCurrentIndex(params->val_AddPointsCalc());
 
         taskChanged(ui->comboBox_task->currentIndex());
         standardChanged(ui->comboBox_standard->currentIndex());
@@ -1059,7 +1059,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
              << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
              << QString::number(ui->comboBox_AddPointsCalc->currentIndex()) << "\n"
              << "CalcConfigFile" << PARAMETERVALUEDELIMITER
-             << params.data()->val_CalcConfigFile()                         << "\n";
+             << params->val_CalcConfigFile()                         << "\n";
 
         savedOptions.close();
     }
@@ -1067,7 +1067,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    QString dir(config.data()->val_dirnameReports());
+    QString dir(config->val_dirnameReports());
 
     QString anotherReport(QFileDialog::getOpenFileName(
                               this,
@@ -1322,24 +1322,24 @@ void MainWindow::on_action_Preferences_activated() {
 
     //
 
-    myLineEdit_filenameSourceEU3->setText(config.data()->val_filenameSourceEU3());
-    myLineEdit_filenameSourceEU0->setText(config.data()->val_filenameSourceEU0());
-    myLineEdit_filenamePoints->setText(config.data()->val_filenamePoints());
-    myLineEdit_filenamePowers->setText(config.data()->val_filenamePowers());
-    myLineEdit_dirnameReports->setText(config.data()->val_dirnameReports());
-    myDoubleSpinBox_Dn->setValue(config.data()->val_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(config.data()->val_ConcO2air());
-    myDoubleSpinBox_Rr->setValue(config.data()->val_Rr());
-    myDoubleSpinBox_L0->setValue(config.data()->val_L0());
-    myDoubleSpinBox_L->setValue(config.data()->val_L());
-    myDoubleSpinBox_ConcCO2air->setValue(config.data()->val_ConcCO2air());
-    myDoubleSpinBox_WH->setValue(config.data()->val_WH());
-    myDoubleSpinBox_WO2->setValue(config.data()->val_WO2());
-    myDoubleSpinBox_WN->setValue(config.data()->val_WN());
-    myDoubleSpinBox_roAir->setValue(config.data()->val_roAir());
-    myDoubleSpinBox_muNO2->setValue(config.data()->val_muNO2());
-    myDoubleSpinBox_muCO->setValue(config.data()->val_muCO());
-    myDoubleSpinBox_muCH->setValue(config.data()->val_muCH());
+    myLineEdit_filenameSourceEU3->setText(config->val_filenameSourceEU3());
+    myLineEdit_filenameSourceEU0->setText(config->val_filenameSourceEU0());
+    myLineEdit_filenamePoints->setText(config->val_filenamePoints());
+    myLineEdit_filenamePowers->setText(config->val_filenamePowers());
+    myLineEdit_dirnameReports->setText(config->val_dirnameReports());
+    myDoubleSpinBox_Dn->setValue(config->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(config->val_ConcO2air());
+    myDoubleSpinBox_Rr->setValue(config->val_Rr());
+    myDoubleSpinBox_L0->setValue(config->val_L0());
+    myDoubleSpinBox_L->setValue(config->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(config->val_ConcCO2air());
+    myDoubleSpinBox_WH->setValue(config->val_WH());
+    myDoubleSpinBox_WO2->setValue(config->val_WO2());
+    myDoubleSpinBox_WN->setValue(config->val_WN());
+    myDoubleSpinBox_roAir->setValue(config->val_roAir());
+    myDoubleSpinBox_muNO2->setValue(config->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(config->val_muCO());
+    myDoubleSpinBox_muCH->setValue(config->val_muCH());
 
     //
 
@@ -1547,25 +1547,25 @@ void MainWindow::on_action_Execute_activated() {
 
         QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-        if (!myPoints.data()->readCSV(array_DataForCalc)) {
+        if (!myPoints->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myPoints.data()->fillArrays()) {
+        if (!myPoints->fillArrays()) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
-        message += myPoints.data()->createReport();
+        message += myPoints->createReport();
 
         //
 
-        QString filenamePoints = config.data()->val_filenamePoints();
+        QString filenamePoints = config->val_filenamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
@@ -1591,14 +1591,14 @@ void MainWindow::on_action_Execute_activated() {
 
         QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-        if (!myEmissions.data()->readCSV(array_DataForCalc)) {
+        if (!myEmissions->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myEmissions.data()->calculate()) {
+        if (!myEmissions->calculate()) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
 
@@ -1607,16 +1607,16 @@ void MainWindow::on_action_Execute_activated() {
 
         if (ui->checkBox_reports->isChecked()) {
 
-            message += myEmissions.data()->createReports(true);
+            message += myEmissions->createReports(true);
 
             //
 
-            //QDir ReportsDir(config.data()->val_dirnameReports());
+            //QDir ReportsDir(config->val_dirnameReports());
             //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
             //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-            lastReportsDir = myEmissions.data()->lastReportsDir();
+            lastReportsDir = myEmissions->lastReportsDir();
 
             QString csvfilter("*.csv");
             QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
@@ -1645,37 +1645,37 @@ void MainWindow::on_action_Execute_activated() {
         }
         else {
 
-            message += myEmissions.data()->createReports(false);
+            message += myEmissions->createReports(false);
         }
     }
     else if (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) {
 
         QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-        if (!myReducedPower.data()->readCSV(array_DataForCalc)) {
+        if (!myReducedPower->readCSV(array_DataForCalc)) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
-        if (!myReducedPower.data()->reducePower()) {
+        if (!myReducedPower->reducePower()) {
 
             QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
 
             return;
         }
 
-        message += myReducedPower.data()->createReports();
+        message += myReducedPower->createReports();
 
         //
 
-        //QDir ReportsDir(config.data()->val_dirnameReports());
+        //QDir ReportsDir(config->val_dirnameReports());
         //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
 
         //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
 
-        lastReportsDir = myReducedPower.data()->lastReportsDir();
+        lastReportsDir = myReducedPower->lastReportsDir();
 
         QString csvfilter("*.csv");
         QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
@@ -1775,7 +1775,7 @@ void MainWindow::on_action_AboutQt_activated() {
 
 void MainWindow::on_action_CheckForUpdates_activated() {
 
-    newVersions.data()->checkAvailableVersions();
+    newVersions->checkAvailableVersions();
 }
 
 void MainWindow::on_pushButton_EnterPTmass_clicked() {
@@ -2144,29 +2144,29 @@ void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {
 
     if (tbl == ui->tableWidget_SrcDataEU0) {
 
-        undoCount = undoRedo_TableEU0.data()->undoTableNumber();
-        redoCount = undoRedo_TableEU0.data()->redoTableNumber();
+        undoCount = undoRedo_TableEU0->undoTableNumber();
+        redoCount = undoRedo_TableEU0->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataEU3) {
 
-        undoCount = undoRedo_TableEU3.data()->undoTableNumber();
-        redoCount = undoRedo_TableEU3.data()->redoTableNumber();
+        undoCount = undoRedo_TableEU3->undoTableNumber();
+        redoCount = undoRedo_TableEU3->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_SrcDataPoints) {
 
-        undoCount = undoRedo_TablePoints.data()->undoTableNumber();
-        redoCount = undoRedo_TablePoints.data()->redoTableNumber();
+        undoCount = undoRedo_TablePoints->undoTableNumber();
+        redoCount = undoRedo_TablePoints->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if (tbl == ui->tableWidget_FullLoadCurve) {
 
-        undoCount = undoRedo_TableFullLoadCurve.data()->undoTableNumber();
-        redoCount = undoRedo_TableFullLoadCurve.data()->redoTableNumber();
+        undoCount = undoRedo_TableFullLoadCurve->undoTableNumber();
+        redoCount = undoRedo_TableFullLoadCurve->redoTableNumber();
 
         setUndoRedoButtonState();
     }
@@ -2207,32 +2207,32 @@ void MainWindow::saveState() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0.data()->saveState();
+        undoRedo_TableEU0->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3.data()->saveState();
+        undoRedo_TableEU3->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints.data()->saveState();
+        undoRedo_TablePoints->saveState();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve.data()->saveState();
+        undoRedo_TableFullLoadCurve->saveState();
         getUndoRedoCounters(table);
     }
 }
 
 void MainWindow::saveStateForAllTables() {
 
-    undoRedo_TableEU0.data()->saveState();
-    undoRedo_TableEU3.data()->saveState();
-    undoRedo_TablePoints.data()->saveState();
-    undoRedo_TableFullLoadCurve.data()->saveState();
+    undoRedo_TableEU0->saveState();
+    undoRedo_TableEU3->saveState();
+    undoRedo_TablePoints->saveState();
+    undoRedo_TableFullLoadCurve->saveState();
 }
 
 void MainWindow::on_action_UndoTable_activated() {
@@ -2241,22 +2241,22 @@ void MainWindow::on_action_UndoTable_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0.data()->undoTable();
+        undoRedo_TableEU0->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3.data()->undoTable();
+        undoRedo_TableEU3->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints.data()->undoTable();
+        undoRedo_TablePoints->undoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve.data()->undoTable();
+        undoRedo_TableFullLoadCurve->undoTable();
         getUndoRedoCounters(table);
     }
 
@@ -2269,22 +2269,22 @@ void MainWindow::on_action_RedoTable_activated() {
 
     if (table == ui->tableWidget_SrcDataEU0) {
 
-        undoRedo_TableEU0.data()->redoTable();
+        undoRedo_TableEU0->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataEU3) {
 
-        undoRedo_TableEU3.data()->redoTable();
+        undoRedo_TableEU3->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_SrcDataPoints) {
 
-        undoRedo_TablePoints.data()->redoTable();
+        undoRedo_TablePoints->redoTable();
         getUndoRedoCounters(table);
     }
     else if (table == ui->tableWidget_FullLoadCurve) {
 
-        undoRedo_TableFullLoadCurve.data()->redoTable();
+        undoRedo_TableFullLoadCurve->redoTable();
         getUndoRedoCounters(table);
     }
 

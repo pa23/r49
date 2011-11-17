@@ -61,9 +61,9 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params.data()->val_CalcConfigFile() != "_._") {
+    if (params->val_CalcConfigFile() != "_._") {
 
-        params.data()->readCalcConfigFile(params.data()->val_CalcConfigFile());
+        params->readCalcConfigFile(params->val_CalcConfigFile());
     }
 }
 
@@ -83,7 +83,7 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
 
 bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
-    ptrdiff_t std = params.data()->val_Standard();
+    ptrdiff_t std = params->val_Standard();
 
     QString filenameSource = "";
 
@@ -94,11 +94,11 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         if ( (std == STD_EU6) || (std == STD_EU5) ||
              (std == STD_EU4) || (std == STD_EU3) ) {
 
-            filenameSource = config.data()->val_filenameSourceEU3();
+            filenameSource = config->val_filenameSourceEU3();
         }
         else {
 
-            filenameSource = config.data()->val_filenameSourceEU0();
+            filenameSource = config->val_filenameSourceEU0();
         }
 
         QSharedPointer<csvRead>
@@ -106,7 +106,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                                              " ",
                                              STRSNUMBERFORCOLUMNCAPTION));
 
-        arraySourceData = readerSourceData.data()->csvData();
+        arraySourceData = readerSourceData->csvData();
 
         if ( (std == STD_EU6) || (std == STD_EU5) ||
              (std == STD_EU4) || (std == STD_EU3) ) {
@@ -250,8 +250,8 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
 bool CyclePoints::fillArrays() {
 
-    ptrdiff_t std = params.data()->val_Standard();
-    ptrdiff_t addpc = params.data()->val_AddPointsCalc();
+    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t addpc = params->val_AddPointsCalc();
 
     ptrdiff_t n = 0;
 
@@ -875,7 +875,7 @@ QString CyclePoints::createReport() const {
 
     QString message = "";
 
-    QString filenamePoints = config.data()->val_filenamePoints();
+    QString filenamePoints = config->val_filenamePoints();
 
     QFile data1(filenamePoints);
 
@@ -903,14 +903,14 @@ QString CyclePoints::createReport() const {
           << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
           << "rd[-]"      << "\n";
 
-    ptrdiff_t std = params.data()->val_Standard();
+    ptrdiff_t std = params->val_Standard();
 
     ptrdiff_t n = 0;
 
     if ( (std == STD_EU6) || (std == STD_EU5) ||
          (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if ( params.data()->val_AddPointsCalc() == ADDPOINTSCALC_YES ) {
+        if ( params->val_AddPointsCalc() == ADDPOINTSCALC_YES ) {
 
             n = TCYCLEPOINTSNUMBER;
         }

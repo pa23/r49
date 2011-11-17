@@ -173,7 +173,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
         if ( param == "task" ) {
 
-            params.data()->setTask(value);
+            params->setTask(value);
         }
         else if ( param == "Vh" ) {
 
@@ -181,7 +181,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             if ( (val>0) && (val<666000) ) {
 
-                params.data()->setVh(val);
+                params->setVh(val);
             }
             else {
 
@@ -194,23 +194,23 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if ( param == "standard" ) {
 
-            params.data()->setStandard(value);
+            params->setStandard(value);
         }
         else if ( param == "ChargingType" ) {
 
-            params.data()->setChargingType(value);
+            params->setChargingType(value);
         }
         else if ( param == "FuelType" ) {
 
-            params.data()->setFuelType(value);
+            params->setFuelType(value);
         }
         else if ( param == "NOxSample" ) {
 
-            params.data()->setNOxSample(value);
+            params->setNOxSample(value);
         }
         else if ( param == "PTcalc" ) {
 
-            params.data()->setPTcalc(value);
+            params->setPTcalc(value);
         }
         else if ( param == "PTmass" ) {
 
@@ -218,7 +218,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             if ( (val>0) && (val<666000) ) {
 
-                params.data()->setPTmass(val);
+                params->setPTmass(val);
             }
             else {
 
@@ -231,11 +231,11 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if ( param == "AddPointsCalc" ) {
 
-            params.data()->setAddPointsCalc(value);
+            params->setAddPointsCalc(value);
         }
         else if ( param == "CalcConfigFile" ) {
 
-            params.data()->setCalcConfigFile(value);
+            params->setCalcConfigFile(value);
         }
         else {
 
@@ -268,68 +268,68 @@ int main(int argc, char **argv) {
 
         QSharedPointer<CommonParameters> config(new CommonParameters());
 
-        if ( !config.data()->readConfigFile(CONFIGFILENAME) ) {
+        if ( !config->readConfigFile(CONFIGFILENAME) ) {
 
             qDebug() << Q_FUNC_INFO << ":::" << "returns false! Default values will be used.";
         }
 
         QVector< QVector<double> > data;
 
-        ptrdiff_t currtask = params.data()->val_Task();
+        ptrdiff_t currtask = params->val_Task();
 
         if ( currtask == TASK_POINTS ) {
 
             QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-            if ( !myPoints.data()->readCSV(data) ) {
+            if ( !myPoints->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if ( !myPoints.data()->fillArrays() ) {
+            if ( !myPoints->fillArrays() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            myPoints.data()->createReport();
+            myPoints->createReport();
         }
         else if ( currtask == TASK_EMISSIONS ) {
 
             QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-            if ( !myEmissions.data()->readCSV(data) ) {
+            if ( !myEmissions->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if ( !myEmissions.data()->calculate() ) {
+            if ( !myEmissions->calculate() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            myEmissions.data()->createReports(true);
+            myEmissions->createReports(true);
         }
         else if ( currtask == TASK_REDUCEDPOWER ) {
 
             QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-            if ( !myReducedPower.data()->readCSV(data) ) {
+            if ( !myReducedPower->readCSV(data) ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            if ( !myReducedPower.data()->reducePower() ) {
+            if ( !myReducedPower->reducePower() ) {
 
                 qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
                 return false;
             }
 
-            myReducedPower.data()->createReports();
+            myReducedPower->createReports();
         }
         else if ( currtask == TASK_ABCSPEEDS ) {
 
