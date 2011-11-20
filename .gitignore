@@ -14,4 +14,6 @@ Qr49/qr49_ru.qm
 libtoxic/Makefile
 libtoxic/build/
 libtoxic/libtoxic.pro.user
-
+cr49/cr49.pro.user
+cr49/build
+cr49/Makefile

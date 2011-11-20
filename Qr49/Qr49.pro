@@ -54,7 +54,7 @@ win32: {
     INCLUDEPATH += .. \
         ..\\libtoxic\\sources
     LIBS += -L..\\libtoxic\\build\\win\\bin \
-        -ltoxic5 \
+        -ltoxic6 \
         -Wl,-rpath,.
     DESTDIR = build\\win\\bin
     MOC_DIR = build\\win\\moc

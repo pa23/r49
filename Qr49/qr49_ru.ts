@@ -1278,7 +1278,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>returns false! Default values will be used.</source>
-        <translation>функция вернула false! Будут использованы значения по умолчанию.</translation>
+        <translation type="obsolete">функция вернула false! Будут использованы значения по умолчанию.</translation>
     </message>
     <message>
         <source>returns false!</source>
@@ -1299,7 +1299,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>returns false!
 Maybe you did not enter all source data?</source>
-        <translation>функция вернула false!
+        <translation type="obsolete">функция вернула false!
 Может быть вы ввели не все исходные данные?</translation>
     </message>
     <message>

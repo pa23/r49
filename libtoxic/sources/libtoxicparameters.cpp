@@ -201,7 +201,7 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
             }
             else if ( elements[0] == "CalcConfigFile" ) {
 
-                //
+                CalcConfigFile = elements[1];
             }
 
             elements.clear();
@@ -211,10 +211,6 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
     elements.clear();
 
     calcConfigFile.close();
-
-    //
-
-    CalcConfigFile = calcConfigFileName;
 }
 
 QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
