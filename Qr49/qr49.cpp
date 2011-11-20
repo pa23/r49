@@ -40,6 +40,7 @@
 #include "reducedpower.h"
 #include "commonparameters.h"
 #include "precalc.h"
+#include "toxicerror.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -391,9 +392,14 @@ void MainWindow::setDoubleValidators() {
 
 void MainWindow::readPreferences() {
 
-    if (!config->readConfigFile(CONFIGFILENAME)) {
+    try {
 
-        QMessageBox::warning(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false! Default values will be used."), 0, 0, 0);
+        config->readConfigFile(CONFIGFILENAME);
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return;
     }
 }
 
@@ -485,6 +491,16 @@ bool MainWindow::fillTableEU0(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
+    try{
+
+        readerSourceDataEU0->readFile();
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return false;
+    }
+
     QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0->csvData();
 
     if (arraySourceDataEU0.at(0).size() != EU0SRCDATAPARAMSNUMBER) {
@@ -510,6 +526,16 @@ bool MainWindow::fillTableEU3(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
+    try{
+
+        readerSourceDataEU3->readFile();
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return false;
+    }
+
     QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3->csvData();
 
     if (arraySourceDataEU3.at(0).size() != EU3SRCDATAPARAMSNUMBER) {
@@ -531,6 +557,16 @@ bool MainWindow::fillTableEU3(QString filename) {
 bool MainWindow::fillTablePoints(QString filename) {
 
     QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+
+    try{
+
+        readerSourceDataPoints->readFile();
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return false;
+    }
 
     QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints->csvData();
 
@@ -566,6 +602,16 @@ bool MainWindow::fillTablePoints(QString filename) {
 bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
     QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+
+    try{
+
+        readerFullLoadCurve->readFile();
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return false;
+    }
 
     QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve->csvData();
 
@@ -999,7 +1045,15 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
     if (!anotherOptions.isEmpty()) {
 
-        params->readCalcConfigFile(anotherOptions);
+        try {
+
+            params->readCalcConfigFile(anotherOptions);
+        }
+        catch(ToxicError &toxerr) {
+
+            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            return;
+        }
 
         ui->comboBox_task->setCurrentIndex(params->val_Task());
         ui->lineEdit_Vh->setText(QString::number(params->val_Vh()));
@@ -1547,21 +1601,17 @@ void MainWindow::on_action_Execute_activated() {
 
         QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-        if (!myPoints->readCSV(array_DataForCalc)) {
+        try {
 
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
+            myPoints->readCSV(array_DataForCalc);
+            myPoints->fillArrays();
+            message += myPoints->createReport();
+        }
+        catch(ToxicError &toxerr) {
 
+            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
         }
-
-        if (!myPoints->fillArrays()) {
-
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
-
-            return;
-        }
-
-        message += myPoints->createReport();
 
         //
 
@@ -1571,7 +1621,7 @@ void MainWindow::on_action_Execute_activated() {
 
             tableCellChangedConnect(false);
 
-            if (!fillTablePoints(filenamePoints)) {
+            if ( !fillTablePoints(filenamePoints) ) {
 
                 QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
             }
@@ -1591,23 +1641,28 @@ void MainWindow::on_action_Execute_activated() {
 
         QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-        if (!myEmissions->readCSV(array_DataForCalc)) {
+        try {
 
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
-
-            return;
+            myEmissions->readCSV(array_DataForCalc);
+            myEmissions->calculate();
         }
+        catch(ToxicError &toxerr) {
 
-        if (!myEmissions->calculate()) {
-
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!\nMaybe you did not enter all source data?"), 0, 0, 0);
-
+            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
         }
 
         if (ui->checkBox_reports->isChecked()) {
 
-            message += myEmissions->createReports(true);
+            try {
+
+                message += myEmissions->createReports(true);
+            }
+            catch(ToxicError &toxerr) {
+
+                QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+                return;
+            }
 
             //
 
@@ -1645,28 +1700,32 @@ void MainWindow::on_action_Execute_activated() {
         }
         else {
 
-            message += myEmissions->createReports(false);
+            try {
+
+                message += myEmissions->createReports(false);
+            }
+            catch(ToxicError &toxerr) {
+
+                QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+                return;
+            }
         }
     }
     else if (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) {
 
         QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-        if (!myReducedPower->readCSV(array_DataForCalc)) {
+        try {
 
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
+            myReducedPower->readCSV(array_DataForCalc);
+            myReducedPower->reducePower();
+            message += myReducedPower->createReports();
+        }
+        catch(ToxicError &toxerr) {
 
+            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
         }
-
-        if (!myReducedPower->reducePower()) {
-
-            QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("returns false!"), 0, 0, 0);
-
-            return;
-        }
-
-        message += myReducedPower->createReports();
 
         //
 
@@ -2304,7 +2363,15 @@ void MainWindow::abcCalculation() {
     double a3 = 0;
     double n_ref = 0;
 
-    calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+    try {
+
+        calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+    }
+    catch(ToxicError &toxerr) {
+
+        QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        return;
+    }
 
     ui->label_A->setText(QString::number(A));
     ui->label_B->setText(QString::number(B));

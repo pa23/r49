@@ -21,8 +21,8 @@
 
 #include "commonparameters.h"
 #include "libtoxicconstants.h"
+#include "toxicerror.h"
 
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 #include <QFile>
@@ -66,15 +66,13 @@ CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
     return *this;
 }
 
-bool CommonParameters::readConfigFile(const QString &configFileName) {
+void CommonParameters::readConfigFile(const QString &configFileName) {
 
     QFile configFile(configFileName);
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << configFileName << "not found!";
-
-        return false;
+        throw ToxicError("Can not open config file " + configFileName + "!");
     }
 
     QString s;
@@ -162,11 +160,6 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
 
                 muCH = (elements[1]).toDouble();
             }
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "Unknown parameter"
-                         << elements[0] << "!";
-            }
 
             elements.clear();
         }
@@ -180,41 +173,54 @@ bool CommonParameters::readConfigFile(const QString &configFileName) {
 
     QDir dir;
     QFileInfo fileinfo;
+    QString absPath;
 
     fileinfo.setFile(filenameSourceEU3);
+    absPath = fileinfo.absoluteDir().absolutePath();
 
-    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
+    if ( !dir.exists(absPath) ) {
 
-        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+        if ( dir.mkdir(absPath) ) {
+
+            throw ToxicError("Can not create directory " + absPath);
+        }
     }
 
     fileinfo.setFile(filenameSourceEU0);
+    absPath = fileinfo.absoluteDir().absolutePath();
 
-    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
+    if ( !dir.exists(absPath) ) {
 
-        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+        if ( dir.mkdir(absPath) ) {
+
+            throw ToxicError("Can not create directory " + absPath);
+        }
     }
 
     fileinfo.setFile(filenamePoints);
+    absPath = fileinfo.absoluteDir().absolutePath();
 
-    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
+    if ( !dir.exists(absPath) ) {
 
-        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+        if ( dir.mkdir(absPath) ) {
+
+            throw ToxicError("Can not create directory " + absPath);
+        }
     }
 
     fileinfo.setFile(filenamePowers);
+    absPath = fileinfo.absoluteDir().absolutePath();
 
-    if ( !dir.exists(fileinfo.absoluteDir().absolutePath()) ) {
+    if ( !dir.exists(absPath) ) {
 
-        dir.mkdir(fileinfo.absoluteDir().absolutePath());
+        if ( dir.mkdir(absPath) ) {
+
+            throw ToxicError("Can not create directory " + absPath);
+        }
     }
 
     if ( !dir.exists(dirnameReports) ) {
 
         dir.mkdir(dirnameReports);
     }
-
-    //
-
-    return true;
 }

@@ -22,6 +22,7 @@
 #include "dataimportdialog.h"
 #include "ui_dataimportdialog.h"
 #include "tablewidgetfunctions.h"
+#include "toxicerror.h"
 
 #include <QSharedPointer>
 #include <QString>
@@ -218,6 +219,16 @@ void DataImportDialog::combosUpdate(QString str) {
                 importedDataReader(new csvRead(dataFileName,
                                                delimiter,
                                                headerLines));
+
+        try{
+
+            importedDataReader->readFile();
+        }
+        catch(ToxicError &toxerr) {
+
+            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            return;
+        }
 
         arrayImportedData = importedDataReader->csvData();
         headersImportedData = importedDataReader->csvHeaders();

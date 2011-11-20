@@ -38,8 +38,8 @@ public:
                           const QSharedPointer<CommonParameters> &);
     virtual ~ReducedPower();
 
-    bool readCSV(const QVector< QVector<double> > &);
-    bool reducePower();
+    void readCSV(const QVector< QVector<double> > &);
+    void reducePower();
     QString createReports();
     QString lastReportsDir() const;
 

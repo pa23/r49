@@ -1,7 +1,7 @@
 QT -= gui
 TARGET = toxic
 TEMPLATE = lib
-VERSION = 6.0.1
+VERSION = 6.1.0
 SOURCES += sources/reducedpower.cpp \
     sources/precalc.cpp \
     sources/libtoxicparameters.cpp \
@@ -9,7 +9,8 @@ SOURCES += sources/reducedpower.cpp \
     sources/cyclepoints.cpp \
     sources/cycleemissions.cpp \
     sources/commonparameters.cpp \
-    sources/csvread.cpp
+    sources/csvread.cpp \
+    sources/toxicerror.cpp
 HEADERS += sources/reducedpower.h \
     sources/precalc.h \
     sources/libtoxicparameters.h \
@@ -19,7 +20,8 @@ HEADERS += sources/reducedpower.h \
     sources/cycleemissions.h \
     sources/commonparameters.h \
     sources/csvread.h \
-    ../r49.h
+    ../r49.h \
+    sources/toxicerror.h
 unix: {
     INCLUDEPATH += ..
         #/usr/include/c++/4.6

@@ -29,6 +29,7 @@
 #include "reducedpower.h"
 #include "commonparameters.h"
 #include "r49.h"
+#include "toxicerror.h"
 
 #include <QSharedPointer>
 #include <QDebug>
@@ -268,9 +269,14 @@ int main(int argc, char **argv) {
 
         QSharedPointer<CommonParameters> config(new CommonParameters());
 
-        if ( !config->readConfigFile(CONFIGFILENAME) ) {
+        try {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "returns false! Default values will be used.";
+            config->readConfigFile(CONFIGFILENAME);
+        }
+        catch(ToxicError &toxerr) {
+
+            qDebug() << toxerr.toxicErrMsg();
+            return 0;
         }
 
         QVector< QVector<double> > data;
@@ -281,55 +287,49 @@ int main(int argc, char **argv) {
 
             QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
-            if ( !myPoints->readCSV(data) ) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                myPoints->readCSV(data);
+                myPoints->fillArrays();
+                qDebug() << myPoints->createReport();
             }
+            catch(ToxicError &toxerr) {
 
-            if ( !myPoints->fillArrays() ) {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                qDebug() << toxerr.toxicErrMsg();
+                return 0;
             }
-
-            myPoints->createReport();
         }
         else if ( currtask == TASK_EMISSIONS ) {
 
             QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
 
-            if ( !myEmissions->readCSV(data) ) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                myEmissions->readCSV(data);
+                myEmissions->calculate();
+                qDebug() << myEmissions->createReports(true);
             }
+            catch(ToxicError &toxerr) {
 
-            if ( !myEmissions->calculate() ) {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                qDebug() << toxerr.toxicErrMsg();
+                return 0;
             }
-
-            myEmissions->createReports(true);
         }
         else if ( currtask == TASK_REDUCEDPOWER ) {
 
             QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
 
-            if ( !myReducedPower->readCSV(data) ) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                myReducedPower->readCSV(data);
+                myReducedPower->reducePower();
+                qDebug() << myReducedPower->createReports();
             }
+            catch(ToxicError &toxerr) {
 
-            if ( !myReducedPower->reducePower() ) {
-
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                qDebug() << toxerr.toxicErrMsg();
+                return 0;
             }
-
-            myReducedPower->createReports();
         }
         else if ( currtask == TASK_ABCSPEEDS ) {
 
@@ -339,10 +339,14 @@ int main(int argc, char **argv) {
             cout << "\n" << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
             cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\nQr49 ERROR: Bad data!\n\n"; return false; }
 
-            if (!calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref)) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-                return false;
+                calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+            }
+            catch(ToxicError &toxerr) {
+
+                qDebug() << toxerr.toxicErrMsg();
+                return 0;
             }
 
             cout << "\nA    = " << A;

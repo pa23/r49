@@ -37,8 +37,8 @@ public:
                          const QSharedPointer<CommonParameters> &);
     virtual ~CyclePoints();
 
-    bool readCSV(const QVector< QVector<double> > &);
-    bool fillArrays();
+    void readCSV(const QVector< QVector<double> > &);
+    void fillArrays();
     QString createReport() const;
 
 private:

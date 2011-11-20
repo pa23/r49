@@ -21,12 +21,13 @@
 
 #include "precalc.h"
 #include "libtoxicconstants.h"
+#include "toxicerror.h"
 
 #include <QVector>
 
 #include <cmath>
 
-bool calcABC(const double &n_hi,
+void calcABC(const double &n_hi,
              const double &n_lo,
              double *A,
              double *B,
@@ -38,7 +39,7 @@ bool calcABC(const double &n_hi,
 
     if (n_hi < n_lo) {
 
-        return false;
+        throw ToxicError("n_hi must be greater than n_lo!");
     }
 
     double delta = (n_hi - n_lo) / 4.0;
@@ -52,8 +53,6 @@ bool calcABC(const double &n_hi,
     *a3 = (*B + *C) / 2.0;
 
     *n_ref = n_lo + 0.95 * (n_hi - n_lo);
-
-    return true;
 }
 
 double Gair(const double &Dn,

@@ -25,9 +25,9 @@
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
 #include "precalc.h"
+#include "toxicerror.h"
 
 #include <QSharedPointer>
-#include <QDebug>
 #include <QString>
 #include <QVector>
 #include <QDir>
@@ -51,7 +51,14 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        try {
+
+            params->readCalcConfigFile(params->val_CalcConfigFile());
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
     }
 }
 
@@ -69,7 +76,7 @@ ReducedPower &ReducedPower::operator =(const ReducedPower &x) {
     return *this;
 }
 
-bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
+void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
@@ -80,20 +87,25 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
                                               " ",
                                               STRSNUMBERFORCOLUMNCAPTION));
 
+        try{
+
+            readerDataForCalc->readFile();
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
+
         array_DataForCalc = readerDataForCalc->csvData();
 
         if ( array_DataForCalc.isEmpty() ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-            return false;
+            throw ToxicError("No data to calculate!");
         }
 
         if ( array_DataForCalc.at(0).size() != POWERSFILECOLUMNSNUMBER ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-            return false;
+            throw ToxicError("Incorrect source data!");
         }
     }
     else {
@@ -141,14 +153,8 @@ bool ReducedPower::readCSV(const QVector< QVector<double> > &data) {
          !nonZeroArray(array_Gfuel) ||
          (params->val_Vh() < 0.0000001) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings!";
-        return false;
+        throw ToxicError("Incorrect source data!");
     }
-
-    //
-
-    return true;
 }
 
 void ReducedPower::setRate() {
@@ -161,7 +167,7 @@ void ReducedPower::setRate() {
     N_fan_rated = array_N_fan[i_rated];
 }
 
-bool ReducedPower::reducePower() {
+void ReducedPower::reducePower() {
 
     array_Ne_brutto.clear();        array_Ne_brutto.resize(NumberOfPoints);
     array_qcs.clear();              array_qcs.resize(NumberOfPoints);
@@ -222,10 +228,8 @@ bool ReducedPower::reducePower() {
 
         if ( (array_alphad[i] < 0.9) || (array_alphad[i] > 1.1) ) {
 
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "alphad is out-of-range (0.9..1.1)!";
-
-            return false;
+            throw ToxicError("Parameter \"alphad\" "
+                             "is out-of-range (0.9..1.1)!");
         }
 
         array_Ne_reduced[i] = array_alphad[i] * array_Ne_brutto[i];
@@ -239,8 +243,6 @@ bool ReducedPower::reducePower() {
         array_ge_netto_reduced[i] = array_Gfuel[i] /
                 array_Ne_netto_reduced[i] * 1000.0;
     }
-
-    return true;
 }
 
 QString ReducedPower::createReports() {
@@ -264,12 +266,7 @@ QString ReducedPower::createReports() {
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data1 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + checkoutdata + "!");
     }
 
     QTextStream fout1(&data1);
@@ -312,8 +309,6 @@ QString ReducedPower::createReports() {
 
     message += "libtoxic: Additional file \"" +
             checkoutDataFileName + "\" rewrited.\n";
-    qDebug() << "\nlibtoxic: Additional file"
-             << checkoutDataFileName << "rewrited.";
 
     //
 
@@ -326,12 +321,7 @@ QString ReducedPower::createReports() {
 
     if ( !data4.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data4 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data4 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + srcdata + "!");
     }
 
     QTextStream fout4(&data4);
@@ -360,8 +350,6 @@ QString ReducedPower::createReports() {
 
     message += "libtoxic: SourceData file \"" +
             sourceDataFileName + "\" created.\n";
-    qDebug() << "libtoxic: SourceData file"
-             << sourceDataFileName << "created.";
 
     return message;
 }

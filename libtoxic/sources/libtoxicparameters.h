@@ -71,7 +71,7 @@ public:
     ptrdiff_t val_AddPointsCalc() const { return AddPointsCalc; }
     QString val_CalcConfigFile() const { return CalcConfigFile; }
 
-    bool readCalcConfigFile(const QString &);
+    void readCalcConfigFile(const QString &);
 
     QString defStandardName(const ptrdiff_t &) const;
 

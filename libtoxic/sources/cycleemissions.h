@@ -38,8 +38,8 @@ public:
                             const QSharedPointer<CommonParameters> &);
     virtual ~CycleEmissions();
 
-    bool readCSV(const QVector< QVector<double> > &);
-    bool calculate();
+    void readCSV(const QVector< QVector<double> > &);
+    void calculate();
     QString createReports(const bool &);
     QString lastReportsDir() const;
 
@@ -150,15 +150,15 @@ private:
 
     ptrdiff_t NumberOfPoints;
 
-    bool preCalculate();
-    bool calculate_gNOx(); // or CNOxs
-    bool calculateAdditionalPoints();
-    bool calculate_gCO();
-    bool calculate_gCH();
-    bool calculate_gPT();
-    bool calculate_rEGR();
-    bool calculate_Means();
-    bool compareAlpha();
+    void preCalculate();
+    void calculate_gNOx(); // or CNOxs
+    void calculateAdditionalPoints();
+    void calculate_gCO();
+    void calculate_gCH();
+    void calculate_gPT();
+    void calculate_rEGR();
+    void calculate_Means();
+    void compareAlpha();
     bool checkTestConditions() const;
 
     QString mytime;

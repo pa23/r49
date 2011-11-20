@@ -21,8 +21,8 @@
 
 #include "csvread.h"
 #include "libtoxicconstants.h"
+#include "toxicerror.h"
 
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 #include <QVector>
@@ -35,8 +35,6 @@ csvRead::csvRead(const QString &fname,
     filename = fname;
     csvdelimiter = csvdelim;
     headerLinesNumber = hdrLinesNum;
-
-    readFile();
 }
 
 csvRead::~csvRead() {
@@ -59,9 +57,7 @@ void csvRead::readFile() {
 
     if ( !(dataFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << filename << "not found!";
-
-        return;
+        throw ToxicError("Can not open data file " + filename + "!");
     }
 
     QString s;

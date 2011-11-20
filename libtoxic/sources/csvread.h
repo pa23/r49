@@ -33,6 +33,7 @@ public:
     explicit csvRead(const QString &, const QString &, const ptrdiff_t &);
     virtual ~csvRead();
 
+    void readFile();
     QVector< QVector<double> > csvData() const;
     QStringList csvHeaders() const;
 
@@ -40,8 +41,6 @@ private:
 
     csvRead(const csvRead &orig);
     csvRead &operator =(const csvRead &);
-
-    void readFile();
 
     QString filename;
     QString csvdelimiter;

@@ -27,9 +27,9 @@
 #include "emissionlimits.h"
 #include "precalc.h"
 #include "r49.h"
+#include "toxicerror.h"
 
 #include <QSharedPointer>
-#include <QDebug>
 #include <QString>
 #include <QVector>
 #include <QDir>
@@ -64,7 +64,14 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        try {
+
+            params->readCalcConfigFile(params->val_CalcConfigFile());
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
     }
 }
 
@@ -82,77 +89,7 @@ CycleEmissions &CycleEmissions::operator =(const CycleEmissions &x) {
     return *this;
 }
 
-bool CycleEmissions::calculate() {
-
-    ptrdiff_t std = params->val_Standard();
-
-    if ( !preCalculate() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( !calculate_gNOx() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( ( (std == STD_EU6) || (std == STD_EU5) ||
-           (std == STD_EU4) || (std == STD_EU3) ) &&
-         (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) &&
-         (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
-
-        if (!calculateAdditionalPoints()) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-            return false;
-        }
-    }
-
-    if ( !calculate_gCO() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( !calculate_gCH() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( !calculate_gPT() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( !calculate_rEGR() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    if ( std != STD_FREECALC ) {
-
-        if ( !calculate_Means() ) {
-
-            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-            return false;
-        }
-    }
-
-    if ( !compareAlpha() ) {
-
-        qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
-        return false;
-    }
-
-    return true;
-}
-
-bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
+void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
@@ -163,18 +100,25 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                     new csvRead(filenamePoints, " ", STRSNUMBERFORCOLUMNCAPTION)
                     );
 
+        try {
+
+            readerDataForCalc->readFile();
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
+
         array_DataForCalc = readerDataForCalc->csvData();
 
         if ( array_DataForCalc.isEmpty() ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-            return false;
+            throw ToxicError("No data to calculate!");
         }
 
-        if ( array_DataForCalc.at(0).size() != POINTSFILECOLUMNSNUMBER ) {
+        if ( array_DataForCalc[0].size() != POINTSFILECOLUMNSNUMBER ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-            return false;
+            throw ToxicError("Incorrect source data!");
         }
     }
     else {
@@ -328,9 +272,9 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                 )
             ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings!";
-        return false;
+        throw ToxicError("Wrong source data or calculation settings! "
+                         "Check the number of points of source data and "
+                         "calculation parameters.");
     }
 
     array_n.clear();         array_n.resize(NumberOfPoints);
@@ -398,9 +342,7 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( !nonZeroArray(array_n) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (n)!";
-        return false;
+        throw ToxicError("Array \"n\" must contain nonzero data!");
     }
 
     if ( nonZeroArray(array_Me_brutto) ) {
@@ -413,30 +355,23 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (Me_b or Ne_b)!";
-        return false;
+        throw ToxicError("Arrays \"Me_b\" or \"Ne_b\" "
+                         "must contain nonzero data!");
     }
 
     if ( !nonZeroArray(array_t0) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (t0)!";
-        return false;
+        throw ToxicError("Array \"t0\" must contain nonzero data!");
     }
 
     if ( !nonZeroArray(array_B0) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (B0)!";
-        return false;
+        throw ToxicError("Array \"B0\" must contain nonzero data!");
     }
 
     if ( !nonZeroArray(array_Ra) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (Ra)!";
-        return false;
+        throw ToxicError("Array \"Ra\" must contain nonzero data!");
     }
 
     if ( nonZeroArray(array_Gair) ) {
@@ -449,16 +384,13 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (Gair or dPn)!";
-        return false;
+        throw ToxicError("Arrays \"Gair\" or \"dPn\" "
+                         "must contain nonzero data!");
     }
 
     if ( !nonZeroArray(array_Gfuel) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (Gfuel)!";
-        return false;
+        throw ToxicError("Array \"Gfuel\" must contain nonzero data!");
     }
 
     if ( nonZeroArray(array_CNOx) ) {
@@ -471,9 +403,8 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Bad source data or calculation settings (C_NOx or gNOx)!";
-        return false;
+        throw ToxicError("Arrays \"C_NOx\" or \"gNOx\" "
+                         "must contain nonzero data!");
     }
 
     if ( nonZeroArray(array_CCO) ) {
@@ -519,9 +450,9 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                !nonZeroArray(array_KaPerc) &&
                !nonZeroArray(array_FSN) ) ) {
 
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "Bad source data or calculation settings!";
-            return false;
+            throw ToxicError("Arrays \"Pr\", \"ts\" and any of the arrays "
+                             "\"Ka1m\", \"KaPerc\", \"FSN\" "
+                             "must contain nonzero data!");
         }
 
         if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
@@ -530,9 +461,10 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                  ( !nonZeroArray(array_qmdw) &&
                    !nonZeroArray(array_rd) ) ) {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Arrays \"tauf\", \"qmdew\" "
+                                 "and any of the arrays "
+                                 "\"qmdw\", \"rd\" "
+                                 "must contain nonzero data!");
             }
 
             if ( nonZeroArray(array_qmdw) ) {
@@ -562,13 +494,44 @@ bool CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
         smoke = -1;
     }
-
-    //
-
-    return true;
 }
 
-bool CycleEmissions::preCalculate() {
+void CycleEmissions::calculate() {
+
+    ptrdiff_t std = params->val_Standard();
+
+    try {
+
+        preCalculate();
+        calculate_gNOx();
+
+        if ( ( (std == STD_EU6) || (std == STD_EU5) ||
+               (std == STD_EU4) || (std == STD_EU3) ) &&
+             (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) &&
+             (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
+
+            calculateAdditionalPoints();
+        }
+
+        calculate_gCO();
+        calculate_gCH();
+        calculate_gPT();
+        calculate_rEGR();
+
+        if ( std != STD_FREECALC ) {
+
+            calculate_Means();
+        }
+
+        compareAlpha();
+    }
+    catch(ToxicError &toxerr) {
+
+        throw;
+    }
+}
+
+void CycleEmissions::preCalculate() {
 
     array_Ne_netto.clear(); array_Ne_netto.resize(NumberOfPoints);
     array_Me_netto.clear(); array_Me_netto.resize(NumberOfPoints);
@@ -623,9 +586,7 @@ bool CycleEmissions::preCalculate() {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "Bad source data or calculation settings!";
-            return false;
+            throw ToxicError("Wrong fuel type!");
         }
     }
 
@@ -660,9 +621,7 @@ bool CycleEmissions::preCalculate() {
 
             if ( Dn < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Wrong \"Dn\" parameter!");
             }
 
             array_Gair[i] = Gair(Dn, array_B0[i], array_t0[i],
@@ -677,9 +636,7 @@ bool CycleEmissions::preCalculate() {
 
             if ( ConcO2air < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Wrong \"ConcO2air\" parameter!");
             }
 
             if ( !EGRcalc ) {
@@ -736,9 +693,7 @@ bool CycleEmissions::preCalculate() {
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Wrong calculation settings!");
             }
 
             if ( std != STD_OST ) {
@@ -810,9 +765,7 @@ bool CycleEmissions::preCalculate() {
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Wrong calculation settings!");
             }
 
             if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
@@ -830,19 +783,15 @@ bool CycleEmissions::preCalculate() {
             }
             else {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-                return false;
+                throw ToxicError("Wrong charging type!");
             }
         }
 
         array_ge[i] = array_Gfuel[i] / array_Ne_netto[i] * 1000.0;
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculate_gNOx() {
+void CycleEmissions::calculate_gNOx() {
 
     array_mNOx.clear(); array_mNOx.resize(NumberOfPoints);
 
@@ -995,11 +944,9 @@ bool CycleEmissions::calculate_gNOx() {
 
         gNOx = summ_mNOx / summ_Ne_netto;
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculateAdditionalPoints() {
+void CycleEmissions::calculateAdditionalPoints() {
 
     /*
      *      Control Point (Z)
@@ -1134,11 +1081,9 @@ bool CycleEmissions::calculateAdditionalPoints() {
     diffNOx1 = (gNOx1m - gNOx1c) / gNOx1c * 100.0;
     diffNOx2 = (gNOx2m - gNOx2c) / gNOx2c * 100.0;
     diffNOx3 = (gNOx3m - gNOx3c) / gNOx3c * 100.0;
-
-    return true;
 }
 
-bool CycleEmissions::calculate_gCO() {
+void CycleEmissions::calculate_gCO() {
 
     array_mCO.clear(); array_mCO.resize(NumberOfPoints);
     array_gCO.clear(); array_gCO.resize(NumberOfPoints);
@@ -1197,11 +1142,9 @@ bool CycleEmissions::calculate_gCO() {
 
         gCO = summ_mCO / summ_Ne_netto;
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculate_gCH() {
+void CycleEmissions::calculate_gCH() {
 
     array_mCH.clear(); array_mCH.resize(NumberOfPoints);
     array_gCH.clear(); array_gCH.resize(NumberOfPoints);
@@ -1268,11 +1211,9 @@ bool CycleEmissions::calculate_gCH() {
 
         gCH = summ_mCH / summ_Ne_netto;
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculate_gPT() {
+void CycleEmissions::calculate_gPT() {
 
     mf = params->val_PTmass();
 
@@ -1364,9 +1305,7 @@ bool CycleEmissions::calculate_gPT() {
 
             if ( mf == 0 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings (gPT)!";
-                return false;
+                throw ToxicError("Wrong \"gPT\" parameter!");
             }
 
             if ( qmdwVSrd ) {
@@ -1404,11 +1343,9 @@ bool CycleEmissions::calculate_gPT() {
             gPT = mPT / summ_Ne_netto;
         }
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculate_rEGR() {
+void CycleEmissions::calculate_rEGR() {
 
     array_rEGR.clear();      array_rEGR.resize(NumberOfPoints);
     array_alpha_res.clear(); array_alpha_res.resize(NumberOfPoints);
@@ -1429,11 +1366,9 @@ bool CycleEmissions::calculate_rEGR() {
         }
 
     }
-
-    return true;
 }
 
-bool CycleEmissions::calculate_Means() {
+void CycleEmissions::calculate_Means() {
 
     double summ_Gfuel    = 0;
     double summ_Ne_netto = 0;
@@ -1471,11 +1406,9 @@ bool CycleEmissions::calculate_Means() {
     t0Mean = summ_t0 / n;
     B0Mean = summ_B0 / n;
     RaMean = summ_Ra / n;
-
-    return true;
 }
 
-bool CycleEmissions::compareAlpha() {
+void CycleEmissions::compareAlpha() {
 
     array_diff_alpha.clear(); array_diff_alpha.resize(NumberOfPoints);
 
@@ -1488,10 +1421,7 @@ bool CycleEmissions::compareAlpha() {
 
             if ( ConcO2air < 1 ) {
 
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Bad source data or calculation settings!";
-
-                return false;
+                throw ToxicError("Wrong \"ConcO2air\" parameter!");
             }
 
             for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
@@ -1518,8 +1448,6 @@ bool CycleEmissions::compareAlpha() {
         }
 
     }
-
-    return true;
 }
 
 bool CycleEmissions::checkTestConditions() const {
@@ -1552,18 +1480,15 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
     if ( !createrepdir ) {
 
         message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
-        qDebug() << "\ngNOx =" << gNOx << "g/kWh";
 
         if ( gCOcalc ) {
 
             message += "gCO = " + QString::number(gCO) + " g/kWh\n";
-            qDebug() << "gCO =" << gCO << "g/kWh";
         }
 
         if ( gCHcalc ) {
 
             message += "gCH = " + QString::number(gCH) + " g/kWh\n";
-            qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
         ptrdiff_t ptcalc = params->val_PTcalc();
@@ -1573,15 +1498,12 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             if ( ptcalc == PTCALC_THROUGHPTMASS ) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
-                qDebug() << "gPT =" << gPT << "g/kWh";
             }
 
             message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
-            qDebug() << "gPTs =" << gPTs << "g/kWh";
         }
 
         message += "\n" + testcondres + "\n";
-        qDebug() << testcondres;
 
         //
 
@@ -1609,12 +1531,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data1 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + checkoutdata + "!");
     }
 
     QTextStream fout1(&data1);
@@ -1695,8 +1612,6 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     message += "libtoxic: Additional file \"" +
             checkoutDataFileName + "\" created.\n";
-    qDebug() << "\nlibtoxic: Additional file"
-             << checkoutDataFileName << "created.";
 
     //
 
@@ -1740,12 +1655,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     if ( !data4.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data4 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data4 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + srcdata + "!");
     }
 
     QTextStream fout4(&data4);
@@ -1783,8 +1693,6 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     message += "libtoxic: SourceData file \"" +
             sourceDataFileName + "\" created.\n";
-    qDebug() << "libtoxic: SourceData file"
-             << sourceDataFileName << "created.";
 
     //
 
@@ -1822,12 +1730,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             if ( !data6.open(QFile::WriteOnly) ) {
 
-                message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                        "Can not open data6 to write!\n";
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Can not open data6 to write!";
-
-                return message;
+                throw ToxicError("Can not open file " + reppt + "!");
             }
 
             QTextStream fout6(&data6);
@@ -2009,8 +1912,6 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
             message += "libtoxic: Report file \"" +
                     reportFileNamePT + "\" created.\n";
-            qDebug() << "libtoxic: Report file"
-                     << reportFileNamePT << "created.";
         }
 
         //
@@ -2055,12 +1956,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         if ( !data5.open(QFile::WriteOnly) ) {
 
-            message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                    "Can not open data6 to write!\n";
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "Can not open data6 to write!";
-
-            return message;
+            throw ToxicError("Can not open file " + repgas + "!");
         }
 
         QTextStream fout5(&data5);
@@ -2780,8 +2676,8 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
         data5.close();
 
-        message += "libtoxic: Report file \"" + reportFileNameGAS + "\" created.\n";
-        qDebug() << "libtoxic: Report file" << reportFileNameGAS << "created.";
+        message += "libtoxic: Report file \"" +
+                reportFileNameGAS + "\" created.\n";
     }
 
     //
@@ -2795,12 +2691,7 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     if ( !data7.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data7 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data7 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + calcparam + "!");
     }
 
     QTextStream fout7(&data7);
@@ -2830,26 +2721,21 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
 
     message += "libtoxic: Calculation config file \"" +
             calcConfigFileName + "\" created.\n";
-    qDebug() << "libtoxic: Calculation config file"
-             << calcConfigFileName << "created.";
 
     //
 
     if ( std != STD_FREECALC ) {
 
         message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
-        qDebug() << "\ngNOx =" << gNOx << "g/kWh";
 
         if ( gCOcalc ) {
 
             message += "gCO = " + QString::number(gCO) + " g/kWh\n";
-            qDebug() << "gCO =" << gCO << "g/kWh";
         }
 
         if ( gCHcalc ) {
 
             message += "gCH = " + QString::number(gCH) + " g/kWh\n";
-            qDebug() << "gCH =" << gCH << "g/kWh";
         }
 
         ptrdiff_t ptcalc = params->val_PTcalc();
@@ -2859,15 +2745,12 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
             if ( ptcalc == PTCALC_THROUGHPTMASS ) {
 
                 message += "gPT = " + QString::number(gPT) + " g/kWh\n";
-                qDebug() << "gPT =" << gPT << "g/kWh";
             }
 
             message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
-            qDebug() << "gPTs =" << gPTs << "g/kWh";
         }
 
         message += "\n" + testcondres + "\n";
-        qDebug() << testcondres;
     }
 
     //

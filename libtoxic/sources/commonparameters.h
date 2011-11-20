@@ -31,7 +31,7 @@ public:
     explicit CommonParameters();
     virtual ~CommonParameters();
 
-    bool readConfigFile(const QString &);
+    void readConfigFile(const QString &);
 
     QString val_filenameSourceEU3() const { return filenameSourceEU3; }
     QString val_filenameSourceEU0() const { return filenameSourceEU0; }

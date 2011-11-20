@@ -24,7 +24,7 @@
 
 #include <QVector>
 
-bool calcABC(const double &,
+void calcABC(const double &,
              const double &,
              double *,
              double *,

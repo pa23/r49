@@ -25,8 +25,8 @@
 #include "csvread.h"
 #include "libtoxicparameters.h"
 #include "commonparameters.h"
+#include "toxicerror.h"
 
-#include <QDebug>
 #include <QString>
 #include <QVector>
 #include <QFile>
@@ -63,7 +63,14 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->val_CalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->val_CalcConfigFile());
+        try {
+
+            params->readCalcConfigFile(params->val_CalcConfigFile());
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
     }
 }
 
@@ -81,7 +88,7 @@ CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
     return *this;
 }
 
-bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
+void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     ptrdiff_t std = params->val_Standard();
 
@@ -106,23 +113,28 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                                              " ",
                                              STRSNUMBERFORCOLUMNCAPTION));
 
+        try{
+
+            readerSourceData->readFile();
+        }
+        catch(ToxicError &toxerr) {
+
+            throw;
+        }
+
         arraySourceData = readerSourceData->csvData();
 
         if ( (std == STD_EU6) || (std == STD_EU5) ||
              (std == STD_EU4) || (std == STD_EU3) ) {
 
-            if (arraySourceData.isEmpty()) {
+            if ( arraySourceData.isEmpty() ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-                return false;
+                throw ToxicError("No data to calculate!");
             }
 
-            if (arraySourceData.at(0).size() != EU3SRCDATAPARAMSNUMBER) {
+            if ( arraySourceData[0].size() != EU3SRCDATAPARAMSNUMBER ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-                return false;
+                throw ToxicError("Incorrect source data!");
             }
 
             n_hi        = arraySourceData[0][ 0];
@@ -137,11 +149,13 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if ( !calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref) ) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
+                calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+            }
+            catch(ToxicError &toxerr) {
 
-                return false;
+                throw;
             }
         }
         else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
@@ -161,16 +175,12 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
             if ( arraySourceData.isEmpty() ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-                return false;
+                throw ToxicError("No data to calculate!");
             }
 
-            if ( arraySourceData.at(0).size() != EU0SRCDATAPARAMSNUMBER ) {
+            if ( arraySourceData[0].size() != EU0SRCDATAPARAMSNUMBER ) {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect source data!";
-
-                return false;
+                throw ToxicError("Incorrect source data!");
             }
 
             idle        = arraySourceData[0][ 0];
@@ -182,10 +192,7 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "Incorrect program configuration!";
-
-            return false;
+            throw ToxicError("Unknown value of parameter \"standard\"!");
         }
     }
     else {
@@ -207,11 +214,13 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            if ( !calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref) ) {
+            try {
 
-                qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
+                calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+            }
+            catch(ToxicError &toxerr) {
 
-                return false;
+                throw;
             }
         }
         else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
@@ -238,17 +247,12 @@ bool CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::"
-                     << "Incorrect program configuration!";
-
-            return false;
+            throw ToxicError("Unknown value of parameter \"standard\"!");
         }
     }
-
-    return true;
 }
 
-bool CyclePoints::fillArrays() {
+void CyclePoints::fillArrays() {
 
     ptrdiff_t std = params->val_Standard();
     ptrdiff_t addpc = params->val_AddPointsCalc();
@@ -863,12 +867,8 @@ bool CyclePoints::fillArrays() {
     }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program configuration!";
-
-        return false;
+        throw ToxicError("Unknown value of parameter \"standard\"!");
     }
-
-    return true;
 }
 
 QString CyclePoints::createReport() const {
@@ -881,12 +881,7 @@ QString CyclePoints::createReport() const {
 
     if ( !data1.open(QFile::WriteOnly) ) {
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Can not open data1 to write!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Can not open data1 to write!";
-
-        return message;
+        throw ToxicError("Can not open file " + filenamePoints + "!");
     }
 
     QTextStream fout1(&data1);
@@ -982,12 +977,7 @@ QString CyclePoints::createReport() const {
 
         data1.close();
 
-        message += QString::fromAscii(Q_FUNC_INFO) + ":::" +
-                "Points can be calculated only for cycles!\n";
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Points can be calculated only for cycles!";
-
-        return message;
+        throw ToxicError("Unknown value of parameter \"standard\"!");
     }
 
     for ( ptrdiff_t i=0; i<n; i++ ) {
@@ -1011,9 +1001,6 @@ QString CyclePoints::createReport() const {
     data1.close();
 
     message += "libtoxic: File \"" + filenamePoints + "\" rewrited.\n";
-
-    qDebug() << "\nlibtoxic: File" << filenamePoints << "rewrited.";
-    qDebug() << "libtoxic: Add measured data in this file.";
 
     return message;
 }

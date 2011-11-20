@@ -22,8 +22,8 @@
 #include "libtoxicconstants.h"
 #include "libtoxicparameters.h"
 #include "libtoxicconstants.h"
+#include "toxicerror.h"
 
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 #include <QFile>
@@ -141,15 +141,13 @@ void LibtoxicParameters::setCalcConfigFile(const QString &CalcConfigFile_) {
     CalcConfigFile = CalcConfigFile_;
 }
 
-bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
+void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
     QFile calcConfigFile(calcConfigFileName);
 
     if ( !(calcConfigFile.open(QIODevice::ReadOnly)) ) {
 
-        qDebug() << Q_FUNC_INFO << ":::" << calcConfigFileName << "not found!";
-
-        return false;
+        throw ToxicError("Can not open file " + calcConfigFileName + "!");
     }
 
     QString s;
@@ -205,11 +203,6 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
                 //
             }
-            else {
-
-                qDebug() << Q_FUNC_INFO << ":::"
-                         << "Unknown parameter" << elements[0] << "!";
-            }
 
             elements.clear();
         }
@@ -222,10 +215,6 @@ bool LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
     //
 
     CalcConfigFile = calcConfigFileName;
-
-    //
-
-    return true;
 }
 
 QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
@@ -266,7 +255,7 @@ QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
     else if ( val == STD_G1      ) { return "GOST_R_51249-99_G1"; }
     else if ( val == STD_G2      ) { return "GOST_R_51249-99_G2"; }
     else if ( val == STD_FREECALC) { return "Free_Calculation";   }
-    else                           { return "Unknown";            }
+    else                           { return "R49_Euro-4";         }
 }
 
 ptrdiff_t LibtoxicParameters::defTask(const QString &str) const {
@@ -281,13 +270,7 @@ ptrdiff_t LibtoxicParameters::defTask(const QString &str) const {
               str == "ABCspeeds"    ) { return TASK_ABCSPEEDS;    }
     else if ( str == QString::number(TASK_HELP        ) ||
               str == "help"         ) { return TASK_HELP;         }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return TASK_EMISSIONS;
-    }
+    else                              { return TASK_EMISSIONS;    }
 }
 
 ptrdiff_t LibtoxicParameters::defStandard(const QString &str) const {
@@ -364,13 +347,7 @@ ptrdiff_t LibtoxicParameters::defStandard(const QString &str) const {
               str == "G2"       ) { return STD_G2;       }
     else if ( str == QString::number(STD_FREECALC) ||
               str == "FreeCalc" ) { return STD_FREECALC; }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return STD_EU4;
-    }
+    else                          { return STD_EU4;      }
 }
 
 ptrdiff_t LibtoxicParameters::defChargingType(const QString &str) const {
@@ -379,13 +356,7 @@ ptrdiff_t LibtoxicParameters::defChargingType(const QString &str) const {
               str == "NoOrMechanical" ) { return CHARGINGTYPE_NO;         }
     else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) ||
               str == "GasTurbine"     ) { return CHARGINGTYPE_GASTURBINE; }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return CHARGINGTYPE_GASTURBINE;
-    }
+    else                                { return CHARGINGTYPE_GASTURBINE; }
 }
 
 ptrdiff_t LibtoxicParameters::defFuelType(const QString &str) const {
@@ -396,13 +367,7 @@ ptrdiff_t LibtoxicParameters::defFuelType(const QString &str) const {
               str == "motor"  ) { return FUELTYPE_MOTOR;  }
     else if ( str == QString::number(FUELTYPE_MAZUT ) ||
               str == "mazut"  ) { return FUELTYPE_MAZUT;  }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return FUELTYPE_DIESEL;
-    }
+    else                        { return FUELTYPE_DIESEL; }
 }
 
 ptrdiff_t LibtoxicParameters::defNOxSample(const QString &str) const {
@@ -411,13 +376,7 @@ ptrdiff_t LibtoxicParameters::defNOxSample(const QString &str) const {
               str == "wet" ) { return NOXSAMPLE_WET; }
     else if ( str == QString::number(NOXSAMPLE_DRY) ||
               str == "dry" ) { return NOXSAMPLE_DRY; }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return NOXSAMPLE_WET;
-    }
+    else                     { return NOXSAMPLE_WET; }
 }
 
 ptrdiff_t LibtoxicParameters::defPTcalc(const QString &str) const {
@@ -428,13 +387,7 @@ ptrdiff_t LibtoxicParameters::defPTcalc(const QString &str) const {
               str == "ThroughPTmass" ) { return PTCALC_THROUGHPTMASS; }
     else if ( str == QString::number(PTCALC_NO           ) ||
               str == "no"            ) { return PTCALC_NO;            }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return PTCALC_NO;
-    }
+    else                               { return PTCALC_NO;            }
 }
 
 ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
@@ -443,11 +396,5 @@ ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
               str == "yes" ) { return ADDPOINTSCALC_YES; }
     else if ( str == QString::number(ADDPOINTSCALC_NO ) ||
               str == "no"  ) { return ADDPOINTSCALC_NO;  }
-    else {
-
-        qDebug() << Q_FUNC_INFO << ":::"
-                 << "Invalid parameter value" << str << "!"
-                 << "Default value will be used.";
-        return ADDPOINTSCALC_NO;
-    }
+    else                     { return ADDPOINTSCALC_NO;  }
 }
