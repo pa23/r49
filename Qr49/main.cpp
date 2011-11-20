@@ -32,7 +32,6 @@
 #include "toxicerror.h"
 
 #include <QSharedPointer>
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 #include <QVector>
@@ -188,9 +187,8 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
                 elements.clear();
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect Vh value!";
-
-                return 1;
+                cout << "\nIncorrect Vh value!";
+                return false;
             }
         }
         else if ( param == "standard" ) {
@@ -225,8 +223,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
                 elements.clear();
 
-                qDebug() << Q_FUNC_INFO << ":::" << "Incorrect PTmass value!";
-
+                cout << "\nIncorrect PTmass value!";
                 return false;
             }
         }
@@ -242,8 +239,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             elements.clear();
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect program parameters!";
-
+            cout << "Incorrect program parameters!";
             return false;
         }
 
@@ -263,7 +259,7 @@ int main(int argc, char **argv) {
 
         if ( !ParsingParameters(params, argc, argv) ) {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "returns false!";
+            cout << "\nErrors during parsing parameters!";
             return false;
         }
 
@@ -275,7 +271,7 @@ int main(int argc, char **argv) {
         }
         catch(ToxicError &toxerr) {
 
-            qDebug() << toxerr.toxicErrMsg();
+            cout << "\n" << toxerr.toxicErrMsg().toStdString();
             return 0;
         }
 
@@ -291,11 +287,11 @@ int main(int argc, char **argv) {
 
                 myPoints->readCSV(data);
                 myPoints->fillArrays();
-                qDebug() << myPoints->createReport();
+                cout << "\n" << myPoints->createReport().toStdString();
             }
             catch(ToxicError &toxerr) {
 
-                qDebug() << toxerr.toxicErrMsg();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
                 return 0;
             }
         }
@@ -307,11 +303,11 @@ int main(int argc, char **argv) {
 
                 myEmissions->readCSV(data);
                 myEmissions->calculate();
-                qDebug() << myEmissions->createReports(true);
+                cout << "\n" << myEmissions->createReports(true).toStdString();
             }
             catch(ToxicError &toxerr) {
 
-                qDebug() << toxerr.toxicErrMsg();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
                 return 0;
             }
         }
@@ -323,11 +319,11 @@ int main(int argc, char **argv) {
 
                 myReducedPower->readCSV(data);
                 myReducedPower->reducePower();
-                qDebug() << myReducedPower->createReports();
+                cout << "\n" << myReducedPower->createReports().toStdString();
             }
             catch(ToxicError &toxerr) {
 
-                qDebug() << toxerr.toxicErrMsg();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
                 return 0;
             }
         }
@@ -345,7 +341,7 @@ int main(int argc, char **argv) {
             }
             catch(ToxicError &toxerr) {
 
-                qDebug() << toxerr.toxicErrMsg();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
                 return 0;
             }
 
@@ -364,7 +360,7 @@ int main(int argc, char **argv) {
         }
         else {
 
-            qDebug() << Q_FUNC_INFO << ":::" << "Incorrect values in an array of operands!";
+            cout << "\n" << "Incorrect values in an array of operands!";
         }
 
         return 0;
