@@ -24,7 +24,6 @@ HEADERS += sources/reducedpower.h \
     sources/toxicerror.h
 unix: {
     INCLUDEPATH += ..
-        #/usr/include/c++/4.6
     DESTDIR = build/unix/bin
     RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
@@ -36,7 +35,6 @@ unix: {
 }
 win32: {
     INCLUDEPATH += ..
-        #C:\\MinGW32\\lib\\gcc\\mingw32\\4.5.2\\include\\c++
     DESTDIR = build\\win\\bin
     RCC_DIR = build\\win\\rc
     CONFIG (debug, debug|release) {
@@ -46,7 +44,3 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
-
-
-
-

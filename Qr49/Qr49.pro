@@ -1,5 +1,4 @@
 QT += core gui network
-CONFIG += console
 TARGET = Qr49
 TEMPLATE = app
 SOURCES += preferencesdialog.cpp \
@@ -38,7 +37,6 @@ RC_FILE += qr49.rc
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
-        #/usr/include/c++/4.6
     LIBS += -L../libtoxic/build/unix/bin \
         -ltoxic \
         -Wl,-rpath,.
@@ -55,7 +53,6 @@ unix: {
 win32: {
     INCLUDEPATH += .. \
         ..\\libtoxic\\sources
-        #C:\\MinGW32\\lib\\gcc\\mingw32\\4.5.2\\include\\c++
     LIBS += -L..\\libtoxic\\build\\win\\bin \
         -ltoxic5 \
         -Wl,-rpath,.
@@ -69,6 +66,3 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
-
-
-
