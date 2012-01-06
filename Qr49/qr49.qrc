@@ -23,4 +23,7 @@
         <file>icons/toxic.png</file>
         <file>icons/view-refresh.png</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/excalib.ttf</file>
+    </qresource>
 </RCC>

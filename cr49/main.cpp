@@ -5,7 +5,7 @@
 
     File: main.cpp
 
-    Copyright (C) 2011 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011-2012 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ void ShowAbout() {
     cout << "\n\t" << "r49 distribution version " << r49version.toStdString();
     cout << "\n\t" << CR49VERSION.toStdString() << " libtoxic v" << LIBTOXICVERSION.toStdString();
 
-    cout << "\n\nCopyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>"
+    cout << "\n\nCopyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>"
             "\n\nProgram hosting: https://github.com/pa23/r49\n"
             "Author's blog (RU): http://pa2311.blogspot.com\n\n"
             "This program is free software: you can redistribute it and/or modify\n"

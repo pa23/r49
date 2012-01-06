@@ -5,7 +5,7 @@
 
     File: reducedpower.h
 
-    Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -5,7 +5,7 @@
 
     File: qr49.cpp
 
-    Copyright (C) 2009, 2010, 2011 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -175,11 +175,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    ptrdiff_t fontid = QFontDatabase::addApplicationFont("excalib.ttf");
+    QFile excalibFont(":/fonts/fonts/excalib.ttf");
+    excalibFont.open(QIODevice::ReadOnly);
+
+    ptrdiff_t fontid = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
+
+    excalibFont.close();
 
     if ( fontid == -1 ) {
 
-        QMessageBox::warning(0, "Qr49", tr("Monospaced font excalib.ttf not found in program directory!"), 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", tr("Monospaced font excalib.ttf not found in program resources!"), 0, 0, 0);
     }
     else {
 
@@ -1809,7 +1814,7 @@ void MainWindow::on_action_AboutQr49_activated() {
 
     QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
             "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
-            "<br><br>Copyright (C) 2009, 2010, 2011 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
+            "<br><br>Copyright (C) 2009-2012 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
             "<br>Author's blog (RU): "
             "<a href= \"http://pa2311.blogspot.com\">"
