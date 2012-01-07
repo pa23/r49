@@ -90,7 +90,6 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     if (!dtable) {
 
         QMessageBox::critical(0, "Qr49",
-                              QString::fromAscii(Q_FUNC_INFO) + ":::" +
                               tr("Invalid pointer to the destination table!"),
                               0, 0, 0);
 
@@ -117,7 +116,6 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     else {
 
         QMessageBox::critical(0, "Qr49",
-                              QString::fromAscii(Q_FUNC_INFO) + ":::" +
                               tr("You have to select data file!"),
                               0, 0, 0);
     }
@@ -197,7 +195,6 @@ void DataImportDialog::combosUpdate(QString str) {
     else {
 
         QMessageBox::critical(0, "Qr49",
-                              QString::fromAscii(Q_FUNC_INFO) + ":::" +
                               tr("Unknown delimiter for selected file parsing!"),
                               0, 0, 0);
 
@@ -246,7 +243,6 @@ void DataImportDialog::combosUpdate(QString str) {
         else {
 
             QMessageBox::critical(0, "Qr49",
-                                  QString::fromAscii(Q_FUNC_INFO) + ":::" +
                                   tr("Invalid destination table!"),
                                   0, 0, 0);
         }

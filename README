@@ -9,14 +9,8 @@ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 details. You should have received a copy of the GNU General Public License along
 with this program. If not, see <http://www.gnu.org/licenses/>.
 --------------------------------------------------------------------------------
-Calculation of modes and specific emissions for stationary diesel engine cycles
-(UN ECE Regulation No. 49,
- UN ECE Regulation No. 96,
- UN ECE Regulation No. 85,
- OST 37.001.234-81,
- GOST 17.2.2.05-97,
- GOST 30574-98,
- GOST R 51249-99).
+Calculation of modes and specific emissions for stationary diesel engine test
+cycles.
 --------------------------------------------------------------------------------
 Dependences
   GNU/Linux

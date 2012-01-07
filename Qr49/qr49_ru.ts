@@ -147,13 +147,13 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Qr49&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Циклы испытаний. Нормативы. Применяемость&lt;/span&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;Euro-6..Euro-0 UN ECE Regulation No. 49 Revision 4&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на колесных транспортных средствах. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -253,8 +253,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ОСТ 37.001.234-81&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на автомобилях полной массой свыше 3.5 т (за исключением двигателей, находящиеся в эксплуатации). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -286,8 +286,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 17.2.2.05-97&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на сельскохозяйственных, промышленных, лесохозяйственных тракторах, в т.ч. используемых в качестве базы для строительно дорожных машин, тракторных самоходных дизельных шасси, самоходных сельскохозяйственных машинах, работающих в условиях как ограниченного так и неограниченного воздухообмена. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -328,8 +328,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь изготовленных двигателей, работающих в условиях неограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для вновь изготовленных двигателей, работающих в условиях ограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;3&lt;/span&gt; — Для капитально отремонтированных двигателей, работающих в условиях неограниченного воздухозабора;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;4&lt;/span&gt; — Для капитально отремонтированных двигателей, работающих в условиях ограниченного воздухозабора.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;UN ECE Regulation No. 96 Revision 1&lt;/span&gt; следует испытывать двигатели с воспламенением от сжатия, предназначенные для использования на сельскохозяйственных и лесных тракторах, а также внедорожной подвижной технике, предназначенной и пригодной для передвижения или перемещения по земле (дороге или бездорожью), с установленной полезной мощностью от 18 до 560 кВт, в т.ч. эксплуатируемой при постоянном числе оборотов двигателя (включая газовые компрессоры, ирригационные насосы, генераторные агрегаты с переменной нагрузкой, газонокосилки, отбойные молотки, снегоочистительное оборудование, подметальные машины). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблицах ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -403,8 +403,8 @@ p, li { white-space: pre-wrap; }
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;0.8 &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -469,8 +469,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;0.6 &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (цикл C1)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на внедорожном транспорте и промышленном оборудовании в т.ч. промышленных буровых установках, компрессорах, большегрузных карьерных самосвалах с механической и гидромеханической трансмиссией, строительном оборудовании (включая колесные и гусеничные погрузчики, бульдозеры, передвижные краны), оборудовании для лесной промышленности, сельскохозяйственной технике, экскаваторах, грейдерах, катках, асфальтоукладчиках, снегоуборочных машинах, вспомогательном оборудовании аэропортов. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -505,8 +505,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь изготовленных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы D1, D2)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на силовых установках, в т.ч. электростанциях и приводах ирригационных насосов (D1) и электроустановках с переменной нагрузкой, в т.ч. дизель-генераторах с кратковременной (прерывистой или скачкообразной) нагрузкой (включая судовые, вспомогательные и тепловозные двигатели не для тяги, рефрижераторные агрегаты, сварочные установки) (D2) и имеющие постоянную частоту вращения. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -541,8 +541,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы E1, E2, E3, E5)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на судах длиной менее 24 м кроме буксиров и толкачей (E1), в качестве главных судовых двигателей для тяжелых условий эксплуатации, работающих с постоянной частотой вращения (E2), в качестве главных судовых двигателей для тяжелых условий эксплуатации, работающих по винтовой характеристике (E3), на судах длиной менее 24 м кроме буксиров и толкачей, работающих по винтовой характеристике (E5). Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -577,8 +577,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (цикл F)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия, предназначенные для использования на тепловозах, дизель-поездах, автомотрисах и большегрузных карьерных самосвалах с электрической трансмиссией. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -613,8 +613,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;1&lt;/span&gt; — Для вновь собранных двигателей;&lt;br /&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt; — Для капитально отремонтированных двигателей.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;По циклам и на соответствие нормативам &lt;span style=&quot; font-weight:600;&quot;&gt;ГОСТ 30574-98, ГОСТ Р 51249-99 (циклы G1, G2)&lt;/span&gt; следует испытывать вновь изготовленные и капитально отремонтированные двигатели с воспламенением от сжатия мощностью менее 20 кВт, предназначенные для использования на газонокосилках, снегоуборочной технике, устройствах для уборки мусора и работающие на промежуточной частоте вращения, а также насосах, сварочных аппаратах, компрессорах, портативных дизель-генераторах и работающие на номинальной частоте вращения. Ограничения по выбросам вредных веществ с отработавшими газами, а также нормативные документы, согласно которым проводится расчет вредных выбросов, приведены в таблице ниже.&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:160px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:80px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td rowspan=&quot;2&quot; style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Значение параметра &amp;quot;Стандарт&amp;quot; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -1241,10 +1241,6 @@ p, li { white-space: pre-wrap; }
         <translation>Панель инструментов</translation>
     </message>
     <message>
-        <source>Monospaced font excalib.ttf not found in program directory!</source>
-        <translation>Моноширинный шрифт excalib.ttf не найден в каталоге программы!</translation>
-    </message>
-    <message>
         <source>Save Source Data</source>
         <translation>Сохранить исходные данные</translation>
     </message>
@@ -1277,30 +1273,12 @@ p, li { white-space: pre-wrap; }
         <translation>Дочерний объект не найден!</translation>
     </message>
     <message>
-        <source>returns false! Default values will be used.</source>
-        <translation type="obsolete">функция вернула false! Будут использованы значения по умолчанию.</translation>
-    </message>
-    <message>
-        <source>returns false!</source>
-        <translation>функция вернула false!</translation>
-    </message>
-    <message>
-        <source>Incorrect source data!</source>
-        <translation>Некорректные исходные данные!</translation>
-    </message>
-    <message>
         <source>Unknown arithmetic operation!</source>
         <translation>Неизвестная арифметическая операция!</translation>
     </message>
     <message>
         <source>Copied data can not be inserted!</source>
         <translation>Копируемые данные не могут быть вставлены!</translation>
-    </message>
-    <message>
-        <source>returns false!
-Maybe you did not enter all source data?</source>
-        <translation type="obsolete">функция вернула false!
-Может быть вы ввели не все исходные данные?</translation>
     </message>
     <message>
         <source>Can not open file!</source>
@@ -1757,6 +1735,18 @@ Maybe you did not enter all source data?</source>
     <message>
         <source>%</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Can not load monospaced font excalib.ttf from program resources!</source>
+        <translation>Не могу загрузить шрифт excalib.ttf из ресурсов программы!</translation>
+    </message>
+    <message>
+        <source>Can not fill table!</source>
+        <translation>Не могу заполнить таблицу!</translation>
+    </message>
+    <message>
+        <source>Incorrect source data! Check number of points and calculation parameters.</source>
+        <translation>Некорректные исходные данные! Проверьте количество точек и параметры расчета.</translation>
     </message>
 </context>
 <context>

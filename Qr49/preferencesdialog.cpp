@@ -38,6 +38,20 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 PreferencesDialog::~PreferencesDialog() {
 }
 
+void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
+
+    QString anotherDirnameReports(QFileDialog::getExistingDirectory(
+                                      this,
+                                      tr("Select directory..."),
+                                      QDir::currentPath()
+                                      ));
+
+    if ( !anotherDirnameReports.isEmpty() ) {
+
+        ui.lineEdit_dirnameReports->setText(anotherDirnameReports);
+    }
+}
+
 void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
 
     QString anotherFilenameSourceEU3(QFileDialog::getSaveFileName(
@@ -48,7 +62,7 @@ void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
                                          0,
                                          0));
 
-    if (!anotherFilenameSourceEU3.isEmpty()) {
+    if ( !anotherFilenameSourceEU3.isEmpty() ) {
 
         ui.lineEdit_filenameSourceEU3->setText(anotherFilenameSourceEU3);
     }
@@ -64,7 +78,7 @@ void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
                                          0,
                                          0));
 
-    if (!anotherFilenameSourceEU0.isEmpty()) {
+    if ( !anotherFilenameSourceEU0.isEmpty() ) {
 
         ui.lineEdit_filenameSourceEU0->setText(anotherFilenameSourceEU0);
     }
@@ -80,7 +94,7 @@ void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
                                       0,
                                       0));
 
-    if (!anotherFilenamePoints.isEmpty()) {
+    if ( !anotherFilenamePoints.isEmpty() ) {
 
         ui.lineEdit_filenamePoints->setText(anotherFilenamePoints);
     }
@@ -96,23 +110,9 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
                                       0,
                                       0));
 
-    if (!anotherFilenamePowers.isEmpty()) {
+    if ( !anotherFilenamePowers.isEmpty() ) {
 
         ui.lineEdit_filenamePowers->setText(anotherFilenamePowers);
-    }
-}
-
-void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
-
-    QString anotherDirnameReports(QFileDialog::getExistingDirectory(
-                                      this,
-                                      tr("Select directory..."),
-                                      QDir::currentPath()
-                                      ));
-
-    if (!anotherDirnameReports.isEmpty()) {
-
-        ui.lineEdit_dirnameReports->setText(anotherDirnameReports);
     }
 }
 
@@ -138,22 +138,30 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
             "muCO=" + QString::number(ui.doubleSpinBox_muCO->value()) + "\n"
             "muCH=" + QString::number(ui.doubleSpinBox_muCH->value()) + "\n";
 
-    QFile preferencesFile(CONFIGFILENAME);
+    QFile preferencesFile1(QCoreApplication::applicationDirPath() + "/" + CONFIGFILENAME);
+    QFile preferencesFile2(QDir::homePath() + "/" + CONFIGFILENAME);
 
-    if (!preferencesFile.open(QIODevice::WriteOnly)) {
+    if ( preferencesFile1.open(QIODevice::WriteOnly) ) {
+
+        QTextStream in(&preferencesFile1);
+        in << myPreferences;
+
+        preferencesFile1.close();
+    }
+    else if ( preferencesFile2.open(QIODevice::WriteOnly) ) {
+
+        QTextStream in(&preferencesFile2);
+        in << myPreferences;
+
+        preferencesFile2.close();
+    }
+    else {
 
         QMessageBox::critical(0, "Qr49",
-                              QString::fromAscii(Q_FUNC_INFO) + ":::" +
                               tr("Preferences could not be saved!"),
                               0, 0, 0);
-
         return;
     }
-
-    QTextStream in(&preferencesFile);
-    in << myPreferences;
-
-    preferencesFile.close();
 
     hide();
 }

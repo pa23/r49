@@ -30,6 +30,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QIODevice>
+#include <QCoreApplication>
 
 CommonParameters::CommonParameters() :
     filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
@@ -68,7 +69,22 @@ CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
 
 void CommonParameters::readConfigFile(const QString &configFileName) {
 
-    QFile configFile(configFileName);
+    QFile configFile1(QCoreApplication::applicationDirPath() + "/" + configFileName);
+    QFile configFile2(QDir::homePath() + "/" + configFileName);
+    QFile configFile;
+
+    if ( configFile1.exists() ) {
+
+        configFile.setFileName(configFile1.fileName());
+    }
+    else if ( configFile2.exists() ) {
+
+        configFile.setFileName(configFile2.fileName());
+    }
+    else {
+
+        throw ToxicError(configFileName + " not found in program and home directories!");
+    }
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
 
@@ -180,7 +196,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     if ( !dir.exists(absPath) ) {
 
-        if ( dir.mkdir(absPath) ) {
+        if ( !dir.mkdir(absPath) ) {
 
             throw ToxicError("Can not create directory " + absPath);
         }
@@ -191,7 +207,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     if ( !dir.exists(absPath) ) {
 
-        if ( dir.mkdir(absPath) ) {
+        if ( !dir.mkdir(absPath) ) {
 
             throw ToxicError("Can not create directory " + absPath);
         }
@@ -202,7 +218,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     if ( !dir.exists(absPath) ) {
 
-        if ( dir.mkdir(absPath) ) {
+        if ( !dir.mkdir(absPath) ) {
 
             throw ToxicError("Can not create directory " + absPath);
         }
@@ -213,7 +229,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     if ( !dir.exists(absPath) ) {
 
-        if ( dir.mkdir(absPath) ) {
+        if ( !dir.mkdir(absPath) ) {
 
             throw ToxicError("Can not create directory " + absPath);
         }
@@ -221,6 +237,9 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     if ( !dir.exists(dirnameReports) ) {
 
-        dir.mkdir(dirnameReports);
+        if ( !dir.mkdir(dirnameReports) ) {
+
+            throw ToxicError("Can not create directory " + dirnameReports);
+        }
     }
 }
