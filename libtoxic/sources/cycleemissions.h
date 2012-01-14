@@ -40,7 +40,8 @@ public:
 
     void readCSV(const QVector< QVector<double> > &);
     void calculate();
-    QString createReports(const bool &);
+    QString results() const;
+    QString createReports();
     QString lastReportsDir() const;
 
 private:

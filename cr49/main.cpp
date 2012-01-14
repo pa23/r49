@@ -300,7 +300,7 @@ int main(int argc, char *argv[]) {
 
                 myEmissions->readCSV(data);
                 myEmissions->calculate();
-                cout << "\n" << myEmissions->createReports(true).toStdString();
+                cout << "\n" << myEmissions->createReports().toStdString();
             }
             catch(ToxicError &toxerr) {
 

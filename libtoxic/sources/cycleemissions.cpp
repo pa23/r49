@@ -1256,31 +1256,31 @@ void CycleEmissions::calculate_gPT() {
             if ( smoke == 0 ) {
 
                 array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
-                array_FSN[i] = (6.6527E-017)          *pow(array_KaPerc[i],10)+
-                        (-0.000000000000026602)*pow(array_KaPerc[i], 9)+
-                        (0.0000000000040987)   *pow(array_KaPerc[i], 8)+
-                        (-0.00000000026927)    *pow(array_KaPerc[i], 7)+
-                        (0.00000000040933)     *pow(array_KaPerc[i], 6)+
-                        (0.0000010658)         *pow(array_KaPerc[i], 5)+
-                        (-0.000069165)         *pow(array_KaPerc[i], 4)+
-                        (0.0020088)            *pow(array_KaPerc[i], 3)+
-                        (-0.028758)            *pow(array_KaPerc[i], 2)+
-                        (0.26502)              *pow(array_KaPerc[i], 1)+
-                        (0.0087517)            *pow(array_KaPerc[i], 0);
+                array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
+                        (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
+                        (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
+                        (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
+                        (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
+                        (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
+                        (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
+                        (0.0020088)             * pow(array_KaPerc[i], 3.0)+
+                        (-0.028758)             * pow(array_KaPerc[i], 2.0)+
+                        (0.26502)               * pow(array_KaPerc[i], 1.0)+
+                        (0.0087517)             * pow(array_KaPerc[i], 0.0);
             }
             else if (smoke == 1) {
 
-                array_FSN[i] = (6.6527E-017)          * pow(array_KaPerc[i],10)+
-                        (-0.000000000000026602)* pow(array_KaPerc[i], 9)+
-                        (0.0000000000040987)   * pow(array_KaPerc[i], 8)+
-                        (-0.00000000026927)    * pow(array_KaPerc[i], 7)+
-                        (0.00000000040933)     * pow(array_KaPerc[i], 6)+
-                        (0.0000010658)         * pow(array_KaPerc[i], 5)+
-                        (-0.000069165)         * pow(array_KaPerc[i], 4)+
-                        (0.0020088)            * pow(array_KaPerc[i], 3)+
-                        (-0.028758)            * pow(array_KaPerc[i], 2)+
-                        (0.26502)              * pow(array_KaPerc[i], 1)+
-                        (0.0087517)            * pow(array_KaPerc[i], 0);
+                array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
+                        (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
+                        (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
+                        (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
+                        (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
+                        (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
+                        (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
+                        (0.0020088)             * pow(array_KaPerc[i], 3.0)+
+                        (-0.028758)             * pow(array_KaPerc[i], 2.0)+
+                        (0.26502)               * pow(array_KaPerc[i], 1.0)+
+                        (0.0087517)             * pow(array_KaPerc[i], 0.0);
             }
 
             array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr /
@@ -1463,7 +1463,7 @@ bool CycleEmissions::checkTestConditions() const {
     return true;
 }
 
-QString CycleEmissions::createReports(const bool &createrepdir) {
+QString CycleEmissions::results() const {
 
     QString message = "";
     QString testcondres = "?";
@@ -1477,37 +1477,49 @@ QString CycleEmissions::createReports(const bool &createrepdir) {
         testcondres = "Check test conditions: FAILED.";
     }
 
-    if ( !createrepdir ) {
+    message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
 
-        message += "\ngNOx = " + QString::number(gNOx) + " g/kWh\n";
+    if ( gCOcalc ) {
 
-        if ( gCOcalc ) {
+        message += "gCO = " + QString::number(gCO) + " g/kWh\n";
+    }
 
-            message += "gCO = " + QString::number(gCO) + " g/kWh\n";
+    if ( gCHcalc ) {
+
+        message += "gCH = " + QString::number(gCH) + " g/kWh\n";
+    }
+
+    ptrdiff_t ptcalc = params->val_PTcalc();
+
+    if ( ptcalc != PTCALC_NO ) {
+
+        if ( ptcalc == PTCALC_THROUGHPTMASS ) {
+
+            message += "gPT = " + QString::number(gPT) + " g/kWh\n";
         }
 
-        if ( gCHcalc ) {
+        message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
+    }
 
-            message += "gCH = " + QString::number(gCH) + " g/kWh\n";
-        }
+    message += "\n" + testcondres + "\n";
 
-        ptrdiff_t ptcalc = params->val_PTcalc();
+    //
 
-        if ( ptcalc != PTCALC_NO ) {
+    return message;
+}
 
-            if ( ptcalc == PTCALC_THROUGHPTMASS ) {
+QString CycleEmissions::createReports() {
 
-                message += "gPT = " + QString::number(gPT) + " g/kWh\n";
-            }
+    QString message = "";
+    QString testcondres = "?";
 
-            message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
-        }
+    if ( checkTestConditions() ) {
 
-        message += "\n" + testcondres + "\n";
+        testcondres = "Check test conditions: OK.";
+    }
+    else {
 
-        //
-
-        return message;
+        testcondres = "Check test conditions: FAILED.";
     }
 
     ptrdiff_t std = params->val_Standard();

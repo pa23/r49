@@ -60,7 +60,7 @@ double Gair(const double &Dn,
             const double &t0,
             const double &dPn) {
 
-    return 0.0084591 * pow(Dn, 2) *
+    return 0.0084591 * pow(Dn, 2.0) *
             sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
 }
 
@@ -68,7 +68,7 @@ double N_fan(const double &N_fan_rated,
              const double &n,
              const double &n_rated) {
 
-    return N_fan_rated * pow(n / n_rated, 3);
+    return N_fan_rated * pow(n / n_rated, 3.0);
 }
 
 double Ka1m2KaPerc(const double &Ka1m, const double &L) {

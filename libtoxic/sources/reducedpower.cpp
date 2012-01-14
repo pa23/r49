@@ -208,7 +208,7 @@ void ReducedPower::reducePower() {
         }
 
         array_pa[i] = (0.506 + 0.1 * array_t0[i] - 0.00245 *
-                       pow(array_t0[i], 2) + 0.0001 * pow(array_t0[i], 3)) *
+                       pow(array_t0[i], 2.0) + 0.0001 * pow(array_t0[i], 3.0)) *
                 (array_Ra[i] / 100.0);
 
         array_ps[i] = array_B0[i] - array_pa[i];

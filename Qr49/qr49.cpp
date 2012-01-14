@@ -1648,7 +1648,7 @@ void MainWindow::on_action_Execute_activated() {
 
             try {
 
-                message += myEmissions->createReports(true);
+                message += myEmissions->createReports();
             }
             catch(ToxicError &toxerr) {
 
@@ -1694,7 +1694,7 @@ void MainWindow::on_action_Execute_activated() {
 
             try {
 
-                message += myEmissions->createReports(false);
+                message += myEmissions->results();
             }
             catch(ToxicError &toxerr) {
 
