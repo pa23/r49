@@ -53,6 +53,8 @@ unix: {
     else {
         OBJECTS_DIR = build/unix/release
     }
+    target.path = $$PREFIX/lib
+    INSTALLS += target
 }
 win32: {
     INCLUDEPATH += ..

@@ -44,7 +44,7 @@ unix: {
     else {
         OBJECTS_DIR = build/unix/release
     }
-    target.path = $$prefix/bin
+    target.path = $$PREFIX/bin
     INSTALLS += target
 }
 win32: {

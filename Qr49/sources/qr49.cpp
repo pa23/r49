@@ -1146,8 +1146,6 @@ void MainWindow::on_action_SaveReportAs_activated() {
 
     if ( !newReportFileName.isEmpty() ) {
 
-        QString myreport = ui->plainTextEdit_Report->toPlainText();
-
         QFile reportFile(newReportFileName);
 
         if ( !reportFile.open(QIODevice::WriteOnly) ) {
@@ -1157,8 +1155,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
         }
 
         QTextStream fout(&reportFile);
-        //fout.setCodec("UTF-8");
-        fout << myreport;
+        fout << ui->plainTextEdit_Report->toPlainText();
 
         reportFile.close();
 
@@ -2074,11 +2071,10 @@ void MainWindow::PTcalcChanged(int currptcalc) {
 void MainWindow::reportChanged(QString path) {
 
     QFile reportFile(path);
-    QString myreport;
 
     if ( reportFile.open(QIODevice::ReadOnly) ) {
 
-        myreport.append(reportFile.readAll());
+        ui->plainTextEdit_Report->setPlainText(reportFile.readAll());
     }
     else {
 
@@ -2087,8 +2083,6 @@ void MainWindow::reportChanged(QString path) {
     }
 
     reportFile.close();
-
-    ui->plainTextEdit_Report->setPlainText(myreport);
 }
 
 void MainWindow::tabChanged(int tab) {
