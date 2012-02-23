@@ -30,12 +30,12 @@ class UndoRedoTable {
 
 public:
 
-    explicit UndoRedoTable(QTableWidget *);
+    UndoRedoTable(QTableWidget *);
     virtual ~UndoRedoTable();
 
-    bool saveState();
-    bool undoTable();
-    bool redoTable();
+    void saveState();
+    void undoTable();
+    void redoTable();
     ptrdiff_t undoTableNumber() const;
     ptrdiff_t redoTableNumber() const;
     void freeMemory();

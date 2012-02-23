@@ -1,3 +1,4 @@
+#
 #    cr49
 #    Calculation of modes and specific emissions for stationary
 #    diesel engine test cycles.
@@ -16,22 +17,18 @@
 #    GNU General Public License for more details.
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 
 QT += core
 QT -= gui
-
 TARGET = cr49
 CONFIG += console
 CONFIG -= app_bundle
-
 TEMPLATE = app
-
-SOURCES += main.cpp
-
+SOURCES += sources/main.cpp
 HEADERS += \
-    cr49constants.h \
+    sources/cr49constants.h \
     ../r49.h
-
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
@@ -47,6 +44,8 @@ unix: {
     else {
         OBJECTS_DIR = build/unix/release
     }
+    target.path = $$prefix/bin
+    INSTALLS += target
 }
 win32: {
     INCLUDEPATH += .. \

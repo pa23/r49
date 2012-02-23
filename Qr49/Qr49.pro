@@ -1,3 +1,4 @@
+#
 #    Qr49
 #    Calculation of modes and specific emissions for stationary
 #    diesel engine test cycles.
@@ -16,43 +17,44 @@
 #    GNU General Public License for more details.
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 
 QT += core gui network
 TARGET = Qr49
 TEMPLATE = app
-SOURCES += preferencesdialog.cpp \
-    undoredotable.cpp \
-    checkoutdatadialog.cpp \
-    valuedialog.cpp \
-    filtermassdialog.cpp \
-    main.cpp \
-    qr49.cpp \
-    helpdialog.cpp \
-    newversions.cpp \
-    dataimportdialog.cpp \
-    tablewidgetfunctions.cpp
-HEADERS += preferencesdialog.h \
-    checkoutdatadialog.h \
-    undoredotable.h \
-    qr49constants.h \
-    valuedialog.h \
-    filtermassdialog.h \
-    qr49.h \
-    helpdialog.h \
-    newversions.h \
+SOURCES += sources/preferencesdialog.cpp \
+    sources/undoredotable.cpp \
+    sources/checkoutdatadialog.cpp \
+    sources/valuedialog.cpp \
+    sources/filtermassdialog.cpp \
+    sources/main.cpp \
+    sources/qr49.cpp \
+    sources/helpdialog.cpp \
+    sources/newversions.cpp \
+    sources/dataimportdialog.cpp \
+    sources/tablewidgetfunctions.cpp
+HEADERS += sources/preferencesdialog.h \
+    sources/checkoutdatadialog.h \
+    sources/undoredotable.h \
+    sources/qr49constants.h \
+    sources/valuedialog.h \
+    sources/filtermassdialog.h \
+    sources/qr49.h \
+    sources/helpdialog.h \
+    sources/newversions.h \
     ../r49.h \
-    dataimportdialog.h \
-    tablewidgetfunctions.h
-FORMS += preferencesdialog.ui \
-    checkoutdatadialog.ui \
-    valuedialog.ui \
-    filtermassdialog.ui \
-    qr49.ui \
-    helpdialog.ui \
-    dataimportdialog.ui
-RESOURCES = qr49.qrc
-TRANSLATIONS = qr49_ru.ts
-RC_FILE += qr49.rc
+    sources/dataimportdialog.h \
+    sources/tablewidgetfunctions.h
+FORMS += sources/preferencesdialog.ui \
+    sources/checkoutdatadialog.ui \
+    sources/valuedialog.ui \
+    sources/filtermassdialog.ui \
+    sources/qr49.ui \
+    sources/helpdialog.ui \
+    sources/dataimportdialog.ui
+RESOURCES = sources/qr49.qrc
+TRANSLATIONS = translations/qr49_ru.ts
+RC_FILE += sources/qr49.rc
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
@@ -62,12 +64,15 @@ unix: {
     DESTDIR = build/unix/bin
     MOC_DIR = build/unix/moc
     RCC_DIR = build/unix/rc
+    UI_HEADERS_DIR = build/unix/ui_h
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/unix/debug
     }
     else {
         OBJECTS_DIR = build/unix/release
     }
+    target.path = $$PREFIX/bin
+    INSTALLS += target
 }
 win32: {
     INCLUDEPATH += .. \
@@ -78,6 +83,7 @@ win32: {
     DESTDIR = build\\win\\bin
     MOC_DIR = build\\win\\moc
     RCC_DIR = build\\win\\rc
+    UI_HEADERS_DIR = build\\win\\ui_h
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build\\win\\debug
     }

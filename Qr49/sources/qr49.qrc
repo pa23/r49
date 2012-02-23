@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>../icons/application-exit.png</file>
+        <file>../icons/changeSourceData.png</file>
+        <file>../icons/div.png</file>
+        <file>../icons/document-open.png</file>
+        <file>../icons/document-print.png</file>
+        <file>../icons/document-save.png</file>
+        <file>../icons/document-save-as.png</file>
+        <file>../icons/edit-copy.png</file>
+        <file>../icons/edit-cut.png</file>
+        <file>../icons/edit-delete.png</file>
+        <file>../icons/edit-paste.png</file>
+        <file>../icons/edit-redo.png</file>
+        <file>../icons/edit-undo.png</file>
+        <file>../icons/eq.png</file>
+        <file>../icons/execute.png</file>
+        <file>../icons/file-dataimport.png</file>
+        <file>../icons/gnome-mime-application-pdf.png</file>
+        <file>../icons/loadCalcSerrings.png</file>
+        <file>../icons/mult.png</file>
+        <file>../icons/plus.png</file>
+        <file>../icons/toxic.png</file>
+        <file>../icons/view-refresh.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>../fonts/excalib.ttf</file>
+    </qresource>
+</RCC>

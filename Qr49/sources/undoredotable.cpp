@@ -35,11 +35,11 @@ UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
 UndoRedoTable::~UndoRedoTable() {
 }
 
-bool UndoRedoTable::saveState() {
+void UndoRedoTable::saveState() {
 
     if ( (data.count() - position) > 1 ) {
 
-        for (ptrdiff_t i=(data.count()-1); i>position; i--) {
+        for ( ptrdiff_t i=(data.count()-1); i>position; i-- ) {
 
             data.remove(i);
         }
@@ -48,9 +48,9 @@ bool UndoRedoTable::saveState() {
     QVector<QString> row;
     QVector< QVector<QString> > matrix;
 
-    for (ptrdiff_t i=0; i<table->rowCount(); i++) {
+    for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
-        for (ptrdiff_t j=0; j<table->columnCount(); j++) {
+        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
 
             row.push_back(table->item(i, j)->text());
         }
@@ -63,42 +63,36 @@ bool UndoRedoTable::saveState() {
     matrix.clear();
 
     position++;
-
-    return true;
 }
 
-bool UndoRedoTable::undoTable() {
+void UndoRedoTable::undoTable() {
 
     position--;
 
-    if (table->rowCount() < data[position].count()) {
+    if ( table->rowCount() < data[position].count() ) {
 
         addRows(table, data[position].count());
     }
-    else if (table->rowCount() > data[position].count()) {
+    else if ( table->rowCount() > data[position].count() ) {
 
         table->setRowCount(data[position].count());
     }
 
-    for (ptrdiff_t i=0; i<data[position].count(); i++) {
+    for ( ptrdiff_t i=0; i<data[position].count(); i++ ) {
 
-        for (ptrdiff_t j=0; j<data[position].at(i).count(); j++) {
+        for ( ptrdiff_t j=0; j<data[position][i].count(); j++ ) {
 
-            table->item(i, j)->setText(data[position].at(i).at(j));
+            table->item(i, j)->setText(data[position][i][j]);
         }
     }
-
-    return true;
 }
 
-bool UndoRedoTable::redoTable() {
+void UndoRedoTable::redoTable() {
 
     position++;
     position++;
 
     undoTable();
-
-    return true;
 }
 
 ptrdiff_t UndoRedoTable::undoTableNumber() const {

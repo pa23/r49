@@ -1,3 +1,4 @@
+#
 #    libtoxic
 #    Calculation of modes and specific emissions for stationary
 #    diesel engine test cycles.
@@ -16,6 +17,7 @@
 #    GNU General Public License for more details.
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 
 QT -= gui
 TARGET = toxic
