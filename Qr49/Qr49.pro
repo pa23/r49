@@ -58,10 +58,10 @@ RC_FILE += sources/qr49.rc
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
-    LIBS += -L../libtoxic/build/unix/bin \
+    LIBS += -L../r49-bin/unix \
         -ltoxic \
         -Wl,-rpath,.
-    DESTDIR = build/unix/bin
+    DESTDIR = ../r49-bin/unix
     MOC_DIR = build/unix/moc
     RCC_DIR = build/unix/rc
     UI_HEADERS_DIR = build/unix/ui_h
@@ -77,10 +77,10 @@ unix: {
 win32: {
     INCLUDEPATH += .. \
         ..\\libtoxic\\sources
-    LIBS += -L..\\libtoxic\\build\\win\\bin \
+    LIBS += -L..\\r49-bin\\win \
         -ltoxic6 \
         -Wl,-rpath,.
-    DESTDIR = build\\win\\bin
+    DESTDIR = ..\\r49-bin\\win
     MOC_DIR = build\\win\\moc
     RCC_DIR = build\\win\\rc
     UI_HEADERS_DIR = build\\win\\ui_h
