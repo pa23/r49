@@ -193,7 +193,7 @@ MainWindow::MainWindow(QWidget *parent) :
         monospacedFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid).first());
         monospacedFont_10.setPointSize(10);
 
-        ui->plainTextEdit_Report->setFont(monospacedFont_8);
+        ui->plainTextEdit_Report->setFont(monospacedFont_10);
 
         QPlainTextEdit *myPlainTextEdit_CheckoutData = checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
         if ( !myPlainTextEdit_CheckoutData ) {
@@ -1198,7 +1198,9 @@ void MainWindow::on_action_ReportToPDF_activated() {
     printer.setOutputFileName(newReportFileName);
     printer.setFontEmbeddingEnabled(true);
 
+    ui->plainTextEdit_Report->setFont(monospacedFont_8);
     ui->plainTextEdit_Report->print(&printer);
+    ui->plainTextEdit_Report->setFont(monospacedFont_10);
 }
 
 void MainWindow::on_action_PrintReport_activated() {
@@ -1214,7 +1216,9 @@ void MainWindow::on_action_PrintReport_activated() {
 
     if ( printDialog.exec() == QDialog::Accepted ) {
 
+        ui->plainTextEdit_Report->setFont(monospacedFont_8);
         ui->plainTextEdit_Report->print(&printer);
+        ui->plainTextEdit_Report->setFont(monospacedFont_10);
     }
 }
 
