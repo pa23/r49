@@ -30,12 +30,10 @@
 #include "r49.h"
 #include "toxicerror.h"
 
-#include <QtCore/QCoreApplication>
 #include <QSharedPointer>
 #include <QString>
 #include <QStringList>
 #include <QVector>
-#include <QCoreApplication>
 
 #include <iostream>
 
@@ -103,11 +101,11 @@ void ShowHelp() {
             "\t\t\twet* - if your measurements based on wet sample;\n"
             "\t\t\tdry  - if your measurements based on dry sample.\n\n"
             "  PTcalc=PTCALC\t\tvariants of PTCALC:\n"
-            "\t\t\tThroughSmoke* - for calculate specific PT emissions\n"
+            "\t\t\tThroughSmoke  - for calculate specific PT emissions\n"
             "\t\t\t                through smoke measurements;\n"
             "\t\t\tThroughPTmass - for calculate specific PT emissions\n"
             "\t\t\t                through PT mass;\n"
-            "\t\t\tno            - if you don't need PT calculation.\n\n"
+            "\t\t\tno*           - if you don't need PT calculation.\n\n"
             "  PTmass=PTMASS\t\tvariants of PTMASS:\n"
             "\t\t\tNumber - total PT mass on all filters, mg.\n\n"
             "  AddPointsCalc=ADDPOINTSCALC\tvariants of ADDPOINTSCALC:\n"
@@ -257,74 +255,12 @@ int main(int argc, char *argv[]) {
         if ( !ParsingParameters(params, argc, argv) ) {
 
             cout << "\nErrors during parsing parameters!";
-            return false;
+            return 1;
         }
-
-        QSharedPointer<CommonParameters> config(new CommonParameters());
-
-        try {
-
-            config->readConfigFile(CONFIGFILENAME);
-        }
-        catch(ToxicError &toxerr) {
-
-            cout << "\n" << toxerr.toxicErrMsg().toStdString();
-            return 0;
-        }
-
-        QVector< QVector<double> > data;
 
         ptrdiff_t currtask = params->val_Task();
 
-        if ( currtask == TASK_POINTS ) {
-
-            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
-
-            try {
-
-                myPoints->readCSV(data);
-                myPoints->fillArrays();
-                cout << "\n" << myPoints->createReport().toStdString();
-            }
-            catch(ToxicError &toxerr) {
-
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
-                return 0;
-            }
-        }
-        else if ( currtask == TASK_EMISSIONS ) {
-
-            QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
-
-            try {
-
-                myEmissions->readCSV(data);
-                myEmissions->calculate();
-                cout << "\n" << myEmissions->createReports().toStdString();
-            }
-            catch(ToxicError &toxerr) {
-
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
-                return 0;
-            }
-        }
-        else if ( currtask == TASK_REDUCEDPOWER ) {
-
-            QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
-
-            try {
-
-                myReducedPower->readCSV(data);
-                myReducedPower->reducePower();
-                cout << "\n" << myReducedPower->createReports().toStdString();
-            }
-            catch(ToxicError &toxerr) {
-
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
-                return 0;
-            }
-        }
-        else if ( currtask == TASK_ABCSPEEDS ) {
+        if ( currtask == TASK_ABCSPEEDS ) {
 
             double n_hi = 0, n_lo = 0;
             double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
@@ -349,11 +285,78 @@ int main(int argc, char *argv[]) {
             cout << "\na2   = " << a2;
             cout << "\na3   = " << a3;
             cout << "\nnref = " << n_ref << "\n\n";
+
+            return 0;
         }
         else if ( currtask == TASK_HELP ) {
 
             ShowAbout();
             ShowHelp();
+
+            return 0;
+        }
+
+        QSharedPointer<CommonParameters> config(new CommonParameters());
+
+        try {
+
+            config->readConfigFile(CONFIGFILENAME);
+        }
+        catch(ToxicError &toxerr) {
+
+            cout << "\n" << toxerr.toxicErrMsg().toStdString();
+            return 1;
+        }
+
+        QVector< QVector<double> > data;
+
+        if ( currtask == TASK_POINTS ) {
+
+            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
+
+            try {
+
+                myPoints->readCSV(data);
+                myPoints->fillArrays();
+                cout << "\n" << myPoints->createReport().toStdString();
+            }
+            catch(ToxicError &toxerr) {
+
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                return 1;
+            }
+        }
+        else if ( currtask == TASK_EMISSIONS ) {
+
+            QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
+
+            try {
+
+                myEmissions->readCSV(data);
+                myEmissions->calculate();
+                cout << "\n" << myEmissions->createReports().toStdString();
+            }
+            catch(ToxicError &toxerr) {
+
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                return 1;
+            }
+        }
+        else if ( currtask == TASK_REDUCEDPOWER ) {
+
+            QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
+
+            try {
+
+                myReducedPower->readCSV(data);
+                myReducedPower->reducePower();
+                cout << "\n" << myReducedPower->createReports().toStdString();
+            }
+            catch(ToxicError &toxerr) {
+
+                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                return 1;
+            }
         }
         else {
 

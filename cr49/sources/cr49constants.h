@@ -26,7 +26,7 @@
 
 // constants
 
-const QString CR49VERSION = "cr49 v1.0.1";
+const QString CR49VERSION = "cr49 v1.0.2";
 const QString OPERANDSDELIMITER = "=";
 const QString CONFIGFILENAME = "r49.conf";
 

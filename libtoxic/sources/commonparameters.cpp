@@ -30,7 +30,6 @@
 #include <QRegExp>
 #include <QDir>
 #include <QIODevice>
-#include <QCoreApplication>
 
 CommonParameters::CommonParameters() :
     filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
@@ -69,8 +68,10 @@ CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
 
 void CommonParameters::readConfigFile(const QString &configFileName) {
 
-    QFile configFile1(QCoreApplication::applicationDirPath() + "/" + configFileName);
-    QFile configFile2(QDir::homePath() + "/" + configFileName);
+    QFile configFile1(configFileName);
+    QFile configFile2(QDir::homePath()
+                      + "/"
+                      + configFileName);
     QFile configFile;
 
     if ( configFile1.exists() ) {
@@ -83,7 +84,8 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
     }
     else {
 
-        throw ToxicError(configFileName + " not found in program and home directories!");
+        throw ToxicError(configFileName
+                         + " not found in program and home directories!");
     }
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
