@@ -254,7 +254,7 @@ int main(int argc, char *argv[]) {
 
         if ( !ParsingParameters(params, argc, argv) ) {
 
-            cout << "\nErrors during parsing parameters!";
+            cout << "\nErrors during parsing parameters!\n";
             return 1;
         }
 
@@ -304,7 +304,7 @@ int main(int argc, char *argv[]) {
         }
         catch(ToxicError &toxerr) {
 
-            cout << "\n" << toxerr.toxicErrMsg().toStdString();
+            cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
             return 1;
         }
 
@@ -322,7 +322,7 @@ int main(int argc, char *argv[]) {
             }
             catch(ToxicError &toxerr) {
 
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;
             }
         }
@@ -338,7 +338,7 @@ int main(int argc, char *argv[]) {
             }
             catch(ToxicError &toxerr) {
 
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;
             }
         }
@@ -354,13 +354,13 @@ int main(int argc, char *argv[]) {
             }
             catch(ToxicError &toxerr) {
 
-                cout << "\n" << toxerr.toxicErrMsg().toStdString();
+                cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;
             }
         }
         else {
 
-            cout << "\n" << "Incorrect values in an array of operands!";
+            cout << "\n" << "Incorrect values in an array of operands!\n";
         }
     }
     else {

@@ -30,6 +30,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QIODevice>
+#include <QTextStream>
 
 CommonParameters::CommonParameters() :
     filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
@@ -84,8 +85,88 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
     }
     else {
 
-        throw ToxicError(configFileName
-                         + " not found in program and home directories!");
+        QString myPreferences =
+                "//\n// This is r49 configuration file. "
+                "Parameter-Value delimeter is \"=\" symbol.\n// "
+                "Text after \"//\" is comment.\n//\n\n"
+                "// Temporary rewrited source data files\nfilenameSourceEU3="
+                + filenameSourceEU3
+                + "\n"
+                "filenameSourceEU0="
+                + filenameSourceEU0
+                + "\n"
+                "filenamePoints="
+                + filenamePoints
+                + "\n"
+                "filenamePowers="
+                + filenamePowers
+                + "\n\n"
+                "// Directory for calculation results\ndirnameReports="
+                + dirnameReports
+                + "\n\n"
+                "// Measuring nozzle diameter "
+                "(engine inlet air mass flow calculation)\nDn="
+                + QString::number(Dn)
+                + "\n\n"
+                "// Air oxygen concentration\nConcO2air="
+                + QString::number(ConcO2air)
+                + "\n\n"
+                "//\nRr="
+                + QString::number(Rr)
+                + "\n\n"
+                "// Stoichiometric air/fuel ratio\nL0="
+                + QString::number(L0)
+                + "\n\n"
+                "// Opacimeter effective base\nL="
+                + QString::number(L)
+                + "\n\n"
+                "// Air carbon dioxide concentration\nConcCO2air="
+                + QString::number(ConcCO2air)
+                + "\n\n"
+                "// Fuel percentage\nWH="
+                + QString::number(WH)
+                + "\n"
+                "WO2="
+                + QString::number(WO2)
+                + "\n"
+                "WN="
+                + QString::number(WN)
+                + "\n\n"
+                "// Air density\nroAir="
+                + QString::number(roAir)
+                + "\n\n"
+                "// Molecular weights\nmuNO2="
+                + QString::number(muNO2)
+                + "\n"
+                "muCO="
+                + QString::number(muCO)
+                + "\n"
+                "muCH="
+                + QString::number(muCH)
+                + "\n";
+
+        if ( configFile1.open(QIODevice::WriteOnly) ) {
+
+            QTextStream in(&configFile1);
+            in << myPreferences;
+
+            configFile1.close();
+
+            configFile.setFileName(configFile1.fileName());
+        }
+        else if ( configFile2.open(QIODevice::WriteOnly) ) {
+
+            QTextStream in(&configFile2);
+            in << myPreferences;
+
+            configFile2.close();
+
+            configFile.setFileName(configFile2.fileName());
+        }
+        else {
+
+            throw ToxicError("Can not create config file!");
+        }
     }
 
     if ( !(configFile.open(QIODevice::ReadOnly)) ) {
