@@ -45,17 +45,6 @@ LibtoxicParameters::LibtoxicParameters() :
 LibtoxicParameters::~LibtoxicParameters() {
 }
 
-LibtoxicParameters::LibtoxicParameters(const LibtoxicParameters &orig) {
-
-    (void)(&orig);
-}
-
-LibtoxicParameters &LibtoxicParameters::operator =(const LibtoxicParameters &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void LibtoxicParameters::setTask(const ptrdiff_t &task_) {
 
     task = task_;
@@ -352,7 +341,8 @@ ptrdiff_t LibtoxicParameters::defChargingType(const QString &str) const {
               str == "NoOrMechanical" ) { return CHARGINGTYPE_NO;         }
     else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) ||
               str == "GasTurbine"     ) { return CHARGINGTYPE_GASTURBINE; }
-    else                                { return CHARGINGTYPE_GASTURBINE; }
+
+    return CHARGINGTYPE_GASTURBINE;
 }
 
 ptrdiff_t LibtoxicParameters::defFuelType(const QString &str) const {
@@ -383,7 +373,8 @@ ptrdiff_t LibtoxicParameters::defPTcalc(const QString &str) const {
               str == "ThroughPTmass" ) { return PTCALC_THROUGHPTMASS; }
     else if ( str == QString::number(PTCALC_NO           ) ||
               str == "no"            ) { return PTCALC_NO;            }
-    else                               { return PTCALC_NO;            }
+
+    return PTCALC_NO;
 }
 
 ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
@@ -392,5 +383,6 @@ ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
               str == "yes" ) { return ADDPOINTSCALC_YES; }
     else if ( str == QString::number(ADDPOINTSCALC_NO ) ||
               str == "no"  ) { return ADDPOINTSCALC_NO;  }
-    else                     { return ADDPOINTSCALC_NO;  }
+
+    return ADDPOINTSCALC_NO;
 }

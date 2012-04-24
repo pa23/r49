@@ -65,17 +65,6 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
 ReducedPower::~ReducedPower() {
 }
 
-ReducedPower::ReducedPower(const ReducedPower &orig) {
-
-    (void)(&orig);
-}
-
-ReducedPower &ReducedPower::operator =(const ReducedPower &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {

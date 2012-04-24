@@ -56,17 +56,6 @@ CommonParameters::CommonParameters() :
 CommonParameters::~CommonParameters() {
 }
 
-CommonParameters::CommonParameters(const CommonParameters &orig) {
-
-    (void)(&orig);
-}
-
-CommonParameters &CommonParameters::operator =(const CommonParameters &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void CommonParameters::readConfigFile(const QString &configFileName) {
 
     QFile configFile1(configFileName);

@@ -40,17 +40,6 @@ csvRead::csvRead(const QString &fname,
 csvRead::~csvRead() {
 }
 
-csvRead::csvRead(const csvRead &orig) {
-
-    (void)(&orig);
-}
-
-csvRead &csvRead::operator =(const csvRead &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void csvRead::readFile() {
 
     QFile dataFile(filename);

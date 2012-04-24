@@ -77,17 +77,6 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
 CyclePoints::~CyclePoints() {
 }
 
-CyclePoints::CyclePoints(const CyclePoints &orig) {
-
-    (void)(&orig);
-}
-
-CyclePoints &CyclePoints::operator =(const CyclePoints &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     ptrdiff_t std = params->val_Standard();
@@ -592,8 +581,8 @@ void CyclePoints::fillArrays() {
         array_Ne_brutto[ 0] =         Ne_rated;
         array_Ne_brutto[ 1] = 0.75  * Ne_rated;
         array_Ne_brutto[ 2] = 0.50  * Ne_rated;
-        array_Ne_brutto[ 2] = 0.25  * Ne_rated;
-        array_Ne_brutto[ 3] = 0.10  * Ne_rated;
+        array_Ne_brutto[ 3] = 0.25  * Ne_rated;
+        array_Ne_brutto[ 4] = 0.10  * Ne_rated;
 
         for ( ptrdiff_t i=0; i<FCYCLEPOINTSNUMBER; i++ ) {
 

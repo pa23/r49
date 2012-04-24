@@ -28,7 +28,7 @@ class CommonParameters {
 
 public:
 
-    explicit CommonParameters();
+    CommonParameters();
     virtual ~CommonParameters();
 
     void readConfigFile(const QString &);
@@ -54,8 +54,8 @@ public:
 
 private:
 
-    CommonParameters(const CommonParameters &orig);
-    CommonParameters &operator =(const CommonParameters &);
+    CommonParameters(const CommonParameters &);
+    void operator=(const CommonParameters &);
 
     QString filenameSourceEU3;
     QString filenameSourceEU0;

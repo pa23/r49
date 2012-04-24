@@ -78,17 +78,6 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
 CycleEmissions::~CycleEmissions() {
 }
 
-CycleEmissions::CycleEmissions(const CycleEmissions &orig) {
-
-    (void)(&orig);
-}
-
-CycleEmissions &CycleEmissions::operator =(const CycleEmissions &x) {
-
-    (void)(&x);
-    return *this;
-}
-
 void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {

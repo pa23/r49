@@ -30,7 +30,7 @@ class LibtoxicParameters {
 
 public:
 
-    explicit LibtoxicParameters();
+    LibtoxicParameters();
     virtual ~LibtoxicParameters();
 
     void setTask(const ptrdiff_t &);
@@ -77,8 +77,8 @@ public:
 
 private:
 
-    LibtoxicParameters(const LibtoxicParameters &orig);
-    LibtoxicParameters &operator =(const LibtoxicParameters &);
+    LibtoxicParameters(const LibtoxicParameters &);
+    void operator=(const LibtoxicParameters &);
 
     ptrdiff_t task;
     double    Vh;

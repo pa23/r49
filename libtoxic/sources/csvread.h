@@ -30,7 +30,7 @@ class csvRead {
 
 public:
 
-    explicit csvRead(const QString &, const QString &, const ptrdiff_t &);
+    csvRead(const QString &, const QString &, const ptrdiff_t &);
     virtual ~csvRead();
 
     void readFile();
@@ -39,8 +39,8 @@ public:
 
 private:
 
-    csvRead(const csvRead &orig);
-    csvRead &operator =(const csvRead &);
+    csvRead(const csvRead &);
+    void operator=(const csvRead &);
 
     QString filename;
     QString csvdelimiter;

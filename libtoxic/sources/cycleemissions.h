@@ -34,8 +34,8 @@ class CycleEmissions {
 
 public:
 
-    explicit CycleEmissions(const QSharedPointer<LibtoxicParameters> &,
-                            const QSharedPointer<CommonParameters> &);
+    CycleEmissions(const QSharedPointer<LibtoxicParameters> &,
+                   const QSharedPointer<CommonParameters> &);
     virtual ~CycleEmissions();
 
     void readCSV(const QVector< QVector<double> > &);
@@ -46,8 +46,8 @@ public:
 
 private:
 
-    CycleEmissions(const CycleEmissions &orig);
-    CycleEmissions &operator =(const CycleEmissions &);
+    CycleEmissions(const CycleEmissions &);
+    void operator=(const CycleEmissions &);
 
     bool NenCalcMethod;
     bool GairVals;
