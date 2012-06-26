@@ -650,13 +650,13 @@ void CycleEmissions::preCalculate() {
             array_Gexh[i] = array_Gair[i] + array_Gfuel[i];
         }
 
+        array_Pb[i] = array_B0[i];
+        array_Pa[i] = val_Pa(array_t0[i]);
+
         if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
              (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
              (std != STD_E5) &&
              (std != STD_F ) && (std != STD_G1) && (std != STD_G2) ) {
-
-            array_Pb[i] = array_B0[i];
-            array_Pa[i] = val_Pa(array_t0[i]);
 
             array_Ha[i] = 6.22 * array_Ra[i] * array_Pa[i] /
                     (array_Pb[i] - array_Pa[i] * array_Ra[i] * 0.01);
@@ -756,24 +756,24 @@ void CycleEmissions::preCalculate() {
 
                 throw ToxicError("Wrong calculation settings!");
             }
+        }
 
-            if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
+        if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
 
-                array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] *
-                                        array_Pa[i] * 0.01) ) *
-                        pow( (array_t0[i] + 273.0) / 298, 0.7 );
-            }
-            else if ( params->val_ChargingType() ==
-                      CHARGINGTYPE_GASTURBINE ) {
+            array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] *
+                                    array_Pa[i] * 0.01) ) *
+                    pow( (array_t0[i] + 273.0) / 298, 0.7 );
+        }
+        else if ( params->val_ChargingType() ==
+                  CHARGINGTYPE_GASTURBINE ) {
 
-                array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] *
-                                           array_Pa[i] * 0.01), 0.7 ) *
-                        pow( (array_t0[i] + 273.0) / 298, 1.5 );
-            }
-            else {
+            array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] *
+                                       array_Pa[i] * 0.01), 0.7 ) *
+                    pow( (array_t0[i] + 273.0) / 298, 1.5 );
+        }
+        else {
 
-                throw ToxicError("Wrong charging type!");
-            }
+            throw ToxicError("Wrong charging type!");
         }
 
         array_ge[i] = array_Gfuel[i] / array_Ne_netto[i] * 1000.0;
@@ -1441,11 +1441,26 @@ void CycleEmissions::compareAlpha() {
 
 bool CycleEmissions::checkTestConditions() const {
 
-    for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
+    ptrdiff_t std = params->val_Standard();
 
-        if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
+    if ( std == STD_E3 ) {
 
-            return false;
+        for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
+
+            if ( (array_fa[i] < 0.98) || (array_fa[i] > 1.02) ) {
+
+                return false;
+            }
+        }
+    }
+    else {
+
+        for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
+
+            if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
+
+                return false;
+            }
         }
     }
 

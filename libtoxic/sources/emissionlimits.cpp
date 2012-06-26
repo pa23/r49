@@ -56,15 +56,15 @@ double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
     else if ( (stnd == STD_E1+10) || (stnd == STD_E2+10) ||
               (stnd == STD_E3+10) || (stnd == STD_E5+10) ) {
 
-        if ( (n_rated < 130) || (n_rated == 130) ) {
+        if ( n_rated <= 130 ) {
 
             return 17.0;
         }
-        else if ( (n_rated > 130) || (n_rated < 2000) || (n_rated == 2000) ) {
+        else if ( (n_rated > 130) && (n_rated <= 2000) ) {
 
             return 45.0 * pow(n_rated, -0.2);
         }
-        else if (n_rated > 2000) {
+        else if ( n_rated > 2000 ) {
 
             return 9.8;
         }
@@ -72,15 +72,15 @@ double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
     else if ( (stnd == STD_E1+20) || (stnd == STD_E2+20) ||
               (stnd == STD_E3+20) || (stnd == STD_E5+20) ) {
 
-        if ( (n_rated < 130) || (n_rated == 130) ) {
+        if ( n_rated <= 130 ) {
 
             return 0.95 * 17.0;
         }
-        else if ( (n_rated > 130) || (n_rated < 2000) || (n_rated == 2000) ) {
+        else if ( (n_rated > 130) && (n_rated <= 2000) ) {
 
             return 0.95 * 45.0 * pow(n_rated, -0.2);
         }
-        else if (n_rated > 2000) {
+        else if ( n_rated > 2000 ) {
 
             return 0.95 * 9.8;
         }

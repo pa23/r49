@@ -22,7 +22,7 @@
 QT -= gui
 TARGET = toxic
 TEMPLATE = lib
-VERSION = 6.3.1
+VERSION = 6.3.2
 SOURCES += sources/reducedpower.cpp \
     sources/precalc.cpp \
     sources/libtoxicparameters.cpp \
