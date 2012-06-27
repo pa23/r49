@@ -641,15 +641,13 @@ void CycleEmissions::preCalculate() {
              (std == STD_E5) ||
              (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-            array_Gexh[i] = 2.695780903 * array_B0[i] *
-                    (array_Gair[i] / val_rhoAir(array_t0[i]) +
-                     Ffw * array_Gfuel[i]) /
-                    (array_t0[i] + 273);
+            array_Gexh[i] = (2.695780903 * array_B0[i] *
+                             (array_Gair[i] / val_rhoAir(array_t0[i])) /
+                             (array_t0[i] + 273)) + Ffw * array_Gfuel[i];
 
-            array_Gexhd[i] = 2.695780903 * array_B0[i] *
-                    (array_Gair[i] / val_rhoAir(array_t0[i]) +
-                     Ffd * array_Gfuel[i]) /
-                    (array_t0[i] + 273);
+            array_Gexhd[i] = (2.695780903 * array_B0[i] *
+                             (array_Gair[i] / val_rhoAir(array_t0[i])) /
+                             (array_t0[i] + 273)) + Ffd * array_Gfuel[i];
         }
         else {
 

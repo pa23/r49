@@ -1870,10 +1870,6 @@ p, li { white-space: pre-wrap; }
         <translation>Концентрация диоксида углерода в воздухе, %</translation>
     </message>
     <message>
-        <source>Air density, kg/m3</source>
-        <translation>Плотность воздуха, кг/м3</translation>
-    </message>
-    <message>
         <source>Diesel fuel percentage</source>
         <translation>Процентный состав диз. топлива</translation>
     </message>
