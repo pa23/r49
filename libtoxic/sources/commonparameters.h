@@ -47,7 +47,6 @@ public:
     double val_WH() const { return WH; }
     double val_WO2() const { return WO2; }
     double val_WN() const { return WN; }
-    double val_roAir() const { return roAir; }
     double val_muNO2() const { return muNO2; }
     double val_muCO() const { return muCO; }
     double val_muCH() const { return muCH; }
@@ -71,7 +70,6 @@ private:
     double WH;
     double WO2;
     double WN;
-    double roAir;
     double muNO2;
     double muCO;
     double muCH;

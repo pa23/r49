@@ -1336,14 +1336,6 @@ void MainWindow::on_action_Preferences_activated() {
         return;
     }
 
-    QDoubleSpinBox *myDoubleSpinBox_roAir = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_roAir");
-
-    if ( !myDoubleSpinBox_roAir ) {
-
-        QMessageBox::critical(0, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
     QDoubleSpinBox *myDoubleSpinBox_muNO2 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
 
     if ( !myDoubleSpinBox_muNO2 ) {
@@ -1384,7 +1376,6 @@ void MainWindow::on_action_Preferences_activated() {
     myDoubleSpinBox_WH->setValue(config->val_WH());
     myDoubleSpinBox_WO2->setValue(config->val_WO2());
     myDoubleSpinBox_WN->setValue(config->val_WN());
-    myDoubleSpinBox_roAir->setValue(config->val_roAir());
     myDoubleSpinBox_muNO2->setValue(config->val_muNO2());
     myDoubleSpinBox_muCO->setValue(config->val_muCO());
     myDoubleSpinBox_muCH->setValue(config->val_muCH());
@@ -1970,7 +1961,7 @@ void MainWindow::taskChanged(int currtask) {
 
         ui->lineEdit_Vh->setEnabled(true);
         ui->comboBox_standard->setEnabled(false);
-        ui->comboBox_chargingType->setEnabled(false);
+        ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
@@ -2034,7 +2025,7 @@ void MainWindow::standardChanged(int currstd) {
               (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
               (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
 
-        ui->comboBox_chargingType->setEnabled(false);
+        ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(true);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 

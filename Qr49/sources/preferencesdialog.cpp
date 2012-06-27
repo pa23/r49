@@ -133,7 +133,6 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
             "// Fuel percentage\nWH=" + QString::number(ui.doubleSpinBox_WH->value()) + "\n"
             "WO2=" + QString::number(ui.doubleSpinBox_WO2->value()) + "\n"
             "WN=" + QString::number(ui.doubleSpinBox_WN->value()) + "\n\n"
-            "// Air density\nroAir=" + QString::number(ui.doubleSpinBox_roAir->value()) + "\n\n"
             "// Molecular weights\nmuNO2=" + QString::number(ui.doubleSpinBox_muNO2->value()) + "\n"
             "muCO=" + QString::number(ui.doubleSpinBox_muCO->value()) + "\n"
             "muCH=" + QString::number(ui.doubleSpinBox_muCH->value()) + "\n";

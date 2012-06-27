@@ -47,7 +47,6 @@ CommonParameters::CommonParameters() :
     WH         (12.6),
     WO2        (0.4),
     WN         (0),
-    roAir      (1.184),
     muNO2      (46.0),
     muCO       (28.0),
     muCH       (13.85) {
@@ -120,9 +119,6 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
                 + "\n"
                 "WN="
                 + QString::number(WN)
-                + "\n\n"
-                "// Air density\nroAir="
-                + QString::number(roAir)
                 + "\n\n"
                 "// Molecular weights\nmuNO2="
                 + QString::number(muNO2)
@@ -231,10 +227,6 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
             else if ( elements[0] == "WN" ) {
 
                 WN = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "roAir" ) {
-
-                roAir = (elements[1]).toDouble();
             }
             else if ( elements[0] == "muNO2" ) {
 
