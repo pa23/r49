@@ -51,6 +51,8 @@ double KaPerc2Ka1m(const double &,
 
 double val_Pa(const double &);
 
+double val_rhoAir(const double &);
+
 bool nonZeroArray(const QVector<double> &);
 
 #endif	/* PRECALC_H */

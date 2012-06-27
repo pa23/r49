@@ -83,7 +83,7 @@ double KaPerc2Ka1m(const double &KaPerc, const double &L) {
 
 double val_Pa(const double &x) {
 
-    for (ptrdiff_t i=0; i<PAARRAYSIZE; i++) {
+    for ( ptrdiff_t i=0; i<(PAARRAYSIZE-1); i++ ) {
 
         if ( (x > ARRAYT0[i]) && (x < ARRAYT0[i+1]) ) {
 
@@ -103,6 +103,28 @@ double val_Pa(const double &x) {
     return 0;
 }
 
+double val_rhoAir(const double &x) {
+
+    for ( ptrdiff_t i=0; i<(RHOAIRARRAYSIZE-1); i++ ) {
+
+        if ( (x > ARRAYTAIR[i]) && (x < ARRAYTAIR[i+1]) ) {
+
+            return ARRAYRHOAIR[i] + (ARRAYRHOAIR[i+1] - ARRAYRHOAIR[i]) *
+                    (x - ARRAYTAIR[i]) / (ARRAYTAIR[i+1] - ARRAYTAIR[i]);
+        }
+        else if (x == ARRAYTAIR[i]) {
+
+            return ARRAYRHOAIR[i];
+        }
+        else if (x == ARRAYTAIR[i+1]) {
+
+            return ARRAYRHOAIR[i+1];
+        }
+    }
+
+    return 0;
+}
+
 bool nonZeroArray(const QVector<double> &data) {
 
     double sum = 0;
@@ -113,6 +135,6 @@ bool nonZeroArray(const QVector<double> &data) {
         sum += *it;
     }
 
-    if (sum < 0.0000001) { return false; }
-    else                 { return true;  }
+    if ( sum < 0.0000001 ) { return false; }
+    else                   { return true;  }
 }

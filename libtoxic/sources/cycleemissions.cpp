@@ -546,7 +546,6 @@ void CycleEmissions::preCalculate() {
     double WH    = config->val_WH();
     double WO2   = config->val_WO2();
     double WN    = config->val_WN();
-    double roAir = config->val_roAir();
 
     double Ffw = 0;
     double Ffd = 0;
@@ -642,8 +641,15 @@ void CycleEmissions::preCalculate() {
              (std == STD_E5) ||
              (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-            array_Gexh[i] = array_Gair[i] / roAir + Ffw * array_Gfuel[i];
-            array_Gexhd[i] = array_Gair[i] / roAir + Ffd * array_Gfuel[i];
+            array_Gexh[i] = 2.695780903 * array_B0[i] *
+                    (array_Gair[i] / val_rhoAir(array_t0[i]) +
+                     Ffw * array_Gfuel[i]) /
+                    (array_t0[i] + 273);
+
+            array_Gexhd[i] = 2.695780903 * array_B0[i] *
+                    (array_Gair[i] / val_rhoAir(array_t0[i]) +
+                     Ffd * array_Gfuel[i]) /
+                    (array_t0[i] + 273);
         }
         else {
 
@@ -1441,26 +1447,11 @@ void CycleEmissions::compareAlpha() {
 
 bool CycleEmissions::checkTestConditions() const {
 
-    ptrdiff_t std = params->val_Standard();
+    for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
 
-    if ( std == STD_E3 ) {
+        if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
 
-        for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
-
-            if ( (array_fa[i] < 0.98) || (array_fa[i] > 1.02) ) {
-
-                return false;
-            }
-        }
-    }
-    else {
-
-        for ( ptrdiff_t i=0; i<array_fa.count(); i++ ) {
-
-            if ( (array_fa[i] < 0.96) || (array_fa[i] > 1.06) ) {
-
-                return false;
-            }
+            return false;
         }
     }
 
