@@ -115,6 +115,7 @@ private:
     QString lastReportFileName;
     QFont monospacedFont_8;
     QFont monospacedFont_10;
+    QFont liberationMonoFont_10;
 
     QSharedPointer<NewVersions> newVersions;
 
@@ -131,6 +132,7 @@ private slots:
     void on_action_CloseReport_activated();
     void on_action_ReportToPDF_activated();
     void on_action_PrintReport_activated();
+    void on_action_PrintSelectedCells_activated();
     void on_action_Preferences_activated();
     void on_action_Quit_activated();
     void on_action_UndoTable_activated();

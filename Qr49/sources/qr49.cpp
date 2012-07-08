@@ -178,19 +178,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QFile excalibFont(":/fonts/fonts/excalib.ttf");
     excalibFont.open(QIODevice::ReadOnly);
 
-    ptrdiff_t fontid = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
+    ptrdiff_t fontid1 = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
 
     excalibFont.close();
 
-    if ( fontid == -1 ) {
+    if ( fontid1 == -1 ) {
 
         QMessageBox::warning(0, "Qr49", tr("Can not load monospaced font excalib.ttf from program resources!"), 0, 0, 0);
     }
     else {
 
-        monospacedFont_8.setFamily(QFontDatabase::applicationFontFamilies(fontid).first());
+        monospacedFont_8.setFamily(QFontDatabase::applicationFontFamilies(fontid1).first());
         monospacedFont_8.setPointSize(8);
-        monospacedFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid).first());
+        monospacedFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid1).first());
         monospacedFont_10.setPointSize(10);
 
         ui->plainTextEdit_Report->setFont(monospacedFont_10);
@@ -202,6 +202,23 @@ MainWindow::MainWindow(QWidget *parent) :
             return;
         }
         myPlainTextEdit_CheckoutData->setFont(monospacedFont_10);
+    }
+
+    QFile liberationFont(":/fonts/fonts/LiberationMono-Regular.ttf");
+    liberationFont.open(QIODevice::ReadOnly);
+
+    ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(liberationFont.readAll());
+
+    liberationFont.close();
+
+    if ( fontid2 == -1 ) {
+
+        QMessageBox::warning(0, "Qr49", tr("Can not load monospaced font LiberationMono-Regular.ttf from program resources!"), 0, 0, 0);
+    }
+    else {
+
+        liberationMonoFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid2).first());
+        liberationMonoFont_10.setPointSize(10);
     }
 
     //
@@ -1219,6 +1236,67 @@ void MainWindow::on_action_PrintReport_activated() {
         ui->plainTextEdit_Report->setFont(monospacedFont_8);
         ui->plainTextEdit_Report->print(&printer);
         ui->plainTextEdit_Report->setFont(monospacedFont_10);
+    }
+}
+
+void MainWindow::on_action_PrintSelectedCells_activated() {
+
+    if ( table->selectedRanges().isEmpty() ) {
+
+        QMessageBox::warning(0, "Qr49", tr("No selected cells to printing!"), 0, 0, 0);
+        return;
+    }
+
+    QPrinter printer;
+    printer.setPrintRange(QPrinter::AllPages);
+    printer.setOrientation(QPrinter::Landscape);
+    printer.setPageMargins(20, 20, 20, 20, QPrinter::Millimeter);
+
+    QPrintDialog printDialog(&printer, this);
+
+    //
+
+    QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
+
+    ptrdiff_t colnum = selectedRange.columnCount();
+
+    if ( colnum > 8 ) {
+
+        colnum = 8;
+        QMessageBox::information(0, "Qr49", tr("Only 8 columns can be printed at a time!"), 0, 0, 0);
+    }
+
+    QString str;
+    QTextStream pout(&str);
+
+    pout << right << qSetFieldWidth(WIDTHOFCOLUMN);
+
+    for ( ptrdiff_t j=0; j<colnum; j++ ) {
+
+        pout << table->horizontalHeaderItem(selectedRange.leftColumn()+j)->text().split("\n").join(" ");
+    }
+
+    pout << "\n";
+
+    for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+
+        for ( ptrdiff_t j=0; j<colnum; j++ ) {
+
+            pout << table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->text();
+        }
+
+        pout << "\n";
+    }
+
+    //
+
+    if ( printDialog.exec() == QDialog::Accepted ) {
+
+        QPlainTextEdit pte;
+        pte.setLineWrapMode(QPlainTextEdit::NoWrap);
+        pte.setFont(liberationMonoFont_10);
+        pte.insertPlainText(str);
+        pte.print(&printer);
     }
 }
 

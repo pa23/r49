@@ -675,10 +675,6 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Print Report...</source>
-        <translation>Печать отчета...</translation>
-    </message>
-    <message>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
@@ -1747,6 +1743,34 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Incorrect source data! Check number of points and calculation parameters.</source>
         <translation>Некорректные исходные данные! Проверьте количество точек и параметры расчета.</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation>Печать</translation>
+    </message>
+    <message>
+        <source>Report...</source>
+        <translation>Отчет...</translation>
+    </message>
+    <message>
+        <source>Selected cells...</source>
+        <translation>Выбранные ячейки...</translation>
+    </message>
+    <message>
+        <source>Ctrl+Shift+P</source>
+        <translation>Ctrl+Shift+P</translation>
+    </message>
+    <message>
+        <source>Can not load monospaced font LiberationMono-Regular.ttf from program resources!</source>
+        <translation>Невозможно загрузить моноширинный шрифт LiberationMono-Regular.ttf из ресурсов программы!</translation>
+    </message>
+    <message>
+        <source>No selected cells to printing!</source>
+        <translation>Нет выбранных для печати ячеек!</translation>
+    </message>
+    <message>
+        <source>Only 8 columns can be printed at a time!</source>
+        <translation>Только 8 столбцов могут быть распечатаны за один раз!</translation>
     </message>
 </context>
 <context>
