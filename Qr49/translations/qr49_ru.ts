@@ -1761,16 +1761,16 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
-        <source>Can not load monospaced font LiberationMono-Regular.ttf from program resources!</source>
-        <translation>Невозможно загрузить моноширинный шрифт LiberationMono-Regular.ttf из ресурсов программы!</translation>
-    </message>
-    <message>
         <source>No selected cells to printing!</source>
         <translation>Нет выбранных для печати ячеек!</translation>
     </message>
     <message>
-        <source>Only 8 columns can be printed at a time!</source>
-        <translation>Только 8 столбцов могут быть распечатаны за один раз!</translation>
+        <source>Can not load monospaced font DejaVuSansMono.ttf from program resources!</source>
+        <translation>Невозможно загрузить моноширинный шрифт DejaVuSansMono.ttf из ресурсов программы!</translation>
+    </message>
+    <message>
+        <source>Only 7 columns can be printed at a time!</source>
+        <translation>Только 7 столбцов могут быть распечатаны за один раз!</translation>
     </message>
 </context>
 <context>

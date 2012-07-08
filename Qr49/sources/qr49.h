@@ -115,7 +115,7 @@ private:
     QString lastReportFileName;
     QFont monospacedFont_8;
     QFont monospacedFont_10;
-    QFont liberationMonoFont_10;
+    QFont dejavusansmonoFont_10;
 
     QSharedPointer<NewVersions> newVersions;
 

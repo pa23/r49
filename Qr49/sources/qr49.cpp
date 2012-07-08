@@ -204,21 +204,21 @@ MainWindow::MainWindow(QWidget *parent) :
         myPlainTextEdit_CheckoutData->setFont(monospacedFont_10);
     }
 
-    QFile liberationFont(":/fonts/fonts/LiberationMono-Regular.ttf");
-    liberationFont.open(QIODevice::ReadOnly);
+    QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
+    dejavuFont.open(QIODevice::ReadOnly);
 
-    ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(liberationFont.readAll());
+    ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
 
-    liberationFont.close();
+    dejavuFont.close();
 
     if ( fontid2 == -1 ) {
 
-        QMessageBox::warning(0, "Qr49", tr("Can not load monospaced font LiberationMono-Regular.ttf from program resources!"), 0, 0, 0);
+        QMessageBox::warning(0, "Qr49", tr("Can not load monospaced font DejaVuSansMono.ttf from program resources!"), 0, 0, 0);
     }
     else {
 
-        liberationMonoFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid2).first());
-        liberationMonoFont_10.setPointSize(10);
+        dejavusansmonoFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid2).first());
+        dejavusansmonoFont_10.setPointSize(10);
     }
 
     //
@@ -1247,29 +1247,22 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
         return;
     }
 
-    QPrinter printer;
-    printer.setPrintRange(QPrinter::AllPages);
-    printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(20, 20, 20, 20, QPrinter::Millimeter);
-
-    QPrintDialog printDialog(&printer, this);
-
     //
 
     QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
 
     ptrdiff_t colnum = selectedRange.columnCount();
 
-    if ( colnum > 8 ) {
+    if ( colnum > 7 ) {
 
-        colnum = 8;
-        QMessageBox::information(0, "Qr49", tr("Only 8 columns can be printed at a time!"), 0, 0, 0);
+        colnum = 7;
+        QMessageBox::information(0, "Qr49", tr("Only 7 columns can be printed at a time!"), 0, 0, 0);
     }
 
     QString str;
     QTextStream pout(&str);
 
-    pout << right << qSetFieldWidth(WIDTHOFCOLUMN);
+    pout << right << qSetFieldWidth(WIDTHOFCOLUMN+3);
 
     for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
@@ -1290,11 +1283,18 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
     //
 
+    QPrinter printer;
+    printer.setPrintRange(QPrinter::AllPages);
+    printer.setOrientation(QPrinter::Landscape);
+    printer.setPageMargins(10, 10, 10, 10, QPrinter::Millimeter);
+
+    QPrintDialog printDialog(&printer, this);
+
     if ( printDialog.exec() == QDialog::Accepted ) {
 
         QPlainTextEdit pte;
         pte.setLineWrapMode(QPlainTextEdit::NoWrap);
-        pte.setFont(liberationMonoFont_10);
+        pte.setFont(dejavusansmonoFont_10);
         pte.insertPlainText(str);
         pte.print(&printer);
     }
