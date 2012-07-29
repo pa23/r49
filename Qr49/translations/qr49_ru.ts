@@ -147,7 +147,7 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Qr49&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Циклы испытаний. Нормативы. Применяемость&lt;/span&gt;&lt;/p&gt;
 &lt;hr /&gt;
@@ -163,13 +163,13 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ограничения на выбросы вредных веществ с отработавшими газами &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOx, кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOx, г/кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CO, кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CO, г/кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CH, кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CH, г/кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PT, кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PT, г/кВт.ч&lt;/span&gt; &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style=&quot; vertical-align:top;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Пр. 49 ЕЭК ООН Евро-6 &lt;/p&gt;&lt;/td&gt;
@@ -1771,6 +1771,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Only 7 columns can be printed at a time!</source>
         <translation>Только 7 столбцов могут быть распечатаны за один раз!</translation>
+    </message>
+    <message>
+        <source>No data for Specific Emission Calculation table!</source>
+        <translation>Нет данных для таблицы &quot;Расчет удельных выбросов&quot;!</translation>
+    </message>
+    <message>
+        <source>No data for Full Load Curve table!</source>
+        <translation>Нет данных для таблицы &quot;Внешняя скоростная характеристика&quot;!</translation>
     </message>
 </context>
 <context>
