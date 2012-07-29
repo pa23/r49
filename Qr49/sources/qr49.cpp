@@ -590,6 +590,12 @@ bool MainWindow::fillTablePoints(QString filename) {
 
     QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints->csvData();
 
+    if ( arraySourceDataPoints.isEmpty() ) {
+
+        QMessageBox::warning(0, "Qr49", tr("No data for Specific Emission Calculation table!"), 0, 0, 0);
+        return false;
+    }
+
     if ( arraySourceDataPoints.at(0).size() != POINTSFILECOLUMNSNUMBER ) {
 
         QMessageBox::critical(0, "Qr49", tr("Incorrect source data! Check number of points and calculation parameters."), 0, 0, 0);
@@ -633,6 +639,12 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
     }
 
     QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve->csvData();
+
+    if ( arrayFullLoadCurve.isEmpty() ) {
+
+        QMessageBox::warning(0, "Qr49", tr("No data for Full Load Curve table!"), 0, 0, 0);
+        return false;
+    }
 
     if ( arrayFullLoadCurve.at(0).size() != POWERSFILECOLUMNSNUMBER ) {
 
