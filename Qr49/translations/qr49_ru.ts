@@ -1772,14 +1772,6 @@ p, li { white-space: pre-wrap; }
         <source>Only 7 columns can be printed at a time!</source>
         <translation>Только 7 столбцов могут быть распечатаны за один раз!</translation>
     </message>
-    <message>
-        <source>No data for Specific Emission Calculation table!</source>
-        <translation>Нет данных для таблицы &quot;Расчет удельных выбросов&quot;!</translation>
-    </message>
-    <message>
-        <source>No data for Full Load Curve table!</source>
-        <translation>Нет данных для таблицы &quot;Внешняя скоростная характеристика&quot;!</translation>
-    </message>
 </context>
 <context>
     <name>NewVersions</name>
