@@ -440,10 +440,10 @@ void MainWindow::loadAllSourceData() {
 
         tableCellChangedConnect(true);
     }
-    else {
-
-        QMessageBox::warning(0, "Qr49", filenameSourceEU0 + tr(" not found!"), 0, 0, 0);
-    }
+    //else {
+    //
+    //    QMessageBox::warning(0, "Qr49", filenameSourceEU0 + tr(" not found!"), 0, 0, 0);
+    //}
 
     //
 
@@ -460,10 +460,10 @@ void MainWindow::loadAllSourceData() {
 
         tableCellChangedConnect(true);
     }
-    else {
-
-        QMessageBox::warning(0, "Qr49", filenameSourceEU3 + tr(" not found!"), 0, 0, 0);
-    }
+    //else {
+    //
+    //    QMessageBox::warning(0, "Qr49", filenameSourceEU3 + tr(" not found!"), 0, 0, 0);
+    //}
 
     //
 
@@ -480,10 +480,10 @@ void MainWindow::loadAllSourceData() {
 
         tableCellChangedConnect(true);
     }
-    else {
-
-        QMessageBox::warning(0, "Qr49", filenamePoints + tr(" not found!"), 0, 0, 0);
-    }
+    //else {
+    //
+    //    QMessageBox::warning(0, "Qr49", filenamePoints + tr(" not found!"), 0, 0, 0);
+    //}
 
     //
 
@@ -500,10 +500,10 @@ void MainWindow::loadAllSourceData() {
 
         tableCellChangedConnect(true);
     }
-    else {
-
-        QMessageBox::warning(0, "Qr49", filenamePowers + tr(" not found!"), 0, 0, 0);
-    }
+    //else {
+    //
+    //    QMessageBox::warning(0, "Qr49", filenamePowers + tr(" not found!"), 0, 0, 0);
+    //}
 }
 
 bool MainWindow::fillTableEU0(QString filename) {
@@ -592,7 +592,7 @@ bool MainWindow::fillTablePoints(QString filename) {
 
     if ( arraySourceDataPoints.isEmpty() ) {
 
-        QMessageBox::warning(0, "Qr49", tr("No data for Specific Emission Calculation table!"), 0, 0, 0);
+        //QMessageBox::warning(0, "Qr49", tr("No data for Specific Emission Calculation table!"), 0, 0, 0);
         return false;
     }
 
@@ -642,7 +642,7 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
     if ( arrayFullLoadCurve.isEmpty() ) {
 
-        QMessageBox::warning(0, "Qr49", tr("No data for Full Load Curve table!"), 0, 0, 0);
+        //QMessageBox::warning(0, "Qr49", tr("No data for Full Load Curve table!"), 0, 0, 0);
         return false;
     }
 
@@ -914,7 +914,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         for ( ptrdiff_t j=0; j<EU0SRCDATAPARAMSNUMBER; j++ ) {
 
-            SrcDataEU0File.write(ui->tableWidget_SrcDataEU0->item(0, j)->text().toAscii().data());
+            SrcDataEU0File.write(table->item(0, j)->text().toAscii().data());
             SrcDataEU0File.write(" ");
         }
 
@@ -938,7 +938,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         for ( ptrdiff_t j=0; j<EU3SRCDATAPARAMSNUMBER; j++ ) {
 
-            SrcDataEU3File.write(ui->tableWidget_SrcDataEU3->item(0, j)->text().toAscii().data());
+            SrcDataEU3File.write(table->item(0, j)->text().toAscii().data());
             SrcDataEU3File.write(" ");
         }
 
@@ -947,6 +947,11 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataEU3File.close();
     }
     else if ( table == ui->tableWidget_SrcDataPoints ) {
+
+        if ( table->rowCount() == 0 ) {
+
+            on_action_AddRow_activated();
+        }
 
         QString filenamePoints = config->val_filenamePoints();
 
@@ -960,11 +965,11 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         SrcDataPointsFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]\n");
 
-        for ( ptrdiff_t i=0; i<ui->tableWidget_SrcDataPoints->rowCount(); i++ ) {
+        for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
             for ( ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++ ) {
 
-                SrcDataPointsFile.write(ui->tableWidget_SrcDataPoints->item(i, j)->text().toAscii().data());
+                SrcDataPointsFile.write(table->item(i, j)->text().toAscii().data());
                 SrcDataPointsFile.write(" ");
             }
 
@@ -974,6 +979,11 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataPointsFile.close();
     }
     else if ( table == ui->tableWidget_FullLoadCurve ) {
+
+        if ( table->rowCount() == 0 ) {
+
+            on_action_AddRow_activated();
+        }
 
         QString filenamePowers = config->val_filenamePowers();
 
@@ -987,11 +997,11 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         SrcDataPowersFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]\n");
 
-        for ( ptrdiff_t i=0; i<ui->tableWidget_FullLoadCurve->rowCount(); i++ ) {
+        for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
             for ( ptrdiff_t j=0; j<POWERSFILECOLUMNSNUMBER; j++ ) {
 
-                SrcDataPowersFile.write(ui->tableWidget_FullLoadCurve->item(i, j)->text().toAscii().data());
+                SrcDataPowersFile.write(table->item(i, j)->text().toAscii().data());
                 SrcDataPowersFile.write(" ");
             }
 
