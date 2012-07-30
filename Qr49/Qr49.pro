@@ -93,6 +93,11 @@ win32: {
 }
 updateqm.input = TRANSLATIONS
 updateqm.output = qr49_ru.qm
-updateqm.commands = lrelease Qr49.pro && $(COPY) translations/*.qm ${DESTDIR}
+unix: {
+    updateqm.commands = lrelease Qr49.pro && $(COPY) translations/*.qm ${DESTDIR}
+}
+win32: {
+    updateqm.commands = lrelease Qr49.pro && $(COPY) translations\\*.qm ${DESTDIR}
+}
 updateqm.CONFIG += no_link target_predeps
 QMAKE_EXTRA_COMPILERS += updateqm
