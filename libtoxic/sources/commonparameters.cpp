@@ -33,11 +33,11 @@
 #include <QTextStream>
 
 CommonParameters::CommonParameters() :
-    filenameSourceEU3 ("TempSourceData/SourceData1-EU3456.csv"),
-    filenameSourceEU0 ("TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
-    filenamePoints    ("TempSourceData/SourceData2-CyclePoints.csv"),
-    filenamePowers    ("TempSourceData/SourceData3-FullLoadCurve.csv"),
-    dirnameReports    ("Reports"),
+    filenameSourceEU3 ("r49_TempSourceData/SourceData1-EU3456.csv"),
+    filenameSourceEU0 ("r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
+    filenamePoints    ("r49_TempSourceData/SourceData2-CyclePoints.csv"),
+    filenamePowers    ("r49_TempSourceData/SourceData3-FullLoadCurve.csv"),
+    dirnameReports    ("r49_Reports"),
     Dn         (90.0),
     ConcO2air  (20.8),
     Rr         (287.3),
@@ -59,7 +59,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
     QFile configFile1(configFileName);
     QFile configFile2(QDir::homePath()
-                      + "/"
+                      + QDir::separator()
                       + configFileName);
     QFile configFile;
 

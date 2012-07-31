@@ -1519,7 +1519,7 @@ QString CycleEmissions::createReports() {
 
     QString dirnameReports = config->val_dirnameReports();
 
-    fullReportsPath = dirnameReports + "/" +
+    fullReportsPath = dirnameReports + QDir::separator() +
             params->defStandardName(std) + "_" + mytime;
 
     QDir reportdir;

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>624</height>
+    <height>641</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -59,7 +59,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="lineEdit_dirnameReports">
         <property name="text">
-         <string>Reports</string>
+         <string>r49_Reports</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -85,7 +85,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="lineEdit_filenameSourceEU3">
         <property name="text">
-         <string>TempSourceData/SourceData1-EU3456.csv</string>
+         <string>r49_TempSourceData/SourceData1-EU3456.csv</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -115,7 +115,7 @@
       <item row="1" column="1">
        <widget class="QLineEdit" name="lineEdit_filenameSourceEU0">
         <property name="text">
-         <string>TempSourceData/SourceData1-EU012-r96-GOST30574.csv</string>
+         <string>r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -145,7 +145,7 @@
       <item row="2" column="1">
        <widget class="QLineEdit" name="lineEdit_filenamePoints">
         <property name="text">
-         <string>TempSourceData/SourceData2-CyclePoints.csv</string>
+         <string>r49_TempSourceData/SourceData2-CyclePoints.csv</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>
@@ -175,7 +175,7 @@
       <item row="3" column="1">
        <widget class="QLineEdit" name="lineEdit_filenamePowers">
         <property name="text">
-         <string>TempSourceData/SourceData3-FullLoadCurve.csv</string>
+         <string>r49_TempSourceData/SourceData3-FullLoadCurve.csv</string>
         </property>
         <property name="readOnly">
          <bool>true</bool>

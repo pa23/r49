@@ -24,7 +24,7 @@
 
 #include <QString>
 
-const QString LIBTOXICVERSION = "6.3.4";
+const QString LIBTOXICVERSION = "6.3.5";
 
 const QString PARAMETERVALUEDELIMITER = "=";
 const QString COMMENTPATTERN = "^//";
