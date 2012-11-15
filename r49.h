@@ -24,6 +24,6 @@
 
 #include <QString>
 
-const QString r49version = "12.10";
+const QString r49version = "12.11";
 
 #endif // R49_H

@@ -828,7 +828,7 @@
              <item>
               <widget class="QComboBox" name="comboBox_task">
                <property name="currentIndex">
-                <number>0</number>
+                <number>1</number>
                </property>
                <item>
                 <property name="text">
@@ -899,7 +899,7 @@
              <item>
               <widget class="QComboBox" name="comboBox_standard">
                <property name="currentIndex">
-                <number>0</number>
+                <number>2</number>
                </property>
                <item>
                 <property name="text">
@@ -1173,7 +1173,7 @@
              <item>
               <widget class="QComboBox" name="comboBox_PTcalc">
                <property name="currentIndex">
-                <number>0</number>
+                <number>3</number>
                </property>
                <item>
                 <property name="text">
@@ -1183,6 +1183,11 @@
                <item>
                 <property name="text">
                  <string>Through PT mass</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Through smoke values and PT mass</string>
                 </property>
                </item>
                <item>
@@ -1273,7 +1278,7 @@
              <item>
               <widget class="QComboBox" name="comboBox_AddPointsCalc">
                <property name="currentIndex">
-                <number>0</number>
+                <number>1</number>
                </property>
                <item>
                 <property name="text">
@@ -1321,7 +1326,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>285</width>
+          <width>180</width>
           <height>245</height>
          </rect>
         </property>
@@ -1550,8 +1555,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>241</height>
+          <width>245</width>
+          <height>173</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1689,8 +1694,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>241</height>
+          <width>233</width>
+          <height>140</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1813,8 +1818,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>241</height>
+          <width>147</width>
+          <height>117</height>
          </rect>
         </property>
         <attribute name="label">

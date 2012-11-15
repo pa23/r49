@@ -34,12 +34,12 @@ LibtoxicParameters::LibtoxicParameters() :
     Vh             (0),
     standard       (STD_EU4),
     chargingType   (CHARGINGTYPE_GASTURBINE),
-    FuelType       (FUELTYPE_DIESEL),
+    fuelType       (FUELTYPE_DIESEL),
     NOxSample      (NOXSAMPLE_WET),
     PTcalc         (PTCALC_NO),
     PTmass         (0),
-    AddPointsCalc  (ADDPOINTSCALC_NO),
-    CalcConfigFile ("_._") {
+    addPointsCalc  (ADDPOINTSCALC_NO),
+    calcConfigFile ("_._") {
 }
 
 LibtoxicParameters::~LibtoxicParameters() {
@@ -80,14 +80,14 @@ void LibtoxicParameters::setChargingType(const QString &chargingType_) {
     chargingType = defChargingType(chargingType_);
 }
 
-void LibtoxicParameters::setFuelType(const ptrdiff_t &FuelType_) {
+void LibtoxicParameters::setFuelType(const ptrdiff_t &fuelType_) {
 
-    FuelType = FuelType_;
+    fuelType = fuelType_;
 }
 
-void LibtoxicParameters::setFuelType(const QString &FuelType_) {
+void LibtoxicParameters::setFuelType(const QString &fuelType_) {
 
-    FuelType = defFuelType(FuelType_);
+    fuelType = defFuelType(fuelType_);
 }
 
 void LibtoxicParameters::setNOxSample(const ptrdiff_t &NOxSample_) {
@@ -115,26 +115,26 @@ void LibtoxicParameters::setPTmass(const double &PTmass_) {
     PTmass = PTmass_;
 }
 
-void LibtoxicParameters::setAddPointsCalc(const ptrdiff_t &AddPointsCalc_) {
+void LibtoxicParameters::setAddPointsCalc(const ptrdiff_t &addPointsCalc_) {
 
-    AddPointsCalc = AddPointsCalc_;
+    addPointsCalc = addPointsCalc_;
 }
 
-void LibtoxicParameters::setAddPointsCalc(const QString &AddPointsCalc_) {
+void LibtoxicParameters::setAddPointsCalc(const QString &addPointsCalc_) {
 
-    AddPointsCalc = defAddPointsCalc(AddPointsCalc_);
+    addPointsCalc = defAddPointsCalc(addPointsCalc_);
 }
 
-void LibtoxicParameters::setCalcConfigFile(const QString &CalcConfigFile_) {
+void LibtoxicParameters::setCalcConfigFile(const QString &calcConfigFile_) {
 
-    CalcConfigFile = CalcConfigFile_;
+    calcConfigFile = calcConfigFile_;
 }
 
 void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
-    QFile calcConfigFile(calcConfigFileName);
+    QFile clcConfFile(calcConfigFileName);
 
-    if ( !(calcConfigFile.open(QIODevice::ReadOnly)) ) {
+    if ( !(clcConfFile.open(QIODevice::ReadOnly)) ) {
 
         throw ToxicError("Can not open file " + calcConfigFileName + "!");
     }
@@ -143,9 +143,9 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
     QStringList elements;
     QRegExp rx(COMMENTPATTERN);
 
-    while ( !calcConfigFile.atEnd() ) {
+    while ( !clcConfFile.atEnd() ) {
 
-        s = calcConfigFile.readLine().trimmed();
+        s = clcConfFile.readLine().trimmed();
 
         if ( (!s.isEmpty()) && (!s.isNull()) && (!s.contains(rx)) ) {
 
@@ -164,13 +164,13 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
                 standard = defStandard(elements[1]);
             }
-            else if ( elements[0] == "ChargingType" ) {
+            else if ( elements[0] == "chargingType" ) {
 
                 chargingType = defChargingType(elements[1]);
             }
-            else if ( elements[0] == "FuelType" ) {
+            else if ( elements[0] == "fuelType" ) {
 
-                FuelType = defFuelType(elements[1]);
+                fuelType = defFuelType(elements[1]);
             }
             else if ( elements[0] == "NOxSample" ) {
 
@@ -184,13 +184,13 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
                 PTmass = (elements[1]).toDouble();
             }
-            else if ( elements[0] == "AddPointsCalc" ) {
+            else if ( elements[0] == "addPointsCalc" ) {
 
-                AddPointsCalc = defAddPointsCalc(elements[1]);
+                addPointsCalc = defAddPointsCalc(elements[1]);
             }
-            else if ( elements[0] == "CalcConfigFile" ) {
+            else if ( elements[0] == "calcConfigFile" ) {
 
-                CalcConfigFile = elements[1];
+                calcConfigFile = elements[1];
             }
 
             elements.clear();
@@ -199,7 +199,7 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
 
     elements.clear();
 
-    calcConfigFile.close();
+    clcConfFile.close();
 }
 
 QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
@@ -245,144 +245,289 @@ QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
 
 ptrdiff_t LibtoxicParameters::defTask(const QString &str) const {
 
-    if      ( str == QString::number(TASK_POINTS      ) ||
-              str == "points"       ) { return TASK_POINTS;       }
-    else if ( str == QString::number(TASK_EMISSIONS   ) ||
-              str == "emissions"    ) { return TASK_EMISSIONS;    }
+    if ( str == QString::number(TASK_POINTS) ||
+         str == "points" ) {
+
+        return TASK_POINTS;
+    }
+    else if ( str == QString::number(TASK_EMISSIONS) ||
+              str == "emissions" ) {
+
+        return TASK_EMISSIONS;
+    }
     else if ( str == QString::number(TASK_REDUCEDPOWER) ||
-              str == "ReducedPower" ) { return TASK_REDUCEDPOWER; }
-    else if ( str == QString::number(TASK_ABCSPEEDS   ) ||
-              str == "ABCspeeds"    ) { return TASK_ABCSPEEDS;    }
-    else if ( str == QString::number(TASK_HELP        ) ||
-              str == "help"         ) { return TASK_HELP;         }
-    else                              { return TASK_EMISSIONS;    }
+              str == "reducedPower" ) {
+
+        return TASK_REDUCEDPOWER;
+    }
+    else if ( str == QString::number(TASK_ABCSPEEDS) ||
+              str == "ABCspeeds" ) {
+
+        return TASK_ABCSPEEDS;
+    }
+    else if ( str == QString::number(TASK_HELP) ||
+              str == "help" ) {
+
+        return TASK_HELP;
+    }
+    else {
+
+        return TASK_EMISSIONS;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defStandard(const QString &str) const {
 
-    if      ( str == QString::number(STD_EU6     ) ||
-              str == "EU6"      ) { return STD_EU6;      }
-    else if ( str == QString::number(STD_EU5     ) ||
-              str == "EU5"      ) { return STD_EU5;      }
-    else if ( str == QString::number(STD_EU4     ) ||
-              str == "EU4"      ) { return STD_EU4;      }
-    else if ( str == QString::number(STD_EU3     ) ||
-              str == "EU3"      ) { return STD_EU3;      }
-    else if ( str == QString::number(STD_EU2     ) ||
-              str == "EU2"      ) { return STD_EU2;      }
-    else if ( str == QString::number(STD_EU1     ) ||
-              str == "EU1"      ) { return STD_EU1;      }
-    else if ( str == QString::number(STD_EU0     ) ||
-              str == "EU0"      ) { return STD_EU0;      }
-    else if ( str == QString::number(STD_OST     ) ||
-              str == "OST"      ) { return STD_OST;      }
-    else if ( str == QString::number(STD_GOST    ) ||
-              str == "GOST"     ) { return STD_GOST;     }
-    else if ( str == QString::number(STD_R96E8   ) ||
-              str == "r96E8"    ) { return STD_R96E8;    }
-    else if ( str == QString::number(STD_R96F8   ) ||
-              str == "r96F8"    ) { return STD_R96F8;    }
-    else if ( str == QString::number(STD_R96G8   ) ||
-              str == "r96G8"    ) { return STD_R96G8;    }
-    else if ( str == QString::number(STD_R96D8   ) ||
-              str == "r96D8"    ) { return STD_R96D8;    }
-    else if ( str == QString::number(STD_R96E5   ) ||
-              str == "r96E5"    ) { return STD_R96E5;    }
-    else if ( str == QString::number(STD_R96F5   ) ||
-              str == "r96F5"    ) { return STD_R96F5;    }
-    else if ( str == QString::number(STD_R96G5   ) ||
-              str == "r96G5"    ) { return STD_R96G5;    }
-    else if ( str == QString::number(STD_R96D5   ) ||
-              str == "r96D5"    ) { return STD_R96D5;    }
-    else if ( str == QString::number(STD_R96H8   ) ||
-              str == "r96H8"    ) { return STD_R96H8;    }
-    else if ( str == QString::number(STD_R96I8   ) ||
-              str == "r96I8"    ) { return STD_R96I8;    }
-    else if ( str == QString::number(STD_R96J8   ) ||
-              str == "r96J8"    ) { return STD_R96J8;    }
-    else if ( str == QString::number(STD_R96K8   ) ||
-              str == "r96K8"    ) { return STD_R96K8;    }
-    else if ( str == QString::number(STD_R96H5   ) ||
-              str == "r96H5"    ) { return STD_R96H5;    }
-    else if ( str == QString::number(STD_R96I5   ) ||
-              str == "r96I5"    ) { return STD_R96I5;    }
-    else if ( str == QString::number(STD_R96J5   ) ||
-              str == "r96J5"    ) { return STD_R96J5;    }
-    else if ( str == QString::number(STD_R96K5   ) ||
-              str == "r96K5"    ) { return STD_R96K5;    }
-    else if ( str == QString::number(STD_C1      ) ||
-              str == "C1"       ) { return STD_C1;       }
-    else if ( str == QString::number(STD_D1      ) ||
-              str == "D1"       ) { return STD_D1;       }
-    else if ( str == QString::number(STD_D2      ) ||
-              str == "D2"       ) { return STD_D2;       }
-    else if ( str == QString::number(STD_E1      ) ||
-              str == "E1"       ) { return STD_E1;       }
-    else if ( str == QString::number(STD_E2      ) ||
-              str == "E2"       ) { return STD_E2;       }
-    else if ( str == QString::number(STD_E3      ) ||
-              str == "E3"       ) { return STD_E3;       }
-    else if ( str == QString::number(STD_E5      ) ||
-              str == "E5"       ) { return STD_E5;       }
-    else if ( str == QString::number(STD_F       ) ||
-              str == "F"        ) { return STD_F;        }
-    else if ( str == QString::number(STD_G1      ) ||
-              str == "G1"       ) { return STD_G1;       }
-    else if ( str == QString::number(STD_G2      ) ||
-              str == "G2"       ) { return STD_G2;       }
-    else if ( str == QString::number(STD_FREECALC) ||
-              str == "FreeCalc" ) { return STD_FREECALC; }
-    else                          { return STD_EU4;      }
+    if ( str == QString::number(STD_EU6) || str == "eu6" ) {
+
+        return STD_EU6;
+    }
+    else if ( str == QString::number(STD_EU5) || str == "eu5" ) {
+
+        return STD_EU5;
+    }
+    else if ( str == QString::number(STD_EU4) || str == "eu4" ) {
+
+        return STD_EU4;
+    }
+    else if ( str == QString::number(STD_EU3) || str == "eu3" ) {
+
+        return STD_EU3;
+    }
+    else if ( str == QString::number(STD_EU2) || str == "eu2" ) {
+
+        return STD_EU2;
+    }
+    else if ( str == QString::number(STD_EU1) || str == "eu1" ) {
+
+        return STD_EU1;
+    }
+    else if ( str == QString::number(STD_EU0) || str == "eu0" ) {
+
+        return STD_EU0;
+    }
+    else if ( str == QString::number(STD_OST) || str == "ost" ) {
+
+        return STD_OST;
+    }
+    else if ( str == QString::number(STD_GOST) || str == "gost" ) {
+
+        return STD_GOST;
+    }
+    else if ( str == QString::number(STD_R96E8) || str == "r96e8" ) {
+
+        return STD_R96E8;
+    }
+    else if ( str == QString::number(STD_R96F8) || str == "r96f8" ) {
+
+        return STD_R96F8;
+    }
+    else if ( str == QString::number(STD_R96G8) || str == "r96g8" ) {
+
+        return STD_R96G8;
+    }
+    else if ( str == QString::number(STD_R96D8) || str == "r96d8" ) {
+
+        return STD_R96D8;
+    }
+    else if ( str == QString::number(STD_R96E5) || str == "r96e5" ) {
+
+        return STD_R96E5;
+    }
+    else if ( str == QString::number(STD_R96F5) || str == "r96f5" ) {
+
+        return STD_R96F5;
+    }
+    else if ( str == QString::number(STD_R96G5) || str == "r96g5" ) {
+
+        return STD_R96G5;
+    }
+    else if ( str == QString::number(STD_R96D5) || str == "r96d5" ) {
+
+        return STD_R96D5;
+    }
+    else if ( str == QString::number(STD_R96H8) || str == "r96h8" ) {
+
+        return STD_R96H8;
+    }
+    else if ( str == QString::number(STD_R96I8) || str == "r96i8" ) {
+
+        return STD_R96I8;
+    }
+    else if ( str == QString::number(STD_R96J8) || str == "r96j8" ) {
+
+        return STD_R96J8;
+    }
+    else if ( str == QString::number(STD_R96K8) || str == "r96k8" ) {
+
+        return STD_R96K8;
+    }
+    else if ( str == QString::number(STD_R96H5) || str == "r96h5" ) {
+
+        return STD_R96H5;
+    }
+    else if ( str == QString::number(STD_R96I5) || str == "r96i5" ) {
+
+        return STD_R96I5;
+    }
+    else if ( str == QString::number(STD_R96J5) || str == "r96j5" ) {
+
+        return STD_R96J5;
+    }
+    else if ( str == QString::number(STD_R96K5) || str == "r96k5" ) {
+
+        return STD_R96K5;
+    }
+    else if ( str == QString::number(STD_C1) || str == "c1" ) {
+
+        return STD_C1;
+    }
+    else if ( str == QString::number(STD_D1) || str == "d1" ) {
+
+        return STD_D1;
+    }
+    else if ( str == QString::number(STD_D2) || str == "d2" ) {
+
+        return STD_D2;
+    }
+    else if ( str == QString::number(STD_E1) || str == "e1" ) {
+
+        return STD_E1;
+    }
+    else if ( str == QString::number(STD_E2) || str == "e2" ) {
+
+        return STD_E2;
+    }
+    else if ( str == QString::number(STD_E3) || str == "e3" ) {
+
+        return STD_E3;
+    }
+    else if ( str == QString::number(STD_E5) || str == "e5" ) {
+
+        return STD_E5;
+    }
+    else if ( str == QString::number(STD_F) || str == "f" ) {
+
+        return STD_F;
+    }
+    else if ( str == QString::number(STD_G1) || str == "g1" ) {
+
+        return STD_G1;
+    }
+    else if ( str == QString::number(STD_G2) || str == "g2" ) {
+
+        return STD_G2;
+    }
+    else if ( str == QString::number(STD_FREECALC) || str == "freeCalc" ) {
+
+        return STD_FREECALC;
+    }
+    else {
+
+        return STD_EU4;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defChargingType(const QString &str) const {
 
-    if      ( str == QString::number(CHARGINGTYPE_NO)         ||
-              str == "NoOrMechanical" ) { return CHARGINGTYPE_NO;         }
-    else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) ||
-              str == "GasTurbine"     ) { return CHARGINGTYPE_GASTURBINE; }
+    if ( str == QString::number(CHARGINGTYPE_NO) ||
+         str == "noOrMechanical" ) {
 
-    return CHARGINGTYPE_GASTURBINE;
+        return CHARGINGTYPE_NO;
+    }
+    else if ( str == QString::number(CHARGINGTYPE_GASTURBINE) ||
+              str == "gasTurbine" ) {
+
+        return CHARGINGTYPE_GASTURBINE;
+    }
+    else {
+        return CHARGINGTYPE_GASTURBINE;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defFuelType(const QString &str) const {
 
-    if      ( str == QString::number(FUELTYPE_DIESEL) ||
-              str == "diesel" ) { return FUELTYPE_DIESEL; }
+    if ( str == QString::number(FUELTYPE_DIESEL) ||
+         str == "diesel" ) {
+
+        return FUELTYPE_DIESEL;
+    }
     else if ( str == QString::number(FUELTYPE_MOTOR ) ||
-              str == "motor"  ) { return FUELTYPE_MOTOR;  }
+              str == "motor" ) {
+
+        return FUELTYPE_MOTOR;
+    }
     else if ( str == QString::number(FUELTYPE_MAZUT ) ||
-              str == "mazut"  ) { return FUELTYPE_MAZUT;  }
-    else                        { return FUELTYPE_DIESEL; }
+              str == "mazut" ) {
+
+        return FUELTYPE_MAZUT;
+    }
+    else {
+
+        return FUELTYPE_DIESEL;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defNOxSample(const QString &str) const {
 
-    if      ( str == QString::number(NOXSAMPLE_WET) ||
-              str == "wet" ) { return NOXSAMPLE_WET; }
+    if ( str == QString::number(NOXSAMPLE_WET) ||
+         str == "wet" ) {
+
+        return NOXSAMPLE_WET;
+    }
     else if ( str == QString::number(NOXSAMPLE_DRY) ||
-              str == "dry" ) { return NOXSAMPLE_DRY; }
-    else                     { return NOXSAMPLE_WET; }
+              str == "dry" ) {
+
+        return NOXSAMPLE_DRY;
+    }
+    else {
+
+        return NOXSAMPLE_WET;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defPTcalc(const QString &str) const {
 
-    if      ( str == QString::number(PTCALC_THROUGHSMOKE ) ||
-              str == "ThroughSmoke"  ) { return PTCALC_THROUGHSMOKE;  }
-    else if ( str == QString::number(PTCALC_THROUGHPTMASS) ||
-              str == "ThroughPTmass" ) { return PTCALC_THROUGHPTMASS; }
-    else if ( str == QString::number(PTCALC_NO           ) ||
-              str == "no"            ) { return PTCALC_NO;            }
+    if ( str == QString::number(PTCALC_THROUGHSMOKE) ||
+         str == "throughSmoke" ) {
 
-    return PTCALC_NO;
+        return PTCALC_THROUGHSMOKE;
+    }
+    else if ( str == QString::number(PTCALC_THROUGHPTMASS) ||
+              str == "throughPTmass" ) {
+
+        return PTCALC_THROUGHPTMASS;
+    }
+    else if ( str == QString::number(PTCALC_THROUGHSMOKEANDPTMASS) ||
+              str == "throughSmokeAndPTmass" ) {
+
+        return PTCALC_THROUGHSMOKEANDPTMASS;
+    }
+    else if ( str == QString::number(PTCALC_NO) ||
+              str == "no" ) {
+
+        return PTCALC_NO;
+    }
+    else {
+
+        return PTCALC_NO;
+    }
 }
 
 ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
 
-    if      ( str == QString::number(ADDPOINTSCALC_YES) ||
-              str == "yes" ) { return ADDPOINTSCALC_YES; }
-    else if ( str == QString::number(ADDPOINTSCALC_NO ) ||
-              str == "no"  ) { return ADDPOINTSCALC_NO;  }
+    if ( str == QString::number(ADDPOINTSCALC_YES) ||
+         str == "yes" ) {
 
-    return ADDPOINTSCALC_NO;
+        return ADDPOINTSCALC_YES;
+    }
+    else if ( str == QString::number(ADDPOINTSCALC_NO ) ||
+              str == "no" ) {
+
+        return ADDPOINTSCALC_NO;
+    }
+    else {
+
+        return ADDPOINTSCALC_NO;
+    }
 }

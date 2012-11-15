@@ -49,11 +49,11 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
     params = prms;
     config = cfg;
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params->valCalcConfigFile() != "_._") {
 
         try {
 
-            params->readCalcConfigFile(params->val_CalcConfigFile());
+            params->readCalcConfigFile(params->valCalcConfigFile());
         }
         catch(ToxicError &toxerr) {
 
@@ -69,7 +69,7 @@ void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePowers = config->val_filenamePowers();
+        QString filenamePowers = config->valFileNamePowers();
 
         QSharedPointer<csvRead>
                 readerDataForCalc(new csvRead(filenamePowers,
@@ -140,7 +140,7 @@ void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
          !nonZeroArray(array_Ra) ||
          !nonZeroArray(array_pk) ||
          !nonZeroArray(array_Gfuel) ||
-         (params->val_Vh() < 0.0000001) ) {
+         (params->valVh() < 0.0000001) ) {
 
         throw ToxicError("Incorrect source data!");
     }
@@ -173,7 +173,7 @@ void ReducedPower::reducePower() {
 
     setRate();
 
-    double Vh = params->val_Vh();
+    double Vh = params->valVh();
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
@@ -202,7 +202,7 @@ void ReducedPower::reducePower() {
 
         array_ps[i] = array_B0[i] - array_pa[i];
 
-        if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
+        if ( params->valChargingType() == CHARGINGTYPE_NO ) {
 
             array_fa[i] = (99.0 / array_ps[i]) *
                     pow( (array_t0[i] + 273.0) / 298.0, 0.7 );
@@ -238,7 +238,7 @@ QString ReducedPower::createReports() {
 
     QString message = "";
 
-    QString dirnameReports = config->val_dirnameReports();
+    QString dirnameReports = config->valDirNameReports();
 
     fullReportsPath = dirnameReports + "/" + "R85_" + mytime;
     QDir reportdir;

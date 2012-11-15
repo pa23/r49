@@ -27,7 +27,7 @@
 
 #include <cmath>
 
-double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
+double valNOxLimit(ptrdiff_t stnd, double n_rated) {
 
     if      (stnd == STD_EU6     ) { return  2.00; }
     else if (stnd == STD_EU5     ) { return  2.00; }
@@ -95,7 +95,7 @@ double val_NOxLimit(ptrdiff_t stnd, double n_rated) {
     return 0;
 }
 
-double val_COLimit(ptrdiff_t stnd) {
+double valCOLimit(ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6     ) { return  1.50; }
     else if (stnd == STD_EU5     ) { return  1.50; }
@@ -137,7 +137,7 @@ double val_COLimit(ptrdiff_t stnd) {
     }
 }
 
-double val_CHLimit(ptrdiff_t stnd) {
+double valCHLimit(ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6     ) { return  0.25; }
     else if (stnd == STD_EU5     ) { return  0.46; }
@@ -175,7 +175,7 @@ double val_CHLimit(ptrdiff_t stnd) {
     }
 }
 
-double val_PTLimit(ptrdiff_t stnd) {
+double valPTLimit(ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6 ) { return  0.02; }
     else if (stnd == STD_EU5 ) { return  0.02; }
@@ -199,7 +199,7 @@ double val_PTLimit(ptrdiff_t stnd) {
     }
 }
 
-double val_NOxCHLimit(ptrdiff_t stnd) {
+double valNOxCHLimit(ptrdiff_t stnd) {
 
     if      ( (stnd == STD_R96H8) || (stnd == STD_R96H5) ) { return  4.00; }
     else if ( (stnd == STD_R96I8) || (stnd == STD_R96I5) ) { return  4.00; }

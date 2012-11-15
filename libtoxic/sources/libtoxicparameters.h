@@ -60,16 +60,16 @@ public:
 
     void setCalcConfigFile(const QString &);
 
-    ptrdiff_t val_Task() const { return task; }
-    double val_Vh() const { return Vh; }
-    ptrdiff_t val_Standard() const { return standard; }
-    ptrdiff_t val_ChargingType() const { return chargingType; }
-    ptrdiff_t val_FuelType() const { return FuelType; }
-    ptrdiff_t val_NOxSample() const { return NOxSample; }
-    ptrdiff_t val_PTcalc() const { return PTcalc; }
-    double val_PTmass() const { return PTmass; }
-    ptrdiff_t val_AddPointsCalc() const { return AddPointsCalc; }
-    QString val_CalcConfigFile() const { return CalcConfigFile; }
+    ptrdiff_t valTask()           const { return task;           }
+    double    valVh()             const { return Vh;             }
+    ptrdiff_t valStandard()       const { return standard;       }
+    ptrdiff_t valChargingType()   const { return chargingType;   }
+    ptrdiff_t valFuelType()       const { return fuelType;       }
+    ptrdiff_t valNOxSample()      const { return NOxSample;      }
+    ptrdiff_t valPTcalc()         const { return PTcalc;         }
+    double    valPTmass()         const { return PTmass;         }
+    ptrdiff_t valAddPointsCalc()  const { return addPointsCalc;  }
+    QString   valCalcConfigFile() const { return calcConfigFile; }
 
     void readCalcConfigFile(const QString &);
 
@@ -84,12 +84,12 @@ private:
     double    Vh;
     ptrdiff_t standard;
     ptrdiff_t chargingType;
-    ptrdiff_t FuelType;
+    ptrdiff_t fuelType;
     ptrdiff_t NOxSample;
     ptrdiff_t PTcalc;
     double    PTmass;
-    ptrdiff_t AddPointsCalc;
-    QString   CalcConfigFile;
+    ptrdiff_t addPointsCalc;
+    QString   calcConfigFile;
 
     //
 

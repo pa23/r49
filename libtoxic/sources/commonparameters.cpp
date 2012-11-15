@@ -33,17 +33,17 @@
 #include <QTextStream>
 
 CommonParameters::CommonParameters() :
-    filenameSourceEU3 ("r49_TempSourceData/SourceData1-EU3456.csv"),
-    filenameSourceEU0 ("r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
-    filenamePoints    ("r49_TempSourceData/SourceData2-CyclePoints.csv"),
-    filenamePowers    ("r49_TempSourceData/SourceData3-FullLoadCurve.csv"),
-    dirnameReports    ("r49_Reports"),
+    fileNameSourceEU3 ("r49_TempSourceData/SourceData1-EU3456.csv"),
+    fileNameSourceEU0 ("r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv"),
+    fileNamePoints    ("r49_TempSourceData/SourceData2-CyclePoints.csv"),
+    fileNamePowers    ("r49_TempSourceData/SourceData3-FullLoadCurve.csv"),
+    dirNameReports    ("r49_Reports"),
     Dn         (90.0),
-    ConcO2air  (20.8),
+    concO2air  (20.8),
     Rr         (287.3),
     L0         (14.35),
     L          (0.43),
-    ConcCO2air (0.06),
+    concCO2air (0.06),
     WH         (12.6),
     WO2        (0.4),
     WN         (0),
@@ -77,27 +77,27 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
                 "//\n// This is r49 configuration file. "
                 "Parameter-Value delimeter is \"=\" symbol.\n// "
                 "Text after \"//\" is comment.\n//\n\n"
-                "// Temporary rewrited source data files\nfilenameSourceEU3="
-                + filenameSourceEU3
+                "// Temporary rewrited source data files\nfileNameSourceEU3="
+                + fileNameSourceEU3
                 + "\n"
-                "filenameSourceEU0="
-                + filenameSourceEU0
+                "fileNameSourceEU0="
+                + fileNameSourceEU0
                 + "\n"
-                "filenamePoints="
-                + filenamePoints
+                "fileNamePoints="
+                + fileNamePoints
                 + "\n"
-                "filenamePowers="
-                + filenamePowers
+                "fileNamePowers="
+                + fileNamePowers
                 + "\n\n"
-                "// Directory for calculation results\ndirnameReports="
-                + dirnameReports
+                "// Directory for calculation results\ndirNameReports="
+                + dirNameReports
                 + "\n\n"
                 "// Measuring nozzle diameter "
                 "(engine inlet air mass flow calculation)\nDn="
                 + QString::number(Dn)
                 + "\n\n"
-                "// Air oxygen concentration\nConcO2air="
-                + QString::number(ConcO2air)
+                "// Air oxygen concentration\nconcO2air="
+                + QString::number(concO2air)
                 + "\n\n"
                 "//\nRr="
                 + QString::number(Rr)
@@ -108,8 +108,8 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
                 "// Opacimeter effective base\nL="
                 + QString::number(L)
                 + "\n\n"
-                "// Air carbon dioxide concentration\nConcCO2air="
-                + QString::number(ConcCO2air)
+                "// Air carbon dioxide concentration\nconcCO2air="
+                + QString::number(concCO2air)
                 + "\n\n"
                 "// Fuel percentage\nWH="
                 + QString::number(WH)
@@ -172,33 +172,33 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
             elements = s.split(PARAMETERVALUEDELIMITER,
                                QString::SkipEmptyParts);
 
-            if ( elements[0] == "filenameSourceEU3" ) {
+            if ( elements[0] == "fileNameSourceEU3" ) {
 
-                filenameSourceEU3 = elements[1];
+                fileNameSourceEU3 = elements[1];
             }
-            else if ( elements[0] == "filenameSourceEU0" ) {
+            else if ( elements[0] == "fileNameSourceEU0" ) {
 
-                filenameSourceEU0 = elements[1];
+                fileNameSourceEU0 = elements[1];
             }
-            else if ( elements[0] == "filenamePoints" ) {
+            else if ( elements[0] == "fileNamePoints" ) {
 
-                filenamePoints = elements[1];
+                fileNamePoints = elements[1];
             }
-            else if ( elements[0] == "filenamePowers" ) {
+            else if ( elements[0] == "fileNamePowers" ) {
 
-                filenamePowers = elements[1];
+                fileNamePowers = elements[1];
             }
-            else if ( elements[0] == "dirnameReports" ) {
+            else if ( elements[0] == "dirNameReports" ) {
 
-                dirnameReports = elements[1];
+                dirNameReports = elements[1];
             }
             else if ( elements[0] == "Dn" ) {
 
                 Dn = (elements[1]).toDouble();
             }
-            else if ( elements[0] == "ConcO2air" ) {
+            else if ( elements[0] == "concO2air" ) {
 
-                ConcO2air = (elements[1]).toDouble();
+                concO2air = (elements[1]).toDouble();
             }
             else if ( elements[0] == "Rr" ) {
 
@@ -212,9 +212,9 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
 
                 L = (elements[1]).toDouble();
             }
-            else if ( elements[0] == "ConcCO2air" ) {
+            else if ( elements[0] == "concCO2air" ) {
 
-                ConcCO2air = (elements[1]).toDouble();
+                concCO2air = (elements[1]).toDouble();
             }
             else if ( elements[0] == "WH" ) {
 
@@ -255,7 +255,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
     QFileInfo fileinfo;
     QString absPath;
 
-    fileinfo.setFile(filenameSourceEU3);
+    fileinfo.setFile(fileNameSourceEU3);
     absPath = fileinfo.absoluteDir().absolutePath();
 
     if ( !dir.exists(absPath) ) {
@@ -266,7 +266,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
         }
     }
 
-    fileinfo.setFile(filenameSourceEU0);
+    fileinfo.setFile(fileNameSourceEU0);
     absPath = fileinfo.absoluteDir().absolutePath();
 
     if ( !dir.exists(absPath) ) {
@@ -277,7 +277,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
         }
     }
 
-    fileinfo.setFile(filenamePoints);
+    fileinfo.setFile(fileNamePoints);
     absPath = fileinfo.absoluteDir().absolutePath();
 
     if ( !dir.exists(absPath) ) {
@@ -288,7 +288,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
         }
     }
 
-    fileinfo.setFile(filenamePowers);
+    fileinfo.setFile(fileNamePowers);
     absPath = fileinfo.absoluteDir().absolutePath();
 
     if ( !dir.exists(absPath) ) {
@@ -299,11 +299,11 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
         }
     }
 
-    if ( !dir.exists(dirnameReports) ) {
+    if ( !dir.exists(dirNameReports) ) {
 
-        if ( !dir.mkdir(dirnameReports) ) {
+        if ( !dir.mkdir(dirNameReports) ) {
 
-            throw ToxicError("Can not create directory " + dirnameReports);
+            throw ToxicError("Can not create directory " + dirNameReports);
         }
     }
 }

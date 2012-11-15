@@ -33,40 +33,40 @@ public:
 
     void readConfigFile(const QString &);
 
-    QString val_filenameSourceEU3() const { return filenameSourceEU3; }
-    QString val_filenameSourceEU0() const { return filenameSourceEU0; }
-    QString val_filenamePoints() const { return filenamePoints; }
-    QString val_filenamePowers() const { return filenamePowers; }
-    QString val_dirnameReports() const { return dirnameReports; }
-    double val_Dn() const { return Dn; }
-    double val_ConcO2air() const { return ConcO2air; }
-    double val_Rr() const { return Rr; }
-    double val_L0() const { return L0; }
-    double val_L() const { return L; }
-    double val_ConcCO2air() const { return ConcCO2air; }
-    double val_WH() const { return WH; }
-    double val_WO2() const { return WO2; }
-    double val_WN() const { return WN; }
-    double val_muNO2() const { return muNO2; }
-    double val_muCO() const { return muCO; }
-    double val_muCH() const { return muCH; }
+    QString valFileNameSourceEU3() const { return fileNameSourceEU3; }
+    QString valFileNameSourceEU0() const { return fileNameSourceEU0; }
+    QString valFileNamePoints()    const { return fileNamePoints;    }
+    QString valFileNamePowers()    const { return fileNamePowers;    }
+    QString valDirNameReports()    const { return dirNameReports;    }
+    double  valDn()                const { return Dn;                }
+    double  valConcO2air()         const { return concO2air;         }
+    double  valRr()                const { return Rr;                }
+    double  valL0()                const { return L0;                }
+    double  valL()                 const { return L;                 }
+    double  valConcCO2air()        const { return concCO2air;        }
+    double  valWH()                const { return WH;                }
+    double  valWO2()               const { return WO2;               }
+    double  valWN()                const { return WN;                }
+    double  valmuNO2()             const { return muNO2;             }
+    double  valmuCO()              const { return muCO;              }
+    double  valmuCH()              const { return muCH;              }
 
 private:
 
     CommonParameters(const CommonParameters &);
     void operator=(const CommonParameters &);
 
-    QString filenameSourceEU3;
-    QString filenameSourceEU0;
-    QString filenamePoints;
-    QString filenamePowers;
-    QString dirnameReports;
+    QString fileNameSourceEU3;
+    QString fileNameSourceEU0;
+    QString fileNamePoints;
+    QString fileNamePowers;
+    QString dirNameReports;
     double Dn;
-    double ConcO2air;
+    double concO2air;
     double Rr;
     double L0;
     double L;
-    double ConcCO2air;
+    double concCO2air;
     double WH;
     double WO2;
     double WN;

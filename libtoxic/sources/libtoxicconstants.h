@@ -24,7 +24,7 @@
 
 #include <QString>
 
-const QString LIBTOXICVERSION = "6.3.5";
+const QString LIBTOXICVERSION = "6.4.0";
 
 const QString PARAMETERVALUEDELIMITER = "=";
 const QString COMMENTPATTERN = "^//";
@@ -115,6 +115,7 @@ enum { NOXSAMPLE_WET,
 
 enum { PTCALC_THROUGHSMOKE,
        PTCALC_THROUGHPTMASS,
+       PTCALC_THROUGHSMOKEANDPTMASS,
        PTCALC_NO };
 
 enum { ADDPOINTSCALC_YES,

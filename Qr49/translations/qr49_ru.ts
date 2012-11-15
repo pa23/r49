@@ -1772,6 +1772,10 @@ p, li { white-space: pre-wrap; }
         <source>Only 7 columns can be printed at a time!</source>
         <translation>Только 7 столбцов могут быть распечатаны за один раз!</translation>
     </message>
+    <message>
+        <source>Through smoke values and PT mass</source>
+        <translation>Через знач. дымности и массу PT</translation>
+    </message>
 </context>
 <context>
     <name>NewVersions</name>
@@ -1830,10 +1834,6 @@ p, li { white-space: pre-wrap; }
         <translation>Каталог для результатов расчетов</translation>
     </message>
     <message>
-        <source>Reports</source>
-        <translation>Отчеты</translation>
-    </message>
-    <message>
         <source>...</source>
         <translation></translation>
     </message>
@@ -1846,28 +1846,12 @@ p, li { white-space: pre-wrap; }
         <translation>Расчет точек циклов EU3..EU6</translation>
     </message>
     <message>
-        <source>TempSourceData/SourceData1-EU3456.csv</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>TempSourceData/SourceData1-EU012-r96-GOST30574.csv</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Specific emissions calculation</source>
         <translation>Расчет удельных выбросов вредных веществ</translation>
     </message>
     <message>
-        <source>TempSourceData/SourceData2-CyclePoints.csv</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Reduced power calculation</source>
         <translation>Расчет приведенной мощности</translation>
-    </message>
-    <message>
-        <source>TempSourceData/SourceData3-FullLoadCurve.csv</source>
-        <translation></translation>
     </message>
     <message>
         <source>Air parameters</source>
@@ -1936,6 +1920,26 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>OST..EU2, r96**, GOST 30574 cycle points calc</source>
         <translation>Расчет точек циклов ОСТ..Евро-2, Правила 96**, ГОСТ 30574</translation>
+    </message>
+    <message>
+        <source>r49_Reports</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>r49_TempSourceData/SourceData1-EU3456.csv</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>r49_TempSourceData/SourceData2-CyclePoints.csv</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>r49_TempSourceData/SourceData3-FullLoadCurve.csv</source>
+        <translation></translation>
     </message>
 </context>
 <context>

@@ -61,11 +61,11 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params->valCalcConfigFile() != "_._") {
 
         try {
 
-            params->readCalcConfigFile(params->val_CalcConfigFile());
+            params->readCalcConfigFile(params->valCalcConfigFile());
         }
         catch(ToxicError &toxerr) {
 
@@ -79,7 +79,7 @@ CyclePoints::~CyclePoints() {
 
 void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     QString filenameSource = "";
 
@@ -90,11 +90,11 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
         if ( (std == STD_EU6) || (std == STD_EU5) ||
              (std == STD_EU4) || (std == STD_EU3) ) {
 
-            filenameSource = config->val_filenameSourceEU3();
+            filenameSource = config->valFileNameSourceEU3();
         }
         else {
 
-            filenameSource = config->val_filenameSourceEU0();
+            filenameSource = config->valFileNameSourceEU0();
         }
 
         QSharedPointer<csvRead>
@@ -243,8 +243,8 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
 void CyclePoints::fillArrays() {
 
-    ptrdiff_t std = params->val_Standard();
-    ptrdiff_t addpc = params->val_AddPointsCalc();
+    ptrdiff_t std = params->valStandard();
+    ptrdiff_t addpc = params->valAddPointsCalc();
 
     ptrdiff_t n = 0;
 
@@ -864,7 +864,7 @@ QString CyclePoints::createReport() const {
 
     QString message = "";
 
-    QString filenamePoints = config->val_filenamePoints();
+    QString filenamePoints = config->valFileNamePoints();
 
     QFile data1(filenamePoints);
 
@@ -887,14 +887,14 @@ QString CyclePoints::createReport() const {
           << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
           << "rd[-]"      << "\n";
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
 
     if ( (std == STD_EU6) || (std == STD_EU5) ||
          (std == STD_EU4) || (std == STD_EU3) ) {
 
-        if ( params->val_AddPointsCalc() == ADDPOINTSCALC_YES ) {
+        if ( params->valAddPointsCalc() == ADDPOINTSCALC_YES ) {
 
             n = TCYCLEPOINTSNUMBER;
         }

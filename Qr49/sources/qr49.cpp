@@ -427,7 +427,7 @@ void MainWindow::readPreferences() {
 
 void MainWindow::loadAllSourceData() {
 
-    QString filenameSourceEU0 = config->val_filenameSourceEU0();
+    QString filenameSourceEU0 = config->valFileNameSourceEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -447,7 +447,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenameSourceEU3 = config->val_filenameSourceEU3();
+    QString filenameSourceEU3 = config->valFileNameSourceEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -467,7 +467,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePoints = config->val_filenamePoints();
+    QString filenamePoints = config->valFileNamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -487,7 +487,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePowers = config->val_filenamePowers();
+    QString filenamePowers = config->valFileNamePowers();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -812,7 +812,7 @@ void MainWindow::on_action_DataImport_activated() {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config->valDirNameReports());
 
     QString anotherSourceFile(QFileDialog::getOpenFileName(
                                   this,
@@ -900,7 +900,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if ( table == ui->tableWidget_SrcDataEU0 ) {
 
-        QString filenameSourceEU0 = config->val_filenameSourceEU0();
+        QString filenameSourceEU0 = config->valFileNameSourceEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -924,7 +924,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
-        QString filenameSourceEU3 = config->val_filenameSourceEU3();
+        QString filenameSourceEU3 = config->valFileNameSourceEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -953,7 +953,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        QString filenamePoints = config->val_filenamePoints();
+        QString filenamePoints = config->valFileNamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -985,7 +985,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        QString filenamePowers = config->val_filenamePowers();
+        QString filenamePowers = config->valFileNamePowers();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1066,7 +1066,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config->valDirNameReports());
 
     QString anotherOptions(QFileDialog::getOpenFileName(
                                this,
@@ -1089,15 +1089,15 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
             return;
         }
 
-        ui->comboBox_task->setCurrentIndex(params->val_Task());
-        ui->lineEdit_Vh->setText(QString::number(params->val_Vh()));
-        ui->comboBox_standard->setCurrentIndex(params->val_Standard());
-        ui->comboBox_chargingType->setCurrentIndex(params->val_ChargingType());
-        ui->comboBox_FuelType->setCurrentIndex(params->val_FuelType());
-        ui->comboBox_NOxSample->setCurrentIndex(params->val_NOxSample());
-        ui->comboBox_PTcalc->setCurrentIndex(params->val_PTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(params->val_PTmass()));
-        ui->comboBox_AddPointsCalc->setCurrentIndex(params->val_AddPointsCalc());
+        ui->comboBox_task->setCurrentIndex(params->valTask());
+        ui->lineEdit_Vh->setText(QString::number(params->valVh()));
+        ui->comboBox_standard->setCurrentIndex(params->valStandard());
+        ui->comboBox_chargingType->setCurrentIndex(params->valChargingType());
+        ui->comboBox_FuelType->setCurrentIndex(params->valFuelType());
+        ui->comboBox_NOxSample->setCurrentIndex(params->valNOxSample());
+        ui->comboBox_PTcalc->setCurrentIndex(params->valPTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(params->valPTmass()));
+        ui->comboBox_AddPointsCalc->setCurrentIndex(params->valAddPointsCalc());
 
         taskChanged(ui->comboBox_task->currentIndex());
         standardChanged(ui->comboBox_standard->currentIndex());
@@ -1146,7 +1146,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
              << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
              << QString::number(ui->comboBox_AddPointsCalc->currentIndex()) << "\n"
              << "CalcConfigFile" << PARAMETERVALUEDELIMITER
-             << params->val_CalcConfigFile()                         << "\n";
+             << params->valCalcConfigFile()                         << "\n";
 
         savedOptions.close();
     }
@@ -1154,7 +1154,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    QString dir(config->val_dirnameReports());
+    QString dir(config->valDirNameReports());
 
     QString anotherReport(QFileDialog::getOpenFileName(
                               this,
@@ -1462,23 +1462,23 @@ void MainWindow::on_action_Preferences_activated() {
 
     //
 
-    myLineEdit_filenameSourceEU3->setText(config->val_filenameSourceEU3());
-    myLineEdit_filenameSourceEU0->setText(config->val_filenameSourceEU0());
-    myLineEdit_filenamePoints->setText(config->val_filenamePoints());
-    myLineEdit_filenamePowers->setText(config->val_filenamePowers());
-    myLineEdit_dirnameReports->setText(config->val_dirnameReports());
-    myDoubleSpinBox_Dn->setValue(config->val_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(config->val_ConcO2air());
-    myDoubleSpinBox_Rr->setValue(config->val_Rr());
-    myDoubleSpinBox_L0->setValue(config->val_L0());
-    myDoubleSpinBox_L->setValue(config->val_L());
-    myDoubleSpinBox_ConcCO2air->setValue(config->val_ConcCO2air());
-    myDoubleSpinBox_WH->setValue(config->val_WH());
-    myDoubleSpinBox_WO2->setValue(config->val_WO2());
-    myDoubleSpinBox_WN->setValue(config->val_WN());
-    myDoubleSpinBox_muNO2->setValue(config->val_muNO2());
-    myDoubleSpinBox_muCO->setValue(config->val_muCO());
-    myDoubleSpinBox_muCH->setValue(config->val_muCH());
+    myLineEdit_filenameSourceEU3->setText(config->valFileNameSourceEU3());
+    myLineEdit_filenameSourceEU0->setText(config->valFileNameSourceEU0());
+    myLineEdit_filenamePoints->setText(config->valFileNamePoints());
+    myLineEdit_filenamePowers->setText(config->valFileNamePowers());
+    myLineEdit_dirnameReports->setText(config->valDirNameReports());
+    myDoubleSpinBox_Dn->setValue(config->valDn());
+    myDoubleSpinBox_ConcO2air->setValue(config->valConcO2air());
+    myDoubleSpinBox_Rr->setValue(config->valRr());
+    myDoubleSpinBox_L0->setValue(config->valL0());
+    myDoubleSpinBox_L->setValue(config->valL());
+    myDoubleSpinBox_ConcCO2air->setValue(config->valConcCO2air());
+    myDoubleSpinBox_WH->setValue(config->valWH());
+    myDoubleSpinBox_WO2->setValue(config->valWO2());
+    myDoubleSpinBox_WN->setValue(config->valWN());
+    myDoubleSpinBox_muNO2->setValue(config->valmuNO2());
+    myDoubleSpinBox_muCO->setValue(config->valmuCO());
+    myDoubleSpinBox_muCH->setValue(config->valmuCH());
 
     //
 
@@ -1699,7 +1699,7 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        QString filenamePoints = config->val_filenamePoints();
+        QString filenamePoints = config->valFileNamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 

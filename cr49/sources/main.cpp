@@ -72,28 +72,28 @@ void ShowHelp() {
             "  task=TASK\t\tvariants of TASK:\n"
             "\t\t\tpoints       - for ESC points calculation;\n"
             "\t\t\temissions*   - for specific emissions calculation;\n"
-            "\t\t\tReducedPower - for reduce power calculation\n"
+            "\t\t\treducedPower - for reduce power calculation\n"
             "\t\t\t               (regulation 85);\n"
             "\t\t\tABCspeeds    - for A,B,C calculation;\n"
             "\t\t\thelp         - for show help.\n\n"
             "  Vh=VH\t\t\tvariants of VH:\n"
             "\t\t\tNumber - engine capacity, litres.\n\n"
             "  standard=STANDARD\tvariants of STANDARD:\n"
-            "\t\t\tEU6; EU5; EU4*; EU3; EU2; EU1; EU0; OST; GOST\n"
-            "\t\t\tr96E8; r96F8; r96G8; r96D8;\n"
-            "\t\t\tr96E5; r96F5; r96G5; r96D5;\n"
-            "\t\t\tr96H8; r96I8; r96J8; r96K8;\n"
-            "\t\t\tr96H5; r96I5; r96J5; r96K5;\n"
-            "\t\t\tC1; D1; D2; E1; E2; E3; E5;\n"
-            "\t\t\tF; G1; G2;\n"
-            "\t\t\tFreeCalc - free calculation without report and\n"
+            "\t\t\teu6; eu5; eu4*; eu3; eu2; eu1; eu0; ost; gost\n"
+            "\t\t\tr96e8; r96f8; r96g8; r96d8;\n"
+            "\t\t\tr96e5; r96f5; r96g5; r96d5;\n"
+            "\t\t\tr96h8; r96i8; r96j8; r96k8;\n"
+            "\t\t\tr96h5; r96i5; r96j5; r96k5;\n"
+            "\t\t\tc1; d1; d2; e1; e2; e3; e5;\n"
+            "\t\t\tf; g1; g2;\n"
+            "\t\t\tfreeCalc - free calculation without report and\n"
             "\t\t\t           limitation points number (adjusting\n"
             "\t\t\t           characteristics for example).\n\n"
-            "  ChargingType=CHARGINGTYPE\tvariants of CHARGINGTYPE:\n"
-            "\t\t\tNoOrMechanical - engine w/o charging or with\n"
+            "  chargingType=CHARGINGTYPE\tvariants of CHARGINGTYPE:\n"
+            "\t\t\tnoOrMechanical - engine w/o charging or with\n"
             "\t\t\t                 mechanical charging;\n"
-            "\t\t\tGasTurbine*    - engine with a gas turbine charging.\n\n"
-            "  FuelType=FUELTYPE\tvariants of FUELTYPE:\n"
+            "\t\t\tgasTurbine*    - engine with a gas turbine charging.\n\n"
+            "  fuelType=FUELTYPE\tvariants of FUELTYPE:\n"
             "\t\t\tdiesel* - if you use diesel fuel;\n"
             "\t\t\tmotor   - if you use motor fuel;\n"
             "\t\t\tmazut   - if you use mazut.\n\n"
@@ -101,18 +101,21 @@ void ShowHelp() {
             "\t\t\twet* - if your measurements based on wet sample;\n"
             "\t\t\tdry  - if your measurements based on dry sample.\n\n"
             "  PTcalc=PTCALC\t\tvariants of PTCALC:\n"
-            "\t\t\tThroughSmoke  - for calculate specific PT emissions\n"
-            "\t\t\t                through smoke measurements;\n"
-            "\t\t\tThroughPTmass - for calculate specific PT emissions\n"
-            "\t\t\t                through PT mass;\n"
-            "\t\t\tno*           - if you don't need PT calculation.\n\n"
+            "\t\tthroughSmoke          - for calculate specific PT emissions\n"
+            "\t\t                        through smoke measurements;\n"
+            "\t\tthroughPTmass         - for calculate specific PT emissions\n"
+            "\t\t                        through PT mass;\n"
+            "\t\tthroughSmokeAndPTmass - for calculate specific PT emissions\n"
+            "\t\t                        through PT mass and through smoke\n"
+            "\t\t                        measurements;\n"
+            "\t\tno*                   - if you don't need PT calculation.\n\n"
             "  PTmass=PTMASS\t\tvariants of PTMASS:\n"
             "\t\t\tNumber - total PT mass on all filters, mg.\n\n"
-            "  AddPointsCalc=ADDPOINTSCALC\tvariants of ADDPOINTSCALC:\n"
+            "  addPointsCalc=ADDPOINTSCALC\tvariants of ADDPOINTSCALC:\n"
             "\t\t\tyes - if you want calculate additional points;\n"
             "\t\t\tno* - if you don't need additional points.\n\n"
-            "  CalcConfigFile=CALCCONFIGFILE\tvariants of CALCCONFIGFILE:\n"
-            "\t\t\tCalcConfigFile - if you want get calculation settings\n"
+            "  calcConfigFile=CALCCONFIGFILE\tvariants of CALCCONFIGFILE:\n"
+            "\t\t\tcalcConfigFile - if you want get calculation settings\n"
             "\t\t\t                 from another file.\n\n"
             "  * - default values.\n\n";
 
@@ -142,11 +145,11 @@ void ShowHelp() {
             "\t   speeds of additional points.\n"
             "\t2. Define powers from full load curve for calculated speeds.\n"
             "\t3. Edit \"SourceData1-EU3456.csv\" file.\n"
-            "\t4. Run \"cr49 task=points standard=EU3\" to generate\n"
+            "\t4. Run \"cr49 task=points standard=eu3\" to generate\n"
             "\t   \"SourceData2-CyclePoints.csv\" file.\n"
             "\t5. Edit \"SourceData2-CyclePoints.csv\" file.\n"
-            "\t6. Run \"cr49 task=emissions standard=EU3 NOxSample=wet\n"
-            "\t   AddPointsCalc=yes\" to calculate emissions and generate\n"
+            "\t6. Run \"cr49 task=emissions standard=eu3 NOxSample=wet\n"
+            "\t   addPointsCalc=yes\" to calculate emissions and generate\n"
             "\t   report files.\n\n";
 }
 
@@ -190,11 +193,11 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
 
             params->setStandard(value);
         }
-        else if ( param == "ChargingType" ) {
+        else if ( param == "chargingType" ) {
 
             params->setChargingType(value);
         }
-        else if ( param == "FuelType" ) {
+        else if ( param == "fuelType" ) {
 
             params->setFuelType(value);
         }
@@ -222,11 +225,11 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
                 return false;
             }
         }
-        else if ( param == "AddPointsCalc" ) {
+        else if ( param == "addPointsCalc" ) {
 
             params->setAddPointsCalc(value);
         }
-        else if ( param == "CalcConfigFile" ) {
+        else if ( param == "calcConfigFile" ) {
 
             params->setCalcConfigFile(value);
         }
@@ -258,7 +261,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        ptrdiff_t currtask = params->val_Task();
+        ptrdiff_t currtask = params->valTask();
 
         if ( currtask == TASK_ABCSPEEDS ) {
 

@@ -24,10 +24,10 @@
 
 #include <QString>
 
-double val_NOxLimit(ptrdiff_t, double n_rated=0);
-double val_COLimit(ptrdiff_t);
-double val_CHLimit(ptrdiff_t);
-double val_PTLimit(ptrdiff_t);
-double val_NOxCHLimit(ptrdiff_t);
+double valNOxLimit(ptrdiff_t, double n_rated=0);
+double valCOLimit(ptrdiff_t);
+double valCHLimit(ptrdiff_t);
+double valPTLimit(ptrdiff_t);
+double valNOxCHLimit(ptrdiff_t);
 
 #endif /* EMISSIONLIMITS_H */

@@ -62,11 +62,11 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
     params = prms; // calculatin settings
     config = cfg;  // r49.cong file
 
-    if (params->val_CalcConfigFile() != "_._") {
+    if (params->valCalcConfigFile() != "_._") {
 
         try {
 
-            params->readCalcConfigFile(params->val_CalcConfigFile());
+            params->readCalcConfigFile(params->valCalcConfigFile());
         }
         catch(ToxicError &toxerr) {
 
@@ -82,7 +82,7 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePoints = config->val_filenamePoints();
+        QString filenamePoints = config->valFileNamePoints();
 
         QSharedPointer<csvRead>
                 readerDataForCalc(
@@ -117,8 +117,8 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     NumberOfPoints = array_DataForCalc.size();
 
-    ptrdiff_t std = params->val_Standard();
-    ptrdiff_t addpc = params->val_AddPointsCalc();
+    ptrdiff_t std = params->valStandard();
+    ptrdiff_t addpc = params->valAddPointsCalc();
 
     if (
             (
@@ -325,6 +325,8 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         array_rd       [i] = array_DataForCalc[i][27];
     }
 
+    //
+
     mytime = QDateTime::currentDateTime().toString("dd-MM-yyyy_hh-mm-ss");
 
     //
@@ -432,7 +434,8 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
         CheckMeas = false;
     }
 
-    if ( params->val_PTcalc() != PTCALC_NO ) {
+    if ( params->valPTcalc() == PTCALC_THROUGHSMOKE ||
+         params->valPTcalc() == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
         if ( !nonZeroArray(array_Pr) || !nonZeroArray(array_ts) ||
              ( !nonZeroArray(array_Ka1m) &&
@@ -443,27 +446,28 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                              "\"Ka1m\", \"KaPerc\", \"FSN\" "
                              "must contain nonzero data!");
         }
+    }
 
-        if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
+    if ( params->valPTcalc() == PTCALC_THROUGHPTMASS ||
+         params->valPTcalc() == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
-                 ( !nonZeroArray(array_qmdw) &&
-                   !nonZeroArray(array_rd) ) ) {
+        if ( !nonZeroArray(array_tauf) || !nonZeroArray(array_qmdew) ||
+             ( !nonZeroArray(array_qmdw) &&
+               !nonZeroArray(array_rd) ) ) {
 
-                throw ToxicError("Arrays \"tauf\", \"qmdew\" "
-                                 "and any of the arrays "
-                                 "\"qmdw\", \"rd\" "
-                                 "must contain nonzero data!");
-            }
+            throw ToxicError("Arrays \"tauf\", \"qmdew\" "
+                             "and any of the arrays "
+                             "\"qmdw\", \"rd\" "
+                             "must contain nonzero data!");
+        }
 
-            if ( nonZeroArray(array_qmdw) ) {
+        if ( nonZeroArray(array_qmdw) ) {
 
-                qmdwVSrd = true;
-            }
-            else if ( nonZeroArray(array_rd) ) {
+            qmdwVSrd = true;
+        }
+        else if ( nonZeroArray(array_rd) ) {
 
-                qmdwVSrd = false;
-            }
+            qmdwVSrd = false;
         }
     }
 
@@ -487,7 +491,7 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
 void CycleEmissions::calculate() {
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     try {
 
@@ -496,7 +500,7 @@ void CycleEmissions::calculate() {
 
         if ( ( (std == STD_EU6) || (std == STD_EU5) ||
                (std == STD_EU4) || (std == STD_EU3) ) &&
-             (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) &&
+             (params->valAddPointsCalc() == ADDPOINTSCALC_YES) &&
              (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
 
             calculateAdditionalPoints();
@@ -540,12 +544,12 @@ void CycleEmissions::preCalculate() {
     array_fa.clear();       array_fa.resize(NumberOfPoints);
     array_ge.clear();       array_ge.resize(NumberOfPoints);
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
-    double L0    = config->val_L0();
-    double WH    = config->val_WH();
-    double WO2   = config->val_WO2();
-    double WN    = config->val_WN();
+    double L0    = config->valL0();
+    double WH    = config->valWH();
+    double WO2   = config->valWO2();
+    double WN    = config->valWN();
 
     double Ffw = 0;
     double Ffd = 0;
@@ -555,7 +559,7 @@ void CycleEmissions::preCalculate() {
          (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        ptrdiff_t FuelType = params->val_FuelType();
+        ptrdiff_t FuelType = params->valFuelType();
 
         if ( FuelType == FUELTYPE_DIESEL ) {
 
@@ -605,7 +609,7 @@ void CycleEmissions::preCalculate() {
 
         if ( !GairVals ) {
 
-            double Dn = config->val_Dn();
+            double Dn = config->valDn();
 
             if ( Dn < 1 ) {
 
@@ -620,7 +624,7 @@ void CycleEmissions::preCalculate() {
 
         if ( CheckMeas ) {
 
-            double ConcO2air = config->val_ConcO2air();
+            double ConcO2air = config->valConcO2air();
 
             if ( ConcO2air < 1 ) {
 
@@ -762,13 +766,13 @@ void CycleEmissions::preCalculate() {
             }
         }
 
-        if ( params->val_ChargingType() == CHARGINGTYPE_NO ) {
+        if ( params->valChargingType() == CHARGINGTYPE_NO ) {
 
             array_fa[i] = ( 99.0 / (array_Pb[i] - array_Ra[i] *
                                     array_Pa[i] * 0.01) ) *
                     pow( (array_t0[i] + 273.0) / 298, 0.7 );
         }
-        else if ( params->val_ChargingType() ==
+        else if ( params->valChargingType() ==
                   CHARGINGTYPE_GASTURBINE ) {
 
             array_fa[i] = pow( 99.0 / (array_Pb[i] - array_Ra[i] *
@@ -788,14 +792,14 @@ void CycleEmissions::calculate_gNOx() {
 
     array_mNOx.clear(); array_mNOx.resize(NumberOfPoints);
 
-    double muNO2 = config->val_muNO2();
+    double muNO2 = config->valmuNO2();
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
            (std == STD_EU3) ) &&
-         (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+         (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -812,7 +816,7 @@ void CycleEmissions::calculate_gNOx() {
         double summ_numerator = 0;
         double summ_denominator = 0;
 
-        if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+        if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
             for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -845,7 +849,7 @@ void CycleEmissions::calculate_gNOx() {
 
         if ( NOxCalcMethod ) {
 
-            if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+            if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
                 for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -890,7 +894,7 @@ void CycleEmissions::calculate_gNOx() {
         }
         else if ( !NOxCalcMethod ) {
 
-            if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+            if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
                 for ( ptrdiff_t i=0; i<n; i++ ) {
 
@@ -961,12 +965,12 @@ void CycleEmissions::calculateAdditionalPoints() {
      *            nrt       nus
      */
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     for ( ptrdiff_t i=(NumberOfPoints - TCYCLEADDPOINTSNUMBER);
           i<NumberOfPoints; i++ ) {
 
-        if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+        if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
             if ( std == STD_OST ) {
 
@@ -1081,14 +1085,14 @@ void CycleEmissions::calculate_gCO() {
     array_mCO.clear(); array_mCO.resize(NumberOfPoints);
     array_gCO.clear(); array_gCO.resize(NumberOfPoints);
 
-    double muCO = config->val_muCO();
+    double muCO = config->valmuCO();
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
            (std == STD_EU3) ) &&
-         (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+         (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1142,14 +1146,14 @@ void CycleEmissions::calculate_gCH() {
     array_mCH.clear(); array_mCH.resize(NumberOfPoints);
     array_gCH.clear(); array_gCH.resize(NumberOfPoints);
 
-    double muCH = config->val_muCH();
+    double muCH = config->valmuCH();
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
            (std == STD_EU3) ) &&
-         (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+         (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1208,7 +1212,7 @@ void CycleEmissions::calculate_gCH() {
 
 void CycleEmissions::calculate_gPT() {
 
-    mf = params->val_PTmass();
+    mf = params->valPTmass();
 
     array_ror.clear();   array_ror.resize(NumberOfPoints);
     array_CPT.clear();   array_CPT.resize(NumberOfPoints);
@@ -1217,9 +1221,10 @@ void CycleEmissions::calculate_gPT() {
     array_mPT.clear();   array_mPT.resize(NumberOfPoints);
     array_gPT.clear();   array_gPT.resize(NumberOfPoints);
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
+    ptrdiff_t ptclc = params->valPTcalc();
 
-    if ( (params->val_PTcalc() != PTCALC_NO) &&
+    if ( (ptclc != PTCALC_NO) &&
          ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
            (std != STD_C1)  && (std != STD_D1)   && (std != STD_D2)  &&
            (std != STD_E1)  && (std != STD_E2)   && (std != STD_E3)  &&
@@ -1229,7 +1234,7 @@ void CycleEmissions::calculate_gPT() {
         ptrdiff_t n = 0;
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
                (std == STD_EU3) ) &&
-             (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+             (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
@@ -1238,67 +1243,74 @@ void CycleEmissions::calculate_gPT() {
             n = NumberOfPoints;
         }
 
-        double L = config->val_L();
-        double Rr = config->val_Rr();
+        double L = config->valL();
+        double Rr = config->valRr();
 
         double summ_mPT = 0;
         double summ_Ne_netto = 0;
 
-        for ( ptrdiff_t i=0; i<n; i++ ) {
+        if ( ptclc == PTCALC_THROUGHSMOKE ||
+             ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            if ( smoke == 0 ) {
+            for ( ptrdiff_t i=0; i<n; i++ ) {
 
-                array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
-                array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
-                        (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
-                        (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
-                        (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
-                        (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
-                        (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
-                        (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
-                        (0.0020088)             * pow(array_KaPerc[i], 3.0)+
-                        (-0.028758)             * pow(array_KaPerc[i], 2.0)+
-                        (0.26502)               * pow(array_KaPerc[i], 1.0)+
-                        (0.0087517)             * pow(array_KaPerc[i], 0.0);
+                if ( smoke == 0 ) {
+
+                    array_KaPerc[i] = Ka1m2KaPerc(array_Ka1m[i], L);
+                    array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
+                            (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
+                            (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
+                            (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
+                            (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
+                            (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
+                            (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
+                            (0.0020088)             * pow(array_KaPerc[i], 3.0)+
+                            (-0.028758)             * pow(array_KaPerc[i], 2.0)+
+                            (0.26502)               * pow(array_KaPerc[i], 1.0)+
+                            (0.0087517)             * pow(array_KaPerc[i], 0.0);
+                }
+                else if (smoke == 1) {
+
+                    array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
+                            (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
+                            (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
+                            (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
+                            (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
+                            (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
+                            (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
+                            (0.0020088)             * pow(array_KaPerc[i], 3.0)+
+                            (-0.028758)             * pow(array_KaPerc[i], 2.0)+
+                            (0.26502)               * pow(array_KaPerc[i], 1.0)+
+                            (0.0087517)             * pow(array_KaPerc[i], 0.0);
+                }
+
+                array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr /
+                        (array_ts[i] + 273.0);
+
+                array_CPT[i] = (-184.0 * array_FSN[i] - 727.5) *
+                        log10(1.0 - array_FSN[i] / 10.0);
+
+                array_mPT[i] = array_CPT[i] *
+                        array_Gexh[i] / array_ror[i] / 1000.0;
+                array_gPT[i] = array_mPT[i] / array_Ne_netto[i];
+
+                summ_mPT += array_mPT[i] * array_w[i];
+                summ_Ne_netto += array_Ne_netto[i] * array_w[i];
             }
-            else if (smoke == 1) {
 
-                array_FSN[i] = (6.6527E-017)    * pow(array_KaPerc[i],10.0)+
-                        (-0.000000000000026602) * pow(array_KaPerc[i], 9.0)+
-                        (0.0000000000040987)    * pow(array_KaPerc[i], 8.0)+
-                        (-0.00000000026927)     * pow(array_KaPerc[i], 7.0)+
-                        (0.00000000040933)      * pow(array_KaPerc[i], 6.0)+
-                        (0.0000010658)          * pow(array_KaPerc[i], 5.0)+
-                        (-0.000069165)          * pow(array_KaPerc[i], 4.0)+
-                        (0.0020088)             * pow(array_KaPerc[i], 3.0)+
-                        (-0.028758)             * pow(array_KaPerc[i], 2.0)+
-                        (0.26502)               * pow(array_KaPerc[i], 1.0)+
-                        (0.0087517)             * pow(array_KaPerc[i], 0.0);
-            }
+            gPTs = summ_mPT / summ_Ne_netto;
 
-            array_ror[i] = (array_Pb[i] + array_Pr[i]) * 1000.0 / Rr /
-                    (array_ts[i] + 273.0);
-
-            array_CPT[i] = (-184.0 * array_FSN[i] - 727.5) *
-                    log10(1.0 - array_FSN[i] / 10.0);
-
-            array_mPT[i] = array_CPT[i] * array_Gexh[i] / array_ror[i] / 1000.0;
-            array_gPT[i] = array_mPT[i] / array_Ne_netto[i];
-
-            summ_mPT += array_mPT[i] * array_w[i];
-            summ_Ne_netto += array_Ne_netto[i] * array_w[i];
+            summ_mPT = 0;
+            summ_Ne_netto = 0;
         }
 
-        gPTs = summ_mPT / summ_Ne_netto;
-
-        summ_mPT = 0;
-        summ_Ne_netto = 0;
-
-        if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
+        if ( ptclc == PTCALC_THROUGHPTMASS ||
+             ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
             if ( mf == 0 ) {
 
-                throw ToxicError("Wrong \"gPT\" parameter!");
+                throw ToxicError("Wrong \"gPT\" or "
+                                 "incorrect \"mf\" parameter!");
             }
 
             if ( qmdwVSrd ) {
@@ -1343,7 +1355,7 @@ void CycleEmissions::calculate_rEGR() {
     array_rEGR.clear();      array_rEGR.resize(NumberOfPoints);
     array_alpha_res.clear(); array_alpha_res.resize(NumberOfPoints);
 
-    double CCO2air = config->val_ConcCO2air();
+    double CCO2air = config->valConcCO2air();
 
     if ( EGRcalc ) {
 
@@ -1370,12 +1382,12 @@ void CycleEmissions::calculate_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
            (std == STD_EU3) ) &&
-         (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+         (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
         n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
     }
@@ -1410,7 +1422,7 @@ void CycleEmissions::compareAlpha() {
         if ( EGRcalc ) {
 
             double ConcO2mix = 0;
-            double ConcO2air = config->val_ConcO2air();
+            double ConcO2air = config->valConcO2air();
 
             if ( ConcO2air < 1 ) {
 
@@ -1482,16 +1494,18 @@ QString CycleEmissions::results() const {
         message += "gCH = " + QString::number(gCH) + " g/kWh\n";
     }
 
-    ptrdiff_t ptcalc = params->val_PTcalc();
+    ptrdiff_t ptclc = params->valPTcalc();
 
-    if ( ptcalc != PTCALC_NO ) {
-
-        if ( ptcalc == PTCALC_THROUGHPTMASS ) {
-
-            message += "gPT = " + QString::number(gPT) + " g/kWh\n";
-        }
+    if ( ptclc == PTCALC_THROUGHSMOKE ||
+         ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
         message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
+    }
+
+    if ( ptclc == PTCALC_THROUGHPTMASS ||
+         ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+
+        message += "gPT = " + QString::number(gPT) + " g/kWh\n";
     }
 
     message += "\n" + testcondres + "\n";
@@ -1515,9 +1529,10 @@ QString CycleEmissions::createReports() {
         testcondres = "Check test conditions: FAILED.";
     }
 
-    ptrdiff_t std = params->val_Standard();
+    ptrdiff_t std = params->valStandard();
+    ptrdiff_t ptclc = params->valPTcalc();
 
-    QString dirnameReports = config->val_dirnameReports();
+    QString dirnameReports = config->valDirNameReports();
 
     fullReportsPath = dirnameReports + QDir::separator() +
             params->defStandardName(std) + "_" + mytime;
@@ -1703,7 +1718,8 @@ QString CycleEmissions::createReports() {
 
     if ( std != STD_FREECALC ) {
 
-        if ( (params->val_PTcalc() == PTCALC_THROUGHPTMASS) &&
+        if ( (ptclc == PTCALC_THROUGHPTMASS ||
+              ptclc == PTCALC_THROUGHSMOKEANDPTMASS) &&
              ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
                (std != STD_C1)  && (std != STD_D1)   && (std != STD_D2)  &&
                (std != STD_E1)  && (std != STD_E2)   && (std != STD_E3)  &&
@@ -1756,14 +1772,14 @@ QString CycleEmissions::createReports() {
             if ( !GairVals ) {
 
                 fout6 << "Gair meas by nozzle (Dn = "
-                      << config->val_Dn() << "); ";
+                      << config->valDn() << "); ";
             }
             else {
 
                 fout6 << "direct Gair meas; ";
             }
 
-            if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+            if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
                 fout6 << "NOxSample type is dry; ";
             }
@@ -1772,27 +1788,16 @@ QString CycleEmissions::createReports() {
                 fout6 << "NOxSample type is wet; ";
             }
 
-            if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
-
-                fout6 << qSetRealNumberPrecision(PRECISION+1)
-                      << "PT calc method is PT mass based (mf = " << mf
-                      << " mg);\n";
-            }
-            else if ( params->val_PTcalc() == PTCALC_NO ) {
-
-                fout6 << "PT was not calculated;\n";
-            }
-            else {
-
-                fout6 << "PT calc method is smoke meas based;\n";
-            }
+            fout6 << qSetRealNumberPrecision(PRECISION+1)
+                  << "PT calc method is PT mass based (mf = " << mf
+                  << " mg);\n";
 
             if ( CheckMeas ) {
 
                 fout6 << qSetRealNumberPrecision(PRECISION)
                       << "                         "
                       << "concentrations meas checked (conc O2air = "
-                      << config->val_ConcO2air() << " %)";
+                      << config->valConcO2air() << " %)";
             }
             else {
 
@@ -1819,7 +1824,7 @@ QString CycleEmissions::createReports() {
             ptrdiff_t n = 0;
             if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
                    (std == STD_EU3) ) &&
-                 (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+                 (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
                 n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
             }
@@ -1892,7 +1897,7 @@ QString CycleEmissions::createReports() {
                   << qSetFieldWidth(0) << "\n";
 
             double gPTLimit = 0;
-            gPTLimit = val_PTLimit(std);
+            gPTLimit = valPTLimit(std);
 
             fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
@@ -1981,7 +1986,7 @@ QString CycleEmissions::createReports() {
 
         if ( !GairVals ) {
 
-            fout5 << "Gair meas by nozzle (Dn = " << config->val_Dn()
+            fout5 << "Gair meas by nozzle (Dn = " << config->valDn()
                   << "); ";
         }
         else {
@@ -1989,7 +1994,7 @@ QString CycleEmissions::createReports() {
             fout5 << "direct Gair meas; ";
         }
 
-        if ( params->val_NOxSample() == NOXSAMPLE_DRY ) {
+        if ( params->valNOxSample() == NOXSAMPLE_DRY ) {
 
             fout5 << "NOxSample type is dry; ";
         }
@@ -1998,19 +2003,25 @@ QString CycleEmissions::createReports() {
             fout5 << "NOxSample type is wet; ";
         }
 
-        if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
+        if ( ptclc == PTCALC_THROUGHSMOKE ) {
+
+            fout5 << "PT calc method based on smoke values;\n";
+        }
+        else if ( ptclc == PTCALC_THROUGHPTMASS ) {
 
             fout5 << qSetRealNumberPrecision(PRECISION+1)
-                  << "PT calc method is PT mass based (mf = " << mf
+                  << "PT calc method based on PT mass (mf = " << mf
                   << " mg);\n";
         }
-        else if ( params->val_PTcalc() == PTCALC_NO ) {
+        else if ( ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            fout5 << "PT was not calculated;\n";
+            fout5 << qSetRealNumberPrecision(PRECISION+1)
+                  << "PT calc method based on PT mass (mf = " << mf
+                  << " mg) and smoke values;\n";
         }
         else {
 
-            fout5 << "PT calc method is smoke meas based;\n";
+            fout5 << "PT emissions were not calculated;\n";
         }
 
         if ( CheckMeas ) {
@@ -2018,7 +2029,7 @@ QString CycleEmissions::createReports() {
             fout5 << qSetRealNumberPrecision(PRECISION)
                   << "                         "
                   << "concentrations meas checked (conc O2air = "
-                  << config->val_ConcO2air() << " %)";
+                  << config->valConcO2air() << " %)";
         }
         else {
 
@@ -2054,7 +2065,7 @@ QString CycleEmissions::createReports() {
         ptrdiff_t n = 0;
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
                (std == STD_EU3) ) &&
-             (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+             (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             n = NumberOfPoints - TCYCLEADDPOINTSNUMBER;
         }
@@ -2132,7 +2143,7 @@ QString CycleEmissions::createReports() {
                 if ( gCHcalc ) { fout5 << "mCH[g/h]" << "gCH[g/kWh]"; }
             }
 
-            if ( params->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
+            if ( ptclc == PTCALC_THROUGHSMOKE ) {
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                      (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
@@ -2172,7 +2183,7 @@ QString CycleEmissions::createReports() {
                     if ( gCHcalc ) { fout5 << array_mCH[i] << array_gCH[i]; }
                 }
 
-                if ( params->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
+                if ( ptclc == PTCALC_THROUGHSMOKE ) {
 
                     if ( (std != STD_C1) && (std != STD_D1) &&
                          (std != STD_D2) && (std != STD_E1) &&
@@ -2216,7 +2227,7 @@ QString CycleEmissions::createReports() {
                 if ( gCHcalc ) { fout5 << "mCH[g/h]"; }
             }
 
-            if ( params->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
+            if ( ptclc == PTCALC_THROUGHSMOKE ) {
 
                 if ( (std != STD_C1) && (std != STD_D1) && (std != STD_D2) &&
                      (std != STD_E1) && (std != STD_E2) && (std != STD_E3) &&
@@ -2259,7 +2270,7 @@ QString CycleEmissions::createReports() {
                     if ( gCHcalc ) { fout5 << array_mCH[i]; }
                 }
 
-                if ( params->val_PTcalc() == PTCALC_THROUGHSMOKE ) {
+                if ( ptclc == PTCALC_THROUGHSMOKE ) {
 
                     if ( (std != STD_C1) && (std != STD_D1) &&
                          (std != STD_D2) && (std != STD_E1) &&
@@ -2293,7 +2304,7 @@ QString CycleEmissions::createReports() {
 
         if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
                (std == STD_EU3) ) &&
-             (params->val_AddPointsCalc() == ADDPOINTSCALC_YES) ) {
+             (params->valAddPointsCalc() == ADDPOINTSCALC_YES) ) {
 
             fout5 << "Additional points:\n\n";
 
@@ -2394,9 +2405,9 @@ QString CycleEmissions::createReports() {
              (std == STD_R96K8) || (std == STD_R96H5) || (std == STD_R96I5) ||
              (std == STD_R96J5) || (std == STD_R96K5) ) {
 
-            gNOxCHLimit = val_NOxCHLimit(std);
-            gCOLimit = val_COLimit(std);
-            gPTLimit = val_PTLimit(std);
+            gNOxCHLimit = valNOxCHLimit(std);
+            gCOLimit = valCOLimit(std);
+            gPTLimit = valPTLimit(std);
 
             fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx+gCH[g/kWh]";
 
@@ -2453,63 +2464,63 @@ QString CycleEmissions::createReports() {
 
                 ptrdiff_t std1 = std + 20; // old
 
-                gNOxLimit1 = val_NOxLimit(std1);
-                gCOLimit1 = val_COLimit(std1);
-                gCHLimit1 = val_CHLimit(std1);
+                gNOxLimit1 = valNOxLimit(std1);
+                gCOLimit1 = valCOLimit(std1);
+                gCHLimit1 = valCHLimit(std1);
 
                 ptrdiff_t std2 = std + 10; // new
 
-                gNOxLimit2 = val_NOxLimit(std2);
-                gCOLimit2 = val_COLimit(std2);
-                gCHLimit2 = val_CHLimit(std2);
+                gNOxLimit2 = valNOxLimit(std2);
+                gCOLimit2 = valCOLimit(std2);
+                gCHLimit2 = valCHLimit(std2);
             }
             else if ( (std == STD_E1) || (std == STD_E2) ||
                       (std == STD_E3) || (std == STD_E5) ) {
 
                 ptrdiff_t std1 = std + 20; // old
 
-                gNOxLimit1 = val_NOxLimit(std1, array_n[0]);
-                gCOLimit1 = val_COLimit(std1);
-                gCHLimit1 = val_CHLimit(std1);
+                gNOxLimit1 = valNOxLimit(std1, array_n[0]);
+                gCOLimit1 = valCOLimit(std1);
+                gCHLimit1 = valCHLimit(std1);
 
                 ptrdiff_t std2 = std + 10; // new
 
-                gNOxLimit2 = val_NOxLimit(std2, array_n[0]);
-                gCOLimit2 = val_COLimit(std2);
-                gCHLimit2 = val_CHLimit(std2);
+                gNOxLimit2 = valNOxLimit(std2, array_n[0]);
+                gCOLimit2 = valCOLimit(std2);
+                gCHLimit2 = valCHLimit(std2);
             }
             else if (std == STD_GOST) {
 
                 ptrdiff_t std1 = std + 30; // ou
 
-                gNOxLimit1 = val_NOxLimit(std1);
-                gCOLimit1 = val_COLimit(std1);
-                gCHLimit1 = val_CHLimit(std1);
+                gNOxLimit1 = valNOxLimit(std1);
+                gCOLimit1 = valCOLimit(std1);
+                gCHLimit1 = valCHLimit(std1);
 
                 ptrdiff_t std2 = std + 40; // ol
 
-                gNOxLimit2 = val_NOxLimit(std2);
-                gCOLimit2 = val_COLimit(std2);
-                gCHLimit2 = val_CHLimit(std2);
+                gNOxLimit2 = valNOxLimit(std2);
+                gCOLimit2 = valCOLimit(std2);
+                gCHLimit2 = valCHLimit(std2);
 
                 ptrdiff_t std3 = std + 10; // nu
 
-                gNOxLimit3 = val_NOxLimit(std3);
-                gCOLimit3 = val_COLimit(std3);
-                gCHLimit3 = val_CHLimit(std3);
+                gNOxLimit3 = valNOxLimit(std3);
+                gCOLimit3 = valCOLimit(std3);
+                gCHLimit3 = valCHLimit(std3);
 
                 ptrdiff_t std4 = std + 20; // nl
 
-                gNOxLimit4 = val_NOxLimit(std4);
-                gCOLimit4 = val_COLimit(std4);
-                gCHLimit4 = val_CHLimit(std4);
+                gNOxLimit4 = valNOxLimit(std4);
+                gCOLimit4 = valCOLimit(std4);
+                gCHLimit4 = valCHLimit(std4);
             }
             else {
 
-                gNOxLimit = val_NOxLimit(std);
-                gCOLimit = val_COLimit(std);
-                gCHLimit = val_CHLimit(std);
-                gPTLimit = val_PTLimit(std);
+                gNOxLimit = valNOxLimit(std);
+                gCOLimit = valCOLimit(std);
+                gCHLimit = valCHLimit(std);
+                gPTLimit = valPTLimit(std);
             }
 
             fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gNOx[g/kWh]";
@@ -2639,7 +2650,7 @@ QString CycleEmissions::createReports() {
             }
         }
 
-        if ( (params->val_PTcalc() != PTCALC_NO) &&
+        if ( (ptclc != PTCALC_NO) &&
              ( (std != STD_GOST) && (std != STD_OST) &&
                (std != STD_EU0)  && (std != STD_C1)  &&
                (std != STD_D1)   && (std != STD_D2)  &&
@@ -2648,7 +2659,8 @@ QString CycleEmissions::createReports() {
                (std != STD_F)    && (std != STD_G1)  &&
                (std != STD_G2) ) ) {
 
-            if ( params->val_PTcalc() == PTCALC_THROUGHPTMASS ) {
+            if ( ptclc == PTCALC_THROUGHPTMASS ||
+                 ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
                 fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
@@ -2667,11 +2679,15 @@ QString CycleEmissions::createReports() {
                 }
             }
 
-            fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+            if ( ptclc == PTCALC_THROUGHSMOKE ||
+                 ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            fout5 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
-                  << gPTs
-                  << qSetFieldWidth(0) << "\n";
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+
+                fout5 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                      << gPTs
+                      << qSetFieldWidth(0) << "\n";
+            }
         }
 
         fout5 << "\n";
@@ -2702,25 +2718,25 @@ QString CycleEmissions::createReports() {
     QTextStream fout7(&data7);
 
     fout7 << "task"           << PARAMETERVALUEDELIMITER
-          << params->val_Task()           << "\n"
+          << params->valTask()           << "\n"
           << "Vh"             << PARAMETERVALUEDELIMITER
-          << params->val_Vh() <<             "\n"
+          << params->valVh() <<             "\n"
           << "standard"       << PARAMETERVALUEDELIMITER
-          << params->val_Standard()       << "\n"
-          << "ChargingType"   << PARAMETERVALUEDELIMITER
-          << params->val_ChargingType()   << "\n"
-          << "FuelType"       << PARAMETERVALUEDELIMITER
-          << params->val_FuelType()       << "\n"
+          << params->valStandard()       << "\n"
+          << "chargingType"   << PARAMETERVALUEDELIMITER
+          << params->valChargingType()   << "\n"
+          << "fuelType"       << PARAMETERVALUEDELIMITER
+          << params->valFuelType()       << "\n"
           << "NOxSample"      << PARAMETERVALUEDELIMITER
-          << params->val_NOxSample()      << "\n"
+          << params->valNOxSample()      << "\n"
           << "PTcalc"         << PARAMETERVALUEDELIMITER
-          << params->val_PTcalc()         << "\n"
+          << params->valPTcalc()         << "\n"
           << "PTmass"         << PARAMETERVALUEDELIMITER
-          << params->val_PTmass()         << "\n"
-          << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
-          << params->val_AddPointsCalc()  << "\n"
-          << "CalcConfigFile" << PARAMETERVALUEDELIMITER
-          << params->val_CalcConfigFile() << "\n";
+          << params->valPTmass()         << "\n"
+          << "addPointsCalc"  << PARAMETERVALUEDELIMITER
+          << params->valAddPointsCalc()  << "\n"
+          << "calcConfigFile" << PARAMETERVALUEDELIMITER
+          << params->valCalcConfigFile() << "\n";
 
     data7.close();
 
@@ -2743,14 +2759,14 @@ QString CycleEmissions::createReports() {
             message += "gCH = " + QString::number(gCH) + " g/kWh\n";
         }
 
-        ptrdiff_t ptcalc = params->val_PTcalc();
+        if ( ptclc == PTCALC_THROUGHPTMASS ||
+             ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-        if ( ptcalc != PTCALC_NO ) {
+            message += "gPT = " + QString::number(gPT) + " g/kWh\n";
+        }
 
-            if ( ptcalc == PTCALC_THROUGHPTMASS ) {
-
-                message += "gPT = " + QString::number(gPT) + " g/kWh\n";
-            }
+        if ( ptclc == PTCALC_THROUGHSMOKE ||
+             ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
             message += "gPTs = " + QString::number(gPTs) + " g/kWh\n";
         }
