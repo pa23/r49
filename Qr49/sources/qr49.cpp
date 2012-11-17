@@ -781,7 +781,7 @@ bool MainWindow::arithmeticOperation(QString operation) {
         tableCellChangedConnect(true);
     }
 
-    saveState();
+    saveTableState();
 
     return true;
 }
@@ -807,7 +807,7 @@ void MainWindow::on_action_DataImport_activated() {
 
     tableCellChangedConnect(true);
 
-    saveState();
+    saveTableState();
 }
 
 void MainWindow::on_action_LoadSourceData_activated() {
@@ -838,7 +838,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         tableCellChangedConnect(true);
 
-        saveState();
+        saveTableState();
     }
     else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
@@ -856,7 +856,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         tableCellChangedConnect(true);
 
-        saveState();
+        saveTableState();
     }
     else if ( table == ui->tableWidget_SrcDataPoints ) {
 
@@ -874,7 +874,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         tableCellChangedConnect(true);
 
-        saveState();
+        saveTableState();
     }
     else if ( table == ui->tableWidget_FullLoadCurve ) {
 
@@ -892,7 +892,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         tableCellChangedConnect(true);
 
-        saveState();
+        saveTableState();
     }
 }
 
@@ -1566,7 +1566,7 @@ void MainWindow::on_action_PasteToTable_activated() {
 
     tableCellChangedConnect(true);
 
-    saveState();
+    saveTableState();
 }
 
 void MainWindow::on_action_DeleteFromTable_activated() {
@@ -1587,7 +1587,7 @@ void MainWindow::on_action_DeleteFromTable_activated() {
 
         tableCellChangedConnect(true);
 
-        saveState();
+        saveTableState();
     }
 }
 
@@ -1634,7 +1634,7 @@ void MainWindow::on_action_AddRow_activated() {
 
     tableCellChangedConnect(true);
 
-    saveState();
+    saveTableState();
 }
 
 void MainWindow::on_action_DeleteRow_activated() {
@@ -1644,7 +1644,7 @@ void MainWindow::on_action_DeleteRow_activated() {
         table->setRowCount(table->rowCount()-1);
     }
 
-    saveState();
+    saveTableState();
 }
 
 void MainWindow::on_action_Toolbar_activated() {
@@ -1711,6 +1711,11 @@ void MainWindow::on_action_Execute_activated() {
             }
 
             tableCellChangedConnect(true);
+
+            //
+
+            table = ui->tableWidget_SrcDataPoints;
+            saveTableState();
         }
         else {
 
@@ -2265,7 +2270,7 @@ void MainWindow::tableCellChanged(int n, int m) {
         return;
     }
 
-    saveState();
+    saveTableState();
 
     //
 
@@ -2338,7 +2343,7 @@ void MainWindow::setUndoRedoButtonState() {
     }
 }
 
-void MainWindow::saveState() {
+void MainWindow::saveTableState() {
 
     if ( table == ui->tableWidget_SrcDataEU0 ) {
 

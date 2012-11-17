@@ -107,7 +107,7 @@ private:
     void tableCellChangedConnect(bool);
     void getUndoRedoCounters(QTableWidget *);
     void setUndoRedoButtonState();
-    void saveState();
+    void saveTableState();
     void saveStateForAllTables();
 
     QDir lastReportsDir;
