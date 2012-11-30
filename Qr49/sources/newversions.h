@@ -34,7 +34,8 @@ class NewVersions : public QObject {
 public:
 
     explicit NewVersions();
-    virtual ~NewVersions();
+    ~NewVersions();
+
     void checkAvailableVersions();
 
 private:
@@ -48,7 +49,7 @@ private:
 
 private slots:
 
-    void replyFinished(QNetworkReply*);
+    void replyFinished(QNetworkReply *);
 
 };
 

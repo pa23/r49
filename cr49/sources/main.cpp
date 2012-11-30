@@ -42,7 +42,7 @@ using std::cin;
 
 void ShowAbout() {
 
-    cout << "\n\t" << "r49 distribution version " << r49version.toStdString();
+    cout << "\n\t" << "r49 distribution version " << R49VERSION.toStdString();
     cout << "\n\t" << CR49VERSION.toStdString() << " libtoxic v" << LIBTOXICVERSION.toStdString();
 
     cout << "\n\nCopyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>"

@@ -36,7 +36,7 @@ public:
 
     ReducedPower(const QSharedPointer<LibtoxicParameters> &,
                  const QSharedPointer<CommonParameters> &);
-    virtual ~ReducedPower();
+    ~ReducedPower();
 
     void readCSV(const QVector< QVector<double> > &);
     void reducePower();

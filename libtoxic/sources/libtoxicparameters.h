@@ -31,7 +31,7 @@ class LibtoxicParameters {
 public:
 
     LibtoxicParameters();
-    virtual ~LibtoxicParameters();
+    ~LibtoxicParameters();
 
     void setTask(const ptrdiff_t &);
     void setTask(const QString &);

@@ -1893,7 +1893,7 @@ void MainWindow::on_action_StandardsDescription_activated() {
 
 void MainWindow::on_action_AboutQr49_activated() {
 
-    QString str = "<b>r49 distribution version " + r49version + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
+    QString str = "<b>r49 distribution version " + R49VERSION + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
             "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
             "<br><br>Copyright (C) 2009-2012 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"

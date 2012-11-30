@@ -1756,7 +1756,7 @@ QString CycleEmissions::createReports() {
 
             QTextStream fout6(&data6);
 
-            fout6 << "\tr49 distribution version " << r49version;
+            fout6 << "\tr49 distribution version " << R49VERSION;
             fout6 << "\t\tReport on cycle. "
                   << params->defStandardName(std) << "\t\tDateTime: "
                   << mytime << "\n\n";
@@ -1971,7 +1971,7 @@ QString CycleEmissions::createReports() {
 
         QTextStream fout5(&data5);
 
-        fout5 << "r49 distribution version " << r49version;
+        fout5 << "r49 distribution version " << R49VERSION;
         fout5 << "     Report on cycle. "
               << params->defStandardName(std)
               << "     DateTime: " << mytime << "\n\n";

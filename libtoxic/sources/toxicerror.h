@@ -28,8 +28,8 @@ class ToxicError {
 
 public:
 
-    ToxicError(QString);
-    QString toxicErrMsg() const;
+    ToxicError(const QString &);
+    QString toxicErrMsg() const { return errMsg; }
 
 private:
 

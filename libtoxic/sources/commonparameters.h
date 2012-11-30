@@ -29,7 +29,7 @@ class CommonParameters {
 public:
 
     CommonParameters();
-    virtual ~CommonParameters();
+    ~CommonParameters();
 
     void readConfigFile(const QString &);
 

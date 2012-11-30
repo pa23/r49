@@ -119,7 +119,7 @@ void NewVersions::parseHtmlData() {
     }
 
     QString msg = tr("You use ") + tr("r49 distribution version ") +
-            r49version + "<br><br>" + tr("Available distributions:<br><br>") +
+            R49VERSION + "<br><br>" + tr("Available distributions:<br><br>") +
             allfiles;
     QMessageBox::information(0, "Qr49", msg, 0, 0, 0);
 }

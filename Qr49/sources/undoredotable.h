@@ -31,7 +31,7 @@ class UndoRedoTable {
 public:
 
     UndoRedoTable(QTableWidget *);
-    virtual ~UndoRedoTable();
+    ~UndoRedoTable();
 
     void saveState();
     void undoTable();

@@ -36,7 +36,7 @@ public:
 
     CycleEmissions(const QSharedPointer<LibtoxicParameters> &,
                    const QSharedPointer<CommonParameters> &);
-    virtual ~CycleEmissions();
+    ~CycleEmissions();
 
     void readCSV(const QVector< QVector<double> > &);
     void calculate();
