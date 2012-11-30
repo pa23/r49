@@ -24,11 +24,10 @@
 #include <QDoubleValidator>
 
 FilterMassDialog::FilterMassDialog(QWidget *parent) :
-    QDialog(parent) {
+    QDialog(parent),
+    doubleValidator(new QDoubleValidator()) {
 
     ui.setupUi(this);
-
-    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_1stFilterWeightClean->setValidator(doubleValidator);

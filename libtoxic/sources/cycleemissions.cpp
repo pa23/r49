@@ -50,6 +50,8 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
     smoke         (-1),
     CheckMeas     (false),
     qmdwVSrd      (true),
+    params        (prms), // calculatin settings
+    config        (cfg),  // r49.cong file
     gNOx     (0), gCO      (0), gCH      (0), gPT    (0), gPTs (0),
     gNOx1m   (0), gNOx2m   (0), gNOx3m   (0),
     gNOx1c   (0), gNOx2c   (0), gNOx3c   (0),
@@ -58,9 +60,6 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
     mf1c     (0), mf1d     (0), mf2c     (0), mf2d   (0), mf   (0),
     qmedfl   (0), msep     (0), mPT      (0),
     NumberOfPoints (0), mytime ("_"), fullReportsPath("_") {
-
-    params = prms; // calculatin settings
-    config = cfg;  // r49.cong file
 
     if (params->valCalcConfigFile() != "_._") {
 

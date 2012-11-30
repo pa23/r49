@@ -24,11 +24,10 @@
 #include <QDoubleValidator>
 
 ValueDialog::ValueDialog(QWidget *parent) :
-    QDialog(parent) {
+    QDialog(parent),
+    doubleValidator(new QDoubleValidator()) {
 
     ui.setupUi(this);
-
-    doubleValidator = new QDoubleValidator();
     doubleValidator->setDecimals(4);
 
     ui.lineEdit_Value->setValidator(doubleValidator);

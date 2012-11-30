@@ -37,9 +37,8 @@
 #include <QDebug>
 
 NewVersions::NewVersions() :
+    netmanager(new QNetworkAccessManager()),
     htmlData("") {
-
-    netmanager = new QNetworkAccessManager();
 
     connect(netmanager,
             SIGNAL(finished(QNetworkReply*)),

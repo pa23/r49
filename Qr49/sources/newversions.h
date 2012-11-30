@@ -47,6 +47,7 @@ private:
 
     QNetworkAccessManager *netmanager;
     QString htmlData;
+
     QStringList files;
     QStringList urls;
 

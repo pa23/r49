@@ -30,11 +30,10 @@
 
 csvRead::csvRead(const QString &fname,
                  const QString &csvdelim,
-                 const ptrdiff_t &hdrLinesNum) {
-
-    filename = fname;
-    csvdelimiter = csvdelim;
-    headerLinesNumber = hdrLinesNum;
+                 const ptrdiff_t &hdrLinesNum) :
+    filename(fname),
+    csvdelimiter(csvdelim),
+    headerLinesNumber(hdrLinesNum) {
 }
 
 csvRead::~csvRead() {

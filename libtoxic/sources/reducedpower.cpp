@@ -39,15 +39,14 @@
 
 ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
                            const QSharedPointer<CommonParameters> &cfg) :
-    NumberOfPoints    (    0),
-    mytime            (  "_"),
-    fullReportsPath   (  "_"),
-    n_rated           (    0),
-    i_rated           (    0),
-    N_fan_rated       (    0) {
-
-    params = prms;
-    config = cfg;
+    params(prms),
+    config(cfg),
+    NumberOfPoints (  0),
+    mytime         ("_"),
+    fullReportsPath("_"),
+    n_rated        (  0),
+    i_rated        (  0),
+    N_fan_rated    (  0) {
 
     if (params->valCalcConfigFile() != "_._") {
 
