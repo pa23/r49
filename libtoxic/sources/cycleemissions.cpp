@@ -63,7 +63,14 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->valCalcConfigFile() != "_._") {
 
-        params->readCalcConfigFile(params->valCalcConfigFile());
+        try {
+
+            params->readCalcConfigFile(params->valCalcConfigFile());
+        }
+        catch(const ToxicError &toxerr) {
+
+            throw;
+        }
     }
 }
 
@@ -81,7 +88,15 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
                     new csvRead(filenamePoints, " ", STRSNUMBERFORCOLUMNCAPTION)
                     );
 
-        readerDataForCalc->readFile();
+        try {
+
+            readerDataForCalc->readFile();
+        }
+        catch(const ToxicError &toxerr) {
+
+            throw;
+        }
+
         array_DataForCalc = readerDataForCalc->csvData();
 
         if ( array_DataForCalc.isEmpty() ) {
@@ -477,28 +492,35 @@ void CycleEmissions::calculate() {
 
     ptrdiff_t std = params->valStandard();
 
-    preCalculate();
-    calculate_gNOx();
+    try {
 
-    if ( ( (std == STD_EU6) || (std == STD_EU5) ||
-           (std == STD_EU4) || (std == STD_EU3) ) &&
-         (params->valAddPointsCalc() == ADDPOINTSCALC_YES) &&
-         (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
+        preCalculate();
+        calculate_gNOx();
 
-        calculateAdditionalPoints();
+        if ( ( (std == STD_EU6) || (std == STD_EU5) ||
+               (std == STD_EU4) || (std == STD_EU3) ) &&
+             (params->valAddPointsCalc() == ADDPOINTSCALC_YES) &&
+             (NumberOfPoints == TCYCLEPOINTSNUMBER) ) {
+
+            calculateAdditionalPoints();
+        }
+
+        calculate_gCO();
+        calculate_gCH();
+        calculate_gPT();
+        calculate_rEGR();
+
+        if ( std != STD_FREECALC ) {
+
+            calculate_Means();
+        }
+
+        compareAlpha();
     }
+    catch(const ToxicError &toxerr) {
 
-    calculate_gCO();
-    calculate_gCH();
-    calculate_gPT();
-    calculate_rEGR();
-
-    if ( std != STD_FREECALC ) {
-
-        calculate_Means();
+        throw;
     }
-
-    compareAlpha();
 }
 
 void CycleEmissions::preCalculate() {
