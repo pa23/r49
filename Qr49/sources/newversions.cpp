@@ -53,7 +53,7 @@ NewVersions::~NewVersions() {
 
 void NewVersions::checkAvailableVersions() {
 
-    htmlData = "";
+    htmlData.clear();
     urls.clear();
     files.clear();
 

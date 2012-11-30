@@ -235,7 +235,7 @@ void ReducedPower::reducePower() {
 
 QString ReducedPower::createReports() {
 
-    QString message = "";
+    QString message;
 
     QString dirnameReports = config->valDirNameReports();
 

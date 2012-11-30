@@ -1469,7 +1469,7 @@ bool CycleEmissions::checkTestConditions() const {
 
 QString CycleEmissions::results() const {
 
-    QString message = "";
+    QString message;
     QString testcondres = "?";
 
     if ( checkTestConditions() ) {
@@ -1516,7 +1516,7 @@ QString CycleEmissions::results() const {
 
 QString CycleEmissions::createReports() {
 
-    QString message = "";
+    QString message;
     QString testcondres = "?";
 
     if ( checkTestConditions() ) {

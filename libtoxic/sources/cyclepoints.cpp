@@ -80,7 +80,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
     ptrdiff_t std = params->valStandard();
 
-    QString filenameSource = "";
+    QString filenameSource;
 
     QVector< QVector<double> > arraySourceData;
 
@@ -861,7 +861,7 @@ void CyclePoints::fillArrays() {
 
 QString CyclePoints::createReport() const {
 
-    QString message = "";
+    QString message;
 
     QString filenamePoints = config->valFileNamePoints();
 
