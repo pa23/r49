@@ -24,8 +24,8 @@
 
 #include <QVector>
 
-void calcABC(const double,
-             const double,
+void calcABC(const double &,
+             const double &,
              double *,
              double *,
              double *,
@@ -34,24 +34,24 @@ void calcABC(const double,
              double *,
              double *);
 
-double Gair(const double,
-            const double,
-            const double,
-            const double);
+double Gair(const double &,
+            const double &,
+            const double &,
+            const double &);
 
-double N_fan(const double,
-             const double,
-             const double);
+double N_fan(const double &,
+             const double &,
+             const double &);
 
-double Ka1m2KaPerc(const double,
-                   const double);
+double Ka1m2KaPerc(const double &,
+                   const double &);
 
-double KaPerc2Ka1m(const double,
-                   const double);
+double KaPerc2Ka1m(const double &,
+                   const double &);
 
-double val_Pa(const double);
+double val_Pa(const double &);
 
-double val_rhoAir(const double);
+double val_rhoAir(const double &);
 
 bool nonZeroArray(const QVector<double> &);
 

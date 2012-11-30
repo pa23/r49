@@ -27,8 +27,8 @@
 
 #include <cmath>
 
-void calcABC(const double n_hi,
-             const double n_lo,
+void calcABC(const double &n_hi,
+             const double &n_lo,
              double *A,
              double *B,
              double *C,
@@ -55,33 +55,33 @@ void calcABC(const double n_hi,
     *n_ref = n_lo + 0.95 * (n_hi - n_lo);
 }
 
-double Gair(const double Dn,
-            const double B0,
-            const double t0,
-            const double dPn) {
+double Gair(const double &Dn,
+            const double &B0,
+            const double &t0,
+            const double &dPn) {
 
     return 0.0084591 * pow(Dn, 2.0) *
             sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
 }
 
-double N_fan(const double N_fan_rated,
-             const double n,
-             const double n_rated) {
+double N_fan(const double &N_fan_rated,
+             const double &n,
+             const double &n_rated) {
 
     return N_fan_rated * pow(n / n_rated, 3.0);
 }
 
-double Ka1m2KaPerc(const double Ka1m, const double L) {
+double Ka1m2KaPerc(const double &Ka1m, const double &L) {
 
     return 100.0 * (1.0 - exp(- Ka1m * L));
 }
 
-double KaPerc2Ka1m(const double KaPerc, const double L) {
+double KaPerc2Ka1m(const double &KaPerc, const double &L) {
 
     return (-1.0 / L) * log(1 - KaPerc / 100.0);
 }
 
-double val_Pa(const double x) {
+double val_Pa(const double &x) {
 
     for ( ptrdiff_t i=0; i<(PAARRAYSIZE-1); i++ ) {
 
@@ -103,7 +103,7 @@ double val_Pa(const double x) {
     return 0;
 }
 
-double val_rhoAir(const double x) {
+double val_rhoAir(const double &x) {
 
     for ( ptrdiff_t i=0; i<(RHOAIRARRAYSIZE-1); i++ ) {
 
