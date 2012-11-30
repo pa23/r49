@@ -78,7 +78,7 @@ public:
 private:
 
     LibtoxicParameters(const LibtoxicParameters &);
-    void operator=(const LibtoxicParameters &);
+    LibtoxicParameters & operator=(const LibtoxicParameters &);
 
     ptrdiff_t task;
     double    Vh;

@@ -46,7 +46,7 @@ public:
 private:
 
     ReducedPower(const ReducedPower &);
-    void operator=(const ReducedPower &);
+    ReducedPower & operator=(const ReducedPower &);
 
     QSharedPointer<LibtoxicParameters> params;
     QSharedPointer<CommonParameters> config;

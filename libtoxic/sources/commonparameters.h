@@ -54,7 +54,7 @@ public:
 private:
 
     CommonParameters(const CommonParameters &);
-    void operator=(const CommonParameters &);
+    CommonParameters & operator=(const CommonParameters &);
 
     QString fileNameSourceEU3;
     QString fileNameSourceEU0;

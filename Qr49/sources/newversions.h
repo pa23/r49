@@ -40,6 +40,9 @@ public:
 
 private:
 
+    NewVersions(const NewVersions &);
+    NewVersions & operator=(const NewVersions &);
+
     void parseHtmlData();
 
     QNetworkAccessManager *netmanager;

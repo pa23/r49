@@ -42,6 +42,9 @@ public:
 
 private:
 
+    UndoRedoTable(const UndoRedoTable &);
+    UndoRedoTable & operator=(const UndoRedoTable &);
+
     QTableWidget *table;
     QVector< QVector< QVector<QString> > > data;
     ptrdiff_t position;

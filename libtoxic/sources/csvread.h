@@ -40,7 +40,7 @@ public:
 private:
 
     csvRead(const csvRead &);
-    void operator=(const csvRead &);
+    csvRead & operator=(const csvRead &);
 
     QString filename;
     QString csvdelimiter;

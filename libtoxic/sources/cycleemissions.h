@@ -47,7 +47,7 @@ public:
 private:
 
     CycleEmissions(const CycleEmissions &);
-    void operator=(const CycleEmissions &);
+    CycleEmissions & operator=(const CycleEmissions &);
 
     bool NenCalcMethod;
     bool GairVals;

@@ -44,7 +44,7 @@ public:
 private:
 
     CyclePoints(const CyclePoints &);
-    void operator=(const CyclePoints &);
+    CyclePoints & operator=(const CyclePoints &);
 
     QSharedPointer<LibtoxicParameters> params;
     QSharedPointer<CommonParameters> config;
