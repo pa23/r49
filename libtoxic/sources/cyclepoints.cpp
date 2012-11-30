@@ -62,14 +62,7 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->valCalcConfigFile() != "_._") {
 
-        try {
-
-            params->readCalcConfigFile(params->valCalcConfigFile());
-        }
-        catch(const ToxicError &toxerr) {
-
-            throw;
-        }
+        params->readCalcConfigFile(params->valCalcConfigFile());
     }
 }
 
@@ -101,15 +94,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
                                              " ",
                                              STRSNUMBERFORCOLUMNCAPTION));
 
-        try{
-
-            readerSourceData->readFile();
-        }
-        catch(const ToxicError &toxerr) {
-
-            throw;
-        }
-
+        readerSourceData->readFile();
         arraySourceData = readerSourceData->csvData();
 
         if ( (std == STD_EU6) || (std == STD_EU5) ||
@@ -137,14 +122,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            try {
-
-                calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
-            }
-            catch(const ToxicError &toxerr) {
-
-                throw;
-            }
+            calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
         }
         else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
                   (std == STD_OST) || (std == STD_GOST) ||
@@ -202,14 +180,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
             Ne_a2       = arraySourceData[0][ 9];
             Ne_a3       = arraySourceData[0][10];
 
-            try {
-
-                calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
-            }
-            catch(const ToxicError &toxerr) {
-
-                throw;
-            }
+            calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
         }
         else if ( (std == STD_EU2) || (std == STD_EU1)  || (std == STD_EU0) ||
                   (std == STD_OST) || (std == STD_GOST) ||
