@@ -30,7 +30,7 @@ class csvRead {
 
 public:
 
-    csvRead(const QString &, const QString &, const ptrdiff_t &);
+    csvRead(const QString &, const QString &, const ptrdiff_t);
     ~csvRead();
 
     void readFile();

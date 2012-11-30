@@ -62,7 +62,7 @@ private:
     QVector<double> array_N_fan;
     QVector<double> array_w;
 
-    void arraysInit(const std::ptrdiff_t &);
+    void arraysInit(const ptrdiff_t);
 
 };
 

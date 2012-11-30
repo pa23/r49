@@ -45,7 +45,7 @@ LibtoxicParameters::LibtoxicParameters() :
 LibtoxicParameters::~LibtoxicParameters() {
 }
 
-void LibtoxicParameters::setTask(const ptrdiff_t &task_) {
+void LibtoxicParameters::setTask(const ptrdiff_t task_) {
 
     task = task_;
 }
@@ -55,12 +55,12 @@ void LibtoxicParameters::setTask(const QString &task_) {
     task = defTask(task_);
 }
 
-void LibtoxicParameters::setVh(const double &Vh_) {
+void LibtoxicParameters::setVh(const double Vh_) {
 
     Vh = Vh_;
 }
 
-void LibtoxicParameters::setStandard(const ptrdiff_t &standart_) {
+void LibtoxicParameters::setStandard(const ptrdiff_t standart_) {
 
     standard = standart_;
 }
@@ -70,7 +70,7 @@ void LibtoxicParameters::setStandard(const QString &standart_) {
     standard = defStandard(standart_);
 }
 
-void LibtoxicParameters::setChargingType(const ptrdiff_t &chargingType_) {
+void LibtoxicParameters::setChargingType(const ptrdiff_t chargingType_) {
 
     chargingType = chargingType_;
 }
@@ -80,7 +80,7 @@ void LibtoxicParameters::setChargingType(const QString &chargingType_) {
     chargingType = defChargingType(chargingType_);
 }
 
-void LibtoxicParameters::setFuelType(const ptrdiff_t &fuelType_) {
+void LibtoxicParameters::setFuelType(const ptrdiff_t fuelType_) {
 
     fuelType = fuelType_;
 }
@@ -90,7 +90,7 @@ void LibtoxicParameters::setFuelType(const QString &fuelType_) {
     fuelType = defFuelType(fuelType_);
 }
 
-void LibtoxicParameters::setNOxSample(const ptrdiff_t &NOxSample_) {
+void LibtoxicParameters::setNOxSample(const ptrdiff_t NOxSample_) {
 
     NOxSample = NOxSample_;
 }
@@ -100,7 +100,7 @@ void LibtoxicParameters::setNOxSample(const QString &NOxSample_) {
     NOxSample = defNOxSample(NOxSample_);
 }
 
-void LibtoxicParameters::setPTcalc(const ptrdiff_t &PTcalc_) {
+void LibtoxicParameters::setPTcalc(const ptrdiff_t PTcalc_) {
 
     PTcalc = PTcalc_;
 }
@@ -110,12 +110,12 @@ void LibtoxicParameters::setPTcalc(const QString &PTcalc_) {
     PTcalc = defPTcalc(PTcalc_);
 }
 
-void LibtoxicParameters::setPTmass(const double &PTmass_) {
+void LibtoxicParameters::setPTmass(const double PTmass_) {
 
     PTmass = PTmass_;
 }
 
-void LibtoxicParameters::setAddPointsCalc(const ptrdiff_t &addPointsCalc_) {
+void LibtoxicParameters::setAddPointsCalc(const ptrdiff_t addPointsCalc_) {
 
     addPointsCalc = addPointsCalc_;
 }
@@ -202,7 +202,7 @@ void LibtoxicParameters::readCalcConfigFile(const QString &calcConfigFileName) {
     clcConfFile.close();
 }
 
-QString LibtoxicParameters::defStandardName(const ptrdiff_t &val) const {
+QString LibtoxicParameters::defStandardName(const ptrdiff_t val) const {
 
     if      ( val == STD_EU6     ) { return "R49_Euro-6";         }
     else if ( val == STD_EU5     ) { return "R49_Euro-5";         }

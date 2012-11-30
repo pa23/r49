@@ -993,7 +993,7 @@ QString CyclePoints::createReport() const {
     return message;
 }
 
-void CyclePoints::arraysInit(const ptrdiff_t &n) {
+void CyclePoints::arraysInit(const ptrdiff_t n) {
 
     array_n.clear();         array_n.resize(n);
     array_Me_brutto.clear(); array_Me_brutto.resize(n);
