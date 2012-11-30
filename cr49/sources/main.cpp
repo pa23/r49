@@ -275,7 +275,7 @@ int main(int argc, char *argv[]) {
 
                 calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 cout << "\n" << toxerr.toxicErrMsg().toStdString();
                 return 0;
@@ -305,7 +305,7 @@ int main(int argc, char *argv[]) {
 
             config->readConfigFile(CONFIGFILENAME);
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
             return 1;
@@ -323,7 +323,7 @@ int main(int argc, char *argv[]) {
                 myPoints->fillArrays();
                 cout << "\n" << myPoints->createReport().toStdString();
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;
@@ -339,7 +339,7 @@ int main(int argc, char *argv[]) {
                 myEmissions->calculate();
                 cout << "\n" << myEmissions->createReports().toStdString();
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;
@@ -355,7 +355,7 @@ int main(int argc, char *argv[]) {
                 myReducedPower->reducePower();
                 cout << "\n" << myReducedPower->createReports().toStdString();
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 cout << "\n" << toxerr.toxicErrMsg().toStdString() << "\n";
                 return 1;

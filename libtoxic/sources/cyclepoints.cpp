@@ -66,7 +66,7 @@ CyclePoints::CyclePoints(const QSharedPointer<LibtoxicParameters> &prms,
 
             params->readCalcConfigFile(params->valCalcConfigFile());
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             throw;
         }
@@ -105,7 +105,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
             readerSourceData->readFile();
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             throw;
         }
@@ -141,7 +141,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
                 calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 throw;
             }
@@ -206,7 +206,7 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
                 calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
             }
-            catch(const ToxicError &toxerr) {
+            catch(ToxicError &toxerr) {
 
                 throw;
             }
