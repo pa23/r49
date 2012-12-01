@@ -67,7 +67,7 @@ CycleEmissions::CycleEmissions(const QSharedPointer<LibtoxicParameters> &prms,
 
             params->readCalcConfigFile(params->valCalcConfigFile());
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             throw;
         }
@@ -92,7 +92,7 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
             readerDataForCalc->readFile();
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             throw;
         }
@@ -517,7 +517,7 @@ void CycleEmissions::calculate() {
 
         compareAlpha();
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         throw;
     }

@@ -418,7 +418,7 @@ void MainWindow::readPreferences() {
 
         config->readConfigFile(CONFIGFILENAME);
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return;
@@ -517,7 +517,7 @@ bool MainWindow::fillTableEU0(QString filename) {
 
         readerSourceDataEU0->readFile();
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return false;
@@ -551,7 +551,7 @@ bool MainWindow::fillTableEU3(QString filename) {
 
         readerSourceDataEU3->readFile();
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return false;
@@ -582,7 +582,7 @@ bool MainWindow::fillTablePoints(QString filename) {
 
         readerSourceDataPoints->readFile();
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return false;
@@ -632,7 +632,7 @@ bool MainWindow::fillTableFullLoadCurve(QString filename) {
 
         readerFullLoadCurve->readFile();
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return false;
@@ -1083,7 +1083,7 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
             params->readCalcConfigFile(anotherOptions);
             params->setCalcConfigFile("_._");
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
@@ -1691,7 +1691,7 @@ void MainWindow::on_action_Execute_activated() {
             myPoints->fillArrays();
             message += myPoints->createReport();
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
@@ -1735,7 +1735,7 @@ void MainWindow::on_action_Execute_activated() {
             myEmissions->readCSV(array_DataForCalc);
             myEmissions->calculate();
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
@@ -1747,7 +1747,7 @@ void MainWindow::on_action_Execute_activated() {
 
                 message += myEmissions->createReports();
             }
-            catch(ToxicError &toxerr) {
+            catch(const ToxicError &toxerr) {
 
                 QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
                 return;
@@ -1793,7 +1793,7 @@ void MainWindow::on_action_Execute_activated() {
 
                 message += myEmissions->results();
             }
-            catch(ToxicError &toxerr) {
+            catch(const ToxicError &toxerr) {
 
                 QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
                 return;
@@ -1810,7 +1810,7 @@ void MainWindow::on_action_Execute_activated() {
             myReducedPower->reducePower();
             message += myReducedPower->createReports();
         }
-        catch(ToxicError &toxerr) {
+        catch(const ToxicError &toxerr) {
 
             QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
@@ -2448,7 +2448,7 @@ void MainWindow::abcCalculation() {
 
         calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
     }
-    catch(ToxicError &toxerr) {
+    catch(const ToxicError &toxerr) {
 
         QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
         return;
