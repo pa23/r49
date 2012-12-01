@@ -65,7 +65,7 @@ private slots:
     void on_pushButton_SelectDataFile_clicked();
     void on_pushButton_Next_clicked();
 
-    void combosUpdate(const int);
+    void combosUpdate(const QString &);
 
 };
 

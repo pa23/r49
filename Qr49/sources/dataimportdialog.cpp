@@ -57,19 +57,19 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->comboBox_delimiter,
-            SIGNAL(activated(int)),
+            SIGNAL(activated(const QString &)),
             this,
-            SLOT(combosUpdate(const int)));
+            SLOT(combosUpdate(const QString &)));
 
     connect(ui->spinBox_HeaderLines,
-            SIGNAL(valueChanged(int)),
+            SIGNAL(valueChanged(const QString &)),
             this,
-            SLOT(combosUpdate(const int)));
+            SLOT(combosUpdate(const QString &)));
 
     connect(ui->lineEdit_DataFile,
-            SIGNAL(textChanged(int)),
+            SIGNAL(textChanged(const QString &)),
             this,
-            SLOT(combosUpdate(const int)));
+            SLOT(combosUpdate(const QString &)));
 }
 
 DataImportDialog::~DataImportDialog() {
@@ -89,7 +89,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
     if (!dtable) {
 
-        QMessageBox::critical(0, "Qr49",
+        QMessageBox::critical(this, "Qr49",
                               tr("Invalid pointer to the destination table!"),
                               0, 0, 0);
 
@@ -115,7 +115,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49",
+        QMessageBox::critical(this, "Qr49",
                               tr("You have to select data file!"),
                               0, 0, 0);
     }
@@ -168,11 +168,9 @@ void DataImportDialog::on_pushButton_Next_clicked() {
     }
 }
 
-void DataImportDialog::combosUpdate(const int ind) {
+void DataImportDialog::combosUpdate(const QString &str) {
 
-    //
-
-    (void)ind;
+    (void)str;
 
     //
 
@@ -194,7 +192,7 @@ void DataImportDialog::combosUpdate(const int ind) {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49",
+        QMessageBox::critical(this, "Qr49",
                               tr("Unknown delimiter for selected file parsing!"),
                               0, 0, 0);
 
@@ -223,7 +221,7 @@ void DataImportDialog::combosUpdate(const int ind) {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;
         }
 
@@ -242,7 +240,7 @@ void DataImportDialog::combosUpdate(const int ind) {
         }
         else {
 
-            QMessageBox::critical(0, "Qr49",
+            QMessageBox::critical(this, "Qr49",
                                   tr("Invalid destination table!"),
                                   0, 0, 0);
         }

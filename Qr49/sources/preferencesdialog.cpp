@@ -201,7 +201,7 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
     }
     else {
 
-        QMessageBox::critical(0, "Qr49",
+        QMessageBox::critical(this, "Qr49",
                               tr("Preferences could not be saved!"),
                               0, 0, 0);
         return;
