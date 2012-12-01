@@ -61,7 +61,7 @@ void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePowers = config->valFileNamePowers();
+        const QString filenamePowers = config->valFileNamePowers();
 
         QSharedPointer<csvRead>
                 readerDataForCalc(new csvRead(filenamePowers,
@@ -157,7 +157,7 @@ void ReducedPower::reducePower() {
 
     setRate();
 
-    double Vh = params->valVh();
+    const double Vh = params->valVh();
 
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
@@ -222,7 +222,7 @@ QString ReducedPower::createReports() {
 
     QString message;
 
-    QString dirnameReports = config->valDirNameReports();
+    const QString dirnameReports = config->valDirNameReports();
 
     fullReportsPath = dirnameReports + "/" + "R85_" + mytime;
     QDir reportdir;
@@ -230,10 +230,11 @@ QString ReducedPower::createReports() {
 
     //
 
-    QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
+    const QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
 
-    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) +
-            reportdir.separator() + checkoutDataFileName;
+    const QString checkoutdata = reportdir.relativeFilePath(fullReportsPath)
+            + reportdir.separator()
+            + checkoutDataFileName;
 
     QFile data1(checkoutdata);
 
@@ -285,10 +286,11 @@ QString ReducedPower::createReports() {
 
     //
 
-    QString sourceDataFileName = "SourceData85_" + mytime + ".csv";
+    const QString sourceDataFileName = "SourceData85_" + mytime + ".csv";
 
-    QString srcdata = reportdir.absoluteFilePath(fullReportsPath) +
-            reportdir.separator() + sourceDataFileName;
+    const QString srcdata = reportdir.absoluteFilePath(fullReportsPath)
+            + reportdir.separator()
+            + sourceDataFileName;
 
     QFile data4(srcdata);
 

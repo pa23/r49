@@ -74,7 +74,7 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     if ( data.isEmpty() ) {
 
-        QString filenamePoints = config->valFileNamePoints();
+        const QString filenamePoints = config->valFileNamePoints();
 
         QSharedPointer<csvRead>
                 readerDataForCalc(
@@ -101,8 +101,8 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
     NumberOfPoints = array_DataForCalc.size();
 
-    ptrdiff_t std = params->valStandard();
-    ptrdiff_t addpc = params->valAddPointsCalc();
+    const ptrdiff_t std = params->valStandard();
+    const ptrdiff_t addpc = params->valAddPointsCalc();
 
     if (
             (
@@ -475,7 +475,7 @@ void CycleEmissions::readCSV(const QVector< QVector<double> > &data) {
 
 void CycleEmissions::calculate() {
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     preCalculate();
     calculate_gNOx();
@@ -521,12 +521,12 @@ void CycleEmissions::preCalculate() {
     array_fa.clear();       array_fa.resize(NumberOfPoints);
     array_ge.clear();       array_ge.resize(NumberOfPoints);
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
-    double L0    = config->valL0();
-    double WH    = config->valWH();
-    double WO2   = config->valWO2();
-    double WN    = config->valWN();
+    const double L0  = config->valL0();
+    const double WH  = config->valWH();
+    const double WO2 = config->valWO2();
+    const double WN  = config->valWN();
 
     double Ffw = 0;
     double Ffd = 0;
@@ -536,7 +536,7 @@ void CycleEmissions::preCalculate() {
          (std == STD_E5) ||
          (std == STD_F ) || (std == STD_G1) || (std == STD_G2) ) {
 
-        ptrdiff_t FuelType = params->valFuelType();
+        const ptrdiff_t FuelType = params->valFuelType();
 
         if ( FuelType == FUELTYPE_DIESEL ) {
 
@@ -586,7 +586,7 @@ void CycleEmissions::preCalculate() {
 
         if ( !GairVals ) {
 
-            double Dn = config->valDn();
+            const double Dn = config->valDn();
 
             if ( Dn < 1 ) {
 
@@ -601,7 +601,7 @@ void CycleEmissions::preCalculate() {
 
         if ( CheckMeas ) {
 
-            double ConcO2air = config->valConcO2air();
+            const double ConcO2air = config->valConcO2air();
 
             if ( ConcO2air < 1 ) {
 
@@ -769,9 +769,9 @@ void CycleEmissions::calculate_gNOx() {
 
     array_mNOx.clear(); array_mNOx.resize(NumberOfPoints);
 
-    double muNO2 = config->valmuNO2();
+    const double muNO2 = config->valmuNO2();
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
@@ -942,7 +942,7 @@ void CycleEmissions::calculateAdditionalPoints() {
      *            nrt       nus
      */
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     for ( ptrdiff_t i=(NumberOfPoints - TCYCLEADDPOINTSNUMBER);
           i<NumberOfPoints; i++ ) {
@@ -980,73 +980,73 @@ void CycleEmissions::calculateAdditionalPoints() {
     gNOx2m = array_gNOx[NumberOfPoints - 2];
     gNOx3m = array_gNOx[NumberOfPoints - 1];
 
-    double A = array_n[1];
-    double B = array_n[2];
-    double C = array_n[9];
+    const double A = array_n[1];
+    const double B = array_n[2];
+    const double C = array_n[9];
 
-    double nz1 = array_n[NumberOfPoints - 3];
-    double nz2 = array_n[NumberOfPoints - 2];
-    double nz3 = array_n[NumberOfPoints - 1];
+    const double nz1 = array_n[NumberOfPoints - 3];
+    const double nz2 = array_n[NumberOfPoints - 2];
+    const double nz3 = array_n[NumberOfPoints - 1];
 
-    double nrt1 = B;
-    double nrt2 = A;
-    double nrt3 = B;
+    const double nrt1 = B;
+    const double nrt2 = A;
+    const double nrt3 = B;
 
-    double nsu1 = C;
-    double nsu2 = B;
-    double nsu3 = C;
+    const double nsu1 = C;
+    const double nsu2 = B;
+    const double nsu3 = C;
 
-    double Nz1 = array_Ne_netto[NumberOfPoints - 3];
-    double Nz2 = array_Ne_netto[NumberOfPoints - 2];
-    double Nz3 = array_Ne_netto[NumberOfPoints - 1];
+    const double Nz1 = array_Ne_netto[NumberOfPoints - 3];
+    const double Nz2 = array_Ne_netto[NumberOfPoints - 2];
+    const double Nz3 = array_Ne_netto[NumberOfPoints - 1];
 
-    double Nt1 = array_Ne_netto[7];
-    double Nt2 = array_Ne_netto[5];
-    double Nt3 = array_Ne_netto[2];
+    const double Nt1 = array_Ne_netto[7];
+    const double Nt2 = array_Ne_netto[5];
+    const double Nt3 = array_Ne_netto[2];
 
-    double Nu1 = array_Ne_netto[ 9];
-    double Nu2 = array_Ne_netto[ 3];
-    double Nu3 = array_Ne_netto[12];
+    const double Nu1 = array_Ne_netto[ 9];
+    const double Nu2 = array_Ne_netto[ 3];
+    const double Nu3 = array_Ne_netto[12];
 
-    double Nr1 = array_Ne_netto[3];
-    double Nr2 = array_Ne_netto[4];
-    double Nr3 = array_Ne_netto[8];
+    const double Nr1 = array_Ne_netto[3];
+    const double Nr2 = array_Ne_netto[4];
+    const double Nr3 = array_Ne_netto[8];
 
-    double Ns1 = array_Ne_netto[11];
-    double Ns2 = array_Ne_netto[ 2];
-    double Ns3 = array_Ne_netto[10];
+    const double Ns1 = array_Ne_netto[11];
+    const double Ns2 = array_Ne_netto[ 2];
+    const double Ns3 = array_Ne_netto[10];
 
-    double Ntu1 = Nt1 + (Nu1 - Nt1) * (nz1 - nrt1) / (nsu1 - nrt1);
-    double Ntu2 = Nt2 + (Nu2 - Nt2) * (nz2 - nrt2) / (nsu2 - nrt2);
-    double Ntu3 = Nt3 + (Nu3 - Nt3) * (nz3 - nrt3) / (nsu3 - nrt3);
+    const double Ntu1 = Nt1 + (Nu1 - Nt1) * (nz1 - nrt1) / (nsu1 - nrt1);
+    const double Ntu2 = Nt2 + (Nu2 - Nt2) * (nz2 - nrt2) / (nsu2 - nrt2);
+    const double Ntu3 = Nt3 + (Nu3 - Nt3) * (nz3 - nrt3) / (nsu3 - nrt3);
 
-    double Nrs1 = Nr1 + (Ns1 - Nr1) * (nz1 - nrt1) / (nsu1 - nrt1);
-    double Nrs2 = Nr2 + (Ns2 - Nr2) * (nz2 - nrt2) / (nsu2 - nrt2);
-    double Nrs3 = Nr3 + (Ns3 - Nr3) * (nz3 - nrt3) / (nsu3 - nrt3);
+    const double Nrs1 = Nr1 + (Ns1 - Nr1) * (nz1 - nrt1) / (nsu1 - nrt1);
+    const double Nrs2 = Nr2 + (Ns2 - Nr2) * (nz2 - nrt2) / (nsu2 - nrt2);
+    const double Nrs3 = Nr3 + (Ns3 - Nr3) * (nz3 - nrt3) / (nsu3 - nrt3);
 
-    double gNOt1 = array_gNOx[7];
-    double gNOt2 = array_gNOx[5];
-    double gNOt3 = array_gNOx[2];
+    const double gNOt1 = array_gNOx[7];
+    const double gNOt2 = array_gNOx[5];
+    const double gNOt3 = array_gNOx[2];
 
-    double gNOu1 = array_gNOx[ 9];
-    double gNOu2 = array_gNOx[ 3];
-    double gNOu3 = array_gNOx[12];
+    const double gNOu1 = array_gNOx[ 9];
+    const double gNOu2 = array_gNOx[ 3];
+    const double gNOu3 = array_gNOx[12];
 
-    double gNOr1 = array_gNOx[3];
-    double gNOr2 = array_gNOx[4];
-    double gNOr3 = array_gNOx[8];
+    const double gNOr1 = array_gNOx[3];
+    const double gNOr2 = array_gNOx[4];
+    const double gNOr3 = array_gNOx[8];
 
-    double gNOs1 = array_gNOx[11];
-    double gNOs2 = array_gNOx[ 2];
-    double gNOs3 = array_gNOx[10];
+    const double gNOs1 = array_gNOx[11];
+    const double gNOs2 = array_gNOx[ 2];
+    const double gNOs3 = array_gNOx[10];
 
-    double gNOtu1 = gNOt1 + (gNOu1 - gNOt1) * (nz1 - nrt1) / (nsu1 - nrt1);
-    double gNOtu2 = gNOt2 + (gNOu2 - gNOt2) * (nz2 - nrt2) / (nsu2 - nrt2);
-    double gNOtu3 = gNOt3 + (gNOu3 - gNOt3) * (nz3 - nrt3) / (nsu3 - nrt3);
+    const double gNOtu1 = gNOt1 + (gNOu1 - gNOt1) * (nz1 - nrt1) / (nsu1 - nrt1);
+    const double gNOtu2 = gNOt2 + (gNOu2 - gNOt2) * (nz2 - nrt2) / (nsu2 - nrt2);
+    const double gNOtu3 = gNOt3 + (gNOu3 - gNOt3) * (nz3 - nrt3) / (nsu3 - nrt3);
 
-    double gNOrs1 = gNOr1 + (gNOs1 - gNOr1) * (nz1 - nrt1) / (nsu1 - nrt1);
-    double gNOrs2 = gNOr2 + (gNOs2 - gNOr2) * (nz2 - nrt2) / (nsu2 - nrt2);
-    double gNOrs3 = gNOr3 + (gNOs3 - gNOr3) * (nz3 - nrt3) / (nsu3 - nrt3);
+    const double gNOrs1 = gNOr1 + (gNOs1 - gNOr1) * (nz1 - nrt1) / (nsu1 - nrt1);
+    const double gNOrs2 = gNOr2 + (gNOs2 - gNOr2) * (nz2 - nrt2) / (nsu2 - nrt2);
+    const double gNOrs3 = gNOr3 + (gNOs3 - gNOr3) * (nz3 - nrt3) / (nsu3 - nrt3);
 
     gNOx1c = gNOrs1 + (gNOtu1 - gNOrs1) * (Nz1 - Nrs1) / (Ntu1 - Nrs1);
     gNOx2c = gNOrs2 + (gNOtu2 - gNOrs2) * (Nz2 - Nrs2) / (Ntu2 - Nrs2);
@@ -1062,9 +1062,9 @@ void CycleEmissions::calculate_gCO() {
     array_mCO.clear(); array_mCO.resize(NumberOfPoints);
     array_gCO.clear(); array_gCO.resize(NumberOfPoints);
 
-    double muCO = config->valmuCO();
+    const double muCO = config->valmuCO();
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
@@ -1123,9 +1123,9 @@ void CycleEmissions::calculate_gCH() {
     array_mCH.clear(); array_mCH.resize(NumberOfPoints);
     array_gCH.clear(); array_gCH.resize(NumberOfPoints);
 
-    double muCH = config->valmuCH();
+    const double muCH = config->valmuCH();
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
@@ -1198,8 +1198,8 @@ void CycleEmissions::calculate_gPT() {
     array_mPT.clear();   array_mPT.resize(NumberOfPoints);
     array_gPT.clear();   array_gPT.resize(NumberOfPoints);
 
-    ptrdiff_t std = params->valStandard();
-    ptrdiff_t ptclc = params->valPTcalc();
+    const ptrdiff_t std = params->valStandard();
+    const ptrdiff_t ptclc = params->valPTcalc();
 
     if ( (ptclc != PTCALC_NO) &&
          ( (std != STD_OST) && (std != STD_GOST) && (std != STD_EU0) &&
@@ -1220,8 +1220,8 @@ void CycleEmissions::calculate_gPT() {
             n = NumberOfPoints;
         }
 
-        double L = config->valL();
-        double Rr = config->valRr();
+        const double L = config->valL();
+        const double Rr = config->valRr();
 
         double summ_mPT = 0;
         double summ_Ne_netto = 0;
@@ -1332,7 +1332,7 @@ void CycleEmissions::calculate_rEGR() {
     array_rEGR.clear();      array_rEGR.resize(NumberOfPoints);
     array_alpha_res.clear(); array_alpha_res.resize(NumberOfPoints);
 
-    double CCO2air = config->valConcCO2air();
+    const double CCO2air = config->valConcCO2air();
 
     if ( EGRcalc ) {
 
@@ -1359,7 +1359,7 @@ void CycleEmissions::calculate_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
     if ( ( (std == STD_EU6) || (std == STD_EU5) || (std == STD_EU4) ||
@@ -1399,7 +1399,7 @@ void CycleEmissions::compareAlpha() {
         if ( EGRcalc ) {
 
             double ConcO2mix = 0;
-            double ConcO2air = config->valConcO2air();
+            const double ConcO2air = config->valConcO2air();
 
             if ( ConcO2air < 1 ) {
 
@@ -1471,7 +1471,7 @@ QString CycleEmissions::results() const {
         message += "gCH = " + QString::number(gCH) + " g/kWh\n";
     }
 
-    ptrdiff_t ptclc = params->valPTcalc();
+    const ptrdiff_t ptclc = params->valPTcalc();
 
     if ( ptclc == PTCALC_THROUGHSMOKE ||
          ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
@@ -1506,10 +1506,10 @@ QString CycleEmissions::createReports() {
         testcondres = "Check test conditions: FAILED.";
     }
 
-    ptrdiff_t std = params->valStandard();
-    ptrdiff_t ptclc = params->valPTcalc();
+    const ptrdiff_t std = params->valStandard();
+    const ptrdiff_t ptclc = params->valPTcalc();
 
-    QString dirnameReports = config->valDirNameReports();
+    const QString dirnameReports = config->valDirNameReports();
 
     fullReportsPath = dirnameReports + QDir::separator() +
             params->defStandardName(std) + "_" + mytime;
@@ -1519,10 +1519,11 @@ QString CycleEmissions::createReports() {
 
     //
 
-    QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
+    const QString checkoutDataFileName = "CheckoutData_" + mytime + ".csv";
 
-    QString checkoutdata = reportdir.relativeFilePath(fullReportsPath) +
-            reportdir.separator() + checkoutDataFileName;
+    const QString checkoutdata = reportdir.relativeFilePath(fullReportsPath)
+            + reportdir.separator()
+            + checkoutDataFileName;
 
     QFile data1(checkoutdata);
 
@@ -1573,7 +1574,7 @@ QString CycleEmissions::createReports() {
 
     fout1 << "\n";
 
-    ptrdiff_t prec = PRECISION + 1;
+    const ptrdiff_t prec = PRECISION + 1;
 
     fout1 << fixed << right;
 
@@ -1645,8 +1646,9 @@ QString CycleEmissions::createReports() {
         sourceDataFileName = "SourceData49_" + mytime + ".csv";
     }
 
-    QString srcdata = reportdir.relativeFilePath(fullReportsPath) +
-            reportdir.separator() + sourceDataFileName;
+    const QString srcdata = reportdir.relativeFilePath(fullReportsPath)
+            + reportdir.separator()
+            + sourceDataFileName;
 
     QFile data4(srcdata);
 
@@ -1721,8 +1723,9 @@ QString CycleEmissions::createReports() {
                 reportFileNamePT = "Report49_PT_" + mytime + ".txt";
             }
 
-            QString reppt = reportdir.relativeFilePath(fullReportsPath) +
-                    reportdir.separator() + reportFileNamePT;
+            const QString reppt = reportdir.relativeFilePath(fullReportsPath)
+                    + reportdir.separator()
+                    + reportFileNamePT;
 
             QFile data6(reppt);
 
@@ -1873,8 +1876,7 @@ QString CycleEmissions::createReports() {
                   << "Limitation" << "CalcResult" << "Conclusion"
                   << qSetFieldWidth(0) << "\n";
 
-            double gPTLimit = 0;
-            gPTLimit = valPTLimit(std);
+            double gPTLimit = valPTLimit(std);
 
             fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPT[g/kWh]";
 
@@ -1936,8 +1938,9 @@ QString CycleEmissions::createReports() {
             reportFileNameGAS = "Report49_GAS_" + mytime + ".txt";
         }
 
-        QString repgas = reportdir.relativeFilePath(fullReportsPath) +
-                reportdir.separator() + reportFileNameGAS;
+        const QString repgas = reportdir.relativeFilePath(fullReportsPath)
+                + reportdir.separator()
+                + reportFileNameGAS;
 
         QFile data5(repgas);
 
@@ -2439,13 +2442,13 @@ QString CycleEmissions::createReports() {
             if ( (std == STD_C1) || (std == STD_D1) || (std == STD_D2) ||
                  (std == STD_F)  || (std == STD_G1) || (std == STD_G2) ) {
 
-                ptrdiff_t std1 = std + 20; // old
+                const ptrdiff_t std1 = std + 20; // old
 
                 gNOxLimit1 = valNOxLimit(std1);
                 gCOLimit1 = valCOLimit(std1);
                 gCHLimit1 = valCHLimit(std1);
 
-                ptrdiff_t std2 = std + 10; // new
+                const ptrdiff_t std2 = std + 10; // new
 
                 gNOxLimit2 = valNOxLimit(std2);
                 gCOLimit2 = valCOLimit(std2);
@@ -2454,13 +2457,13 @@ QString CycleEmissions::createReports() {
             else if ( (std == STD_E1) || (std == STD_E2) ||
                       (std == STD_E3) || (std == STD_E5) ) {
 
-                ptrdiff_t std1 = std + 20; // old
+                const ptrdiff_t std1 = std + 20; // old
 
                 gNOxLimit1 = valNOxLimit(std1, array_n[0]);
                 gCOLimit1 = valCOLimit(std1);
                 gCHLimit1 = valCHLimit(std1);
 
-                ptrdiff_t std2 = std + 10; // new
+                const ptrdiff_t std2 = std + 10; // new
 
                 gNOxLimit2 = valNOxLimit(std2, array_n[0]);
                 gCOLimit2 = valCOLimit(std2);
@@ -2468,25 +2471,25 @@ QString CycleEmissions::createReports() {
             }
             else if (std == STD_GOST) {
 
-                ptrdiff_t std1 = std + 30; // ou
+                const ptrdiff_t std1 = std + 30; // ou
 
                 gNOxLimit1 = valNOxLimit(std1);
                 gCOLimit1 = valCOLimit(std1);
                 gCHLimit1 = valCHLimit(std1);
 
-                ptrdiff_t std2 = std + 40; // ol
+                const ptrdiff_t std2 = std + 40; // ol
 
                 gNOxLimit2 = valNOxLimit(std2);
                 gCOLimit2 = valCOLimit(std2);
                 gCHLimit2 = valCHLimit(std2);
 
-                ptrdiff_t std3 = std + 10; // nu
+                const ptrdiff_t std3 = std + 10; // nu
 
                 gNOxLimit3 = valNOxLimit(std3);
                 gCOLimit3 = valCOLimit(std3);
                 gCHLimit3 = valCHLimit(std3);
 
-                ptrdiff_t std4 = std + 20; // nl
+                const ptrdiff_t std4 = std + 20; // nl
 
                 gNOxLimit4 = valNOxLimit(std4);
                 gCOLimit4 = valCOLimit(std4);
@@ -2680,10 +2683,11 @@ QString CycleEmissions::createReports() {
 
     //
 
-    QString calcConfigFileName = mytime + ".conf";
+    const QString calcConfigFileName = mytime + ".conf";
 
-    QString calcparam = reportdir.relativeFilePath(fullReportsPath) +
-            reportdir.separator() + calcConfigFileName;
+    const QString calcparam = reportdir.relativeFilePath(fullReportsPath)
+            + reportdir.separator()
+            + calcConfigFileName;
 
     QFile data7(calcparam);
 

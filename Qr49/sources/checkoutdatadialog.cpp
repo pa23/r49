@@ -37,17 +37,19 @@ CheckoutDataDialog::~CheckoutDataDialog() {
 
 void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
-    QString newCheckoutDataFileName(QFileDialog::getSaveFileName(
-                                        this,
-                                        tr("Save Checkout Data As..."),
-                                        "Qr49_CheckoutData.csv",
-                                        QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-                                        0,
-                                        0));
+    const QString newCheckoutDataFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Checkout Data As..."),
+                    "Qr49_CheckoutData.csv",
+                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !newCheckoutDataFileName.isEmpty() ) {
 
-        QString myCheckoutData = ui.plainTextEdit_CheckoutData->toPlainText();
+        const QString myCheckoutData = ui.plainTextEdit_CheckoutData->toPlainText();
 
         QFile checkoutDataFile(newCheckoutDataFileName);
 

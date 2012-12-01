@@ -71,7 +71,7 @@ CyclePoints::~CyclePoints() {
 
 void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     QString filenameSource;
 
@@ -213,8 +213,8 @@ void CyclePoints::readCSV(const QVector< QVector<double> > &data) {
 
 void CyclePoints::fillArrays() {
 
-    ptrdiff_t std = params->valStandard();
-    ptrdiff_t addpc = params->valAddPointsCalc();
+    const ptrdiff_t std = params->valStandard();
+    const ptrdiff_t addpc = params->valAddPointsCalc();
 
     ptrdiff_t n = 0;
 
@@ -834,7 +834,7 @@ QString CyclePoints::createReport() const {
 
     QString message;
 
-    QString filenamePoints = config->valFileNamePoints();
+    const QString filenamePoints = config->valFileNamePoints();
 
     QFile data1(filenamePoints);
 
@@ -857,7 +857,7 @@ QString CyclePoints::createReport() const {
           << "tauf[s]"    << "qmdw[g/s]"   << "qmdew[g/s]"
           << "rd[-]"      << "\n";
 
-    ptrdiff_t std = params->valStandard();
+    const ptrdiff_t std = params->valStandard();
 
     ptrdiff_t n = 0;
 

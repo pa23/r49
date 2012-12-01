@@ -34,16 +34,15 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include <QStringList>
-#include <QDebug>
 
 NewVersions::NewVersions() :
     netmanager(new QNetworkAccessManager()),
     htmlData("") {
 
     connect(netmanager,
-            SIGNAL(finished(QNetworkReply*)),
+            SIGNAL(finished(QNetworkReply *)),
             this,
-            SLOT(replyFinished(QNetworkReply*)));
+            SLOT(replyFinished(QNetworkReply *)));
 }
 
 NewVersions::~NewVersions() {
@@ -60,18 +59,18 @@ void NewVersions::checkAvailableVersions() {
     netmanager->get(QNetworkRequest(QUrl(PAGEURL)));
 }
 
-void NewVersions::replyFinished(QNetworkReply* reply) {
+void NewVersions::replyFinished(QNetworkReply *reply) {
 
     if (reply->error()) {
 
-        QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" +
+        const QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" +
                 reply->errorString();
         QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
 
         return;
     }
 
-    QByteArray text = reply->readAll();
+    const QByteArray text = reply->readAll();
     htmlData = text.data();
 
     parseHtmlData();
@@ -81,8 +80,8 @@ void NewVersions::parseHtmlData() {
 
     QStringList strs = htmlData.split("\n", QString::SkipEmptyParts);
 
-    QString regexpstr1 = "(<a href=\"" + FILESURL + "/r49-.+</a>)";
-    QString regexpstr2 = "(\"" + FILESURL + "/r49-.+\")";
+    const QString regexpstr1 = "(<a href=\"" + FILESURL + "/r49-.+</a>)";
+    const QString regexpstr2 = "(\"" + FILESURL + "/r49-.+\")";
 
     QRegExp regExp1(regexpstr1);
     QRegExp regExp2(regexpstr2);
@@ -113,12 +112,19 @@ void NewVersions::parseHtmlData() {
 
     for (ptrdiff_t i=0; i<files.count(); i++) {
 
-        allfiles += files.at(i) + " (" + "<a href= \"" + urls.at(i) + "\" >" +
-                tr("Download") + "</a>)<br>";
+        allfiles += files.at(i)
+                + " (" + "<a href= \""
+                + urls.at(i)
+                + "\" >"
+                + tr("Download")
+                + "</a>)<br>";
     }
 
-    QString msg = tr("You use ") + tr("r49 distribution version ") +
-            R49VERSION + "<br><br>" + tr("Available distributions:<br><br>") +
-            allfiles;
+    const QString msg = tr("You use ")
+            + tr("r49 distribution version ")
+            + R49VERSION
+            + "<br><br>"
+            + tr("Available distributions:<br><br>")
+            + allfiles;
     QMessageBox::information(0, "Qr49", msg, 0, 0, 0);
 }

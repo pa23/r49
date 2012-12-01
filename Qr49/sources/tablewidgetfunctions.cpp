@@ -25,7 +25,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
-void addRows(QTableWidget *table, ptrdiff_t newNumber) {
+void addRows(QTableWidget *table, const ptrdiff_t newNumber) {
 
     for (ptrdiff_t i=table->rowCount(); i<newNumber; i++) {
 

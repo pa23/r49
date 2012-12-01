@@ -58,7 +58,6 @@
 #include <QObject>
 #include <QEvent>
 #include <QSettings>
-#include <QDebug>
 #include <QFontDatabase>
 #include <QLineEdit>
 #include <QComboBox>
@@ -101,27 +100,27 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->comboBox_task,
             SIGNAL(activated(int)),
             this,
-            SLOT(taskChanged(int)));
+            SLOT(taskChanged(const int)));
 
     connect(ui->comboBox_standard,
             SIGNAL(activated(int)),
             this,
-            SLOT(standardChanged(int)));
+            SLOT(standardChanged(const int)));
 
     connect(ui->comboBox_PTcalc,
             SIGNAL(activated(int)),
             this,
-            SLOT(PTcalcChanged(int)));
+            SLOT(PTcalcChanged(const int)));
 
     connect(ui->comboBox_OpenedReports,
             SIGNAL(activated(QString)),
             this,
-            SLOT(reportChanged(QString)));
+            SLOT(reportChanged(const QString &)));
 
     connect(ui->tabWidget_Data,
             SIGNAL(currentChanged(int)),
             this,
-            SLOT(tabChanged(int)));
+            SLOT(tabChanged(const int)));
 
     tableCellChangedConnect(true);
 
@@ -178,7 +177,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QFile excalibFont(":/fonts/fonts/excalib.ttf");
     excalibFont.open(QIODevice::ReadOnly);
 
-    ptrdiff_t fontid1 = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
+    const ptrdiff_t fontid1 = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
 
     excalibFont.close();
 
@@ -207,7 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
     dejavuFont.open(QIODevice::ReadOnly);
 
-    ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
+    const ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
 
     dejavuFont.close();
 
@@ -369,21 +368,21 @@ void MainWindow::readProgramSettings() {
     }
 }
 
-void MainWindow::tableCellChangedConnect(bool b) {
+void MainWindow::tableCellChangedConnect(const bool b) {
 
     if ( b ) {
 
-        connect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        connect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        connect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        connect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        connect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        connect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        connect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        connect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
     }
     else {
 
-        disconnect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        disconnect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        disconnect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
-        disconnect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(int, int)));
+        disconnect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        disconnect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        disconnect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        disconnect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
     }
 }
 
@@ -427,7 +426,7 @@ void MainWindow::readPreferences() {
 
 void MainWindow::loadAllSourceData() {
 
-    QString filenameSourceEU0 = config->valFileNameSourceEU0();
+    const QString filenameSourceEU0 = config->valFileNameSourceEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -447,7 +446,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenameSourceEU3 = config->valFileNameSourceEU3();
+    const QString filenameSourceEU3 = config->valFileNameSourceEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -467,7 +466,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePoints = config->valFileNamePoints();
+    const QString filenamePoints = config->valFileNamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -487,7 +486,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    QString filenamePowers = config->valFileNamePowers();
+    const QString filenamePowers = config->valFileNamePowers();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -506,7 +505,7 @@ void MainWindow::loadAllSourceData() {
     //}
 }
 
-bool MainWindow::fillTableEU0(QString filename) {
+bool MainWindow::fillTableEU0(const QString &filename) {
 
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
@@ -540,7 +539,7 @@ bool MainWindow::fillTableEU0(QString filename) {
     return true;
 }
 
-bool MainWindow::fillTableEU3(QString filename) {
+bool MainWindow::fillTableEU3(const QString &filename) {
 
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
@@ -574,7 +573,7 @@ bool MainWindow::fillTableEU3(QString filename) {
     return true;
 }
 
-bool MainWindow::fillTablePoints(QString filename) {
+bool MainWindow::fillTablePoints(const QString &filename) {
 
     QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
@@ -624,7 +623,7 @@ bool MainWindow::fillTablePoints(QString filename) {
     return true;
 }
 
-bool MainWindow::fillTableFullLoadCurve(QString filename) {
+bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
 
     QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
@@ -683,19 +682,19 @@ bool MainWindow::fillParameters() {
     }
 
     params->setTask(ui->comboBox_task->currentIndex());
-    double Vh = ui->lineEdit_Vh->text().toDouble(); params->setVh(Vh);
+    params->setVh(ui->lineEdit_Vh->text().toDouble());
     params->setStandard(ui->comboBox_standard->currentIndex());
     params->setChargingType(ui->comboBox_chargingType->currentIndex());
     params->setFuelType(ui->comboBox_FuelType->currentIndex());
     params->setNOxSample(ui->comboBox_NOxSample->currentIndex());
     params->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    double PTMass = ui->lineEdit_PTmass->text().toDouble(); params->setPTmass(PTMass);
+    params->setPTmass(ui->lineEdit_PTmass->text().toDouble());
     params->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
 }
 
-bool MainWindow::arithmeticOperation(QString operation) {
+bool MainWindow::arithmeticOperation(const QString &operation) {
 
     QLineEdit *value = valueDialog->findChild<QLineEdit *>("lineEdit_Value");
 
@@ -812,15 +811,17 @@ void MainWindow::on_action_DataImport_activated() {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    QString dir(config->valDirNameReports());
+    const QString dir(config->valDirNameReports());
 
-    QString anotherSourceFile(QFileDialog::getOpenFileName(
-                                  this,
-                                  tr("Open Source Data File..."),
-                                  dir,
-                                  QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-                                  0,
-                                  0));
+    const QString anotherSourceFile(
+                QFileDialog::getOpenFileName(
+                    this,
+                    tr("Open Source Data File..."),
+                    dir,
+                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( table == ui->tableWidget_SrcDataEU0 ) {
 
@@ -900,7 +901,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if ( table == ui->tableWidget_SrcDataEU0 ) {
 
-        QString filenameSourceEU0 = config->valFileNameSourceEU0();
+        const QString filenameSourceEU0 = config->valFileNameSourceEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -924,7 +925,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
-        QString filenameSourceEU3 = config->valFileNameSourceEU3();
+        const QString filenameSourceEU3 = config->valFileNameSourceEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -953,7 +954,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        QString filenamePoints = config->valFileNamePoints();
+        const QString filenamePoints = config->valFileNamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -985,7 +986,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        QString filenamePowers = config->valFileNamePowers();
+        const QString filenamePowers = config->valFileNamePowers();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1014,13 +1015,15 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
 void MainWindow::on_action_SaveSourceDataAs_activated() {
 
-    QString newSourceDataFileName(QFileDialog::getSaveFileName(
-                                      this,
-                                      tr("Save Source Data File As..."),
-                                      "noname.csv",
-                                      QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
-                                      0,
-                                      0));
+    const QString newSourceDataFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Source Data File As..."),
+                    "noname.csv",
+                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !newSourceDataFileName.isEmpty() ) {
 
@@ -1066,15 +1069,17 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    QString dir(config->valDirNameReports());
+    const QString dir(config->valDirNameReports());
 
-    QString anotherOptions(QFileDialog::getOpenFileName(
-                               this,
-                               tr("Open Calculation Options File..."),
-                               dir,
-                               QString::fromAscii("Config files (*.conf);;All files (*.*)"),
-                               0,
-                               0));
+    const QString anotherOptions(
+                QFileDialog::getOpenFileName(
+                    this,
+                    tr("Open Calculation Options File..."),
+                    dir,
+                    QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !anotherOptions.isEmpty() ) {
 
@@ -1107,13 +1112,15 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
 void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
-    QString optionsFileName(QFileDialog::getSaveFileName(
-                                this,
-                                tr("Save Options..."),
-                                "noname.conf",
-                                QString::fromAscii("Config files (*.conf);;All files (*.*)"),
-                                0,
-                                0));
+    const QString optionsFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Options..."),
+                    "noname.conf",
+                    QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !optionsFileName.isEmpty() ) {
 
@@ -1154,15 +1161,17 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    QString dir(config->valDirNameReports());
+    const QString dir(config->valDirNameReports());
 
-    QString anotherReport(QFileDialog::getOpenFileName(
-                              this,
-                              tr("Open Report..."),
-                              dir,
-                              QString::fromAscii("Text files (*.txt);;All files (*.*)"),
-                              0,
-                              0));
+    const QString anotherReport(
+                QFileDialog::getOpenFileName(
+                    this,
+                    tr("Open Report..."),
+                    dir,
+                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !anotherReport.isEmpty() ) {
 
@@ -1175,13 +1184,15 @@ void MainWindow::on_action_OpenReport_activated() {
 
 void MainWindow::on_action_SaveReportAs_activated() {
 
-    QString newReportFileName(QFileDialog::getSaveFileName(
-                                  this,
-                                  tr("Save Report As..."),
-                                  ui->comboBox_OpenedReports->currentText(),
-                                  QString::fromAscii("Text files (*.txt);;All files (*.*)"),
-                                  0,
-                                  0));
+    const QString newReportFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Report As..."),
+                    ui->comboBox_OpenedReports->currentText(),
+                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     if ( !newReportFileName.isEmpty() ) {
 
@@ -1219,15 +1230,17 @@ void MainWindow::on_action_CloseReport_activated() {
 
 void MainWindow::on_action_ReportToPDF_activated() {
 
-    QString filename = ui->comboBox_OpenedReports->currentText() + ".pdf";
+    const QString filename = ui->comboBox_OpenedReports->currentText() + ".pdf";
 
-    QString newReportFileName(QFileDialog::getSaveFileName(
-                                  this,
-                                  tr("Export Report to PDF..."),
-                                  filename,
-                                  QString::fromAscii("PDF files (*.pdf);;All files (*.*)"),
-                                  0,
-                                  0));
+    const QString newReportFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Export Report to PDF..."),
+                    filename,
+                    QString::fromAscii("PDF files (*.pdf);;All files (*.*)"),
+                    0,
+                    0)
+                );
 
     QPrinter printer;
 
@@ -1528,11 +1541,11 @@ void MainWindow::on_action_CopyFromTable_activated() {
 
 void MainWindow::on_action_PasteToTable_activated() {
 
-    QString str = QApplication::clipboard()->text();
+    const QString str = QApplication::clipboard()->text();
     QStringList rows = str.split('\n');
 
-    ptrdiff_t numRows = rows.count() - 1;
-    ptrdiff_t numColumns = rows.first().count('\t') + 1;
+    const ptrdiff_t numRows = rows.count() - 1;
+    const ptrdiff_t numColumns = rows.first().count('\t') + 1;
 
     if ( (table->columnCount() - table->currentColumn()) < numColumns ) {
 
@@ -1542,8 +1555,8 @@ void MainWindow::on_action_PasteToTable_activated() {
 
     //
 
-    ptrdiff_t destRows = table->rowCount() - table->currentRow();
-    ptrdiff_t totalRows = table->currentRow() + numRows;
+    const ptrdiff_t destRows = table->rowCount() - table->currentRow();
+    const ptrdiff_t totalRows = table->currentRow() + numRows;
 
     tableCellChangedConnect(false);
 
@@ -1699,7 +1712,7 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        QString filenamePoints = config->valFileNamePoints();
+        const QString filenamePoints = config->valFileNamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
@@ -1762,7 +1775,7 @@ void MainWindow::on_action_Execute_activated() {
 
             lastReportsDir = myEmissions->lastReportsDir();
 
-            QString csvfilter("*.csv");
+            const QString csvfilter("*.csv");
             QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
 
             lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
@@ -1777,7 +1790,7 @@ void MainWindow::on_action_Execute_activated() {
 
                 ui->tabWidget_Data->setCurrentIndex(3);
 
-                QString txtfilter("*.txt");
+                const QString txtfilter("*.txt");
                 QStringList reports(lastReportsDir.entryList(QDir::nameFiltersFromString(txtfilter), QDir::Files, QDir::Time));
 
                 lastReportFileName = lastReportsDir.absoluteFilePath(reports.first());
@@ -1825,7 +1838,7 @@ void MainWindow::on_action_Execute_activated() {
 
         lastReportsDir = myReducedPower->lastReportsDir();
 
-        QString csvfilter("*.csv");
+        const QString csvfilter("*.csv");
         QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
 
         lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
@@ -1893,10 +1906,20 @@ void MainWindow::on_action_StandardsDescription_activated() {
 
 void MainWindow::on_action_AboutQr49_activated() {
 
-    QString str = "<b>r49 distribution version " + R49VERSION + "</b><br><br>" + QR49VERSION + ", libtoxic v" + LIBTOXICVERSION +
-            "<br><br>Calculation of modes and specific emissions for stationary diesel engine test cycles (UN ECE Regulation No. 49, UN ECE Regulation No. 96, UN ECE Regulation No. 85, OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
-            "<br><br>Copyright (C) 2009-2012 Artem Petrov <a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
-            "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">https://github.com/pa23/r49</a>"
+    const QString str = "<b>r49 distribution version "
+            + R49VERSION
+            + "</b><br><br>"
+            + QR49VERSION
+            + ", libtoxic v"
+            + LIBTOXICVERSION
+            + "<br><br>Calculation of modes and specific emissions for "
+            "stationary diesel engine test cycles (UN ECE Regulation No. 49, "
+            "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
+            "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
+            "<br><br>Copyright (C) 2009-2012 Artem Petrov "
+            "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
+            "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">"
+            "https://github.com/pa23/r49</a>"
             "<br>Author's blog (RU): "
             "<a href= \"http://pa2311.blogspot.com\">"
             "http://pa2311.blogspot.com</a>"
@@ -1909,7 +1932,8 @@ void MainWindow::on_action_AboutQr49_activated() {
             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
             "GNU General Public License for more details. "
             "<br>You should have received a copy of the GNU General Public License "
-            "along with this program. If not, see <a href= \"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
+            "along with this program. If not, see <a href= "
+            "\"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
 
     QMessageBox::about(this, tr("About Qr49"), str);
 }
@@ -1945,7 +1969,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
     }
 }
 
-void MainWindow::taskChanged(int currtask) {
+void MainWindow::taskChanged(const int currtask) {
 
     if ( currtask == TASK_POINTS ) {
 
@@ -1958,7 +1982,7 @@ void MainWindow::taskChanged(int currtask) {
         ui->lineEdit_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
 
-        ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
+        const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
         if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
@@ -2011,7 +2035,7 @@ void MainWindow::taskChanged(int currtask) {
         ui->comboBox_standard->setEnabled(true);
         ui->comboBox_chargingType->setEnabled(true);
 
-        ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
+        const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
         if ( (currstd == STD_C1) || (currstd == STD_D1) || (currstd == STD_D2) ||
              (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
@@ -2112,7 +2136,7 @@ void MainWindow::taskChanged(int currtask) {
     }
 }
 
-void MainWindow::standardChanged(int currstd) {
+void MainWindow::standardChanged(const int currstd) {
 
     if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
 
@@ -2154,7 +2178,7 @@ void MainWindow::standardChanged(int currstd) {
     }
 }
 
-void MainWindow::PTcalcChanged(int currptcalc) {
+void MainWindow::PTcalcChanged(const int currptcalc) {
 
     if ( (currptcalc == PTCALC_THROUGHSMOKE) || (currptcalc == PTCALC_NO) ) {
 
@@ -2168,7 +2192,7 @@ void MainWindow::PTcalcChanged(int currptcalc) {
     }
 }
 
-void MainWindow::reportChanged(QString path) {
+void MainWindow::reportChanged(const QString &path) {
 
     QFile reportFile(path);
 
@@ -2185,7 +2209,7 @@ void MainWindow::reportChanged(QString path) {
     reportFile.close();
 }
 
-void MainWindow::tabChanged(int tab) {
+void MainWindow::tabChanged(const int tab) {
 
     if ( tab == 3 ) {
 
@@ -2248,7 +2272,7 @@ void MainWindow::tabChanged(int tab) {
     }
 }
 
-void MainWindow::arithmeticOperationIsAvailable(bool b) {
+void MainWindow::arithmeticOperationIsAvailable(const bool b) {
 
     ui->action_Add->setEnabled(b);
     ui->action_Multiply->setEnabled(b);
@@ -2256,7 +2280,7 @@ void MainWindow::arithmeticOperationIsAvailable(bool b) {
     ui->action_Equal->setEnabled(b);
 }
 
-void MainWindow::tableCellChanged(int n, int m) {
+void MainWindow::tableCellChanged(const int n, const int m) {
 
     QString str = table->item(n, m)->text();
     int pos = 0;
@@ -2433,8 +2457,8 @@ void MainWindow::on_action_RedoTable_activated() {
 
 void MainWindow::abcCalculation() {
 
-    double n_hi = ui->doubleSpinBox_nhi->value();
-    double n_lo = ui->doubleSpinBox_nlo->value();
+    const double n_hi = ui->doubleSpinBox_nhi->value();
+    const double n_lo = ui->doubleSpinBox_nlo->value();
 
     double A = 0;
     double B = 0;

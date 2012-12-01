@@ -57,19 +57,19 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->comboBox_delimiter,
-            SIGNAL(activated(QString)),
+            SIGNAL(activated(int)),
             this,
-            SLOT(combosUpdate(QString)));
+            SLOT(combosUpdate(const int)));
 
     connect(ui->spinBox_HeaderLines,
-            SIGNAL(valueChanged(QString)),
+            SIGNAL(valueChanged(int)),
             this,
-            SLOT(combosUpdate(QString)));
+            SLOT(combosUpdate(const int)));
 
     connect(ui->lineEdit_DataFile,
-            SIGNAL(textChanged(QString)),
+            SIGNAL(textChanged(int)),
             this,
-            SLOT(combosUpdate(QString)));
+            SLOT(combosUpdate(const int)));
 }
 
 DataImportDialog::~DataImportDialog() {
@@ -77,12 +77,12 @@ DataImportDialog::~DataImportDialog() {
     delete ui;
 }
 
-void DataImportDialog::SetDestinationTable(ptrdiff_t tlid, QTableWidget *dt) {
+void DataImportDialog::SetDestinationTable(const ptrdiff_t tlid, QTableWidget *dt) {
 
     table_lid = tlid;
     dtable = dt;
 
-    combosUpdate("");
+    combosUpdate(0);
 }
 
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
@@ -123,16 +123,16 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
 void DataImportDialog::on_pushButton_Next_clicked() {
 
-    ptrdiff_t scount = arrayImportedData.count();
-    ptrdiff_t dcount = dtable->rowCount();
+    const ptrdiff_t scount = arrayImportedData.count();
+    const ptrdiff_t dcount = dtable->rowCount();
 
     if (scount > dcount) {
 
         addRows(dtable, scount);
     }
 
-    ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
-    ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
+    const ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
+    const ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
 
     for (ptrdiff_t i=0; i<scount; i++) {
 
@@ -168,11 +168,11 @@ void DataImportDialog::on_pushButton_Next_clicked() {
     }
 }
 
-void DataImportDialog::combosUpdate(QString str) {
+void DataImportDialog::combosUpdate(const int ind) {
 
     //
 
-    (void)str;
+    (void)ind;
 
     //
 

@@ -73,7 +73,7 @@ void CommonParameters::readConfigFile(const QString &configFileName) {
     }
     else {
 
-        QString myPreferences =
+        const QString myPreferences =
                 "//\n// This is r49 configuration file. "
                 "Parameter-Value delimeter is \"=\" symbol.\n// "
                 "Text after \"//\" is comment.\n//\n\n"

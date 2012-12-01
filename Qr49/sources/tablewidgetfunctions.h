@@ -26,6 +26,6 @@
 
 const ptrdiff_t tableRowHeight = 20;
 
-void addRows(QTableWidget *, ptrdiff_t);
+void addRows(QTableWidget *, const ptrdiff_t);
 
 #endif // TABLEWIDGETFUNCTIONS_H

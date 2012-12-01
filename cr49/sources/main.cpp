@@ -175,7 +175,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if ( param == "Vh" ) {
 
-            double val = value.toDouble();
+            const double val = value.toDouble();
 
             if ( (val>0) && (val<666000) ) {
 
@@ -211,7 +211,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
         }
         else if ( param == "PTmass" ) {
 
-            double val = value.toDouble();
+            const double val = value.toDouble();
 
             if ( (val>0) && (val<666000) ) {
 
@@ -261,7 +261,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        ptrdiff_t currtask = params->valTask();
+        const ptrdiff_t currtask = params->valTask();
 
         if ( currtask == TASK_ABCSPEEDS ) {
 

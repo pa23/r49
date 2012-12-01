@@ -97,14 +97,14 @@ private:
     void writeProgramSettings();
     void readProgramSettings();
     void loadAllSourceData();
-    bool fillTableEU0(QString filename);
-    bool fillTableEU3(QString filename);
-    bool fillTablePoints(QString filename);
-    bool fillTableFullLoadCurve(QString filename);
+    bool fillTableEU0(const QString &);
+    bool fillTableEU3(const QString &);
+    bool fillTablePoints(const QString &);
+    bool fillTableFullLoadCurve(const QString &);
     bool fillParameters();
-    bool arithmeticOperation(QString);
-    void arithmeticOperationIsAvailable(bool);
-    void tableCellChangedConnect(bool);
+    bool arithmeticOperation(const QString &);
+    void arithmeticOperationIsAvailable(const bool);
+    void tableCellChangedConnect(const bool);
     void getUndoRedoCounters(QTableWidget *);
     void setUndoRedoButtonState();
     void saveTableState();
@@ -156,12 +156,12 @@ private slots:
     void on_action_CheckForUpdates_activated();
 
     void on_pushButton_EnterPTmass_clicked();
-    void taskChanged(int);
-    void standardChanged(int);
-    void PTcalcChanged(int);
-    void reportChanged(QString);
-    void tabChanged(int);
-    void tableCellChanged(int, int);
+    void taskChanged(const int);
+    void standardChanged(const int);
+    void PTcalcChanged(const int);
+    void reportChanged(const QString &);
+    void tabChanged(const int);
+    void tableCellChanged(const int, const int);
 
     void abcCalculation();
     void gairCalculation();

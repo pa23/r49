@@ -21,13 +21,11 @@
 
 #include "emissionlimits.h"
 #include "libtoxicconstants.h"
-
-#include <QDebug>
-#include <QString>
+#include "toxicerror.h"
 
 #include <cmath>
 
-double valNOxLimit(ptrdiff_t stnd, double n_rated) {
+double valNOxLimit(const ptrdiff_t stnd, const double n_rated) {
 
     if      (stnd == STD_EU6     ) { return  2.00; }
     else if (stnd == STD_EU5     ) { return  2.00; }
@@ -87,15 +85,13 @@ double valNOxLimit(ptrdiff_t stnd, double n_rated) {
     } // old
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
-
-        return 0;
+        throw ToxicError("Emission limit is unknown!");
     }
 
     return 0;
 }
 
-double valCOLimit(ptrdiff_t stnd) {
+double valCOLimit(const ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6     ) { return  1.50; }
     else if (stnd == STD_EU5     ) { return  1.50; }
@@ -131,13 +127,11 @@ double valCOLimit(ptrdiff_t stnd) {
               (stnd == STD_E5+20) ) { return 1.2 * 3.0; } // old
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
-
-        return 0;
+        throw ToxicError("Emission limit is unknown!");
     }
 }
 
-double valCHLimit(ptrdiff_t stnd) {
+double valCHLimit(const ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6     ) { return  0.25; }
     else if (stnd == STD_EU5     ) { return  0.46; }
@@ -169,13 +163,11 @@ double valCHLimit(ptrdiff_t stnd) {
               (stnd == STD_E5+20) ) { return 1.25 * 1.0; } // old
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
-
-        return 0;
+        throw ToxicError("Emission limit is unknown!");
     }
 }
 
-double valPTLimit(ptrdiff_t stnd) {
+double valPTLimit(const ptrdiff_t stnd) {
 
     if      (stnd == STD_EU6 ) { return  0.02; }
     else if (stnd == STD_EU5 ) { return  0.02; }
@@ -193,13 +185,11 @@ double valPTLimit(ptrdiff_t stnd) {
     else if ( (stnd == STD_R96K8) || (stnd == STD_R96K5) ) { return  0.60; }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
-
-        return 0;
+        throw ToxicError("Emission limit is unknown!");
     }
 }
 
-double valNOxCHLimit(ptrdiff_t stnd) {
+double valNOxCHLimit(const ptrdiff_t stnd) {
 
     if      ( (stnd == STD_R96H8) || (stnd == STD_R96H5) ) { return  4.00; }
     else if ( (stnd == STD_R96I8) || (stnd == STD_R96I5) ) { return  4.00; }
@@ -207,8 +197,6 @@ double valNOxCHLimit(ptrdiff_t stnd) {
     else if ( (stnd == STD_R96K8) || (stnd == STD_R96K5) ) { return  7.50; }
     else {
 
-        qDebug() << Q_FUNC_INFO << ":::" << "Emission limit is unknown!";
-
-        return 0;
+        throw ToxicError("Emission limit is unknown!");
     }
 }

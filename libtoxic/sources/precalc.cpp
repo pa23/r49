@@ -42,7 +42,7 @@ void calcABC(const double &n_hi,
         throw ToxicError("n_hi must be greater than n_lo!");
     }
 
-    double delta = (n_hi - n_lo) / 4.0;
+    const double delta = (n_hi - n_lo) / 4.0;
 
     *A = n_lo + delta;
     *B = *A   + delta;

@@ -43,7 +43,7 @@ public:
     explicit DataImportDialog(QWidget *parent = 0);
     ~DataImportDialog();
 
-    void SetDestinationTable(ptrdiff_t, QTableWidget *);
+    void SetDestinationTable(const ptrdiff_t, QTableWidget *);
 
 private:
 
@@ -65,7 +65,7 @@ private slots:
     void on_pushButton_SelectDataFile_clicked();
     void on_pushButton_Next_clicked();
 
-    void combosUpdate(QString);
+    void combosUpdate(const int);
 
 };
 
