@@ -2213,6 +2213,8 @@ void MainWindow::tabChanged(const int tab) {
 
     if ( tab == 3 ) {
 
+        PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
+
         ui->action_UndoTable->setEnabled(false);
         ui->action_RedoTable->setEnabled(false);
         ui->action_CutFromTable->setEnabled(false);
@@ -2241,6 +2243,7 @@ void MainWindow::tabChanged(const int tab) {
         }
 
         taskChanged(ui->comboBox_task->currentIndex());
+        PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
 
         if ( undoCount == 0 ) {
 
