@@ -221,7 +221,7 @@ void DataImportDialog::combosUpdate(QString str) {
 
             importedDataReader->readFile();
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             QMessageBox::critical(0, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
             return;

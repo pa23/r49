@@ -54,7 +54,7 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
 
             params->readCalcConfigFile(params->valCalcConfigFile());
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             throw;
         }
@@ -79,7 +79,7 @@ void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
 
             readerDataForCalc->readFile();
         }
-        catch(const ToxicError &toxerr) {
+        catch(ToxicError &toxerr) {
 
             throw;
         }
