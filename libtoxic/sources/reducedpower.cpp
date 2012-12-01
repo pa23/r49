@@ -50,14 +50,7 @@ ReducedPower::ReducedPower(const QSharedPointer<LibtoxicParameters> &prms,
 
     if (params->valCalcConfigFile() != "_._") {
 
-        try {
-
-            params->readCalcConfigFile(params->valCalcConfigFile());
-        }
-        catch(const ToxicError &toxerr) {
-
-            throw;
-        }
+        params->readCalcConfigFile(params->valCalcConfigFile());
     }
 }
 
@@ -75,15 +68,7 @@ void ReducedPower::readCSV(const QVector< QVector<double> > &data) {
                                               " ",
                                               STRSNUMBERFORCOLUMNCAPTION));
 
-        try{
-
-            readerDataForCalc->readFile();
-        }
-        catch(const ToxicError &toxerr) {
-
-            throw;
-        }
-
+        readerDataForCalc->readFile();
         array_DataForCalc = readerDataForCalc->csvData();
 
         if ( array_DataForCalc.isEmpty() ) {
