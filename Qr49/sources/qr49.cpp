@@ -73,12 +73,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     contextMenu(new QMenu()),
 
-    filterMassDialog(new FilterMassDialog()),
-    valueDialog(new ValueDialog()),
-    preferencesDialog(new PreferencesDialog()),
-    checkoutDataDialog(new CheckoutDataDialog()),
-    helpDialog(new HelpDialog()),
-    dataImportDialog(new DataImportDialog()),
+    filterMassDialog(new FilterMassDialog(this)),
+    valueDialog(new ValueDialog(this)),
+    preferencesDialog(new PreferencesDialog(this)),
+    checkoutDataDialog(new CheckoutDataDialog(this)),
+    helpDialog(new HelpDialog(this)),
+    dataImportDialog(new DataImportDialog(this)),
 
     regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
@@ -937,17 +937,13 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
 void MainWindow::on_action_DataImport_activated() {
 
-    tableCellChangedConnect(false);
-
     if ( table == ui->tableWidget_SrcDataPoints ) {
 
-        dataImportDialog->SetDestinationTable(2, table);
-        dataImportDialog->exec();
+        dataImportDialog->init(2, table);
     }
     else if ( table == ui->tableWidget_FullLoadCurve ) {
 
-        dataImportDialog->SetDestinationTable(3, table);
-        dataImportDialog->exec();
+        dataImportDialog->init(3, table);
     }
     else {
 
@@ -957,11 +953,20 @@ void MainWindow::on_action_DataImport_activated() {
                     tr("Data import is not available for the current table!"),
                     0, 0, 0
                     );
+        return;
     }
 
-    tableCellChangedConnect(true);
+    tableCellChangedConnect(false);
 
-    saveTableState();
+    if ( dataImportDialog->exec() == QDialog::Accepted ) {
+
+        tableCellChangedConnect(true);
+        saveTableState();
+    }
+    else {
+
+        tableCellChangedConnect(true);
+    }
 }
 
 void MainWindow::on_action_LoadSourceData_activated() {

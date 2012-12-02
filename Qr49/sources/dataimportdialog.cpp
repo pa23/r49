@@ -22,7 +22,6 @@
 #include "dataimportdialog.h"
 #include "ui_dataimportdialog.h"
 #include "tablewidgetfunctions.h"
-#include "toxicerror.h"
 
 #include <QSharedPointer>
 #include <QString>
@@ -35,6 +34,7 @@
 #include <QVector>
 
 #include "csvread.h"
+#include "toxicerror.h"
 
 DataImportDialog::DataImportDialog(QWidget *parent) :
     QDialog(parent),
@@ -52,7 +52,9 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
                                 "N_fan[kW]"),
     dataDirName(QDir::currentPath()),
     table_lid(0),
-    dtable(0) {
+    dtable(0),
+    templ(),
+    destTableDataChanged(false) {
 
     ui->setupUi(this);
 
@@ -77,18 +79,22 @@ DataImportDialog::~DataImportDialog() {
     delete ui;
 }
 
-void DataImportDialog::SetDestinationTable(const ptrdiff_t tlid,
-                                           QTableWidget *dt) {
+void DataImportDialog::init(const ptrdiff_t tlid,
+                            QTableWidget *dt) {
 
     table_lid = tlid;
     dtable = dt;
 
     combosUpdate(0);
+
+    //
+
+    // loading template file names
 }
 
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
-    if (!dtable) {
+    if ( !dtable ) {
 
         QMessageBox::critical(
                     this,
@@ -125,18 +131,20 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     }
 }
 
-void DataImportDialog::on_pushButton_Next_clicked() {
+void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     const ptrdiff_t scount = arrayImportedData.count();
     const ptrdiff_t dcount = dtable->rowCount();
 
-    if (scount > dcount) {
+    if ( scount > dcount ) {
 
         addRows(dtable, scount);
     }
 
     const ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
     const ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
+
+    //
 
     for (ptrdiff_t i=0; i<scount; i++) {
 
@@ -170,11 +178,60 @@ void DataImportDialog::on_pushButton_Next_clicked() {
                     ui->comboBox_AnotherParameter->currentIndex() + 1
                     );
     }
+
+    //
+
+    templ += QString::number(dj) + " " + QString::number(sj) + "\n";
+    destTableDataChanged = true;
+}
+
+void DataImportDialog::on_pushButton_NextAuto_clicked() {
+
+    //
+}
+
+void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
+
+    const QString templFileName(
+                QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Template..."),
+                    "noname.txt",
+                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    0,
+                    0)
+                );
+
+    if ( !templFileName.isEmpty() ) {
+
+        QFile savedTemplate(templFileName);
+
+        if ( !savedTemplate.open(QIODevice::WriteOnly) ) {
+
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        templFileName
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
+            return;
+        }
+
+        savedTemplate.write(templ.toAscii());
+        savedTemplate.close();
+
+        templ.clear();
+    }
 }
 
 void DataImportDialog::combosUpdate(const QString &str) {
 
     (void)str;
+
+    //
+
+    templ.clear();
 
     //
 
@@ -253,5 +310,20 @@ void DataImportDialog::combosUpdate(const QString &str) {
         }
 
         ui->comboBox_AnotherParameter->addItems(headersImportedData);
+    }
+}
+
+void DataImportDialog::on_pushButton_Close_clicked() {
+
+    templ.clear();
+
+    if ( destTableDataChanged ) {
+
+        destTableDataChanged = false;
+        accept();
+    }
+    else {
+
+        reject();
     }
 }

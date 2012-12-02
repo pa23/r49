@@ -43,7 +43,8 @@ public:
     explicit DataImportDialog(QWidget *parent = 0);
     ~DataImportDialog();
 
-    void SetDestinationTable(const ptrdiff_t, QTableWidget *);
+    void init(const ptrdiff_t, // table local id
+              QTableWidget *);
 
 private:
 
@@ -59,11 +60,16 @@ private:
     QTableWidget *dtable;
     QVector< QVector<double> > arrayImportedData;
     QStringList headersImportedData;
+    QString templ;
+    bool destTableDataChanged;
 
 private slots:
 
     void on_pushButton_SelectDataFile_clicked();
-    void on_pushButton_Next_clicked();
+    void on_pushButton_NextManual_clicked();
+    void on_pushButton_NextAuto_clicked();
+    void on_pushButton_SaveTemplate_clicked();
+    void on_pushButton_Close_clicked();
 
     void combosUpdate(const QString &);
 
