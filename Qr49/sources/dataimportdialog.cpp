@@ -77,7 +77,8 @@ DataImportDialog::~DataImportDialog() {
     delete ui;
 }
 
-void DataImportDialog::SetDestinationTable(const ptrdiff_t tlid, QTableWidget *dt) {
+void DataImportDialog::SetDestinationTable(const ptrdiff_t tlid,
+                                           QTableWidget *dt) {
 
     table_lid = tlid;
     dtable = dt;
@@ -89,9 +90,12 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
     if (!dtable) {
 
-        QMessageBox::critical(this, "Qr49",
-                              tr("Invalid pointer to the destination table!"),
-                              0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Invalid pointer to the destination table!"),
+                    0, 0, 0
+                    );
 
         return;
     }
@@ -192,9 +196,12 @@ void DataImportDialog::combosUpdate(const QString &str) {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49",
-                              tr("Unknown delimiter for selected file parsing!"),
-                              0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Unknown delimiter for selected file parsing!"),
+                    0, 0, 0
+                    );
 
         return;
     }

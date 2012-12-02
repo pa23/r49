@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
 
     if ( !translator.load("qr49_" + QLocale::system().name()) ) {
 
-        translator.load("/usr/share/r49/translations/qr49_" + QLocale::system().name());
+        translator.load("/usr/share/r49/translations/qr49_"
+                        + QLocale::system().name());
     }
 
     a.installTranslator(&translator);

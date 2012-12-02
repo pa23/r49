@@ -157,10 +157,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    undoRedo_TableEU0 = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataEU0));
-    undoRedo_TableEU3 = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataEU3));
-    undoRedo_TablePoints = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_SrcDataPoints));
-    undoRedo_TableFullLoadCurve = QSharedPointer<UndoRedoTable>(new UndoRedoTable(ui->tableWidget_FullLoadCurve));
+    undoRedo_TableEU0 =
+            QSharedPointer<UndoRedoTable>
+            (new UndoRedoTable(ui->tableWidget_SrcDataEU0));
+    undoRedo_TableEU3 =
+            QSharedPointer<UndoRedoTable>
+            (new UndoRedoTable(ui->tableWidget_SrcDataEU3));
+    undoRedo_TablePoints =
+            QSharedPointer<UndoRedoTable>
+            (new UndoRedoTable(ui->tableWidget_SrcDataPoints));
+    undoRedo_TableFullLoadCurve =
+            QSharedPointer<UndoRedoTable>
+            (new UndoRedoTable(ui->tableWidget_FullLoadCurve));
 
     saveStateForAllTables();
 
@@ -177,46 +185,82 @@ MainWindow::MainWindow(QWidget *parent) :
     QFile excalibFont(":/fonts/fonts/excalib.ttf");
     excalibFont.open(QIODevice::ReadOnly);
 
-    const ptrdiff_t fontid1 = QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
+    const ptrdiff_t fontid1 =
+            QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
 
     excalibFont.close();
 
     if ( fontid1 == -1 ) {
 
-        QMessageBox::warning(this, "Qr49", tr("Can not load monospaced font excalib.ttf from program resources!"), 0, 0, 0);
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Can not load monospaced font excalib.ttf "
+                       "from program resources!"),
+                    0, 0, 0
+                    );
     }
     else {
 
-        monospacedFont_8.setFamily(QFontDatabase::applicationFontFamilies(fontid1).first());
+        monospacedFont_8.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid1).first()
+                    );
+
         monospacedFont_8.setPointSize(8);
-        monospacedFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid1).first());
+
+        monospacedFont_10.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid1).first()
+                    );
+
         monospacedFont_10.setPointSize(10);
 
         ui->plainTextEdit_Report->setFont(monospacedFont_10);
 
-        QPlainTextEdit *myPlainTextEdit_CheckoutData = checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
+        QPlainTextEdit *myPlainTextEdit_CheckoutData =
+                checkoutDataDialog->findChild<QPlainTextEdit *>
+                ("plainTextEdit_CheckoutData");
+
         if ( !myPlainTextEdit_CheckoutData ) {
 
-            QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        QString::fromAscii(Q_FUNC_INFO)
+                        + ":::"
+                        + tr("Child object not found!"),
+                        0, 0, 0
+                        );
+
             return;
         }
+
         myPlainTextEdit_CheckoutData->setFont(monospacedFont_10);
     }
 
     QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
     dejavuFont.open(QIODevice::ReadOnly);
 
-    const ptrdiff_t fontid2 = QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
+    const ptrdiff_t fontid2 =
+            QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
 
     dejavuFont.close();
 
     if ( fontid2 == -1 ) {
 
-        QMessageBox::warning(this, "Qr49", tr("Can not load monospaced font DejaVuSansMono.ttf from program resources!"), 0, 0, 0);
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Can not load monospaced font DejaVuSansMono.ttf "
+                       "from program resources!"),
+                    0, 0, 0
+                    );
     }
     else {
 
-        dejavusansmonoFont_10.setFamily(QFontDatabase::applicationFontFamilies(fontid2).first());
+        dejavusansmonoFont_10.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid2).first()
+                    );
+
         dejavusansmonoFont_10.setPointSize(10);
     }
 
@@ -372,17 +416,49 @@ void MainWindow::tableCellChangedConnect(const bool b) {
 
     if ( b ) {
 
-        connect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        connect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        connect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        connect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        connect(ui->tableWidget_SrcDataEU0,
+                SIGNAL(cellChanged(int, int)),
+                this,
+                SLOT(tableCellChanged(const int, const int))
+                );
+        connect(ui->tableWidget_SrcDataEU3,
+                SIGNAL(cellChanged(int, int)),
+                this,
+                SLOT(tableCellChanged(const int, const int))
+                );
+        connect(ui->tableWidget_SrcDataPoints,
+                SIGNAL(cellChanged(int, int)),
+                this,
+                SLOT(tableCellChanged(const int, const int))
+                );
+        connect(ui->tableWidget_FullLoadCurve,
+                SIGNAL(cellChanged(int, int)),
+                this,
+                SLOT(tableCellChanged(const int, const int))
+                );
     }
     else {
 
-        disconnect(ui->tableWidget_SrcDataEU0, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        disconnect(ui->tableWidget_SrcDataEU3, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        disconnect(ui->tableWidget_SrcDataPoints, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
-        disconnect(ui->tableWidget_FullLoadCurve, SIGNAL(cellChanged(int, int)), this, SLOT(tableCellChanged(const int, const int)));
+        disconnect(ui->tableWidget_SrcDataEU0,
+                   SIGNAL(cellChanged(int, int)),
+                   this,
+                   SLOT(tableCellChanged(const int, const int))
+                   );
+        disconnect(ui->tableWidget_SrcDataEU3,
+                   SIGNAL(cellChanged(int, int)),
+                   this,
+                   SLOT(tableCellChanged(const int, const int))
+                   );
+        disconnect(ui->tableWidget_SrcDataPoints,
+                   SIGNAL(cellChanged(int, int)),
+                   this,
+                   SLOT(tableCellChanged(const int, const int))
+                   );
+        disconnect(ui->tableWidget_FullLoadCurve,
+                   SIGNAL(cellChanged(int, int)),
+                   this,
+                   SLOT(tableCellChanged(const int, const int))
+                   );
     }
 }
 
@@ -434,15 +510,16 @@ void MainWindow::loadAllSourceData() {
 
         if ( !fillTableEU0(filenameSourceEU0) ) {
 
-            QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        tr("Can not fill table!"),
+                        0, 0, 0
+                        );
         }
 
         tableCellChangedConnect(true);
     }
-    //else {
-    //
-    //    QMessageBox::warning(this, "Qr49", filenameSourceEU0 + tr(" not found!"), 0, 0, 0);
-    //}
 
     //
 
@@ -454,15 +531,16 @@ void MainWindow::loadAllSourceData() {
 
         if ( !fillTableEU3(filenameSourceEU3) ) {
 
-            QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        tr("Can not fill table!"),
+                        0, 0, 0
+                        );
         }
 
         tableCellChangedConnect(true);
     }
-    //else {
-    //
-    //    QMessageBox::warning(this, "Qr49", filenameSourceEU3 + tr(" not found!"), 0, 0, 0);
-    //}
 
     //
 
@@ -474,15 +552,16 @@ void MainWindow::loadAllSourceData() {
 
         if ( !fillTablePoints(filenamePoints) ) {
 
-            QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        tr("Can not fill table!"),
+                        0, 0, 0
+                        );
         }
 
         tableCellChangedConnect(true);
     }
-    //else {
-    //
-    //    QMessageBox::warning(this, "Qr49", filenamePoints + tr(" not found!"), 0, 0, 0);
-    //}
 
     //
 
@@ -494,15 +573,16 @@ void MainWindow::loadAllSourceData() {
 
         if ( !fillTableFullLoadCurve(filenamePowers) ) {
 
-            QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        tr("Can not fill table!"),
+                        0, 0, 0
+                        );
         }
 
         tableCellChangedConnect(true);
     }
-    //else {
-    //
-    //    QMessageBox::warning(this, "Qr49", filenamePowers + tr(" not found!"), 0, 0, 0);
-    //}
 }
 
 bool MainWindow::fillTableEU0(const QString &filename) {
@@ -510,7 +590,9 @@ bool MainWindow::fillTableEU0(const QString &filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU0(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead> readerSourceDataEU0(
+                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
+                );
 
     try{
 
@@ -522,18 +604,27 @@ bool MainWindow::fillTableEU0(const QString &filename) {
         return false;
     }
 
-    QVector< QVector<double> > arraySourceDataEU0 = readerSourceDataEU0->csvData();
+    QVector< QVector<double> > arraySourceDataEU0 =
+            readerSourceDataEU0->csvData();
 
     if ( arraySourceDataEU0.at(0).size() != EU0SRCDATAPARAMSNUMBER ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Incorrect source data! Check number of points and calculation parameters."), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Incorrect source data! Check number of points "
+                       "and calculation parameters."),
+                    0, 0, 0
+                    );
         return false;
     }
 
     for ( ptrdiff_t j=0; j<arraySourceDataEU0.at(0).size(); j++ ) {
 
-        ui->tableWidget_SrcDataEU0->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0.at(0).at(j), 'f', 3)));
-        ui->tableWidget_SrcDataEU0->item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_SrcDataEU0->
+                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0.at(0).at(j), 'f', 3)));
+        ui->tableWidget_SrcDataEU0->
+                item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
 
     return true;
@@ -544,7 +635,9 @@ bool MainWindow::fillTableEU3(const QString &filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU3(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead> readerSourceDataEU3(
+                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
+                );
 
     try{
 
@@ -560,14 +653,22 @@ bool MainWindow::fillTableEU3(const QString &filename) {
 
     if ( arraySourceDataEU3.at(0).size() != EU3SRCDATAPARAMSNUMBER ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Incorrect source data! Check number of points and calculation parameters."), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Incorrect source data! Check number of points and "
+                       "calculation parameters."),
+                    0, 0, 0
+                    );
         return false;
     }
 
     for ( ptrdiff_t j=0; j<arraySourceDataEU3.at(0).size(); j++ ) {
 
-        ui->tableWidget_SrcDataEU3->setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3.at(0).at(j), 'f', 3)));
-        ui->tableWidget_SrcDataEU3->item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_SrcDataEU3->
+                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3.at(0).at(j), 'f', 3)));
+        ui->tableWidget_SrcDataEU3->
+                item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
 
     return true;
@@ -575,7 +676,8 @@ bool MainWindow::fillTableEU3(const QString &filename) {
 
 bool MainWindow::fillTablePoints(const QString &filename) {
 
-    QSharedPointer<csvRead> readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead>
+            readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     try{
 
@@ -587,17 +689,23 @@ bool MainWindow::fillTablePoints(const QString &filename) {
         return false;
     }
 
-    QVector< QVector<double> > arraySourceDataPoints = readerSourceDataPoints->csvData();
+    QVector< QVector<double> > arraySourceDataPoints =
+            readerSourceDataPoints->csvData();
 
     if ( arraySourceDataPoints.isEmpty() ) {
 
-        //QMessageBox::warning(this, "Qr49", tr("No data for Specific Emission Calculation table!"), 0, 0, 0);
         return false;
     }
 
     if ( arraySourceDataPoints.at(0).size() != POINTSFILECOLUMNSNUMBER ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Incorrect source data! Check number of points and calculation parameters."), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Incorrect source data! Check number of points and "
+                       "calculation parameters."),
+                    0, 0, 0
+                    );
         return false;
     }
 
@@ -605,18 +713,25 @@ bool MainWindow::fillTablePoints(const QString &filename) {
 
         ui->tableWidget_SrcDataPoints->setRowCount(i+1);
         ui->tableWidget_SrcDataPoints->setRowHeight(i, tableRowHeight);
-        ui->tableWidget_SrcDataPoints->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_SrcDataPoints->
+                verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_SrcDataPoints->setItem(i, 0, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][0], 'f', 0)));
-        ui->tableWidget_SrcDataPoints->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_SrcDataPoints->
+                setItem(i, 0, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][0], 'f', 0)));
+        ui->tableWidget_SrcDataPoints->
+                item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_SrcDataPoints->setItem(i, 1, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][1], 'f', 0)));
-        ui->tableWidget_SrcDataPoints->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_SrcDataPoints->
+                setItem(i, 1, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][1], 'f', 0)));
+        ui->tableWidget_SrcDataPoints->
+                item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
         for ( ptrdiff_t j=2; j<arraySourceDataPoints.at(i).size(); j++ ) {
 
-            ui->tableWidget_SrcDataPoints->setItem(i, j, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][j], 'f', 3)));
-            ui->tableWidget_SrcDataPoints->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            ui->tableWidget_SrcDataPoints->
+                    setItem(i, j, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][j], 'f', 3)));
+            ui->tableWidget_SrcDataPoints->
+                    item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         }
     }
 
@@ -625,7 +740,8 @@ bool MainWindow::fillTablePoints(const QString &filename) {
 
 bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
 
-    QSharedPointer<csvRead> readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead>
+            readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
 
     try{
 
@@ -637,17 +753,23 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
         return false;
     }
 
-    QVector< QVector<double> > arrayFullLoadCurve = readerFullLoadCurve->csvData();
+    QVector< QVector<double> > arrayFullLoadCurve =
+            readerFullLoadCurve->csvData();
 
     if ( arrayFullLoadCurve.isEmpty() ) {
 
-        //QMessageBox::warning(this, "Qr49", tr("No data for Full Load Curve table!"), 0, 0, 0);
         return false;
     }
 
     if ( arrayFullLoadCurve.at(0).size() != POWERSFILECOLUMNSNUMBER ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Incorrect source data! Check number of points and calculation parameters."), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Incorrect source data! Check number of points and "
+                       "calculation parameters."),
+                    0, 0, 0
+                    );
         return false;
     }
 
@@ -656,16 +778,22 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
         ui->tableWidget_FullLoadCurve->setRowCount(i+1);
         ui->tableWidget_FullLoadCurve->setRowHeight(i, tableRowHeight);
 
-        ui->tableWidget_FullLoadCurve->setItem(i, 0, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][0], 'f', 0)));
-        ui->tableWidget_FullLoadCurve->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_FullLoadCurve->
+                setItem(i, 0, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][0], 'f', 0)));
+        ui->tableWidget_FullLoadCurve->
+                item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        ui->tableWidget_FullLoadCurve->setItem(i, 1, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][1], 'f', 0)));
-        ui->tableWidget_FullLoadCurve->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->tableWidget_FullLoadCurve->
+                setItem(i, 1, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][1], 'f', 0)));
+        ui->tableWidget_FullLoadCurve->
+                item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
         for ( ptrdiff_t j=2; j<arrayFullLoadCurve.at(i).size(); j++ ) {
 
-            ui->tableWidget_FullLoadCurve->setItem(i, j, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][j], 'f', 3)));
-            ui->tableWidget_FullLoadCurve->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            ui->tableWidget_FullLoadCurve->
+                    setItem(i, j, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][j], 'f', 3)));
+            ui->tableWidget_FullLoadCurve->
+                    item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         }
     }
 
@@ -700,7 +828,14 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
     if ( !value ) {
 
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    QString::fromAscii(Q_FUNC_INFO)
+                    + ":::"
+                    + tr("Child object not found!"),
+                    0, 0, 0
+                    );
         return false;
     }
 
@@ -725,7 +860,12 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49", tr("Unknown arithmetic operation!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Unknown arithmetic operation!"),
+                    0, 0, 0
+                    );
         return false;
     }
 
@@ -745,7 +885,12 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
         if ( (y == 0.0) && (operation == "divide") ) {
 
-            QMessageBox::warning(this, "Qr49", tr("Illegal operation \"Divide by zero\"!"), 0, 0, 0);
+            QMessageBox::warning(
+                        this,
+                        "Qr49",
+                        tr("Illegal operation \"Divide by zero\"!"),
+                        0, 0, 0
+                        );
 
             return false;
         }
@@ -756,23 +901,28 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                x = table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->text().toDouble();
+                x = table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                        text().toDouble();
 
                 if ( operation == "add" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->setText(QString::number(x+y, 'f', 3));
+                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(x+y, 'f', 3));
                 }
                 else if ( operation == "multiply" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->setText(QString::number(x*y, 'f', 3));
+                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(x*y, 'f', 3));
                 }
                 else if ( operation == "divide" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->setText(QString::number(x/y, 'f', 3));
+                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(x/y, 'f', 3));
                 }
                 else if ( operation == "equal" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->setText(QString::number(y, 'f', 3));
+                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(y, 'f', 3));
                 }
             }
         }
@@ -801,7 +951,12 @@ void MainWindow::on_action_DataImport_activated() {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49", tr("Data import is not available for the current table!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Data import is not available for the current table!"),
+                    0, 0, 0
+                    );
     }
 
     tableCellChangedConnect(true);
@@ -833,7 +988,12 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if ( !fillTableEU0(anotherSourceFile) ) {
 
-                QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not fill table!"),
+                            0, 0, 0
+                            );
             }
         }
 
@@ -851,7 +1011,12 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if ( !fillTableEU3(anotherSourceFile) ) {
 
-                QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not fill table!"),
+                            0, 0, 0
+                            );
             }
         }
 
@@ -869,7 +1034,12 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if ( !fillTablePoints(anotherSourceFile) ) {
 
-                QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not fill table!"),
+                            0, 0, 0
+                            );
             }
         }
 
@@ -887,7 +1057,12 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
             if ( !fillTableFullLoadCurve(anotherSourceFile) ) {
 
-                QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not fill table!"),
+                            0, 0, 0
+                            );
             }
         }
 
@@ -907,11 +1082,18 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( !SrcDataEU0File.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", filenameSourceEU0 + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        filenameSourceEU0
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
-        SrcDataEU0File.write("idle[min-1] n_interim[min-1] n_rated[min-1] N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
+        SrcDataEU0File.write("idle[min-1] n_interim[min-1] n_rated[min-1] "
+                             "N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
 
         for ( ptrdiff_t j=0; j<EU0SRCDATAPARAMSNUMBER; j++ ) {
 
@@ -931,11 +1113,20 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( !SrcDataEU3File.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", filenameSourceEU3 + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        filenameSourceEU3
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
-        SrcDataEU3File.write("n_hi[min-1] n_lo[min-1] idle[min-1] n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] Ne_a3[Nm]\n");
+        SrcDataEU3File.write("n_hi[min-1] n_lo[min-1] idle[min-1] "
+                             "n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] "
+                             "Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] "
+                             "Ne_a3[Nm]\n");
 
         for ( ptrdiff_t j=0; j<EU3SRCDATAPARAMSNUMBER; j++ ) {
 
@@ -960,18 +1151,32 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( !SrcDataPointsFile.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", filenamePoints + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        filenamePoints
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
-        SrcDataPointsFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]\n");
+        SrcDataPointsFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] "
+                                "N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] "
+                                "dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] "
+                                "gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] "
+                                "C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] "
+                                "Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] "
+                                "rd[-]\n");
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
             for ( ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++ ) {
 
-                SrcDataPointsFile.write(table->item(i, j)->text().toAscii().data());
-                SrcDataPointsFile.write(" ");
+                SrcDataPointsFile.
+                        write(table->item(i, j)->text().toAscii().data());
+                SrcDataPointsFile.
+                        write(" ");
             }
 
             SrcDataPointsFile.write("\n");
@@ -992,18 +1197,28 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( !SrcDataPowersFile.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", filenamePowers + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        filenamePowers
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
-        SrcDataPowersFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]\n");
+        SrcDataPowersFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
+                                "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
+                                "N_fan[kW]\n");
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
             for ( ptrdiff_t j=0; j<POWERSFILECOLUMNSNUMBER; j++ ) {
 
-                SrcDataPowersFile.write(table->item(i, j)->text().toAscii().data());
-                SrcDataPowersFile.write(" ");
+                SrcDataPowersFile.
+                        write(table->item(i, j)->text().toAscii().data());
+                SrcDataPowersFile.
+                        write(" ");
             }
 
             SrcDataPowersFile.write("\n");
@@ -1031,25 +1246,42 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
         if ( !SrcDataFile.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", newSourceDataFileName + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        newSourceDataFileName
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
         if ( table == ui->tableWidget_SrcDataEU0 ) {
 
-            SrcDataFile.write("idle[min-1] n_interim[min-1] n_rated[min-1] N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
+            SrcDataFile.write("idle[min-1] n_interim[min-1] n_rated[min-1] "
+                              "N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
         }
         else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
-            SrcDataFile.write("n_hi[min-1] n_lo[min-1] idle[min-1] n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] Ne_a3[Nm]\n");
+            SrcDataFile.write("n_hi[min-1] n_lo[min-1] idle[min-1] "
+                              "n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] "
+                              "Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] "
+                              "Ne_a3[Nm]\n");
         }
         else if ( table == ui->tableWidget_SrcDataPoints ) {
 
-            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] rd[-]\n");
+            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] "
+                              "w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] "
+                              "Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] "
+                              "C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] "
+                              "Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] "
+                              "qmdw[g/s] qmdew[g/s] rd[-]\n");
         }
         else if ( table == ui->tableWidget_FullLoadCurve ) {
 
-            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] N_fan[kW]\n");
+            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
+                              "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
+                              "N_fan[kW]\n");
         }
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
@@ -1128,7 +1360,13 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
         if ( !savedOptions.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", optionsFileName + tr(" could not be opened!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        optionsFileName
+                        + tr(" could not be opened!"),
+                        0, 0, 0
+                        );
             return;
         }
 
@@ -1200,7 +1438,13 @@ void MainWindow::on_action_SaveReportAs_activated() {
 
         if ( !reportFile.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49", newReportFileName + tr(" could not be saved!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        newReportFileName
+                        + tr(" could not be saved!"),
+                        0, 0, 0
+                        );
             return;
         }
 
@@ -1209,7 +1453,8 @@ void MainWindow::on_action_SaveReportAs_activated() {
 
         reportFile.close();
 
-        ui->comboBox_OpenedReports->removeItem(ui->comboBox_OpenedReports->currentIndex());
+        ui->comboBox_OpenedReports->
+                removeItem(ui->comboBox_OpenedReports->currentIndex());
         ui->comboBox_OpenedReports->insertItem(0, newReportFileName);
         ui->comboBox_OpenedReports->setCurrentIndex(0);
         reportChanged(newReportFileName);
@@ -1221,7 +1466,8 @@ void MainWindow::on_action_CloseReport_activated() {
 
     if ( ui->comboBox_OpenedReports->count() != 1 ) {
 
-        ui->comboBox_OpenedReports->removeItem(ui->comboBox_OpenedReports->currentIndex());
+        ui->comboBox_OpenedReports->
+                removeItem(ui->comboBox_OpenedReports->currentIndex());
     }
 
     reportChanged(ui->comboBox_OpenedReports->currentText());
@@ -1278,7 +1524,12 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
     if ( table->selectedRanges().isEmpty() ) {
 
-        QMessageBox::warning(this, "Qr49", tr("No selected cells to printing!"), 0, 0, 0);
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("No selected cells to printing!"),
+                    0, 0, 0
+                    );
         return;
     }
 
@@ -1291,7 +1542,12 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
     if ( colnum > 7 ) {
 
         colnum = 7;
-        QMessageBox::information(this, "Qr49", tr("Only 7 columns can be printed at a time!"), 0, 0, 0);
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Only 7 columns can be printed at a time!"),
+                    0, 0, 0
+                    );
     }
 
     QString str;
@@ -1301,7 +1557,8 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
     for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
-        pout << table->horizontalHeaderItem(selectedRange.leftColumn()+j)->text().split("\n").join(" ");
+        pout << table->horizontalHeaderItem(selectedRange.leftColumn()+j)->
+                text().split("\n").join(" ");
     }
 
     pout << "\n";
@@ -1310,7 +1567,8 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
         for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
-            pout << table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->text();
+            pout << table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                    text();
         }
 
         pout << "\n";
@@ -1337,139 +1595,67 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
 void MainWindow::on_action_Preferences_activated() {
 
-    QLineEdit *myLineEdit_filenameSourceEU3 = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
+    QLineEdit *myLineEdit_filenameSourceEU3 =
+            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
+    QLineEdit *myLineEdit_filenameSourceEU0 =
+            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
+    QLineEdit *myLineEdit_filenamePoints =
+            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
+    QLineEdit *myLineEdit_filenamePowers =
+            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
+    QLineEdit *myLineEdit_dirnameReports =
+            preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
+    QDoubleSpinBox *myDoubleSpinBox_Dn =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
+    QDoubleSpinBox *myDoubleSpinBox_ConcO2air =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
+    QDoubleSpinBox *myDoubleSpinBox_Rr =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
+    QDoubleSpinBox *myDoubleSpinBox_L0 =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
+    QDoubleSpinBox *myDoubleSpinBox_L =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
+    QDoubleSpinBox *myDoubleSpinBox_ConcCO2air =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
+    QDoubleSpinBox *myDoubleSpinBox_WH =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
+    QDoubleSpinBox *myDoubleSpinBox_WO2 =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
+    QDoubleSpinBox *myDoubleSpinBox_WN =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
+    QDoubleSpinBox *myDoubleSpinBox_muNO2 =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
+    QDoubleSpinBox *myDoubleSpinBox_muCO =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
+    QDoubleSpinBox *myDoubleSpinBox_muCH =
+            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
 
-    if ( !myLineEdit_filenameSourceEU3 ) {
+    if ( !myLineEdit_filenameSourceEU3 ||
+         !myLineEdit_filenameSourceEU0 ||
+         !myLineEdit_filenamePoints    ||
+         !myLineEdit_filenamePowers    ||
+         !myLineEdit_dirnameReports    ||
+         !myDoubleSpinBox_Dn           ||
+         !myDoubleSpinBox_ConcO2air    ||
+         !myDoubleSpinBox_Rr           ||
+         !myDoubleSpinBox_L0           ||
+         !myDoubleSpinBox_L            ||
+         !myDoubleSpinBox_ConcCO2air   ||
+         !myDoubleSpinBox_WH           ||
+         !myDoubleSpinBox_WO2          ||
+         !myDoubleSpinBox_WN           ||
+         !myDoubleSpinBox_muNO2        ||
+         !myDoubleSpinBox_muCO         ||
+         !myDoubleSpinBox_muCH ) {
 
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QLineEdit *myLineEdit_filenameSourceEU0 = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
-
-    if ( !myLineEdit_filenameSourceEU0 ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QLineEdit *myLineEdit_filenamePoints = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
-
-    if ( !myLineEdit_filenamePoints ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QLineEdit *myLineEdit_filenamePowers = preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
-
-    if ( !myLineEdit_filenamePowers ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QLineEdit *myLineEdit_dirnameReports = preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
-
-    if ( !myLineEdit_dirnameReports ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_Dn = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
-
-    if ( !myDoubleSpinBox_Dn ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_ConcO2air = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
-
-    if ( !myDoubleSpinBox_ConcO2air ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_Rr = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
-
-    if ( !myDoubleSpinBox_Rr ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_L0 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
-
-    if ( !myDoubleSpinBox_L0 ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_L = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
-
-    if ( !myDoubleSpinBox_L ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_ConcCO2air = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
-
-    if ( !myDoubleSpinBox_ConcCO2air ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_WH = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
-
-    if ( !myDoubleSpinBox_WH ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_WO2 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
-
-    if ( !myDoubleSpinBox_WO2 ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_WN = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
-
-    if ( !myDoubleSpinBox_WN ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_muNO2 = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
-
-    if ( !myDoubleSpinBox_muNO2 ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_muCO = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
-
-    if ( !myDoubleSpinBox_muCO ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
-        return;
-    }
-
-    QDoubleSpinBox *myDoubleSpinBox_muCH = preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
-
-    if ( !myDoubleSpinBox_muCH ) {
-
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    QString::fromAscii(Q_FUNC_INFO)
+                    + ":::"
+                    + tr("Child object not found!"),
+                    0, 0, 0
+                    );
         return;
     }
 
@@ -1516,7 +1702,8 @@ void MainWindow::on_action_CopyFromTable_activated() {
 
     if ( !table->selectedRanges().isEmpty() ) {
 
-        QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
+        QTableWidgetSelectionRange selectedRange =
+                table->selectedRanges().first();
 
         QString str;
 
@@ -1524,7 +1711,8 @@ void MainWindow::on_action_CopyFromTable_activated() {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                str += table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->text();
+                str += table->item(selectedRange.topRow()+i,
+                                   selectedRange.leftColumn()+j)->text();
 
                 if ( j != (selectedRange.columnCount()-1) ) {
 
@@ -1549,7 +1737,12 @@ void MainWindow::on_action_PasteToTable_activated() {
 
     if ( (table->columnCount() - table->currentColumn()) < numColumns ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Copied data can not be inserted!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Copied data can not be inserted!"),
+                    0, 0, 0
+                    );
         return;
     }
 
@@ -1573,7 +1766,8 @@ void MainWindow::on_action_PasteToTable_activated() {
 
         for ( ptrdiff_t j=0; j<numColumns; j++ ) {
 
-            table->item(table->currentRow()+i, table->currentColumn()+j)->setText(columns[j]);
+            table->item(table->currentRow()+i,
+                        table->currentColumn()+j)->setText(columns[j]);
         }
     }
 
@@ -1586,7 +1780,8 @@ void MainWindow::on_action_DeleteFromTable_activated() {
 
     if ( !table->selectedRanges().isEmpty() ) {
 
-        QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
+        QTableWidgetSelectionRange selectedRange =
+                table->selectedRanges().first();
 
         tableCellChangedConnect(false);
 
@@ -1594,7 +1789,8 @@ void MainWindow::on_action_DeleteFromTable_activated() {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->setText("0");
+                table->item(selectedRange.topRow()+i,
+                            selectedRange.leftColumn()+j)->setText("0");
             }
         }
 
@@ -1608,7 +1804,12 @@ void MainWindow::on_action_Add_activated() {
 
     if ( !arithmeticOperation("add") ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Arithmetic operation is impossible!"),
+                    0, 0, 0
+                    );
     }
 }
 
@@ -1616,7 +1817,12 @@ void MainWindow::on_action_Multiply_activated() {
 
     if ( !arithmeticOperation("multiply") ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Arithmetic operation is impossible!"),
+                    0, 0, 0
+                    );
     }
 }
 
@@ -1624,7 +1830,12 @@ void MainWindow::on_action_Divide_activated() {
 
     if ( !arithmeticOperation("divide") ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Arithmetic operation is impossible!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Arithmetic operation is impossible!"),
+                    0, 0, 0
+                    );
     }
 }
 
@@ -1632,7 +1843,12 @@ void MainWindow::on_action_Equal_activated() {
 
     if ( !arithmeticOperation("equal") ) {
 
-        QMessageBox::critical(this, "Qr49", tr("Operation is impossible!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Operation is impossible!"),
+                    0, 0, 0
+                    );
     }
 }
 
@@ -1640,7 +1856,8 @@ void MainWindow::on_action_AddRow_activated() {
 
     tableCellChangedConnect(false);
 
-    if ( (table != ui->tableWidget_SrcDataEU0) && (table != ui->tableWidget_SrcDataEU3) ) {
+    if ( (table != ui->tableWidget_SrcDataEU0) &&
+         (table != ui->tableWidget_SrcDataEU3) ) {
 
         addRows(table, table->rowCount()+1);
     }
@@ -1652,7 +1869,8 @@ void MainWindow::on_action_AddRow_activated() {
 
 void MainWindow::on_action_DeleteRow_activated() {
 
-    if ( (table != ui->tableWidget_SrcDataEU0) && (table != ui->tableWidget_SrcDataEU3) ) {
+    if ( (table != ui->tableWidget_SrcDataEU0) &&
+         (table != ui->tableWidget_SrcDataEU3) ) {
 
         table->setRowCount(table->rowCount()-1);
     }
@@ -1698,7 +1916,8 @@ void MainWindow::on_action_Execute_activated() {
 
         try {
 
-            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
+            QSharedPointer<CyclePoints>
+                    myPoints(new CyclePoints(params, config));
 
             myPoints->readCSV(array_DataForCalc);
             myPoints->fillArrays();
@@ -1721,7 +1940,12 @@ void MainWindow::on_action_Execute_activated() {
 
             if ( !fillTablePoints(filenamePoints) ) {
 
-                QMessageBox::critical(this, "Qr49", tr("Can not fill table!"), 0, 0, 0);
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not fill table!"),
+                            0, 0, 0
+                            );
             }
 
             tableCellChangedConnect(true);
@@ -1733,7 +1957,13 @@ void MainWindow::on_action_Execute_activated() {
         }
         else {
 
-            QMessageBox::warning(this, "Qr49", filenamePoints + tr(" not found!"), 0, 0, 0);
+            QMessageBox::warning(
+                        this,
+                        "Qr49",
+                        filenamePoints
+                        + tr(" not found!"),
+                        0, 0, 0
+                        );
         }
 
         //
@@ -1746,7 +1976,8 @@ void MainWindow::on_action_Execute_activated() {
 
         try {
 
-            myEmissions = QSharedPointer<CycleEmissions>(new CycleEmissions(params, config));
+            myEmissions = QSharedPointer<CycleEmissions>
+                    (new CycleEmissions(params, config));
 
             myEmissions->readCSV(array_DataForCalc);
             myEmissions->calculate();
@@ -1771,17 +2002,17 @@ void MainWindow::on_action_Execute_activated() {
 
             //
 
-            //QDir ReportsDir(config->val_dirnameReports());
-            //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
-
-            //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
-
             lastReportsDir = myEmissions->lastReportsDir();
 
             const QString csvfilter("*.csv");
-            QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
+            QStringList csvfiles(lastReportsDir.entryList(
+                                     QDir::nameFiltersFromString(csvfilter),
+                                     QDir::Files,
+                                     QDir::Time)
+                                 );
 
-            lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
+            lastCheckoutDataFileName =
+                    lastReportsDir.absoluteFilePath(csvfiles.first());
 
             //
 
@@ -1794,9 +2025,14 @@ void MainWindow::on_action_Execute_activated() {
                 ui->tabWidget_Data->setCurrentIndex(3);
 
                 const QString txtfilter("*.txt");
-                QStringList reports(lastReportsDir.entryList(QDir::nameFiltersFromString(txtfilter), QDir::Files, QDir::Time));
+                QStringList reports(lastReportsDir.entryList(
+                                        QDir::nameFiltersFromString(txtfilter),
+                                        QDir::Files,
+                                        QDir::Time)
+                                    );
 
-                lastReportFileName = lastReportsDir.absoluteFilePath(reports.first());
+                lastReportFileName =
+                        lastReportsDir.absoluteFilePath(reports.first());
 
                 ui->comboBox_OpenedReports->insertItem(0, lastReportFileName);
                 ui->comboBox_OpenedReports->setCurrentIndex(0);
@@ -1822,7 +2058,8 @@ void MainWindow::on_action_Execute_activated() {
 
         try {
 
-            myReducedPower = QSharedPointer<ReducedPower>(new ReducedPower(params, config));
+            myReducedPower =
+                    QSharedPointer<ReducedPower>(new ReducedPower(params, config));
 
             myReducedPower->readCSV(array_DataForCalc);
             myReducedPower->reducePower();
@@ -1837,17 +2074,17 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        //QDir ReportsDir(config->val_dirnameReports());
-        //QStringList repdirs(ReportsDir.entryList(QDir::Dirs, QDir::Time));
-
-        //lastReportsDir.setPath(ReportsDir.absoluteFilePath(repdirs.value(1)));
-
         lastReportsDir = myReducedPower->lastReportsDir();
 
         const QString csvfilter("*.csv");
-        QStringList csvfiles(lastReportsDir.entryList(QDir::nameFiltersFromString(csvfilter), QDir::Files, QDir::Time));
+        QStringList csvfiles(lastReportsDir.entryList(
+                                 QDir::nameFiltersFromString(csvfilter),
+                                 QDir::Files,
+                                 QDir::Time)
+                             );
 
-        lastCheckoutDataFileName = lastReportsDir.absoluteFilePath(csvfiles.first());
+        lastCheckoutDataFileName =
+                lastReportsDir.absoluteFilePath(csvfiles.first());
     }
     else if ( ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS ) {
 
@@ -1856,18 +2093,30 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if ( ui->comboBox_task->currentIndex() == TASK_HELP ) {
 
-        QMessageBox::information(this, "Qr49", tr("See the output of the command line by running the Qr49 with parameter task=help."), 0, 0, 0);
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("See the output of the command line by running the "
+                       "Qr49 with parameter task=help."),
+                    0, 0, 0
+                    );
         return;
     }
     else {
 
-        QMessageBox::critical(this, "Qr49", tr("Unknown calculation task!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Unknown calculation task!"),
+                    0, 0, 0
+                    );
         return;
     }
 
     QMessageBox::information(this, "Qr49", message, 0, 0, 0);
 
-    if ( (ui->comboBox_standard->currentIndex() == STD_FREECALC) || (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) ) {
+    if ( (ui->comboBox_standard->currentIndex() == STD_FREECALC) ||
+         (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) ) {
 
         on_action_CheckoutData_activated();
     }
@@ -1875,12 +2124,21 @@ void MainWindow::on_action_Execute_activated() {
 
 void MainWindow::on_action_CheckoutData_activated() {
 
-    QPlainTextEdit *myPlainTextEdit_CheckoutData = checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
-    QLineEdit *myLineEdit_file = checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
+    QPlainTextEdit *myPlainTextEdit_CheckoutData =
+            checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
+    QLineEdit *myLineEdit_file =
+            checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
 
     if ( !myPlainTextEdit_CheckoutData ) {
 
-        QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    QString::fromAscii(Q_FUNC_INFO)
+                    + ":::"
+                    + tr("Child object not found!"),
+                    0, 0, 0
+                    );
         return;
     }
 
@@ -1921,7 +2179,8 @@ void MainWindow::on_action_AboutQr49_activated() {
             + "<br><br>Calculation of modes and specific emissions for "
             "stationary diesel engine test cycles (UN ECE Regulation No. 49, "
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
-            "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R 51249-99)."
+            "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R "
+            "51249-99)."
             "<br><br>Copyright (C) 2009-2012 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">"
@@ -1929,17 +2188,22 @@ void MainWindow::on_action_AboutQr49_activated() {
             "<br>Author's blog (RU): "
             "<a href= \"http://pa2311.blogspot.com\">"
             "http://pa2311.blogspot.com</a>"
-            "<br><br>This program is free software: you can redistribute it and/or modify "
-            "it under the terms of the GNU General Public License as published by "
+            "<br><br>This program is free software: you can redistribute it "
+            "and/or modify "
+            "it under the terms of the GNU General Public License as "
+            "published by "
             "the Free Software Foundation, either version 3 of the License, or "
             "(at your option) any later version. "
-            "<br>This program is distributed in the hope that it will be useful, "
+            "<br>This program is distributed in the hope that it will "
+            "be useful, "
             "but WITHOUT ANY WARRANTY; without even the implied warranty of "
             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
             "GNU General Public License for more details. "
-            "<br>You should have received a copy of the GNU General Public License "
+            "<br>You should have received a copy of the GNU General "
+            "Public License "
             "along with this program. If not, see <a href= "
-            "\"http://www.gnu.org/licenses/\" >http://www.gnu.org/licenses/</a>.<br>";
+            "\"http://www.gnu.org/licenses/\" >"
+            "http://www.gnu.org/licenses/</a>.<br>";
 
     QMessageBox::about(this, tr("About Qr49"), str);
 }
@@ -1958,18 +2222,30 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
 
     if ( filterMassDialog->exec() == QDialog::Accepted ) {
 
-        QLineEdit *m1c = filterMassDialog->findChild<QLineEdit *>("lineEdit_1stFilterWeightClean");
-        QLineEdit *m1d = filterMassDialog->findChild<QLineEdit *>("lineEdit_1stFilterWeightDirty");
-        QLineEdit *m2c = filterMassDialog->findChild<QLineEdit *>("lineEdit_2ndFilterWeightClean");
-        QLineEdit *m2d = filterMassDialog->findChild<QLineEdit *>("lineEdit_2ndFilterWeightDirty");
+        QLineEdit *m1c = filterMassDialog->findChild<QLineEdit *>
+                ("lineEdit_1stFilterWeightClean");
+        QLineEdit *m1d = filterMassDialog->findChild<QLineEdit *>
+                ("lineEdit_1stFilterWeightDirty");
+        QLineEdit *m2c = filterMassDialog->findChild<QLineEdit *>
+                ("lineEdit_2ndFilterWeightClean");
+        QLineEdit *m2d = filterMassDialog->findChild<QLineEdit *>
+                ("lineEdit_2ndFilterWeightDirty");
 
         if ( (!m1c) || (!m1d) || (!m2c) || (!m2d) ) {
 
-            QMessageBox::critical(this, "Qr49", QString::fromAscii(Q_FUNC_INFO) + ":::" + tr("Child object not found!"), 0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        QString::fromAscii(Q_FUNC_INFO)
+                        + ":::"
+                        + tr("Child object not found!"),
+                        0, 0, 0
+                        );
             return;
         }
 
-        double PTmass = (m1d->text().toDouble() - m1c->text().toDouble()) + (m2d->text().toDouble() - m2c->text().toDouble());
+        double PTmass = (m1d->text().toDouble() - m1c->text().toDouble()) +
+                (m2d->text().toDouble() - m2c->text().toDouble());
 
         ui->lineEdit_PTmass->setText(QString::number(PTmass, 'f', 3));
     }
@@ -1990,7 +2266,10 @@ void MainWindow::taskChanged(const int currtask) {
 
         const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
-        if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
+        if ( (currstd == STD_EU6) ||
+             (currstd == STD_EU5) ||
+             (currstd == STD_EU4) ||
+             (currstd == STD_EU3) ) {
 
             ui->comboBox_AddPointsCalc->setEnabled(true);
         }
@@ -2011,14 +2290,25 @@ void MainWindow::taskChanged(const int currtask) {
             ui->tableWidget_SrcDataEU0->setEnabled(false);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
-        else if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
+        else if ( (currstd == STD_EU6) ||
+                  (currstd == STD_EU5) ||
+                  (currstd == STD_EU4) ||
+                  (currstd == STD_EU3) ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
-            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
+
+            ui->tableWidget_SrcDataEU3->setEnabled(true);
+            ui->tableWidget_SrcDataEU3->setFocus();
+
+            getUndoRedoCounters(table);
         }
         else {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU0->setEnabled(true);
+            ui->tableWidget_SrcDataEU0->setFocus();
+
+            getUndoRedoCounters(table);
+
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
 
@@ -2043,9 +2333,16 @@ void MainWindow::taskChanged(const int currtask) {
 
         const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
-        if ( (currstd == STD_C1) || (currstd == STD_D1) || (currstd == STD_D2) ||
-             (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
-             (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
+        if ( (currstd == STD_C1) ||
+             (currstd == STD_D1) ||
+             (currstd == STD_D2) ||
+             (currstd == STD_E1) ||
+             (currstd == STD_E2) ||
+             (currstd == STD_E3) ||
+             (currstd == STD_E5) ||
+             (currstd == STD_F ) ||
+             (currstd == STD_G1) ||
+             (currstd == STD_G2) ) {
 
             ui->comboBox_FuelType->setEnabled(true);
         }
@@ -2079,7 +2376,12 @@ void MainWindow::taskChanged(const int currtask) {
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
-        ui->tableWidget_SrcDataPoints->setEnabled(true); ui->tableWidget_SrcDataPoints->setFocus(); getUndoRedoCounters(table);
+
+        ui->tableWidget_SrcDataPoints->setEnabled(true);
+        ui->tableWidget_SrcDataPoints->setFocus();
+
+        getUndoRedoCounters(table);
+
         ui->tableWidget_FullLoadCurve->setEnabled(false);
 
         ui->action_OpenReport->setEnabled(true);
@@ -2114,7 +2416,11 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
         ui->tableWidget_SrcDataPoints->setEnabled(false);
-        ui->tableWidget_FullLoadCurve->setEnabled(true); ui->tableWidget_FullLoadCurve->setFocus(); getUndoRedoCounters(table);
+
+        ui->tableWidget_FullLoadCurve->setEnabled(true);
+        ui->tableWidget_FullLoadCurve->setFocus();
+
+        getUndoRedoCounters(table);
 
         ui->action_OpenReport->setEnabled(false);
         ui->action_SaveReportAs->setEnabled(false);
@@ -2144,7 +2450,10 @@ void MainWindow::taskChanged(const int currtask) {
 
 void MainWindow::standardChanged(const int currstd) {
 
-    if ( (currstd == STD_EU6) || (currstd == STD_EU5) || (currstd == STD_EU4) || (currstd == STD_EU3) ) {
+    if ( (currstd == STD_EU6) ||
+         (currstd == STD_EU5) ||
+         (currstd == STD_EU4) ||
+         (currstd == STD_EU3) ) {
 
         ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
@@ -2153,12 +2462,23 @@ void MainWindow::standardChanged(const int currstd) {
         if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
-            ui->tableWidget_SrcDataEU3->setEnabled(true); ui->tableWidget_SrcDataEU3->setFocus(); getUndoRedoCounters(table);
+
+            ui->tableWidget_SrcDataEU3->setEnabled(true);
+            ui->tableWidget_SrcDataEU3->setFocus();
+
+            getUndoRedoCounters(table);
         }
     }
-    else if ( (currstd == STD_C1) || (currstd == STD_D1) || (currstd == STD_D2) ||
-              (currstd == STD_E1) || (currstd == STD_E2) || (currstd == STD_E3) || (currstd == STD_E5) ||
-              (currstd == STD_F ) || (currstd == STD_G1) || (currstd == STD_G2) ) {
+    else if ( (currstd == STD_C1) ||
+              (currstd == STD_D1) ||
+              (currstd == STD_D2) ||
+              (currstd == STD_E1) ||
+              (currstd == STD_E2) ||
+              (currstd == STD_E3) ||
+              (currstd == STD_E5) ||
+              (currstd == STD_F ) ||
+              (currstd == STD_G1) ||
+              (currstd == STD_G2) ) {
 
         ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(true);
@@ -2166,7 +2486,11 @@ void MainWindow::standardChanged(const int currstd) {
 
         if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU0->setEnabled(true);
+            ui->tableWidget_SrcDataEU0->setFocus();
+
+            getUndoRedoCounters(table);
+
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
     }
@@ -2178,7 +2502,11 @@ void MainWindow::standardChanged(const int currstd) {
 
         if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true); ui->tableWidget_SrcDataEU0->setFocus(); getUndoRedoCounters(table);
+            ui->tableWidget_SrcDataEU0->setEnabled(true);
+            ui->tableWidget_SrcDataEU0->setFocus();
+
+            getUndoRedoCounters(table);
+
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
     }
@@ -2208,7 +2536,12 @@ void MainWindow::reportChanged(const QString &path) {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49", tr("Can not open report file!"), 0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Can not open report file!"),
+                    0, 0, 0
+                    );
         return;
     }
 

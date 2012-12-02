@@ -129,7 +129,8 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
 void PreferencesDialog::on_pushButton_OK_clicked() {
 
     const QString myPreferences = "//\n// This is r49 configuration file. "
-            "Parameter-Value delimeter is \"=\" symbol.\n// Text after \"//\" is comment.\n//\n\n"
+            "Parameter-Value delimeter is \"=\" symbol.\n// Text after "
+            "\"//\" is comment.\n//\n\n"
             "// Temporary rewrited source data files\nfilenameSourceEU3="
             + ui.lineEdit_filenameSourceEU3->text()
             + "\n"
@@ -145,7 +146,8 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
             "// Directory for calculation results\ndirnameReports="
             + ui.lineEdit_dirnameReports->text()
             + "\n\n"
-            "// Measuring nozzle diameter (engine inlet air mass flow calculation)\nDn="
+            "// Measuring nozzle diameter (engine inlet air mass flow "
+            "calculation)\nDn="
             + QString::number(ui.doubleSpinBox_Dn->value())
             + "\n\n"
             "// Air oxygen concentration\nConcO2air="
@@ -182,8 +184,12 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
             + QString::number(ui.doubleSpinBox_muCH->value())
             + "\n";
 
-    QFile preferencesFile1(QCoreApplication::applicationDirPath() + "/" + CONFIGFILENAME);
-    QFile preferencesFile2(QDir::homePath() + "/" + CONFIGFILENAME);
+    QFile preferencesFile1(QCoreApplication::applicationDirPath()
+                           + "/"
+                           + CONFIGFILENAME);
+    QFile preferencesFile2(QDir::homePath()
+                           + "/"
+                           + CONFIGFILENAME);
 
     if ( preferencesFile1.open(QIODevice::WriteOnly) ) {
 
@@ -201,9 +207,12 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49",
-                              tr("Preferences could not be saved!"),
-                              0, 0, 0);
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Preferences could not be saved!"),
+                    0, 0, 0
+                    );
         return;
     }
 

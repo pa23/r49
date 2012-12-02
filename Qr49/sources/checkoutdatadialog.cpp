@@ -49,15 +49,19 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
     if ( !newCheckoutDataFileName.isEmpty() ) {
 
-        const QString myCheckoutData = ui.plainTextEdit_CheckoutData->toPlainText();
+        const QString myCheckoutData =
+                ui.plainTextEdit_CheckoutData->toPlainText();
 
         QFile checkoutDataFile(newCheckoutDataFileName);
 
         if ( !checkoutDataFile.open(QIODevice::WriteOnly) ) {
 
-            QMessageBox::critical(this, "Qr49",
-                                  newCheckoutDataFileName + tr(" could not be saved!"),
-                                  0, 0, 0);
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        newCheckoutDataFileName + tr(" could not be saved!"),
+                        0, 0, 0
+                        );
             return;
         }
 
