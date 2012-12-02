@@ -1696,12 +1696,13 @@ void MainWindow::on_action_Execute_activated() {
 
     if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
 
-        QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
-
         try {
+
+            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
 
             myPoints->readCSV(array_DataForCalc);
             myPoints->fillArrays();
+
             message += myPoints->createReport();
         }
         catch(const ToxicError &toxerr) {
@@ -1741,9 +1742,11 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if ( ui->comboBox_task->currentIndex() == TASK_EMISSIONS ) {
 
-        QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
+        QSharedPointer<CycleEmissions> myEmissions;
 
         try {
+
+            myEmissions = QSharedPointer<CycleEmissions>(new CycleEmissions(params, config));
 
             myEmissions->readCSV(array_DataForCalc);
             myEmissions->calculate();
@@ -1815,12 +1818,15 @@ void MainWindow::on_action_Execute_activated() {
     }
     else if ( ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER ) {
 
-        QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
+        QSharedPointer<ReducedPower> myReducedPower;
 
         try {
 
+            myReducedPower = QSharedPointer<ReducedPower>(new ReducedPower(params, config));
+
             myReducedPower->readCSV(array_DataForCalc);
             myReducedPower->reducePower();
+
             message += myReducedPower->createReports();
         }
         catch(const ToxicError &toxerr) {

@@ -40,34 +40,49 @@
 using std::cout;
 using std::cin;
 
-void ShowAbout() {
+void showAbout() {
 
-    cout << "\n\t" << "r49 distribution version " << R49VERSION.toStdString();
-    cout << "\n\t" << CR49VERSION.toStdString() << " libtoxic v" << LIBTOXICVERSION.toStdString();
+    cout << "\n\t"
+         << "r49 distribution version "
+         << R49VERSION.toStdString();
+
+    cout << "\n\t"
+         << CR49VERSION.toStdString()
+         << " libtoxic v"
+         << LIBTOXICVERSION.toStdString();
 
     cout << "\n\nCopyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>"
             "\n\nProgram hosting: https://github.com/pa23/r49\n"
             "Author's blog (RU): http://pa2311.blogspot.com\n\n"
-            "This program is free software: you can redistribute it and/or modify\n"
-            "it under the terms of the GNU General Public License as published by\n"
-            "the Free Software Foundation, either version 3 of the License, or\n"
+            "This program is free software: you can redistribute "
+            "it and/or modify\n"
+            "it under the terms of the GNU General Public License as "
+            "published by\n"
+            "the Free Software Foundation, either version 3 of the "
+            "License, or\n"
             "(at your option) any later version.\n"
             "This program is distributed in the hope that it will be useful,\n"
             "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n"
             "GNU General Public License for more details.\n"
-            "You should have received a copy of the GNU General Public License\n"
-            "along with this program. If not, see <http://www.gnu.org/licenses/>.\n\n"
-            "Use this program to calculate emissions of NOx, CO, CH and PT for\n"
+            "You should have received a copy of the GNU General Public "
+            "License\n"
+            "along with this program. If not, see "
+            "<http://www.gnu.org/licenses/>.\n\n"
+            "Use this program to calculate emissions of "
+            "NOx, CO, CH and PT for\n"
             "stationary engines test cycles.\n\n"
             "Run \"cr49 task=help\" to help.\n\n";
 }
 
-void ShowHelp() {
+void showHelp() {
 
-    cout << "Usage:\n\n  cr49 [task=TASK] [Vh=VH] [standard=STANDARD] [ChargingType=CHARGINGTYPE]  \\\n"
-            "       [FuelType=FUELTYPE] [NOxSample=NOXSAMPLE] [PTcalc=PTCALC]            \\\n"
-            "       [PTmass=PTMASS] [AddPoinsCalc=ADDPOINTSCALC]                         \\\n"
+    cout << "Usage:\n\n  cr49 [task=TASK] [Vh=VH] [standard=STANDARD] "
+            "[ChargingType=CHARGINGTYPE]  \\\n"
+            "       [FuelType=FUELTYPE] [NOxSample=NOXSAMPLE] "
+            "[PTcalc=PTCALC]            \\\n"
+            "       [PTmass=PTMASS] "
+            "[AddPoinsCalc=ADDPOINTSCALC]                         \\\n"
             "       [CalcConfigFile=CALCCONFIGFILE]\n\n"
             "  task=TASK\t\tvariants of TASK:\n"
             "\t\t\tpoints       - for ESC points calculation;\n"
@@ -153,7 +168,9 @@ void ShowHelp() {
             "\t   report files.\n\n";
 }
 
-bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char** argv) {
+bool parsingParameters(QSharedPointer<LibtoxicParameters> params,
+                       int argc,
+                       char** argv) {
 
     QString operandstr;
     QStringList elements;
@@ -247,7 +264,7 @@ bool ParsingParameters(QSharedPointer<LibtoxicParameters> params, int argc, char
     return true;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
 
     if ( argc > 1 ) {
 
@@ -255,7 +272,7 @@ int main(int argc, char *argv[]) {
 
         QSharedPointer<LibtoxicParameters> params(new LibtoxicParameters());
 
-        if ( !ParsingParameters(params, argc, argv) ) {
+        if ( !parsingParameters(params, argc, argv) ) {
 
             cout << "\nErrors during parsing parameters!\n";
             return 1;
@@ -268,8 +285,21 @@ int main(int argc, char *argv[]) {
             double n_hi = 0, n_lo = 0;
             double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
 
-            cout << "\n" << "n_hi [min-1]: "; if(!(cin >> n_hi)) { cout << "\ncr49 ERROR: Bad data!\n\n"; return false; }
-            cout         << "n_lo [min-1]: "; if(!(cin >> n_lo)) { cout << "\ncr49 ERROR: Bad data!\n\n"; return false; }
+            cout << "\n" << "n_hi [min-1]: ";
+
+            if( !(cin >> n_hi) ) {
+
+                cout << "\ncr49 ERROR: Bad data!\n\n";
+                return 0;
+            }
+
+            cout << "n_lo [min-1]: ";
+
+            if( !(cin >> n_lo) ) {
+
+                cout << "\ncr49 ERROR: Bad data!\n\n";
+                return 0;
+            }
 
             try {
 
@@ -293,8 +323,8 @@ int main(int argc, char *argv[]) {
         }
         else if ( currtask == TASK_HELP ) {
 
-            ShowAbout();
-            ShowHelp();
+            showAbout();
+            showHelp();
 
             return 0;
         }
@@ -315,12 +345,14 @@ int main(int argc, char *argv[]) {
 
         if ( currtask == TASK_POINTS ) {
 
-            QSharedPointer<CyclePoints> myPoints(new CyclePoints(params, config));
-
             try {
+
+                QSharedPointer<CyclePoints>
+                        myPoints(new CyclePoints(params, config));
 
                 myPoints->readCSV(data);
                 myPoints->fillArrays();
+
                 cout << "\n" << myPoints->createReport().toStdString();
             }
             catch(const ToxicError &toxerr) {
@@ -331,12 +363,14 @@ int main(int argc, char *argv[]) {
         }
         else if ( currtask == TASK_EMISSIONS ) {
 
-            QSharedPointer<CycleEmissions> myEmissions(new CycleEmissions(params, config));
-
             try {
+
+                QSharedPointer<CycleEmissions>
+                        myEmissions(new CycleEmissions(params, config));
 
                 myEmissions->readCSV(data);
                 myEmissions->calculate();
+
                 cout << "\n" << myEmissions->createReports().toStdString();
             }
             catch(const ToxicError &toxerr) {
@@ -347,12 +381,14 @@ int main(int argc, char *argv[]) {
         }
         else if ( currtask == TASK_REDUCEDPOWER ) {
 
-            QSharedPointer<ReducedPower> myReducedPower(new ReducedPower(params, config));
-
             try {
+
+                QSharedPointer<ReducedPower>
+                        myReducedPower(new ReducedPower(params, config));
 
                 myReducedPower->readCSV(data);
                 myReducedPower->reducePower();
+
                 cout << "\n" << myReducedPower->createReports().toStdString();
             }
             catch(const ToxicError &toxerr) {
@@ -368,7 +404,7 @@ int main(int argc, char *argv[]) {
     }
     else {
 
-        ShowAbout();
+        showAbout();
     }
 
     return 0;
