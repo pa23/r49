@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QTableWidget>
 #include <QVector>
+#include <QDir>
 
 #include "qr49constants.h"
 
@@ -62,6 +63,12 @@ private:
     QStringList headersImportedData;
     QString templ;
     bool destTableDataChanged;
+    QDir templdir;
+    ptrdiff_t sj;
+    ptrdiff_t dj;
+    bool manual;
+
+    void updateTemplList();
 
 private slots:
 

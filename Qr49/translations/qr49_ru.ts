@@ -97,6 +97,62 @@
         <source>You have to select data file!</source>
         <translation>Вам следует выбрать файл с данными!</translation>
     </message>
+    <message>
+        <source>Data</source>
+        <translation>Данные</translation>
+    </message>
+    <message>
+        <source>Manual import</source>
+        <translation>Ручной импорт</translation>
+    </message>
+    <message>
+        <source>Save template</source>
+        <translation>Сохранить шаблон</translation>
+    </message>
+    <message>
+        <source>S</source>
+        <translation>С</translation>
+    </message>
+    <message>
+        <source>Automatic import</source>
+        <translation>Автоматический импорт</translation>
+    </message>
+    <message>
+        <source>Template file</source>
+        <translation>Файл шаблона</translation>
+    </message>
+    <message>
+        <source>&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Can not create directory for templates!</source>
+        <translation>Невозможно создать каталог для шаблонов!</translation>
+    </message>
+    <message>
+        <source>Template file is empty!</source>
+        <translation>Файл шаблона пуст!</translation>
+    </message>
+    <message>
+        <source>Wrong array with indexes! Copying skipped!</source>
+        <translation>Неправильный массив с индексами! Копирование пропускается!</translation>
+    </message>
+    <message>
+        <source>Save Template...</source>
+        <translation>Сохранить шаблон...</translation>
+    </message>
+    <message>
+        <source>File not selected!</source>
+        <translation>Файл не выбран!</translation>
+    </message>
+    <message>
+        <source> could not be opened!</source>
+        <translation> невозможно открыть!</translation>
+    </message>
+    <message>
+        <source>Template is empty!</source>
+        <translation>Шаблон пуст!</translation>
+    </message>
 </context>
 <context>
     <name>FilterMassDialog</name>

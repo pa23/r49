@@ -32,9 +32,11 @@
 #include <QStringList>
 #include <QTableWidget>
 #include <QVector>
+#include <QDateTime>
 
 #include "csvread.h"
 #include "toxicerror.h"
+#include "qr49constants.h"
 
 DataImportDialog::DataImportDialog(QWidget *parent) :
     QDialog(parent),
@@ -54,7 +56,11 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
     table_lid(0),
     dtable(0),
     templ(),
-    destTableDataChanged(false) {
+    destTableDataChanged(false),
+    templdir(),
+    sj(0),
+    dj(0),
+    manual(true) {
 
     ui->setupUi(this);
 
@@ -89,7 +95,57 @@ void DataImportDialog::init(const ptrdiff_t tlid,
 
     //
 
-    // loading template file names
+    const QDir templdir1(TEMPLATEDIR);
+    const QDir templdir2(QDir::homePath() + QDir::separator() + TEMPLATEDIR);
+
+    if ( templdir1.exists() ) {
+
+        templdir = templdir1;
+    }
+    else if ( templdir2.exists() ) {
+
+        templdir = templdir2;
+    }
+    else {
+
+        if ( templdir1.mkdir(templdir1.absolutePath()) ) {
+
+            templdir = templdir1;
+        }
+        else if ( templdir2.mkdir(templdir2.absolutePath()) ) {
+
+            templdir = templdir2;
+        }
+        else {
+
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        tr("Can not create directory for templates!"),
+                        0, 0, 0
+                        );
+            return;
+        }
+    }
+
+    updateTemplList();
+}
+
+void DataImportDialog::updateTemplList() {
+
+    const QStringList templfiles(templdir.entryList(QDir::Files, QDir::Time));
+
+    ui->comboBox_Templates->clear();
+
+    for ( ptrdiff_t i=0; i<templfiles.size(); i++ ) {
+
+        ui->comboBox_Templates->addItem(templfiles[i]);
+    }
+
+    if ( ui->comboBox_Templates->count() != 0 ) {
+
+        ui->comboBox_Templates->setCurrentIndex(0);
+    }
 }
 
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
@@ -141,16 +197,27 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
         addRows(dtable, scount);
     }
 
-    const ptrdiff_t sj = ui->comboBox_AnotherParameter->currentIndex();
-    const ptrdiff_t dj = ui->comboBox_r49parameter->currentIndex();
+    ptrdiff_t tmp_sj = 0;
+    ptrdiff_t tmp_dj = 0;
+
+    if ( manual ) {
+
+        tmp_sj = ui->comboBox_AnotherParameter->currentIndex();
+        tmp_dj = ui->comboBox_r49parameter->currentIndex();
+    }
+    else {
+
+        tmp_sj = sj;
+        tmp_dj = dj;
+    }
 
     //
 
     for (ptrdiff_t i=0; i<scount; i++) {
 
-        dtable->setCurrentCell(0, dj);
-        dtable->item(i, dj)->
-                setText(QString::number(arrayImportedData.at(i).at(sj)));
+        dtable->setCurrentCell(0, tmp_dj);
+        dtable->item(i, tmp_dj)->
+                setText(QString::number(arrayImportedData.at(i).at(tmp_sj)));
     }
 
     //
@@ -181,48 +248,133 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     //
 
-    templ += QString::number(dj) + " " + QString::number(sj) + "\n";
+    templ += QString::number(tmp_dj) + " " + QString::number(tmp_sj) + "\n";
+
     destTableDataChanged = true;
 }
 
 void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
+    manual = false;
+
+    QVector< QVector<double> > indexes;
+
+    try {
+
+        QSharedPointer<csvRead> readerTemplData(
+                    new csvRead(
+                        templdir.absolutePath()
+                        + QDir::separator()
+                        + ui->comboBox_Templates->currentText(),
+                        " ",
+                        0
+                        )
+                    );
+
+        readerTemplData->readFile();
+        indexes = readerTemplData->csvData();
+    }
+    catch(const ToxicError &toxerr) {
+
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        manual = true;
+        return;
+    }
+
     //
+
+    if ( indexes.isEmpty() ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Template file is empty!"),
+                    0, 0, 0
+                    );
+        manual = true;
+        return;
+    }
+
+    for ( ptrdiff_t i=0; i<indexes.size(); i++ ) {
+
+        if ( indexes[i].size() == 2 ) {
+
+            dj = indexes[i][0];
+            sj = indexes[i][1];
+
+            on_pushButton_NextManual_clicked();
+        }
+        else {
+
+            QMessageBox::warning(
+                        this,
+                        "Qr49",
+                        tr("Wrong array with indexes! Copying skipped!"),
+                        0, 0, 0
+                        );
+        }
+    }
+
+    manual = true;
 }
 
 void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
-    const QString templFileName(
+    if ( templ.isEmpty() ) {
+
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Template is empty!"),
+                    0, 0, 0
+                    );
+        return;
+    }
+
+    const QString filename(
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Template..."),
-                    "noname.txt",
-                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    templdir.absolutePath()
+                    + QDir::separator()
+                    + QDateTime::currentDateTime().
+                    toString("dd-MM-yyyy_hh-mm-ss.txt"),
+                    QString::fromAscii("All files (*.*)"),
                     0,
                     0)
                 );
 
-    if ( !templFileName.isEmpty() ) {
+    if ( filename.isEmpty() ) {
 
-        QFile savedTemplate(templFileName);
-
-        if ( !savedTemplate.open(QIODevice::WriteOnly) ) {
-
-            QMessageBox::critical(
-                        this,
-                        "Qr49",
-                        templFileName
-                        + tr(" could not be opened!"),
-                        0, 0, 0
-                        );
-            return;
-        }
-
-        savedTemplate.write(templ.toAscii());
-        savedTemplate.close();
-
-        templ.clear();
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("File not selected!"),
+                    0, 0, 0
+                    );
+        return;
     }
+
+    QFile savedTemplate(filename);
+
+    if ( !savedTemplate.open(QIODevice::WriteOnly) ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    savedTemplate.fileName()
+                    + tr(" could not be opened!"),
+                    0, 0, 0
+                    );
+        return;
+    }
+
+    savedTemplate.write(templ.toAscii());
+    savedTemplate.close();
+
+    templ.clear();
+
+    updateTemplList();
 }
 
 void DataImportDialog::combosUpdate(const QString &str) {
@@ -320,6 +472,7 @@ void DataImportDialog::on_pushButton_Close_clicked() {
     if ( destTableDataChanged ) {
 
         destTableDataChanged = false;
+
         accept();
     }
     else {

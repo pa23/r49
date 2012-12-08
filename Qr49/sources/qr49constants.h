@@ -31,6 +31,7 @@ const QString QR49VERSION = "Qr49 v3.4.0";
 const QString OPERANDSDELIMITER = "=";
 
 const QString CONFIGFILENAME = "r49.conf";
+const QString TEMPLATEDIR = "r49_Templates";
 const QString PAGEURL = "https://github.com/pa23/r49/downloads/";
 const QString FILESURL = "/downloads/pa23/r49";
 

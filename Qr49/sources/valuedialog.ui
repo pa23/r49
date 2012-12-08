@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>186</width>
-    <height>92</height>
+    <height>89</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -57,13 +57,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">

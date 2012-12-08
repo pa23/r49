@@ -58,9 +58,7 @@ CommonParameters::~CommonParameters() {
 void CommonParameters::readConfigFile(const QString &configFileName) {
 
     QFile configFile1(configFileName);
-    QFile configFile2(QDir::homePath()
-                      + QDir::separator()
-                      + configFileName);
+    QFile configFile2(QDir::homePath() + QDir::separator() + configFileName);
     QFile configFile;
 
     if ( configFile1.exists() ) {
