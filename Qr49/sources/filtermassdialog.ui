@@ -13,9 +13,6 @@
     <height>188</height>
    </rect>
   </property>
-  <property name="focusPolicy">
-   <enum>Qt::NoFocus</enum>
-  </property>
   <property name="windowTitle">
    <string>Qr49: PT Filter Mass</string>
   </property>

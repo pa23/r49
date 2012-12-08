@@ -19,7 +19,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui network
+QT += core gui network svg
 TARGET = Qr49
 TEMPLATE = app
 SOURCES += sources/preferencesdialog.cpp \

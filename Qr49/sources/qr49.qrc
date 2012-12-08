@@ -1,27 +1,26 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>../icons/application-exit.png</file>
-        <file>../icons/changeSourceData.png</file>
-        <file>../icons/div.png</file>
-        <file>../icons/document-open.png</file>
-        <file>../icons/document-print.png</file>
-        <file>../icons/document-save.png</file>
-        <file>../icons/document-save-as.png</file>
-        <file>../icons/edit-copy.png</file>
-        <file>../icons/edit-cut.png</file>
-        <file>../icons/edit-delete.png</file>
-        <file>../icons/edit-paste.png</file>
-        <file>../icons/edit-redo.png</file>
-        <file>../icons/edit-undo.png</file>
-        <file>../icons/eq.png</file>
-        <file>../icons/execute.png</file>
-        <file>../icons/file-dataimport.png</file>
-        <file>../icons/gnome-mime-application-pdf.png</file>
-        <file>../icons/loadCalcSerrings.png</file>
-        <file>../icons/mult.png</file>
-        <file>../icons/plus.png</file>
+        <file>../icons/file-quit.svg</file>
+        <file>../icons/file-load_source_data.svg</file>
+        <file>../icons/edit-divide.svg</file>
+        <file>../icons/file-open_report.svg</file>
+        <file>../icons/file-print.svg</file>
+        <file>../icons/file-save_source_data.svg</file>
+        <file>../icons/file-save_report_as.svg</file>
+        <file>../icons/edit-copy.svg</file>
+        <file>../icons/edit-cut.svg</file>
+        <file>../icons/edit-delete.svg</file>
+        <file>../icons/edit-paste.svg</file>
+        <file>../icons/edit-redo.svg</file>
+        <file>../icons/edit-undo.svg</file>
+        <file>../icons/edit-equal.svg</file>
+        <file>../icons/calculation-execute.svg</file>
+        <file>../icons/file-data_import.svg</file>
+        <file>../icons/file-export-report_to_pdf.svg</file>
+        <file>../icons/file-load_calc_settings.svg</file>
+        <file>../icons/edit-multiply.svg</file>
+        <file>../icons/edit-add.svg</file>
         <file>../icons/toxic.png</file>
-        <file>../icons/view-refresh.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>../fonts/excalib.ttf</file>

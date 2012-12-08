@@ -792,7 +792,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
+          <width>312</width>
           <height>241</height>
          </rect>
         </property>
@@ -813,7 +813,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>267</width>
+              <width>294</width>
               <height>554</height>
              </rect>
             </property>
@@ -1924,7 +1924,7 @@
   <action name="action_Quit">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/application-exit.png</normaloff>:/icons/icons/application-exit.png</iconset>
+     <normaloff>:/icons/icons/file-quit.svg</normaloff>:/icons/icons/file-quit.svg</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -1933,7 +1933,7 @@
     <string>Ctrl+Q</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_PrintReport">
@@ -1942,7 +1942,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/document-print.png</normaloff>:/icons/icons/document-print.png</iconset>
+     <normaloff>:/icons/icons/file-print.svg</normaloff>:/icons/icons/file-print.svg</iconset>
    </property>
    <property name="text">
     <string>Report...</string>
@@ -1951,13 +1951,13 @@
     <string>Ctrl+P</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Execute">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/execute.png</normaloff>:/icons/icons/execute.png</iconset>
+     <normaloff>:/icons/icons/calculation-execute.svg</normaloff>:/icons/icons/calculation-execute.svg</iconset>
    </property>
    <property name="text">
     <string>Execute</string>
@@ -1966,29 +1966,23 @@
     <string>F9</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_AboutQt">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>About Qt</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_AboutQr49">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>About Qr49</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_AddRow">
@@ -1999,7 +1993,7 @@
     <string>F11</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_DeleteRow">
@@ -2010,13 +2004,13 @@
     <string>F12</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_SaveReportAs">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/document-save-as.png</normaloff>:/icons/icons/document-save-as.png</iconset>
+     <normaloff>:/icons/icons/file-save_report_as.svg</normaloff>:/icons/icons/file-save_report_as.svg</iconset>
    </property>
    <property name="text">
     <string>Save Report As...</string>
@@ -2025,13 +2019,13 @@
     <string>Ctrl+S</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_CopyFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-copy.png</normaloff>:/icons/icons/edit-copy.png</iconset>
+     <normaloff>:/icons/icons/edit-copy.svg</normaloff>:/icons/icons/edit-copy.svg</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -2040,13 +2034,13 @@
     <string>Ctrl+C</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_PasteToTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-paste.png</normaloff>:/icons/icons/edit-paste.png</iconset>
+     <normaloff>:/icons/icons/edit-paste.svg</normaloff>:/icons/icons/edit-paste.svg</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -2055,13 +2049,13 @@
     <string>Ctrl+V</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_DeleteFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-delete.png</normaloff>:/icons/icons/edit-delete.png</iconset>
+     <normaloff>:/icons/icons/edit-delete.svg</normaloff>:/icons/icons/edit-delete.svg</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -2070,13 +2064,13 @@
     <string>Del</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_CutFromTable">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-cut.png</normaloff>:/icons/icons/edit-cut.png</iconset>
+     <normaloff>:/icons/icons/edit-cut.svg</normaloff>:/icons/icons/edit-cut.svg</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -2085,7 +2079,7 @@
     <string>Ctrl+X</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Multiply">
@@ -2094,7 +2088,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/mult.png</normaloff>:/icons/icons/mult.png</iconset>
+     <normaloff>:/icons/icons/edit-multiply.svg</normaloff>:/icons/icons/edit-multiply.svg</iconset>
    </property>
    <property name="text">
     <string>Multiply...</string>
@@ -2103,7 +2097,7 @@
     <string>*</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Divide">
@@ -2112,7 +2106,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/div.png</normaloff>:/icons/icons/div.png</iconset>
+     <normaloff>:/icons/icons/edit-divide.svg</normaloff>:/icons/icons/edit-divide.svg</iconset>
    </property>
    <property name="text">
     <string>Divide...</string>
@@ -2121,7 +2115,7 @@
     <string>/</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Add">
@@ -2130,7 +2124,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/plus.png</normaloff>:/icons/icons/plus.png</iconset>
+     <normaloff>:/icons/icons/edit-add.svg</normaloff>:/icons/icons/edit-add.svg</iconset>
    </property>
    <property name="text">
     <string>Add...</string>
@@ -2139,7 +2133,7 @@
     <string>+</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Equal">
@@ -2148,7 +2142,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/eq.png</normaloff>:/icons/icons/eq.png</iconset>
+     <normaloff>:/icons/icons/edit-equal.svg</normaloff>:/icons/icons/edit-equal.svg</iconset>
    </property>
    <property name="text">
     <string>Equal...</string>
@@ -2157,13 +2151,13 @@
     <string>=</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_SaveSourceData">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/document-save.png</normaloff>:/icons/icons/document-save.png</iconset>
+     <normaloff>:/icons/icons/file-save_source_data.svg</normaloff>:/icons/icons/file-save_source_data.svg</iconset>
    </property>
    <property name="text">
     <string>Save Source Data</string>
@@ -2172,13 +2166,13 @@
     <string>Ctrl+Shift+S</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_OpenReport">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/document-open.png</normaloff>:/icons/icons/document-open.png</iconset>
+     <normaloff>:/icons/icons/file-open_report.svg</normaloff>:/icons/icons/file-open_report.svg</iconset>
    </property>
    <property name="text">
     <string>Open Report...</string>
@@ -2187,7 +2181,7 @@
     <string>Ctrl+O</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_CloseReport">
@@ -2198,30 +2192,19 @@
     <string>Ctrl+U</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_additionalCalculations">
-   <property name="text">
-    <string>Additional calculations</string>
-   </property>
-   <property name="shortcut">
-    <string>Shift+F9</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_ReportToPDF">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/gnome-mime-application-pdf.png</normaloff>:/icons/icons/gnome-mime-application-pdf.png</iconset>
+     <normaloff>:/icons/icons/file-export-report_to_pdf.svg</normaloff>:/icons/icons/file-export-report_to_pdf.svg</iconset>
    </property>
    <property name="text">
     <string>Report To PDF...</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_UndoTable">
@@ -2230,7 +2213,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-undo.png</normaloff>:/icons/icons/edit-undo.png</iconset>
+     <normaloff>:/icons/icons/edit-undo.svg</normaloff>:/icons/icons/edit-undo.svg</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -2242,7 +2225,7 @@
     <string>Ctrl+Z</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_RedoTable">
@@ -2251,7 +2234,7 @@
    </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/edit-redo.png</normaloff>:/icons/icons/edit-redo.png</iconset>
+     <normaloff>:/icons/icons/edit-redo.svg</normaloff>:/icons/icons/edit-redo.svg</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -2263,7 +2246,7 @@
     <string>Ctrl+Shift+Z</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Preferences">
@@ -2274,7 +2257,7 @@
     <string>F2</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_CheckoutData">
@@ -2282,7 +2265,7 @@
     <string>Checkout data</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_StandardsDescription">
@@ -2293,13 +2276,13 @@
     <string>F1</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_LoadCalculationOptions">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/loadCalcSerrings.png</normaloff>:/icons/icons/loadCalcSerrings.png</iconset>
+     <normaloff>:/icons/icons/file-load_calc_settings.svg</normaloff>:/icons/icons/file-load_calc_settings.svg</iconset>
    </property>
    <property name="text">
     <string>Load Calculation Options...</string>
@@ -2308,7 +2291,7 @@
     <string>Ctrl+L</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_SaveCalculationOptionsAs">
@@ -2316,13 +2299,13 @@
     <string>Save Calculation Options As...</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_LoadSourceData">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/changeSourceData.png</normaloff>:/icons/icons/changeSourceData.png</iconset>
+     <normaloff>:/icons/icons/file-load_source_data.svg</normaloff>:/icons/icons/file-load_source_data.svg</iconset>
    </property>
    <property name="text">
     <string>Load Source Data...</string>
@@ -2331,7 +2314,7 @@
     <string>Ctrl+E</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_SaveSourceDataAs">
@@ -2342,7 +2325,7 @@
     <string>Ctrl+B</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_Toolbar">
@@ -2356,15 +2339,7 @@
     <string>Toolbar</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_OpenSolution">
-   <property name="text">
-    <string>Open Solution...</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_CheckForUpdates">
@@ -2372,13 +2347,13 @@
     <string>Check For Updates...</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_DataImport">
    <property name="icon">
     <iconset resource="qr49.qrc">
-     <normaloff>:/icons/icons/file-dataimport.png</normaloff>:/icons/icons/file-dataimport.png</iconset>
+     <normaloff>:/icons/icons/file-data_import.svg</normaloff>:/icons/icons/file-data_import.svg</iconset>
    </property>
    <property name="text">
     <string>Data Import...</string>
@@ -2387,7 +2362,7 @@
     <string>Ctrl+I</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_PrintSelectedCells">
@@ -2398,7 +2373,7 @@
     <string>Ctrl+Shift+P</string>
    </property>
    <property name="iconVisibleInMenu">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </action>
  </widget>
