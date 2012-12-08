@@ -2416,7 +2416,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tab_cycPointsCalc->setEnabled(false);
         ui->tab_cycEmissCalc->setEnabled(false);
         ui->tab_redPowerCalc->setEnabled(true);
-        ui->tab_reports->setEnabled(false);
+        ui->tab_reports->setEnabled(true);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
