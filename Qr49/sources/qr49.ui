@@ -464,7 +464,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Air humidity.</string>
+                 <string>Relative air humidity.</string>
                 </property>
                </column>
                <column>
@@ -715,7 +715,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Air humidity.</string>
+                 <string>Relative air humidity.</string>
                 </property>
                </column>
                <column>

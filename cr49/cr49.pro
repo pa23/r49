@@ -25,6 +25,7 @@ TARGET = cr49
 CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
+VERSION = 1.1.0
 SOURCES += sources/main.cpp
 HEADERS += \
     sources/cr49constants.h \

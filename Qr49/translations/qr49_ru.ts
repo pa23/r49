@@ -1925,10 +1925,6 @@ p, li { white-space: pre-wrap; }
         <translation>Барометрическое давление.</translation>
     </message>
     <message>
-        <source>Air humidity.</source>
-        <translation>Влажность воздуха.</translation>
-    </message>
-    <message>
         <source>Negative pressure on the measuring nozzle.</source>
         <translation>Разрежение на измерительном сопле.</translation>
     </message>
@@ -2011,6 +2007,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Power expended on drive of auxiliary units.</source>
         <translation>Мощность, затрачиваемая на привод вспомогательных агрегатов.</translation>
+    </message>
+    <message>
+        <source>Relative air humidity.</source>
+        <translation>Относительная влажность воздуха.</translation>
     </message>
 </context>
 <context>

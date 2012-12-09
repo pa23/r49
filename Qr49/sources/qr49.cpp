@@ -668,8 +668,9 @@ bool MainWindow::fillTableEU3(const QString &filename) {
 
 bool MainWindow::fillTablePoints(const QString &filename) {
 
-    QSharedPointer<csvRead>
-            readerSourceDataPoints(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead> readerSourceDataPoints(
+                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
+                );
 
     try{
 
@@ -731,8 +732,9 @@ bool MainWindow::fillTablePoints(const QString &filename) {
 
 bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
 
-    QSharedPointer<csvRead>
-            readerFullLoadCurve(new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION));
+    QSharedPointer<csvRead> readerFullLoadCurve(
+                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
+                );
 
     try{
 
@@ -2132,15 +2134,19 @@ void MainWindow::on_action_CheckoutData_activated() {
 
 void MainWindow::on_action_UserManual_activated() {
 
-    if ( QFile::exists("r49_user_manual_ru.pdf") ) {
+    const QString userManualLocation1 =
+            "r49_Documentation/r49_user_manual_ru.pdf";
 
-        QDesktopServices::openUrl(QUrl("r49_user_manual_ru.pdf"));
+    const QString userManualLocation2 =
+            "/usr/share/r49/doc/r49_user_manual_ru.pdf";
+
+    if ( QFile::exists(userManualLocation1) ) {
+
+        QDesktopServices::openUrl(QUrl(userManualLocation1));
     }
-    else if ( QFile::exists("/usr/share/r49/doc/r49_user_manual_ru.pdf") ) {
+    else if ( QFile::exists(userManualLocation2) ) {
 
-        QDesktopServices::openUrl(
-                    QUrl("/usr/share/r49/doc/r49_user_manual_ru.pdf")
-                    );
+        QDesktopServices::openUrl(QUrl(userManualLocation2));
     }
     else {
 

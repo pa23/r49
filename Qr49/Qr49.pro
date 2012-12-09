@@ -22,6 +22,7 @@
 QT += core gui network svg
 TARGET = Qr49
 TEMPLATE = app
+VERSION = 3.4.0
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
     sources/checkoutdatadialog.cpp \
