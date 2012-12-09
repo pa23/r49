@@ -521,7 +521,7 @@ ptrdiff_t LibtoxicParameters::defAddPointsCalc(const QString &str) const {
 
         return ADDPOINTSCALC_YES;
     }
-    else if ( str == QString::number(ADDPOINTSCALC_NO ) ||
+    else if ( str == QString::number(ADDPOINTSCALC_NO) ||
               str == "no" ) {
 
         return ADDPOINTSCALC_NO;

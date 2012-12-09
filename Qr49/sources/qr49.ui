@@ -853,8 +853,6 @@
     <addaction name="separator"/>
     <addaction name="action_AboutQr49"/>
     <addaction name="action_AboutQt"/>
-    <addaction name="separator"/>
-    <addaction name="action_CheckForUpdates"/>
    </widget>
    <widget class="QMenu" name="menuCalculation">
     <property name="title">

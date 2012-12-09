@@ -1891,11 +1891,15 @@ QString CycleEmissions::createReports() {
                 fout6 << "failed" << qSetFieldWidth(0) << "\n";
             }
 
-            fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+            if ( ptclc == PTCALC_THROUGHSMOKE ||
+                 ptclc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            fout6 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
-                  << qSetRealNumberPrecision(PRECISION+1)
-                  << gPTs << qSetFieldWidth(0) << "\n\n";
+                fout6 << qSetFieldWidth(WIDTHOFCOLUMN-1+2) << "gPTs[g/kWh]";
+
+                fout6 << qSetFieldWidth(WIDTHOFCOLUMN+WIDTHOFCOLUMN-2)
+                      << qSetRealNumberPrecision(PRECISION+1)
+                      << gPTs << qSetFieldWidth(0) << "\n\n";
+            }
 
             data6.close();
 

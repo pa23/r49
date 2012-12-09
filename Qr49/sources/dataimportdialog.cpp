@@ -166,9 +166,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
                 dataDirName,
                 QString::fromAscii("Text files (*.txt);;"
                                    "CSV files (*.csv);;"
-                                   "All files (*.*)"),
-                0,
-                0);
+                                   "All files (*.*)"));
 
     QFileInfo fileInfo(dataFileName);
     dataDirName = fileInfo.absolutePath();
@@ -208,6 +206,17 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
         tmp_sj = sj;
         tmp_dj = dj;
+
+        if ( tmp_sj > (ui->comboBox_AnotherParameter->count()-1) ||
+             tmp_dj > (ui->comboBox_r49parameter->count()-1) ) {
+
+            QMessageBox::warning(
+                        this,
+                        "Qr49",
+                        tr("Wrong index! Copying skipped!")
+                        );
+            return;
+        }
     }
 
     //
@@ -334,10 +343,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
                     templdir.absolutePath()
                     + QDir::separator()
                     + QDateTime::currentDateTime().
-                    toString("dd-MM-yyyy_hh-mm-ss.txt"),
-                    QString::fromAscii("All files (*.*)"),
-                    0,
-                    0)
+                    toString("dd-MM-yyyy_hh-mm-ss.txt"))
                 );
 
     if ( filename.isEmpty() ) {

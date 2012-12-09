@@ -153,6 +153,10 @@
         <source>Template is empty!</source>
         <translation>Шаблон пуст!</translation>
     </message>
+    <message>
+        <source>Wrong index! Copying skipped!</source>
+        <translation>Неправильный индекс! Копирование пропущено!</translation>
+    </message>
 </context>
 <context>
     <name>FilterMassDialog</name>
