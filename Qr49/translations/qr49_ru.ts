@@ -1836,6 +1836,182 @@ p, li { white-space: pre-wrap; }
         <source>Can not find documentation file!</source>
         <translation>Файл документации не найден!</translation>
     </message>
+    <message>
+        <source>Engine idle speed.</source>
+        <translation>Минимальная частота вращения двигателя на холостом ходу.</translation>
+    </message>
+    <message>
+        <source>Engine interim speed.</source>
+        <translation>Промежуточная частота вращения двигателя.</translation>
+    </message>
+    <message>
+        <source>Engine rated speed.</source>
+        <translation>Номинальная частота вращения двигателя.</translation>
+    </message>
+    <message>
+        <source>Power to drive the fan at rated engine power.</source>
+        <translation>Мощность, затрачиваемая на привод вентилятора на номинальных оборотах двигателя.</translation>
+    </message>
+    <message>
+        <source>Engine power at interim speed.</source>
+        <translation>Мощность двигателя на промежуточной частоте вращения.</translation>
+    </message>
+    <message>
+        <source>Rated engine power.</source>
+        <translation>Номинальная мощность двигателя.</translation>
+    </message>
+    <message>
+        <source>High engine speed (70% of rated power).</source>
+        <translation>Высокая частота вращения двигателя (при мощности, соответствующей 70% от номинальной).</translation>
+    </message>
+    <message>
+        <source>Low engine speed (50% of rated power).</source>
+        <translation>Низкая частота вращения двигателя (при мощности, соответствующей 50% от номинальной).</translation>
+    </message>
+    <message>
+        <source>Engine power at speed A.</source>
+        <translation>Мощность двигателя при частоте вращения A.</translation>
+    </message>
+    <message>
+        <source>Engine power at speed B.</source>
+        <translation>Мощность двигателя при частоте вращения B.</translation>
+    </message>
+    <message>
+        <source>Engine power at speed C.</source>
+        <translation>Мощность двигателя при частоте вращения C.</translation>
+    </message>
+    <message>
+        <source>Engine power at speed a1.</source>
+        <translation>Мощность двигателя при частоте вращения a1.</translation>
+    </message>
+    <message>
+        <source>Engine power at speed a2.</source>
+        <translation>Мощность двигателя при частоте вращения a2.</translation>
+    </message>
+    <message>
+        <source>Engine power at speed a3.</source>
+        <translation>Мощность двигателя при частоте вращения a3.</translation>
+    </message>
+    <message>
+        <source>Cycle point.</source>
+        <translation>Точка цикла.</translation>
+    </message>
+    <message>
+        <source>Engine speed.</source>
+        <translation>Частота вращения двигателя.</translation>
+    </message>
+    <message>
+        <source>Engine effective torque (brutto).</source>
+        <translation>Эффективный крутящий момент двигателя (брутто).</translation>
+    </message>
+    <message>
+        <source>Engine effective power (brutto).</source>
+        <translation>Эффективная мощность двигателя (брутто).</translation>
+    </message>
+    <message>
+        <source>Power to drive the fan.</source>
+        <translation>Мощность, затрачиваемая на привод вентилятора.</translation>
+    </message>
+    <message>
+        <source>Weighting coefficient for cycle point.</source>
+        <translation>Весовой коэффициент для точки цикла.</translation>
+    </message>
+    <message>
+        <source>Environment temperature.</source>
+        <translation>Температура окружающей среды.</translation>
+    </message>
+    <message>
+        <source>Barometric pressure.</source>
+        <translation>Барометрическое давление.</translation>
+    </message>
+    <message>
+        <source>Air humidity.</source>
+        <translation>Влажность воздуха.</translation>
+    </message>
+    <message>
+        <source>Negative pressure on the measuring nozzle.</source>
+        <translation>Разрежение на измерительном сопле.</translation>
+    </message>
+    <message>
+        <source>Air mass flow.</source>
+        <translation>Массовый расход воздуха.</translation>
+    </message>
+    <message>
+        <source>Fuel mass flow.</source>
+        <translation>Массовый расход топлива.</translation>
+    </message>
+    <message>
+        <source>NOx concentration in exhaust gases.</source>
+        <translation>Концентрация NOx в отработавших газах.</translation>
+    </message>
+    <message>
+        <source>Specific NOx emission.</source>
+        <translation>Удельные выбросы NOx.</translation>
+    </message>
+    <message>
+        <source>CO concentration in exhaust gases.</source>
+        <translation>Концентрация CO в отработавших газах.</translation>
+    </message>
+    <message>
+        <source>CH concentration in exhaust gases.</source>
+        <translation>Концентрация CH в отработавших газах.</translation>
+    </message>
+    <message>
+        <source>CO2 concentration in intake pipe of engine.</source>
+        <translation>Концентрация CO2 во впускной трубе двигателя.</translation>
+    </message>
+    <message>
+        <source>CO2 concentration in exhaust gases.</source>
+        <translation>Концентрация CO2 в отработавших газах.</translation>
+    </message>
+    <message>
+        <source>O2 concentration in exhaust gases.</source>
+        <translation>Концентрация O2 в отработавших газах.</translation>
+    </message>
+    <message>
+        <source>Opacity value.</source>
+        <translation>Значение дымности (оптический метод).</translation>
+    </message>
+    <message>
+        <source>Filter smoke number.</source>
+        <translation>Значение дымности (метод с использованием фильтровальной бумаги).</translation>
+    </message>
+    <message>
+        <source>Backpressure.</source>
+        <translation>Противодавление на выхлопе.</translation>
+    </message>
+    <message>
+        <source>Smart sampler probe temperatire.</source>
+        <translation>Температура пробы на Smart sampler.</translation>
+    </message>
+    <message>
+        <source>Filter response time.</source>
+        <translation>Время реакции фильтра.</translation>
+    </message>
+    <message>
+        <source>Dilution air mass flow rate on wet basis.</source>
+        <translation>Массовый расход разбавляющего воздуха на влажной основе.</translation>
+    </message>
+    <message>
+        <source>Diluted exhaust gas mass flow rate on wet basis.</source>
+        <translation>Массовый расход разбавленных отработавших газов на влажной основе.</translation>
+    </message>
+    <message>
+        <source>Dilution ratio.</source>
+        <translation>Коэффициент разбавления.</translation>
+    </message>
+    <message>
+        <source>Negative pressure in the intake pipe.</source>
+        <translation>Разрежение во впускной трубе.</translation>
+    </message>
+    <message>
+        <source>Boost pressure.</source>
+        <translation>Давление наддува.</translation>
+    </message>
+    <message>
+        <source>Power expended on drive of auxiliary units.</source>
+        <translation>Мощность, затрачиваемая на привод вспомогательных агрегатов.</translation>
+    </message>
 </context>
 <context>
     <name>NewVersions</name>
