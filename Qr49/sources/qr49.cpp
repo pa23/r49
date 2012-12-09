@@ -2556,18 +2556,19 @@ void MainWindow::tabChanged(const int tab) {
         if ( tab == 0 ) {
 
             ui->comboBox_task->setCurrentIndex(0);
+            taskChanged(ui->comboBox_task->currentIndex());
         }
         else if ( tab == 1 ) {
 
             ui->comboBox_task->setCurrentIndex(1);
+            taskChanged(ui->comboBox_task->currentIndex());
+            PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
         }
         else if ( tab == 2 ) {
 
             ui->comboBox_task->setCurrentIndex(2);
+            taskChanged(ui->comboBox_task->currentIndex());
         }
-
-        taskChanged(ui->comboBox_task->currentIndex());
-        PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
 
         if ( undoCount == 0 ) {
 
