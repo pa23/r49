@@ -121,8 +121,7 @@ void DataImportDialog::init(const ptrdiff_t tlid,
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        tr("Can not create directory for templates!"),
-                        0, 0, 0
+                        tr("Can not create directory for templates!")
                         );
             return;
         }
@@ -155,8 +154,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Invalid pointer to the destination table!"),
-                    0, 0, 0
+                    tr("Invalid pointer to the destination table!")
                     );
 
         return;
@@ -181,9 +179,10 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49",
-                              tr("You have to select data file!"),
-                              0, 0, 0);
+        QMessageBox::critical(this,
+                              "Qr49",
+                              tr("You have to select data file!")
+                              );
     }
 }
 
@@ -276,7 +275,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         manual = true;
         return;
     }
@@ -288,8 +287,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
         QMessageBox::warning(
                     this,
                     "Qr49",
-                    tr("Template file is empty!"),
-                    0, 0, 0
+                    tr("Template file is empty!")
                     );
         manual = true;
         return;
@@ -309,8 +307,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
             QMessageBox::warning(
                         this,
                         "Qr49",
-                        tr("Wrong array with indexes! Copying skipped!"),
-                        0, 0, 0
+                        tr("Wrong array with indexes! Copying skipped!")
                         );
         }
     }
@@ -325,8 +322,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         QMessageBox::information(
                     this,
                     "Qr49",
-                    tr("Template is empty!"),
-                    0, 0, 0
+                    tr("Template is empty!")
                     );
         return;
     }
@@ -349,8 +345,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("File not selected!"),
-                    0, 0, 0
+                    tr("File not selected!")
                     );
         return;
     }
@@ -363,8 +358,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
                     this,
                     "Qr49",
                     savedTemplate.fileName()
-                    + tr(" could not be opened!"),
-                    0, 0, 0
+                    + tr(" could not be opened!")
                     );
         return;
     }
@@ -408,8 +402,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Unknown delimiter for selected file parsing!"),
-                    0, 0, 0
+                    tr("Unknown delimiter for selected file parsing!")
                     );
 
         return;
@@ -437,7 +430,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
             return;
         }
 
@@ -456,9 +449,10 @@ void DataImportDialog::combosUpdate(const QString &str) {
         }
         else {
 
-            QMessageBox::critical(this, "Qr49",
-                                  tr("Invalid destination table!"),
-                                  0, 0, 0);
+            QMessageBox::critical(this,
+                                  "Qr49",
+                                  tr("Invalid destination table!")
+                                  );
         }
 
         ui->comboBox_AnotherParameter->addItems(headersImportedData);

@@ -63,6 +63,7 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QTextStream>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent) :
 
@@ -196,8 +197,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     this,
                     "Qr49",
                     tr("Can not load monospaced font excalib.ttf "
-                       "from program resources!"),
-                    0, 0, 0
+                       "from program resources!")
                     );
     }
     else {
@@ -227,8 +227,7 @@ MainWindow::MainWindow(QWidget *parent) :
                         "Qr49",
                         QString::fromAscii(Q_FUNC_INFO)
                         + ":::"
-                        + tr("Child object not found!"),
-                        0, 0, 0
+                        + tr("Child object not found!")
                         );
 
             return;
@@ -251,8 +250,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     this,
                     "Qr49",
                     tr("Can not load monospaced font DejaVuSansMono.ttf "
-                       "from program resources!"),
-                    0, 0, 0
+                       "from program resources!")
                     );
     }
     else {
@@ -495,7 +493,7 @@ void MainWindow::readPreferences() {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return;
     }
 }
@@ -513,8 +511,7 @@ void MainWindow::loadAllSourceData() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        tr("Can not fill table!"),
-                        0, 0, 0
+                        tr("Can not fill table!")
                         );
         }
 
@@ -534,8 +531,7 @@ void MainWindow::loadAllSourceData() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        tr("Can not fill table!"),
-                        0, 0, 0
+                        tr("Can not fill table!")
                         );
         }
 
@@ -555,8 +551,7 @@ void MainWindow::loadAllSourceData() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        tr("Can not fill table!"),
-                        0, 0, 0
+                        tr("Can not fill table!")
                         );
         }
 
@@ -576,8 +571,7 @@ void MainWindow::loadAllSourceData() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        tr("Can not fill table!"),
-                        0, 0, 0
+                        tr("Can not fill table!")
                         );
         }
 
@@ -600,7 +594,7 @@ bool MainWindow::fillTableEU0(const QString &filename) {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return false;
     }
 
@@ -613,8 +607,7 @@ bool MainWindow::fillTableEU0(const QString &filename) {
                     this,
                     "Qr49",
                     tr("Incorrect source data! Check number of points "
-                       "and calculation parameters."),
-                    0, 0, 0
+                       "and calculation parameters.")
                     );
         return false;
     }
@@ -645,7 +638,7 @@ bool MainWindow::fillTableEU3(const QString &filename) {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return false;
     }
 
@@ -657,8 +650,7 @@ bool MainWindow::fillTableEU3(const QString &filename) {
                     this,
                     "Qr49",
                     tr("Incorrect source data! Check number of points and "
-                       "calculation parameters."),
-                    0, 0, 0
+                       "calculation parameters.")
                     );
         return false;
     }
@@ -685,7 +677,7 @@ bool MainWindow::fillTablePoints(const QString &filename) {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return false;
     }
 
@@ -703,8 +695,7 @@ bool MainWindow::fillTablePoints(const QString &filename) {
                     this,
                     "Qr49",
                     tr("Incorrect source data! Check number of points and "
-                       "calculation parameters."),
-                    0, 0, 0
+                       "calculation parameters.")
                     );
         return false;
     }
@@ -749,7 +740,7 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return false;
     }
 
@@ -767,8 +758,7 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
                     this,
                     "Qr49",
                     tr("Incorrect source data! Check number of points and "
-                       "calculation parameters."),
-                    0, 0, 0
+                       "calculation parameters.")
                     );
         return false;
     }
@@ -833,8 +823,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
                     "Qr49",
                     QString::fromAscii(Q_FUNC_INFO)
                     + ":::"
-                    + tr("Child object not found!"),
-                    0, 0, 0
+                    + tr("Child object not found!")
                     );
         return false;
     }
@@ -863,8 +852,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Unknown arithmetic operation!"),
-                    0, 0, 0
+                    tr("Unknown arithmetic operation!")
                     );
         return false;
     }
@@ -873,7 +861,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
         if ( table->selectedRanges().empty() ) {
 
-            QMessageBox::critical(this, "Qr49", tr("No selected cells!"), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
 
             return false;
         }
@@ -888,8 +876,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
             QMessageBox::warning(
                         this,
                         "Qr49",
-                        tr("Illegal operation \"Divide by zero\"!"),
-                        0, 0, 0
+                        tr("Illegal operation \"Divide by zero\"!")
                         );
 
             return false;
@@ -950,8 +937,7 @@ void MainWindow::on_action_DataImport_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Data import is not available for the current table!"),
-                    0, 0, 0
+                    tr("Data import is not available for the current table!")
                     );
         return;
     }
@@ -996,8 +982,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                 QMessageBox::critical(
                             this,
                             "Qr49",
-                            tr("Can not fill table!"),
-                            0, 0, 0
+                            tr("Can not fill table!")
                             );
             }
         }
@@ -1019,8 +1004,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                 QMessageBox::critical(
                             this,
                             "Qr49",
-                            tr("Can not fill table!"),
-                            0, 0, 0
+                            tr("Can not fill table!")
                             );
             }
         }
@@ -1042,8 +1026,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                 QMessageBox::critical(
                             this,
                             "Qr49",
-                            tr("Can not fill table!"),
-                            0, 0, 0
+                            tr("Can not fill table!")
                             );
             }
         }
@@ -1065,8 +1048,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                 QMessageBox::critical(
                             this,
                             "Qr49",
-                            tr("Can not fill table!"),
-                            0, 0, 0
+                            tr("Can not fill table!")
                             );
             }
         }
@@ -1091,8 +1073,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
                         this,
                         "Qr49",
                         filenameSourceEU0
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1122,8 +1103,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
                         this,
                         "Qr49",
                         filenameSourceEU3
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1160,8 +1140,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
                         this,
                         "Qr49",
                         filenamePoints
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1206,8 +1185,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
                         this,
                         "Qr49",
                         filenamePowers
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1255,8 +1233,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
                         this,
                         "Qr49",
                         newSourceDataFileName
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1327,7 +1304,7 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
             return;
         }
 
@@ -1369,8 +1346,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
                         this,
                         "Qr49",
                         optionsFileName
-                        + tr(" could not be opened!"),
-                        0, 0, 0
+                        + tr(" could not be opened!")
                         );
             return;
         }
@@ -1447,8 +1423,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
                         this,
                         "Qr49",
                         newReportFileName
-                        + tr(" could not be saved!"),
-                        0, 0, 0
+                        + tr(" could not be saved!")
                         );
             return;
         }
@@ -1532,8 +1507,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
         QMessageBox::warning(
                     this,
                     "Qr49",
-                    tr("No selected cells to printing!"),
-                    0, 0, 0
+                    tr("No selected cells to printing!")
                     );
         return;
     }
@@ -1550,8 +1524,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
         QMessageBox::information(
                     this,
                     "Qr49",
-                    tr("Only 7 columns can be printed at a time!"),
-                    0, 0, 0
+                    tr("Only 7 columns can be printed at a time!")
                     );
     }
 
@@ -1658,8 +1631,7 @@ void MainWindow::on_action_Preferences_activated() {
                     "Qr49",
                     QString::fromAscii(Q_FUNC_INFO)
                     + ":::"
-                    + tr("Child object not found!"),
-                    0, 0, 0
+                    + tr("Child object not found!")
                     );
         return;
     }
@@ -1745,8 +1717,7 @@ void MainWindow::on_action_PasteToTable_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Copied data can not be inserted!"),
-                    0, 0, 0
+                    tr("Copied data can not be inserted!")
                     );
         return;
     }
@@ -1812,8 +1783,7 @@ void MainWindow::on_action_Add_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Arithmetic operation is impossible!"),
-                    0, 0, 0
+                    tr("Arithmetic operation is impossible!")
                     );
     }
 }
@@ -1825,8 +1795,7 @@ void MainWindow::on_action_Multiply_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Arithmetic operation is impossible!"),
-                    0, 0, 0
+                    tr("Arithmetic operation is impossible!")
                     );
     }
 }
@@ -1838,8 +1807,7 @@ void MainWindow::on_action_Divide_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Arithmetic operation is impossible!"),
-                    0, 0, 0
+                    tr("Arithmetic operation is impossible!")
                     );
     }
 }
@@ -1851,8 +1819,7 @@ void MainWindow::on_action_Equal_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Operation is impossible!"),
-                    0, 0, 0
+                    tr("Operation is impossible!")
                     );
     }
 }
@@ -1931,7 +1898,7 @@ void MainWindow::on_action_Execute_activated() {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
             return;
         }
 
@@ -1948,8 +1915,7 @@ void MainWindow::on_action_Execute_activated() {
                 QMessageBox::critical(
                             this,
                             "Qr49",
-                            tr("Can not fill table!"),
-                            0, 0, 0
+                            tr("Can not fill table!")
                             );
             }
 
@@ -1966,8 +1932,7 @@ void MainWindow::on_action_Execute_activated() {
                         this,
                         "Qr49",
                         filenamePoints
-                        + tr(" not found!"),
-                        0, 0, 0
+                        + tr(" not found!")
                         );
         }
 
@@ -1989,7 +1954,7 @@ void MainWindow::on_action_Execute_activated() {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
             return;
         }
 
@@ -2001,7 +1966,7 @@ void MainWindow::on_action_Execute_activated() {
             }
             catch(const ToxicError &toxerr) {
 
-                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
                 return;
             }
 
@@ -2052,7 +2017,7 @@ void MainWindow::on_action_Execute_activated() {
             }
             catch(const ToxicError &toxerr) {
 
-                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
                 return;
             }
         }
@@ -2073,7 +2038,7 @@ void MainWindow::on_action_Execute_activated() {
         }
         catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
             return;
         }
 
@@ -2102,8 +2067,7 @@ void MainWindow::on_action_Execute_activated() {
                     this,
                     "Qr49",
                     tr("See the output of the command line by running the "
-                       "Qr49 with parameter task=help."),
-                    0, 0, 0
+                       "Qr49 with parameter task=help.")
                     );
         return;
     }
@@ -2112,13 +2076,12 @@ void MainWindow::on_action_Execute_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Unknown calculation task!"),
-                    0, 0, 0
+                    tr("Unknown calculation task!")
                     );
         return;
     }
 
-    QMessageBox::information(this, "Qr49", message, 0, 0, 0);
+    QMessageBox::information(this, "Qr49", message);
 
     if ( (ui->comboBox_standard->currentIndex() == STD_FREECALC) ||
          (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) ) {
@@ -2141,8 +2104,7 @@ void MainWindow::on_action_CheckoutData_activated() {
                     "Qr49",
                     QString::fromAscii(Q_FUNC_INFO)
                     + ":::"
-                    + tr("Child object not found!"),
-                    0, 0, 0
+                    + tr("Child object not found!")
                     );
         return;
     }
@@ -2156,7 +2118,7 @@ void MainWindow::on_action_CheckoutData_activated() {
     }
     else {
 
-        QMessageBox::critical(this, "Qr49", tr("Can not open file!"), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
         return;
     }
 
@@ -2166,6 +2128,26 @@ void MainWindow::on_action_CheckoutData_activated() {
     myLineEdit_file->setText(lastCheckoutDataFileName);
 
     checkoutDataDialog->exec();
+}
+
+void MainWindow::on_action_UserManual_activated() {
+
+    if ( QFile::exists("r49_user_manual_ru.pdf") ) {
+
+        QDesktopServices::openUrl(QUrl("r49_user_manual_ru.pdf"));
+    }
+    else if ( QFile::exists("/usr/share/r49/doc/r49_user_manual_ru.pdf") ) {
+
+        QDesktopServices::openUrl(
+                    QUrl("/usr/share/r49/doc/r49_user_manual_ru.pdf")
+                    );
+    }
+    else {
+
+        QMessageBox::warning(this,
+                             "Qr49",
+                             tr("Can not find documentation file!"));
+    }
 }
 
 void MainWindow::on_action_StandardsDescription_activated() {
@@ -2243,8 +2225,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
                         "Qr49",
                         QString::fromAscii(Q_FUNC_INFO)
                         + ":::"
-                        + tr("Child object not found!"),
-                        0, 0, 0
+                        + tr("Child object not found!")
                         );
             return;
         }
@@ -2544,8 +2525,7 @@ void MainWindow::reportChanged(const QString &path) {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Can not open report file!"),
-                    0, 0, 0
+                    tr("Can not open report file!")
                     );
         return;
     }
@@ -2635,7 +2615,7 @@ void MainWindow::tableCellChanged(const int n, const int m) {
     if ( (regExpValidator->validate(str, pos) == QValidator::Invalid) ||
          (str.isEmpty()) ) {
 
-        QMessageBox::warning(this, "Qr49", tr("Illegal table cell value!"), 0, 0, 0);
+        QMessageBox::warning(this, "Qr49", tr("Illegal table cell value!"));
 
         table->item(n, m)->setText("0");
         return;
@@ -2821,7 +2801,7 @@ void MainWindow::abcCalculation() {
     }
     catch(const ToxicError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg(), 0, 0, 0);
+        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
         return;
     }
 

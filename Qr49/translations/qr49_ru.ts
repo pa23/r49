@@ -895,10 +895,6 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Close Report</source>
-        <translation>Закрыть отчет</translation>
-    </message>
-    <message>
         <source>Ctrl+U</source>
         <translation></translation>
     </message>
@@ -1111,10 +1107,6 @@ p, li { white-space: pre-wrap; }
         <translation>Экспорт</translation>
     </message>
     <message>
-        <source>Report To PDF...</source>
-        <translation>Отчет в PDF...</translation>
-    </message>
-    <message>
         <source>Undo (0)</source>
         <translation>Отмена (0)</translation>
     </message>
@@ -1167,14 +1159,6 @@ p, li { white-space: pre-wrap; }
 [kW]</source>
         <translation>Ne_rated
 [кВт]</translation>
-    </message>
-    <message>
-        <source>Standards Description</source>
-        <translation>Описание стандартов</translation>
-    </message>
-    <message>
-        <source>Load Calculation Options...</source>
-        <translation>Загрузить настройки расчета...</translation>
     </message>
     <message>
         <source>Ctrl+L</source>
@@ -1239,28 +1223,8 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <source>Add Row</source>
-        <translation>Добавить строку</translation>
-    </message>
-    <message>
-        <source>Delete Row</source>
-        <translation>Удалить строку</translation>
-    </message>
-    <message>
-        <source>Load Source Data...</source>
-        <translation>Загрузить исходные данные...</translation>
-    </message>
-    <message>
-        <source>Save Source Data As...</source>
-        <translation>Сохранить исходные данные как...</translation>
-    </message>
-    <message>
         <source>Save Source Data File As...</source>
         <translation>Сохранить файл исходных данных как...</translation>
-    </message>
-    <message>
-        <source>Save Calculation Options As...</source>
-        <translation>Сохранить настройки расчета как...</translation>
     </message>
     <message>
         <source>rd
@@ -1293,20 +1257,8 @@ p, li { white-space: pre-wrap; }
         <translation>Панель инструментов</translation>
     </message>
     <message>
-        <source>Save Source Data</source>
-        <translation>Сохранить исходные данные</translation>
-    </message>
-    <message>
         <source>Create reports</source>
         <translation>Создать отчеты</translation>
-    </message>
-    <message>
-        <source>Open Solution...</source>
-        <translation>Открыть решение...</translation>
-    </message>
-    <message>
-        <source>Check For Updates...</source>
-        <translation>Проверить наличие обновлений...</translation>
     </message>
     <message>
         <source> not found!</source>
@@ -1339,10 +1291,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Can not open report file!</source>
         <translation>Невозможно открыть файл отчета!</translation>
-    </message>
-    <message>
-        <source>Data Import...</source>
-        <translation>Импорт данных...</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
@@ -1399,10 +1347,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Reduced Power Calculation</source>
         <translation>Расчет приведенной мощности</translation>
-    </message>
-    <message>
-        <source>Common Parameters...</source>
-        <translation>Общие параметры...</translation>
     </message>
     <message>
         <source>Calculation task</source>
@@ -1641,14 +1585,6 @@ p, li { white-space: pre-wrap; }
         <translation>Газотурбинный</translation>
     </message>
     <message>
-        <source>Additional calculations</source>
-        <translation>Дополнительные расчеты</translation>
-    </message>
-    <message>
-        <source>Shift+F9</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Calculations panel</source>
         <translation>Панель расчетов</translation>
     </message>
@@ -1831,6 +1767,74 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Through smoke values and PT mass</source>
         <translation>Через знач. дымности и массу PT</translation>
+    </message>
+    <message>
+        <source>Add row</source>
+        <translation>Добавить строку</translation>
+    </message>
+    <message>
+        <source>Delete row</source>
+        <translation>Удалить строку</translation>
+    </message>
+    <message>
+        <source>Save report as...</source>
+        <translation>Сохранить отчет как...</translation>
+    </message>
+    <message>
+        <source>Save source data</source>
+        <translation>Сохранить исходные данные</translation>
+    </message>
+    <message>
+        <source>Open report...</source>
+        <translation>Открыть отчет...</translation>
+    </message>
+    <message>
+        <source>Close report</source>
+        <translation>Закрыть отчет</translation>
+    </message>
+    <message>
+        <source>Report to PDF...</source>
+        <translation>Отчет в PDF...</translation>
+    </message>
+    <message>
+        <source>Common parameters...</source>
+        <translation>Общие параметры...</translation>
+    </message>
+    <message>
+        <source>Standards description</source>
+        <translation>Описание стандартов</translation>
+    </message>
+    <message>
+        <source>Load calculation options...</source>
+        <translation>Загрузить настройки расчета...</translation>
+    </message>
+    <message>
+        <source>Save calculation options as...</source>
+        <translation>Сохранить настройки расчета как...</translation>
+    </message>
+    <message>
+        <source>Load source data...</source>
+        <translation>Загрузить исходные данные...</translation>
+    </message>
+    <message>
+        <source>Save source data as...</source>
+        <translation>Сохранить исходные данные как...</translation>
+    </message>
+    <message>
+        <source>Check for updates...</source>
+        <translation>Проверить наличие обновлений...</translation>
+    </message>
+    <message>
+        <source>Data import...</source>
+        <translation>Импорт данных...</translation>
+    </message>
+    <message>
+        <source>User manual</source>
+        <translation>Руководство пользователя</translation>
+    </message>
+    <message>
+        <source>Can not find documentation file!</source>
+        <translation>Файл документации не найден!</translation>
     </message>
 </context>
 <context>

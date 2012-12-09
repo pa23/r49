@@ -59,8 +59,7 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        newCheckoutDataFileName + tr(" could not be saved!"),
-                        0, 0, 0
+                        newCheckoutDataFileName + tr(" could not be saved!")
                         );
             return;
         }

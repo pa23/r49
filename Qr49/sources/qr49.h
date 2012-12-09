@@ -150,6 +150,7 @@ private slots:
     void on_action_Toolbar_activated();
     void on_action_Execute_activated();
     void on_action_CheckoutData_activated();
+    void on_action_UserManual_activated();
     void on_action_StandardsDescription_activated();
     void on_action_AboutQr49_activated();
     void on_action_AboutQt_activated();

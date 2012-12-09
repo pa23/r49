@@ -65,7 +65,7 @@ void NewVersions::replyFinished(QNetworkReply *reply) {
 
         const QString msg = QString::fromAscii(Q_FUNC_INFO) + ":::" +
                 reply->errorString();
-        QMessageBox::critical(0, "Qr49", msg, 0, 0, 0);
+        QMessageBox::critical(0, "Qr49", msg);
 
         return;
     }
@@ -126,5 +126,5 @@ void NewVersions::parseHtmlData() {
             + "<br><br>"
             + tr("Available distributions:<br><br>")
             + allfiles;
-    QMessageBox::information(0, "Qr49", msg, 0, 0, 0);
+    QMessageBox::information(0, "Qr49", msg);
 }
