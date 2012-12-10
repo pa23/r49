@@ -30,6 +30,10 @@
         <source>File</source>
         <translation>Файл</translation>
     </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
 </context>
 <context>
     <name>DataImportDialog</name>
@@ -2015,6 +2019,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Relative air humidity.</source>
         <translation>Относительная влажность воздуха.</translation>
+    </message>
+    <message>
+        <source>Report window is empty!</source>
+        <translation>Окно отчета не содержит данных!</translation>
     </message>
 </context>
 <context>

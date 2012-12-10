@@ -259,7 +259,7 @@ QString ReducedPower::createReports() {
           << "Point[-]"      << "n[min-1]"     << "Me_b[Nm]"
           << "t0[oC]"        << "B0[kPa]"      << "Ra[%]"
           << "S[kPa]"        << "pk[kPa]"      << "Gfuel[kg/h]"
-          << "N_k[kW]"       << "N_fan[kW]"    << "Ne_b[kW]"    << "ge_b[kW]"
+          << "N_k[kW]"       << "N_fan[kW]"    << "Ne_b[kW]"    << "ge_b[g/kWh]"
           << "qcs[mg/cyc.l]" << "fm[-]"        << "pa[kPa]"
           << "ps[kPa]"       << "fa[-]"        << "alphad[-]"
           << "Ne_r[kW]"      << "N_br[kW]"     << "M_br[Nm]"    << "Ne_nr[kW]"
