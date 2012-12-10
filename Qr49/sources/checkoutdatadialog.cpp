@@ -25,6 +25,8 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+#include <QClipboard>
+#include <QRegExp>
 
 CheckoutDataDialog::CheckoutDataDialog(QWidget *parent) :
     QDialog(parent) {
@@ -71,4 +73,12 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
         ui.lineEdit_file->setText(newCheckoutDataFileName);
     }
+}
+
+void CheckoutDataDialog::on_pushButton_Copy_clicked() {
+
+    QApplication::clipboard()->setText(
+                ui.plainTextEdit_CheckoutData->
+                toPlainText().replace(QRegExp("[ ]+"), "\t")
+                );
 }

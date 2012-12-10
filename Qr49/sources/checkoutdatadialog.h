@@ -42,6 +42,7 @@ private:
 private slots:
 
     void on_pushButton_SaveAs_clicked();
+    void on_pushButton_Copy_clicked();
 
 };
 
