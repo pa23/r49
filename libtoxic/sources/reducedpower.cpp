@@ -143,6 +143,7 @@ void ReducedPower::setRate() {
 void ReducedPower::reducePower() {
 
     array_Ne_brutto.clear();        array_Ne_brutto.resize(NumberOfPoints);
+    array_ge_brutto.clear();        array_ge_brutto.resize(NumberOfPoints);
     array_qcs.clear();              array_qcs.resize(NumberOfPoints);
     array_fm.clear();               array_fm.resize(NumberOfPoints);
     array_pa.clear();               array_pa.resize(NumberOfPoints);
@@ -151,6 +152,7 @@ void ReducedPower::reducePower() {
     array_alphad.clear();           array_alphad.resize(NumberOfPoints);
     array_Ne_reduced.clear();       array_Ne_reduced.resize(NumberOfPoints);
     array_Ne_brake_reduced.clear(); array_Ne_brake_reduced.resize(NumberOfPoints);
+    array_Me_brake_reduced.clear(); array_Me_brake_reduced.resize(NumberOfPoints);
     array_Ne_netto_reduced.clear(); array_Ne_netto_reduced.resize(NumberOfPoints);
     array_Me_netto_reduced.clear(); array_Me_netto_reduced.resize(NumberOfPoints);
     array_ge_netto_reduced.clear(); array_ge_netto_reduced.resize(NumberOfPoints);
@@ -162,6 +164,7 @@ void ReducedPower::reducePower() {
     for ( ptrdiff_t i=0; i<NumberOfPoints; i++ ) {
 
         array_Ne_brutto[i] = array_Me_brutto[i] * array_n[i] / 9550.0;
+        array_ge_brutto[i] = array_Gfuel[i] / array_Ne_brutto[i] * 1000.0;
 
         if ( params->valChargingType() == CHARGINGTYPE_NO ) {
 
@@ -214,12 +217,12 @@ void ReducedPower::reducePower() {
 
         array_Ne_reduced[i] = array_alphad[i] * array_Ne_brutto[i];
         array_Ne_brake_reduced[i] = array_Ne_brutto[i] + array_N_k[i];
+        array_Me_brake_reduced[i] = array_Ne_brake_reduced[i] * 9550.0 /
+                array_n[i];
         array_N_fan[i] = N_fan(N_fan_rated, array_n[i], n_rated);
         array_Ne_netto_reduced[i] = array_Ne_reduced[i] - array_N_fan[i];
-
         array_Me_netto_reduced[i] = array_Ne_netto_reduced[i] * 9550.0 /
                 array_n[i];
-
         array_ge_netto_reduced[i] = array_Gfuel[i] /
                 array_Ne_netto_reduced[i] * 1000.0;
     }
@@ -256,10 +259,10 @@ QString ReducedPower::createReports() {
           << "Point[-]"      << "n[min-1]"     << "Me_b[Nm]"
           << "t0[oC]"        << "B0[kPa]"      << "Ra[%]"
           << "S[kPa]"        << "pk[kPa]"      << "Gfuel[kg/h]"
-          << "N_k[kW]"       << "N_fan[kW]"    << "Ne_b[kW]"
+          << "N_k[kW]"       << "N_fan[kW]"    << "Ne_b[kW]"    << "ge_b[kW]"
           << "qcs[mg/cyc.l]" << "fm[-]"        << "pa[kPa]"
           << "ps[kPa]"       << "fa[-]"        << "alphad[-]"
-          << "Ne_r[kW]"      << "N_br[kW]"     << "Ne_nr[kW]"
+          << "Ne_r[kW]"      << "N_br[kW]"     << "M_br[Nm]"    << "Ne_nr[kW]"
           << "Me_nr[Nm]"     << "ge_nr[g/kWh]"
           << qSetFieldWidth(0) << "\n";
 
@@ -271,7 +274,7 @@ QString ReducedPower::createReports() {
               << (i + 1)      << array_n[i]     << array_Me_brutto[i]
               << array_t0[i]  << array_B0[i]    << array_Ra[i]
               << array_S[i]   << array_pk[i]    << array_Gfuel[i]
-              << array_N_k[i] << array_N_fan[i] << array_Ne_brutto[i]
+              << array_N_k[i] << array_N_fan[i] << array_Ne_brutto[i] << array_ge_brutto[i]
               << array_qcs[i] << array_fm[i]    << array_pa[i]
               << array_ps[i];
 
@@ -279,7 +282,7 @@ QString ReducedPower::createReports() {
               << array_fa[i] << array_alphad[i];
 
         fout1 << qSetRealNumberPrecision(PRECISION)
-              << array_Ne_reduced[i]       << array_Ne_brake_reduced[i]
+              << array_Ne_reduced[i]       << array_Ne_brake_reduced[i] << array_Me_brake_reduced[i]
               << array_Ne_netto_reduced[i] << array_Me_netto_reduced[i]
               << array_ge_netto_reduced[i];
 

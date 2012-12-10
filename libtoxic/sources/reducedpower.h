@@ -63,6 +63,7 @@ private:
     QVector<double> array_N_k;
     QVector<double> array_N_fan;
     QVector<double> array_Ne_brutto;                 //
+    QVector<double> array_ge_brutto;
     QVector<double> array_qcs;
     QVector<double> array_fm;
     QVector<double> array_pa;
@@ -71,6 +72,7 @@ private:
     QVector<double> array_alphad;
     QVector<double> array_Ne_reduced;
     QVector<double> array_Ne_brake_reduced;
+    QVector<double> array_Me_brake_reduced;
     QVector<double> array_Ne_netto_reduced;
     QVector<double> array_Me_netto_reduced;
     QVector<double> array_ge_netto_reduced;
