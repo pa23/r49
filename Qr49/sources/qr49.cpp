@@ -1458,6 +1458,16 @@ void MainWindow::on_action_CloseReport_activated() {
 
 void MainWindow::on_action_ReportToPDF_activated() {
 
+    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Report window is empty!")
+                    );
+        return;
+    }
+
     const QString filename = ui->comboBox_OpenedReports->currentText() + ".pdf";
 
     const QString newReportFileName(
