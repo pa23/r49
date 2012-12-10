@@ -2134,8 +2134,12 @@ void MainWindow::on_action_CheckoutData_activated() {
 
 void MainWindow::on_action_UserManual_activated() {
 
+    const QString sep(QDir::separator());
+
     const QString userManualLocation1 =
-            "r49_Documentation/r49_user_manual_ru.pdf";
+            "r49_Documentation"
+            + sep
+            + "r49_user_manual_ru.pdf";
 
     const QString userManualLocation2 =
             "/usr/share/r49/doc/r49_user_manual_ru.pdf";
