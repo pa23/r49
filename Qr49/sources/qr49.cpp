@@ -77,8 +77,8 @@ MainWindow::MainWindow(QWidget *parent) :
     filterMassDialog(new FilterMassDialog(this)),
     valueDialog(new ValueDialog(this)),
     preferencesDialog(new PreferencesDialog(this)),
-    checkoutDataDialog(new CheckoutDataDialog(this)),
-    helpDialog(new HelpDialog(this)),
+    checkoutDataDialog(new CheckoutDataDialog(0)),
+    helpDialog(new HelpDialog(0)),
     dataImportDialog(new DataImportDialog(this)),
 
     regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
