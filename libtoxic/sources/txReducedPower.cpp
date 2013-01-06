@@ -181,6 +181,10 @@ void txReducedPower::prepSrcArrays(
         const QVector< QVector<double> > &srcdata
         ) {
 
+    if ( srcdata.isEmpty() ) {
+        throw txError("Incorrect source data array!");
+    }
+
     ma_n.clear();         ma_n.resize(m_numberOfPoints);
     ma_Me_brutto.clear(); ma_Me_brutto.resize(m_numberOfPoints);
     ma_t0.clear();        ma_t0.resize(m_numberOfPoints);
@@ -193,6 +197,10 @@ void txReducedPower::prepSrcArrays(
     ma_N_fan.clear();     ma_N_fan.resize(m_numberOfPoints);
 
     for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+
+        if ( srcdata[i].size() != SRCDATACAPTIONS_REDPOWER.size() ) {
+            throw txError("Incorrect source data array!");
+        }
 
         ma_n        [i] = srcdata[i][ 1];
         ma_Me_brutto[i] = srcdata[i][ 2];
