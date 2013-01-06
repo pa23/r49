@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: emissionlimits.h
+    File: txDataReader.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,15 +19,42 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EMISSIONLIMITS_H
-#define EMISSIONLIMITS_H
+#ifndef TXDATAREADER_H
+#define TXDATAREADER_H
 
 #include <QString>
+#include <QStringList>
+#include <QVector>
 
-double valNOxLimit(const ptrdiff_t, const double n_rated=0);
-double valCOLimit(const ptrdiff_t);
-double valCHLimit(const ptrdiff_t);
-double valPTLimit(const ptrdiff_t);
-double valNOxCHLimit(const ptrdiff_t);
+namespace toxic {
 
-#endif /* EMISSIONLIMITS_H */
+class txDataReader {
+
+public:
+
+    txDataReader();
+
+    void readFile(const QString &,  // filename
+                  const QString &); // delimeter
+
+    QVector< QVector<double> > val_data() const {
+        return ma_doubleData;
+    }
+
+    QStringList val_headers() const {
+        return m_headers;
+    }
+
+private:
+
+    txDataReader(const txDataReader &);
+    txDataReader & operator=(const txDataReader &);
+
+    QVector< QVector<double> > ma_doubleData;
+    QStringList m_headers;
+
+};
+
+} // namespace toxic
+
+#endif // DATAREADER_H

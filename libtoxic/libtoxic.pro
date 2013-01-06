@@ -5,7 +5,7 @@
 #
 #    File: libtoxic.pro
 #
-#    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,32 +19,49 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT -= gui
 TARGET = toxic
+
 TEMPLATE = lib
-VERSION = 6.4.1
-SOURCES += sources/reducedpower.cpp \
-    sources/precalc.cpp \
-    sources/libtoxicparameters.cpp \
-    sources/emissionlimits.cpp \
-    sources/cyclepoints.cpp \
-    sources/cycleemissions.cpp \
-    sources/commonparameters.cpp \
-    sources/csvread.cpp \
-    sources/toxicerror.cpp
-HEADERS += sources/reducedpower.h \
-    sources/precalc.h \
-    sources/libtoxicparameters.h \
-    sources/libtoxicconstants.h \
-    sources/emissionlimits.h \
-    sources/cyclepoints.h \
-    sources/cycleemissions.h \
-    sources/commonparameters.h \
-    sources/csvread.h \
-    ../r49.h \
-    sources/toxicerror.h
+
+VERSION = 7.0.0
+VER_MAJ = 7
+VER_MIN = 0
+VER_PAT = 0
+
+HEADERS += \
+    sources/txAuxiliaryFunctions.h \
+    sources/txCalculationOptions.h \
+    sources/txCommonParameters.h \
+    sources/txConstants.h \
+    sources/txDataReader.h \
+    sources/txEmissionLimits.h \
+    sources/txEmissionsOnCycle.h \
+    sources/txEmissionsOnGOST51249.h \
+    sources/txEmissionsOnR49R96.h \
+    sources/txIdentification.h \
+    sources/txError.h \
+    sources/txEmissionsBase.h \
+    sources/txCalculationInterface.h \
+    sources/txReducedPower.h \
+    sources/txPointsOfCycle.h
+
+SOURCES += \
+    sources/txAuxiliaryFunctions.cpp \
+    sources/txCalculationOptions.cpp \
+    sources/txCommonParameters.cpp \
+    sources/txDataReader.cpp \
+    sources/txEmissionLimits.cpp \
+    sources/txEmissionsOnCycle.cpp \
+    sources/txEmissionsOnGOST51249.cpp \
+    sources/txEmissionsOnR49R96.cpp \
+    sources/txError.cpp \
+    sources/txEmissionsBase.cpp \
+    sources/txReducedPower.cpp \
+    sources/txPointsOfCycle.cpp
+
+QMAKE_CXXFLAGS += -std=c++11
+
 unix: {
-    INCLUDEPATH += ..
     DESTDIR = ../r49-bin/unix
     RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
@@ -56,8 +73,8 @@ unix: {
     target.path = $$PREFIX/lib
     INSTALLS += target
 }
+
 win32: {
-    INCLUDEPATH += ..
     DESTDIR = ..\\r49-bin\\win
     RCC_DIR = build\\win\\rc
     CONFIG (debug, debug|release) {

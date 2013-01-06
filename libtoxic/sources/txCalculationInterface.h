@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: toxicerror.cpp
+    File: txCalculationInterface.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2012-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,8 +19,30 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "toxicerror.h"
+#ifndef TXCALCULATIONINTERFACE_H
+#define TXCALCULATIONINTERFACE_H
 
-ToxicError::ToxicError(const QString &errStr) :
-    errMsg(errStr) {
-}
+#include <QString>
+
+namespace toxic {
+
+class txCalculationInterface {
+
+public:
+
+    virtual ~txCalculationInterface() {}
+
+    virtual void setSourceData(const QVector< QVector<double> > &) = 0;
+    virtual void setSourceData(
+            // srcFileNamePoints from CommonParameters will be used
+            ) = 0;
+    virtual void calculate() = 0;
+    virtual QString results() const = 0;
+    virtual QString createReports() = 0;
+    virtual QString lastReportDir() const = 0;
+
+};
+
+} // namespace toxic
+
+#endif // TXCALCULATIONINTERFACE_H

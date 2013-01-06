@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: csvread.h
+    File: txError.cpp
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2012-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,37 +19,12 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CSVREAD_H
-#define	CSVREAD_H
+#include "txError.h"
 
-#include <QString>
-#include <QStringList>
-#include <QVector>
+namespace toxic {
 
-class csvRead {
+txError::txError(const QString &errStr) :
+    m_errMsg(errStr) {
+}
 
-public:
-
-    csvRead(const QString &, const QString &, const ptrdiff_t &);
-    ~csvRead();
-
-    void readFile();
-    QVector< QVector<double> > csvData() const;
-    QStringList csvHeaders() const;
-
-private:
-
-    csvRead(const csvRead &);
-    csvRead & operator=(const csvRead &);
-
-    QString filename;
-    QString csvdelimiter;
-    ptrdiff_t headerLinesNumber;
-
-    QVector<QStringList> data;
-    QVector< QVector<double> > doubleData;
-    QStringList headers;
-
-};
-
-#endif	/* CSVREAD_H */
+} // namespace toxic

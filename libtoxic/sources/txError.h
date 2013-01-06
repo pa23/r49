@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: toxicerror.h
+    File: txError.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2012-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,22 +19,26 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOXICERROR_H
-#define TOXICERROR_H
+#ifndef TXERROR_H
+#define TXERROR_H
 
 #include <QString>
 
-class ToxicError {
+namespace toxic {
+
+class txError {
 
 public:
 
-    ToxicError(const QString &);
-    QString toxicErrMsg() const { return errMsg; }
+    txError(const QString &);
+    QString val_toxicErrMsg() const { return m_errMsg; }
 
 private:
 
-    QString errMsg;
+    QString m_errMsg;
 
 };
 
-#endif // TOXICERROR_H
+} // namespace toxic
+
+#endif // TXERROR_H
