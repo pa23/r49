@@ -42,7 +42,7 @@ void txDataReader::readFile(const QString &fileName,
 
     QString str;
     QStringList strlst;
-    QRegExp regexp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?");
+    QRegExp regexp("^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?");
     QVector<double> vec;
 
     while ( !dataFile.atEnd() ) {
@@ -58,14 +58,12 @@ void txDataReader::readFile(const QString &fileName,
         if ( strlst[0].contains(regexp) ) {
 
             for ( ptrdiff_t i=0; i<strlst.size(); i++ ) {
-
                 vec.push_back(strlst[i].toDouble());
             }
 
             ma_doubleData.push_back(vec);
         }
         else {
-
             m_headers.push_back(str);
         }
 

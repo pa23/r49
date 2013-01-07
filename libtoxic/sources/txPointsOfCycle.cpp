@@ -87,7 +87,6 @@ void txPointsOfCycle::setSourceData() {
         dataReader->readFile(m_commonParameters->val_srcFileNameEU0(), " ");
     }
 
-    dataReader->readFile(m_commonParameters->val_srcFileNamePoints(), " ");
     QVector< QVector<double> > srcdata = dataReader->val_data();
 
     if ( srcdata.isEmpty() ) {
@@ -716,7 +715,7 @@ void txPointsOfCycle::prepSrcData(const QVector<QVector<double> > &srcdata) {
         throw txError("Incorrect source data array!");
     }
 
-    if ( srcdata[0].size() != 11 || srcdata[0].size() != 6 ) {
+    if ( srcdata[0].size() != 11 && srcdata[0].size() != 6 ) {
         throw txError("Incorrect source data array!");
     }
 
