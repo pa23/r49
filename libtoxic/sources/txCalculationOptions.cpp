@@ -207,7 +207,9 @@ QString txCalculationOptions::defStandardName(int val) const {
     else if ( val == STD_G1      ) { return "GOST_R_51249-99_G1"; }
     else if ( val == STD_G2      ) { return "GOST_R_51249-99_G2"; }
     else if ( val == STD_FREECALC) { return "Free_Calculation";   }
-    else                           { return "R49_Euro-4";         }
+    else {
+        throw txError("Unknown standard!");
+    }
 }
 
 int txCalculationOptions::defTask(const QString &str) const {
@@ -233,7 +235,7 @@ int txCalculationOptions::defTask(const QString &str) const {
         return TASK_HELP;
     }
     else {
-        return TASK_EMISSIONS;
+        throw txError("Unknown task value!");
     }
 }
 
@@ -384,7 +386,7 @@ int txCalculationOptions::defStandard(const QString &str) const {
         return STD_FREECALC;
     }
     else {
-        return STD_EU4;
+        throw txError("Unknown standard value!");
     }
 }
 
@@ -399,7 +401,7 @@ int txCalculationOptions::defChargingType(const QString &str) const {
         return CHARGINGTYPE_GASTURBINE;
     }
     else {
-        return CHARGINGTYPE_GASTURBINE;
+        throw txError("Unknown chargingType value!");
     }
 }
 
@@ -418,7 +420,7 @@ int txCalculationOptions::defFuelType(const QString &str) const {
         return FUELTYPE_MAZUT;
     }
     else {
-        return FUELTYPE_DIESEL;
+        throw txError("Unknown fuelType value!");
     }
 }
 
@@ -433,7 +435,7 @@ int txCalculationOptions::defNOxSample(const QString &str) const {
         return NOXSAMPLE_DRY;
     }
     else {
-        return NOXSAMPLE_WET;
+        throw txError("Unknown NOxSample value!");
     }
 }
 
@@ -456,7 +458,7 @@ int txCalculationOptions::defPTcalc(const QString &str) const {
         return PTCALC_NO;
     }
     else {
-        return PTCALC_NO;
+        throw txError("Unknown PTcalc value!");
     }
 }
 
@@ -471,7 +473,7 @@ int txCalculationOptions::defAddPointsCalc(const QString &str) const {
         return ADDPOINTSCALC_NO;
     }
     else {
-        return ADDPOINTSCALC_NO;
+        throw txError("Unknown addPointsCalc value!");
     }
 }
 

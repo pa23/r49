@@ -132,7 +132,7 @@ void showHelp() {
             "     to calculate emissions and generate report files.\n\n";
 }
 
-bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcopts,
+void parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcopts,
                        int argc, char** argv) {
 
     QString str;
@@ -146,7 +146,7 @@ bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
 
         if ( str == "--help" ) {
             calcopts->setTask(toxic::TASK_HELP);
-            return true;
+            return;
         }
 
         elements = str.split("=");
@@ -155,8 +155,8 @@ bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
 
             cout << "\nIncorrect parameter \""
                  << str.toStdString()
-                 <<  "\"";
-            return false;
+                 <<  "\". Default value will be used!\n";
+            continue;
         }
 
         param = elements[0];
@@ -173,8 +173,8 @@ bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
                 calcopts->setVh(val);
             }
             else {
-                cout << "\nIncorrect Vh value!";
-                return false;
+                cout << "\nIncorrect Vh value! Default value will be used!\n";
+                continue;
             }
         }
         else if ( param == "--standard" ) {
@@ -200,8 +200,8 @@ bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
                 calcopts->setPTmass(val);
             }
             else {
-                cout << "\nIncorrect PTmass value!";
-                return false;
+                cout << "\nIncorrect PTmass value! Default value will be used!\n";
+                continue;
             }
         }
         else if ( param == "--addPointsCalc" ) {
@@ -211,14 +211,12 @@ bool parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
             calcopts->setCalcConfigFile(value);
         }
         else {
-            cout << "Incorrect program parameters!";
-            return false;
+            cout << "\nIncorrect program parameters!\n";
+            return;
         }
 
         elements.clear();
     }
-
-    return true;
 }
 
 int main(int argc, char **argv) {
@@ -231,8 +229,11 @@ int main(int argc, char **argv) {
     QSharedPointer<toxic::txCalculationOptions>
             calcopts(new toxic::txCalculationOptions());
 
-    if ( !parsingParameters(calcopts, argc, argv) ) {
-        cout << "\nErrors during parsing parameters!\n";
+    try {
+        parsingParameters(calcopts, argc, argv);
+    }
+    catch(const toxic::txError &toxerr) {
+        cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
         return 1;
     }
 
@@ -261,7 +262,7 @@ int main(int argc, char **argv) {
             toxic::ABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
         }
         catch(const toxic::txError &toxerr) {
-            cout << "\n" << toxerr.val_toxicErrMsg().toStdString();
+            cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
             return 1;
         }
 
@@ -301,7 +302,7 @@ int main(int argc, char **argv) {
                     myPoints(new toxic::txPointsOfCycle(commpars, calcopts));
             myPoints->setSourceData();
             myPoints->calculate();
-            cout << "\n" << myPoints->createReports().toStdString();
+            cout << myPoints->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
             cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
@@ -315,7 +316,7 @@ int main(int argc, char **argv) {
                     myEmissions(new toxic::txEmissionsOnCycle(commpars, calcopts));
             myEmissions->setSourceData();
             myEmissions->calculate();
-            cout << "\n" << myEmissions->results().toStdString();
+            cout << myEmissions->results().toStdString();
             cout << "\n" << myEmissions->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
@@ -330,7 +331,7 @@ int main(int argc, char **argv) {
                     myReducedPower(new toxic::txReducedPower(commpars, calcopts));
             myReducedPower->setSourceData();
             myReducedPower->calculate();
-            cout << "\n" << myReducedPower->createReports().toStdString();
+            cout << myReducedPower->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
             cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
