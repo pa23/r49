@@ -65,7 +65,7 @@ void txReducedPower::setSourceData() {
 
     QSharedPointer<txDataReader> dataReader(new txDataReader());
 
-    dataReader->readFile(m_commonParameters->val_srcFileNamePoints(), " ");
+    dataReader->readFile(m_commonParameters->val_srcFileNameRedPwr(), " ");
     QVector< QVector<double> > srcdata = dataReader->val_data();
 
     if ( srcdata.isEmpty() ) {
@@ -165,10 +165,7 @@ QString txReducedPower::createReports() {
     m_fullReportsPath =
             m_commonParameters->val_reportsDirName()
             + QDir::separator()
-            + m_calculationOptions->defStandardName(
-                m_calculationOptions->val_standard()
-                )
-            + "_"
+            + "R85_"
             + m_currTime;
 
     QDir reportDir;

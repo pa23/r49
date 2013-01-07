@@ -75,7 +75,17 @@ void txPointsOfCycle::setSourceData(const QVector<QVector<double> > &srcdata) {
 
 void txPointsOfCycle::setSourceData() {
 
+    const int currstd = m_calculationOptions->val_standard();
+
     QSharedPointer<txDataReader> dataReader(new txDataReader());
+
+    if ( currstd == STD_EU6 || currstd == STD_EU5 ||
+         currstd == STD_EU4 || currstd == STD_EU3 ) {
+        dataReader->readFile(m_commonParameters->val_srcFileNameEU3(), " ");
+    }
+    else {
+        dataReader->readFile(m_commonParameters->val_srcFileNameEU0(), " ");
+    }
 
     dataReader->readFile(m_commonParameters->val_srcFileNamePoints(), " ");
     QVector< QVector<double> > srcdata = dataReader->val_data();
