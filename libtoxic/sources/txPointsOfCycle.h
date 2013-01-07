@@ -56,10 +56,13 @@ private:
     txPointsOfCycle(const txPointsOfCycle &);
     txPointsOfCycle & operator=(const txPointsOfCycle &);
 
-    void prepArrays(ptrdiff_t);
+    void prepSrcData(const QVector< QVector<double> > &);
+    void prepArrays();
 
     QSharedPointer<txCommonParameters> m_commonParameters;
     QSharedPointer<txCalculationOptions> m_calculationOptions;
+
+    ptrdiff_t m_numberOfPoints;
 
     QVector<double> ma_n;
     QVector<double> ma_Me_brutto;
