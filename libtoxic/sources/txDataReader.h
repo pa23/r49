@@ -47,9 +47,6 @@ public:
 
 private:
 
-    txDataReader(const txDataReader &);
-    txDataReader & operator=(const txDataReader &);
-
     QVector< QVector<double> > ma_doubleData;
     QStringList m_headers;
 

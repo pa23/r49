@@ -49,15 +49,15 @@ txEmissionsOnCycle::~txEmissionsOnCycle() {
 
 void txEmissionsOnCycle::setSourceData(
         const QVector<QVector<double> > &srcdata
-        ) const {
+        ) {
     m_cycle->setSourceData(srcdata);
 }
 
-void txEmissionsOnCycle::setSourceData() const {
+void txEmissionsOnCycle::setSourceData() {
     m_cycle->setSourceData();
 }
 
-void txEmissionsOnCycle::calculate() const {
+void txEmissionsOnCycle::calculate() {
     m_cycle->calculate();
 }
 
@@ -65,7 +65,7 @@ QString txEmissionsOnCycle::results() const {
     return m_cycle->results();
 }
 
-QString txEmissionsOnCycle::createReports() const {
+QString txEmissionsOnCycle::createReports() {
     return m_cycle->createReports();
 }
 

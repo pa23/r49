@@ -31,6 +31,7 @@
 namespace toxic {
 
 txEmissionsBase::txEmissionsBase() :
+    m_NeCalcMethod(NECALCMETHOD_THROUGHME),
     m_GairVals(GAIRVALS_THROUGHMASSFLOW),
     m_EGRcalc(EGRCALC_NO),
     m_checkMeas(CHECKMEAS_NO),
@@ -132,6 +133,16 @@ void txEmissionsBase::baseCalc() {
     const int chargtype = m_calculationOptions->val_chargingType();
 
     for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+
+        if ( m_NeCalcMethod == NECALCMETHOD_THROUGHNE ) {
+            ma_Me_brutto[i] = ma_Ne_brutto[i] * 9550.0 / ma_n[i];
+        }
+        else if ( m_NeCalcMethod == NECALCMETHOD_THROUGHME ) {
+            ma_Ne_brutto[i] = ma_Me_brutto[i] * ma_n[i] / 9550.0;
+        }
+        else {
+            throw txError("Incorrect Ne_netto calculation method!");
+        }
 
         if ( m_GairVals == GAIRVALS_THROUGHNOZZLE ) {
             ma_Gair[i] = Gair(Dn, ma_B0[i], ma_t0[i], ma_dPn[i]);

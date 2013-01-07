@@ -104,9 +104,6 @@ public:
 
 private:
 
-    txCommonParameters(const txCommonParameters &);
-    txCommonParameters & operator=(const txCommonParameters &);
-
     void createNeededFiles();
 
     QString m_srcFileNameEU3;

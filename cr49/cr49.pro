@@ -5,7 +5,7 @@
 #
 #    File: cr49.pro
 #
-#    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,15 +21,21 @@
 
 QT += core
 QT -= gui
+
 TARGET = cr49
+
 CONFIG += console
-CONFIG -= app_bundle
+
 TEMPLATE = app
-VERSION = 1.1.0
+
+VERSION = 1.2.0
+VER_MAJ = 1
+VER_MIN = 2
+VER_PAT = 0
+
 SOURCES += sources/main.cpp
-HEADERS += \
-    sources/cr49constants.h \
-    ../r49.h
+HEADERS += sources/constants.h
+
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
@@ -48,11 +54,12 @@ unix: {
     target.path = $$PREFIX/bin
     INSTALLS += target
 }
+
 win32: {
     INCLUDEPATH += .. \
         ..\\libtoxic\\sources
     LIBS += -L..\\r49-bin\\win \
-        -ltoxic6 \
+        -ltoxic7 \
         -Wl,-rpath,.
     DESTDIR = ..\\r49-bin\\win
     MOC_DIR = build\\win\\moc

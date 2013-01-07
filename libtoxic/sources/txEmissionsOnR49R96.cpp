@@ -42,7 +42,6 @@ txEmissionsOnR49R96::txEmissionsOnR49R96(
         const QSharedPointer<txCommonParameters> &commpars,
         const QSharedPointer<txCalculationOptions> &calcopts
         ) :
-    m_NenCalcMethod(NENCALCMETHOD_THROUGHME),
     m_NOxCalcMethod(NOXCALCMETHOD_DIRECT),
     m_gCOcalc(GCOCALC_YES),
     m_gCHcalc(GCHCALC_YES),
@@ -313,10 +312,10 @@ void txEmissionsOnR49R96::setupCalc() {
     }
 
     if ( !zeroArray(ma_Me_brutto) ) {
-        m_NenCalcMethod = NENCALCMETHOD_THROUGHME;
+        m_NeCalcMethod = NECALCMETHOD_THROUGHME;
     }
     else if ( !zeroArray(ma_Ne_brutto) ) {
-        m_NenCalcMethod = NENCALCMETHOD_THROUGHNE;
+        m_NeCalcMethod = NECALCMETHOD_THROUGHNE;
     }
     else {
         throw txError("Arrays \"Me_b\" or \"Ne_b\" "
@@ -471,16 +470,6 @@ void txEmissionsOnR49R96::prelimCalc() {
     const double WO2 = m_commonParameters->val_WO2();
 
     for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
-
-        if ( m_NenCalcMethod == NENCALCMETHOD_THROUGHNE ) {
-            ma_Me_brutto[i] = ma_Ne_brutto[i] * 9550.0 / ma_n[i];
-        }
-        else if ( m_NenCalcMethod == NENCALCMETHOD_THROUGHME ) {
-            ma_Ne_brutto[i] = ma_Me_brutto[i] * ma_n[i] / 9550.0;
-        }
-        else {
-            throw txError("Incorrect Ne_netto calculation method!");
-        }
 
         if ( currstd == STD_EU6 || currstd == STD_EU5 || currstd == STD_EU4 ||
              currstd == STD_EU3 || currstd == STD_EU2 || currstd == STD_EU1 ||
@@ -754,8 +743,8 @@ void txEmissionsOnR49R96::calc_gCO() {
 
         ma_mCO[i] = 0.000966 * ma_CCO[i] * ma_Kwr[i] * ma_Gexh[i]; // always is dry
         ma_gCO[i] = ma_mCO[i] / ma_Ne_netto[i];
-        ma_mCO += ma_mCO[i] * ma_w[i];
-        ma_Ne_netto += ma_Ne_netto[i] * ma_w[i];
+        summ_mCO += ma_mCO[i] * ma_w[i];
+        summ_Ne_netto += ma_Ne_netto[i] * ma_w[i];
     }
 
     m_gCO = summ_mCO / summ_Ne_netto;

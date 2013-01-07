@@ -42,7 +42,6 @@ txEmissionsOnGOST51249::txEmissionsOnGOST51249(
         const QSharedPointer<txCommonParameters> &commpars,
         const QSharedPointer<txCalculationOptions> &calcopts
         ) :
-    m_NeCalcMethod(NECALCMETHOD_THROUGHME),
     m_NOxCalcMethod(NOXCALCMETHOD_DIRECT),
     m_gCOcalc(GCOCALC_YES),
     m_gCHcalc(GCHCALC_YES),
@@ -398,16 +397,6 @@ void txEmissionsOnGOST51249::prelimCalc() {
     }
 
     for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
-
-        if ( m_NeCalcMethod == NECALCMETHOD_THROUGHNE ) {
-            ma_Me_brutto[i] = ma_Ne_brutto[i] * 9550.0 / ma_n[i];
-        }
-        else if ( m_NeCalcMethod == NECALCMETHOD_THROUGHME ) {
-            ma_Ne_brutto[i] = ma_Me_brutto[i] * ma_n[i] / 9550.0;
-        }
-        else {
-            throw txError("Incorrect Ne_netto calculation method!");
-        }
 
         ma_Gexh[i] = (2.695780903 * ma_B0[i] *
                       (ma_Gair[i] / rhoAir(ma_B0[i], ma_t0[i])) /

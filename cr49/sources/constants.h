@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: cr49constants.h
+    File: constants.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,15 +19,12 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CR49CONSTANTS_H
-#define CR49CONSTANTS_H
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
-#include <QString>
+#include <QtCore/QString>
 
-// constants
-
-const QString CR49VERSION = "cr49 v1.1.0";
-const QString OPERANDSDELIMITER = "=";
+const QString CR49INFO = "cr49 v1.2.0";
 const QString CONFIGFILENAME = "r49.conf";
 
-#endif // CR49CONSTANTS_H
+#endif // CONSTANTS_H

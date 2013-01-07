@@ -62,9 +62,6 @@ private:
     QString saveCheckoutData() const;
     QString saveReportGAS() const;
 
-    int m_NeCalcMethod;
-    enum { NECALCMETHOD_THROUGHME, NECALCMETHOD_THROUGHNE };
-
     int m_NOxCalcMethod;
     enum { NOXCALCMETHOD_DIRECT, NOXCALCMETHOD_REVERCE };
 

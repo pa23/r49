@@ -49,6 +49,9 @@ protected:
     QString saveSourceData() const;
     QString saveCalcOptions() const;
 
+    int m_NeCalcMethod;
+    enum { NECALCMETHOD_THROUGHME, NECALCMETHOD_THROUGHNE };
+
     int m_GairVals;
     enum { GAIRVALS_THROUGHMASSFLOW, GAIRVALS_THROUGHNOZZLE };
 
@@ -106,11 +109,6 @@ protected:
     QString m_currTime;
     QString m_testConditions;
     QString m_fullReportsPath;
-
-private:
-
-    txEmissionsBase(const txEmissionsBase &);
-    txEmissionsBase & operator=(const txEmissionsBase &);
 
 };
 

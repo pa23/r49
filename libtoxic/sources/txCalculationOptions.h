@@ -95,9 +95,6 @@ public:
 
 private:
 
-    txCalculationOptions(const txCalculationOptions &);
-    txCalculationOptions & operator=(const txCalculationOptions &);
-
     int defTask(const QString &) const;
     int defStandard(const QString &) const;
     int defChargingType(const QString &) const;

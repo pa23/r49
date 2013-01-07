@@ -46,11 +46,11 @@ public:
                        const QSharedPointer<txCalculationOptions> &);
     virtual ~txEmissionsOnCycle();
 
-    void setSourceData(const QVector< QVector<double> > &) const;
-    void setSourceData() const; // srcFileNamePoints from CommonParameters will be used
-    void calculate() const;
+    void setSourceData(const QVector< QVector<double> > &);
+    void setSourceData(); // srcFileNamePoints from CommonParameters will be used
+    void calculate();
     QString results() const;
-    QString createReports() const;
+    QString createReports();
     QString lastReportDir() const;
 
 private:

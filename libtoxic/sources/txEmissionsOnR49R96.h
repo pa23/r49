@@ -65,9 +65,6 @@ private:
     QString saveReportGAS() const;
     QString saveReportPT() const;
 
-    int m_NenCalcMethod;
-    enum { NENCALCMETHOD_THROUGHME, NENCALCMETHOD_THROUGHNE };
-
     int m_NOxCalcMethod;
     enum { NOXCALCMETHOD_DIRECT, NOXCALCMETHOD_REVERCE };
 
