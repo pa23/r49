@@ -1,25 +1,25 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>../icons/file-quit.svg</file>
-        <file>../icons/file-load_source_data.svg</file>
-        <file>../icons/edit-divide.svg</file>
-        <file>../icons/file-open_report.svg</file>
-        <file>../icons/file-print.svg</file>
-        <file>../icons/file-save_source_data.svg</file>
-        <file>../icons/file-save_report_as.svg</file>
-        <file>../icons/edit-copy.svg</file>
-        <file>../icons/edit-cut.svg</file>
-        <file>../icons/edit-delete.svg</file>
-        <file>../icons/edit-paste.svg</file>
-        <file>../icons/edit-redo.svg</file>
-        <file>../icons/edit-undo.svg</file>
-        <file>../icons/edit-equal.svg</file>
-        <file>../icons/calculation-execute.svg</file>
-        <file>../icons/file-data_import.svg</file>
-        <file>../icons/file-export-report_to_pdf.svg</file>
-        <file>../icons/file-load_calc_settings.svg</file>
-        <file>../icons/edit-multiply.svg</file>
-        <file>../icons/edit-add.svg</file>
+        <file>../icons/file-quit.png</file>
+        <file>../icons/file-load_source_data.png</file>
+        <file>../icons/edit-divide.png</file>
+        <file>../icons/file-open_report.png</file>
+        <file>../icons/file-print.png</file>
+        <file>../icons/file-save_source_data.png</file>
+        <file>../icons/file-save_report_as.png</file>
+        <file>../icons/edit-copy.png</file>
+        <file>../icons/edit-cut.png</file>
+        <file>../icons/edit-delete.png</file>
+        <file>../icons/edit-paste.png</file>
+        <file>../icons/edit-redo.png</file>
+        <file>../icons/edit-undo.png</file>
+        <file>../icons/edit-equal.png</file>
+        <file>../icons/calculation-execute.png</file>
+        <file>../icons/file-data_import.png</file>
+        <file>../icons/file-export-report_to_pdf.png</file>
+        <file>../icons/file-load_calc_settings.png</file>
+        <file>../icons/edit-multiply.png</file>
+        <file>../icons/edit-add.png</file>
         <file>../icons/toxic.png</file>
     </qresource>
     <qresource prefix="/fonts">

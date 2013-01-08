@@ -5,7 +5,7 @@
 #
 #    File: Qr49.pro
 #
-#    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,10 +19,17 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui network svg
+QT += core gui
+
 TARGET = Qr49
+
 TEMPLATE = app
-VERSION = 3.4.1
+
+VERSION = 3.4.2
+VER_MAJ = 3
+VER_MIN = 4
+VER_PAT = 2
+
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
     sources/checkoutdatadialog.cpp \
@@ -34,6 +41,7 @@ SOURCES += sources/preferencesdialog.cpp \
     sources/newversions.cpp \
     sources/dataimportdialog.cpp \
     sources/tablewidgetfunctions.cpp
+
 HEADERS += sources/preferencesdialog.h \
     sources/checkoutdatadialog.h \
     sources/undoredotable.h \
@@ -43,9 +51,9 @@ HEADERS += sources/preferencesdialog.h \
     sources/qr49.h \
     sources/helpdialog.h \
     sources/newversions.h \
-    ../r49.h \
     sources/dataimportdialog.h \
     sources/tablewidgetfunctions.h
+
 FORMS += sources/preferencesdialog.ui \
     sources/checkoutdatadialog.ui \
     sources/valuedialog.ui \
@@ -53,9 +61,13 @@ FORMS += sources/preferencesdialog.ui \
     sources/qr49.ui \
     sources/helpdialog.ui \
     sources/dataimportdialog.ui
+
 RESOURCES = sources/qr49.qrc
+
 TRANSLATIONS = translations/qr49_ru.ts
+
 RC_FILE += sources/qr49.rc
+
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources
@@ -75,11 +87,12 @@ unix: {
     target.path = $$PREFIX/bin
     INSTALLS += target
 }
+
 win32: {
     INCLUDEPATH += .. \
         ..\\libtoxic\\sources
     LIBS += -L..\\r49-bin\\win \
-        -ltoxic6 \
+        -ltoxic7 \
         -Wl,-rpath,.
     DESTDIR = ..\\r49-bin\\win
     MOC_DIR = build\\win\\moc
@@ -92,6 +105,7 @@ win32: {
         OBJECTS_DIR = build\\win\\release
     }
 }
+
 updateqm.input = TRANSLATIONS
 updateqm.output = qr49_ru.qm
 unix: {

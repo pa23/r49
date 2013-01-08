@@ -22,9 +22,13 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#include <QtCore/QString>
+#include <QString>
+#include <QDir>
 
 const QString CR49INFO = "cr49 v1.2.0";
-const QString CONFIGFILENAME = "r49.conf";
+const QString CONFIGFILENAME =
+        "r49data"
+        + QString(QDir::separator())
+        + "r49.conf";
 
 #endif // CONSTANTS_H

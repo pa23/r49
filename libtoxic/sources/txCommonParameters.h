@@ -106,6 +106,7 @@ private:
 
     void createNeededFiles();
 
+    QString m_commonDirName;
     QString m_srcFileNameEU3;
     QString m_srcFileNameEU0;
     QString m_srcFileNamePoints;

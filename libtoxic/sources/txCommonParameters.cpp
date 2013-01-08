@@ -32,19 +32,30 @@
 namespace toxic {
 
 txCommonParameters::txCommonParameters() :
-    m_srcFileNameEU3 ("r49_TempSourceData"
+    m_commonDirName("r49data"),
+    m_srcFileNameEU3 ("r49data"
+                      + QString(QDir::separator())
+                      + "TempSourceData"
                       + QString(QDir::separator())
                       + "SourceData1-EU3456.dat"),
-    m_srcFileNameEU0 ("r49_TempSourceData"
+    m_srcFileNameEU0 ("r49data"
+                      + QString(QDir::separator())
+                      + "TempSourceData"
                       + QString(QDir::separator())
                       + "SourceData1-EU012-R96-GOST30574.dat"),
-    m_srcFileNamePoints ("r49_TempSourceData"
+    m_srcFileNamePoints ("r49data"
+                         + QString(QDir::separator())
+                         + "TempSourceData"
                          + QString(QDir::separator())
                          + "SourceData2-CyclePoints.dat"),
-    m_srcFileNameRedPwr ("r49_TempSourceData"
+    m_srcFileNameRedPwr ("r49data"
+                         + QString(QDir::separator())
+                         + "TempSourceData"
                          + QString(QDir::separator())
                          + "SourceData3-FullLoadCurve.dat"),
-    m_reportsDirName ("r49_Reports"),
+    m_reportsDirName ("r49data"
+                      + QString(QDir::separator())
+                      + "Reports"),
     m_Dn         (90.0),
     m_concO2air  (20.8),
     m_Rr         (287.3),
@@ -60,6 +71,8 @@ txCommonParameters::txCommonParameters() :
 }
 
 void txCommonParameters::readConfigFile(const QString &cfgFileName) {
+
+    createNeededFiles();
 
     QFile cfgFile1(cfgFileName);
     QFile cfgFile2(QDir::homePath() + QDir::separator() + cfgFileName);
@@ -148,8 +161,6 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
             throw txError("Can not create config file!");
         }
 
-        createNeededFiles();
-
         return;
     }
 
@@ -228,8 +239,6 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
     elements.clear();
 
     cfgFile.close();
-
-    createNeededFiles();
 }
 
 void txCommonParameters::createNeededFiles() {
@@ -237,6 +246,13 @@ void txCommonParameters::createNeededFiles() {
     QDir dir;
     QFileInfo fileInfo;
     QString absPath;
+
+    if ( !dir.exists(m_commonDirName) ) {
+
+        if ( !dir.mkdir(m_commonDirName) ) {
+            throw txError("Can not create directory " + m_commonDirName);
+        }
+    }
 
     fileInfo.setFile(m_srcFileNameEU3);
     absPath = fileInfo.absoluteDir().absolutePath();
