@@ -38,21 +38,19 @@ SOURCES += sources/preferencesdialog.cpp \
     sources/main.cpp \
     sources/qr49.cpp \
     sources/helpdialog.cpp \
-    sources/newversions.cpp \
     sources/dataimportdialog.cpp \
     sources/tablewidgetfunctions.cpp
 
 HEADERS += sources/preferencesdialog.h \
     sources/checkoutdatadialog.h \
     sources/undoredotable.h \
-    sources/qr49constants.h \
     sources/valuedialog.h \
     sources/filtermassdialog.h \
     sources/qr49.h \
     sources/helpdialog.h \
-    sources/newversions.h \
     sources/dataimportdialog.h \
-    sources/tablewidgetfunctions.h
+    sources/tablewidgetfunctions.h \
+    sources/constants.h
 
 FORMS += sources/preferencesdialog.ui \
     sources/checkoutdatadialog.ui \
@@ -67,6 +65,8 @@ RESOURCES = sources/qr49.qrc
 TRANSLATIONS = translations/qr49_ru.ts
 
 RC_FILE += sources/qr49.rc
+
+QMAKE_CXXFLAGS += -std=c++11
 
 unix: {
     INCLUDEPATH += .. \

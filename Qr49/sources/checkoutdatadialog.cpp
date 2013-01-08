@@ -5,7 +5,7 @@
 
     File: checkoutdatadialog.cpp
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,8 +43,8 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Checkout Data As..."),
-                    "Qr49_CheckoutData.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "Qr49_CheckoutData.dat",
+                    QString::fromAscii("DAT files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );

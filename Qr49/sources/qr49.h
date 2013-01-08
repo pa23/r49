@@ -5,7 +5,7 @@
 
     File: qr49.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef QR49_H
+#define QR49_H
 
 #include <QSharedPointer>
 #include <QMainWindow>
@@ -35,15 +35,15 @@
 #include <QFont>
 #include <QRegExp>
 
-#include "commonparameters.h"
-#include "libtoxicparameters.h"
+#include "txCommonParameters.h"
+#include "txCalculationOptions.h"
+
 #include "filtermassdialog.h"
 #include "valuedialog.h"
 #include "preferencesdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "helpdialog.h"
-#include "newversions.h"
 #include "dataimportdialog.h"
 
 namespace Ui {
@@ -76,8 +76,8 @@ private:
     HelpDialog *helpDialog;
     DataImportDialog *dataImportDialog;
 
-    QSharedPointer<LibtoxicParameters> params;
-    QSharedPointer<CommonParameters> config;
+    QSharedPointer<toxic::txCalculationOptions> calcopts;
+    QSharedPointer<toxic::txCommonParameters> commpars;
 
     QDoubleValidator *doubleValidator;
     QRegExp regExp;
@@ -117,8 +117,6 @@ private:
     QFont monospacedFont_10;
     QFont dejavusansmonoFont_10;
 
-    QSharedPointer<NewVersions> newVersions;
-
 private slots:
 
     void on_action_DataImport_activated();
@@ -154,7 +152,6 @@ private slots:
     void on_action_StandardsDescription_activated();
     void on_action_AboutQr49_activated();
     void on_action_AboutQt_activated();
-    void on_action_CheckForUpdates_activated();
 
     void on_pushButton_EnterPTmass_clicked();
     void taskChanged(const int);
@@ -173,4 +170,4 @@ private slots:
 
 };
 
-#endif // MAINWINDOW_H
+#endif // QR49_H

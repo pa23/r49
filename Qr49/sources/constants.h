@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: qr49constants.h
+    File: constants.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,20 +19,24 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QR49CONSTANTS_H
-#define	QR49CONSTANTS_H
+#ifndef CONSTANTS_H
+#define	CONSTANTS_H
 
 #include <QString>
+#include <QDir>
 
-// constants
+const QString QR49INFO = "Qr49 v3.4.2";
+const QString CONFIGFILENAME =
+        "r49data"
+        + QString(QDir::separator())
+        + "r49.conf";
+const QString TEMPLATEDIRNAME =
+        "r49data"
+        + QString(QDir::separator())
+        + "Templates";
+const QString DOCDIRNAME =
+        "r49data"
+        + QString(QDir::separator())
+        + "Documentation";
 
-const QString QR49VERSION = "Qr49 v3.4.1";
-
-const QString OPERANDSDELIMITER = "=";
-
-const QString CONFIGFILENAME = "r49.conf";
-const QString TEMPLATEDIR = "r49_Templates";
-const QString PAGEURL = "https://github.com/pa23/r49/downloads/";
-const QString FILESURL = "/downloads/pa23/r49";
-
-#endif	/* QR49CONSTANTS_H */
+#endif // CONSTANTS_H

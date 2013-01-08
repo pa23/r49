@@ -36,6 +36,8 @@ VER_PAT = 0
 SOURCES += sources/main.cpp
 HEADERS += sources/constants.h
 
+QMAKE_CXXFLAGS += -std=c++11
+
 unix: {
     INCLUDEPATH += .. \
         ../libtoxic/sources

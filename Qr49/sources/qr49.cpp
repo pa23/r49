@@ -5,7 +5,7 @@
 
     File: qr49.cpp
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,21 +26,20 @@
 #include "preferencesdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
-#include "newversions.h"
 #include "dataimportdialog.h"
 #include "tablewidgetfunctions.h"
+#include "constants.h"
 
-#include "r49.h"
-#include "qr49constants.h"
-#include "libtoxicparameters.h"
-#include "libtoxicconstants.h"
-#include "csvread.h"
-#include "cyclepoints.h"
-#include "cycleemissions.h"
-#include "reducedpower.h"
-#include "commonparameters.h"
-#include "precalc.h"
-#include "toxicerror.h"
+#include "txCalculationOptions.h"
+#include "txConstants.h"
+#include "txIdentification.h"
+#include "txDataReader.h"
+#include "txPointsOfCycle.h"
+#include "txEmissionsOnCycle.h"
+#include "txReducedPower.h"
+#include "txCommonParameters.h"
+#include "txAuxiliaryFunctions.h"
+#include "txError.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -63,6 +62,7 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QTextStream>
+#include <QUrl>
 #include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    this->setWindowTitle(QR49VERSION);
+    this->setWindowTitle(QR49INFO);
 
     contextMenu->addMenu(ui->menuFile);
     contextMenu->addMenu(ui->menuEdit);
@@ -136,8 +136,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    params = QSharedPointer<LibtoxicParameters>(new LibtoxicParameters());
-    config = QSharedPointer<CommonParameters>(new CommonParameters());
+    calcopts = QSharedPointer<toxic::txCalculationOptions>
+            (new toxic::txCalculationOptions());
+    commpars = QSharedPointer<toxic::txCommonParameters>
+            (new toxic::txCommonParameters());
 
     readPreferences();
 
@@ -264,10 +266,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    newVersions = QSharedPointer<NewVersions>(new NewVersions());
-
-    //
-
     connect(ui->doubleSpinBox_nhi,
             SIGNAL(editingFinished()),
             this,
@@ -367,12 +365,12 @@ void MainWindow::writeProgramSettings() {
     qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
     qr49settings.setValue("/Vh_value", ui->lineEdit_Vh->text());
     qr49settings.setValue("/standard_index", ui->comboBox_standard->currentIndex());
-    qr49settings.setValue("/FuelType_index", ui->comboBox_FuelType->currentIndex());
+    qr49settings.setValue("/fuelType_index", ui->comboBox_FuelType->currentIndex());
     qr49settings.setValue("/NOxSample_index", ui->comboBox_NOxSample->currentIndex());
     qr49settings.setValue("/PTcalc_index", ui->comboBox_PTcalc->currentIndex());
     qr49settings.setValue("/PTmass_value", ui->lineEdit_PTmass->text());
-    qr49settings.setValue("/AddPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex());
-    qr49settings.setValue("/CreateReports", ui->checkBox_reports->isChecked());
+    qr49settings.setValue("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex());
+    qr49settings.setValue("/createReports", ui->checkBox_reports->isChecked());
     qr49settings.setValue("/lastReportsDir", lastReportsDir.absolutePath());
     qr49settings.setValue("/lastCheckoutDataFileName", lastCheckoutDataFileName);
     qr49settings.setValue("/lastReportFileName", lastReportFileName);
@@ -389,12 +387,12 @@ void MainWindow::readProgramSettings() {
     ui->comboBox_task->setCurrentIndex(qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
     ui->lineEdit_Vh->setText(qr49settings.value("/Vh_value", ui->lineEdit_Vh->text()).toString());
     ui->comboBox_standard->setCurrentIndex(qr49settings.value("/standard_index", ui->comboBox_standard->currentIndex()).toInt());
-    ui->comboBox_FuelType->setCurrentIndex(qr49settings.value("/FuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
+    ui->comboBox_FuelType->setCurrentIndex(qr49settings.value("/fuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
     ui->comboBox_NOxSample->setCurrentIndex(qr49settings.value("/NOxSample_index", ui->comboBox_NOxSample->currentIndex()).toInt());
     ui->comboBox_PTcalc->setCurrentIndex(qr49settings.value("/PTcalc_index", ui->comboBox_PTcalc->currentIndex()).toInt());
     ui->lineEdit_PTmass->setText(qr49settings.value("/PTmass_value", ui->lineEdit_PTmass->text()).toString());
-    ui->comboBox_AddPointsCalc->setCurrentIndex(qr49settings.value("/AddPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex()).toInt());
-    ui->checkBox_reports->setChecked(qr49settings.value("/CreateReports", ui->checkBox_reports->isChecked()).toBool());
+    ui->comboBox_AddPointsCalc->setCurrentIndex(qr49settings.value("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex()).toInt());
+    ui->checkBox_reports->setChecked(qr49settings.value("/createReports", ui->checkBox_reports->isChecked()).toBool());
     lastReportsDir.setPath(qr49settings.value("/lastReportsDir", "").toString());
     lastCheckoutDataFileName = qr49settings.value("/lastCheckoutDataFileName", "").toString();
     lastReportFileName = qr49settings.value("/lastReportFileName", "").toString();
@@ -489,18 +487,18 @@ void MainWindow::readPreferences() {
 
     try {
 
-        config->readConfigFile(CONFIGFILENAME);
+        commpars->readConfigFile(CONFIGFILENAME);
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return;
     }
 }
 
 void MainWindow::loadAllSourceData() {
 
-    const QString filenameSourceEU0 = config->valFileNameSourceEU0();
+    const QString filenameSourceEU0 = commpars->val_srcFileNameEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -520,7 +518,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenameSourceEU3 = config->valFileNameSourceEU3();
+    const QString filenameSourceEU3 = commpars->val_srcFileNameEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -540,7 +538,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenamePoints = config->valFileNamePoints();
+    const QString filenamePoints = commpars->val_srcFileNamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -560,7 +558,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenamePowers = config->valFileNamePowers();
+    const QString filenamePowers = commpars->val_srcFileNameRedPwr();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -584,38 +582,41 @@ bool MainWindow::fillTableEU0(const QString &filename) {
     ui->tableWidget_SrcDataEU0->setRowCount(1);
     ui->tableWidget_SrcDataEU0->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU0(
-                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
-                );
+    QSharedPointer<toxic::txDataReader>
+            readerSourceDataEU0(new toxic::txDataReader());
 
     try{
 
-        readerSourceDataEU0->readFile();
+        readerSourceDataEU0->readFile(filename, " ");
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
 
     QVector< QVector<double> > arraySourceDataEU0 =
-            readerSourceDataEU0->csvData();
+            readerSourceDataEU0->val_data();
 
-    if ( arraySourceDataEU0.at(0).size() != EU0SRCDATAPARAMSNUMBER ) {
+    if ( arraySourceDataEU0.isEmpty() ) {
+
+        return false;
+    }
+
+    if ( arraySourceDataEU0[0].size() != ui->tableWidget_SrcDataEU0->columnCount() ) {
 
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Incorrect source data! Check number of points "
-                       "and calculation parameters.")
+                    tr("Incorrect source data! Check number of columns in file.")
                     );
         return false;
     }
 
-    for ( ptrdiff_t j=0; j<arraySourceDataEU0.at(0).size(); j++ ) {
+    for ( ptrdiff_t j=0; j<arraySourceDataEU0[0].size(); j++ ) {
 
         ui->tableWidget_SrcDataEU0->
-                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0.at(0).at(j), 'f', 3)));
+                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU0[0][j], 'f', 3)));
         ui->tableWidget_SrcDataEU0->
                 item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
@@ -628,37 +629,40 @@ bool MainWindow::fillTableEU3(const QString &filename) {
     ui->tableWidget_SrcDataEU3->setRowCount(1);
     ui->tableWidget_SrcDataEU3->setRowHeight(0, tableRowHeight);
 
-    QSharedPointer<csvRead> readerSourceDataEU3(
-                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
-                );
+    QSharedPointer<toxic::txDataReader>
+            readerSourceDataEU3(new toxic::txDataReader());
 
     try{
 
-        readerSourceDataEU3->readFile();
+        readerSourceDataEU3->readFile(filename, " ");
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
 
-    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3->csvData();
+    QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3->val_data();
 
-    if ( arraySourceDataEU3.at(0).size() != EU3SRCDATAPARAMSNUMBER ) {
+    if ( arraySourceDataEU3.isEmpty() ) {
+
+        return false;
+    }
+
+    if ( arraySourceDataEU3[0].size() != ui->tableWidget_SrcDataEU3->columnCount() ) {
 
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Incorrect source data! Check number of points and "
-                       "calculation parameters.")
+                    tr("Incorrect source data! Check number of columns in file.")
                     );
         return false;
     }
 
-    for ( ptrdiff_t j=0; j<arraySourceDataEU3.at(0).size(); j++ ) {
+    for ( ptrdiff_t j=0; j<arraySourceDataEU3[0].size(); j++ ) {
 
         ui->tableWidget_SrcDataEU3->
-                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3.at(0).at(j), 'f', 3)));
+                setItem(0, j, new QTableWidgetItem(QString::number(arraySourceDataEU3[0][j], 'f', 3)));
         ui->tableWidget_SrcDataEU3->
                 item(0, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
@@ -668,35 +672,33 @@ bool MainWindow::fillTableEU3(const QString &filename) {
 
 bool MainWindow::fillTablePoints(const QString &filename) {
 
-    QSharedPointer<csvRead> readerSourceDataPoints(
-                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
-                );
+    QSharedPointer<toxic::txDataReader>
+            readerSourceDataPoints(new toxic::txDataReader());
 
     try{
 
-        readerSourceDataPoints->readFile();
+        readerSourceDataPoints->readFile(filename, " ");
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
 
     QVector< QVector<double> > arraySourceDataPoints =
-            readerSourceDataPoints->csvData();
+            readerSourceDataPoints->val_data();
 
     if ( arraySourceDataPoints.isEmpty() ) {
 
         return false;
     }
 
-    if ( arraySourceDataPoints.at(0).size() != POINTSFILECOLUMNSNUMBER ) {
+    if ( arraySourceDataPoints[0].size() != ui->tableWidget_SrcDataPoints->columnCount() ) {
 
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Incorrect source data! Check number of points and "
-                       "calculation parameters.")
+                    tr("Incorrect source data! Check number of columns in file.")
                     );
         return false;
     }
@@ -718,7 +720,7 @@ bool MainWindow::fillTablePoints(const QString &filename) {
         ui->tableWidget_SrcDataPoints->
                 item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        for ( ptrdiff_t j=2; j<arraySourceDataPoints.at(i).size(); j++ ) {
+        for ( ptrdiff_t j=2; j<arraySourceDataPoints[i].size(); j++ ) {
 
             ui->tableWidget_SrcDataPoints->
                     setItem(i, j, new QTableWidgetItem(QString::number(arraySourceDataPoints[i][j], 'f', 3)));
@@ -732,35 +734,33 @@ bool MainWindow::fillTablePoints(const QString &filename) {
 
 bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
 
-    QSharedPointer<csvRead> readerFullLoadCurve(
-                new csvRead(filename, " ", STRSNUMBERFORCOLUMNCAPTION)
-                );
+    QSharedPointer<toxic::txDataReader>
+            readerFullLoadCurve(new toxic::txDataReader());
 
     try{
 
-        readerFullLoadCurve->readFile();
+        readerFullLoadCurve->readFile(filename, " ");
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
 
     QVector< QVector<double> > arrayFullLoadCurve =
-            readerFullLoadCurve->csvData();
+            readerFullLoadCurve->val_data();
 
     if ( arrayFullLoadCurve.isEmpty() ) {
 
         return false;
     }
 
-    if ( arrayFullLoadCurve.at(0).size() != POWERSFILECOLUMNSNUMBER ) {
+    if ( arrayFullLoadCurve[0].size() != ui->tableWidget_FullLoadCurve->columnCount() ) {
 
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    tr("Incorrect source data! Check number of points and "
-                       "calculation parameters.")
+                    tr("Incorrect source data! Check number of columns in file.")
                     );
         return false;
     }
@@ -780,7 +780,7 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
         ui->tableWidget_FullLoadCurve->
                 item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-        for ( ptrdiff_t j=2; j<arrayFullLoadCurve.at(i).size(); j++ ) {
+        for ( ptrdiff_t j=2; j<arrayFullLoadCurve[i].size(); j++ ) {
 
             ui->tableWidget_FullLoadCurve->
                     setItem(i, j, new QTableWidgetItem(QString::number(arrayFullLoadCurve[i][j], 'f', 3)));
@@ -794,22 +794,22 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
 
 bool MainWindow::fillParameters() {
 
-    if ( ui->comboBox_task->currentIndex() == TASK_EMISSIONS &&
-         ui->comboBox_PTcalc->currentIndex() == PTCALC_THROUGHPTMASS &&
+    if ( ui->comboBox_task->currentIndex() == toxic::TASK_EMISSIONS &&
+         ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS &&
          ui->lineEdit_PTmass->text().toDouble() == 0 ) {
 
         on_pushButton_EnterPTmass_clicked();
     }
 
-    params->setTask(ui->comboBox_task->currentIndex());
-    params->setVh(ui->lineEdit_Vh->text().toDouble());
-    params->setStandard(ui->comboBox_standard->currentIndex());
-    params->setChargingType(ui->comboBox_chargingType->currentIndex());
-    params->setFuelType(ui->comboBox_FuelType->currentIndex());
-    params->setNOxSample(ui->comboBox_NOxSample->currentIndex());
-    params->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    params->setPTmass(ui->lineEdit_PTmass->text().toDouble());
-    params->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
+    calcopts->setTask(ui->comboBox_task->currentIndex());
+    calcopts->setVh(ui->lineEdit_Vh->text().toDouble());
+    calcopts->setStandard(ui->comboBox_standard->currentIndex());
+    calcopts->setChargingType(ui->comboBox_chargingType->currentIndex());
+    calcopts->setFuelType(ui->comboBox_FuelType->currentIndex());
+    calcopts->setNOxSample(ui->comboBox_NOxSample->currentIndex());
+    calcopts->setPTcalc(ui->comboBox_PTcalc->currentIndex());
+    calcopts->setPTmass(ui->lineEdit_PTmass->text().toDouble());
+    calcopts->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
 }
@@ -959,14 +959,14 @@ void MainWindow::on_action_DataImport_activated() {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    const QString dir(config->valDirNameReports());
+    const QString dir(commpars->val_reportsDirName());
 
     const QString anotherSourceFile(
                 QFileDialog::getOpenFileName(
                     this,
                     tr("Open Source Data File..."),
                     dir,
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1065,7 +1065,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
     if ( table == ui->tableWidget_SrcDataEU0 ) {
 
-        const QString filenameSourceEU0 = config->valFileNameSourceEU0();
+        const QString filenameSourceEU0 = commpars->val_srcFileNameEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -1080,10 +1080,10 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU0File.write("idle[min-1] n_interim[min-1] n_rated[min-1] "
-                             "N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
+        SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
+        SrcDataEU0File.write("\n");
 
-        for ( ptrdiff_t j=0; j<EU0SRCDATAPARAMSNUMBER; j++ ) {
+        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
 
             SrcDataEU0File.write(table->item(0, j)->text().toAscii().data());
             SrcDataEU0File.write(" ");
@@ -1095,7 +1095,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
     else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
-        const QString filenameSourceEU3 = config->valFileNameSourceEU3();
+        const QString filenameSourceEU3 = commpars->val_srcFileNameEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -1110,12 +1110,10 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU3File.write("n_hi[min-1] n_lo[min-1] idle[min-1] "
-                             "n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] "
-                             "Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] "
-                             "Ne_a3[Nm]\n");
+        SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
+        SrcDataEU3File.write("\n");
 
-        for ( ptrdiff_t j=0; j<EU3SRCDATAPARAMSNUMBER; j++ ) {
+        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
 
             SrcDataEU3File.write(table->item(0, j)->text().toAscii().data());
             SrcDataEU3File.write(" ");
@@ -1132,7 +1130,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        const QString filenamePoints = config->valFileNamePoints();
+        const QString filenamePoints = commpars->val_srcFileNamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -1147,17 +1145,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPointsFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] "
-                                "N_fan[kW] w[-] t0[oC] B0[kPa] Ra[%] "
-                                "dPn[mmH2O] Gair[kg/h] Gfuel[kg/h] C_NOx[ppm] "
-                                "gNOx[g/kWh] C_CO[ppm] C_CH[ppm] C_CO2in[%] "
-                                "C_CO2out[%] C_O2[%] Ka[m-1] Ka[%] FSN[-] "
-                                "Pr[kPa] ts[oC] tauf[s] qmdw[g/s] qmdew[g/s] "
-                                "rd[-]\n");
+        SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
+        SrcDataPointsFile.write("\n");
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
-            for ( ptrdiff_t j=0; j<POINTSFILECOLUMNSNUMBER; j++ ) {
+            for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
 
                 SrcDataPointsFile.
                         write(table->item(i, j)->text().toAscii().data());
@@ -1177,7 +1170,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             on_action_AddRow_activated();
         }
 
-        const QString filenamePowers = config->valFileNamePowers();
+        const QString filenamePowers = commpars->val_srcFileNameRedPwr();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1192,13 +1185,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPowersFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
-                                "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
-                                "N_fan[kW]\n");
+        SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
+        SrcDataPowersFile.write("\n");
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
 
-            for ( ptrdiff_t j=0; j<POWERSFILECOLUMNSNUMBER; j++ ) {
+            for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
 
                 SrcDataPowersFile.
                         write(table->item(i, j)->text().toAscii().data());
@@ -1219,8 +1211,8 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Source Data File As..."),
-                    "noname.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "noname.dat",
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1242,30 +1234,23 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
         if ( table == ui->tableWidget_SrcDataEU0 ) {
 
-            SrcDataFile.write("idle[min-1] n_interim[min-1] n_rated[min-1] "
-                              "N_fan_rated[kW] Ne_interim[Nm] Ne_rated[Nm]\n");
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
+            SrcDataFile.write("\n");
         }
         else if ( table == ui->tableWidget_SrcDataEU3 ) {
 
-            SrcDataFile.write("n_hi[min-1] n_lo[min-1] idle[min-1] "
-                              "n_rated[min-1] N_fan_rated[kW] Ne_A[Nm] "
-                              "Ne_B[Nm] Ne_C[Nm] Ne_a1[Nm] Ne_a2[Nm] "
-                              "Ne_a3[Nm]\n");
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
+            SrcDataFile.write("\n");
         }
         else if ( table == ui->tableWidget_SrcDataPoints ) {
 
-            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] "
-                              "w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] "
-                              "Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] "
-                              "C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] "
-                              "Ka[m-1] Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] "
-                              "qmdw[g/s] qmdew[g/s] rd[-]\n");
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
+            SrcDataFile.write("\n");
         }
         else if ( table == ui->tableWidget_FullLoadCurve ) {
 
-            SrcDataFile.write("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
-                              "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
-                              "N_fan[kW]\n");
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
+            SrcDataFile.write("\n");
         }
 
         for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
@@ -1285,7 +1270,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    const QString dir(config->valDirNameReports());
+    const QString dir(commpars->val_reportsDirName());
 
     const QString anotherOptions(
                 QFileDialog::getOpenFileName(
@@ -1301,24 +1286,24 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
         try {
 
-            params->readCalcConfigFile(anotherOptions);
-            params->setCalcConfigFile("_._");
+            calcopts->readCalcConfigFile(anotherOptions);
+            calcopts->setCalcConfigFile("");
         }
-        catch(const ToxicError &toxerr) {
+        catch(const toxic::txError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
 
-        ui->comboBox_task->setCurrentIndex(params->valTask());
-        ui->lineEdit_Vh->setText(QString::number(params->valVh()));
-        ui->comboBox_standard->setCurrentIndex(params->valStandard());
-        ui->comboBox_chargingType->setCurrentIndex(params->valChargingType());
-        ui->comboBox_FuelType->setCurrentIndex(params->valFuelType());
-        ui->comboBox_NOxSample->setCurrentIndex(params->valNOxSample());
-        ui->comboBox_PTcalc->setCurrentIndex(params->valPTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(params->valPTmass()));
-        ui->comboBox_AddPointsCalc->setCurrentIndex(params->valAddPointsCalc());
+        ui->comboBox_task->setCurrentIndex(calcopts->val_task());
+        ui->lineEdit_Vh->setText(QString::number(calcopts->val_Vh()));
+        ui->comboBox_standard->setCurrentIndex(calcopts->val_standard());
+        ui->comboBox_chargingType->setCurrentIndex(calcopts->val_chargingType());
+        ui->comboBox_FuelType->setCurrentIndex(calcopts->val_fuelType());
+        ui->comboBox_NOxSample->setCurrentIndex(calcopts->val_NOxSample());
+        ui->comboBox_PTcalc->setCurrentIndex(calcopts->val_PTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(calcopts->val_PTmass()));
+        ui->comboBox_AddPointsCalc->setCurrentIndex(calcopts->val_addPointsCalc());
 
         taskChanged(ui->comboBox_task->currentIndex());
         standardChanged(ui->comboBox_standard->currentIndex());
@@ -1355,26 +1340,46 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
         QTextStream fout(&savedOptions);
 
-        fout << "task"           << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_task->currentIndex())          << "\n"
-             << "Vh"             << PARAMETERVALUEDELIMITER
-             << ui->lineEdit_Vh->text()                                     << "\n"
-             << "standard"       << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_standard->currentIndex())      << "\n"
-             << "ChargingType"   << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_chargingType->currentIndex())  << "\n"
-             << "FuelType"       << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_FuelType->currentIndex())      << "\n"
-             << "NOxSample"      << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_NOxSample->currentIndex())     << "\n"
-             << "PTcalc"         << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_PTcalc->currentIndex())        << "\n"
-             << "PTmass"         << PARAMETERVALUEDELIMITER
-             << ui->lineEdit_PTmass->text()                                 << "\n"
-             << "AddPointsCalc"  << PARAMETERVALUEDELIMITER
-             << QString::number(ui->comboBox_AddPointsCalc->currentIndex()) << "\n"
-             << "CalcConfigFile" << PARAMETERVALUEDELIMITER
-             << params->valCalcConfigFile()                         << "\n";
+        fout << "task"
+             << "="
+             << QString::number(ui->comboBox_task->currentIndex())
+             << "\n"
+             << "Vh"
+             << "="
+             << ui->lineEdit_Vh->text()
+             << "\n"
+             << "standard"
+             << "="
+             << QString::number(ui->comboBox_standard->currentIndex())
+             << "\n"
+             << "chargingType"
+             << "="
+             << QString::number(ui->comboBox_chargingType->currentIndex())
+             << "\n"
+             << "fuelType"
+             << "="
+             << QString::number(ui->comboBox_FuelType->currentIndex())
+             << "\n"
+             << "NOxSample"
+             << "="
+             << QString::number(ui->comboBox_NOxSample->currentIndex())
+             << "\n"
+             << "PTcalc"
+             << "="
+             << QString::number(ui->comboBox_PTcalc->currentIndex())
+             << "\n"
+             << "PTmass"
+             << "="
+             << ui->lineEdit_PTmass->text()
+             << "\n"
+             << "addPointsCalc"
+             << "="
+             << QString::number(ui->comboBox_AddPointsCalc->currentIndex())
+             << "\n"
+             << "calcConfigFile"
+             << "="
+             << calcopts->val_calcConfigFile()
+             << "\n";
 
         savedOptions.close();
     }
@@ -1382,7 +1387,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    const QString dir(config->valDirNameReports());
+    const QString dir(commpars->val_reportsDirName());
 
     const QString anotherReport(
                 QFileDialog::getOpenFileName(
@@ -1543,7 +1548,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
     QString str;
     QTextStream pout(&str);
 
-    pout << right << qSetFieldWidth(WIDTHOFCOLUMN+3);
+    pout << right << qSetFieldWidth(toxic::COLUMNWIDTH+3);
 
     for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
@@ -1650,23 +1655,23 @@ void MainWindow::on_action_Preferences_activated() {
 
     //
 
-    myLineEdit_filenameSourceEU3->setText(config->valFileNameSourceEU3());
-    myLineEdit_filenameSourceEU0->setText(config->valFileNameSourceEU0());
-    myLineEdit_filenamePoints->setText(config->valFileNamePoints());
-    myLineEdit_filenamePowers->setText(config->valFileNamePowers());
-    myLineEdit_dirnameReports->setText(config->valDirNameReports());
-    myDoubleSpinBox_Dn->setValue(config->valDn());
-    myDoubleSpinBox_ConcO2air->setValue(config->valConcO2air());
-    myDoubleSpinBox_Rr->setValue(config->valRr());
-    myDoubleSpinBox_L0->setValue(config->valL0());
-    myDoubleSpinBox_L->setValue(config->valL());
-    myDoubleSpinBox_ConcCO2air->setValue(config->valConcCO2air());
-    myDoubleSpinBox_WH->setValue(config->valWH());
-    myDoubleSpinBox_WO2->setValue(config->valWO2());
-    myDoubleSpinBox_WN->setValue(config->valWN());
-    myDoubleSpinBox_muNO2->setValue(config->valmuNO2());
-    myDoubleSpinBox_muCO->setValue(config->valmuCO());
-    myDoubleSpinBox_muCH->setValue(config->valmuCH());
+    myLineEdit_filenameSourceEU3->setText(commpars->val_srcFileNameEU3());
+    myLineEdit_filenameSourceEU0->setText(commpars->val_srcFileNameEU0());
+    myLineEdit_filenamePoints->setText(commpars->val_srcFileNamePoints());
+    myLineEdit_filenamePowers->setText(commpars->val_srcFileNameRedPwr());
+    myLineEdit_dirnameReports->setText(commpars->val_reportsDirName());
+    myDoubleSpinBox_Dn->setValue(commpars->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(commpars->val_concO2air());
+    myDoubleSpinBox_Rr->setValue(commpars->val_Rr());
+    myDoubleSpinBox_L0->setValue(commpars->val_L0());
+    myDoubleSpinBox_L->setValue(commpars->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(commpars->val_concCO2air());
+    myDoubleSpinBox_WH->setValue(commpars->val_WH());
+    myDoubleSpinBox_WO2->setValue(commpars->val_WO2());
+    myDoubleSpinBox_WN->setValue(commpars->val_WN());
+    myDoubleSpinBox_muNO2->setValue(commpars->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(commpars->val_muCO());
+    myDoubleSpinBox_muCH->setValue(commpars->val_muCH());
 
     //
 
@@ -1896,27 +1901,27 @@ void MainWindow::on_action_Execute_activated() {
 
     fillParameters();
 
-    if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
+    if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
 
         try {
 
-            QSharedPointer<CyclePoints>
-                    myPoints(new CyclePoints(params, config));
+            QSharedPointer<toxic::txPointsOfCycle>
+                    myPoints(new toxic::txPointsOfCycle(commpars, calcopts));
 
-            myPoints->readCSV(array_DataForCalc);
-            myPoints->fillArrays();
+            myPoints->setSourceData(array_DataForCalc);
+            myPoints->calculate();
 
-            message += myPoints->createReport();
+            message += myPoints->createReports();
         }
-        catch(const ToxicError &toxerr) {
+        catch(const toxic::txError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
 
         //
 
-        const QString filenamePoints = config->valFileNamePoints();
+        const QString filenamePoints = commpars->val_srcFileNamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
@@ -1952,21 +1957,23 @@ void MainWindow::on_action_Execute_activated() {
 
         ui->tabWidget_Data->setCurrentIndex(1);
     }
-    else if ( ui->comboBox_task->currentIndex() == TASK_EMISSIONS ) {
+    else if ( ui->comboBox_task->currentIndex() == toxic::TASK_EMISSIONS ) {
 
-        QSharedPointer<CycleEmissions> myEmissions;
+        QSharedPointer<toxic::txEmissionsOnCycle> myEmissions;
 
         try {
 
-            myEmissions = QSharedPointer<CycleEmissions>
-                    (new CycleEmissions(params, config));
+            myEmissions = QSharedPointer<toxic::txEmissionsOnCycle>
+                    (new toxic::txEmissionsOnCycle(commpars, calcopts));
 
-            myEmissions->readCSV(array_DataForCalc);
+            myEmissions->setSourceData(array_DataForCalc);
             myEmissions->calculate();
-        }
-        catch(const ToxicError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+            message += myEmissions->results();
+        }
+        catch(const toxic::txError &toxerr) {
+
+            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
 
@@ -1976,17 +1983,17 @@ void MainWindow::on_action_Execute_activated() {
 
                 message += myEmissions->createReports();
             }
-            catch(const ToxicError &toxerr) {
+            catch(const toxic::txError &toxerr) {
 
-                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+                QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
                 return;
             }
 
             //
 
-            lastReportsDir = myEmissions->lastReportsDir();
+            lastReportsDir = myEmissions->lastReportDir();
 
-            const QString csvfilter("*.csv");
+            const QString csvfilter("*.dat");
             QStringList csvfiles(lastReportsDir.entryList(
                                      QDir::nameFiltersFromString(csvfilter),
                                      QDir::Files,
@@ -1998,7 +2005,7 @@ void MainWindow::on_action_Execute_activated() {
 
             //
 
-            if ( ui->comboBox_standard->currentIndex() == STD_FREECALC ) {
+            if ( ui->comboBox_standard->currentIndex() == toxic::STD_FREECALC ) {
 
                 ui->tabWidget_Data->setCurrentIndex(1);
             }
@@ -2021,44 +2028,32 @@ void MainWindow::on_action_Execute_activated() {
                 reportChanged(lastReportFileName);
             }
         }
-        else {
-
-            try {
-
-                message += myEmissions->results();
-            }
-            catch(const ToxicError &toxerr) {
-
-                QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
-                return;
-            }
-        }
     }
-    else if ( ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER ) {
+    else if ( ui->comboBox_task->currentIndex() == toxic::TASK_REDUCEDPOWER ) {
 
-        QSharedPointer<ReducedPower> myReducedPower;
+        QSharedPointer<toxic::txReducedPower> myReducedPower;
 
         try {
 
-            myReducedPower =
-                    QSharedPointer<ReducedPower>(new ReducedPower(params, config));
+            myReducedPower = QSharedPointer<toxic::txReducedPower>
+                    (new toxic::txReducedPower(commpars, calcopts));
 
-            myReducedPower->readCSV(array_DataForCalc);
-            myReducedPower->reducePower();
+            myReducedPower->setSourceData(array_DataForCalc);
+            myReducedPower->calculate();
 
             message += myReducedPower->createReports();
         }
-        catch(const ToxicError &toxerr) {
+        catch(const toxic::txError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
 
         //
 
-        lastReportsDir = myReducedPower->lastReportsDir();
+        lastReportsDir = myReducedPower->lastReportDir();
 
-        const QString csvfilter("*.csv");
+        const QString csvfilter("*.dat");
         QStringList csvfiles(lastReportsDir.entryList(
                                  QDir::nameFiltersFromString(csvfilter),
                                  QDir::Files,
@@ -2068,19 +2063,9 @@ void MainWindow::on_action_Execute_activated() {
         lastCheckoutDataFileName =
                 lastReportsDir.absoluteFilePath(csvfiles.first());
     }
-    else if ( ui->comboBox_task->currentIndex() == TASK_ABCSPEEDS ) {
+    else if ( ui->comboBox_task->currentIndex() == toxic::TASK_ABCSPEEDS ) {
 
         ui->toolBox->setCurrentIndex(1);
-        return;
-    }
-    else if ( ui->comboBox_task->currentIndex() == TASK_HELP ) {
-
-        QMessageBox::information(
-                    this,
-                    "Qr49",
-                    tr("See the output of the command line by running the "
-                       "Qr49 with parameter task=help.")
-                    );
         return;
     }
     else {
@@ -2095,8 +2080,8 @@ void MainWindow::on_action_Execute_activated() {
 
     QMessageBox::information(this, "Qr49", message);
 
-    if ( (ui->comboBox_standard->currentIndex() == STD_FREECALC) ||
-         (ui->comboBox_task->currentIndex() == TASK_REDUCEDPOWER) ) {
+    if ( (ui->comboBox_standard->currentIndex() == toxic::STD_FREECALC) ||
+         (ui->comboBox_task->currentIndex() == toxic::TASK_REDUCEDPOWER) ) {
 
         on_action_CheckoutData_activated();
     }
@@ -2144,11 +2129,9 @@ void MainWindow::on_action_CheckoutData_activated() {
 
 void MainWindow::on_action_UserManual_activated() {
 
-    const QString sep(QDir::separator());
-
     const QString userManualLocation1 =
-            "r49_Documentation"
-            + sep
+            DOCDIRNAME
+            + QString(QDir::separator())
             + "r49_user_manual_ru.pdf";
 
     const QString userManualLocation2 =
@@ -2177,12 +2160,15 @@ void MainWindow::on_action_StandardsDescription_activated() {
 
 void MainWindow::on_action_AboutQr49_activated() {
 
-    const QString str = "<b>r49 distribution version "
-            + R49VERSION
-            + "</b><br><br>"
-            + QR49VERSION
-            + ", libtoxic v"
-            + LIBTOXICVERSION
+    const QString str =
+            "<b>"
+            + QR49INFO
+            + ", "
+            + toxic::toxicName
+            + " v"
+            + toxic::toxicVersion
+            + "</b><br><br>Date of build: "
+            + QString(__DATE__)
             + "<br><br>Calculation of modes and specific emissions for "
             "stationary diesel engine test cycles (UN ECE Regulation No. 49, "
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
@@ -2190,7 +2176,7 @@ void MainWindow::on_action_AboutQr49_activated() {
             "51249-99)."
             "<br><br>Copyright (C) 2009-2012 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
-            "<br><br>Web site: <a href= \"https://github.com/pa23/r49\">"
+            "<br><br>Source code hosting: <a href= \"https://github.com/pa23/r49\">"
             "https://github.com/pa23/r49</a>"
             "<br>Author's blog (RU): "
             "<a href= \"http://pa2311.blogspot.com\">"
@@ -2218,11 +2204,6 @@ void MainWindow::on_action_AboutQr49_activated() {
 void MainWindow::on_action_AboutQt_activated() {
 
     QMessageBox::aboutQt(this);
-}
-
-void MainWindow::on_action_CheckForUpdates_activated() {
-
-    newVersions->checkAvailableVersions();
 }
 
 void MainWindow::on_pushButton_EnterPTmass_clicked() {
@@ -2259,7 +2240,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
 
 void MainWindow::taskChanged(const int currtask) {
 
-    if ( currtask == TASK_POINTS ) {
+    if ( currtask == toxic::TASK_POINTS ) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
@@ -2272,10 +2253,10 @@ void MainWindow::taskChanged(const int currtask) {
 
         const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
-        if ( (currstd == STD_EU6) ||
-             (currstd == STD_EU5) ||
-             (currstd == STD_EU4) ||
-             (currstd == STD_EU3) ) {
+        if ( (currstd == toxic::STD_EU6) ||
+             (currstd == toxic::STD_EU5) ||
+             (currstd == toxic::STD_EU4) ||
+             (currstd == toxic::STD_EU3) ) {
 
             ui->comboBox_AddPointsCalc->setEnabled(true);
         }
@@ -2291,15 +2272,15 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tab_redPowerCalc->setEnabled(false);
         ui->tab_reports->setEnabled(false);
 
-        if ( currstd == STD_FREECALC ) {
+        if ( currstd == toxic::STD_FREECALC ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
-        else if ( (currstd == STD_EU6) ||
-                  (currstd == STD_EU5) ||
-                  (currstd == STD_EU4) ||
-                  (currstd == STD_EU3) ) {
+        else if ( (currstd == toxic::STD_EU6) ||
+                  (currstd == toxic::STD_EU5) ||
+                  (currstd == toxic::STD_EU4) ||
+                  (currstd == toxic::STD_EU3) ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
 
@@ -2331,7 +2312,7 @@ void MainWindow::taskChanged(const int currtask) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
     }
-    else if ( currtask == TASK_EMISSIONS ) {
+    else if ( currtask == toxic::TASK_EMISSIONS ) {
 
         ui->lineEdit_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
@@ -2339,16 +2320,16 @@ void MainWindow::taskChanged(const int currtask) {
 
         const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
 
-        if ( (currstd == STD_C1) ||
-             (currstd == STD_D1) ||
-             (currstd == STD_D2) ||
-             (currstd == STD_E1) ||
-             (currstd == STD_E2) ||
-             (currstd == STD_E3) ||
-             (currstd == STD_E5) ||
-             (currstd == STD_F ) ||
-             (currstd == STD_G1) ||
-             (currstd == STD_G2) ) {
+        if ( (currstd == toxic::STD_C1) ||
+             (currstd == toxic::STD_D1) ||
+             (currstd == toxic::STD_D2) ||
+             (currstd == toxic::STD_E1) ||
+             (currstd == toxic::STD_E2) ||
+             (currstd == toxic::STD_E3) ||
+             (currstd == toxic::STD_E5) ||
+             (currstd == toxic::STD_F ) ||
+             (currstd == toxic::STD_G1) ||
+             (currstd == toxic::STD_G2) ) {
 
             ui->comboBox_FuelType->setEnabled(true);
         }
@@ -2360,7 +2341,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->comboBox_NOxSample->setEnabled(true);
         ui->comboBox_PTcalc->setEnabled(true);
 
-        if ( ui->comboBox_PTcalc->currentIndex() == PTCALC_THROUGHPTMASS ) {
+        if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS ) {
 
             ui->lineEdit_PTmass->setEnabled(true);
             ui->pushButton_EnterPTmass->setEnabled(true);
@@ -2400,7 +2381,7 @@ void MainWindow::taskChanged(const int currtask) {
 
         ui->tabWidget_Data->setCurrentIndex(1);
     }
-    else if ( currtask == TASK_REDUCEDPOWER ) {
+    else if ( currtask == toxic::TASK_REDUCEDPOWER ) {
 
         ui->lineEdit_Vh->setEnabled(true);
         ui->comboBox_standard->setEnabled(false);
@@ -2456,16 +2437,16 @@ void MainWindow::taskChanged(const int currtask) {
 
 void MainWindow::standardChanged(const int currstd) {
 
-    if ( (currstd == STD_EU6) ||
-         (currstd == STD_EU5) ||
-         (currstd == STD_EU4) ||
-         (currstd == STD_EU3) ) {
+    if ( (currstd == toxic::STD_EU6) ||
+         (currstd == toxic::STD_EU5) ||
+         (currstd == toxic::STD_EU4) ||
+         (currstd == toxic::STD_EU3) ) {
 
         ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(true);
 
-        if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
+        if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(false);
 
@@ -2475,22 +2456,22 @@ void MainWindow::standardChanged(const int currstd) {
             getUndoRedoCounters(table);
         }
     }
-    else if ( (currstd == STD_C1) ||
-              (currstd == STD_D1) ||
-              (currstd == STD_D2) ||
-              (currstd == STD_E1) ||
-              (currstd == STD_E2) ||
-              (currstd == STD_E3) ||
-              (currstd == STD_E5) ||
-              (currstd == STD_F ) ||
-              (currstd == STD_G1) ||
-              (currstd == STD_G2) ) {
+    else if ( (currstd == toxic::STD_C1) ||
+              (currstd == toxic::STD_D1) ||
+              (currstd == toxic::STD_D2) ||
+              (currstd == toxic::STD_E1) ||
+              (currstd == toxic::STD_E2) ||
+              (currstd == toxic::STD_E3) ||
+              (currstd == toxic::STD_E5) ||
+              (currstd == toxic::STD_F ) ||
+              (currstd == toxic::STD_G1) ||
+              (currstd == toxic::STD_G2) ) {
 
         ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(true);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
-        if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
+        if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(true);
             ui->tableWidget_SrcDataEU0->setFocus();
@@ -2506,7 +2487,7 @@ void MainWindow::standardChanged(const int currstd) {
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
-        if ( ui->comboBox_task->currentIndex() == TASK_POINTS ) {
+        if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
 
             ui->tableWidget_SrcDataEU0->setEnabled(true);
             ui->tableWidget_SrcDataEU0->setFocus();
@@ -2520,7 +2501,8 @@ void MainWindow::standardChanged(const int currstd) {
 
 void MainWindow::PTcalcChanged(const int currptcalc) {
 
-    if ( (currptcalc == PTCALC_THROUGHSMOKE) || (currptcalc == PTCALC_NO) ) {
+    if ( (currptcalc == toxic::PTCALC_THROUGHSMOKE) ||
+         (currptcalc == toxic::PTCALC_NO) ) {
 
         ui->lineEdit_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
@@ -2818,11 +2800,11 @@ void MainWindow::abcCalculation() {
 
     try {
 
-        calcABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
+        toxic::ABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return;
     }
 
@@ -2839,10 +2821,10 @@ void MainWindow::gairCalculation() {
 
     ui->label_Gair->
             setText(QString::number(
-                        Gair(ui->doubleSpinBox_Dn->value(),
-                             ui->doubleSpinBox_B0->value(),
-                             ui->doubleSpinBox_t0->value(),
-                             ui->doubleSpinBox_dPn->value())
+                        toxic::Gair(ui->doubleSpinBox_Dn->value(),
+                                    ui->doubleSpinBox_B0->value(),
+                                    ui->doubleSpinBox_t0->value(),
+                                    ui->doubleSpinBox_dPn->value())
                         )
                     );
 }
@@ -2851,9 +2833,9 @@ void MainWindow::nfanCalculation() {
 
     ui->label_Nfan->
             setText(QString::number(
-                        N_fan(ui->doubleSpinBox_nFanRated->value(),
-                              ui->doubleSpinBox_n->value(),
-                              ui->doubleSpinBox_nRated->value())
+                        toxic::N_fan(ui->doubleSpinBox_nFanRated->value(),
+                                     ui->doubleSpinBox_n->value(),
+                                     ui->doubleSpinBox_nRated->value())
                         )
                     );
 }
@@ -2861,15 +2843,15 @@ void MainWindow::nfanCalculation() {
 void MainWindow::ka1mCalculation() {
 
     ui->doubleSpinBox_Ka1m->
-            setValue(KaPerc2Ka1m(ui->doubleSpinBox_KaPerc->value(),
+            setValue(toxic::Ka1m(ui->doubleSpinBox_KaPerc->value(),
                                  ui->doubleSpinBox_L->value()));
 }
 
 void MainWindow::kapercCalculation() {
 
     ui->doubleSpinBox_KaPerc->
-            setValue(Ka1m2KaPerc(ui->doubleSpinBox_Ka1m->value(),
-                                 ui->doubleSpinBox_L->value()));
+            setValue(toxic::KaPerc(ui->doubleSpinBox_Ka1m->value(),
+                                   ui->doubleSpinBox_L->value()));
 }
 
 void MainWindow::smokeBaseChanged() {

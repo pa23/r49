@@ -715,7 +715,8 @@ void txPointsOfCycle::prepSrcData(const QVector<QVector<double> > &srcdata) {
         throw txError("Incorrect source data array!");
     }
 
-    if ( srcdata[0].size() != 11 && srcdata[0].size() != 6 ) {
+    if ( srcdata[0].size() != SRCDATACAPTIONS_11.size() &&
+         srcdata[0].size() != SRCDATACAPTIONS_6.size() ) {
         throw txError("Incorrect source data array!");
     }
 

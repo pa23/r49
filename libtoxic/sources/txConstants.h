@@ -26,6 +26,31 @@
 
 namespace toxic {
 
+const QStringList SRCDATACAPTIONS_11 = (
+            QStringList()
+            << "n_hi[min-1]"
+            << "n_lo[min-1]"
+            << "idle[min-1]"
+            << "n_rated[min-1]"
+            << "N_fan_rated[kW]"
+            << "Ne_A[kW]"
+            << "Ne_B[kW]"
+            << "Ne_C[kW]"
+            << "Ne_a1[kW]"
+            << "Ne_a2[kW]"
+            << "Ne_a3[kW]"
+            );
+
+const QStringList SRCDATACAPTIONS_6 = (
+            QStringList()
+            << "idle[min-1]"
+            << "n_interim[min-1]"
+            << "n_rated[min-1]"
+            << "N_fan_rated[kW]"
+            << "Ne_interim[kW]"
+            << "Ne_rated[kW]"
+            );
+
 const QStringList SRCDATACAPTIONS_EMISSIONS = (
             QStringList()
             << "Point[-]"

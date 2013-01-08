@@ -5,7 +5,7 @@
 
     File: dataimportdialog.h
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #include <QVector>
 #include <QDir>
 
-#include "qr49constants.h"
+#include "constants.h"
 
 namespace Ui {
 
@@ -53,8 +53,6 @@ private:
 
     QString delimiter;
     ptrdiff_t headerLines;
-    QString table_points_headers;
-    QString table_fullLoadCurve_headers;
     QString dataFileName;
     QString dataDirName;
     ptrdiff_t table_lid;

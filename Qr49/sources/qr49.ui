@@ -851,8 +851,8 @@
     <addaction name="action_UserManual"/>
     <addaction name="action_StandardsDescription"/>
     <addaction name="separator"/>
-    <addaction name="action_AboutQr49"/>
     <addaction name="action_AboutQt"/>
+    <addaction name="action_AboutQr49"/>
    </widget>
    <widget class="QMenu" name="menuCalculation">
     <property name="title">
@@ -1015,11 +1015,6 @@
                <item>
                 <property name="text">
                  <string>A, B, C speeds</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Command line help</string>
                 </property>
                </item>
               </widget>
@@ -1493,7 +1488,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>297</width>
+          <width>180</width>
           <height>245</height>
          </rect>
         </property>
@@ -1722,8 +1717,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>312</width>
-          <height>241</height>
+          <width>245</width>
+          <height>173</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1861,8 +1856,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>312</width>
-          <height>241</height>
+          <width>233</width>
+          <height>140</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1985,8 +1980,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>312</width>
-          <height>241</height>
+          <width>147</width>
+          <height>117</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2542,7 +2537,7 @@
   </action>
   <action name="action_UserManual">
    <property name="text">
-    <string>User manual</string>
+    <string>User manual (RU)</string>
    </property>
    <property name="shortcut">
     <string>F1</string>

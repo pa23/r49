@@ -5,7 +5,7 @@
 
     File: preferencesdialog.cpp
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 */
 
 #include "preferencesdialog.h"
-#include "qr49constants.h"
+#include "constants.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -60,8 +60,8 @@ void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Select file..."),
-                    "noname.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "noname.dat",
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -78,8 +78,8 @@ void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Select file..."),
-                    "noname.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "noname.dat",
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -96,8 +96,8 @@ void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Select file..."),
-                    "noname.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "noname.dat",
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -114,8 +114,8 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Select file..."),
-                    "noname.csv",
-                    QString::fromAscii("CSV files (*.csv);;All files (*.*)"),
+                    "noname.dat",
+                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -185,10 +185,10 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
             + "\n";
 
     QFile preferencesFile1(QCoreApplication::applicationDirPath()
-                           + "/"
+                           + QDir::separator()
                            + CONFIGFILENAME);
     QFile preferencesFile2(QDir::homePath()
-                           + "/"
+                           + QDir::separator()
                            + CONFIGFILENAME);
 
     if ( preferencesFile1.open(QIODevice::WriteOnly) ) {

@@ -5,7 +5,7 @@
 
     File: dataimportdialog.cpp
 
-    Copyright (C) 2009-2012 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "dataimportdialog.h"
 #include "ui_dataimportdialog.h"
 #include "tablewidgetfunctions.h"
+#include "constants.h"
 
 #include <QSharedPointer>
 #include <QString>
@@ -34,24 +35,15 @@
 #include <QVector>
 #include <QDateTime>
 
-#include "csvread.h"
-#include "toxicerror.h"
-#include "qr49constants.h"
+#include "txDataReader.h"
+#include "txError.h"
+#include "txConstants.h"
 
 DataImportDialog::DataImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DataImportDialog),
     delimiter("\t"),
     headerLines(2),
-    table_points_headers("Point[-] n[min-1] Me_b[Nm] Ne_b[kW] N_fan[kW] "
-                         "w[-] t0[oC] B0[kPa] Ra[%] dPn[mmH2O] Gair[kg/h] "
-                         "Gfuel[kg/h] C_NOx[ppm] gNOx[g/kWh] C_CO[ppm] "
-                         "C_CH[ppm] C_CO2in[%] C_CO2out[%] C_O2[%] Ka[m-1] "
-                         "Ka[%] FSN[-] Pr[kPa] ts[oC] tauf[s] qmdw[g/s] "
-                         "qmdew[g/s] rd[-]"),
-    table_fullLoadCurve_headers("Point[-] n[min-1] Me_b[Nm] t0[oC] B0[kPa] "
-                                "Ra[%] S[kPa] pk[kPa] Gfuel[kg/h] N_k[kW] "
-                                "N_fan[kW]"),
     dataDirName(QDir::currentPath()),
     table_lid(0),
     dtable(0),
@@ -95,8 +87,12 @@ void DataImportDialog::init(const ptrdiff_t tlid,
 
     //
 
-    const QDir templdir1(TEMPLATEDIR);
-    const QDir templdir2(QDir::homePath() + QDir::separator() + TEMPLATEDIR);
+    QStringList dirnames = TEMPLATEDIRNAME.split(QDir::separator(),
+                                                 QString::SkipEmptyParts);
+
+    const QDir commondir(dirnames[0]);
+    const QDir templdir1(TEMPLATEDIRNAME);
+    const QDir templdir2(QDir::homePath() + QDir::separator() + TEMPLATEDIRNAME);
 
     if ( templdir1.exists() ) {
 
@@ -107,6 +103,19 @@ void DataImportDialog::init(const ptrdiff_t tlid,
         templdir = templdir2;
     }
     else {
+
+        if ( !commondir.exists() ) {
+
+            if ( !commondir.mkdir(commondir.absolutePath()) ) {
+
+                QMessageBox::critical(
+                            this,
+                            "Qr49",
+                            tr("Can not create common directory!")
+                            );
+                return;
+            }
+        }
 
         if ( templdir1.mkdir(templdir1.absolutePath()) ) {
 
@@ -165,7 +174,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
                 tr("Open Data File..."),
                 dataDirName,
                 QString::fromAscii("Text files (*.txt);;"
-                                   "CSV files (*.csv);;"
+                                   "Data files (*.dat);;"
                                    "All files (*.*)"));
 
     QFileInfo fileInfo(dataFileName);
@@ -269,22 +278,18 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
     try {
 
-        QSharedPointer<csvRead> readerTemplData(
-                    new csvRead(
-                        templdir.absolutePath()
-                        + QDir::separator()
-                        + ui->comboBox_Templates->currentText(),
-                        " ",
-                        0
-                        )
-                    );
+        QSharedPointer<toxic::txDataReader>
+                readerTemplData(new toxic::txDataReader());
 
-        readerTemplData->readFile();
-        indexes = readerTemplData->csvData();
+        readerTemplData->readFile(templdir.absolutePath()
+                                  + QDir::separator()
+                                  + ui->comboBox_Templates->currentText(),
+                                  " ");
+        indexes = readerTemplData->val_data();
     }
-    catch(const ToxicError &toxerr) {
+    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         manual = true;
         return;
     }
@@ -425,33 +430,31 @@ void DataImportDialog::combosUpdate(const QString &str) {
 
     if ( !ui->lineEdit_DataFile->text().isEmpty() ) {
 
-        QSharedPointer<csvRead>
-                importedDataReader(new csvRead(dataFileName,
-                                               delimiter,
-                                               headerLines));
+        QSharedPointer<toxic::txDataReader>
+                importedDataReader(new toxic::txDataReader());
 
         try{
 
-            importedDataReader->readFile();
+            importedDataReader->readFile(dataFileName, delimiter);
         }
-        catch(const ToxicError &toxerr) {
+        catch(const toxic::txError &toxerr) {
 
-            QMessageBox::critical(this, "Qr49", toxerr.toxicErrMsg());
+            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
 
-        arrayImportedData = importedDataReader->csvData();
-        headersImportedData = importedDataReader->csvHeaders();
+        arrayImportedData = importedDataReader->val_data();
+        headersImportedData = importedDataReader->val_headers();
 
         if (table_lid == 2) {
 
             ui->comboBox_r49parameter->
-                    addItems(table_points_headers.split(" "));
+                    addItems(toxic::SRCDATACAPTIONS_EMISSIONS);
         }
         else if (table_lid == 3) {
 
             ui->comboBox_r49parameter->
-                    addItems(table_fullLoadCurve_headers.split(" "));
+                    addItems(toxic::SRCDATACAPTIONS_REDPOWER);
         }
         else {
 

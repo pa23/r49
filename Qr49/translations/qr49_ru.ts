@@ -161,6 +161,10 @@
         <source>Wrong index! Copying skipped!</source>
         <translation>Неправильный индекс! Копирование пропущено!</translation>
     </message>
+    <message>
+        <source>Can not create common directory!</source>
+        <translation>Невозможно создать общий каталог!</translation>
+    </message>
 </context>
 <context>
     <name>FilterMassDialog</name>
@@ -1377,10 +1381,6 @@ p, li { white-space: pre-wrap; }
         <translation>Обороты A, B, C</translation>
     </message>
     <message>
-        <source>Command line help</source>
-        <translation>Справка по командной строке</translation>
-    </message>
-    <message>
         <source>RUSSIA OST 37.001.234-81</source>
         <translation>ОСТ 37.001.234-81</translation>
     </message>
@@ -1483,10 +1483,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Yes</source>
         <translation>Да</translation>
-    </message>
-    <message>
-        <source>See the output of the command line by running the Qr49 with parameter task=help.</source>
-        <translation>См. вывод программы в командной строке, запустив Qr49 с параметром task=help.</translation>
     </message>
     <message>
         <source>UN ECE R49 Euro-6</source>
@@ -1741,10 +1737,6 @@ p, li { white-space: pre-wrap; }
         <translation>Не могу заполнить таблицу!</translation>
     </message>
     <message>
-        <source>Incorrect source data! Check number of points and calculation parameters.</source>
-        <translation>Некорректные исходные данные! Проверьте количество точек и параметры расчета.</translation>
-    </message>
-    <message>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
@@ -1835,10 +1827,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Data import...</source>
         <translation>Импорт данных...</translation>
-    </message>
-    <message>
-        <source>User manual</source>
-        <translation>Руководство пользователя</translation>
     </message>
     <message>
         <source>Can not find documentation file!</source>
@@ -2024,24 +2012,13 @@ p, li { white-space: pre-wrap; }
         <source>Report window is empty!</source>
         <translation>Окно отчета не содержит данных!</translation>
     </message>
-</context>
-<context>
-    <name>NewVersions</name>
     <message>
-        <source>Download</source>
-        <translation>Загрузить</translation>
+        <source>User manual (RU)</source>
+        <translation>Руководство пользователя</translation>
     </message>
     <message>
-        <source>You use </source>
-        <translation>Вы используете </translation>
-    </message>
-    <message>
-        <source>Available distributions:&lt;br&gt;&lt;br&gt;</source>
-        <translation>Доступные дистрибутивы:&lt;br&gt;&lt;br&gt;</translation>
-    </message>
-    <message>
-        <source>r49 distribution version </source>
-        <translation>дистрибутив r49 версии </translation>
+        <source>Incorrect source data! Check number of columns in file.</source>
+        <translation>Некорректные исходные данные! Проверьте количество столбцов в файле.</translation>
     </message>
 </context>
 <context>
@@ -2170,23 +2147,23 @@ p, li { white-space: pre-wrap; }
         <translation>Расчет точек циклов ОСТ..Евро-2, Правила 96**, ГОСТ 30574</translation>
     </message>
     <message>
-        <source>r49_Reports</source>
+        <source>r49data/Reports</source>
         <translation></translation>
     </message>
     <message>
-        <source>r49_TempSourceData/SourceData1-EU3456.csv</source>
+        <source>r49data/TempSourceData/SourceData1-EU3456.dat</source>
         <translation></translation>
     </message>
     <message>
-        <source>r49_TempSourceData/SourceData1-EU012-r96-GOST30574.csv</source>
+        <source>r49data/TempSourceData/SourceData1-EU012-r96-GOST30574.dat</source>
         <translation></translation>
     </message>
     <message>
-        <source>r49_TempSourceData/SourceData2-CyclePoints.csv</source>
+        <source>r49data/TempSourceData/SourceData2-CyclePoints.dat</source>
         <translation></translation>
     </message>
     <message>
-        <source>r49_TempSourceData/SourceData3-FullLoadCurve.csv</source>
+        <source>r49data/TempSourceData/SourceData3-FullLoadCurve.dat</source>
         <translation></translation>
     </message>
 </context>
