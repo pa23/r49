@@ -237,7 +237,7 @@ void txPointsOfCycle::calculate() {
         ma_w[11] = 0.020;
         ma_w[12] = 0.0833;
     }
-    else if ( currstd == STD_OST || currstd == STD_GOST ) {
+    else if ( currstd == STD_OST3700123481 || currstd == STD_GOST17220597 ) {
 
         m_numberOfPoints = ESCPOINTSNUMBER;
 
@@ -263,7 +263,7 @@ void txPointsOfCycle::calculate() {
 
         ma_Ne_brutto[ 0] = 0;
 
-        if ( currstd == STD_OST ) {
+        if ( currstd == STD_OST3700123481 ) {
             ma_Ne_brutto[ 1] = 0.02 * (m_Ne_interim - ma_N_fan[1]) + ma_N_fan[1];
         }
         else {
@@ -280,7 +280,7 @@ void txPointsOfCycle::calculate() {
         ma_Ne_brutto[ 9] = 0.50 * (m_Ne_rated - ma_N_fan[9]) + ma_N_fan[9];
         ma_Ne_brutto[10] = 0.25 * (m_Ne_rated - ma_N_fan[10]) + ma_N_fan[10];
 
-        if ( currstd == STD_OST ) {
+        if ( currstd == STD_OST3700123481 ) {
             ma_Ne_brutto[11] = 0.02 * (m_Ne_rated - ma_N_fan[11]) + ma_N_fan[11];
         }
         else {
@@ -293,7 +293,7 @@ void txPointsOfCycle::calculate() {
             ma_Me_brutto[i] = ma_Ne_brutto[i] * 9550.0 / ma_n[i];
         }
 
-        if ( currstd == STD_OST ) {
+        if ( currstd == STD_OST3700123481 ) {
             ma_w[ 0] = 0.066666667;
             ma_w[ 1] = 0.080;
             ma_w[ 2] = 0.080;
@@ -740,7 +740,7 @@ void txPointsOfCycle::prepSrcData(const QVector<QVector<double> > &srcdata) {
         ABC(m_n_hi, m_n_lo, &m_A, &m_B, &m_C, &m_a1, &m_a2, &m_a3, &m_n_ref);
     }
     else if ( (currstd == STD_EU2) || (currstd == STD_EU1)  || (currstd == STD_EU0) ||
-              (currstd == STD_OST) || (currstd == STD_GOST) ||
+              (currstd == STD_OST3700123481) || (currstd == STD_GOST17220597) ||
               (currstd == STD_R96E8) || (currstd == STD_R96F8) ||
               (currstd == STD_R96G8) || (currstd == STD_R96D8) ||
               (currstd == STD_R96E5) || (currstd == STD_R96F5) ||

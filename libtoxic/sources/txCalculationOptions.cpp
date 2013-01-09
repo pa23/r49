@@ -178,8 +178,8 @@ QString txCalculationOptions::defStandardName(int val) const {
     else if ( val == STD_EU2     ) { return "R49_Euro-2";         }
     else if ( val == STD_EU1     ) { return "R49_Euro-1";         }
     else if ( val == STD_EU0     ) { return "R49_Euro-0";         }
-    else if ( val == STD_OST     ) { return "OST_37.001.234-81";  }
-    else if ( val == STD_GOST    ) { return "GOST_17.2.2.05-97";  }
+    else if ( val == STD_OST3700123481     ) { return "OST_37.001.234-81";  }
+    else if ( val == STD_GOST17220597    ) { return "GOST_17.2.2.05-97";  }
     else if ( val == STD_R96E8   ) { return "R96_E8";             }
     else if ( val == STD_R96F8   ) { return "R96_F8";             }
     else if ( val == STD_R96G8   ) { return "R96_G8";             }
@@ -269,13 +269,13 @@ int txCalculationOptions::defStandard(const QString &str) const {
               str == "eu0" ) {
         return STD_EU0;
     }
-    else if ( str == QString::number(STD_OST) ||
+    else if ( str == QString::number(STD_OST3700123481) ||
               str == "ost" ) {
-        return STD_OST;
+        return STD_OST3700123481;
     }
-    else if ( str == QString::number(STD_GOST) ||
+    else if ( str == QString::number(STD_GOST17220597) ||
               str == "gost" ) {
-        return STD_GOST;
+        return STD_GOST17220597;
     }
     else if ( str == QString::number(STD_R96E8) ||
               str == "r96e8" ) {

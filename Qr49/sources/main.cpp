@@ -20,6 +20,7 @@
 */
 
 #include "qr49.h"
+#include "constants.h"
 
 #include <QApplication>
 #include <QTranslator>
@@ -28,6 +29,9 @@
 int main(int argc, char **argv) {
 
     QApplication a(argc, argv);
+
+    a.setApplicationName(QR49NAME);
+    a.setApplicationVersion(QR49VERSION);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));

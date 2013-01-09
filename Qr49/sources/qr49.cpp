@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    this->setWindowTitle(QR49INFO);
+    this->setWindowTitle(QR49NAME + " v" + QR49VERSION);
 
     contextMenu->addMenu(ui->menuFile);
     contextMenu->addMenu(ui->menuEdit);
@@ -2162,11 +2162,9 @@ void MainWindow::on_action_AboutQr49_activated() {
 
     const QString str =
             "<b>"
-            + QR49INFO
+            + QR49NAME + " v" + QR49VERSION
             + ", "
-            + toxic::toxicName
-            + " v"
-            + toxic::toxicVersion
+            + toxic::toxicName + " v" + toxic::toxicVersion
             + "</b><br><br>Date of build: "
             + QString(__DATE__)
             + "<br><br>Calculation of modes and specific emissions for "

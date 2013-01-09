@@ -115,11 +115,11 @@ void txEmissionsOnR49R96::calculate() {
     baseCalc();
     prelimCalc();
 
+    const int currstd = m_calculationOptions->val_standard();
+
     if ( m_NOxCalcMethod != -1 ) {
         calc_gNOx();
     }
-
-    const int currstd = m_calculationOptions->val_standard();
 
     if ( ( currstd == STD_EU6 || currstd == STD_EU5 ||
            currstd == STD_EU4 || currstd == STD_EU3 ) &&
@@ -265,8 +265,8 @@ void txEmissionsOnR49R96::checkSrcData() {
             (
                 (
                     (currstd == STD_EU2) || (currstd == STD_EU1) ||
-                    (currstd == STD_EU0) || (currstd == STD_OST) ||
-                    (currstd == STD_GOST)
+                    (currstd == STD_EU0) || (currstd == STD_OST3700123481) ||
+                    (currstd == STD_GOST17220597)
                     ) &&
                 (
                     (m_numberOfPoints != ESCPOINTSNUMBER)
@@ -391,7 +391,7 @@ void txEmissionsOnR49R96::setupCalc() {
 
     if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKE ||
           m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
-         currstd != STD_EU0 && currstd != STD_OST && currstd != STD_GOST ) {
+         currstd != STD_EU0 && currstd != STD_OST3700123481 && currstd != STD_GOST17220597 ) {
 
         if ( zeroArray(ma_Pr) || zeroArray(ma_ts) ||
              ( zeroArray(ma_Ka1m) && zeroArray(ma_KaPerc) && zeroArray(ma_FSN) ) ) {
@@ -409,7 +409,7 @@ void txEmissionsOnR49R96::setupCalc() {
 
     if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHPTMASS ||
           m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
-         currstd != STD_EU0 && currstd != STD_OST && currstd != STD_GOST) {
+         currstd != STD_EU0 && currstd != STD_OST3700123481 && currstd != STD_GOST17220597) {
 
         if ( zeroArray(ma_tauf) || zeroArray(ma_qmdew) ||
              ( zeroArray(ma_qmdw) && zeroArray(ma_rd) ) ) {
@@ -485,14 +485,14 @@ void txEmissionsOnR49R96::prelimCalc() {
                 (ma_Pb[i] - ma_Pa[i] * ma_Ra[i] * 0.01);
 
         if ( currstd == STD_EU2 || currstd == STD_EU1 || currstd == STD_EU0 ||
-             currstd == STD_OST || currstd == STD_GOST ) {
+             currstd == STD_OST3700123481 || currstd == STD_GOST17220597 ) {
             ma_Gaird[i] = ma_Gair[i] / (1.0 + ma_Ha[i] / 1000.0);
         }
         else {
             ma_Gaird[i] = (1.0 - ma_Ha[i] / 1000.0) * ma_Gair[i];
         }
 
-        if ( currstd != STD_OST ) {
+        if ( currstd != STD_OST3700123481 ) {
 
             ma_Kw2[i] = 1.608 * ma_Ha[i] / (1000.0 + 1.608 * ma_Ha[i]);
             ma_Ffh[i] = 1.969 / (1.0 + ma_Gfuel[i] / ma_Gair[i]);
@@ -509,14 +509,14 @@ void txEmissionsOnR49R96::prelimCalc() {
                                0.0045 * (ma_t0[i] + 273.0 - 298.0));
         }
         else if ( currstd == STD_EU2 || currstd == STD_EU1 ||
-                  currstd == STD_EU0 || currstd == STD_GOST ) {
+                  currstd == STD_EU0 || currstd == STD_GOST17220597 ) {
             ma_Kwr[i] = 1.0 - 1.85 * ma_Gfuel[i] / ma_Gaird[i];
             ma_Khd[i] = 1.0 / (1.0 + (0.044 * ma_Gfuel[i] / ma_Gaird[i] - 0.0038) *
                                (7.0 * ma_Ha[i] - 75.0) +
                                (-0.116 * ma_Gfuel[i] / ma_Gaird[i] + 0.0053) * 1.8 *
                                (ma_t0[i] + 273.0 - 302.0));
         }
-        else if ( currstd == STD_OST ) {
+        else if ( currstd == STD_OST3700123481 ) {
             ma_Kwr[i] = 1.0 - 1.8 * ma_Gfuel[i] / ma_Gair[i];
         }
         else {
@@ -546,7 +546,7 @@ void txEmissionsOnR49R96::calc_gNOx() {
 
             if ( noxsample == NOXSAMPLE_WET ) {
 
-                if ( currstd == STD_OST ) {
+                if ( currstd == STD_OST3700123481 ) {
                     ma_mNOx[i] = 0.001587 * ma_CNOx[i] * ma_Gexh[i];
                 }
                 else {
@@ -555,7 +555,7 @@ void txEmissionsOnR49R96::calc_gNOx() {
             }
             else if ( noxsample == NOXSAMPLE_DRY ) {
 
-                if ( currstd == STD_OST ) {
+                if ( currstd == STD_OST3700123481 ) {
                     ma_mNOx[i] = 0.001587 * ma_CNOx[i] * ma_Kwr[i] * ma_Gexh[i];
                 }
                 else {
@@ -568,6 +568,11 @@ void txEmissionsOnR49R96::calc_gNOx() {
             }
 
             ma_gNOx[i] = ma_mNOx[i] / ma_Ne_netto[i];
+
+            if ( i >= ESCPOINTSNUMBER  ) {
+                continue;
+            }
+
             summ_mNOx += ma_mNOx[i] * ma_w[i];
             summ_Ne_netto += ma_Ne_netto[i] * ma_w[i];
         }
@@ -580,7 +585,7 @@ void txEmissionsOnR49R96::calc_gNOx() {
 
             if ( noxsample == NOXSAMPLE_WET ) {
 
-                if ( currstd == STD_OST ) {
+                if ( currstd == STD_OST3700123481 ) {
                     ma_CNOx[i] = ma_mNOx[i] / (0.001587 * ma_Gexh[i]);
                 }
                 else {
@@ -589,7 +594,7 @@ void txEmissionsOnR49R96::calc_gNOx() {
             }
             else if ( noxsample == NOXSAMPLE_DRY ) {
 
-                if ( currstd == STD_OST ) {
+                if ( currstd == STD_OST3700123481 ) {
                     ma_CNOx[i] = ma_mNOx[i] / (0.001587 * ma_Kwr[i] * ma_Gexh[i]);
                 }
                 else {
@@ -599,6 +604,10 @@ void txEmissionsOnR49R96::calc_gNOx() {
             }
             else {
                 throw txError("Incorrect NOx sample type!");
+            }
+
+            if ( i >= ESCPOINTSNUMBER  ) {
+                continue;
             }
 
             summ_mNOx += ma_mNOx[i] * ma_w[i];
@@ -636,7 +645,7 @@ void txEmissionsOnR49R96::calc_addPoints() {
 
     const int noxsample = m_calculationOptions->val_NOxSample();
 
-    for ( ptrdiff_t i=(m_numberOfPoints - ESCADDPOINTSNUMBER);
+    for ( ptrdiff_t i=(m_numberOfPoints-ESCADDPOINTSNUMBER);
           i<m_numberOfPoints;
           i++ ) {
 
@@ -650,17 +659,17 @@ void txEmissionsOnR49R96::calc_addPoints() {
         ma_gNOx[i] = ma_mNOx[i] / ma_Ne_netto[i];
     }
 
-    m_gNOx1m = ma_gNOx[m_numberOfPoints - 3];
-    m_gNOx2m = ma_gNOx[m_numberOfPoints - 2];
-    m_gNOx3m = ma_gNOx[m_numberOfPoints - 1];
+    m_gNOx1m = ma_gNOx[m_numberOfPoints - ESCADDPOINTSNUMBER];
+    m_gNOx2m = ma_gNOx[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
+    m_gNOx3m = ma_gNOx[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
     const double A = ma_n[1];
     const double B = ma_n[2];
     const double C = ma_n[9];
 
-    const double nz1 = ma_n[m_numberOfPoints - 3];
-    const double nz2 = ma_n[m_numberOfPoints - 2];
-    const double nz3 = ma_n[m_numberOfPoints - 1];
+    const double nz1 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER];
+    const double nz2 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
+    const double nz3 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
     const double nrt1 = B;
     const double nrt2 = A;
@@ -670,9 +679,9 @@ void txEmissionsOnR49R96::calc_addPoints() {
     const double nsu2 = B;
     const double nsu3 = C;
 
-    const double Nz1 = ma_Ne_netto[m_numberOfPoints - 3];
-    const double Nz2 = ma_Ne_netto[m_numberOfPoints - 2];
-    const double Nz3 = ma_Ne_netto[m_numberOfPoints - 1];
+    const double Nz1 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER];
+    const double Nz2 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
+    const double Nz3 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
     const double Nt1 = ma_Ne_netto[7];
     const double Nt2 = ma_Ne_netto[5];
@@ -739,7 +748,15 @@ void txEmissionsOnR49R96::calc_gCO() {
     double summ_mCO = 0;
     double summ_Ne_netto = 0;
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         ma_mCO[i] = 0.000966 * ma_CCO[i] * ma_Kwr[i] * ma_Gexh[i]; // always is dry
         ma_gCO[i] = ma_mCO[i] / ma_Ne_netto[i];
@@ -760,9 +777,17 @@ void txEmissionsOnR49R96::calc_gCH() {
     double summ_mCH = 0;
     double summ_Ne_netto = 0;
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
 
-        if ( currstd == STD_OST ) {
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+
+        if ( currstd == STD_OST3700123481 ) {
             ma_mCH[i] = 0.000485 * ma_CCH[i] * ma_Gexh[i]; // always is wet
         }
         else {
@@ -795,12 +820,20 @@ void txEmissionsOnR49R96::calc_gPT() {
     const double Rr = m_commonParameters->val_Rr();
     double summ_Ne_netto = 0;
 
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
     if ( ptcalc == PTCALC_THROUGHSMOKE ||
          ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
         double summ_mPT = 0;
 
-        for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             if ( m_smoke == SMOKE_KA1M ) {
                 ma_KaPerc[i] = KaPerc(ma_Ka1m[i], L);
@@ -831,7 +864,7 @@ void txEmissionsOnR49R96::calc_gPT() {
         double qmedfl = 0;
         double msep = 0;
 
-        for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+        for ( ptrdiff_t i=0; i<n; i++ ) {
 
             if ( m_qmdwORrd == QMDWORRD_QMDW ) {
                 ma_rd[i] = ma_qmdew[i] / (ma_qmdew[i] - ma_qmdw[i]);
@@ -860,7 +893,15 @@ void txEmissionsOnR49R96::calc_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         summ_Gfuel += ma_Gfuel[i] * ma_w[i];
         summ_Ne_netto += ma_Ne_netto[i] * ma_w[i];
@@ -905,17 +946,38 @@ QString txEmissionsOnR49R96::saveCheckoutData() const {
         fout << SRCDATACAPTIONS_EMISSIONS[i];
     }
 
-    fout << "Ne_n[kW]"     << "Me_n[Nm]"    << "alpha[-]"
-         << "alpha_O2[-]"  << "Gexh[kg/h]"  << "Pb[kPa]"
-         << "Pa[kPa]"      << "Ha[g/kg]"    << "Gaird[kg/h]"
-         << "Kw2[-]"       << "Ffh[-]"      << "Kf[-]"
-         << "Kwr[-]"       << "Khd[-]"      << "fa[-]"
-         << "ge_b[g/kWh]"  << "ge_n[g/kWh]" << "mNOx[g/h]"
-         << "mCO[g/h]"     << "gCO[g/kWh]"  << "mCH[g/h]"
-         << "gCH[g/kWh]"   << "ror[kg/m3]"  << "CPT[mg/m3]"
-         << "mPT[g/h]"     << "gPT[g/kWh]"  << "qmedf[kg/h]"
-         << "msepi[g]"     << "rEGR[%]"     << "alpha_res[-]"
-         << "diff_alpha[%]";
+    fout << "alpha[-]"     << "alpha_O2[-]" << "Pb[kPa]"
+         << "Pa[kPa]"      << "fa[-]"       << "ge_b[g/kWh]"
+         << "Ne_n[kW]"     << "Me_n[Nm]"    << "Gexh[kg/h]"
+         << "Ha[g/kg]"     << "Gaird[kg/h]" << "Kw2[-]"
+         << "Ffh[-]"       << "Kf[-]"       << "Kwr[-]"
+         << "Khd[-]"       << "ge_n[g/kWh]";
+
+    if ( m_NOxCalcMethod != -1 ) {
+        fout << "mNOx[g/h]";
+    }
+
+    if ( m_gCOcalc == GCOCALC_YES ) {
+        fout << "mCO[g/h]" << "gCO[g/kWh]";
+    }
+
+    if ( m_gCHcalc == GCHCALC_YES ) {
+        fout << "mCH[g/h]" << "gCH[g/kWh]";
+    }
+
+    if ( m_gPTcalc == GPTCALC_YES ) {
+        fout << "ror[kg/m3]"  << "CPT[mg/m3]" << "mPT[g/h]" << "gPT[g/kWh]"
+             << "qmedf[kg/h]" << "msepi[g]";
+    }
+
+    if ( m_EGRcalc == EGRCALC_YES ) {
+        fout << "rEGR[%]" << "alpha_res[-]";
+    }
+
+    if ( m_checkMeas == CHECKMEAS_YES ) {
+        fout << "diff_alpha[%]";
+    }
+
     fout << qSetFieldWidth(0)
          << "\n"
          << fixed
@@ -936,17 +998,38 @@ QString txEmissionsOnR49R96::saveCheckoutData() const {
              << ma_Ka1m[i]      << ma_KaPerc[i]    << ma_FSN[i]
              << ma_Pr[i]        << ma_ts[i]        << ma_tauf[i]
              << ma_qmdw[i]      << ma_qmdew[i]     << ma_rd[i]
-             << ma_Ne_netto[i]  << ma_Me_netto[i]  << ma_alpha[i]
-             << ma_alpha_O2[i]  << ma_Gexh[i]      << ma_Pb[i]
-             << ma_Pa[i]        << ma_Ha[i]        << ma_Gaird[i]
-             << ma_Kw2[i]       << ma_Ffh[i]       << ma_Kf[i]
-             << ma_Kwr[i]       << ma_Khd[i]       << ma_fa[i]
-             << ma_ge_brutto[i] << ma_ge_netto[i]  << ma_mNOx[i]
-             << ma_mCO[i]       << ma_gCO[i]       << ma_mCH[i]
-             << ma_gCH[i]       << ma_ror[i]       << ma_CPT[i]
-             << ma_mPT[i]       << ma_gPT[i]       << ma_qmedf[i]
-             << ma_msepi[i]     << ma_rEGR[i]      << ma_alpha_res[i]
-             << ma_diff_alpha[i];
+             << ma_alpha[i]     << ma_alpha_O2[i]  << ma_Pb[i]
+             << ma_Pa[i]        << ma_fa[i]        << ma_ge_brutto[i]
+             << ma_Ne_netto[i]  << ma_Me_netto[i]  << ma_Gexh[i]
+             << ma_Ha[i]        << ma_Gaird[i]     << ma_Kw2[i]
+             << ma_Ffh[i]       << ma_Kf[i]        << ma_Kwr[i]
+             << ma_Khd[i]       << ma_ge_netto[i];
+
+        if ( m_NOxCalcMethod != -1 ) {
+            fout << ma_mNOx[i];
+        }
+
+        if ( m_gCOcalc == GCOCALC_YES ) {
+            fout << ma_mCO[i] << ma_gCO[i];
+        }
+
+        if ( m_gCHcalc == GCHCALC_YES ) {
+            fout << ma_mCH[i] << ma_gCH[i];
+        }
+
+        if ( m_gPTcalc == GPTCALC_YES ) {
+            fout << ma_ror[i] << ma_CPT[i] << ma_mPT[i] << ma_gPT[i]
+                 << ma_qmedf[i] << ma_msepi[i];
+        }
+
+        if ( m_EGRcalc == EGRCALC_YES ) {
+            fout << ma_rEGR[i] << ma_alpha_res[i];
+        }
+
+        if ( m_checkMeas == CHECKMEAS_YES ) {
+            fout << ma_diff_alpha[i];
+        }
+
         fout << qSetFieldWidth(0) << "\n";
     }
 
@@ -1093,7 +1176,15 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         fout << qSetFieldWidth(COLUMNWIDTH-1)
              << qSetRealNumberPrecision(0);
@@ -1128,7 +1219,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         else if ( m_smoke == SMOKE_KAPERC ) {
             fout << ma_KaPerc[i];
         }
-        else if ( SMOKE_FSN ) {
+        else if ( m_smoke == SMOKE_FSN ) {
             fout << ma_FSN[i];
         }
 
@@ -1175,7 +1266,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         fout << qSetFieldWidth(COLUMNWIDTH-1)
              << qSetRealNumberPrecision(PRECISION);
@@ -1273,7 +1364,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
     fout << qSetFieldWidth(COLUMNWIDTH-1+2)
          << " ";
 
-    if ( currstd == STD_GOST ) {
+    if ( currstd == STD_GOST17220597 ) {
         fout << qSetFieldWidth(COLUMNWIDTH-1);
         fout << "Limit (old1)"
              << "Limit (old2)"
@@ -1355,7 +1446,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
 
         const double gNOxLimit = NOxLimit(currstd);
 
-        if ( currstd == STD_GOST ) {
+        if ( currstd == STD_GOST17220597 ) {
             fout << NOxLimit(currstd+30)
                  << NOxLimit(currstd+40)
                  << NOxLimit(currstd+10)
@@ -1367,7 +1458,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
 
         fout << m_gNOx;
 
-        if ( currstd != STD_GOST ) {
+        if ( currstd != STD_GOST17220597 ) {
 
             if ( m_gNOx <= gNOxLimit ) {
                 fout << "OK";
@@ -1388,7 +1479,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
             fout << "gCO[g/kWh]";
             fout << qSetFieldWidth(COLUMNWIDTH-1);
 
-            if ( currstd == STD_GOST ) {
+            if ( currstd == STD_GOST17220597 ) {
                 fout << COLimit(currstd+30)
                      << COLimit(currstd+40)
                      << COLimit(currstd+10)
@@ -1400,7 +1491,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
 
             fout << m_gCO;
 
-            if ( currstd != STD_GOST ) {
+            if ( currstd != STD_GOST17220597 ) {
 
                 if ( m_gCO <= gCOLimit ) {
                     fout << "OK";
@@ -1422,7 +1513,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
             fout << "gCH[g/kWh]";
             fout << qSetFieldWidth(COLUMNWIDTH-1);
 
-            if ( currstd == STD_GOST ) {
+            if ( currstd == STD_GOST17220597 ) {
                 fout << CHLimit(currstd+30)
                      << CHLimit(currstd+40)
                      << CHLimit(currstd+10)
@@ -1434,7 +1525,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
 
             fout << m_gCH;
 
-            if ( currstd != STD_GOST ) {
+            if ( currstd != STD_GOST17220597 ) {
 
                 if ( m_gCH <= gCHLimit ) {
                     fout << "OK";
@@ -1612,7 +1703,15 @@ QString txEmissionsOnR49R96::saveReportPT() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    double n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         fout << qSetFieldWidth(COLUMNWIDTH-1)
              << qSetRealNumberPrecision(0);
@@ -1669,7 +1768,7 @@ QString txEmissionsOnR49R96::saveReportPT() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
+    for ( ptrdiff_t i=0; i<n; i++ ) {
 
         fout << qSetFieldWidth(COLUMNWIDTH-1)
              << qSetRealNumberPrecision(0);

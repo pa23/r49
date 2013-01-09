@@ -515,11 +515,16 @@ QString txEmissionsOnGOST51249::saveCheckoutData() const {
         fout << SRCDATACAPTIONS_EMISSIONS[i];
     }
 
-    fout << "Ne_n[kW]"     << "Me_n[Nm]"    << "alpha[-]"
-         << "alpha_O2[-]"  << "Gexh[m3/h]"  << "Gexhd[m3/h]"
-         << "Pb[kPa]"      << "Pa[kPa]"     << "fa[-]"
-         << "ge_b[g/kWh]"  << "ge_n[g/kWh]" << "rEGR[%]"
-         << "alpha_res[-]" << "diff_alpha[%]";
+    fout << "alpha[-]"     << "alpha_O2[-]" << "Pb[kPa]"     << "Pa[kPa]"
+         << "fa[-]"        << "ge_b[g/kWh]" << "Gexh[m3/h]"  << "Gexhd[m3/h]";
+
+    if ( m_EGRcalc == EGRCALC_YES ) {
+        fout << "rEGR[%]" << "alpha_res[-]";
+    }
+
+    if ( m_checkMeas == CHECKMEAS_YES ) {
+        fout << "diff_alpha[%]";
+    }
 
     fout << qSetFieldWidth(0)
          << "\n"
@@ -540,11 +545,20 @@ QString txEmissionsOnGOST51249::saveCheckoutData() const {
              << ma_Ka1m[i]      << ma_KaPerc[i]    << ma_FSN[i]
              << ma_Pr[i]        << ma_ts[i]        << ma_tauf[i]
              << ma_qmdw[i]      << ma_qmdew[i]     << ma_rd[i]
-             << ma_alpha[i]     << ma_alpha_O2[i]  << ma_Gexh[i]
-             << ma_Gexhd[i]     << ma_Pb[i]        << ma_Pa[i]
-             << ma_fa[i]        << ma_ge_brutto[i] << ma_rEGR[i]
-             << ma_alpha_res[i] << ma_diff_alpha[i];
-        fout << qSetFieldWidth(0) << "\n";
+             << ma_alpha[i]     << ma_alpha_O2[i]  << ma_Pb[i]
+             << ma_Pa[i]        << ma_fa[i]        << ma_ge_brutto[i]
+             << ma_Gexh[i]      << ma_Gexhd[i];
+
+        if ( m_EGRcalc == EGRCALC_YES ) {
+            fout << ma_rEGR[i] << ma_alpha_res[i];
+        }
+
+        if ( m_checkMeas == CHECKMEAS_YES ) {
+            fout << ma_diff_alpha[i];
+        }
+
+        fout << qSetFieldWidth(0)
+             << "\n";
     }
 
     choutData.close();

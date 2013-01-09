@@ -50,19 +50,19 @@ double NOxLimit(int standard, double n_rated) {
     else if ( standard == STD_EU0 ) {
         return 15.8;
     }
-    else if ( standard == STD_OST ) {
+    else if ( standard == STD_OST3700123481 ) {
         return 18.35;
     }
-    else if ( standard == STD_GOST+10 ) {
+    else if ( standard == STD_GOST17220597+10 ) {
         return 18; // nu
     }
-    else if ( standard == STD_GOST+20 ) {
+    else if ( standard == STD_GOST17220597+20 ) {
         return 9;  // nl
     }
-    else if ( standard == STD_GOST+30 ) {
+    else if ( standard == STD_GOST17220597+30 ) {
         return 18; // ou
     }
-    else if ( standard == STD_GOST+40 ) {
+    else if ( standard == STD_GOST17220597+40 ) {
         return 9;  // ol
     }
     else if ( (standard == STD_R96E8) || (standard == STD_R96E5) ) {
@@ -149,19 +149,19 @@ double COLimit(int standard) {
     else if ( standard == STD_EU0 ) {
         return 12.3;
     }
-    else if ( standard == STD_OST ) {
+    else if ( standard == STD_OST3700123481 ) {
         return 9.5;
     }
-    else if ( standard == STD_GOST+10 ) {
+    else if ( standard == STD_GOST17220597+10 ) {
         return 10;  // nu
     }
-    else if ( standard == STD_GOST+20 ) {
+    else if ( standard == STD_GOST17220597+20 ) {
         return 4;   // nl
     }
-    else if ( standard == STD_GOST+30 ) {
+    else if ( standard == STD_GOST17220597+30 ) {
         return 14;  // ou
     }
-    else if ( standard == STD_GOST+40 ) {
+    else if ( standard == STD_GOST17220597+40 ) {
         return 5.6; // ol
     }
     else if ( (standard == STD_R96E8) || (standard == STD_R96E5) ) {
@@ -232,19 +232,19 @@ double CHLimit(int standard) {
     else if ( standard == STD_EU0 ) {
         return 2.6;
     }
-    else if ( standard == STD_OST ) {
+    else if ( standard == STD_OST3700123481 ) {
         return 3.4;
     }
-    else if ( standard == STD_GOST+10 ) {
+    else if ( standard == STD_GOST17220597+10 ) {
         return 3;   // nu
     }
-    else if ( standard == STD_GOST+20 ) {
+    else if ( standard == STD_GOST17220597+20 ) {
         return 1.5; // nl
     }
-    else if ( standard == STD_GOST+30 ) {
+    else if ( standard == STD_GOST17220597+30 ) {
         return 4.5; // ou
     }
-    else if ( standard == STD_GOST+40 ) {
+    else if ( standard == STD_GOST17220597+40 ) {
         return 2.2; // ol
     }
     else if ( (standard == STD_R96E8) || (standard == STD_R96E5) ) {
