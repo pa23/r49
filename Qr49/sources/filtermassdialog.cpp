@@ -25,18 +25,18 @@
 
 FilterMassDialog::FilterMassDialog(QWidget *parent) :
     QDialog(parent),
-    doubleValidator(new QDoubleValidator()) {
+    m_doubleValidator(new QDoubleValidator()) {
 
     ui.setupUi(this);
-    doubleValidator->setDecimals(4);
+    m_doubleValidator->setDecimals(4);
 
-    ui.lineEdit_1stFilterWeightClean->setValidator(doubleValidator);
-    ui.lineEdit_1stFilterWeightDirty->setValidator(doubleValidator);
-    ui.lineEdit_2ndFilterWeightClean->setValidator(doubleValidator);
-    ui.lineEdit_2ndFilterWeightDirty->setValidator(doubleValidator);
+    ui.lineEdit_1stFilterWeightClean->setValidator(m_doubleValidator);
+    ui.lineEdit_1stFilterWeightDirty->setValidator(m_doubleValidator);
+    ui.lineEdit_2ndFilterWeightClean->setValidator(m_doubleValidator);
+    ui.lineEdit_2ndFilterWeightDirty->setValidator(m_doubleValidator);
 }
 
 FilterMassDialog::~FilterMassDialog() {
 
-    delete doubleValidator;
+    delete m_doubleValidator;
 }

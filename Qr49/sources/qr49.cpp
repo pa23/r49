@@ -70,21 +70,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
 
-    qr49settings("pa23software", "Qr49"),
+    m_qr49settings("pa23software", "Qr49"),
 
-    contextMenu(new QMenu()),
+    m_contextMenu(new QMenu()),
 
-    filterMassDialog(new FilterMassDialog(this)),
-    valueDialog(new ValueDialog(this)),
-    preferencesDialog(new PreferencesDialog(this)),
-    checkoutDataDialog(new CheckoutDataDialog(0)),
-    helpDialog(new HelpDialog(0)),
-    dataImportDialog(new DataImportDialog(this)),
+    m_filterMassDialog(new FilterMassDialog(this)),
+    m_valueDialog(new ValueDialog(this)),
+    m_preferencesDialog(new PreferencesDialog(this)),
+    m_checkoutDataDialog(new CheckoutDataDialog(0)),
+    m_helpDialog(new HelpDialog(0)),
+    m_dataImportDialog(new DataImportDialog(this)),
 
-    regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
+    m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
-    undoCount(0),
-    redoCount(0) {
+    m_undoCount(0),
+    m_redoCount(0) {
 
     ui->setupUi(this);
 
@@ -92,9 +92,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setWindowTitle(QR49NAME + " v" + QR49VERSION);
 
-    contextMenu->addMenu(ui->menuFile);
-    contextMenu->addMenu(ui->menuEdit);
-    contextMenu->addMenu(ui->menuCalculation);
+    m_contextMenu->addMenu(ui->menuFile);
+    m_contextMenu->addMenu(ui->menuEdit);
+    m_contextMenu->addMenu(ui->menuCalculation);
 
     //
 
@@ -132,25 +132,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_SrcDataPoints->installEventFilter(this);
     ui->tableWidget_FullLoadCurve->installEventFilter(this);
 
-    table = ui->tableWidget_SrcDataPoints;
+    m_table = ui->tableWidget_SrcDataPoints;
 
     //
 
-    calcopts = QSharedPointer<toxic::txCalculationOptions>
+    m_calculationOptions = QSharedPointer<toxic::txCalculationOptions>
             (new toxic::txCalculationOptions());
-    commpars = QSharedPointer<toxic::txCommonParameters>
+    m_commonParameters = QSharedPointer<toxic::txCommonParameters>
             (new toxic::txCommonParameters());
 
     readPreferences();
 
     //
 
-    doubleValidator = new QDoubleValidator(this);
+    m_doubleValidator = new QDoubleValidator(this);
 
-    doubleValidator->setBottom(0);
-    doubleValidator->setDecimals(4);
+    m_doubleValidator->setBottom(0);
+    m_doubleValidator->setDecimals(4);
 
-    regExpValidator = new QRegExpValidator(regExp, 0);
+    m_regExpValidator = new QRegExpValidator(m_regExp, 0);
 
     setDoubleValidators();
 
@@ -160,16 +160,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    undoRedo_TableEU0 =
+    m_undoRedo_TableEU0 =
             QSharedPointer<UndoRedoTable>
             (new UndoRedoTable(ui->tableWidget_SrcDataEU0));
-    undoRedo_TableEU3 =
+    m_undoRedo_TableEU3 =
             QSharedPointer<UndoRedoTable>
             (new UndoRedoTable(ui->tableWidget_SrcDataEU3));
-    undoRedo_TablePoints =
+    m_undoRedo_TablePoints =
             QSharedPointer<UndoRedoTable>
             (new UndoRedoTable(ui->tableWidget_SrcDataPoints));
-    undoRedo_TableFullLoadCurve =
+    m_undoRedo_TableFullLoadCurve =
             QSharedPointer<UndoRedoTable>
             (new UndoRedoTable(ui->tableWidget_FullLoadCurve));
 
@@ -204,22 +204,22 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     else {
 
-        monospacedFont_8.setFamily(
+        m_monospacedFont_8.setFamily(
                     QFontDatabase::applicationFontFamilies(fontid1).first()
                     );
 
-        monospacedFont_8.setPointSize(8);
+        m_monospacedFont_8.setPointSize(8);
 
-        monospacedFont_10.setFamily(
+        m_monospacedFont_10.setFamily(
                     QFontDatabase::applicationFontFamilies(fontid1).first()
                     );
 
-        monospacedFont_10.setPointSize(10);
+        m_monospacedFont_10.setPointSize(10);
 
-        ui->plainTextEdit_Report->setFont(monospacedFont_10);
+        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
 
         QPlainTextEdit *myPlainTextEdit_CheckoutData =
-                checkoutDataDialog->findChild<QPlainTextEdit *>
+                m_checkoutDataDialog->findChild<QPlainTextEdit *>
                 ("plainTextEdit_CheckoutData");
 
         if ( !myPlainTextEdit_CheckoutData ) {
@@ -235,7 +235,7 @@ MainWindow::MainWindow(QWidget *parent) :
             return;
         }
 
-        myPlainTextEdit_CheckoutData->setFont(monospacedFont_10);
+        myPlainTextEdit_CheckoutData->setFont(m_monospacedFont_10);
     }
 
     QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
@@ -257,11 +257,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     else {
 
-        dejavusansmonoFont_10.setFamily(
+        m_dejavusansmonoFont_10.setFamily(
                     QFontDatabase::applicationFontFamilies(fontid2).first()
                     );
 
-        dejavusansmonoFont_10.setPointSize(10);
+        m_dejavusansmonoFont_10.setPointSize(10);
     }
 
     //
@@ -329,74 +329,74 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
 
-    table = ui->tableWidget_SrcDataEU0;
+    m_table = ui->tableWidget_SrcDataEU0;
     on_action_SaveSourceData_activated();
 
-    table = ui->tableWidget_SrcDataEU3;
+    m_table = ui->tableWidget_SrcDataEU3;
     on_action_SaveSourceData_activated();
 
-    table = ui->tableWidget_SrcDataPoints;
+    m_table = ui->tableWidget_SrcDataPoints;
     on_action_SaveSourceData_activated();
 
-    table = ui->tableWidget_FullLoadCurve;
+    m_table = ui->tableWidget_FullLoadCurve;
     on_action_SaveSourceData_activated();
 
     writeProgramSettings();
 
     delete ui;
-    delete contextMenu;
-    delete filterMassDialog;
-    delete valueDialog;
-    delete preferencesDialog;
-    delete checkoutDataDialog;
-    delete helpDialog;
-    delete dataImportDialog;
-    delete doubleValidator;
-    delete regExpValidator;
+    delete m_contextMenu;
+    delete m_filterMassDialog;
+    delete m_valueDialog;
+    delete m_preferencesDialog;
+    delete m_checkoutDataDialog;
+    delete m_helpDialog;
+    delete m_dataImportDialog;
+    delete m_doubleValidator;
+    delete m_regExpValidator;
 }
 
 void MainWindow::writeProgramSettings() {
 
-    qr49settings.beginGroup("/Settings");
-    qr49settings.setValue("/window_geometry", geometry());
-    qr49settings.setValue("/toolbars_state", QMainWindow::saveState());
-    qr49settings.setValue("/action_toolbar_checked", ui->action_Toolbar->isChecked());
-    qr49settings.setValue("/active_tab", ui->tabWidget_Data->currentIndex());
-    qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
-    qr49settings.setValue("/Vh_value", ui->lineEdit_Vh->text());
-    qr49settings.setValue("/standard_index", ui->comboBox_standard->currentIndex());
-    qr49settings.setValue("/fuelType_index", ui->comboBox_FuelType->currentIndex());
-    qr49settings.setValue("/NOxSample_index", ui->comboBox_NOxSample->currentIndex());
-    qr49settings.setValue("/PTcalc_index", ui->comboBox_PTcalc->currentIndex());
-    qr49settings.setValue("/PTmass_value", ui->lineEdit_PTmass->text());
-    qr49settings.setValue("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex());
-    qr49settings.setValue("/createReports", ui->checkBox_reports->isChecked());
-    qr49settings.setValue("/lastReportsDir", lastReportsDir.absolutePath());
-    qr49settings.setValue("/lastCheckoutDataFileName", lastCheckoutDataFileName);
-    qr49settings.setValue("/lastReportFileName", lastReportFileName);
-    qr49settings.endGroup();
+    m_qr49settings.beginGroup("/Settings");
+    m_qr49settings.setValue("/window_geometry", geometry());
+    m_qr49settings.setValue("/toolbars_state", QMainWindow::saveState());
+    m_qr49settings.setValue("/action_toolbar_checked", ui->action_Toolbar->isChecked());
+    m_qr49settings.setValue("/active_tab", ui->tabWidget_Data->currentIndex());
+    m_qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
+    m_qr49settings.setValue("/Vh_value", ui->lineEdit_Vh->text());
+    m_qr49settings.setValue("/standard_index", ui->comboBox_standard->currentIndex());
+    m_qr49settings.setValue("/fuelType_index", ui->comboBox_FuelType->currentIndex());
+    m_qr49settings.setValue("/NOxSample_index", ui->comboBox_NOxSample->currentIndex());
+    m_qr49settings.setValue("/PTcalc_index", ui->comboBox_PTcalc->currentIndex());
+    m_qr49settings.setValue("/PTmass_value", ui->lineEdit_PTmass->text());
+    m_qr49settings.setValue("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex());
+    m_qr49settings.setValue("/createReports", ui->checkBox_reports->isChecked());
+    m_qr49settings.setValue("/lastReportsDir", m_lastReportsDir.absolutePath());
+    m_qr49settings.setValue("/lastCheckoutDataFileName", m_lastCheckoutDataFileName);
+    m_qr49settings.setValue("/lastReportFileName", m_lastReportFileName);
+    m_qr49settings.endGroup();
 }
 
 void MainWindow::readProgramSettings() {
 
-    qr49settings.beginGroup("/Settings");
-    setGeometry(qr49settings.value("/window_geometry", QRect(20, 40, 0, 0)).toRect());
-    restoreState(qr49settings.value("/toolbars_state").toByteArray());
-    ui->action_Toolbar->setChecked(qr49settings.value("/action_toolbar_checked", true).toBool());
-    ui->tabWidget_Data->setCurrentIndex(qr49settings.value("active_tab", ui->tabWidget_Data->currentIndex()).toInt());
-    ui->comboBox_task->setCurrentIndex(qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
-    ui->lineEdit_Vh->setText(qr49settings.value("/Vh_value", ui->lineEdit_Vh->text()).toString());
-    ui->comboBox_standard->setCurrentIndex(qr49settings.value("/standard_index", ui->comboBox_standard->currentIndex()).toInt());
-    ui->comboBox_FuelType->setCurrentIndex(qr49settings.value("/fuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
-    ui->comboBox_NOxSample->setCurrentIndex(qr49settings.value("/NOxSample_index", ui->comboBox_NOxSample->currentIndex()).toInt());
-    ui->comboBox_PTcalc->setCurrentIndex(qr49settings.value("/PTcalc_index", ui->comboBox_PTcalc->currentIndex()).toInt());
-    ui->lineEdit_PTmass->setText(qr49settings.value("/PTmass_value", ui->lineEdit_PTmass->text()).toString());
-    ui->comboBox_AddPointsCalc->setCurrentIndex(qr49settings.value("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex()).toInt());
-    ui->checkBox_reports->setChecked(qr49settings.value("/createReports", ui->checkBox_reports->isChecked()).toBool());
-    lastReportsDir.setPath(qr49settings.value("/lastReportsDir", "").toString());
-    lastCheckoutDataFileName = qr49settings.value("/lastCheckoutDataFileName", "").toString();
-    lastReportFileName = qr49settings.value("/lastReportFileName", "").toString();
-    qr49settings.endGroup();
+    m_qr49settings.beginGroup("/Settings");
+    setGeometry(m_qr49settings.value("/window_geometry", QRect(20, 40, 0, 0)).toRect());
+    restoreState(m_qr49settings.value("/toolbars_state").toByteArray());
+    ui->action_Toolbar->setChecked(m_qr49settings.value("/action_toolbar_checked", true).toBool());
+    ui->tabWidget_Data->setCurrentIndex(m_qr49settings.value("active_tab", ui->tabWidget_Data->currentIndex()).toInt());
+    ui->comboBox_task->setCurrentIndex(m_qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
+    ui->lineEdit_Vh->setText(m_qr49settings.value("/Vh_value", ui->lineEdit_Vh->text()).toString());
+    ui->comboBox_standard->setCurrentIndex(m_qr49settings.value("/standard_index", ui->comboBox_standard->currentIndex()).toInt());
+    ui->comboBox_FuelType->setCurrentIndex(m_qr49settings.value("/fuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
+    ui->comboBox_NOxSample->setCurrentIndex(m_qr49settings.value("/NOxSample_index", ui->comboBox_NOxSample->currentIndex()).toInt());
+    ui->comboBox_PTcalc->setCurrentIndex(m_qr49settings.value("/PTcalc_index", ui->comboBox_PTcalc->currentIndex()).toInt());
+    ui->lineEdit_PTmass->setText(m_qr49settings.value("/PTmass_value", ui->lineEdit_PTmass->text()).toString());
+    ui->comboBox_AddPointsCalc->setCurrentIndex(m_qr49settings.value("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex()).toInt());
+    ui->checkBox_reports->setChecked(m_qr49settings.value("/createReports", ui->checkBox_reports->isChecked()).toBool());
+    m_lastReportsDir.setPath(m_qr49settings.value("/lastReportsDir", "").toString());
+    m_lastCheckoutDataFileName = m_qr49settings.value("/lastCheckoutDataFileName", "").toString();
+    m_lastReportFileName = m_qr49settings.value("/lastReportFileName", "").toString();
+    m_qr49settings.endGroup();
 
     if ( ui->action_Toolbar->isChecked() ) {
 
@@ -466,7 +466,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
            object == ui->tableWidget_FullLoadCurve ) &&
          ( event->type() == QEvent::FocusIn ) ) {
 
-        table = (QTableWidget*)object;
+        m_table = (QTableWidget*)object;
     }
 
     return false;
@@ -474,20 +474,20 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *cme) {
 
-    contextMenu->exec(cme->globalPos());
+    m_contextMenu->exec(cme->globalPos());
 }
 
 void MainWindow::setDoubleValidators() {
 
-    ui->lineEdit_Vh->setValidator(doubleValidator);
-    ui->lineEdit_PTmass->setValidator(doubleValidator);
+    ui->lineEdit_Vh->setValidator(m_doubleValidator);
+    ui->lineEdit_PTmass->setValidator(m_doubleValidator);
 }
 
 void MainWindow::readPreferences() {
 
     try {
 
-        commpars->readConfigFile(CONFIGFILENAME);
+        m_commonParameters->readConfigFile(CONFIGFILENAME);
     }
     catch(const toxic::txError &toxerr) {
 
@@ -498,7 +498,7 @@ void MainWindow::readPreferences() {
 
 void MainWindow::loadAllSourceData() {
 
-    const QString filenameSourceEU0 = commpars->val_srcFileNameEU0();
+    const QString filenameSourceEU0 = m_commonParameters->val_srcFileNameEU0();
 
     if ( QFile::exists(filenameSourceEU0) ) {
 
@@ -518,7 +518,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenameSourceEU3 = commpars->val_srcFileNameEU3();
+    const QString filenameSourceEU3 = m_commonParameters->val_srcFileNameEU3();
 
     if ( QFile::exists(filenameSourceEU3) ) {
 
@@ -538,7 +538,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenamePoints = commpars->val_srcFileNamePoints();
+    const QString filenamePoints = m_commonParameters->val_srcFileNamePoints();
 
     if ( QFile::exists(filenamePoints) ) {
 
@@ -558,7 +558,7 @@ void MainWindow::loadAllSourceData() {
 
     //
 
-    const QString filenamePowers = commpars->val_srcFileNameRedPwr();
+    const QString filenamePowers = m_commonParameters->val_srcFileNameRedPwr();
 
     if ( QFile::exists(filenamePowers) ) {
 
@@ -801,22 +801,22 @@ bool MainWindow::fillParameters() {
         on_pushButton_EnterPTmass_clicked();
     }
 
-    calcopts->setTask(ui->comboBox_task->currentIndex());
-    calcopts->setVh(ui->lineEdit_Vh->text().toDouble());
-    calcopts->setStandard(ui->comboBox_standard->currentIndex());
-    calcopts->setChargingType(ui->comboBox_chargingType->currentIndex());
-    calcopts->setFuelType(ui->comboBox_FuelType->currentIndex());
-    calcopts->setNOxSample(ui->comboBox_NOxSample->currentIndex());
-    calcopts->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    calcopts->setPTmass(ui->lineEdit_PTmass->text().toDouble());
-    calcopts->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
+    m_calculationOptions->setTask(ui->comboBox_task->currentIndex());
+    m_calculationOptions->setVh(ui->lineEdit_Vh->text().toDouble());
+    m_calculationOptions->setStandard(ui->comboBox_standard->currentIndex());
+    m_calculationOptions->setChargingType(ui->comboBox_chargingType->currentIndex());
+    m_calculationOptions->setFuelType(ui->comboBox_FuelType->currentIndex());
+    m_calculationOptions->setNOxSample(ui->comboBox_NOxSample->currentIndex());
+    m_calculationOptions->setPTcalc(ui->comboBox_PTcalc->currentIndex());
+    m_calculationOptions->setPTmass(ui->lineEdit_PTmass->text().toDouble());
+    m_calculationOptions->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
 }
 
 bool MainWindow::arithmeticOperation(const QString &operation) {
 
-    QLineEdit *value = valueDialog->findChild<QLineEdit *>("lineEdit_Value");
+    QLineEdit *value = m_valueDialog->findChild<QLineEdit *>("lineEdit_Value");
 
     if ( !value ) {
 
@@ -835,19 +835,19 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
     if ( operation == "add" ) {
 
-        valueDialog->setWindowTitle(tr("Qr49: add"));
+        m_valueDialog->setWindowTitle(tr("Qr49: add"));
     }
     else if ( operation == "multiply" ) {
 
-        valueDialog->setWindowTitle(tr("Qr49: multiply"));
+        m_valueDialog->setWindowTitle(tr("Qr49: multiply"));
     }
     else if ( operation == "divide" ) {
 
-        valueDialog->setWindowTitle(tr("Qr49: divide"));
+        m_valueDialog->setWindowTitle(tr("Qr49: divide"));
     }
     else if ( operation == "equal" ) {
 
-        valueDialog->setWindowTitle(tr("Qr49: equal"));
+        m_valueDialog->setWindowTitle(tr("Qr49: equal"));
     }
     else {
 
@@ -859,16 +859,16 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
         return false;
     }
 
-    if ( valueDialog->exec() == QDialog::Accepted ) {
+    if ( m_valueDialog->exec() == QDialog::Accepted ) {
 
-        if ( table->selectedRanges().empty() ) {
+        if ( m_table->selectedRanges().empty() ) {
 
             QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
 
             return false;
         }
 
-        QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
+        QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
 
         double x = 0.0;
         double y = value->text().toDouble();
@@ -890,27 +890,27 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                x = table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                x = m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                         text().toDouble();
 
                 if ( operation == "add" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x+y, 'f', 3));
                 }
                 else if ( operation == "multiply" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x*y, 'f', 3));
                 }
                 else if ( operation == "divide" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x/y, 'f', 3));
                 }
                 else if ( operation == "equal" ) {
 
-                    table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(y, 'f', 3));
                 }
             }
@@ -926,13 +926,13 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
 void MainWindow::on_action_DataImport_activated() {
 
-    if ( table == ui->tableWidget_SrcDataPoints ) {
+    if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-        dataImportDialog->init(2, table);
+        m_dataImportDialog->init(2, m_table);
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-        dataImportDialog->init(3, table);
+        m_dataImportDialog->init(3, m_table);
     }
     else {
 
@@ -946,7 +946,7 @@ void MainWindow::on_action_DataImport_activated() {
 
     tableCellChangedConnect(false);
 
-    if ( dataImportDialog->exec() == QDialog::Accepted ) {
+    if ( m_dataImportDialog->exec() == QDialog::Accepted ) {
 
         tableCellChangedConnect(true);
         saveTableState();
@@ -959,7 +959,7 @@ void MainWindow::on_action_DataImport_activated() {
 
 void MainWindow::on_action_LoadSourceData_activated() {
 
-    const QString dir(commpars->val_reportsDirName());
+    const QString dir(m_commonParameters->val_reportsDirName());
 
     const QString anotherSourceFile(
                 QFileDialog::getOpenFileName(
@@ -971,7 +971,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                     0)
                 );
 
-    if ( table == ui->tableWidget_SrcDataEU0 ) {
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
 
@@ -993,7 +993,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         saveTableState();
     }
-    else if ( table == ui->tableWidget_SrcDataEU3 ) {
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
         ui->tabWidget_Data->setCurrentIndex(0);
 
@@ -1015,7 +1015,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         saveTableState();
     }
-    else if ( table == ui->tableWidget_SrcDataPoints ) {
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
         ui->tabWidget_Data->setCurrentIndex(1);
 
@@ -1037,7 +1037,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
         saveTableState();
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
         ui->tabWidget_Data->setCurrentIndex(2);
 
@@ -1063,9 +1063,9 @@ void MainWindow::on_action_LoadSourceData_activated() {
 
 void MainWindow::on_action_SaveSourceData_activated() {
 
-    if ( table == ui->tableWidget_SrcDataEU0 ) {
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-        const QString filenameSourceEU0 = commpars->val_srcFileNameEU0();
+        const QString filenameSourceEU0 = m_commonParameters->val_srcFileNameEU0();
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
@@ -1083,9 +1083,9 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
         SrcDataEU0File.write("\n");
 
-        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+        for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU0File.write(table->item(0, j)->text().toAscii().data());
+            SrcDataEU0File.write(m_table->item(0, j)->text().toAscii().data());
             SrcDataEU0File.write(" ");
         }
 
@@ -1093,9 +1093,9 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         SrcDataEU0File.close();
     }
-    else if ( table == ui->tableWidget_SrcDataEU3 ) {
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-        const QString filenameSourceEU3 = commpars->val_srcFileNameEU3();
+        const QString filenameSourceEU3 = m_commonParameters->val_srcFileNameEU3();
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
@@ -1113,9 +1113,9 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
         SrcDataEU3File.write("\n");
 
-        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+        for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU3File.write(table->item(0, j)->text().toAscii().data());
+            SrcDataEU3File.write(m_table->item(0, j)->text().toAscii().data());
             SrcDataEU3File.write(" ");
         }
 
@@ -1123,14 +1123,14 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         SrcDataEU3File.close();
     }
-    else if ( table == ui->tableWidget_SrcDataPoints ) {
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-        if ( table->rowCount() == 0 ) {
+        if ( m_table->rowCount() == 0 ) {
 
             on_action_AddRow_activated();
         }
 
-        const QString filenamePoints = commpars->val_srcFileNamePoints();
+        const QString filenamePoints = m_commonParameters->val_srcFileNamePoints();
 
         QFile SrcDataPointsFile(filenamePoints);
 
@@ -1148,12 +1148,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
         SrcDataPointsFile.write("\n");
 
-        for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
+        for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
-            for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+            for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPointsFile.
-                        write(table->item(i, j)->text().toAscii().data());
+                        write(m_table->item(i, j)->text().toAscii().data());
                 SrcDataPointsFile.
                         write(" ");
             }
@@ -1163,14 +1163,14 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         SrcDataPointsFile.close();
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-        if ( table->rowCount() == 0 ) {
+        if ( m_table->rowCount() == 0 ) {
 
             on_action_AddRow_activated();
         }
 
-        const QString filenamePowers = commpars->val_srcFileNameRedPwr();
+        const QString filenamePowers = m_commonParameters->val_srcFileNameRedPwr();
 
         QFile SrcDataPowersFile(filenamePowers);
 
@@ -1188,12 +1188,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
         SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
         SrcDataPowersFile.write("\n");
 
-        for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
+        for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
-            for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+            for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPowersFile.
-                        write(table->item(i, j)->text().toAscii().data());
+                        write(m_table->item(i, j)->text().toAscii().data());
                 SrcDataPowersFile.
                         write(" ");
             }
@@ -1232,32 +1232,32 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
             return;
         }
 
-        if ( table == ui->tableWidget_SrcDataEU0 ) {
+        if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
             SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
             SrcDataFile.write("\n");
         }
-        else if ( table == ui->tableWidget_SrcDataEU3 ) {
+        else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
             SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
             SrcDataFile.write("\n");
         }
-        else if ( table == ui->tableWidget_SrcDataPoints ) {
+        else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
             SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
             SrcDataFile.write("\n");
         }
-        else if ( table == ui->tableWidget_FullLoadCurve ) {
+        else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
             SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
             SrcDataFile.write("\n");
         }
 
-        for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
+        for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
-            for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+            for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-                SrcDataFile.write(table->item(i, j)->text().toAscii().data());
+                SrcDataFile.write(m_table->item(i, j)->text().toAscii().data());
                 SrcDataFile.write(" ");
             }
 
@@ -1270,7 +1270,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
 void MainWindow::on_action_LoadCalculationOptions_activated() {
 
-    const QString dir(commpars->val_reportsDirName());
+    const QString dir(m_commonParameters->val_reportsDirName());
 
     const QString anotherOptions(
                 QFileDialog::getOpenFileName(
@@ -1286,8 +1286,8 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
 
         try {
 
-            calcopts->readCalcConfigFile(anotherOptions);
-            calcopts->setCalcConfigFile("");
+            m_calculationOptions->readCalcConfigFile(anotherOptions);
+            m_calculationOptions->setCalcConfigFile("");
         }
         catch(const toxic::txError &toxerr) {
 
@@ -1295,15 +1295,15 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
             return;
         }
 
-        ui->comboBox_task->setCurrentIndex(calcopts->val_task());
-        ui->lineEdit_Vh->setText(QString::number(calcopts->val_Vh()));
-        ui->comboBox_standard->setCurrentIndex(calcopts->val_standard());
-        ui->comboBox_chargingType->setCurrentIndex(calcopts->val_chargingType());
-        ui->comboBox_FuelType->setCurrentIndex(calcopts->val_fuelType());
-        ui->comboBox_NOxSample->setCurrentIndex(calcopts->val_NOxSample());
-        ui->comboBox_PTcalc->setCurrentIndex(calcopts->val_PTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(calcopts->val_PTmass()));
-        ui->comboBox_AddPointsCalc->setCurrentIndex(calcopts->val_addPointsCalc());
+        ui->comboBox_task->setCurrentIndex(m_calculationOptions->val_task());
+        ui->lineEdit_Vh->setText(QString::number(m_calculationOptions->val_Vh()));
+        ui->comboBox_standard->setCurrentIndex(m_calculationOptions->val_standard());
+        ui->comboBox_chargingType->setCurrentIndex(m_calculationOptions->val_chargingType());
+        ui->comboBox_FuelType->setCurrentIndex(m_calculationOptions->val_fuelType());
+        ui->comboBox_NOxSample->setCurrentIndex(m_calculationOptions->val_NOxSample());
+        ui->comboBox_PTcalc->setCurrentIndex(m_calculationOptions->val_PTcalc());
+        ui->lineEdit_PTmass->setText(QString::number(m_calculationOptions->val_PTmass()));
+        ui->comboBox_AddPointsCalc->setCurrentIndex(m_calculationOptions->val_addPointsCalc());
 
         taskChanged(ui->comboBox_task->currentIndex());
         standardChanged(ui->comboBox_standard->currentIndex());
@@ -1378,7 +1378,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
              << "\n"
              << "calcConfigFile"
              << "="
-             << calcopts->val_calcConfigFile()
+             << m_calculationOptions->val_calcConfigFile()
              << "\n";
 
         savedOptions.close();
@@ -1387,7 +1387,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
 
 void MainWindow::on_action_OpenReport_activated() {
 
-    const QString dir(commpars->val_reportsDirName());
+    const QString dir(m_commonParameters->val_reportsDirName());
 
     const QString anotherReport(
                 QFileDialog::getOpenFileName(
@@ -1493,9 +1493,9 @@ void MainWindow::on_action_ReportToPDF_activated() {
     printer.setOutputFileName(newReportFileName);
     printer.setFontEmbeddingEnabled(true);
 
-    ui->plainTextEdit_Report->setFont(monospacedFont_8);
+    ui->plainTextEdit_Report->setFont(m_monospacedFont_8);
     ui->plainTextEdit_Report->print(&printer);
-    ui->plainTextEdit_Report->setFont(monospacedFont_10);
+    ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
 }
 
 void MainWindow::on_action_PrintReport_activated() {
@@ -1511,15 +1511,15 @@ void MainWindow::on_action_PrintReport_activated() {
 
     if ( printDialog.exec() == QDialog::Accepted ) {
 
-        ui->plainTextEdit_Report->setFont(monospacedFont_8);
+        ui->plainTextEdit_Report->setFont(m_monospacedFont_8);
         ui->plainTextEdit_Report->print(&printer);
-        ui->plainTextEdit_Report->setFont(monospacedFont_10);
+        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
     }
 }
 
 void MainWindow::on_action_PrintSelectedCells_activated() {
 
-    if ( table->selectedRanges().isEmpty() ) {
+    if ( m_table->selectedRanges().isEmpty() ) {
 
         QMessageBox::warning(
                     this,
@@ -1531,7 +1531,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
     //
 
-    QTableWidgetSelectionRange selectedRange = table->selectedRanges().first();
+    QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
 
     ptrdiff_t colnum = selectedRange.columnCount();
 
@@ -1552,7 +1552,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
     for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
-        pout << table->horizontalHeaderItem(selectedRange.leftColumn()+j)->
+        pout << m_table->horizontalHeaderItem(selectedRange.leftColumn()+j)->
                 text().split("\n").join(" ");
     }
 
@@ -1562,7 +1562,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
         for ( ptrdiff_t j=0; j<colnum; j++ ) {
 
-            pout << table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+            pout << m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                     text();
         }
 
@@ -1582,7 +1582,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 
         QPlainTextEdit pte;
         pte.setLineWrapMode(QPlainTextEdit::NoWrap);
-        pte.setFont(dejavusansmonoFont_10);
+        pte.setFont(m_dejavusansmonoFont_10);
         pte.insertPlainText(str);
         pte.print(&printer);
     }
@@ -1591,39 +1591,39 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
 void MainWindow::on_action_Preferences_activated() {
 
     QLineEdit *myLineEdit_filenameSourceEU3 =
-            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
     QLineEdit *myLineEdit_filenameSourceEU0 =
-            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
     QLineEdit *myLineEdit_filenamePoints =
-            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
     QLineEdit *myLineEdit_filenamePowers =
-            preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
     QLineEdit *myLineEdit_dirnameReports =
-            preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
     QDoubleSpinBox *myDoubleSpinBox_Dn =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
     QDoubleSpinBox *myDoubleSpinBox_ConcO2air =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
     QDoubleSpinBox *myDoubleSpinBox_Rr =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
     QDoubleSpinBox *myDoubleSpinBox_L0 =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
     QDoubleSpinBox *myDoubleSpinBox_L =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
     QDoubleSpinBox *myDoubleSpinBox_ConcCO2air =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
     QDoubleSpinBox *myDoubleSpinBox_WH =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
     QDoubleSpinBox *myDoubleSpinBox_WO2 =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
     QDoubleSpinBox *myDoubleSpinBox_WN =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
     QDoubleSpinBox *myDoubleSpinBox_muNO2 =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
     QDoubleSpinBox *myDoubleSpinBox_muCO =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
     QDoubleSpinBox *myDoubleSpinBox_muCH =
-            preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
 
     if ( !myLineEdit_filenameSourceEU3 ||
          !myLineEdit_filenameSourceEU0 ||
@@ -1655,27 +1655,27 @@ void MainWindow::on_action_Preferences_activated() {
 
     //
 
-    myLineEdit_filenameSourceEU3->setText(commpars->val_srcFileNameEU3());
-    myLineEdit_filenameSourceEU0->setText(commpars->val_srcFileNameEU0());
-    myLineEdit_filenamePoints->setText(commpars->val_srcFileNamePoints());
-    myLineEdit_filenamePowers->setText(commpars->val_srcFileNameRedPwr());
-    myLineEdit_dirnameReports->setText(commpars->val_reportsDirName());
-    myDoubleSpinBox_Dn->setValue(commpars->val_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(commpars->val_concO2air());
-    myDoubleSpinBox_Rr->setValue(commpars->val_Rr());
-    myDoubleSpinBox_L0->setValue(commpars->val_L0());
-    myDoubleSpinBox_L->setValue(commpars->val_L());
-    myDoubleSpinBox_ConcCO2air->setValue(commpars->val_concCO2air());
-    myDoubleSpinBox_WH->setValue(commpars->val_WH());
-    myDoubleSpinBox_WO2->setValue(commpars->val_WO2());
-    myDoubleSpinBox_WN->setValue(commpars->val_WN());
-    myDoubleSpinBox_muNO2->setValue(commpars->val_muNO2());
-    myDoubleSpinBox_muCO->setValue(commpars->val_muCO());
-    myDoubleSpinBox_muCH->setValue(commpars->val_muCH());
+    myLineEdit_filenameSourceEU3->setText(m_commonParameters->val_srcFileNameEU3());
+    myLineEdit_filenameSourceEU0->setText(m_commonParameters->val_srcFileNameEU0());
+    myLineEdit_filenamePoints->setText(m_commonParameters->val_srcFileNamePoints());
+    myLineEdit_filenamePowers->setText(m_commonParameters->val_srcFileNameRedPwr());
+    myLineEdit_dirnameReports->setText(m_commonParameters->val_reportsDirName());
+    myDoubleSpinBox_Dn->setValue(m_commonParameters->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(m_commonParameters->val_concO2air());
+    myDoubleSpinBox_Rr->setValue(m_commonParameters->val_Rr());
+    myDoubleSpinBox_L0->setValue(m_commonParameters->val_L0());
+    myDoubleSpinBox_L->setValue(m_commonParameters->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(m_commonParameters->val_concCO2air());
+    myDoubleSpinBox_WH->setValue(m_commonParameters->val_WH());
+    myDoubleSpinBox_WO2->setValue(m_commonParameters->val_WO2());
+    myDoubleSpinBox_WN->setValue(m_commonParameters->val_WN());
+    myDoubleSpinBox_muNO2->setValue(m_commonParameters->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(m_commonParameters->val_muCO());
+    myDoubleSpinBox_muCH->setValue(m_commonParameters->val_muCH());
 
     //
 
-    if ( preferencesDialog->exec() == QDialog::Accepted ) {
+    if ( m_preferencesDialog->exec() == QDialog::Accepted ) {
 
         readPreferences();
     }
@@ -1694,10 +1694,10 @@ void MainWindow::on_action_CutFromTable_activated() {
 
 void MainWindow::on_action_CopyFromTable_activated() {
 
-    if ( !table->selectedRanges().isEmpty() ) {
+    if ( !m_table->selectedRanges().isEmpty() ) {
 
         QTableWidgetSelectionRange selectedRange =
-                table->selectedRanges().first();
+                m_table->selectedRanges().first();
 
         QString str;
 
@@ -1705,7 +1705,7 @@ void MainWindow::on_action_CopyFromTable_activated() {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                str += table->item(selectedRange.topRow()+i,
+                str += m_table->item(selectedRange.topRow()+i,
                                    selectedRange.leftColumn()+j)->text();
 
                 if ( j != (selectedRange.columnCount()-1) ) {
@@ -1729,7 +1729,7 @@ void MainWindow::on_action_PasteToTable_activated() {
     const ptrdiff_t numRows = rows.count() - 1;
     const ptrdiff_t numColumns = rows.first().count('\t') + 1;
 
-    if ( (table->columnCount() - table->currentColumn()) < numColumns ) {
+    if ( (m_table->columnCount() - m_table->currentColumn()) < numColumns ) {
 
         QMessageBox::critical(
                     this,
@@ -1741,14 +1741,14 @@ void MainWindow::on_action_PasteToTable_activated() {
 
     //
 
-    const ptrdiff_t destRows = table->rowCount() - table->currentRow();
-    const ptrdiff_t totalRows = table->currentRow() + numRows;
+    const ptrdiff_t destRows = m_table->rowCount() - m_table->currentRow();
+    const ptrdiff_t totalRows = m_table->currentRow() + numRows;
 
     tableCellChangedConnect(false);
 
     if ( numRows > destRows ) {
 
-        addRows(table, totalRows);
+        addRows(m_table, totalRows);
     }
 
     //
@@ -1759,8 +1759,8 @@ void MainWindow::on_action_PasteToTable_activated() {
 
         for ( ptrdiff_t j=0; j<numColumns; j++ ) {
 
-            table->item(table->currentRow()+i,
-                        table->currentColumn()+j)->setText(columns[j]);
+            m_table->item(m_table->currentRow()+i,
+                        m_table->currentColumn()+j)->setText(columns[j]);
         }
     }
 
@@ -1771,10 +1771,10 @@ void MainWindow::on_action_PasteToTable_activated() {
 
 void MainWindow::on_action_DeleteFromTable_activated() {
 
-    if ( !table->selectedRanges().isEmpty() ) {
+    if ( !m_table->selectedRanges().isEmpty() ) {
 
         QTableWidgetSelectionRange selectedRange =
-                table->selectedRanges().first();
+                m_table->selectedRanges().first();
 
         tableCellChangedConnect(false);
 
@@ -1782,7 +1782,7 @@ void MainWindow::on_action_DeleteFromTable_activated() {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                table->item(selectedRange.topRow()+i,
+                m_table->item(selectedRange.topRow()+i,
                             selectedRange.leftColumn()+j)->setText("0");
             }
         }
@@ -1845,10 +1845,10 @@ void MainWindow::on_action_AddRow_activated() {
 
     tableCellChangedConnect(false);
 
-    if ( (table != ui->tableWidget_SrcDataEU0) &&
-         (table != ui->tableWidget_SrcDataEU3) ) {
+    if ( (m_table != ui->tableWidget_SrcDataEU0) &&
+         (m_table != ui->tableWidget_SrcDataEU3) ) {
 
-        addRows(table, table->rowCount()+1);
+        addRows(m_table, m_table->rowCount()+1);
     }
 
     tableCellChangedConnect(true);
@@ -1858,10 +1858,10 @@ void MainWindow::on_action_AddRow_activated() {
 
 void MainWindow::on_action_DeleteRow_activated() {
 
-    if ( (table != ui->tableWidget_SrcDataEU0) &&
-         (table != ui->tableWidget_SrcDataEU3) ) {
+    if ( (m_table != ui->tableWidget_SrcDataEU0) &&
+         (m_table != ui->tableWidget_SrcDataEU3) ) {
 
-        table->setRowCount(table->rowCount()-1);
+        m_table->setRowCount(m_table->rowCount()-1);
     }
 
     saveTableState();
@@ -1884,11 +1884,11 @@ void MainWindow::on_action_Execute_activated() {
     QVector< QVector<double> > array_DataForCalc;
     QVector<double> row;
 
-    for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
+    for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
-        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+        for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            row.push_back( table->item(i, j)->text().toDouble() );
+            row.push_back( m_table->item(i, j)->text().toDouble() );
         }
 
         array_DataForCalc.push_back(row);
@@ -1906,7 +1906,7 @@ void MainWindow::on_action_Execute_activated() {
         try {
 
             QSharedPointer<toxic::txPointsOfCycle>
-                    myPoints(new toxic::txPointsOfCycle(commpars, calcopts));
+                    myPoints(new toxic::txPointsOfCycle(m_commonParameters, m_calculationOptions));
 
             myPoints->setSourceData(array_DataForCalc);
             myPoints->calculate();
@@ -1921,7 +1921,7 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        const QString filenamePoints = commpars->val_srcFileNamePoints();
+        const QString filenamePoints = m_commonParameters->val_srcFileNamePoints();
 
         if ( QFile::exists(filenamePoints) ) {
 
@@ -1940,7 +1940,7 @@ void MainWindow::on_action_Execute_activated() {
 
             //
 
-            table = ui->tableWidget_SrcDataPoints;
+            m_table = ui->tableWidget_SrcDataPoints;
             saveTableState();
         }
         else {
@@ -1964,7 +1964,7 @@ void MainWindow::on_action_Execute_activated() {
         try {
 
             myEmissions = QSharedPointer<toxic::txEmissionsOnCycle>
-                    (new toxic::txEmissionsOnCycle(commpars, calcopts));
+                    (new toxic::txEmissionsOnCycle(m_commonParameters, m_calculationOptions));
 
             myEmissions->setSourceData(array_DataForCalc);
             myEmissions->calculate();
@@ -1991,17 +1991,17 @@ void MainWindow::on_action_Execute_activated() {
 
             //
 
-            lastReportsDir = myEmissions->lastReportDir();
+            m_lastReportsDir = myEmissions->lastReportDir();
 
             const QString csvfilter("*.dat");
-            QStringList csvfiles(lastReportsDir.entryList(
+            QStringList csvfiles(m_lastReportsDir.entryList(
                                      QDir::nameFiltersFromString(csvfilter),
                                      QDir::Files,
                                      QDir::Time)
                                  );
 
-            lastCheckoutDataFileName =
-                    lastReportsDir.absoluteFilePath(csvfiles.first());
+            m_lastCheckoutDataFileName =
+                    m_lastReportsDir.absoluteFilePath(csvfiles.first());
 
             //
 
@@ -2014,18 +2014,18 @@ void MainWindow::on_action_Execute_activated() {
                 ui->tabWidget_Data->setCurrentIndex(3);
 
                 const QString txtfilter("*.txt");
-                QStringList reports(lastReportsDir.entryList(
+                QStringList reports(m_lastReportsDir.entryList(
                                         QDir::nameFiltersFromString(txtfilter),
                                         QDir::Files,
                                         QDir::Time)
                                     );
 
-                lastReportFileName =
-                        lastReportsDir.absoluteFilePath(reports.first());
+                m_lastReportFileName =
+                        m_lastReportsDir.absoluteFilePath(reports.first());
 
-                ui->comboBox_OpenedReports->insertItem(0, lastReportFileName);
+                ui->comboBox_OpenedReports->insertItem(0, m_lastReportFileName);
                 ui->comboBox_OpenedReports->setCurrentIndex(0);
-                reportChanged(lastReportFileName);
+                reportChanged(m_lastReportFileName);
             }
         }
     }
@@ -2036,7 +2036,7 @@ void MainWindow::on_action_Execute_activated() {
         try {
 
             myReducedPower = QSharedPointer<toxic::txReducedPower>
-                    (new toxic::txReducedPower(commpars, calcopts));
+                    (new toxic::txReducedPower(m_commonParameters, m_calculationOptions));
 
             myReducedPower->setSourceData(array_DataForCalc);
             myReducedPower->calculate();
@@ -2051,17 +2051,17 @@ void MainWindow::on_action_Execute_activated() {
 
         //
 
-        lastReportsDir = myReducedPower->lastReportDir();
+        m_lastReportsDir = myReducedPower->lastReportDir();
 
         const QString csvfilter("*.dat");
-        QStringList csvfiles(lastReportsDir.entryList(
+        QStringList csvfiles(m_lastReportsDir.entryList(
                                  QDir::nameFiltersFromString(csvfilter),
                                  QDir::Files,
                                  QDir::Time)
                              );
 
-        lastCheckoutDataFileName =
-                lastReportsDir.absoluteFilePath(csvfiles.first());
+        m_lastCheckoutDataFileName =
+                m_lastReportsDir.absoluteFilePath(csvfiles.first());
     }
     else if ( ui->comboBox_task->currentIndex() == toxic::TASK_ABCSPEEDS ) {
 
@@ -2090,9 +2090,9 @@ void MainWindow::on_action_Execute_activated() {
 void MainWindow::on_action_CheckoutData_activated() {
 
     QPlainTextEdit *myPlainTextEdit_CheckoutData =
-            checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
+            m_checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
     QLineEdit *myLineEdit_file =
-            checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
+            m_checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
 
     if ( !myPlainTextEdit_CheckoutData ) {
 
@@ -2106,7 +2106,7 @@ void MainWindow::on_action_CheckoutData_activated() {
         return;
     }
 
-    QFile arrayFile(lastCheckoutDataFileName);
+    QFile arrayFile(m_lastCheckoutDataFileName);
     QString data;
 
     if ( arrayFile.open(QIODevice::ReadOnly) ) {
@@ -2122,9 +2122,9 @@ void MainWindow::on_action_CheckoutData_activated() {
     arrayFile.close();
 
     myPlainTextEdit_CheckoutData->setPlainText(data);
-    myLineEdit_file->setText(lastCheckoutDataFileName);
+    myLineEdit_file->setText(m_lastCheckoutDataFileName);
 
-    checkoutDataDialog->exec();
+    m_checkoutDataDialog->exec();
 }
 
 void MainWindow::on_action_UserManual_activated() {
@@ -2155,7 +2155,7 @@ void MainWindow::on_action_UserManual_activated() {
 
 void MainWindow::on_action_StandardsDescription_activated() {
 
-    helpDialog->exec();
+    m_helpDialog->exec();
 }
 
 void MainWindow::on_action_AboutQr49_activated() {
@@ -2206,15 +2206,15 @@ void MainWindow::on_action_AboutQt_activated() {
 
 void MainWindow::on_pushButton_EnterPTmass_clicked() {
 
-    if ( filterMassDialog->exec() == QDialog::Accepted ) {
+    if ( m_filterMassDialog->exec() == QDialog::Accepted ) {
 
-        QLineEdit *m1c = filterMassDialog->findChild<QLineEdit *>
+        QLineEdit *m1c = m_filterMassDialog->findChild<QLineEdit *>
                 ("lineEdit_1stFilterWeightClean");
-        QLineEdit *m1d = filterMassDialog->findChild<QLineEdit *>
+        QLineEdit *m1d = m_filterMassDialog->findChild<QLineEdit *>
                 ("lineEdit_1stFilterWeightDirty");
-        QLineEdit *m2c = filterMassDialog->findChild<QLineEdit *>
+        QLineEdit *m2c = m_filterMassDialog->findChild<QLineEdit *>
                 ("lineEdit_2ndFilterWeightClean");
-        QLineEdit *m2d = filterMassDialog->findChild<QLineEdit *>
+        QLineEdit *m2d = m_filterMassDialog->findChild<QLineEdit *>
                 ("lineEdit_2ndFilterWeightDirty");
 
         if ( (!m1c) || (!m1d) || (!m2c) || (!m2d) ) {
@@ -2285,14 +2285,14 @@ void MainWindow::taskChanged(const int currtask) {
             ui->tableWidget_SrcDataEU3->setEnabled(true);
             ui->tableWidget_SrcDataEU3->setFocus();
 
-            getUndoRedoCounters(table);
+            getUndoRedoCounters(m_table);
         }
         else {
 
             ui->tableWidget_SrcDataEU0->setEnabled(true);
             ui->tableWidget_SrcDataEU0->setFocus();
 
-            getUndoRedoCounters(table);
+            getUndoRedoCounters(m_table);
 
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
@@ -2365,7 +2365,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tableWidget_SrcDataPoints->setEnabled(true);
         ui->tableWidget_SrcDataPoints->setFocus();
 
-        getUndoRedoCounters(table);
+        getUndoRedoCounters(m_table);
 
         ui->tableWidget_FullLoadCurve->setEnabled(false);
 
@@ -2405,7 +2405,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tableWidget_FullLoadCurve->setEnabled(true);
         ui->tableWidget_FullLoadCurve->setFocus();
 
-        getUndoRedoCounters(table);
+        getUndoRedoCounters(m_table);
 
         ui->action_OpenReport->setEnabled(false);
         ui->action_SaveReportAs->setEnabled(false);
@@ -2451,7 +2451,7 @@ void MainWindow::standardChanged(const int currstd) {
             ui->tableWidget_SrcDataEU3->setEnabled(true);
             ui->tableWidget_SrcDataEU3->setFocus();
 
-            getUndoRedoCounters(table);
+            getUndoRedoCounters(m_table);
         }
     }
     else if ( (currstd == toxic::STD_C1) ||
@@ -2474,7 +2474,7 @@ void MainWindow::standardChanged(const int currstd) {
             ui->tableWidget_SrcDataEU0->setEnabled(true);
             ui->tableWidget_SrcDataEU0->setFocus();
 
-            getUndoRedoCounters(table);
+            getUndoRedoCounters(m_table);
 
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
@@ -2490,7 +2490,7 @@ void MainWindow::standardChanged(const int currstd) {
             ui->tableWidget_SrcDataEU0->setEnabled(true);
             ui->tableWidget_SrcDataEU0->setFocus();
 
-            getUndoRedoCounters(table);
+            getUndoRedoCounters(m_table);
 
             ui->tableWidget_SrcDataEU3->setEnabled(false);
         }
@@ -2570,7 +2570,7 @@ void MainWindow::tabChanged(const int tab) {
             taskChanged(ui->comboBox_task->currentIndex());
         }
 
-        if ( undoCount == 0 ) {
+        if ( m_undoCount == 0 ) {
 
             ui->action_UndoTable->setEnabled(false);
         }
@@ -2579,7 +2579,7 @@ void MainWindow::tabChanged(const int tab) {
             ui->action_UndoTable->setEnabled(true);
         }
 
-        if ( redoCount == 0 ) {
+        if ( m_redoCount == 0 ) {
 
             ui->action_RedoTable->setEnabled(false);
         }
@@ -2610,15 +2610,15 @@ void MainWindow::arithmeticOperationIsAvailable(const bool b) {
 
 void MainWindow::tableCellChanged(const int n, const int m) {
 
-    QString str = table->item(n, m)->text();
+    QString str = m_table->item(n, m)->text();
     int pos = 0;
 
-    if ( (regExpValidator->validate(str, pos) == QValidator::Invalid) ||
+    if ( (m_regExpValidator->validate(str, pos) == QValidator::Invalid) ||
          (str.isEmpty()) ) {
 
         QMessageBox::warning(this, "Qr49", tr("Illegal table cell value!"));
 
-        table->item(n, m)->setText("0");
+        m_table->item(n, m)->setText("0");
         return;
     }
 
@@ -2626,9 +2626,9 @@ void MainWindow::tableCellChanged(const int n, const int m) {
 
     //
 
-    if ( n != table->rowCount()-1 ) {
+    if ( n != m_table->rowCount()-1 ) {
 
-        table->setCurrentCell(n+1, m);
+        m_table->setCurrentCell(n+1, m);
     }
 }
 
@@ -2636,29 +2636,29 @@ void MainWindow::getUndoRedoCounters(QTableWidget *tbl) {
 
     if ( tbl == ui->tableWidget_SrcDataEU0 ) {
 
-        undoCount = undoRedo_TableEU0->undoTableNumber();
-        redoCount = undoRedo_TableEU0->redoTableNumber();
+        m_undoCount = m_undoRedo_TableEU0->undoTableNumber();
+        m_redoCount = m_undoRedo_TableEU0->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if ( tbl == ui->tableWidget_SrcDataEU3 ) {
 
-        undoCount = undoRedo_TableEU3->undoTableNumber();
-        redoCount = undoRedo_TableEU3->redoTableNumber();
+        m_undoCount = m_undoRedo_TableEU3->undoTableNumber();
+        m_redoCount = m_undoRedo_TableEU3->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if ( tbl == ui->tableWidget_SrcDataPoints ) {
 
-        undoCount = undoRedo_TablePoints->undoTableNumber();
-        redoCount = undoRedo_TablePoints->redoTableNumber();
+        m_undoCount = m_undoRedo_TablePoints->undoTableNumber();
+        m_redoCount = m_undoRedo_TablePoints->redoTableNumber();
 
         setUndoRedoButtonState();
     }
     else if ( tbl == ui->tableWidget_FullLoadCurve ) {
 
-        undoCount = undoRedo_TableFullLoadCurve->undoTableNumber();
-        redoCount = undoRedo_TableFullLoadCurve->redoTableNumber();
+        m_undoCount = m_undoRedo_TableFullLoadCurve->undoTableNumber();
+        m_redoCount = m_undoRedo_TableFullLoadCurve->redoTableNumber();
 
         setUndoRedoButtonState();
     }
@@ -2669,10 +2669,10 @@ void MainWindow::setUndoRedoButtonState() {
     QString ttUndo(tr("Undo"));
     QString ttRedo(tr("Redo"));
 
-    ttUndo += " (" + QString::number(undoCount) + ")";
-    ttRedo += " (" + QString::number(redoCount) + ")";
+    ttUndo += " (" + QString::number(m_undoCount) + ")";
+    ttRedo += " (" + QString::number(m_redoCount) + ")";
 
-    if ( undoCount < 1 ) {
+    if ( m_undoCount < 1 ) {
 
         ui->action_UndoTable->setEnabled(false);
         ui->action_UndoTable->setToolTip(ttUndo);
@@ -2683,7 +2683,7 @@ void MainWindow::setUndoRedoButtonState() {
         ui->action_UndoTable->setToolTip(ttUndo);
     }
 
-    if ( redoCount < 1 ) {
+    if ( m_redoCount < 1 ) {
 
         ui->action_RedoTable->setEnabled(false);
         ui->action_RedoTable->setToolTip(ttRedo);
@@ -2697,59 +2697,59 @@ void MainWindow::setUndoRedoButtonState() {
 
 void MainWindow::saveTableState() {
 
-    if ( table == ui->tableWidget_SrcDataEU0 ) {
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-        undoRedo_TableEU0->saveState();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU0->saveState();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataEU3 ) {
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-        undoRedo_TableEU3->saveState();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU3->saveState();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataPoints ) {
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-        undoRedo_TablePoints->saveState();
-        getUndoRedoCounters(table);
+        m_undoRedo_TablePoints->saveState();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-        undoRedo_TableFullLoadCurve->saveState();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableFullLoadCurve->saveState();
+        getUndoRedoCounters(m_table);
     }
 }
 
 void MainWindow::saveStateForAllTables() {
 
-    undoRedo_TableEU0->saveState();
-    undoRedo_TableEU3->saveState();
-    undoRedo_TablePoints->saveState();
-    undoRedo_TableFullLoadCurve->saveState();
+    m_undoRedo_TableEU0->saveState();
+    m_undoRedo_TableEU3->saveState();
+    m_undoRedo_TablePoints->saveState();
+    m_undoRedo_TableFullLoadCurve->saveState();
 }
 
 void MainWindow::on_action_UndoTable_activated() {
 
     tableCellChangedConnect(false);
 
-    if ( table == ui->tableWidget_SrcDataEU0 ) {
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-        undoRedo_TableEU0->undoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU0->undoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataEU3 ) {
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-        undoRedo_TableEU3->undoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU3->undoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataPoints ) {
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-        undoRedo_TablePoints->undoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TablePoints->undoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-        undoRedo_TableFullLoadCurve->undoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableFullLoadCurve->undoTable();
+        getUndoRedoCounters(m_table);
     }
 
     tableCellChangedConnect(true);
@@ -2759,25 +2759,25 @@ void MainWindow::on_action_RedoTable_activated() {
 
     tableCellChangedConnect(false);
 
-    if ( table == ui->tableWidget_SrcDataEU0 ) {
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-        undoRedo_TableEU0->redoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU0->redoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataEU3 ) {
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-        undoRedo_TableEU3->redoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableEU3->redoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_SrcDataPoints ) {
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-        undoRedo_TablePoints->redoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TablePoints->redoTable();
+        getUndoRedoCounters(m_table);
     }
-    else if ( table == ui->tableWidget_FullLoadCurve ) {
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-        undoRedo_TableFullLoadCurve->redoTable();
-        getUndoRedoCounters(table);
+        m_undoRedo_TableFullLoadCurve->redoTable();
+        getUndoRedoCounters(m_table);
     }
 
     tableCellChangedConnect(true);

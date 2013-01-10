@@ -45,9 +45,9 @@ private:
     UndoRedoTable(const UndoRedoTable &);
     UndoRedoTable & operator=(const UndoRedoTable &);
 
-    QTableWidget *table;
-    QVector< QVector< QVector<QString> > > data;
-    ptrdiff_t position;
+    QTableWidget *m_table;
+    QVector< QVector< QVector<QString> > > m_data;
+    ptrdiff_t m_position;
 
 };
 

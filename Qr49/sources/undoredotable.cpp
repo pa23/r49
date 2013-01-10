@@ -27,8 +27,8 @@
 #include <QTableWidget>
 
 UndoRedoTable::UndoRedoTable(QTableWidget *tbl) :
-    table(tbl),
-    position(-1) {
+    m_table(tbl),
+    m_position(-1) {
 }
 
 UndoRedoTable::~UndoRedoTable() {
@@ -36,75 +36,75 @@ UndoRedoTable::~UndoRedoTable() {
 
 void UndoRedoTable::saveState() {
 
-    if ( (data.count() - position) > 1 ) {
+    if ( (m_data.count() - m_position) > 1 ) {
 
-        for ( ptrdiff_t i=(data.count()-1); i>position; i-- ) {
+        for ( ptrdiff_t i=(m_data.count()-1); i>m_position; i-- ) {
 
-            data.remove(i);
+            m_data.remove(i);
         }
     }
 
     QVector<QString> row;
     QVector< QVector<QString> > matrix;
 
-    for ( ptrdiff_t i=0; i<table->rowCount(); i++ ) {
+    for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
-        for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+        for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            row.push_back(table->item(i, j)->text());
+            row.push_back(m_table->item(i, j)->text());
         }
 
         matrix.push_back(row);
         row.clear();
     }
 
-    data.push_back(matrix);
+    m_data.push_back(matrix);
     matrix.clear();
 
-    position++;
+    m_position++;
 }
 
 void UndoRedoTable::undoTable() {
 
-    position--;
+    m_position--;
 
-    if ( table->rowCount() < data[position].count() ) {
+    if ( m_table->rowCount() < m_data[m_position].count() ) {
 
-        addRows(table, data[position].count());
+        addRows(m_table, m_data[m_position].count());
     }
-    else if ( table->rowCount() > data[position].count() ) {
+    else if ( m_table->rowCount() > m_data[m_position].count() ) {
 
-        table->setRowCount(data[position].count());
+        m_table->setRowCount(m_data[m_position].count());
     }
 
-    for ( ptrdiff_t i=0; i<data[position].count(); i++ ) {
+    for ( ptrdiff_t i=0; i<m_data[m_position].count(); i++ ) {
 
-        for ( ptrdiff_t j=0; j<data[position][i].count(); j++ ) {
+        for ( ptrdiff_t j=0; j<m_data[m_position][i].count(); j++ ) {
 
-            table->item(i, j)->setText(data[position][i][j]);
+            m_table->item(i, j)->setText(m_data[m_position][i][j]);
         }
     }
 }
 
 void UndoRedoTable::redoTable() {
 
-    position++;
-    position++;
+    m_position++;
+    m_position++;
 
     undoTable();
 }
 
 ptrdiff_t UndoRedoTable::undoTableNumber() const {
 
-    return position;
+    return m_position;
 }
 
 ptrdiff_t UndoRedoTable::redoTableNumber() const {
 
-    return data.count() - position - 1;
+    return m_data.count() - m_position - 1;
 }
 
 void UndoRedoTable::freeMemory() {
 
-    data.clear();
+    m_data.clear();
 }

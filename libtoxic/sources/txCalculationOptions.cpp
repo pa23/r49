@@ -171,42 +171,42 @@ void txCalculationOptions::readCalcConfigFile(const QString &calcConfigFileName)
 
 QString txCalculationOptions::defStandardName(int val) const {
 
-    if      ( val == STD_EU6     ) { return "R49_Euro-6";         }
-    else if ( val == STD_EU5     ) { return "R49_Euro-5";         }
-    else if ( val == STD_EU4     ) { return "R49_Euro-4";         }
-    else if ( val == STD_EU3     ) { return "R49_Euro-3";         }
-    else if ( val == STD_EU2     ) { return "R49_Euro-2";         }
-    else if ( val == STD_EU1     ) { return "R49_Euro-1";         }
-    else if ( val == STD_EU0     ) { return "R49_Euro-0";         }
-    else if ( val == STD_OST3700123481     ) { return "OST_37.001.234-81";  }
-    else if ( val == STD_GOST17220597    ) { return "GOST_17.2.2.05-97";  }
-    else if ( val == STD_R96E8   ) { return "R96_E8";             }
-    else if ( val == STD_R96F8   ) { return "R96_F8";             }
-    else if ( val == STD_R96G8   ) { return "R96_G8";             }
-    else if ( val == STD_R96D8   ) { return "R96_D8";             }
-    else if ( val == STD_R96E5   ) { return "R96_E5";             }
-    else if ( val == STD_R96F5   ) { return "R96_F5";             }
-    else if ( val == STD_R96G5   ) { return "R96_G5";             }
-    else if ( val == STD_R96D5   ) { return "R96_D5";             }
-    else if ( val == STD_R96H8   ) { return "R96_H8";             }
-    else if ( val == STD_R96I8   ) { return "R96_I8";             }
-    else if ( val == STD_R96J8   ) { return "R96_J8";             }
-    else if ( val == STD_R96K8   ) { return "R96_K8";             }
-    else if ( val == STD_R96H5   ) { return "R96_H5";             }
-    else if ( val == STD_R96I5   ) { return "R96_I5";             }
-    else if ( val == STD_R96J5   ) { return "R96_J5";             }
-    else if ( val == STD_R96K5   ) { return "R96_K5";             }
-    else if ( val == STD_C1      ) { return "GOST_R_51249-99_C1"; }
-    else if ( val == STD_D1      ) { return "GOST_R_51249-99_D1"; }
-    else if ( val == STD_D2      ) { return "GOST_R_51249-99_D2"; }
-    else if ( val == STD_E1      ) { return "GOST_R_51249-99_E1"; }
-    else if ( val == STD_E2      ) { return "GOST_R_51249-99_E2"; }
-    else if ( val == STD_E3      ) { return "GOST_R_51249-99_E3"; }
-    else if ( val == STD_E5      ) { return "GOST_R_51249-99_E5"; }
-    else if ( val == STD_F       ) { return "GOST_R_51249-99_F";  }
-    else if ( val == STD_G1      ) { return "GOST_R_51249-99_G1"; }
-    else if ( val == STD_G2      ) { return "GOST_R_51249-99_G2"; }
-    else if ( val == STD_FREECALC) { return "Free_Calculation";   }
+    if      ( val == STD_EU6           ) { return "R49_Euro-6";         }
+    else if ( val == STD_EU5           ) { return "R49_Euro-5";         }
+    else if ( val == STD_EU4           ) { return "R49_Euro-4";         }
+    else if ( val == STD_EU3           ) { return "R49_Euro-3";         }
+    else if ( val == STD_EU2           ) { return "R49_Euro-2";         }
+    else if ( val == STD_EU1           ) { return "R49_Euro-1";         }
+    else if ( val == STD_EU0           ) { return "R49_Euro-0";         }
+    else if ( val == STD_OST3700123481 ) { return "OST_37.001.234-81";  }
+    else if ( val == STD_GOST17220597  ) { return "GOST_17.2.2.05-97";  }
+    else if ( val == STD_R96E8         ) { return "R96_E8";             }
+    else if ( val == STD_R96F8         ) { return "R96_F8";             }
+    else if ( val == STD_R96G8         ) { return "R96_G8";             }
+    else if ( val == STD_R96D8         ) { return "R96_D8";             }
+    else if ( val == STD_R96E5         ) { return "R96_E5";             }
+    else if ( val == STD_R96F5         ) { return "R96_F5";             }
+    else if ( val == STD_R96G5         ) { return "R96_G5";             }
+    else if ( val == STD_R96D5         ) { return "R96_D5";             }
+    else if ( val == STD_R96H8         ) { return "R96_H8";             }
+    else if ( val == STD_R96I8         ) { return "R96_I8";             }
+    else if ( val == STD_R96J8         ) { return "R96_J8";             }
+    else if ( val == STD_R96K8         ) { return "R96_K8";             }
+    else if ( val == STD_R96H5         ) { return "R96_H5";             }
+    else if ( val == STD_R96I5         ) { return "R96_I5";             }
+    else if ( val == STD_R96J5         ) { return "R96_J5";             }
+    else if ( val == STD_R96K5         ) { return "R96_K5";             }
+    else if ( val == STD_C1            ) { return "GOST_R_51249-99_C1"; }
+    else if ( val == STD_D1            ) { return "GOST_R_51249-99_D1"; }
+    else if ( val == STD_D2            ) { return "GOST_R_51249-99_D2"; }
+    else if ( val == STD_E1            ) { return "GOST_R_51249-99_E1"; }
+    else if ( val == STD_E2            ) { return "GOST_R_51249-99_E2"; }
+    else if ( val == STD_E3            ) { return "GOST_R_51249-99_E3"; }
+    else if ( val == STD_E5            ) { return "GOST_R_51249-99_E5"; }
+    else if ( val == STD_F             ) { return "GOST_R_51249-99_F";  }
+    else if ( val == STD_G1            ) { return "GOST_R_51249-99_G1"; }
+    else if ( val == STD_G2            ) { return "GOST_R_51249-99_G2"; }
+    else if ( val == STD_FREECALC      ) { return "Free_Calculation";   }
     else {
         throw txError("Unknown standard!");
     }

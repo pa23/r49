@@ -373,11 +373,11 @@ void txEmissionsOnR49R96::setupCalc() {
         m_gCHcalc = GCHCALC_YES;
     }
 
-    if ( zeroArray(ma_CCO2in) && zeroArray(ma_CCO2out) ) {
-        m_EGRcalc = EGRCALC_NO;
+    if ( !zeroArray(ma_CCO2in) && !zeroArray(ma_CCO2out) ) {
+        m_EGRcalc = EGRCALC_YES;
     }
     else {
-        m_EGRcalc = EGRCALC_YES;
+        m_EGRcalc = EGRCALC_NO;
     }
 
     if ( zeroArray(ma_CO2) ) {
@@ -391,7 +391,9 @@ void txEmissionsOnR49R96::setupCalc() {
 
     if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKE ||
           m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
-         currstd != STD_EU0 && currstd != STD_OST3700123481 && currstd != STD_GOST17220597 ) {
+         currstd != STD_EU0 &&
+         currstd != STD_OST3700123481 &&
+         currstd != STD_GOST17220597 ) {
 
         if ( zeroArray(ma_Pr) || zeroArray(ma_ts) ||
              ( zeroArray(ma_Ka1m) && zeroArray(ma_KaPerc) && zeroArray(ma_FSN) ) ) {
@@ -409,7 +411,9 @@ void txEmissionsOnR49R96::setupCalc() {
 
     if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHPTMASS ||
           m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
-         currstd != STD_EU0 && currstd != STD_OST3700123481 && currstd != STD_GOST17220597) {
+         currstd != STD_EU0 &&
+         currstd != STD_OST3700123481 &&
+         currstd != STD_GOST17220597) {
 
         if ( zeroArray(ma_tauf) || zeroArray(ma_qmdew) ||
              ( zeroArray(ma_qmdw) && zeroArray(ma_rd) ) ) {
@@ -911,9 +915,9 @@ void txEmissionsOnR49R96::calc_Means() {
     }
 
     m_geMean = summ_Gfuel / summ_Ne_netto * 1000.0;
-    m_t0Mean = summ_t0 / m_numberOfPoints;
-    m_B0Mean = summ_B0 / m_numberOfPoints;
-    m_RaMean = summ_Ra / m_numberOfPoints;
+    m_t0Mean = summ_t0 / n;
+    m_B0Mean = summ_B0 / n;
+    m_RaMean = summ_Ra / n;
 }
 
 QString txEmissionsOnR49R96::saveCheckoutData() const {
@@ -1644,19 +1648,19 @@ QString txEmissionsOnR49R96::saveReportPT() const {
     }
 
     if ( ptcalc == PTCALC_THROUGHSMOKE ) {
-        fout << "PT calc method based on smoke values;\n";
+        fout << "PT calc method based on smoke values";
     }
     else if ( ptcalc == PTCALC_THROUGHPTMASS ) {
         fout << qSetRealNumberPrecision(PRECISION+1);
         fout << "PT calc method based on PT mass (mf = "
              << m_calculationOptions->val_PTmass()
-             << " mg);\n";
+             << " mg)";
     }
     else if ( ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
         fout << qSetRealNumberPrecision(PRECISION+1);
         fout << "PT calc method based on PT mass (mf = "
              << m_calculationOptions->val_PTmass()
-             << " mg) and smoke values;\n";
+             << " mg) and smoke values";
     }
     else {
         fout << "PT emissions were not calculated";

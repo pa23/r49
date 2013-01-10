@@ -39,7 +39,7 @@ public:
 private:
 
     Ui::ValueDialog ui;
-    QDoubleValidator *doubleValidator;
+    QDoubleValidator *m_doubleValidator;
 
 };
 

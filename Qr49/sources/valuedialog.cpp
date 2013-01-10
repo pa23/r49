@@ -25,15 +25,15 @@
 
 ValueDialog::ValueDialog(QWidget *parent) :
     QDialog(parent),
-    doubleValidator(new QDoubleValidator()) {
+    m_doubleValidator(new QDoubleValidator()) {
 
     ui.setupUi(this);
-    doubleValidator->setDecimals(4);
+    m_doubleValidator->setDecimals(4);
 
-    ui.lineEdit_Value->setValidator(doubleValidator);
+    ui.lineEdit_Value->setValidator(m_doubleValidator);
 }
 
 ValueDialog::~ValueDialog() {
 
-    delete doubleValidator;
+    delete m_doubleValidator;
 }

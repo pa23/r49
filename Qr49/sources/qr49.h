@@ -65,30 +65,30 @@ private:
 
     Ui::MainWindow *ui;
 
-    QSettings qr49settings;
-    QMenu *contextMenu;
-    QTableWidget *table;
+    QSettings m_qr49settings;
+    QMenu *m_contextMenu;
+    QTableWidget *m_table;
 
-    FilterMassDialog *filterMassDialog;
-    ValueDialog *valueDialog;
-    PreferencesDialog *preferencesDialog;
-    CheckoutDataDialog *checkoutDataDialog;
-    HelpDialog *helpDialog;
-    DataImportDialog *dataImportDialog;
+    FilterMassDialog *m_filterMassDialog;
+    ValueDialog *m_valueDialog;
+    PreferencesDialog *m_preferencesDialog;
+    CheckoutDataDialog *m_checkoutDataDialog;
+    HelpDialog *m_helpDialog;
+    DataImportDialog *m_dataImportDialog;
 
-    QSharedPointer<toxic::txCalculationOptions> calcopts;
-    QSharedPointer<toxic::txCommonParameters> commpars;
+    QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
+    QSharedPointer<toxic::txCommonParameters> m_commonParameters;
 
-    QDoubleValidator *doubleValidator;
-    QRegExp regExp;
-    QRegExpValidator *regExpValidator;
+    QDoubleValidator *m_doubleValidator;
+    QRegExp m_regExp;
+    QRegExpValidator *m_regExpValidator;
 
-    QSharedPointer<UndoRedoTable> undoRedo_TableEU0;
-    QSharedPointer<UndoRedoTable> undoRedo_TableEU3;
-    QSharedPointer<UndoRedoTable> undoRedo_TablePoints;
-    QSharedPointer<UndoRedoTable> undoRedo_TableFullLoadCurve;
-    ptrdiff_t undoCount;
-    ptrdiff_t redoCount;
+    QSharedPointer<UndoRedoTable> m_undoRedo_TableEU0;
+    QSharedPointer<UndoRedoTable> m_undoRedo_TableEU3;
+    QSharedPointer<UndoRedoTable> m_undoRedo_TablePoints;
+    QSharedPointer<UndoRedoTable> m_undoRedo_TableFullLoadCurve;
+    ptrdiff_t m_undoCount;
+    ptrdiff_t m_redoCount;
 
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
@@ -110,12 +110,12 @@ private:
     void saveTableState();
     void saveStateForAllTables();
 
-    QDir lastReportsDir;
-    QString lastCheckoutDataFileName;
-    QString lastReportFileName;
-    QFont monospacedFont_8;
-    QFont monospacedFont_10;
-    QFont dejavusansmonoFont_10;
+    QDir m_lastReportsDir;
+    QString m_lastCheckoutDataFileName;
+    QString m_lastReportFileName;
+    QFont m_monospacedFont_8;
+    QFont m_monospacedFont_10;
+    QFont m_dejavusansmonoFont_10;
 
 private slots:
 

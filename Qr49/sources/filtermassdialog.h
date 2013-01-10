@@ -39,7 +39,7 @@ public:
 private:
 
     Ui::FilterMassDialog ui;
-    QDoubleValidator *doubleValidator;
+    QDoubleValidator *m_doubleValidator;
 
 };
 

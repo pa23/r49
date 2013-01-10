@@ -41,16 +41,25 @@
 using std::cout;
 using std::cin;
 
-void showAbout() {
+void showVersion() {
 
-    cout << "\n\t"
+    cout << "\n"
+         << "+------------------------------+\n"
+         << "|                              |\n"
+         << "| "
          << CR49INFO.toStdString()
          << ", "
          << toxic::toxicName.toStdString()
          << " v"
-         << toxic::toxicVersion.toStdString();
+         << toxic::toxicVersion.toStdString()
+         << " |\n"
+         << "|                              |\n"
+         << "+------------------------------+\n\n";
+}
 
-    cout << "\n\nCopyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>"
+void showAbout() {
+
+    cout << "Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>"
             "\n\nSource code hosting: https://github.com/pa23/r49\n"
             "Author's blog (RU): http://pa2311.blogspot.com\n\n"
             "This program is free software: you can redistribute "
@@ -221,6 +230,8 @@ void parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
 
 int main(int argc, char **argv) {
 
+    showVersion();
+
     if ( argc < 2 ) {
         showAbout();
         return 0;
@@ -233,7 +244,7 @@ int main(int argc, char **argv) {
         parsingParameters(calcopts, argc, argv);
     }
     catch(const toxic::txError &toxerr) {
-        cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+        cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
         return 1;
     }
 
@@ -244,17 +255,17 @@ int main(int argc, char **argv) {
         double n_hi = 0, n_lo = 0;
         double A = 0, B = 0, C = 0, a1 = 0, a2 = 0, a3 = 0, n_ref = 0;
 
-        cout << "\n" << "n_hi [min-1]: ";
+        cout << "n_hi [min-1]: ";
 
         if( !(cin >> n_hi) ) {
-            cout << "\ncr49 ERROR: Bad data!\n\n";
+            cout << "cr49 ERROR: Incorrect data!\n";
             return 1;
         }
 
         cout << "n_lo [min-1]: ";
 
         if( !(cin >> n_lo) ) {
-            cout << "\ncr49 ERROR: Bad data!\n\n";
+            cout << "cr49 ERROR: Incorrect data!\n";
             return 1;
         }
 
@@ -262,7 +273,7 @@ int main(int argc, char **argv) {
             toxic::ABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
         }
         catch(const toxic::txError &toxerr) {
-            cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+            cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
             return 1;
         }
 
@@ -272,7 +283,8 @@ int main(int argc, char **argv) {
         cout << "\na1   = " << a1;
         cout << "\na2   = " << a2;
         cout << "\na3   = " << a3;
-        cout << "\nnref = " << n_ref << "\n\n";
+        cout << "\nnref = " << n_ref
+             << "\n";
 
         return 0;
     }
@@ -291,7 +303,7 @@ int main(int argc, char **argv) {
         commpars->readConfigFile(CONFIGFILENAME);
     }
     catch(const toxic::txError &toxerr) {
-        cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+        cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
         return 1;
     }
 
@@ -305,7 +317,7 @@ int main(int argc, char **argv) {
             cout << myPoints->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
-            cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+            cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
             return 1;
         }
     }
@@ -320,7 +332,7 @@ int main(int argc, char **argv) {
             cout << "\n" << myEmissions->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
-            cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+            cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
             return 1;
         }
     }
@@ -334,12 +346,12 @@ int main(int argc, char **argv) {
             cout << myReducedPower->createReports().toStdString();
         }
         catch(const toxic::txError &toxerr) {
-            cout << "\n" << toxerr.val_toxicErrMsg().toStdString() << "\n";
+            cout << toxerr.val_toxicErrMsg().toStdString() << "\n";
             return 1;
         }
     }
     else {
-        cout << "\n" << "Incorrect values in an array of operands!\n";
+        cout << "Incorrect values in an array of operands!\n";
     }
 
     return 0;

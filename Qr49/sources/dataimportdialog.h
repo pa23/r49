@@ -51,20 +51,20 @@ private:
 
     Ui::DataImportDialog *ui;
 
-    QString delimiter;
-    ptrdiff_t headerLines;
-    QString dataFileName;
-    QString dataDirName;
-    ptrdiff_t table_lid;
-    QTableWidget *dtable;
-    QVector< QVector<double> > arrayImportedData;
-    QStringList headersImportedData;
-    QString templ;
-    bool destTableDataChanged;
-    QDir templdir;
-    ptrdiff_t sj;
-    ptrdiff_t dj;
-    bool manual;
+    QString m_delimiter;
+    ptrdiff_t m_headerLines;
+    QString m_dataFileName;
+    QString m_dataDirName;
+    ptrdiff_t m_table_lid;
+    QTableWidget *m_dtable;
+    QVector< QVector<double> > m_arrayImportedData;
+    QStringList m_headersImportedData;
+    QString m_templ;
+    bool m_destTableDataChanged;
+    QDir m_templdir;
+    ptrdiff_t m_sj;
+    ptrdiff_t m_dj;
+    bool m_manual;
 
     void updateTemplList();
 

@@ -42,17 +42,17 @@
 DataImportDialog::DataImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DataImportDialog),
-    delimiter("\t"),
-    headerLines(2),
-    dataDirName(QDir::currentPath()),
-    table_lid(0),
-    dtable(0),
-    templ(),
-    destTableDataChanged(false),
-    templdir(),
-    sj(0),
-    dj(0),
-    manual(true) {
+    m_delimiter("\t"),
+    m_headerLines(2),
+    m_dataDirName(QDir::currentPath()),
+    m_table_lid(0),
+    m_dtable(0),
+    m_templ(),
+    m_destTableDataChanged(false),
+    m_templdir(),
+    m_sj(0),
+    m_dj(0),
+    m_manual(true) {
 
     ui->setupUi(this);
 
@@ -80,8 +80,8 @@ DataImportDialog::~DataImportDialog() {
 void DataImportDialog::init(const ptrdiff_t tlid,
                             QTableWidget *dt) {
 
-    table_lid = tlid;
-    dtable = dt;
+    m_table_lid = tlid;
+    m_dtable = dt;
 
     combosUpdate(0);
 
@@ -96,11 +96,11 @@ void DataImportDialog::init(const ptrdiff_t tlid,
 
     if ( templdir1.exists() ) {
 
-        templdir = templdir1;
+        m_templdir = templdir1;
     }
     else if ( templdir2.exists() ) {
 
-        templdir = templdir2;
+        m_templdir = templdir2;
     }
     else {
 
@@ -119,11 +119,11 @@ void DataImportDialog::init(const ptrdiff_t tlid,
 
         if ( templdir1.mkdir(templdir1.absolutePath()) ) {
 
-            templdir = templdir1;
+            m_templdir = templdir1;
         }
         else if ( templdir2.mkdir(templdir2.absolutePath()) ) {
 
-            templdir = templdir2;
+            m_templdir = templdir2;
         }
         else {
 
@@ -141,7 +141,7 @@ void DataImportDialog::init(const ptrdiff_t tlid,
 
 void DataImportDialog::updateTemplList() {
 
-    const QStringList templfiles(templdir.entryList(QDir::Files, QDir::Time));
+    const QStringList templfiles(m_templdir.entryList(QDir::Files, QDir::Time));
 
     ui->comboBox_Templates->clear();
 
@@ -158,7 +158,7 @@ void DataImportDialog::updateTemplList() {
 
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
-    if ( !dtable ) {
+    if ( !m_dtable ) {
 
         QMessageBox::critical(
                     this,
@@ -169,20 +169,20 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
         return;
     }
 
-    dataFileName = QFileDialog::getOpenFileName(
+    m_dataFileName = QFileDialog::getOpenFileName(
                 this,
                 tr("Open Data File..."),
-                dataDirName,
+                m_dataDirName,
                 QString::fromAscii("Text files (*.txt);;"
                                    "Data files (*.dat);;"
                                    "All files (*.*)"));
 
-    QFileInfo fileInfo(dataFileName);
-    dataDirName = fileInfo.absolutePath();
+    QFileInfo fileInfo(m_dataFileName);
+    m_dataDirName = fileInfo.absolutePath();
 
-    if ( !dataFileName.isEmpty() ) {
+    if ( !m_dataFileName.isEmpty() ) {
 
-        ui->lineEdit_DataFile->setText(dataFileName);
+        ui->lineEdit_DataFile->setText(m_dataFileName);
     }
     else {
 
@@ -195,26 +195,26 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
 void DataImportDialog::on_pushButton_NextManual_clicked() {
 
-    const ptrdiff_t scount = arrayImportedData.count();
-    const ptrdiff_t dcount = dtable->rowCount();
+    const ptrdiff_t scount = m_arrayImportedData.count();
+    const ptrdiff_t dcount = m_dtable->rowCount();
 
     if ( scount > dcount ) {
 
-        addRows(dtable, scount);
+        addRows(m_dtable, scount);
     }
 
     ptrdiff_t tmp_sj = 0;
     ptrdiff_t tmp_dj = 0;
 
-    if ( manual ) {
+    if ( m_manual ) {
 
         tmp_sj = ui->comboBox_AnotherParameter->currentIndex();
         tmp_dj = ui->comboBox_r49parameter->currentIndex();
     }
     else {
 
-        tmp_sj = sj;
-        tmp_dj = dj;
+        tmp_sj = m_sj;
+        tmp_dj = m_dj;
 
         if ( tmp_sj > (ui->comboBox_AnotherParameter->count()-1) ||
              tmp_dj > (ui->comboBox_r49parameter->count()-1) ) {
@@ -232,9 +232,9 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     for (ptrdiff_t i=0; i<scount; i++) {
 
-        dtable->setCurrentCell(0, tmp_dj);
-        dtable->item(i, tmp_dj)->
-                setText(QString::number(arrayImportedData.at(i).at(tmp_sj)));
+        m_dtable->setCurrentCell(0, tmp_dj);
+        m_dtable->item(i, tmp_dj)->
+                setText(QString::number(m_arrayImportedData.at(i).at(tmp_sj)));
     }
 
     //
@@ -265,14 +265,14 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     //
 
-    templ += QString::number(tmp_dj) + " " + QString::number(tmp_sj) + "\n";
+    m_templ += QString::number(tmp_dj) + " " + QString::number(tmp_sj) + "\n";
 
-    destTableDataChanged = true;
+    m_destTableDataChanged = true;
 }
 
 void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
-    manual = false;
+    m_manual = false;
 
     QVector< QVector<double> > indexes;
 
@@ -281,7 +281,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
         QSharedPointer<toxic::txDataReader>
                 readerTemplData(new toxic::txDataReader());
 
-        readerTemplData->readFile(templdir.absolutePath()
+        readerTemplData->readFile(m_templdir.absolutePath()
                                   + QDir::separator()
                                   + ui->comboBox_Templates->currentText(),
                                   " ");
@@ -290,7 +290,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
     catch(const toxic::txError &toxerr) {
 
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
-        manual = true;
+        m_manual = true;
         return;
     }
 
@@ -303,7 +303,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
                     "Qr49",
                     tr("Template file is empty!")
                     );
-        manual = true;
+        m_manual = true;
         return;
     }
 
@@ -311,8 +311,8 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
         if ( indexes[i].size() == 2 ) {
 
-            dj = indexes[i][0];
-            sj = indexes[i][1];
+            m_dj = indexes[i][0];
+            m_sj = indexes[i][1];
 
             on_pushButton_NextManual_clicked();
         }
@@ -326,12 +326,12 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
         }
     }
 
-    manual = true;
+    m_manual = true;
 }
 
 void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
-    if ( templ.isEmpty() ) {
+    if ( m_templ.isEmpty() ) {
 
         QMessageBox::information(
                     this,
@@ -345,7 +345,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Template..."),
-                    templdir.absolutePath()
+                    m_templdir.absolutePath()
                     + QDir::separator()
                     + QDateTime::currentDateTime().
                     toString("dd-MM-yyyy_hh-mm-ss.txt"))
@@ -374,10 +374,10 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         return;
     }
 
-    savedTemplate.write(templ.toAscii());
+    savedTemplate.write(m_templ.toAscii());
     savedTemplate.close();
 
-    templ.clear();
+    m_templ.clear();
 
     updateTemplList();
 }
@@ -388,25 +388,25 @@ void DataImportDialog::combosUpdate(const QString &str) {
 
     //
 
-    templ.clear();
+    m_templ.clear();
 
     //
 
     if (ui->comboBox_delimiter->currentText() == "tab") {
 
-        delimiter = "\t";
+        m_delimiter = "\t";
     }
     else if (ui->comboBox_delimiter->currentText() == ";") {
 
-        delimiter = ";";
+        m_delimiter = ";";
     }
     else if (ui->comboBox_delimiter->currentText() == ",") {
 
-        delimiter = ",";
+        m_delimiter = ",";
     }
     else if (ui->comboBox_delimiter->currentText() == "space") {
 
-        delimiter = " ";
+        m_delimiter = " ";
     }
     else {
 
@@ -419,7 +419,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
         return;
     }
 
-    headerLines = ui->spinBox_HeaderLines->value();
+    m_headerLines = ui->spinBox_HeaderLines->value();
 
     //
 
@@ -435,7 +435,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
 
         try{
 
-            importedDataReader->readFile(dataFileName, delimiter);
+            importedDataReader->readFile(m_dataFileName, m_delimiter);
         }
         catch(const toxic::txError &toxerr) {
 
@@ -443,15 +443,15 @@ void DataImportDialog::combosUpdate(const QString &str) {
             return;
         }
 
-        arrayImportedData = importedDataReader->val_data();
-        headersImportedData = importedDataReader->val_headers();
+        m_arrayImportedData = importedDataReader->val_data();
+        m_headersImportedData = importedDataReader->val_headers();
 
-        if (table_lid == 2) {
+        if (m_table_lid == 2) {
 
             ui->comboBox_r49parameter->
                     addItems(toxic::SRCDATACAPTIONS_EMISSIONS);
         }
-        else if (table_lid == 3) {
+        else if (m_table_lid == 3) {
 
             ui->comboBox_r49parameter->
                     addItems(toxic::SRCDATACAPTIONS_REDPOWER);
@@ -464,17 +464,17 @@ void DataImportDialog::combosUpdate(const QString &str) {
                                   );
         }
 
-        ui->comboBox_AnotherParameter->addItems(headersImportedData);
+        ui->comboBox_AnotherParameter->addItems(m_headersImportedData);
     }
 }
 
 void DataImportDialog::on_pushButton_Close_clicked() {
 
-    templ.clear();
+    m_templ.clear();
 
-    if ( destTableDataChanged ) {
+    if ( m_destTableDataChanged ) {
 
-        destTableDataChanged = false;
+        m_destTableDataChanged = false;
 
         accept();
     }
