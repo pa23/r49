@@ -70,7 +70,7 @@ txEmissionsOnR49R96::txEmissionsOnR49R96(
     m_commonParameters = commpars;
     m_calculationOptions = calcopts;
 
-    if ( !m_calculationOptions->val_calcConfigFile().isEmpty() ) {
+    if ( m_calculationOptions->val_calcConfigFile() != "..." ) {
 
         m_calculationOptions->
                 readCalcConfigFile(m_calculationOptions->val_calcConfigFile());
@@ -424,11 +424,11 @@ void txEmissionsOnR49R96::setupCalc() {
                           "must contain nonzero data!");
         }
 
-        if ( zeroArray(ma_qmdw) ) {
-            m_qmdwORrd = QMDWORRD_RD;
-        }
-        else if ( zeroArray(ma_rd) ) {
+        if ( !zeroArray(ma_qmdw) ) {
             m_qmdwORrd = QMDWORRD_QMDW;
+        }
+        else if ( !zeroArray(ma_rd) ) {
+            m_qmdwORrd = QMDWORRD_RD;
         }
         else {
             throw txError("Arrays \"qmdw\" or \"rd\" must contain nonzero data!");

@@ -30,16 +30,16 @@
 namespace toxic {
 
 txCalculationOptions::txCalculationOptions() :
-    m_task           (TASK_EMISSIONS),
-    m_Vh             (0),
-    m_standard       (STD_EU4),
-    m_chargingType   (CHARGINGTYPE_GASTURBINE),
-    m_fuelType       (FUELTYPE_DIESEL),
-    m_NOxSample      (NOXSAMPLE_WET),
-    m_PTcalc         (PTCALC_NO),
-    m_PTmass         (0),
-    m_addPointsCalc  (ADDPOINTSCALC_NO),
-    m_calcConfigFile ("") {
+    m_task          (TASK_EMISSIONS),
+    m_Vh            (0),
+    m_standard      (STD_EU4),
+    m_chargingType  (CHARGINGTYPE_GASTURBINE),
+    m_fuelType      (FUELTYPE_DIESEL),
+    m_NOxSample     (NOXSAMPLE_WET),
+    m_PTcalc        (PTCALC_NO),
+    m_PTmass        (0),
+    m_addPointsCalc (ADDPOINTSCALC_NO),
+    m_calcConfigFile("...") {
 }
 
 void txCalculationOptions::setTask(int task_) {

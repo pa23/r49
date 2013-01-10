@@ -42,7 +42,7 @@ txReducedPower::txReducedPower(
     m_i_rated(0),
     m_N_fan_rated(0) {
 
-    if ( !m_calculationOptions->val_calcConfigFile().isEmpty() ) {
+    if ( m_calculationOptions->val_calcConfigFile() != "..." ) {
 
         m_calculationOptions->
                 readCalcConfigFile(m_calculationOptions->val_calcConfigFile());
