@@ -178,7 +178,7 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
 
         if ( !s.isEmpty() && !s.contains(rx) ) {
 
-            elements = s.split("=", QString::SkipEmptyParts);
+            elements = s.split("=");
 
             if ( elements[0] == "src_file_name_EU3" ) {
                 m_srcFileNameEU3 = elements[1];

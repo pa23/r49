@@ -1287,7 +1287,7 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
         try {
 
             m_calculationOptions->readCalcConfigFile(anotherOptions);
-            m_calculationOptions->setCalcConfigFile("...");
+            m_calculationOptions->setCalcConfigFile("");
         }
         catch(const toxic::txError &toxerr) {
 

@@ -38,8 +38,7 @@ txCalculationOptions::txCalculationOptions() :
     m_NOxSample     (NOXSAMPLE_WET),
     m_PTcalc        (PTCALC_NO),
     m_PTmass        (0),
-    m_addPointsCalc (ADDPOINTSCALC_NO),
-    m_calcConfigFile("...") {
+    m_addPointsCalc (ADDPOINTSCALC_NO) {
 }
 
 void txCalculationOptions::setTask(int task_) {
@@ -127,7 +126,7 @@ void txCalculationOptions::readCalcConfigFile(const QString &calcConfigFileName)
 
         if ( !s.isEmpty() ) {
 
-            elements = s.split("=", QString::SkipEmptyParts);
+            elements = s.split("=");
 
             if ( elements[0] == "task" ) {
                 m_task = defTask(elements[1]);

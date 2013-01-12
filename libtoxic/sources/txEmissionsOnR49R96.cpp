@@ -70,7 +70,7 @@ txEmissionsOnR49R96::txEmissionsOnR49R96(
     m_commonParameters = commpars;
     m_calculationOptions = calcopts;
 
-    if ( m_calculationOptions->val_calcConfigFile() != "..." ) {
+    if ( !m_calculationOptions->val_calcConfigFile().isEmpty() ) {
 
         m_calculationOptions->
                 readCalcConfigFile(m_calculationOptions->val_calcConfigFile());

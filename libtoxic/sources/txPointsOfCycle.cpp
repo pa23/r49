@@ -58,7 +58,7 @@ txPointsOfCycle::txPointsOfCycle(
     m_Ne_interim(0),
     m_Ne_rated(0) {
 
-    if ( m_calculationOptions->val_calcConfigFile() != "..." ) {
+    if ( !m_calculationOptions->val_calcConfigFile().isEmpty() ) {
 
         m_calculationOptions->
                 readCalcConfigFile(m_calculationOptions->val_calcConfigFile());
