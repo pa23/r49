@@ -52,7 +52,6 @@ private:
     Ui::DataImportDialog *ui;
 
     QString m_delimiter;
-    ptrdiff_t m_headerLines;
     QString m_dataFileName;
     QString m_dataDirName;
     ptrdiff_t m_table_lid;

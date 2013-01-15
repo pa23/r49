@@ -43,7 +43,6 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DataImportDialog),
     m_delimiter("\t"),
-    m_headerLines(2),
     m_dataDirName(QDir::currentPath()),
     m_table_lid(0),
     m_dtable(0),
@@ -58,11 +57,6 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
 
     connect(ui->comboBox_delimiter,
             SIGNAL(activated(const QString &)),
-            this,
-            SLOT(combosUpdate(const QString &)));
-
-    connect(ui->spinBox_HeaderLines,
-            SIGNAL(valueChanged(const QString &)),
             this,
             SLOT(combosUpdate(const QString &)));
 
@@ -419,8 +413,6 @@ void DataImportDialog::combosUpdate(const QString &str) {
         return;
     }
 
-    m_headerLines = ui->spinBox_HeaderLines->value();
-
     //
 
     ui->comboBox_r49parameter->clear();
@@ -464,7 +456,11 @@ void DataImportDialog::combosUpdate(const QString &str) {
                                   );
         }
 
-        ui->comboBox_AnotherParameter->addItems(m_headersImportedData);
+        if ( !m_headersImportedData.isEmpty() ) {
+
+            ui->comboBox_AnotherParameter->
+                    addItems(m_headersImportedData[0].split(m_delimiter));
+        }
     }
 }
 
