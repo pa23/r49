@@ -59,17 +59,17 @@ unix: {
 
 win32: {
     INCLUDEPATH += .. \
-        ..\\libtoxic\\sources
-    LIBS += -L..\\r49-bin\\win \
+        ../libtoxic/sources
+    LIBS += -L../r49-bin/win \
         -ltoxic7 \
         -Wl,-rpath,.
-    DESTDIR = ..\\r49-bin\\win
-    MOC_DIR = build\\win\\moc
-    RCC_DIR = build\\win\\rc
+    DESTDIR = ../r49-bin/win
+    MOC_DIR = build/win/moc
+    RCC_DIR = build/win/rc
     CONFIG (debug, debug|release) {
-        OBJECTS_DIR = build\\win\\debug
+        OBJECTS_DIR = build/win/debug
     }
     else {
-        OBJECTS_DIR = build\\win\\release
+        OBJECTS_DIR = build/win/release
     }
 }

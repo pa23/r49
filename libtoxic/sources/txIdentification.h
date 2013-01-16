@@ -27,7 +27,7 @@
 namespace toxic {
 
 const QString toxicName = "libtoxic";
-const QString toxicVersion = "7.0.0";
+const QString toxicVersion = "7.0.1";
 const QString toxicDescription =
         "Calculation of modes and specific emissions for "
         "stationary diesel engine test cycles.";

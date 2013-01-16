@@ -25,10 +25,10 @@ TARGET = toxic
 
 TEMPLATE = lib
 
-VERSION = 7.0.0
+VERSION = 7.0.1
 VER_MAJ = 7
 VER_MIN = 0
-VER_PAT = 0
+VER_PAT = 1
 
 HEADERS += \
     sources/txAuxiliaryFunctions.h \
@@ -77,12 +77,12 @@ unix: {
 }
 
 win32: {
-    DESTDIR = ..\\r49-bin\\win
-    RCC_DIR = build\\win\\rc
+    DESTDIR = ../r49-bin/win
+    RCC_DIR = build/win/rc
     CONFIG (debug, debug|release) {
-        OBJECTS_DIR = build\\win\\debug
+        OBJECTS_DIR = build/win/debug
     }
     else {
-        OBJECTS_DIR = build\\win\\release
+        OBJECTS_DIR = build/win/release
     }
 }

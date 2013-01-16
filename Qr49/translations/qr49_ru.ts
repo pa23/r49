@@ -70,10 +70,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Header lines</source>
-        <translation>Строк заголовков</translation>
-    </message>
-    <message>
         <source>&gt;&gt;</source>
         <translation></translation>
     </message>

@@ -90,19 +90,19 @@ unix: {
 
 win32: {
     INCLUDEPATH += .. \
-        ..\\libtoxic\\sources
-    LIBS += -L..\\r49-bin\\win \
+        ../libtoxic/sources
+    LIBS += -L../r49-bin/win \
         -ltoxic7 \
         -Wl,-rpath,.
-    DESTDIR = ..\\r49-bin\\win
-    MOC_DIR = build\\win\\moc
-    RCC_DIR = build\\win\\rc
-    UI_HEADERS_DIR = build\\win\\ui_h
+    DESTDIR = ../r49-bin/win
+    MOC_DIR = build/win/moc
+    RCC_DIR = build/win/rc
+    UI_HEADERS_DIR = build/win/ui_h
     CONFIG (debug, debug|release) {
-        OBJECTS_DIR = build\\win\\debug
+        OBJECTS_DIR = build/win/debug
     }
     else {
-        OBJECTS_DIR = build\\win\\release
+        OBJECTS_DIR = build/win/release
     }
 }
 
@@ -112,7 +112,7 @@ unix: {
     updateqm.commands = lrelease Qr49.pro && $(COPY) translations/*.qm ${DESTDIR}
 }
 win32: {
-    updateqm.commands = lrelease Qr49.pro && $(COPY) translations\\*.qm ${DESTDIR}
+    updateqm.commands = lrelease Qr49.pro && $(COPY) translations/*.qm ${DESTDIR}
 }
 updateqm.CONFIG += no_link target_predeps
 QMAKE_EXTRA_COMPILERS += updateqm

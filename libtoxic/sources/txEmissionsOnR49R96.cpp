@@ -389,49 +389,44 @@ void txEmissionsOnR49R96::setupCalc() {
 
     const int currstd = m_calculationOptions->val_standard();
 
-    if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKE ||
-          m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
+    if ( m_calculationOptions->val_PTcalc() != PTCALC_NO &&
          currstd != STD_EU0 &&
          currstd != STD_OST3700123481 &&
          currstd != STD_GOST17220597 ) {
 
-        if ( zeroArray(ma_Pr) || zeroArray(ma_ts) ||
-             ( zeroArray(ma_Ka1m) && zeroArray(ma_KaPerc) && zeroArray(ma_FSN) ) ) {
+        if ( m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKE ||
+             m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-            throw txError("Arrays \"Pr\", \"ts\" and any of the arrays "
-                          "\"Ka1m\", \"KaPerc\", \"FSN\" "
-                          "must contain nonzero data!");
+            if ( zeroArray(ma_Pr) || zeroArray(ma_ts) ||
+                 ( zeroArray(ma_Ka1m) && zeroArray(ma_KaPerc) && zeroArray(ma_FSN) ) ) {
+
+                throw txError("Arrays \"Pr\", \"ts\" and any of the arrays "
+                              "\"Ka1m\", \"KaPerc\", \"FSN\" "
+                              "must contain nonzero data!");
+            }
         }
 
-        m_gPTcalc = GPTCALC_YES;
-    }
-    else {
-        m_gPTcalc = GPTCALC_NO;
-    }
+        if ( m_calculationOptions->val_PTcalc() == PTCALC_THROUGHPTMASS ||
+             m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-    if ( (m_calculationOptions->val_PTcalc() == PTCALC_THROUGHPTMASS ||
-          m_calculationOptions->val_PTcalc() == PTCALC_THROUGHSMOKEANDPTMASS) &&
-         currstd != STD_EU0 &&
-         currstd != STD_OST3700123481 &&
-         currstd != STD_GOST17220597) {
+            if ( zeroArray(ma_tauf) || zeroArray(ma_qmdew) ||
+                 ( zeroArray(ma_qmdw) && zeroArray(ma_rd) ) ) {
 
-        if ( zeroArray(ma_tauf) || zeroArray(ma_qmdew) ||
-             ( zeroArray(ma_qmdw) && zeroArray(ma_rd) ) ) {
+                throw txError("Arrays \"tauf\", \"qmdew\" "
+                              "and any of the arrays "
+                              "\"qmdw\", \"rd\" "
+                              "must contain nonzero data!");
+            }
 
-            throw txError("Arrays \"tauf\", \"qmdew\" "
-                          "and any of the arrays "
-                          "\"qmdw\", \"rd\" "
-                          "must contain nonzero data!");
-        }
-
-        if ( !zeroArray(ma_qmdw) ) {
-            m_qmdwORrd = QMDWORRD_QMDW;
-        }
-        else if ( !zeroArray(ma_rd) ) {
-            m_qmdwORrd = QMDWORRD_RD;
-        }
-        else {
-            throw txError("Arrays \"qmdw\" or \"rd\" must contain nonzero data!");
+            if ( !zeroArray(ma_qmdw) ) {
+                m_qmdwORrd = QMDWORRD_QMDW;
+            }
+            else if ( !zeroArray(ma_rd) ) {
+                m_qmdwORrd = QMDWORRD_RD;
+            }
+            else {
+                throw txError("Arrays \"qmdw\" or \"rd\" must contain nonzero data!");
+            }
         }
 
         m_gPTcalc = GPTCALC_YES;
@@ -817,9 +812,6 @@ void txEmissionsOnR49R96::calc_gPT() {
 
     const int ptcalc = m_calculationOptions->val_PTcalc();
     const double mf = m_calculationOptions->val_PTmass();
-    if ( mf == 0 ) {
-        throw txError("Incorrect \"mf\" parameter!");
-    }
     const double L = m_commonParameters->val_L();
     const double Rr = m_commonParameters->val_Rr();
     double summ_Ne_netto = 0;
@@ -1022,7 +1014,7 @@ QString txEmissionsOnR49R96::saveCheckoutData() const {
         }
 
         if ( m_gPTcalc == GPTCALC_YES ) {
-            fout << ma_ror[i] << ma_CPT[i] << ma_mPT[i] << ma_gPT[i]
+            fout << ma_ror[i]   << ma_CPT[i] << ma_mPT[i] << ma_gPT[i]
                  << ma_qmedf[i] << ma_msepi[i];
         }
 
