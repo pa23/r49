@@ -591,9 +591,9 @@ QString txEmissionsOnGOST51249::saveReportGAS() const {
 
     const int currstd = m_calculationOptions->val_standard();
 
-    fout << toxicName
+    fout << toxicIdentification{}.name()
          << " version "
-         << toxicVersion
+         << toxicIdentification{}.version()
          << "    Report on cycle "
          << m_calculationOptions->defStandardName(currstd)
          << "    DateTime: "

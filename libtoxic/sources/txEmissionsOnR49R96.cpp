@@ -1060,9 +1060,9 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
     const int currstd = m_calculationOptions->val_standard();
     const int ptcalc = m_calculationOptions->val_PTcalc();
 
-    fout << toxicName
+    fout << toxicIdentification{}.name()
          << " version "
-         << toxicVersion
+         << toxicIdentification{}.version()
          << "    Report on cycle "
          << m_calculationOptions->defStandardName(currstd)
          << "    DateTime: "
@@ -1609,9 +1609,9 @@ QString txEmissionsOnR49R96::saveReportPT() const {
     const int currstd = m_calculationOptions->val_standard();
     const int ptcalc = m_calculationOptions->val_PTcalc();
 
-    fout << toxicName
+    fout << toxicIdentification{}.name()
          << " version "
-         << toxicVersion
+         << toxicIdentification{}.version()
          << "    Report on cycle "
          << m_calculationOptions->defStandardName(currstd)
          << "    DateTime: "

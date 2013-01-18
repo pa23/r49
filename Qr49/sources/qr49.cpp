@@ -2164,7 +2164,9 @@ void MainWindow::on_action_AboutQr49_activated() {
             "<b>"
             + QR49NAME + " v" + QR49VERSION
             + ", "
-            + toxic::toxicName + " v" + toxic::toxicVersion
+            + toxic::toxicIdentification{}.name()
+            + " v"
+            + toxic::toxicIdentification{}.version()
             + "</b><br><br>Date of build: "
             + QString(__DATE__)
             + "<br><br>Calculation of modes and specific emissions for "

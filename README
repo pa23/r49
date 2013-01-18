@@ -22,7 +22,8 @@ Dependences
 Compile and build
     1. download r49 source code from https://github.com/pa23/r49/tags
     2. unpack the archive
-    3. cd pa23-r49-*
-    4. qmake
-    5. make
+    3. go to r49* directory and run following commands:
+       qmake
+       make
+Binaries you can see in the directory "r49-bin".
 --------------------------------------------------------------------------------

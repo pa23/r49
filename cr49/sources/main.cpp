@@ -49,9 +49,9 @@ void showVersion() {
          << "| "
          << CR49INFO.toStdString()
          << ", "
-         << toxic::toxicName.toStdString()
+         << toxic::toxicIdentification{}.name().toStdString()
          << " v"
-         << toxic::toxicVersion.toStdString()
+         << toxic::toxicIdentification{}.version().toStdString()
          << " |\n"
          << "|                              |\n"
          << "+------------------------------+\n\n";
