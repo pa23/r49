@@ -1534,41 +1534,41 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
             fout << qSetFieldWidth(0)
                  << "\n";
         }
+    }
 
-        if ( m_gPTcalc == GPTCALC_YES ) {
+    if ( m_gPTcalc == GPTCALC_YES ) {
 
-            const double gPTLimit = PTLimit(currstd);
+        const double gPTLimit = PTLimit(currstd);
 
-            if ( ptcalc == PTCALC_THROUGHPTMASS ||
-                 ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+        if ( ptcalc == PTCALC_THROUGHPTMASS ||
+             ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
 
-                fout << qSetFieldWidth(COLUMNWIDTH-1+2);
-                fout << "gPT[g/kWh]";
-                fout << qSetFieldWidth(COLUMNWIDTH-1);
-                fout << gPTLimit
-                     << m_gPT;
+            fout << qSetFieldWidth(COLUMNWIDTH-1+2);
+            fout << "gPT[g/kWh]";
+            fout << qSetFieldWidth(COLUMNWIDTH-1);
+            fout << gPTLimit
+                 << m_gPT;
 
-                if ( m_gPT <= gPTLimit ) {
-                    fout << "OK";
-                }
-                else {
-                    fout << "failed";
-                }
-
-                fout << qSetFieldWidth(0)
-                     << "\n";
+            if ( m_gPT <= gPTLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "failed";
             }
 
-            if ( ptcalc == PTCALC_THROUGHSMOKE ||
-                 ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+            fout << qSetFieldWidth(0)
+                 << "\n";
+        }
 
-                fout << qSetFieldWidth(COLUMNWIDTH-1+2);
-                fout << "gPTs[g/kWh]";
-                fout << qSetFieldWidth(COLUMNWIDTH+COLUMNWIDTH-2);
-                fout << m_gPTs;
-                fout << qSetFieldWidth(0)
-                     << "\n";
-            }
+        if ( ptcalc == PTCALC_THROUGHSMOKE ||
+             ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+
+            fout << qSetFieldWidth(COLUMNWIDTH-1+2);
+            fout << "gPTs[g/kWh]";
+            fout << qSetFieldWidth(COLUMNWIDTH+COLUMNWIDTH-2);
+            fout << m_gPTs;
+            fout << qSetFieldWidth(0)
+                 << "\n";
         }
     }
 
