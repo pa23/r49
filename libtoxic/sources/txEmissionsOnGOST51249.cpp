@@ -807,7 +807,7 @@ QString txEmissionsOnGOST51249::saveReportGAS() const {
          << qSetRealNumberPrecision(PRECISION);
     fout << "Mean specific fuel consumption: "
          << m_geMean
-         << " g/kWh\n";
+         << " g/kWh";
 
     reportFile.close();
 

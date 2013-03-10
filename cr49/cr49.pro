@@ -28,10 +28,10 @@ CONFIG += console
 
 TEMPLATE = app
 
-VERSION = 1.2.0
+VERSION = 1.2.1
 VER_MAJ = 1
 VER_MIN = 2
-VER_PAT = 0
+VER_PAT = 1
 
 SOURCES += sources/main.cpp
 HEADERS += sources/constants.h

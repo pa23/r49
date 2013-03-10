@@ -33,9 +33,7 @@ int main(int argc, char **argv) {
     a.setApplicationName(QR49NAME);
     a.setApplicationVersion(QR49VERSION);
 
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
     QTranslator translator;
 

@@ -167,9 +167,9 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
                 this,
                 tr("Open Data File..."),
                 m_dataDirName,
-                QString::fromAscii("Text files (*.txt);;"
-                                   "Data files (*.dat);;"
-                                   "All files (*.*)"));
+                QString::fromLatin1("Text files (*.txt);;"
+                                    "Data files (*.dat);;"
+                                    "All files (*.*)"));
 
     QFileInfo fileInfo(m_dataFileName);
     m_dataDirName = fileInfo.absolutePath();
@@ -368,7 +368,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         return;
     }
 
-    savedTemplate.write(m_templ.toAscii());
+    savedTemplate.write(m_templ.toLatin1());
     savedTemplate.close();
 
     m_templ.clear();

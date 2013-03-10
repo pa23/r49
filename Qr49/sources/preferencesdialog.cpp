@@ -61,7 +61,7 @@ void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
                     this,
                     tr("Select file..."),
                     "noname.dat",
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -79,7 +79,7 @@ void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
                     this,
                     tr("Select file..."),
                     "noname.dat",
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -97,7 +97,7 @@ void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
                     this,
                     tr("Select file..."),
                     "noname.dat",
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -115,7 +115,7 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
                     this,
                     tr("Select file..."),
                     "noname.dat",
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );

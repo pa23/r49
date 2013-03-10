@@ -19,16 +19,13 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui
+QT += core gui widgets printsupport
 
 TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.4.3
-VER_MAJ = 3
-VER_MIN = 4
-VER_PAT = 3
+VERSION = 3.4.4
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
@@ -77,7 +74,7 @@ unix: {
     DESTDIR = ../r49-bin/unix
     MOC_DIR = build/unix/moc
     RCC_DIR = build/unix/rc
-    UI_HEADERS_DIR = build/unix/ui_h
+    UI_DIR = build/unix/ui_h
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/unix/debug
     }
@@ -97,7 +94,7 @@ win32: {
     DESTDIR = ../r49-bin/win
     MOC_DIR = build/win/moc
     RCC_DIR = build/win/rc
-    UI_HEADERS_DIR = build/win/ui_h
+    UI_DIR = build/win/ui_h
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/win/debug
     }

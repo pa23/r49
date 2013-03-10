@@ -39,7 +39,7 @@
       <item>
        <widget class="QTabWidget" name="tabWidget_Data">
         <property name="currentIndex">
-         <number>1</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="tab_cycPointsCalc">
          <attribute name="title">
@@ -782,8 +782,8 @@
            <widget class="QPlainTextEdit" name="plainTextEdit_Report">
             <property name="font">
              <font>
-              <family>Liberation Mono</family>
-              <pointsize>8</pointsize>
+              <family>DejaVu Sans Mono</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="lineWrapMode">
@@ -805,7 +805,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -959,8 +959,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>312</width>
-          <height>241</height>
+          <width>306</width>
+          <height>239</height>
          </rect>
         </property>
         <attribute name="label">
@@ -980,8 +980,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>294</width>
-              <height>554</height>
+              <width>288</width>
+              <height>542</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1488,8 +1488,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>180</width>
-          <height>245</height>
+          <width>162</width>
+          <height>249</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1717,8 +1717,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>245</width>
-          <height>173</height>
+          <width>224</width>
+          <height>181</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1856,8 +1856,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>233</width>
-          <height>140</height>
+          <width>212</width>
+          <height>146</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1980,8 +1980,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>147</width>
-          <height>117</height>
+          <width>133</width>
+          <height>123</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2501,14 +2501,6 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="action_CheckForUpdates">
-   <property name="text">
-    <string>Check for updates...</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
   <action name="action_DataImport">
    <property name="icon">
     <iconset resource="qr49.qrc">
@@ -2548,7 +2540,6 @@
  <tabstops>
   <tabstop>tableWidget_SrcDataPoints</tabstop>
   <tabstop>comboBox_OpenedReports</tabstop>
-  <tabstop>plainTextEdit_Report</tabstop>
   <tabstop>tableWidget_SrcDataEU0</tabstop>
   <tabstop>tableWidget_SrcDataEU3</tabstop>
   <tabstop>tableWidget_FullLoadCurve</tabstop>
@@ -2559,7 +2550,7 @@
  <connections>
   <connection>
    <sender>action_Quit</sender>
-   <signal>activated()</signal>
+   <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
    <hints>

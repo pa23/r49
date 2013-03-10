@@ -145,14 +145,14 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
 
         if ( cfgFile1.open(QIODevice::WriteOnly) ) {
 
-            cfgFile1.write(myPreferences.toAscii());
+            cfgFile1.write(myPreferences.toLatin1());
             cfgFile1.close();
 
             cfgFile.setFileName(cfgFile1.fileName());
         }
         else if ( cfgFile2.open(QIODevice::WriteOnly) ) {
 
-            cfgFile2.write(myPreferences.toAscii());
+            cfgFile2.write(myPreferences.toLatin1());
             cfgFile2.close();
 
             cfgFile.setFileName(cfgFile2.fileName());

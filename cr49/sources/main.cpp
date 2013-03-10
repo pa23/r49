@@ -151,7 +151,7 @@ void parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
 
     for ( ptrdiff_t i=1; i<argc; i++ ) {
 
-        str = QString::fromAscii(argv[i]);
+        str = QString::fromLatin1(argv[i]);
 
         if ( str == "--help" ) {
             calcopts->setTask(toxic::TASK_HELP);

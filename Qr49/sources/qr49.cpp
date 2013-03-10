@@ -47,6 +47,7 @@
 #include <QFile>
 #include <QDir>
 #include <QStringList>
+#include <QTextDocument>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QFileDialog>
@@ -227,7 +228,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        QString::fromAscii(Q_FUNC_INFO)
+                        QString::fromLatin1(Q_FUNC_INFO)
                         + ":::"
                         + tr("Child object not found!")
                         );
@@ -330,16 +331,16 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {
 
     m_table = ui->tableWidget_SrcDataEU0;
-    on_action_SaveSourceData_activated();
+    on_action_SaveSourceData_triggered();
 
     m_table = ui->tableWidget_SrcDataEU3;
-    on_action_SaveSourceData_activated();
+    on_action_SaveSourceData_triggered();
 
     m_table = ui->tableWidget_SrcDataPoints;
-    on_action_SaveSourceData_activated();
+    on_action_SaveSourceData_triggered();
 
     m_table = ui->tableWidget_FullLoadCurve;
-    on_action_SaveSourceData_activated();
+    on_action_SaveSourceData_triggered();
 
     writeProgramSettings();
 
@@ -823,7 +824,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    QString::fromAscii(Q_FUNC_INFO)
+                    QString::fromLatin1(Q_FUNC_INFO)
                     + ":::"
                     + tr("Child object not found!")
                     );
@@ -924,7 +925,7 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
     return true;
 }
 
-void MainWindow::on_action_DataImport_activated() {
+void MainWindow::on_action_DataImport_triggered() {
 
     if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
@@ -957,7 +958,7 @@ void MainWindow::on_action_DataImport_activated() {
     }
 }
 
-void MainWindow::on_action_LoadSourceData_activated() {
+void MainWindow::on_action_LoadSourceData_triggered() {
 
     const QString dir(m_commonParameters->val_reportsDirName());
 
@@ -966,7 +967,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
                     this,
                     tr("Open Source Data File..."),
                     dir,
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1061,7 +1062,7 @@ void MainWindow::on_action_LoadSourceData_activated() {
     }
 }
 
-void MainWindow::on_action_SaveSourceData_activated() {
+void MainWindow::on_action_SaveSourceData_triggered() {
 
     if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
@@ -1080,12 +1081,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
+        SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toLatin1().data());
         SrcDataEU0File.write("\n");
 
         for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU0File.write(m_table->item(0, j)->text().toAscii().data());
+            SrcDataEU0File.write(m_table->item(0, j)->text().toLatin1().data());
             SrcDataEU0File.write(" ");
         }
 
@@ -1110,12 +1111,12 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
+        SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toLatin1().data());
         SrcDataEU3File.write("\n");
 
         for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU3File.write(m_table->item(0, j)->text().toAscii().data());
+            SrcDataEU3File.write(m_table->item(0, j)->text().toLatin1().data());
             SrcDataEU3File.write(" ");
         }
 
@@ -1127,7 +1128,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( m_table->rowCount() == 0 ) {
 
-            on_action_AddRow_activated();
+            on_action_AddRow_triggered();
         }
 
         const QString filenamePoints = m_commonParameters->val_srcFileNamePoints();
@@ -1145,7 +1146,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
+        SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toLatin1().data());
         SrcDataPointsFile.write("\n");
 
         for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
@@ -1153,7 +1154,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPointsFile.
-                        write(m_table->item(i, j)->text().toAscii().data());
+                        write(m_table->item(i, j)->text().toLatin1().data());
                 SrcDataPointsFile.
                         write(" ");
             }
@@ -1167,7 +1168,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
 
         if ( m_table->rowCount() == 0 ) {
 
-            on_action_AddRow_activated();
+            on_action_AddRow_triggered();
         }
 
         const QString filenamePowers = m_commonParameters->val_srcFileNameRedPwr();
@@ -1185,7 +1186,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             return;
         }
 
-        SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
+        SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toLatin1().data());
         SrcDataPowersFile.write("\n");
 
         for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
@@ -1193,7 +1194,7 @@ void MainWindow::on_action_SaveSourceData_activated() {
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPowersFile.
-                        write(m_table->item(i, j)->text().toAscii().data());
+                        write(m_table->item(i, j)->text().toLatin1().data());
                 SrcDataPowersFile.
                         write(" ");
             }
@@ -1205,14 +1206,14 @@ void MainWindow::on_action_SaveSourceData_activated() {
     }
 }
 
-void MainWindow::on_action_SaveSourceDataAs_activated() {
+void MainWindow::on_action_SaveSourceDataAs_triggered() {
 
     const QString newSourceDataFileName(
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Source Data File As..."),
                     "noname.dat",
-                    QString::fromAscii("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1234,22 +1235,22 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
         if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toAscii().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toLatin1().data());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toAscii().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toLatin1().data());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toAscii().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toLatin1().data());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toAscii().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toLatin1().data());
             SrcDataFile.write("\n");
         }
 
@@ -1257,7 +1258,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
 
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-                SrcDataFile.write(m_table->item(i, j)->text().toAscii().data());
+                SrcDataFile.write(m_table->item(i, j)->text().toLatin1().data());
                 SrcDataFile.write(" ");
             }
 
@@ -1268,7 +1269,7 @@ void MainWindow::on_action_SaveSourceDataAs_activated() {
     }
 }
 
-void MainWindow::on_action_LoadCalculationOptions_activated() {
+void MainWindow::on_action_LoadCalculationOptions_triggered() {
 
     const QString dir(m_commonParameters->val_reportsDirName());
 
@@ -1277,7 +1278,7 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
                     this,
                     tr("Open Calculation Options File..."),
                     dir,
-                    QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                    QString::fromLatin1("Config files (*.conf);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1311,14 +1312,14 @@ void MainWindow::on_action_LoadCalculationOptions_activated() {
     }
 }
 
-void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
+void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
 
     const QString optionsFileName(
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Options..."),
                     "noname.conf",
-                    QString::fromAscii("Config files (*.conf);;All files (*.*)"),
+                    QString::fromLatin1("Config files (*.conf);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1385,7 +1386,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_activated() {
     }
 }
 
-void MainWindow::on_action_OpenReport_activated() {
+void MainWindow::on_action_OpenReport_triggered() {
 
     const QString dir(m_commonParameters->val_reportsDirName());
 
@@ -1394,7 +1395,7 @@ void MainWindow::on_action_OpenReport_activated() {
                     this,
                     tr("Open Report..."),
                     dir,
-                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    QString::fromLatin1("Text files (*.txt);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1408,14 +1409,14 @@ void MainWindow::on_action_OpenReport_activated() {
     }
 }
 
-void MainWindow::on_action_SaveReportAs_activated() {
+void MainWindow::on_action_SaveReportAs_triggered() {
 
     const QString newReportFileName(
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save Report As..."),
                     ui->comboBox_OpenedReports->currentText(),
-                    QString::fromAscii("Text files (*.txt);;All files (*.*)"),
+                    QString::fromLatin1("Text files (*.txt);;All files (*.*)"),
                     0,
                     0)
                 );
@@ -1449,7 +1450,7 @@ void MainWindow::on_action_SaveReportAs_activated() {
     }
 }
 
-void MainWindow::on_action_CloseReport_activated() {
+void MainWindow::on_action_CloseReport_triggered() {
 
     if ( ui->comboBox_OpenedReports->count() != 1 ) {
 
@@ -1461,7 +1462,7 @@ void MainWindow::on_action_CloseReport_activated() {
     ui->tabWidget_Data->setCurrentIndex(3);
 }
 
-void MainWindow::on_action_ReportToPDF_activated() {
+void MainWindow::on_action_ReportToPDF_triggered() {
 
     if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
 
@@ -1480,44 +1481,46 @@ void MainWindow::on_action_ReportToPDF_activated() {
                     this,
                     tr("Export Report to PDF..."),
                     filename,
-                    QString::fromAscii("PDF files (*.pdf);;All files (*.*)"),
+                    QString::fromLatin1("PDF files (*.pdf);;All files (*.*)"),
                     0,
                     0)
                 );
 
     QPrinter printer;
-
+    printer.setPaperSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(20, 20, 10, 10, QPrinter::Millimeter);
+    printer.setPageMargins(15, 15, 15, 15, QPrinter::Millimeter);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(newReportFileName);
     printer.setFontEmbeddingEnabled(true);
 
-    ui->plainTextEdit_Report->setFont(m_monospacedFont_8);
-    ui->plainTextEdit_Report->print(&printer);
-    ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
+    QTextDocument txtDoc;
+    txtDoc.setDefaultFont(m_monospacedFont_8);
+    txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
+    txtDoc.setPlainText(ui->plainTextEdit_Report->toPlainText());
+    txtDoc.print(&printer);
 }
 
-void MainWindow::on_action_PrintReport_activated() {
+void MainWindow::on_action_PrintReport_triggered() {
 
     QPrinter printer;
-
+    printer.setPaperSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(20, 20, 10, 10, QPrinter::Millimeter);
-    //	printer.setPrintRange(QPrinter::PageRange);
-    //	printer.setFromTo(1, 1);
+    printer.setPageMargins(15, 15, 15, 15, QPrinter::Millimeter);
 
     QPrintDialog printDialog(&printer, this);
 
     if ( printDialog.exec() == QDialog::Accepted ) {
 
-        ui->plainTextEdit_Report->setFont(m_monospacedFont_8);
-        ui->plainTextEdit_Report->print(&printer);
-        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
+        QTextDocument txtDoc;
+        txtDoc.setDefaultFont(m_monospacedFont_8);
+        txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
+        txtDoc.setPlainText(ui->plainTextEdit_Report->toPlainText());
+        txtDoc.print(&printer);
     }
 }
 
-void MainWindow::on_action_PrintSelectedCells_activated() {
+void MainWindow::on_action_PrintSelectedCells_triggered() {
 
     if ( m_table->selectedRanges().isEmpty() ) {
 
@@ -1588,7 +1591,7 @@ void MainWindow::on_action_PrintSelectedCells_activated() {
     }
 }
 
-void MainWindow::on_action_Preferences_activated() {
+void MainWindow::on_action_Preferences_triggered() {
 
     QLineEdit *myLineEdit_filenameSourceEU3 =
             m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
@@ -1646,7 +1649,7 @@ void MainWindow::on_action_Preferences_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    QString::fromAscii(Q_FUNC_INFO)
+                    QString::fromLatin1(Q_FUNC_INFO)
                     + ":::"
                     + tr("Child object not found!")
                     );
@@ -1681,18 +1684,18 @@ void MainWindow::on_action_Preferences_activated() {
     }
 }
 
-void MainWindow::on_action_Quit_activated() {
+void MainWindow::on_action_Quit_triggered() {
 
     close();
 }
 
-void MainWindow::on_action_CutFromTable_activated() {
+void MainWindow::on_action_CutFromTable_triggered() {
 
-    on_action_CopyFromTable_activated();
-    on_action_DeleteFromTable_activated();
+    on_action_CopyFromTable_triggered();
+    on_action_DeleteFromTable_triggered();
 }
 
-void MainWindow::on_action_CopyFromTable_activated() {
+void MainWindow::on_action_CopyFromTable_triggered() {
 
     if ( !m_table->selectedRanges().isEmpty() ) {
 
@@ -1721,7 +1724,7 @@ void MainWindow::on_action_CopyFromTable_activated() {
     }
 }
 
-void MainWindow::on_action_PasteToTable_activated() {
+void MainWindow::on_action_PasteToTable_triggered() {
 
     const QString str = QApplication::clipboard()->text();
     QStringList rows = str.split('\n');
@@ -1769,7 +1772,7 @@ void MainWindow::on_action_PasteToTable_activated() {
     saveTableState();
 }
 
-void MainWindow::on_action_DeleteFromTable_activated() {
+void MainWindow::on_action_DeleteFromTable_triggered() {
 
     if ( !m_table->selectedRanges().isEmpty() ) {
 
@@ -1793,7 +1796,7 @@ void MainWindow::on_action_DeleteFromTable_activated() {
     }
 }
 
-void MainWindow::on_action_Add_activated() {
+void MainWindow::on_action_Add_triggered() {
 
     if ( !arithmeticOperation("add") ) {
 
@@ -1805,7 +1808,7 @@ void MainWindow::on_action_Add_activated() {
     }
 }
 
-void MainWindow::on_action_Multiply_activated() {
+void MainWindow::on_action_Multiply_triggered() {
 
     if ( !arithmeticOperation("multiply") ) {
 
@@ -1817,7 +1820,7 @@ void MainWindow::on_action_Multiply_activated() {
     }
 }
 
-void MainWindow::on_action_Divide_activated() {
+void MainWindow::on_action_Divide_triggered() {
 
     if ( !arithmeticOperation("divide") ) {
 
@@ -1829,7 +1832,7 @@ void MainWindow::on_action_Divide_activated() {
     }
 }
 
-void MainWindow::on_action_Equal_activated() {
+void MainWindow::on_action_Equal_triggered() {
 
     if ( !arithmeticOperation("equal") ) {
 
@@ -1841,7 +1844,7 @@ void MainWindow::on_action_Equal_activated() {
     }
 }
 
-void MainWindow::on_action_AddRow_activated() {
+void MainWindow::on_action_AddRow_triggered() {
 
     tableCellChangedConnect(false);
 
@@ -1856,7 +1859,7 @@ void MainWindow::on_action_AddRow_activated() {
     saveTableState();
 }
 
-void MainWindow::on_action_DeleteRow_activated() {
+void MainWindow::on_action_DeleteRow_triggered() {
 
     if ( (m_table != ui->tableWidget_SrcDataEU0) &&
          (m_table != ui->tableWidget_SrcDataEU3) ) {
@@ -1867,7 +1870,7 @@ void MainWindow::on_action_DeleteRow_activated() {
     saveTableState();
 }
 
-void MainWindow::on_action_Toolbar_activated() {
+void MainWindow::on_action_Toolbar_triggered() {
 
     if ( ui->action_Toolbar->isChecked() ) {
 
@@ -1879,7 +1882,7 @@ void MainWindow::on_action_Toolbar_activated() {
     }
 }
 
-void MainWindow::on_action_Execute_activated() {
+void MainWindow::on_action_Execute_triggered() {
 
     QVector< QVector<double> > array_DataForCalc;
     QVector<double> row;
@@ -2083,11 +2086,11 @@ void MainWindow::on_action_Execute_activated() {
     if ( (ui->comboBox_standard->currentIndex() == toxic::STD_FREECALC) ||
          (ui->comboBox_task->currentIndex() == toxic::TASK_REDUCEDPOWER) ) {
 
-        on_action_CheckoutData_activated();
+        on_action_CheckoutData_triggered();
     }
 }
 
-void MainWindow::on_action_CheckoutData_activated() {
+void MainWindow::on_action_CheckoutData_triggered() {
 
     QPlainTextEdit *myPlainTextEdit_CheckoutData =
             m_checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
@@ -2099,7 +2102,7 @@ void MainWindow::on_action_CheckoutData_activated() {
         QMessageBox::critical(
                     this,
                     "Qr49",
-                    QString::fromAscii(Q_FUNC_INFO)
+                    QString::fromLatin1(Q_FUNC_INFO)
                     + ":::"
                     + tr("Child object not found!")
                     );
@@ -2127,7 +2130,7 @@ void MainWindow::on_action_CheckoutData_activated() {
     m_checkoutDataDialog->exec();
 }
 
-void MainWindow::on_action_UserManual_activated() {
+void MainWindow::on_action_UserManual_triggered() {
 
     const QString userManualLocation1 =
             DOCDIRNAME
@@ -2153,12 +2156,12 @@ void MainWindow::on_action_UserManual_activated() {
     }
 }
 
-void MainWindow::on_action_StandardsDescription_activated() {
+void MainWindow::on_action_StandardsDescription_triggered() {
 
     m_helpDialog->exec();
 }
 
-void MainWindow::on_action_AboutQr49_activated() {
+void MainWindow::on_action_AboutQr49_triggered() {
 
     const QString str =
             "<b>"
@@ -2201,7 +2204,7 @@ void MainWindow::on_action_AboutQr49_activated() {
     QMessageBox::about(this, tr("About Qr49"), str);
 }
 
-void MainWindow::on_action_AboutQt_activated() {
+void MainWindow::on_action_AboutQt_triggered() {
 
     QMessageBox::aboutQt(this);
 }
@@ -2224,7 +2227,7 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
             QMessageBox::critical(
                         this,
                         "Qr49",
-                        QString::fromAscii(Q_FUNC_INFO)
+                        QString::fromLatin1(Q_FUNC_INFO)
                         + ":::"
                         + tr("Child object not found!")
                         );
@@ -2729,7 +2732,7 @@ void MainWindow::saveStateForAllTables() {
     m_undoRedo_TableFullLoadCurve->saveState();
 }
 
-void MainWindow::on_action_UndoTable_activated() {
+void MainWindow::on_action_UndoTable_triggered() {
 
     tableCellChangedConnect(false);
 
@@ -2757,7 +2760,7 @@ void MainWindow::on_action_UndoTable_activated() {
     tableCellChangedConnect(true);
 }
 
-void MainWindow::on_action_RedoTable_activated() {
+void MainWindow::on_action_RedoTable_triggered() {
 
     tableCellChangedConnect(false);
 
