@@ -63,7 +63,7 @@ TRANSLATIONS = translations/qr49_ru.ts
 
 RC_FILE += sources/qr49.rc
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -W -pedantic
 
 unix: {
     INCLUDEPATH += .. \

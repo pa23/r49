@@ -110,7 +110,7 @@ void showHelp() {
 
     cout << "Notes:\n\n"
             "  Program use formulas from:\n"
-            "    UN ECE Regulation No. 49 Revision 4;\n"
+            "    UN ECE Regulation No. 49 Revision 5;\n"
             "    UN ECE Regulation No. 49 Revision 1;\n"
             "    UN ECE Regulation No. 96 Revision 1;\n"
             "    UN ECE Regulation No. 85 Revision 1;\n"

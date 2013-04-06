@@ -62,7 +62,7 @@ SOURCES += \
     sources/txPointsOfCycle.cpp \
     sources/txIdentification.cpp
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -W -pedantic
 
 unix: {
     DESTDIR = ../r49-bin/unix
