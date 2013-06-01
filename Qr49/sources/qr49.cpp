@@ -2807,6 +2807,9 @@ void MainWindow::abcCalculation() {
     }
     catch(const toxic::txError &toxerr) {
 
+        ui->doubleSpinBox_nhi->setValue(0);
+        ui->doubleSpinBox_nlo->setValue(0);
+
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return;
     }
