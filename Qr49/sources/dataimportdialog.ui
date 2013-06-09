@@ -21,6 +21,9 @@
     <normaloff>:/icons/icons/toxic.png</normaloff>:/icons/icons/toxic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetFixedSize</enum>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
