@@ -14,10 +14,10 @@ cycles.
 --------------------------------------------------------------------------------
 Dependences
     GNU/Linux
-      Qt 4.8.4
+      Qt 5.0
     MS Windows x86
-      Qt 4.8.4
-      MinGW 4.7.2
+      Qt 5.0
+      MinGW 4.7
 --------------------------------------------------------------------------------
 Compile and build
     1. download r49 source code from https://github.com/pa23/r49/tags

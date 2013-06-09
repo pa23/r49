@@ -28,12 +28,15 @@
 #include <QString>
 #include <QFileDialog>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QStringList>
 #include <QTableWidget>
 #include <QVector>
 #include <QDateTime>
+
+#include <QDebug>
 
 #include "txDataReader.h"
 #include "txError.h"
@@ -46,7 +49,6 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
     m_dataDirName(QDir::currentPath()),
     m_table_lid(0),
     m_dtable(0),
-    m_templ(),
     m_destTableDataChanged(false),
     m_templdir(),
     m_sj(0),
@@ -233,6 +235,14 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     //
 
+    ui->plainTextEdit_importLog->
+            insertPlainText(ui->comboBox_r49parameter->currentText()
+                            + ";"
+                            + ui->comboBox_AnotherParameter->currentText()
+                            + "\n");
+
+    //
+
     if ( ui->comboBox_r49parameter->currentIndex() ==
          ui->comboBox_r49parameter->count()-1 ) {
 
@@ -259,8 +269,6 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     //
 
-    m_templ += QString::number(tmp_dj) + " " + QString::number(tmp_sj) + "\n";
-
     m_destTableDataChanged = true;
 }
 
@@ -268,64 +276,86 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
     m_manual = false;
 
-    QVector< QVector<double> > indexes;
+    QFile templFile(m_templdir.absolutePath()
+                    + QDir::separator()
+                    + ui->comboBox_Templates->currentText());
 
-    try {
+    if ( !templFile.open(QIODevice::ReadOnly) ) {
 
-        QSharedPointer<toxic::txDataReader>
-                readerTemplData(new toxic::txDataReader());
-
-        readerTemplData->readFile(m_templdir.absolutePath()
-                                  + QDir::separator()
-                                  + ui->comboBox_Templates->currentText(),
-                                  " ");
-        indexes = readerTemplData->val_data();
+        QMessageBox::critical(this, "Qr49", "Can not open selected template file!");
+        m_manual = true;
+        return;
     }
-    catch(const toxic::txError &toxerr) {
 
-        QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
+    QString str;
+    QStringList templstrlst;
+    QStringList capts_49;
+    QStringList capts_a;
+
+    while ( !templFile.atEnd() ) {
+
+        str = templFile.readLine().trimmed();
+
+        if ( str.isEmpty() ) {
+            continue;
+        }
+
+        templstrlst = str.split(";", QString::SkipEmptyParts);
+
+        if ( templstrlst.size() != 2 ) {
+
+            QMessageBox::critical(this, "Qr49", "Incorrect template file!");
+            templFile.close();
+            m_manual = true;
+            return;
+        }
+
+        capts_49.push_back(templstrlst[0]);
+        capts_a.push_back(templstrlst[1]);
+    }
+
+    templFile.close();
+
+    if ( capts_49.isEmpty() || capts_a.isEmpty() ) {
+
+        QMessageBox::critical(this, "Qr49", "Incorrect or empty template file!");
         m_manual = true;
         return;
     }
 
     //
 
-    if ( indexes.isEmpty() ) {
+    for ( ptrdiff_t n=0; n<ui->comboBox_r49parameter->count(); n++ ) {
 
-        QMessageBox::warning(
-                    this,
-                    "Qr49",
-                    tr("Template file is empty!")
-                    );
-        m_manual = true;
-        return;
-    }
+        for ( ptrdiff_t m=0; m<capts_49.size(); m++ ) {
 
-    for ( ptrdiff_t i=0; i<indexes.size(); i++ ) {
+            if ( QString::compare(ui->comboBox_r49parameter->itemText(n), capts_49[m]) == 0 ) {
 
-        if ( indexes[i].size() == 2 ) {
+                for ( ptrdiff_t k=0; k<ui->comboBox_AnotherParameter->count(); k++ ) {
 
-            m_dj = indexes[i][0];
-            m_sj = indexes[i][1];
+                    if ( QString::compare(capts_a[m], ui->comboBox_AnotherParameter->itemText(k)) == 0 ) {
 
-            on_pushButton_NextManual_clicked();
-        }
-        else {
+                        m_dj = n;
+                        m_sj = k;
 
-            QMessageBox::warning(
-                        this,
-                        "Qr49",
-                        tr("Wrong array with indexes! Copying skipped!")
-                        );
+                        ui->comboBox_r49parameter->setCurrentIndex(n);
+                        ui->comboBox_AnotherParameter->setCurrentIndex(k);
+
+                        on_pushButton_NextManual_clicked();
+                    }
+                }
+            }
         }
     }
+
+    //
 
     m_manual = true;
 }
 
 void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
-    if ( m_templ.isEmpty() ) {
+    if ( ui->plainTextEdit_importLog->document()->isEmpty() ) {
 
         QMessageBox::information(
                     this,
@@ -368,10 +398,10 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         return;
     }
 
-    savedTemplate.write(m_templ.toLatin1());
+    savedTemplate.write(ui->plainTextEdit_importLog->toPlainText().toLatin1());
     savedTemplate.close();
 
-    m_templ.clear();
+    ui->plainTextEdit_importLog->clear();
 
     updateTemplList();
 }
@@ -382,7 +412,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
 
     //
 
-    m_templ.clear();
+    ui->plainTextEdit_importLog->clear();
 
     //
 
@@ -466,7 +496,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
 
 void DataImportDialog::on_pushButton_Close_clicked() {
 
-    m_templ.clear();
+    ui->plainTextEdit_importLog->clear();
 
     if ( m_destTableDataChanged ) {
 

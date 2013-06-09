@@ -58,7 +58,6 @@ private:
     QTableWidget *m_dtable;
     QVector< QVector<double> > m_arrayImportedData;
     QStringList m_headersImportedData;
-    QString m_templ;
     bool m_destTableDataChanged;
     QDir m_templdir;
     ptrdiff_t m_sj;
