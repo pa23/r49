@@ -2133,9 +2133,10 @@ void MainWindow::on_action_CheckoutData_triggered() {
 void MainWindow::on_action_UserManual_triggered() {
 
     const QString userManualLocation1 =
-            DOCDIRNAME
-            + QString(QDir::separator())
-            + "r49_user_manual_ru.pdf";
+            QApplication::applicationDirPath()
+            + "/"
+            + DOCDIRNAME
+            + "/r49_user_manual_ru.pdf";
 
     const QString userManualLocation2 =
             "/usr/share/r49/doc/r49_user_manual_ru.pdf";

@@ -35,9 +35,6 @@ const QString TEMPLATEDIRNAME =
         "r49data"
         + QString(QDir::separator())
         + "Templates";
-const QString DOCDIRNAME =
-        "r49data"
-        + QString(QDir::separator())
-        + "Documentation";
+const QString DOCDIRNAME = "r49data/Documentation";
 
 #endif // CONSTANTS_H
