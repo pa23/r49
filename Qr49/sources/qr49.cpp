@@ -967,7 +967,7 @@ void MainWindow::on_action_LoadSourceData_triggered() {
                     this,
                     tr("Open Source Data File..."),
                     dir,
-                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*)"),
                     0,
                     0)
                 );
@@ -1213,7 +1213,7 @@ void MainWindow::on_action_SaveSourceDataAs_triggered() {
                     this,
                     tr("Save Source Data File As..."),
                     "noname.dat",
-                    QString::fromLatin1("Data files (*.dat);;All files (*.*)"),
+                    QString::fromLatin1("Data files (*.dat);;All files (*)"),
                     0,
                     0)
                 );
@@ -1278,7 +1278,7 @@ void MainWindow::on_action_LoadCalculationOptions_triggered() {
                     this,
                     tr("Open Calculation Options File..."),
                     dir,
-                    QString::fromLatin1("Config files (*.conf);;All files (*.*)"),
+                    QString::fromLatin1("Config files (*.conf);;All files (*)"),
                     0,
                     0)
                 );
@@ -1319,7 +1319,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
                     this,
                     tr("Save Options..."),
                     "noname.conf",
-                    QString::fromLatin1("Config files (*.conf);;All files (*.*)"),
+                    QString::fromLatin1("Config files (*.conf);;All files (*)"),
                     0,
                     0)
                 );
@@ -1395,7 +1395,7 @@ void MainWindow::on_action_OpenReport_triggered() {
                     this,
                     tr("Open Report..."),
                     dir,
-                    QString::fromLatin1("Text files (*.txt);;All files (*.*)"),
+                    QString::fromLatin1("Text files (*.txt);;All files (*)"),
                     0,
                     0)
                 );
@@ -1416,7 +1416,7 @@ void MainWindow::on_action_SaveReportAs_triggered() {
                     this,
                     tr("Save Report As..."),
                     ui->comboBox_OpenedReports->currentText(),
-                    QString::fromLatin1("Text files (*.txt);;All files (*.*)"),
+                    QString::fromLatin1("Text files (*.txt);;All files (*)"),
                     0,
                     0)
                 );
@@ -1481,7 +1481,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
                     this,
                     tr("Export Report to PDF..."),
                     filename,
-                    QString::fromLatin1("PDF files (*.pdf);;All files (*.*)"),
+                    QString::fromLatin1("PDF files (*.pdf);;All files (*)"),
                     0,
                     0)
                 );
@@ -2178,7 +2178,7 @@ void MainWindow::on_action_AboutQr49_triggered() {
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
             "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R "
             "51249-99)."
-            "<br><br>Copyright (C) 2009-2012 Artem Petrov "
+            "<br><br>Copyright (C) 2009-2013 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Source code hosting: <a href= \"https://github.com/pa23/r49\">"
             "https://github.com/pa23/r49</a>"

@@ -71,6 +71,7 @@ private slots:
     void on_pushButton_SelectDataFile_clicked();
     void on_pushButton_NextManual_clicked();
     void on_pushButton_NextAuto_clicked();
+    void on_pushButton_OpenTemplate_clicked();
     void on_pushButton_SaveTemplate_clicked();
     void on_pushButton_Close_clicked();
 

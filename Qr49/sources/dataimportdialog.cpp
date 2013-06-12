@@ -171,7 +171,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
                 m_dataDirName,
                 QString::fromLatin1("Text files (*.txt);;"
                                     "Data files (*.dat);;"
-                                    "All files (*.*)"));
+                                    "All files (*)"));
 
     QFileInfo fileInfo(m_dataFileName);
     m_dataDirName = fileInfo.absolutePath();
@@ -351,6 +351,45 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
     //
 
     m_manual = true;
+}
+
+void DataImportDialog::on_pushButton_OpenTemplate_clicked() {
+
+    QString templFileName =
+            QFileDialog::getOpenFileName(
+                this,
+                tr("Open Template..."),
+                m_templdir.absolutePath(),
+                QString::fromLatin1("All files (*)")
+                );
+
+    if ( templFileName.isEmpty() ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("File not selected!")
+                    );
+        return;
+    }
+
+    QFile templFile(templFileName);
+
+    if ( !templFile.open(QIODevice::ReadOnly) ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    templFile.fileName()
+                    + tr(" could not be opened!")
+                    );
+        return;
+    }
+
+    ui->plainTextEdit_importLog->clear();
+    ui->plainTextEdit_importLog->insertPlainText(QString(templFile.readAll()));
+
+    templFile.close();
 }
 
 void DataImportDialog::on_pushButton_SaveTemplate_clicked() {

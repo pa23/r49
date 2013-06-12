@@ -157,6 +157,18 @@
         <source>Log</source>
         <translation>Журнал</translation>
     </message>
+    <message>
+        <source>Open template</source>
+        <translation>Открыть шаблон</translation>
+    </message>
+    <message>
+        <source>O</source>
+        <translation>О</translation>
+    </message>
+    <message>
+        <source>Open Template...</source>
+        <translation>Открыть шаблон...</translation>
+    </message>
 </context>
 <context>
     <name>FilterMassDialog</name>
