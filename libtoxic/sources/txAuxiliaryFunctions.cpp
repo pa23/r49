@@ -55,8 +55,7 @@ void ABC(double n_hi,
 }
 
 double Gair(double Dn, double B0, double t0, double dPn) {
-    return 0.0084591 * pow(Dn, 2.0) *
-            sqrt((1.019716213 * dPn * 7.500616827 * B0)/(t0 + 273.0));
+    return 0.0084591 * pow(Dn, 2.0) * sqrt((dPn * 7.500616827 * B0)/(t0 + 273.0));
 }
 
 double N_fan(double N_fan_rated, double n, double n_rated) {

@@ -805,7 +805,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -877,6 +877,9 @@
     <addaction name="action_Multiply"/>
     <addaction name="action_Divide"/>
     <addaction name="action_Equal"/>
+    <addaction name="action_Randomize"/>
+    <addaction name="separator"/>
+    <addaction name="action_LowerAccuracy"/>
     <addaction name="separator"/>
     <addaction name="action_AddRow"/>
     <addaction name="action_DeleteRow"/>
@@ -959,8 +962,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>306</width>
-          <height>239</height>
+          <width>311</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -980,8 +983,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>288</width>
-              <height>542</height>
+              <width>293</width>
+              <height>537</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1027,27 +1030,30 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_Vh">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_Vh">
                <property name="minimumSize">
                 <size>
-                 <width>60</width>
+                 <width>100</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>60</width>
+                 <width>100</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <property name="inputMask">
-                <string/>
+               <property name="locale">
+                <locale language="English" country="UnitedStates"/>
                </property>
-               <property name="text">
-                <string>0</string>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.500000000000000</double>
                </property>
               </widget>
              </item>
@@ -1369,24 +1375,30 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
-                <widget class="QLineEdit" name="lineEdit_PTmass">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_PTmass">
                  <property name="minimumSize">
                   <size>
-                   <width>60</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>60</width>
+                   <width>100</width>
                    <height>16777215</height>
                   </size>
                  </property>
-                 <property name="text">
-                  <string>0</string>
+                 <property name="locale">
+                  <locale language="English" country="UnitedStates"/>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1000000.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.100000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -1488,8 +1500,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>162</width>
-          <height>249</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1717,8 +1729,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>224</width>
-          <height>181</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1856,8 +1868,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>212</width>
-          <height>146</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1980,8 +1992,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>133</width>
-          <height>123</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2245,9 +2257,6 @@
    </property>
   </action>
   <action name="action_Multiply">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
      <normaloff>:/icons/icons/edit-multiply.png</normaloff>:/icons/icons/edit-multiply.png</iconset>
@@ -2263,9 +2272,6 @@
    </property>
   </action>
   <action name="action_Divide">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
      <normaloff>:/icons/icons/edit-divide.png</normaloff>:/icons/icons/edit-divide.png</iconset>
@@ -2281,9 +2287,6 @@
    </property>
   </action>
   <action name="action_Add">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
      <normaloff>:/icons/icons/edit-add.png</normaloff>:/icons/icons/edit-add.png</iconset>
@@ -2299,9 +2302,6 @@
    </property>
   </action>
   <action name="action_Equal">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="qr49.qrc">
      <normaloff>:/icons/icons/edit-equal.png</normaloff>:/icons/icons/edit-equal.png</iconset>
@@ -2533,6 +2533,28 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="action_Randomize">
+   <property name="text">
+    <string>Randomize...</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_LowerAccuracy">
+   <property name="text">
+    <string>Lower accuracy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+.</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

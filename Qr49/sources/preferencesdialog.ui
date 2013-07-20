@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>621</height>
+    <height>610</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -221,6 +221,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>20.800000000000001</double>
           </property>
@@ -240,6 +243,9 @@
             <width>70</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
           <property name="maximum">
            <double>10.000000000000000</double>
@@ -286,6 +292,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>12.600000000000000</double>
           </property>
@@ -306,6 +315,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>0.400000000000000</double>
           </property>
@@ -325,6 +337,9 @@
             <width>70</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
          </widget>
         </item>
@@ -356,6 +371,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>46.000000000000000</double>
           </property>
@@ -376,6 +394,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>28.000000000000000</double>
           </property>
@@ -395,6 +416,9 @@
             <width>70</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
           <property name="value">
            <double>13.850000000000000</double>
@@ -438,6 +462,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="value">
            <double>14.350000000000000</double>
           </property>
@@ -457,6 +484,9 @@
             <width>70</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
           <property name="maximum">
            <double>10.000000000000000</double>
@@ -481,6 +511,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
           <property name="maximum">
            <double>1000.000000000000000</double>
           </property>
@@ -503,6 +536,9 @@
             <width>70</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
           <property name="maximum">
            <double>1000.000000000000000</double>

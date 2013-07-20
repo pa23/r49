@@ -21,22 +21,11 @@
 
 #include "filtermassdialog.h"
 
-#include <QDoubleValidator>
-
 FilterMassDialog::FilterMassDialog(QWidget *parent) :
-    QDialog(parent),
-    m_doubleValidator(new QDoubleValidator()) {
+    QDialog(parent) {
 
     ui.setupUi(this);
-    m_doubleValidator->setDecimals(4);
-
-    ui.lineEdit_1stFilterWeightClean->setValidator(m_doubleValidator);
-    ui.lineEdit_1stFilterWeightDirty->setValidator(m_doubleValidator);
-    ui.lineEdit_2ndFilterWeightClean->setValidator(m_doubleValidator);
-    ui.lineEdit_2ndFilterWeightDirty->setValidator(m_doubleValidator);
 }
 
 FilterMassDialog::~FilterMassDialog() {
-
-    delete m_doubleValidator;
 }

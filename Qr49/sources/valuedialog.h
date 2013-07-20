@@ -23,7 +23,6 @@
 #define VALUEDIALOG_H
 
 #include <QDialog>
-#include <QDoubleValidator>
 
 #include "ui_valuedialog.h"
 
@@ -39,7 +38,6 @@ public:
 private:
 
     Ui::ValueDialog ui;
-    QDoubleValidator *m_doubleValidator;
 
 };
 

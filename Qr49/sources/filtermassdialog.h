@@ -23,7 +23,6 @@
 #define FILTERMASSDIALOG_H
 
 #include <QDialog>
-#include <QDoubleValidator>
 
 #include "ui_filtermassdialog.h"
 
@@ -39,7 +38,6 @@ public:
 private:
 
     Ui::FilterMassDialog ui;
-    QDoubleValidator *m_doubleValidator;
 
 };
 

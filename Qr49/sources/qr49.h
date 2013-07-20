@@ -77,7 +77,6 @@ private:
     QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
     QSharedPointer<toxic::txCommonParameters> m_commonParameters;
 
-    QDoubleValidator *m_doubleValidator;
     QRegExp m_regExp;
     QRegExpValidator *m_regExpValidator;
 
@@ -90,7 +89,6 @@ private:
 
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
-    void setDoubleValidators();
     void readPreferences();
     void writeProgramSettings();
     void readProgramSettings();
@@ -141,6 +139,8 @@ private slots:
     void on_action_Multiply_triggered();
     void on_action_Divide_triggered();
     void on_action_Equal_triggered();
+    void on_action_Randomize_triggered();
+    void on_action_LowerAccuracy_triggered();
     void on_action_AddRow_triggered();
     void on_action_DeleteRow_triggered();
     void on_action_Toolbar_triggered();

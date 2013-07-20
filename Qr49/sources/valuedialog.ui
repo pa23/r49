@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>186</width>
-    <height>89</height>
+    <height>85</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,13 +33,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_Value">
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <spacer name="verticalSpacer">
        <property name="orientation">
@@ -52,6 +45,31 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_Value">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>120</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="locale">
+        <locale language="English" country="UnitedStates"/>
+       </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="maximum">
+        <double>1000000.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -108,22 +126,6 @@
     <hint type="sourcelabel">
      <x>135</x>
      <y>67</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>92</x>
-     <y>45</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>lineEdit_Value</sender>
-   <signal>returnPressed()</signal>
-   <receiver>ValueDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>115</x>
-     <y>23</y>
     </hint>
     <hint type="destinationlabel">
      <x>92</x>

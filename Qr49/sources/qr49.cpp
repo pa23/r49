@@ -65,6 +65,7 @@
 #include <QTextStream>
 #include <QUrl>
 #include <QDesktopServices>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
 
@@ -145,14 +146,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    m_doubleValidator = new QDoubleValidator(this);
-
-    m_doubleValidator->setBottom(0);
-    m_doubleValidator->setDecimals(4);
-
     m_regExpValidator = new QRegExpValidator(m_regExp, 0);
-
-    setDoubleValidators();
 
     //
 
@@ -350,7 +344,6 @@ MainWindow::~MainWindow() {
     delete m_preferencesDialog;
     delete m_checkoutDataDialog;
     delete m_dataImportDialog;
-    delete m_doubleValidator;
     delete m_regExpValidator;
 }
 
@@ -362,12 +355,12 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/action_toolbar_checked", ui->action_Toolbar->isChecked());
     m_qr49settings.setValue("/active_tab", ui->tabWidget_Data->currentIndex());
     m_qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
-    m_qr49settings.setValue("/Vh_value", ui->lineEdit_Vh->text());
+    m_qr49settings.setValue("/Vh_value", ui->doubleSpinBox_Vh->value());
     m_qr49settings.setValue("/standard_index", ui->comboBox_standard->currentIndex());
     m_qr49settings.setValue("/fuelType_index", ui->comboBox_FuelType->currentIndex());
     m_qr49settings.setValue("/NOxSample_index", ui->comboBox_NOxSample->currentIndex());
     m_qr49settings.setValue("/PTcalc_index", ui->comboBox_PTcalc->currentIndex());
-    m_qr49settings.setValue("/PTmass_value", ui->lineEdit_PTmass->text());
+    m_qr49settings.setValue("/PTmass_value", ui->doubleSpinBox_PTmass->value());
     m_qr49settings.setValue("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex());
     m_qr49settings.setValue("/createReports", ui->checkBox_reports->isChecked());
     m_qr49settings.setValue("/lastReportsDir", m_lastReportsDir.absolutePath());
@@ -384,12 +377,12 @@ void MainWindow::readProgramSettings() {
     ui->action_Toolbar->setChecked(m_qr49settings.value("/action_toolbar_checked", true).toBool());
     ui->tabWidget_Data->setCurrentIndex(m_qr49settings.value("active_tab", ui->tabWidget_Data->currentIndex()).toInt());
     ui->comboBox_task->setCurrentIndex(m_qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
-    ui->lineEdit_Vh->setText(m_qr49settings.value("/Vh_value", ui->lineEdit_Vh->text()).toString());
+    ui->doubleSpinBox_Vh->setValue(m_qr49settings.value("/Vh_value", 0).toDouble());
     ui->comboBox_standard->setCurrentIndex(m_qr49settings.value("/standard_index", ui->comboBox_standard->currentIndex()).toInt());
     ui->comboBox_FuelType->setCurrentIndex(m_qr49settings.value("/fuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
     ui->comboBox_NOxSample->setCurrentIndex(m_qr49settings.value("/NOxSample_index", ui->comboBox_NOxSample->currentIndex()).toInt());
     ui->comboBox_PTcalc->setCurrentIndex(m_qr49settings.value("/PTcalc_index", ui->comboBox_PTcalc->currentIndex()).toInt());
-    ui->lineEdit_PTmass->setText(m_qr49settings.value("/PTmass_value", ui->lineEdit_PTmass->text()).toString());
+    ui->doubleSpinBox_PTmass->setValue(m_qr49settings.value("/PTmass_value", 0).toDouble());
     ui->comboBox_AddPointsCalc->setCurrentIndex(m_qr49settings.value("/addPointsCalc_index", ui->comboBox_AddPointsCalc->currentIndex()).toInt());
     ui->checkBox_reports->setChecked(m_qr49settings.value("/createReports", ui->checkBox_reports->isChecked()).toBool());
     m_lastReportsDir.setPath(m_qr49settings.value("/lastReportsDir", "").toString());
@@ -474,12 +467,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
 void MainWindow::contextMenuEvent(QContextMenuEvent *cme) {
 
     m_contextMenu->exec(cme->globalPos());
-}
-
-void MainWindow::setDoubleValidators() {
-
-    ui->lineEdit_Vh->setValidator(m_doubleValidator);
-    ui->lineEdit_PTmass->setValidator(m_doubleValidator);
 }
 
 void MainWindow::readPreferences() {
@@ -795,19 +782,19 @@ bool MainWindow::fillParameters() {
 
     if ( ui->comboBox_task->currentIndex() == toxic::TASK_EMISSIONS &&
          ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS &&
-         ui->lineEdit_PTmass->text().toDouble() == 0 ) {
+         ui->doubleSpinBox_PTmass->value() == 0 ) {
 
         on_pushButton_EnterPTmass_clicked();
     }
 
     m_calculationOptions->setTask(ui->comboBox_task->currentIndex());
-    m_calculationOptions->setVh(ui->lineEdit_Vh->text().toDouble());
+    m_calculationOptions->setVh(ui->doubleSpinBox_Vh->value());
     m_calculationOptions->setStandard(ui->comboBox_standard->currentIndex());
     m_calculationOptions->setChargingType(ui->comboBox_chargingType->currentIndex());
     m_calculationOptions->setFuelType(ui->comboBox_FuelType->currentIndex());
     m_calculationOptions->setNOxSample(ui->comboBox_NOxSample->currentIndex());
     m_calculationOptions->setPTcalc(ui->comboBox_PTcalc->currentIndex());
-    m_calculationOptions->setPTmass(ui->lineEdit_PTmass->text().toDouble());
+    m_calculationOptions->setPTmass(ui->doubleSpinBox_PTmass->value());
     m_calculationOptions->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
 
     return true;
@@ -815,7 +802,8 @@ bool MainWindow::fillParameters() {
 
 bool MainWindow::arithmeticOperation(const QString &operation) {
 
-    QLineEdit *value = m_valueDialog->findChild<QLineEdit *>("lineEdit_Value");
+    QDoubleSpinBox *value =
+            m_valueDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Value");
 
     if ( !value ) {
 
@@ -848,6 +836,10 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
         m_valueDialog->setWindowTitle(tr("Qr49: equal"));
     }
+    else if ( operation == "randomize" ) {
+
+        m_valueDialog->setWindowTitle(tr("Qr49: randomize"));
+    }
     else {
 
         QMessageBox::critical(
@@ -863,14 +855,13 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
         if ( m_table->selectedRanges().empty() ) {
 
             QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
-
             return false;
         }
 
         QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
 
         double x = 0.0;
-        double y = value->text().toDouble();
+        double y = value->value();
 
         if ( (y == 0.0) && (operation == "divide") ) {
 
@@ -879,7 +870,6 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
                         "Qr49",
                         tr("Illegal operation \"Divide by zero\"!")
                         );
-
             return false;
         }
 
@@ -911,6 +901,11 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(y, 'f', 3));
+                }
+                else if ( operation == "randomize" ) {
+
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number((x-y)+2*y*static_cast<double>(qrand())/RAND_MAX, 'f', 3));
                 }
             }
         }
@@ -1295,13 +1290,13 @@ void MainWindow::on_action_LoadCalculationOptions_triggered() {
         }
 
         ui->comboBox_task->setCurrentIndex(m_calculationOptions->val_task());
-        ui->lineEdit_Vh->setText(QString::number(m_calculationOptions->val_Vh()));
+        ui->doubleSpinBox_Vh->setValue(m_calculationOptions->val_Vh());
         ui->comboBox_standard->setCurrentIndex(m_calculationOptions->val_standard());
         ui->comboBox_chargingType->setCurrentIndex(m_calculationOptions->val_chargingType());
         ui->comboBox_FuelType->setCurrentIndex(m_calculationOptions->val_fuelType());
         ui->comboBox_NOxSample->setCurrentIndex(m_calculationOptions->val_NOxSample());
         ui->comboBox_PTcalc->setCurrentIndex(m_calculationOptions->val_PTcalc());
-        ui->lineEdit_PTmass->setText(QString::number(m_calculationOptions->val_PTmass()));
+        ui->doubleSpinBox_PTmass->setValue(m_calculationOptions->val_PTmass());
         ui->comboBox_AddPointsCalc->setCurrentIndex(m_calculationOptions->val_addPointsCalc());
 
         taskChanged(ui->comboBox_task->currentIndex());
@@ -1345,7 +1340,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
              << "\n"
              << "Vh"
              << "="
-             << ui->lineEdit_Vh->text()
+             << QString::number(ui->doubleSpinBox_Vh->value())
              << "\n"
              << "standard"
              << "="
@@ -1369,7 +1364,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
              << "\n"
              << "PTmass"
              << "="
-             << ui->lineEdit_PTmass->text()
+             << QString::number(ui->doubleSpinBox_PTmass->value())
              << "\n"
              << "addPointsCalc"
              << "="
@@ -1842,6 +1837,64 @@ void MainWindow::on_action_Equal_triggered() {
     }
 }
 
+void MainWindow::on_action_Randomize_triggered() {
+
+    qsrand(QDateTime::currentDateTime().toTime_t());
+
+    if ( !arithmeticOperation("randomize") ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Arithmetic operation is impossible!")
+                    );
+    }
+}
+
+void MainWindow::on_action_LowerAccuracy_triggered() {
+
+    if ( m_table->selectedRanges().empty() ) {
+
+        QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
+        return;
+    }
+
+    QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
+
+    QString cellstr;
+    double cellval = 0.0;
+    QStringList parts;
+
+    tableCellChangedConnect(false);
+
+    for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+
+        for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
+
+            cellstr = m_table->item(
+                        selectedRange.topRow()+i, selectedRange.leftColumn()+j
+                        )->text();
+            cellval = cellstr.toDouble();
+            parts = cellstr.split(".", QString::SkipEmptyParts);
+
+            if ( parts.size() == 2 ) {
+
+                m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                        setText(QString::number(cellval, 'f', parts[1].size()-1));
+            }
+            else {
+
+                m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                        setText(QString::number(cellval, 'f', 0));
+            }
+        }
+    }
+
+    tableCellChangedConnect(true);
+
+    saveTableState();
+}
+
 void MainWindow::on_action_AddRow_triggered() {
 
     tableCellChangedConnect(false);
@@ -2234,14 +2287,14 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
 
     if ( m_filterMassDialog->exec() == QDialog::Accepted ) {
 
-        QLineEdit *m1c = m_filterMassDialog->findChild<QLineEdit *>
-                ("lineEdit_1stFilterWeightClean");
-        QLineEdit *m1d = m_filterMassDialog->findChild<QLineEdit *>
-                ("lineEdit_1stFilterWeightDirty");
-        QLineEdit *m2c = m_filterMassDialog->findChild<QLineEdit *>
-                ("lineEdit_2ndFilterWeightClean");
-        QLineEdit *m2d = m_filterMassDialog->findChild<QLineEdit *>
-                ("lineEdit_2ndFilterWeightDirty");
+        QDoubleSpinBox *m1c = m_filterMassDialog->findChild<QDoubleSpinBox *>
+                ("doubleSpinBox_1stFilterWeightClean");
+        QDoubleSpinBox *m1d = m_filterMassDialog->findChild<QDoubleSpinBox *>
+                ("doubleSpinBox_1stFilterWeightDirty");
+        QDoubleSpinBox *m2c = m_filterMassDialog->findChild<QDoubleSpinBox *>
+                ("doubleSpinBox_2ndFilterWeightClean");
+        QDoubleSpinBox *m2d = m_filterMassDialog->findChild<QDoubleSpinBox *>
+                ("doubleSpinBox_2ndFilterWeightDirty");
 
         if ( (!m1c) || (!m1d) || (!m2c) || (!m2d) ) {
 
@@ -2255,10 +2308,9 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
             return;
         }
 
-        double PTmass = (m1d->text().toDouble() - m1c->text().toDouble()) +
-                (m2d->text().toDouble() - m2c->text().toDouble());
-
-        ui->lineEdit_PTmass->setText(QString::number(PTmass, 'f', 3));
+        ui->doubleSpinBox_PTmass->setValue(
+                    (m1d->value() - m1c->value()) + (m2d->value() - m2c->value())
+                    );
     }
 }
 
@@ -2266,13 +2318,13 @@ void MainWindow::taskChanged(const int currtask) {
 
     if ( currtask == toxic::TASK_POINTS ) {
 
-        ui->lineEdit_Vh->setEnabled(false);
+        ui->doubleSpinBox_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
         ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
-        ui->lineEdit_PTmass->setEnabled(false);
+        ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
 
         const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
@@ -2338,7 +2390,7 @@ void MainWindow::taskChanged(const int currtask) {
     }
     else if ( currtask == toxic::TASK_EMISSIONS ) {
 
-        ui->lineEdit_Vh->setEnabled(false);
+        ui->doubleSpinBox_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
         ui->comboBox_chargingType->setEnabled(true);
 
@@ -2367,12 +2419,12 @@ void MainWindow::taskChanged(const int currtask) {
 
         if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS ) {
 
-            ui->lineEdit_PTmass->setEnabled(true);
+            ui->doubleSpinBox_PTmass->setEnabled(true);
             ui->pushButton_EnterPTmass->setEnabled(true);
         }
         else {
 
-            ui->lineEdit_PTmass->setEnabled(false);
+            ui->doubleSpinBox_PTmass->setEnabled(false);
             ui->pushButton_EnterPTmass->setEnabled(false);
         }
 
@@ -2407,13 +2459,13 @@ void MainWindow::taskChanged(const int currtask) {
     }
     else if ( currtask == toxic::TASK_REDUCEDPOWER ) {
 
-        ui->lineEdit_Vh->setEnabled(true);
+        ui->doubleSpinBox_Vh->setEnabled(true);
         ui->comboBox_standard->setEnabled(false);
         ui->comboBox_chargingType->setEnabled(true);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
-        ui->lineEdit_PTmass->setEnabled(false);
+        ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
@@ -2445,13 +2497,13 @@ void MainWindow::taskChanged(const int currtask) {
     }
     else {
 
-        ui->lineEdit_Vh->setEnabled(false);
+        ui->doubleSpinBox_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(false);
         ui->comboBox_chargingType->setEnabled(false);
         ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_NOxSample->setEnabled(false);
         ui->comboBox_PTcalc->setEnabled(false);
-        ui->lineEdit_PTmass->setEnabled(false);
+        ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
@@ -2528,12 +2580,12 @@ void MainWindow::PTcalcChanged(const int currptcalc) {
     if ( (currptcalc == toxic::PTCALC_THROUGHSMOKE) ||
          (currptcalc == toxic::PTCALC_NO) ) {
 
-        ui->lineEdit_PTmass->setEnabled(false);
+        ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
     }
     else {
 
-        ui->lineEdit_PTmass->setEnabled(true);
+        ui->doubleSpinBox_PTmass->setEnabled(true);
         ui->pushButton_EnterPTmass->setEnabled(true);
     }
 }

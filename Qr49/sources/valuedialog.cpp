@@ -21,19 +21,11 @@
 
 #include "valuedialog.h"
 
-#include <QDoubleValidator>
-
 ValueDialog::ValueDialog(QWidget *parent) :
-    QDialog(parent),
-    m_doubleValidator(new QDoubleValidator()) {
+    QDialog(parent) {
 
     ui.setupUi(this);
-    m_doubleValidator->setDecimals(4);
-
-    ui.lineEdit_Value->setValidator(m_doubleValidator);
 }
 
 ValueDialog::~ValueDialog() {
-
-    delete m_doubleValidator;
 }
