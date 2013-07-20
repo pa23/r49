@@ -25,7 +25,7 @@ TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.5.1
+VERSION = 3.6.0
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
@@ -34,7 +34,6 @@ SOURCES += sources/preferencesdialog.cpp \
     sources/filtermassdialog.cpp \
     sources/main.cpp \
     sources/qr49.cpp \
-    sources/helpdialog.cpp \
     sources/dataimportdialog.cpp \
     sources/tablewidgetfunctions.cpp
 
@@ -44,7 +43,6 @@ HEADERS += sources/preferencesdialog.h \
     sources/valuedialog.h \
     sources/filtermassdialog.h \
     sources/qr49.h \
-    sources/helpdialog.h \
     sources/dataimportdialog.h \
     sources/tablewidgetfunctions.h \
     sources/constants.h
@@ -54,7 +52,6 @@ FORMS += sources/preferencesdialog.ui \
     sources/valuedialog.ui \
     sources/filtermassdialog.ui \
     sources/qr49.ui \
-    sources/helpdialog.ui \
     sources/dataimportdialog.ui
 
 RESOURCES = sources/qr49.qrc

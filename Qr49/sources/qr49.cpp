@@ -79,7 +79,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_valueDialog(new ValueDialog(this)),
     m_preferencesDialog(new PreferencesDialog(this)),
     m_checkoutDataDialog(new CheckoutDataDialog(0)),
-    m_helpDialog(new HelpDialog(0)),
     m_dataImportDialog(new DataImportDialog(this)),
 
     m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
@@ -350,7 +349,6 @@ MainWindow::~MainWindow() {
     delete m_valueDialog;
     delete m_preferencesDialog;
     delete m_checkoutDataDialog;
-    delete m_helpDialog;
     delete m_dataImportDialog;
     delete m_doubleValidator;
     delete m_regExpValidator;
@@ -2159,7 +2157,29 @@ void MainWindow::on_action_UserManual_triggered() {
 
 void MainWindow::on_action_StandardsDescription_triggered() {
 
-    m_helpDialog->exec();
+    const QString standardDescLocation1 =
+            QApplication::applicationDirPath()
+            + "/"
+            + DOCDIRNAME
+            + "/diesel_engine_standards_ru.html";
+
+    const QString standardDescLocation2 =
+            "/usr/share/r49/doc/diesel_engine_standards_ru.html";
+
+    if ( QFile::exists(standardDescLocation1) ) {
+
+        QDesktopServices::openUrl(QUrl(standardDescLocation1));
+    }
+    else if ( QFile::exists(standardDescLocation2) ) {
+
+        QDesktopServices::openUrl(QUrl(standardDescLocation2));
+    }
+    else {
+
+        QMessageBox::warning(this,
+                             "Qr49",
+                             tr("Can not find documentation file!"));
+    }
 }
 
 void MainWindow::on_action_AboutQr49_triggered() {

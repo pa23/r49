@@ -43,7 +43,6 @@
 #include "preferencesdialog.h"
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
-#include "helpdialog.h"
 #include "dataimportdialog.h"
 
 namespace Ui {
@@ -73,7 +72,6 @@ private:
     ValueDialog *m_valueDialog;
     PreferencesDialog *m_preferencesDialog;
     CheckoutDataDialog *m_checkoutDataDialog;
-    HelpDialog *m_helpDialog;
     DataImportDialog *m_dataImportDialog;
 
     QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
