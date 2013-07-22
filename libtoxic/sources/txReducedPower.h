@@ -76,6 +76,13 @@ private:
     QVector<double> ma_Gfuel;
     QVector<double> ma_N_k;
     QVector<double> ma_N_fan;
+    QVector<double> ma_t_cool;
+    QVector<double> ma_t_oil;
+    QVector<double> ma_tk;
+    QVector<double> ma_tks;
+    QVector<double> ma_t_fuel;
+    QVector<double> ma_pks;
+    QVector<double> ma_Gair;
 
     QVector<double> ma_Ne_brutto;
     QVector<double> ma_ge_brutto;

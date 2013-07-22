@@ -39,7 +39,7 @@
       <item>
        <widget class="QTabWidget" name="tabWidget_Data">
         <property name="currentIndex">
-         <number>3</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab_cycPointsCalc">
          <attribute name="title">
@@ -761,6 +761,69 @@
                 </property>
                 <property name="toolTip">
                  <string>Power to drive the fan.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>t_c
+[oC]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Cooland fluid temperature.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>t_oil
+[oC]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Oil temperature.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>tk
+[oC]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Boost temperature.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>tks
+[oC]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Boost temperature after cooler.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>t_fuel
+[oC]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Fuel temperature.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>pks
+[kPa]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Boost pressure after cooler.</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Gair
+[kg/h]</string>
+                </property>
+                <property name="toolTip">
+                 <string>Air mass flow.</string>
                 </property>
                </column>
               </widget>

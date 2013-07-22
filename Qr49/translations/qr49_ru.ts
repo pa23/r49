@@ -34,6 +34,10 @@
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
+    <message>
+        <source>Alt Copy</source>
+        <translation>Копировать (НАМИ)</translation>
+    </message>
 </context>
 <context>
     <name>DataImportDialog</name>
@@ -1516,6 +1520,61 @@
     <message>
         <source>Ctrl+.</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>t_c
+[oC]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Cooland fluid temperature.</source>
+        <translation>Температура охлаждающей жидкости.</translation>
+    </message>
+    <message>
+        <source>t_oil
+[oC]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Oil temperature.</source>
+        <translation>Температура масла.</translation>
+    </message>
+    <message>
+        <source>tk
+[oC]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Boost temperature.</source>
+        <translation>Температура наддувочного воздуха.</translation>
+    </message>
+    <message>
+        <source>tks
+[oC]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Boost temperature after cooler.</source>
+        <translation>Температура наддувочного воздуха после охладителя.</translation>
+    </message>
+    <message>
+        <source>t_fuel
+[oC]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Fuel temperature.</source>
+        <translation>Температура топлива.</translation>
+    </message>
+    <message>
+        <source>pks
+[kPa]</source>
+        <translation>pks
+[кПа]</translation>
+    </message>
+    <message>
+        <source>Boost pressure after cooler.</source>
+        <translation>Давление наддувочного воздуха после охладителя.</translation>
     </message>
 </context>
 <context>

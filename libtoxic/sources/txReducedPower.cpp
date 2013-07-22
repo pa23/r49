@@ -192,6 +192,13 @@ void txReducedPower::prepSrcArrays(
     ma_Gfuel.clear();     ma_Gfuel.resize(m_numberOfPoints);
     ma_N_k.clear();       ma_N_k.resize(m_numberOfPoints);
     ma_N_fan.clear();     ma_N_fan.resize(m_numberOfPoints);
+    ma_t_cool.clear();    ma_t_cool.resize(m_numberOfPoints);
+    ma_t_oil.clear();     ma_t_oil.resize(m_numberOfPoints);
+    ma_tk.clear();        ma_tk.resize(m_numberOfPoints);
+    ma_tks.clear();       ma_tks.resize(m_numberOfPoints);
+    ma_t_fuel.clear();    ma_t_fuel.resize(m_numberOfPoints);
+    ma_pks.clear();       ma_pks.resize(m_numberOfPoints);
+    ma_Gair.clear();      ma_Gair.resize(m_numberOfPoints);
 
     for ( ptrdiff_t i=0; i<m_numberOfPoints; i++ ) {
 
@@ -209,6 +216,14 @@ void txReducedPower::prepSrcArrays(
         ma_Gfuel    [i] = srcdata[i][ 8];
         ma_N_k      [i] = srcdata[i][ 9];
         ma_N_fan    [i] = srcdata[i][10];
+        ma_t_cool   [i] = srcdata[i][11];
+        ma_t_oil    [i] = srcdata[i][12];
+        ma_tk       [i] = srcdata[i][13];
+        ma_tks      [i] = srcdata[i][14];
+        ma_t_fuel   [i] = srcdata[i][15];
+        ma_pks      [i] = srcdata[i][16];
+        ma_Gair     [i] = srcdata[i][17];
+
     }
 
     if ( zeroArray(ma_n) ||
@@ -272,10 +287,12 @@ QString txReducedPower::saveSourceData() const {
 
         fout << qSetFieldWidth(COLUMNWIDTH);
         fout << i + 1;
-        fout << ma_n[i]  << ma_Me_brutto[i] << ma_t0[i]
-             << ma_B0[i] << ma_Ra[i]        << ma_S[i]
-             << ma_pk[i] << ma_Gfuel[i]     << ma_N_k[i]
-             << ma_N_fan[i];
+        fout << ma_n[i]     << ma_Me_brutto[i] << ma_t0[i]
+             << ma_B0[i]    << ma_Ra[i]        << ma_S[i]
+             << ma_pk[i]    << ma_Gfuel[i]     << ma_N_k[i]
+             << ma_N_fan[i] << ma_t_cool[i]    << ma_t_oil[i]
+             << ma_tk[i]    << ma_tks[i]       << ma_t_fuel[i]
+             << ma_pks[i]   << ma_Gair[i];
         fout << qSetFieldWidth(0)
              << "\n";
     }
@@ -327,12 +344,14 @@ QString txReducedPower::saveCheckoutData() const {
         fout << qSetFieldWidth(COLUMNWIDTH)
              << qSetRealNumberPrecision(PRECISION);
         fout << (i + 1)
-             << ma_n[i]     << ma_Me_brutto[i] << ma_t0[i]
-             << ma_B0[i]    << ma_Ra[i]        << ma_S[i]
-             << ma_pk[i]    << ma_Gfuel[i]     << ma_N_k[i]
-             << ma_N_fan[i] << ma_Ne_brutto[i] << ma_ge_brutto[i]
-             << ma_qcs[i]   << ma_fm[i]        << ma_pa[i]
-             << ma_ps[i];
+             << ma_n[i]         << ma_Me_brutto[i] << ma_t0[i]
+             << ma_B0[i]        << ma_Ra[i]        << ma_S[i]
+             << ma_pk[i]        << ma_Gfuel[i]     << ma_N_k[i]
+             << ma_N_fan[i]     << ma_t_cool[i]    << ma_t_oil[i]
+             << ma_tk[i]        << ma_tks[i]       << ma_t_fuel[i]
+             << ma_pks[i]       << ma_Gair[i]      << ma_Ne_brutto[i]
+             << ma_ge_brutto[i] << ma_qcs[i]       << ma_fm[i]
+             << ma_pa[i]        << ma_ps[i];
         fout << qSetRealNumberPrecision(PRECISION+2);
         fout << ma_fa[i] << ma_alphad[i];
         fout << qSetRealNumberPrecision(PRECISION);

@@ -96,6 +96,13 @@ const QStringList SRCDATACAPTIONS_REDPOWER = (
             << "Gfuel[kg/h]"
             << "N_k[kW]"
             << "N_fan[kW]"
+            << "t_c[oC]"
+            << "t_oil[oC]"
+            << "tk[oC]"
+            << "tks[oC]"
+            << "t_fuel[oC]"
+            << "pks[kPa]"
+            << "Gair[kg/h]"
             );
 
 const int ESCPOINTSNUMBER = 13;

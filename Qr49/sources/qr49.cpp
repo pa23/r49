@@ -61,6 +61,7 @@
 #include <QFontDatabase>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QPushButton>
 #include <QDoubleSpinBox>
 #include <QTextStream>
 #include <QUrl>
@@ -173,9 +174,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readProgramSettings();
 
-    taskChanged(ui->comboBox_task->currentIndex());
-    standardChanged(ui->comboBox_standard->currentIndex());
     PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
+    standardChanged(ui->comboBox_standard->currentIndex());
+    taskChanged(ui->comboBox_task->currentIndex());
 
     //
 
@@ -2142,6 +2143,20 @@ void MainWindow::on_action_Execute_triggered() {
 }
 
 void MainWindow::on_action_CheckoutData_triggered() {
+
+    QPushButton *myPushButton_AltCopy =
+            m_checkoutDataDialog->findChild<QPushButton *>("pushButton_AltCopy");
+
+    if ( ui->comboBox_task->currentIndex() == toxic::TASK_REDUCEDPOWER ) {
+
+        myPushButton_AltCopy->setEnabled(true);
+    }
+    else {
+
+        myPushButton_AltCopy->setEnabled(false);
+    }
+
+    //
 
     QPlainTextEdit *myPlainTextEdit_CheckoutData =
             m_checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
