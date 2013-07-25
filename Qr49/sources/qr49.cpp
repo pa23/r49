@@ -1405,6 +1405,16 @@ void MainWindow::on_action_OpenReport_triggered() {
 
 void MainWindow::on_action_SaveReportAs_triggered() {
 
+    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Report is empty!")
+                    );
+        return;
+    }
+
     const QString newReportFileName(
                 QFileDialog::getSaveFileName(
                     this,
@@ -1446,17 +1456,33 @@ void MainWindow::on_action_SaveReportAs_triggered() {
 
 void MainWindow::on_action_CloseReport_triggered() {
 
-    if ( ui->comboBox_OpenedReports->count() != 1 ) {
+    if ( ui->comboBox_OpenedReports->count() == 1 ) {
+
+        ui->comboBox_OpenedReports->removeItem(0);
+        ui->plainTextEdit_Report->setPlainText("");
+    }
+    else {
 
         ui->comboBox_OpenedReports->
                 removeItem(ui->comboBox_OpenedReports->currentIndex());
+
+        reportChanged(ui->comboBox_OpenedReports->currentText());
     }
 
-    reportChanged(ui->comboBox_OpenedReports->currentText());
     ui->tabWidget_Data->setCurrentIndex(3);
 }
 
 void MainWindow::on_action_ReportToPDF_triggered() {
+
+    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Report is empty!")
+                    );
+        return;
+    }
 
     if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
 
@@ -1496,6 +1522,16 @@ void MainWindow::on_action_ReportToPDF_triggered() {
 }
 
 void MainWindow::on_action_PrintReport_triggered() {
+
+    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Report is empty!")
+                    );
+        return;
+    }
 
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
@@ -1728,7 +1764,7 @@ void MainWindow::on_action_PasteToTable_triggered() {
 
     if ( (m_table->columnCount() - m_table->currentColumn()) < numColumns ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Copied data can not be inserted!")
@@ -1794,7 +1830,7 @@ void MainWindow::on_action_Add_triggered() {
 
     if ( !arithmeticOperation("add") ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Arithmetic operation is impossible!")
@@ -1806,7 +1842,7 @@ void MainWindow::on_action_Multiply_triggered() {
 
     if ( !arithmeticOperation("multiply") ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Arithmetic operation is impossible!")
@@ -1818,7 +1854,7 @@ void MainWindow::on_action_Divide_triggered() {
 
     if ( !arithmeticOperation("divide") ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Arithmetic operation is impossible!")
@@ -1830,7 +1866,7 @@ void MainWindow::on_action_Equal_triggered() {
 
     if ( !arithmeticOperation("equal") ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Operation is impossible!")
@@ -1844,7 +1880,7 @@ void MainWindow::on_action_Randomize_triggered() {
 
     if ( !arithmeticOperation("randomize") ) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                     this,
                     "Qr49",
                     tr("Arithmetic operation is impossible!")
@@ -1856,7 +1892,7 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
 
     if ( m_table->selectedRanges().empty() ) {
 
-        QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
+        QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
         return;
     }
 
@@ -1898,28 +1934,44 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
 
 void MainWindow::on_action_AddRow_triggered() {
 
-    tableCellChangedConnect(false);
+    if ( m_table == ui->tableWidget_SrcDataPoints ||
+         m_table == ui->tableWidget_FullLoadCurve ) {
 
-    if ( (m_table != ui->tableWidget_SrcDataEU0) &&
-         (m_table != ui->tableWidget_SrcDataEU3) ) {
-
+        tableCellChangedConnect(false);
         addRows(m_table, m_table->rowCount()+1);
+        tableCellChangedConnect(true);
+
+        saveTableState();
     }
+    else {
 
-    tableCellChangedConnect(true);
-
-    saveTableState();
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("This action is not available for the current table!")
+                    );
+        return;
+    }
 }
 
 void MainWindow::on_action_DeleteRow_triggered() {
 
-    if ( (m_table != ui->tableWidget_SrcDataEU0) &&
-         (m_table != ui->tableWidget_SrcDataEU3) ) {
+    if ( m_table == ui->tableWidget_SrcDataPoints ||
+         m_table == ui->tableWidget_FullLoadCurve ) {
 
         m_table->setRowCount(m_table->rowCount()-1);
-    }
 
-    saveTableState();
+        saveTableState();
+    }
+    else {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("This action is not available for the current table!")
+                    );
+        return;
+    }
 }
 
 void MainWindow::on_action_Toolbar_triggered() {
@@ -2393,14 +2445,6 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tableWidget_SrcDataPoints->setEnabled(false);
         ui->tableWidget_FullLoadCurve->setEnabled(false);
 
-        ui->action_OpenReport->setEnabled(false);
-        ui->action_SaveReportAs->setEnabled(false);
-        ui->action_CloseReport->setEnabled(false);
-        ui->action_PrintReport->setEnabled(false);
-        ui->action_ReportToPDF->setEnabled(false);
-        ui->action_AddRow->setEnabled(false);
-        ui->action_DeleteRow->setEnabled(false);
-
         ui->tabWidget_Data->setCurrentIndex(0);
     }
     else if ( currtask == toxic::TASK_EMISSIONS ) {
@@ -2432,7 +2476,8 @@ void MainWindow::taskChanged(const int currtask) {
         ui->comboBox_NOxSample->setEnabled(true);
         ui->comboBox_PTcalc->setEnabled(true);
 
-        if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS ) {
+        if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS ||
+             ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHSMOKEANDPTMASS ) {
 
             ui->doubleSpinBox_PTmass->setEnabled(true);
             ui->pushButton_EnterPTmass->setEnabled(true);
@@ -2461,14 +2506,6 @@ void MainWindow::taskChanged(const int currtask) {
         getUndoRedoCounters(m_table);
 
         ui->tableWidget_FullLoadCurve->setEnabled(false);
-
-        ui->action_OpenReport->setEnabled(true);
-        ui->action_SaveReportAs->setEnabled(true);
-        ui->action_CloseReport->setEnabled(true);
-        ui->action_PrintReport->setEnabled(true);
-        ui->action_ReportToPDF->setEnabled(true);
-        ui->action_AddRow->setEnabled(true);
-        ui->action_DeleteRow->setEnabled(true);
 
         ui->tabWidget_Data->setCurrentIndex(1);
     }
@@ -2499,14 +2536,6 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tableWidget_FullLoadCurve->setFocus();
 
         getUndoRedoCounters(m_table);
-
-        ui->action_OpenReport->setEnabled(false);
-        ui->action_SaveReportAs->setEnabled(false);
-        ui->action_CloseReport->setEnabled(false);
-        ui->action_PrintReport->setEnabled(false);
-        ui->action_ReportToPDF->setEnabled(false);
-        ui->action_AddRow->setEnabled(true);
-        ui->action_DeleteRow->setEnabled(true);
 
         ui->tabWidget_Data->setCurrentIndex(2);
     }
@@ -2630,19 +2659,7 @@ void MainWindow::tabChanged(const int tab) {
 
     if ( tab == 3 ) {
 
-        PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
-
-        ui->action_UndoTable->setEnabled(false);
-        ui->action_RedoTable->setEnabled(false);
-        ui->action_CutFromTable->setEnabled(false);
-        ui->action_CopyFromTable->setEnabled(false);
-        ui->action_PasteToTable->setEnabled(false);
-        ui->action_DeleteFromTable->setEnabled(false);
-
-        ui->action_Add->setEnabled(false);
-        ui->action_Multiply->setEnabled(false);
-        ui->action_Divide->setEnabled(false);
-        ui->action_Equal->setEnabled(false);
+        ui->menuEdit->setEnabled(false);
     }
     else {
 
@@ -2655,7 +2672,6 @@ void MainWindow::tabChanged(const int tab) {
 
             ui->comboBox_task->setCurrentIndex(1);
             taskChanged(ui->comboBox_task->currentIndex());
-            PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
         }
         else if ( tab == 2 ) {
 
@@ -2681,15 +2697,7 @@ void MainWindow::tabChanged(const int tab) {
             ui->action_RedoTable->setEnabled(true);
         }
 
-        ui->action_CutFromTable->setEnabled(true);
-        ui->action_CopyFromTable->setEnabled(true);
-        ui->action_PasteToTable->setEnabled(true);
-        ui->action_DeleteFromTable->setEnabled(true);
-
-        ui->action_Add->setEnabled(true);
-        ui->action_Multiply->setEnabled(true);
-        ui->action_Divide->setEnabled(true);
-        ui->action_Equal->setEnabled(true);
+        ui->menuEdit->setEnabled(true);
     }
 }
 

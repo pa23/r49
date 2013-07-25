@@ -1576,6 +1576,14 @@
         <source>Boost pressure after cooler.</source>
         <translation>Давление наддувочного воздуха после охладителя.</translation>
     </message>
+    <message>
+        <source>Report is empty!</source>
+        <translation>Отчет пуст!</translation>
+    </message>
+    <message>
+        <source>This action is not available for the current table!</source>
+        <translation>Это действие недоступно для текущей таблицы!</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
