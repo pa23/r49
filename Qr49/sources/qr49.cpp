@@ -2251,9 +2251,7 @@ void MainWindow::on_action_CheckoutData_triggered() {
 void MainWindow::on_action_UserManual_triggered() {
 
     const QString userManualLocation1 =
-            QApplication::applicationDirPath()
-            + "/"
-            + DOCDIRNAME
+            DOCDIRNAME
             + "/r49_user_manual_ru.pdf";
 
     const QString userManualLocation2 =
@@ -2261,26 +2259,37 @@ void MainWindow::on_action_UserManual_triggered() {
 
     if ( QFile::exists(userManualLocation1) ) {
 
-        QDesktopServices::openUrl(QUrl(userManualLocation1));
+        if ( !QDesktopServices::openUrl(QUrl(userManualLocation1)) ) {
+
+            QMessageBox::warning(this,
+                                 "Qr49",
+                                 tr("Can not open documentation file!"));
+            return;
+        }
     }
     else if ( QFile::exists(userManualLocation2) ) {
 
-        QDesktopServices::openUrl(QUrl(userManualLocation2));
+        if ( !QDesktopServices::openUrl(QUrl(userManualLocation2)) ) {
+
+            QMessageBox::warning(this,
+                                 "Qr49",
+                                 tr("Can not open documentation file!"));
+            return;
+        }
     }
     else {
 
         QMessageBox::warning(this,
                              "Qr49",
                              tr("Can not find documentation file!"));
+        return;
     }
 }
 
 void MainWindow::on_action_StandardsDescription_triggered() {
 
     const QString standardDescLocation1 =
-            QApplication::applicationDirPath()
-            + "/"
-            + DOCDIRNAME
+            DOCDIRNAME
             + "/diesel_engine_standards_ru.html";
 
     const QString standardDescLocation2 =
@@ -2288,17 +2297,30 @@ void MainWindow::on_action_StandardsDescription_triggered() {
 
     if ( QFile::exists(standardDescLocation1) ) {
 
-        QDesktopServices::openUrl(QUrl(standardDescLocation1));
+        if ( !QDesktopServices::openUrl(QUrl(standardDescLocation1)) ) {
+
+            QMessageBox::warning(this,
+                                 "Qr49",
+                                 tr("Can not open documentation file!"));
+            return;
+        }
     }
     else if ( QFile::exists(standardDescLocation2) ) {
 
-        QDesktopServices::openUrl(QUrl(standardDescLocation2));
+        if ( !QDesktopServices::openUrl(QUrl(standardDescLocation2)) ) {
+
+            QMessageBox::warning(this,
+                                 "Qr49",
+                                 tr("Can not open documentation file!"));
+            return;
+        }
     }
     else {
 
         QMessageBox::warning(this,
                              "Qr49",
                              tr("Can not find documentation file!"));
+        return;
     }
 }
 
