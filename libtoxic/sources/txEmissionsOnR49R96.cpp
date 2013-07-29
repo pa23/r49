@@ -36,6 +36,8 @@
 
 #include <cmath>
 
+#include <QDebug>
+
 namespace toxic {
 
 txEmissionsOnR49R96::txEmissionsOnR49R96(
@@ -627,19 +629,20 @@ void txEmissionsOnR49R96::calc_addPoints() {
 
         power
             |
-            |      T
-       Ntu _|___________
             |                U
+       Ntu _|___________
             |
+            |      T
             |           Z
             |
-            |      R
-       Nrs _|___________
             |                S
+       Nrs _|___________
+            |
+            |      R
             |
             |______|_________|______ speed
                    |         |
-                  nrt       nus
+                  nrt       nsu
     */
 
     const int noxsample = m_calculationOptions->val_NOxSample();
@@ -662,41 +665,230 @@ void txEmissionsOnR49R96::calc_addPoints() {
     m_gNOx2m = ma_gNOx[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
     m_gNOx3m = ma_gNOx[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
-    const double A = ma_n[1];
-    const double B = ma_n[2];
-    const double C = ma_n[9];
+    const double A = (ma_n[1] + ma_n[ 4] + ma_n[ 5] + ma_n[ 6]) / 4.0;
+    const double B = (ma_n[2] + ma_n[ 3] + ma_n[ 7] + ma_n[ 8]) / 4.0;
+    const double C = (ma_n[9] + ma_n[10] + ma_n[11] + ma_n[12]) / 4.0;
 
     const double nz1 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER];
     const double nz2 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
     const double nz3 = ma_n[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
-    const double nrt1 = B;
-    const double nrt2 = A;
-    const double nrt3 = B;
-
-    const double nsu1 = C;
-    const double nsu2 = B;
-    const double nsu3 = C;
-
     const double Nz1 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER];
     const double Nz2 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER + 1];
     const double Nz3 = ma_Ne_netto[m_numberOfPoints - ESCADDPOINTSNUMBER + 2];
 
-    const double Nt1 = ma_Ne_netto[7];
-    const double Nt2 = ma_Ne_netto[5];
-    const double Nt3 = ma_Ne_netto[2];
+    double nrt1 = 0; double nsu1 = 0;
+    double nrt2 = 0; double nsu2 = 0;
+    double nrt3 = 0; double nsu3 = 0;
 
-    const double Nu1 = ma_Ne_netto[ 9];
-    const double Nu2 = ma_Ne_netto[ 3];
-    const double Nu3 = ma_Ne_netto[12];
+    double Nt1 = 0; double Nu1 = 0; double Nr1 = 0; double Ns1 = 0;
+    double Nt2 = 0; double Nu2 = 0; double Nr2 = 0; double Ns2 = 0;
+    double Nt3 = 0; double Nu3 = 0; double Nr3 = 0; double Ns3 = 0;
 
-    const double Nr1 = ma_Ne_netto[3];
-    const double Nr2 = ma_Ne_netto[4];
-    const double Nr3 = ma_Ne_netto[8];
+    double gNOt1 = 0; double gNOu1 = 0; double gNOr1 = 0; double gNOs1 = 0;
+    double gNOt2 = 0; double gNOu2 = 0; double gNOr2 = 0; double gNOs2 = 0;
+    double gNOt3 = 0; double gNOu3 = 0; double gNOr3 = 0; double gNOs3 = 0;
 
-    const double Ns1 = ma_Ne_netto[11];
-    const double Ns2 = ma_Ne_netto[ 2];
-    const double Ns3 = ma_Ne_netto[10];
+    if ( nz1 > A && nz1 < B ) {
+
+        nrt1 = A;
+        nsu1 = B;
+
+        if ( Nz1 > ma_Ne_netto[6] && Nz1 < ma_Ne_netto[2] ) {
+
+            Nt1 = ma_Ne_netto[4]; gNOt1 = ma_gNOx[4];
+            Nu1 = ma_Ne_netto[2]; gNOu1 = ma_gNOx[2];
+            Nr1 = ma_Ne_netto[6]; gNOr1 = ma_gNOx[6];
+            Ns1 = ma_Ne_netto[8]; gNOs1 = ma_gNOx[8];
+        }
+        else if ( Nz1 > ma_Ne_netto[4] && Nz1 < ma_Ne_netto[3] ) {
+
+            Nt1 = ma_Ne_netto[5]; gNOt1 = ma_gNOx[5];
+            Nu1 = ma_Ne_netto[3]; gNOu1 = ma_gNOx[3];
+            Nr1 = ma_Ne_netto[4]; gNOr1 = ma_gNOx[4];
+            Ns1 = ma_Ne_netto[2]; gNOs1 = ma_gNOx[2];
+        }
+        else if ( Nz1 > ma_Ne_netto[5] && Nz1 < ma_Ne_netto[7] ) {
+
+            Nt1 = ma_Ne_netto[1]; gNOt1 = ma_gNOx[1];
+            Nu1 = ma_Ne_netto[7]; gNOu1 = ma_gNOx[7];
+            Nr1 = ma_Ne_netto[5]; gNOr1 = ma_gNOx[5];
+            Ns1 = ma_Ne_netto[3]; gNOs1 = ma_gNOx[3];
+        }
+        else {
+
+            throw txError("Incorrect power value of 1st additional point!");
+        }
+    }
+    else if ( nz1 > B && nz1 < C ) {
+
+        nrt1 = B;
+        nsu1 = C;
+
+        if ( Nz1 > ma_Ne_netto[8] && Nz1 < ma_Ne_netto[12] ) {
+
+            Nt1 = ma_Ne_netto[2];  gNOt1 = ma_gNOx[2];
+            Nu1 = ma_Ne_netto[12]; gNOu1 = ma_gNOx[12];
+            Nr1 = ma_Ne_netto[8];  gNOr1 = ma_gNOx[8];
+            Ns1 = ma_Ne_netto[10]; gNOs1 = ma_gNOx[10];
+        }
+        else if ( Nz1 > ma_Ne_netto[2] && Nz1 < ma_Ne_netto[11] ) {
+
+            Nt1 = ma_Ne_netto[3];  gNOt1 = ma_gNOx[3];
+            Nu1 = ma_Ne_netto[11]; gNOu1 = ma_gNOx[11];
+            Nr1 = ma_Ne_netto[2];  gNOr1 = ma_gNOx[2];
+            Ns1 = ma_Ne_netto[12]; gNOs1 = ma_gNOx[12];
+        }
+        else if ( Nz1 > ma_Ne_netto[3] && Nz1 < ma_Ne_netto[9] ) {
+
+            Nt1 = ma_Ne_netto[7];  gNOt1 = ma_gNOx[7];
+            Nu1 = ma_Ne_netto[9];  gNOu1 = ma_gNOx[9];
+            Nr1 = ma_Ne_netto[3];  gNOr1 = ma_gNOx[3];
+            Ns1 = ma_Ne_netto[11]; gNOs1 = ma_gNOx[11];
+        }
+        else {
+
+            throw txError("Incorrect power value of 1st additional point!");
+        }
+    }
+    else {
+
+        throw txError("Incorrect speed value of 1st additional point!");
+    }
+
+    if ( nz2 > A && nz2 < B ) {
+
+        nrt2 = A;
+        nsu2 = B;
+
+        if ( Nz2 > ma_Ne_netto[6] && Nz2 < ma_Ne_netto[2] ) {
+
+            Nt2 = ma_Ne_netto[4]; gNOt2 = ma_gNOx[4];
+            Nu2 = ma_Ne_netto[2]; gNOu2 = ma_gNOx[2];
+            Nr2 = ma_Ne_netto[6]; gNOr2 = ma_gNOx[6];
+            Ns2 = ma_Ne_netto[8]; gNOs2 = ma_gNOx[8];
+        }
+        else if ( Nz2 > ma_Ne_netto[4] && Nz2 < ma_Ne_netto[3] ) {
+
+            Nt2 = ma_Ne_netto[5]; gNOt2 = ma_gNOx[5];
+            Nu2 = ma_Ne_netto[3]; gNOu2 = ma_gNOx[3];
+            Nr2 = ma_Ne_netto[4]; gNOr2 = ma_gNOx[4];
+            Ns2 = ma_Ne_netto[2]; gNOs2 = ma_gNOx[2];
+        }
+        else if ( Nz2 > ma_Ne_netto[5] && Nz2 < ma_Ne_netto[7] ) {
+
+            Nt2 = ma_Ne_netto[1]; gNOt2 = ma_gNOx[1];
+            Nu2 = ma_Ne_netto[7]; gNOu2 = ma_gNOx[7];
+            Nr2 = ma_Ne_netto[5]; gNOr2 = ma_gNOx[5];
+            Ns2 = ma_Ne_netto[3]; gNOs2 = ma_gNOx[3];
+        }
+        else {
+
+            throw txError("Incorrect power value of 2nd additional point!");
+        }
+    }
+    else if ( nz2 > B && nz2 < C ) {
+
+        nrt2 = B;
+        nsu2 = C;
+
+        if ( Nz2 > ma_Ne_netto[8] && Nz2 < ma_Ne_netto[12] ) {
+
+            Nt2 = ma_Ne_netto[2];  gNOt2 = ma_gNOx[2];
+            Nu2 = ma_Ne_netto[12]; gNOu2 = ma_gNOx[12];
+            Nr2 = ma_Ne_netto[8];  gNOr2 = ma_gNOx[8];
+            Ns2 = ma_Ne_netto[10]; gNOs2 = ma_gNOx[10];
+        }
+        else if ( Nz2 > ma_Ne_netto[2] && Nz2 < ma_Ne_netto[11] ) {
+
+            Nt2 = ma_Ne_netto[3];  gNOt2 = ma_gNOx[3];
+            Nu2 = ma_Ne_netto[11]; gNOu2 = ma_gNOx[11];
+            Nr2 = ma_Ne_netto[2];  gNOr2 = ma_gNOx[2];
+            Ns2 = ma_Ne_netto[12]; gNOs2 = ma_gNOx[12];
+        }
+        else if ( Nz2 > ma_Ne_netto[3] && Nz2 < ma_Ne_netto[9] ) {
+
+            Nt2 = ma_Ne_netto[7];  gNOt2 = ma_gNOx[7];
+            Nu2 = ma_Ne_netto[9];  gNOu2 = ma_gNOx[9];
+            Nr2 = ma_Ne_netto[3];  gNOr2 = ma_gNOx[3];
+            Ns2 = ma_Ne_netto[11]; gNOs2 = ma_gNOx[11];
+        }
+        else {
+
+            throw txError("Incorrect power value of 2nd additional point!");
+        }
+    }
+    else {
+
+        throw txError("Incorrect speed value of 2nd additional point!");
+    }
+
+    if ( nz3 > A && nz3 < B ) {
+
+        nrt3 = A;
+        nsu3 = B;
+
+        if ( Nz3 > ma_Ne_netto[6] && Nz3 < ma_Ne_netto[2] ) {
+
+            Nt3 = ma_Ne_netto[4]; gNOt3 = ma_gNOx[4];
+            Nu3 = ma_Ne_netto[2]; gNOu3 = ma_gNOx[2];
+            Nr3 = ma_Ne_netto[6]; gNOr3 = ma_gNOx[6];
+            Ns3 = ma_Ne_netto[8]; gNOs3 = ma_gNOx[8];
+        }
+        else if ( Nz3 > ma_Ne_netto[4] && Nz3 < ma_Ne_netto[3] ) {
+
+            Nt3 = ma_Ne_netto[5]; gNOt3 = ma_gNOx[5];
+            Nu3 = ma_Ne_netto[3]; gNOu3 = ma_gNOx[3];
+            Nr3 = ma_Ne_netto[4]; gNOr3 = ma_gNOx[4];
+            Ns3 = ma_Ne_netto[2]; gNOs3 = ma_gNOx[2];
+        }
+        else if ( Nz3 > ma_Ne_netto[5] && Nz3 < ma_Ne_netto[7] ) {
+
+            Nt3 = ma_Ne_netto[1]; gNOt3 = ma_gNOx[1];
+            Nu3 = ma_Ne_netto[7]; gNOu3 = ma_gNOx[7];
+            Nr3 = ma_Ne_netto[5]; gNOr3 = ma_gNOx[5];
+            Ns3 = ma_Ne_netto[3]; gNOs3 = ma_gNOx[3];
+        }
+        else {
+
+            throw txError("Incorrect power value of 3rd additional point!");
+        }
+    }
+    else if ( nz3 > B && nz3 < C ) {
+
+        nrt3 = B;
+        nsu3 = C;
+
+        if ( Nz3 > ma_Ne_netto[8] && Nz3 < ma_Ne_netto[12] ) {
+
+            Nt3 = ma_Ne_netto[2];  gNOt3 = ma_gNOx[2];
+            Nu3 = ma_Ne_netto[12]; gNOu3 = ma_gNOx[12];
+            Nr3 = ma_Ne_netto[8];  gNOr3 = ma_gNOx[8];
+            Ns3 = ma_Ne_netto[10]; gNOs3 = ma_gNOx[10];
+        }
+        else if ( Nz3 > ma_Ne_netto[2] && Nz3 < ma_Ne_netto[11] ) {
+
+            Nt3 = ma_Ne_netto[3];  gNOt3 = ma_gNOx[3];
+            Nu3 = ma_Ne_netto[11]; gNOu3 = ma_gNOx[11];
+            Nr3 = ma_Ne_netto[2];  gNOr3 = ma_gNOx[2];
+            Ns3 = ma_Ne_netto[12]; gNOs3 = ma_gNOx[12];
+        }
+        else if ( Nz3 > ma_Ne_netto[3] && Nz3 < ma_Ne_netto[9] ) {
+
+            Nt3 = ma_Ne_netto[7];  gNOt3 = ma_gNOx[7];
+            Nu3 = ma_Ne_netto[9];  gNOu3 = ma_gNOx[9];
+            Nr3 = ma_Ne_netto[3];  gNOr3 = ma_gNOx[3];
+            Ns3 = ma_Ne_netto[11]; gNOs3 = ma_gNOx[11];
+        }
+        else {
+
+            throw txError("Incorrect power value of 3rd additional point!");
+        }
+    }
+    else {
+
+        throw txError("Incorrect speed value of 3rd additional point!");
+    }
 
     const double Ntu1 = Nt1 + (Nu1 - Nt1) * (nz1 - nrt1) / (nsu1 - nrt1);
     const double Ntu2 = Nt2 + (Nu2 - Nt2) * (nz2 - nrt2) / (nsu2 - nrt2);
@@ -705,22 +897,6 @@ void txEmissionsOnR49R96::calc_addPoints() {
     const double Nrs1 = Nr1 + (Ns1 - Nr1) * (nz1 - nrt1) / (nsu1 - nrt1);
     const double Nrs2 = Nr2 + (Ns2 - Nr2) * (nz2 - nrt2) / (nsu2 - nrt2);
     const double Nrs3 = Nr3 + (Ns3 - Nr3) * (nz3 - nrt3) / (nsu3 - nrt3);
-
-    const double gNOt1 = ma_gNOx[7];
-    const double gNOt2 = ma_gNOx[5];
-    const double gNOt3 = ma_gNOx[2];
-
-    const double gNOu1 = ma_gNOx[ 9];
-    const double gNOu2 = ma_gNOx[ 3];
-    const double gNOu3 = ma_gNOx[12];
-
-    const double gNOr1 = ma_gNOx[3];
-    const double gNOr2 = ma_gNOx[4];
-    const double gNOr3 = ma_gNOx[8];
-
-    const double gNOs1 = ma_gNOx[11];
-    const double gNOs2 = ma_gNOx[ 2];
-    const double gNOs3 = ma_gNOx[10];
 
     const double gNOtu1 = gNOt1 + (gNOu1 - gNOt1) * (nz1 - nrt1) / (nsu1 - nrt1);
     const double gNOtu2 = gNOt2 + (gNOu2 - gNOt2) * (nz2 - nrt2) / (nsu2 - nrt2);
