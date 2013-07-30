@@ -1918,7 +1918,7 @@ QString txEmissionsOnR49R96::saveReportPT() const {
         else if ( m_smoke == SMOKE_KAPERC ) {
             fout << ma_KaPerc[i];
         }
-        else if ( SMOKE_FSN ) {
+        else if ( m_smoke == SMOKE_FSN ) {
             fout << ma_FSN[i];
         }
 
