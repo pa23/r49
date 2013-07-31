@@ -1876,7 +1876,7 @@ void MainWindow::on_action_Equal_triggered() {
 
 void MainWindow::on_action_Randomize_triggered() {
 
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    qsrand(QDateTime::currentMSecsSinceEpoch());
 
     if ( !arithmeticOperation("randomize") ) {
 
