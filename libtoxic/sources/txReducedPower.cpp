@@ -85,20 +85,20 @@ void txReducedPower::calculate() {
 
     //
 
-    ma_Ne_brutto.clear();        ma_Ne_brutto.resize(m_numberOfPoints);
-    ma_ge_brutto.clear();        ma_ge_brutto.resize(m_numberOfPoints);
-    ma_qcs.clear();              ma_qcs.resize(m_numberOfPoints);
-    ma_fm.clear();               ma_fm.resize(m_numberOfPoints);
-    ma_pa.clear();               ma_pa.resize(m_numberOfPoints);
-    ma_ps.clear();               ma_ps.resize(m_numberOfPoints);
-    ma_fa.clear();               ma_fa.resize(m_numberOfPoints);
-    ma_alphad.clear();           ma_alphad.resize(m_numberOfPoints);
-    ma_Ne_reduced.clear();       ma_Ne_reduced.resize(m_numberOfPoints);
-    ma_Ne_brake_reduced.clear(); ma_Ne_brake_reduced.resize(m_numberOfPoints);
-    ma_Me_brake_reduced.clear(); ma_Me_brake_reduced.resize(m_numberOfPoints);
-    ma_Ne_netto_reduced.clear(); ma_Ne_netto_reduced.resize(m_numberOfPoints);
-    ma_Me_netto_reduced.clear(); ma_Me_netto_reduced.resize(m_numberOfPoints);
-    ma_ge_netto_reduced.clear(); ma_ge_netto_reduced.resize(m_numberOfPoints);
+    ma_Ne_brutto.clear();          ma_Ne_brutto.resize(m_numberOfPoints);
+    ma_ge_brutto.clear();          ma_ge_brutto.resize(m_numberOfPoints);
+    ma_qcs.clear();                ma_qcs.resize(m_numberOfPoints);
+    ma_fm.clear();                 ma_fm.resize(m_numberOfPoints);
+    ma_pa.clear();                 ma_pa.resize(m_numberOfPoints);
+    ma_ps.clear();                 ma_ps.resize(m_numberOfPoints);
+    ma_fa.clear();                 ma_fa.resize(m_numberOfPoints);
+    ma_alphad.clear();             ma_alphad.resize(m_numberOfPoints);
+    ma_Ne_brake_corrected.clear(); ma_Ne_brake_corrected.resize(m_numberOfPoints);
+    ma_Me_brake_corrected.clear(); ma_Me_brake_corrected.resize(m_numberOfPoints);
+    ma_Ne_reduced.clear();         ma_Ne_reduced.resize(m_numberOfPoints);
+    ma_Ne_netto_reduced.clear();   ma_Ne_netto_reduced.resize(m_numberOfPoints);
+    ma_Me_netto_reduced.clear();   ma_Me_netto_reduced.resize(m_numberOfPoints);
+    ma_ge_netto_reduced.clear();   ma_ge_netto_reduced.resize(m_numberOfPoints);
 
     defRate();
 
@@ -150,9 +150,9 @@ void txReducedPower::calculate() {
                           "is out-of-range (0.9..1.1)!");
         }
 
-        ma_Ne_reduced[i] = ma_alphad[i] * ma_Ne_brutto[i];
-        ma_Ne_brake_reduced[i] = ma_Ne_brutto[i] + ma_N_k[i];
-        ma_Me_brake_reduced[i] = ma_Ne_brake_reduced[i] * 9550.0 / ma_n[i];
+        ma_Ne_brake_corrected[i] = ma_Ne_brutto[i] + ma_N_k[i];
+        ma_Me_brake_corrected[i] = ma_Ne_brake_corrected[i] * 9550.0 / ma_n[i];
+        ma_Ne_reduced[i] = ma_alphad[i] * ma_Ne_brake_corrected[i];
         ma_N_fan[i] = N_fan(m_N_fan_rated, ma_n[i], m_n_rated);
         ma_Ne_netto_reduced[i] = ma_Ne_reduced[i] - ma_N_fan[i];
         ma_Me_netto_reduced[i] = ma_Ne_netto_reduced[i] * 9550.0 / ma_n[i];
@@ -355,9 +355,9 @@ QString txReducedPower::saveCheckoutData() const {
         fout << qSetRealNumberPrecision(PRECISION+2);
         fout << ma_fa[i] << ma_alphad[i];
         fout << qSetRealNumberPrecision(PRECISION);
-        fout << ma_Ne_reduced[i]       << ma_Ne_brake_reduced[i]
-             << ma_Me_brake_reduced[i] << ma_Ne_netto_reduced[i]
-             << ma_Me_netto_reduced[i] << ma_ge_netto_reduced[i];
+        fout << ma_Ne_reduced[i]         << ma_Ne_brake_corrected[i]
+             << ma_Me_brake_corrected[i] << ma_Ne_netto_reduced[i]
+             << ma_Me_netto_reduced[i]   << ma_ge_netto_reduced[i];
         fout << qSetFieldWidth(0)
              << "\n";
     }

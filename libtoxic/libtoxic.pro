@@ -25,10 +25,10 @@ TARGET = toxic
 
 TEMPLATE = lib
 
-VERSION = 7.2.2
+VERSION = 7.2.3
 VER_MAJ = 7
 VER_MIN = 2
-VER_PAT = 2
+VER_PAT = 3
 
 HEADERS += \
     sources/txAuxiliaryFunctions.h \
