@@ -2127,6 +2127,17 @@ void MainWindow::on_action_Execute_triggered() {
                                         QDir::Time)
                                     );
 
+                if ( reports.isEmpty() ) {
+
+                    QMessageBox::warning(this, "Qr49", tr("Cannot find the report files!"));
+                }
+
+                if ( reports.size() > 1 ) {
+
+                    ui->comboBox_OpenedReports->
+                            insertItem(0, m_lastReportsDir.absoluteFilePath(reports[1]));
+                }
+
                 m_lastReportFileName =
                         m_lastReportsDir.absoluteFilePath(reports.first());
 

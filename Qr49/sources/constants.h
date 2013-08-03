@@ -26,7 +26,7 @@
 #include <QDir>
 
 const QString QR49NAME = "Qr49";
-const QString QR49VERSION = "3.7.3";
+const QString QR49VERSION = "3.7.4";
 const QString CONFIGFILENAME =
         "r49data"
         + QString(QDir::separator())
