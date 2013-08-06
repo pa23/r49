@@ -1584,6 +1584,14 @@
         <source>This action is not available for the current table!</source>
         <translation>Это действие недоступно для текущей таблицы!</translation>
     </message>
+    <message>
+        <source>Cannot find the report files!</source>
+        <translation>Невозможно найти файлы отчетов!</translation>
+    </message>
+    <message>
+        <source>Can not open documentation file!</source>
+        <translation>Невозможно открыть файл документации!</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
