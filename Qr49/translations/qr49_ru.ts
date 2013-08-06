@@ -600,10 +600,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Undo (0)</source>
         <translation>Отмена (0)</translation>
     </message>
@@ -1278,10 +1274,6 @@
         <translation>Закрыть отчет</translation>
     </message>
     <message>
-        <source>Report to PDF...</source>
-        <translation>Отчет в PDF...</translation>
-    </message>
-    <message>
         <source>Common parameters...</source>
         <translation>Общие параметры...</translation>
     </message>
@@ -1591,6 +1583,14 @@
     <message>
         <source>Can not open documentation file!</source>
         <translation>Невозможно открыть файл документации!</translation>
+    </message>
+    <message>
+        <source>Export report to PDF...</source>
+        <translation>Экспортировать отчет в PDF... </translation>
+    </message>
+    <message>
+        <source>Save report and export to PDF...</source>
+        <translation>Сохранить отчет и экспортировать в PDF...</translation>
     </message>
 </context>
 <context>

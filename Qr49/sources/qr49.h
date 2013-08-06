@@ -123,8 +123,9 @@ private slots:
     void on_action_SaveCalculationOptionsAs_triggered();
     void on_action_OpenReport_triggered();
     void on_action_SaveReportAs_triggered();
-    void on_action_CloseReport_triggered();
     void on_action_ReportToPDF_triggered();
+    void on_action_SaveReportAndExportToPDF_triggered();
+    void on_action_CloseReport_triggered();
     void on_action_PrintReport_triggered();
     void on_action_PrintSelectedCells_triggered();
     void on_action_Preferences_triggered();

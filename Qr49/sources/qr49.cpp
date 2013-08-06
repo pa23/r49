@@ -1454,24 +1454,6 @@ void MainWindow::on_action_SaveReportAs_triggered() {
     }
 }
 
-void MainWindow::on_action_CloseReport_triggered() {
-
-    if ( ui->comboBox_OpenedReports->count() == 1 ) {
-
-        ui->comboBox_OpenedReports->removeItem(0);
-        ui->plainTextEdit_Report->setPlainText("");
-    }
-    else {
-
-        ui->comboBox_OpenedReports->
-                removeItem(ui->comboBox_OpenedReports->currentIndex());
-
-        reportChanged(ui->comboBox_OpenedReports->currentText());
-    }
-
-    ui->tabWidget_Data->setCurrentIndex(3);
-}
-
 void MainWindow::on_action_ReportToPDF_triggered() {
 
     if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
@@ -1519,6 +1501,30 @@ void MainWindow::on_action_ReportToPDF_triggered() {
     txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
     txtDoc.setPlainText(ui->plainTextEdit_Report->toPlainText());
     txtDoc.print(&printer);
+}
+
+void MainWindow::on_action_SaveReportAndExportToPDF_triggered() {
+
+    on_action_SaveReportAs_triggered();
+    on_action_ReportToPDF_triggered();
+}
+
+void MainWindow::on_action_CloseReport_triggered() {
+
+    if ( ui->comboBox_OpenedReports->count() == 1 ) {
+
+        ui->comboBox_OpenedReports->removeItem(0);
+        ui->plainTextEdit_Report->setPlainText("");
+    }
+    else {
+
+        ui->comboBox_OpenedReports->
+                removeItem(ui->comboBox_OpenedReports->currentIndex());
+
+        reportChanged(ui->comboBox_OpenedReports->currentText());
+    }
+
+    ui->tabWidget_Data->setCurrentIndex(3);
 }
 
 void MainWindow::on_action_PrintReport_triggered() {

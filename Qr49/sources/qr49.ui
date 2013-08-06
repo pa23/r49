@@ -875,12 +875,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <widget class="QMenu" name="menuExport">
-     <property name="title">
-      <string>Export</string>
-     </property>
-     <addaction name="action_ReportToPDF"/>
-    </widget>
     <widget class="QMenu" name="menuPrint">
      <property name="title">
       <string>Print</string>
@@ -898,9 +892,10 @@
     <addaction name="separator"/>
     <addaction name="action_OpenReport"/>
     <addaction name="action_SaveReportAs"/>
+    <addaction name="action_ReportToPDF"/>
+    <addaction name="action_SaveReportAndExportToPDF"/>
     <addaction name="action_CloseReport"/>
     <addaction name="separator"/>
-    <addaction name="menuExport"/>
     <addaction name="menuPrint"/>
     <addaction name="separator"/>
     <addaction name="action_Preferences"/>
@@ -1025,7 +1020,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>311</width>
+          <width>310</width>
           <height>247</height>
          </rect>
         </property>
@@ -1046,7 +1041,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>293</width>
+              <width>292</width>
               <height>537</height>
              </rect>
             </property>
@@ -1563,8 +1558,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>186</width>
-          <height>243</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1792,8 +1787,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>250</width>
-          <height>169</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1931,8 +1926,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
-          <height>137</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2055,8 +2050,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>152</width>
-          <height>114</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2426,7 +2421,7 @@
      <normaloff>:/icons/icons/file-export-report_to_pdf.png</normaloff>:/icons/icons/file-export-report_to_pdf.png</iconset>
    </property>
    <property name="text">
-    <string>Report to PDF...</string>
+    <string>Export report to PDF...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -2615,6 +2610,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+.</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_SaveReportAndExportToPDF">
+   <property name="text">
+    <string>Save report and export to PDF...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
