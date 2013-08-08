@@ -26,7 +26,7 @@
 
 namespace toxic {
 
-#define TOXIC_VERSION "7.3.0"
+#define TOXIC_VERSION "7.2.4"
 
 struct toxicIdentification {
 
