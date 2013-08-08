@@ -1940,16 +1940,8 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
 
 void MainWindow::on_action_AddRow_triggered() {
 
-    if ( m_table == ui->tableWidget_SrcDataPoints ||
-         m_table == ui->tableWidget_FullLoadCurve ) {
-
-        tableCellChangedConnect(false);
-        addRows(m_table, m_table->rowCount()+1);
-        tableCellChangedConnect(true);
-
-        saveTableState();
-    }
-    else {
+    if ( m_table != ui->tableWidget_SrcDataPoints &&
+         m_table != ui->tableWidget_FullLoadCurve ) {
 
         QMessageBox::critical(
                     this,
@@ -1958,26 +1950,12 @@ void MainWindow::on_action_AddRow_triggered() {
                     );
         return;
     }
-}
 
-void MainWindow::on_action_DeleteLastRow_triggered() {
+    tableCellChangedConnect(false);
+    addRows(m_table, m_table->rowCount()+1);
+    tableCellChangedConnect(true);
 
-    if ( m_table == ui->tableWidget_SrcDataPoints ||
-         m_table == ui->tableWidget_FullLoadCurve ) {
-
-        m_table->setRowCount(m_table->rowCount()-1);
-
-        saveTableState();
-    }
-    else {
-
-        QMessageBox::critical(
-                    this,
-                    "Qr49",
-                    tr("This action is not available for the current table!")
-                    );
-        return;
-    }
+    saveTableState();
 }
 
 void MainWindow::on_action_DeleteRows_triggered() {
@@ -2000,47 +1978,13 @@ void MainWindow::on_action_DeleteRows_triggered() {
     }
 
     QTableWidgetSelectionRange selRange = m_table->selectedRanges().first();
-    QVector<ptrdiff_t> selRows;
 
-    for ( ptrdiff_t n=selRange.topRow(); n<=selRange.bottomRow(); n++ ) {
+    for ( ptrdiff_t i=selRange.bottomRow(); i>=selRange.topRow(); i-- ) {
 
-        selRows.push_back(n);
+        m_table->removeRow(i);
     }
 
-    m_table->clearSelection();
-
-    QString copiedData;
-
-    for ( ptrdiff_t n=selRows[selRows.size()-1]; n>=selRows[0]; n-- ) {
-
-        if ( (n+1) == m_table->rowCount() ) {
-
-            on_action_DeleteLastRow_triggered();
-            continue;
-        }
-
-        for ( ptrdiff_t i=(n+1); i<m_table->rowCount(); i++ ) {
-
-            for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
-
-                copiedData += m_table->item(i, j)->text();
-
-                if ( j != (m_table->columnCount()-1) ) {
-
-                    copiedData += "\t";
-                }
-            }
-
-            copiedData += "\n";
-        }
-
-        QApplication::clipboard()->setText(copiedData);
-        copiedData.clear();
-
-        m_table->setRowCount(n+1);
-        m_table->setCurrentCell(m_table->rowCount()-1, 0);
-        on_action_PasteToTable_triggered();
-    }
+    saveTableState();
 }
 
 void MainWindow::on_action_Toolbar_triggered() {

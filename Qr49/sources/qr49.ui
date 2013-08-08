@@ -943,7 +943,6 @@
     <addaction name="action_LowerAccuracy"/>
     <addaction name="separator"/>
     <addaction name="action_AddRow"/>
-    <addaction name="action_DeleteLastRow"/>
     <addaction name="action_DeleteRows"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -1562,8 +1561,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1791,8 +1790,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1930,8 +1929,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2054,8 +2053,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2632,7 +2631,7 @@
     <string>Delete rows</string>
    </property>
    <property name="shortcut">
-    <string>Shift+Del</string>
+    <string>F12</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
