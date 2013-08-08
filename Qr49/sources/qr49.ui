@@ -661,6 +661,9 @@
                <property name="selectionMode">
                 <enum>QAbstractItemView::ContiguousSelection</enum>
                </property>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>80</number>
+               </attribute>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
                </attribute>
@@ -940,7 +943,8 @@
     <addaction name="action_LowerAccuracy"/>
     <addaction name="separator"/>
     <addaction name="action_AddRow"/>
-    <addaction name="action_DeleteRow"/>
+    <addaction name="action_DeleteLastRow"/>
+    <addaction name="action_DeleteRows"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -1020,7 +1024,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>310</width>
+          <width>311</width>
           <height>247</height>
          </rect>
         </property>
@@ -1041,7 +1045,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>292</width>
+              <width>293</width>
               <height>537</height>
              </rect>
             </property>
@@ -2228,9 +2232,9 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="action_DeleteRow">
+  <action name="action_DeleteLastRow">
    <property name="text">
-    <string>Delete row</string>
+    <string>Delete last row</string>
    </property>
    <property name="shortcut">
     <string>F12</string>
@@ -2618,6 +2622,17 @@
   <action name="action_SaveReportAndExportToPDF">
    <property name="text">
     <string>Save report and export to PDF...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_DeleteRows">
+   <property name="text">
+    <string>Delete rows</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Del</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>

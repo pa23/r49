@@ -1254,10 +1254,6 @@
         <translation>Добавить строку</translation>
     </message>
     <message>
-        <source>Delete row</source>
-        <translation>Удалить строку</translation>
-    </message>
-    <message>
         <source>Save report as...</source>
         <translation>Сохранить отчет как...</translation>
     </message>
@@ -1591,6 +1587,22 @@
     <message>
         <source>Save report and export to PDF...</source>
         <translation>Сохранить отчет и экспортировать в PDF...</translation>
+    </message>
+    <message>
+        <source>Delete last row</source>
+        <translation>Удалить последнюю строку</translation>
+    </message>
+    <message>
+        <source>Delete rows</source>
+        <translation>Удалить строки</translation>
+    </message>
+    <message>
+        <source>Shift+Del</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>No selected rows!</source>
+        <translation>Нет выбранных строк!</translation>
     </message>
 </context>
 <context>

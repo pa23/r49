@@ -853,9 +853,9 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 
     if ( m_valueDialog->exec() == QDialog::Accepted ) {
 
-        if ( m_table->selectedRanges().empty() ) {
+        if ( m_table->selectedRanges().isEmpty() ) {
 
-            QMessageBox::critical(this, "Qr49", tr("No selected cells!"));
+            QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
             return false;
         }
 
@@ -1896,7 +1896,7 @@ void MainWindow::on_action_Randomize_triggered() {
 
 void MainWindow::on_action_LowerAccuracy_triggered() {
 
-    if ( m_table->selectedRanges().empty() ) {
+    if ( m_table->selectedRanges().isEmpty() ) {
 
         QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
         return;
@@ -1960,7 +1960,7 @@ void MainWindow::on_action_AddRow_triggered() {
     }
 }
 
-void MainWindow::on_action_DeleteRow_triggered() {
+void MainWindow::on_action_DeleteLastRow_triggered() {
 
     if ( m_table == ui->tableWidget_SrcDataPoints ||
          m_table == ui->tableWidget_FullLoadCurve ) {
@@ -1977,6 +1977,69 @@ void MainWindow::on_action_DeleteRow_triggered() {
                     tr("This action is not available for the current table!")
                     );
         return;
+    }
+}
+
+void MainWindow::on_action_DeleteRows_triggered() {
+
+    if ( m_table != ui->tableWidget_SrcDataPoints &&
+         m_table != ui->tableWidget_FullLoadCurve ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("This action is not available for the current table!")
+                    );
+        return;
+    }
+
+    if ( m_table->selectedRanges().isEmpty() ) {
+
+        QMessageBox::warning(this, "Qr49", tr("No selected rows!"));
+        return;
+    }
+
+    QTableWidgetSelectionRange selRange = m_table->selectedRanges().first();
+    QVector<ptrdiff_t> selRows;
+
+    for ( ptrdiff_t n=selRange.topRow(); n<=selRange.bottomRow(); n++ ) {
+
+        selRows.push_back(n);
+    }
+
+    m_table->clearSelection();
+
+    QString copiedData;
+
+    for ( ptrdiff_t n=selRows[selRows.size()-1]; n>=selRows[0]; n-- ) {
+
+        if ( (n+1) == m_table->rowCount() ) {
+
+            on_action_DeleteLastRow_triggered();
+            continue;
+        }
+
+        for ( ptrdiff_t i=(n+1); i<m_table->rowCount(); i++ ) {
+
+            for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
+
+                copiedData += m_table->item(i, j)->text();
+
+                if ( j != (m_table->columnCount()-1) ) {
+
+                    copiedData += "\t";
+                }
+            }
+
+            copiedData += "\n";
+        }
+
+        QApplication::clipboard()->setText(copiedData);
+        copiedData.clear();
+
+        m_table->setRowCount(n+1);
+        m_table->setCurrentCell(m_table->rowCount()-1, 0);
+        on_action_PasteToTable_triggered();
     }
 }
 

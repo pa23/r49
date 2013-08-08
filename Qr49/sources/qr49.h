@@ -143,7 +143,8 @@ private slots:
     void on_action_Randomize_triggered();
     void on_action_LowerAccuracy_triggered();
     void on_action_AddRow_triggered();
-    void on_action_DeleteRow_triggered();
+    void on_action_DeleteLastRow_triggered();
+    void on_action_DeleteRows_triggered();
     void on_action_Toolbar_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
