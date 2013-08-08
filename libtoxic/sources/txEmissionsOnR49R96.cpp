@@ -1494,6 +1494,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         fout << "Point[-]"
              << "n[min-1]"
              << "Ne_n[kW]"
+             << "Me_n[Nm]"
              << "Gair[kg/h]"
              << "Gfuel[kg/h]"
              << "alpha[-]"
@@ -1506,6 +1507,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         fout << (ESCPOINTSNUMBER+1)
              << ma_n[ESCPOINTSNUMBER]
              << ma_Ne_netto[ESCPOINTSNUMBER]
+             << ma_Me_netto[ESCPOINTSNUMBER]
              << ma_Gair[ESCPOINTSNUMBER]
              << ma_Gfuel[ESCPOINTSNUMBER]
              << ma_alpha[ESCPOINTSNUMBER]
@@ -1518,6 +1520,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         fout << (ESCPOINTSNUMBER+2)
              << ma_n[ESCPOINTSNUMBER+1]
              << ma_Ne_netto[ESCPOINTSNUMBER+1]
+             << ma_Me_netto[ESCPOINTSNUMBER+1]
              << ma_Gair[ESCPOINTSNUMBER+1]
              << ma_Gfuel[ESCPOINTSNUMBER+1]
              << ma_alpha[ESCPOINTSNUMBER+1]
@@ -1530,6 +1533,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         fout << (ESCPOINTSNUMBER+3)
              << ma_n[ESCPOINTSNUMBER+2]
              << ma_Ne_netto[ESCPOINTSNUMBER+2]
+             << ma_Me_netto[ESCPOINTSNUMBER+2]
              << ma_Gair[ESCPOINTSNUMBER+2]
              << ma_Gfuel[ESCPOINTSNUMBER+2]
              << ma_alpha[ESCPOINTSNUMBER+2]
