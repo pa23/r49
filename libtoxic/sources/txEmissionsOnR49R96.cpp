@@ -1238,9 +1238,17 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
 
     fout << toxicIdentification{}.name()
          << " version "
-         << toxicIdentification{}.version()
-         << "    Report on cycle "
-         << m_calculationOptions->defStandardName(currstd)
+         << toxicIdentification{}.version();
+
+    if ( currstd == STD_EU6 || currstd == STD_EU5 || currstd == STD_EU4 ||
+         currstd == STD_EU3 ) {
+        fout << "    Report on ESC ";
+    }
+    else {
+        fout << "    Report on cycle ";
+    }
+
+    fout << m_calculationOptions->defStandardName(currstd)
          << "    DateTime: "
          << m_currTime
          << "\n\n"
