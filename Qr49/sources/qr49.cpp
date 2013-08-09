@@ -29,6 +29,7 @@
 #include "dataimportdialog.h"
 #include "tablewidgetfunctions.h"
 #include "constants.h"
+#include "reportprocessingsettingsdialog.h"
 
 #include "txCalculationOptions.h"
 #include "txConstants.h"
@@ -82,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_preferencesDialog(new PreferencesDialog(this)),
     m_checkoutDataDialog(new CheckoutDataDialog(0)),
     m_dataImportDialog(new DataImportDialog(this)),
+    m_reportprocsetdialog(new ReportProcessingSettingsDialog(this)),
 
     m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
@@ -92,11 +94,46 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    this->setWindowTitle(QR49NAME + " v" + QR49VERSION);
+    this->setWindowTitle(
+                QR49NAME
+                + " v"
+                + QR49VERSION
+                + " (uses "
+                + toxic::toxicIdentification{}.name()
+                + " v"
+                + toxic::toxicIdentification{}.version()
+                + ")"
+                );
 
     m_contextMenu->addMenu(ui->menuFile);
     m_contextMenu->addMenu(ui->menuEdit);
     m_contextMenu->addMenu(ui->menuCalculation);
+
+    //
+
+    m_engFieldTextEdit = m_reportprocsetdialog->
+            findChild<QPlainTextEdit *>("plainTextEdit_FieldEngineText");
+    if ( !m_engFieldTextEdit ) {
+        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
+                              + ":::"
+                              + tr("Child object not found! Restart program!"));
+    }
+
+    m_applyEngFieldText = m_reportprocsetdialog->
+            findChild<QCheckBox *>("checkBox_ApplyEngineFieldText");
+    if ( !m_applyEngFieldText ) {
+        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
+                              + ":::"
+                              + tr("Child object not found! Restart program!"));
+    }
+
+    m_createCommonReport = m_reportprocsetdialog->
+            findChild<QCheckBox *>("checkBox_CreateCommonReport");
+    if ( !m_createCommonReport ) {
+        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
+                              + ":::"
+                              + tr("Child object not found! Restart program!"));
+    }
 
     //
 
@@ -345,6 +382,7 @@ MainWindow::~MainWindow() {
     delete m_preferencesDialog;
     delete m_checkoutDataDialog;
     delete m_dataImportDialog;
+    delete m_reportprocsetdialog;
     delete m_regExpValidator;
 }
 
@@ -367,6 +405,9 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/lastReportsDir", m_lastReportsDir.absolutePath());
     m_qr49settings.setValue("/lastCheckoutDataFileName", m_lastCheckoutDataFileName);
     m_qr49settings.setValue("/lastReportFileName", m_lastReportFileName);
+    m_qr49settings.setValue("/engFieldText", m_engFieldTextEdit->toPlainText());
+    m_qr49settings.setValue("/applyEngFieldText", m_applyEngFieldText->isChecked());
+    m_qr49settings.setValue("/createCommonReport", m_createCommonReport->isChecked());
     m_qr49settings.endGroup();
 }
 
@@ -389,6 +430,9 @@ void MainWindow::readProgramSettings() {
     m_lastReportsDir.setPath(m_qr49settings.value("/lastReportsDir", "").toString());
     m_lastCheckoutDataFileName = m_qr49settings.value("/lastCheckoutDataFileName", "").toString();
     m_lastReportFileName = m_qr49settings.value("/lastReportFileName", "").toString();
+    m_engFieldTextEdit->setPlainText(m_qr49settings.value("/engFieldText", "").toString());
+    m_applyEngFieldText->setChecked(m_qr49settings.value("/applyEngFieldText", false).toBool());
+    m_createCommonReport->setChecked(m_qr49settings.value("/createCommonReport", false).toBool());
     m_qr49settings.endGroup();
 
     if ( ui->action_Toolbar->isChecked() ) {
@@ -2376,6 +2420,11 @@ void MainWindow::on_action_Preferences_triggered() {
     }
 }
 
+void MainWindow::on_action_ReportsProcessing_triggered() {
+
+    m_reportprocsetdialog->exec();
+}
+
 void MainWindow::on_action_UserManual_triggered() {
 
     const QString userManualLocation1 =
@@ -2849,14 +2898,6 @@ void MainWindow::tabChanged(const int tab) {
 
         ui->menuEdit->setEnabled(true);
     }
-}
-
-void MainWindow::arithmeticOperationIsAvailable(const bool b) {
-
-    ui->action_Add->setEnabled(b);
-    ui->action_Multiply->setEnabled(b);
-    ui->action_Divide->setEnabled(b);
-    ui->action_Equal->setEnabled(b);
 }
 
 void MainWindow::tableCellChanged(const int n, const int m) {

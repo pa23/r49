@@ -950,6 +950,7 @@
      <string>Settings</string>
     </property>
     <addaction name="action_Preferences"/>
+    <addaction name="action_ReportsProcessing"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1562,8 +1563,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>186</width>
-          <height>243</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1791,8 +1792,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>250</width>
-          <height>169</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1930,8 +1931,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
-          <height>137</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2054,8 +2055,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>152</width>
-          <height>114</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2647,6 +2648,14 @@
   <action name="action_CopyLastResultsTo">
    <property name="text">
     <string>Copy last results to...</string>
+   </property>
+  </action>
+  <action name="action_ReportsProcessing">
+   <property name="text">
+    <string>Reports processing...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

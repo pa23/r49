@@ -1616,6 +1616,14 @@
         <source>All files from selected directory were copied.</source>
         <translation>Все файлы из выбранного каталога скопированы.</translation>
     </message>
+    <message>
+        <source>Reports processing...</source>
+        <translation>Обработка отчетов...</translation>
+    </message>
+    <message>
+        <source>Child object not found! Restart program!</source>
+        <translation>Дочерний объект не найден! Перезапустите программу!</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1761,6 +1769,29 @@
     <message>
         <source>r49data/TempSourceData/SourceData3-FullLoadCurve.dat</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ReportProcessingSettingsDialog</name>
+    <message>
+        <source>Qr49: Report processing settings</source>
+        <translation>Qr49: Настройки обработки отчетов</translation>
+    </message>
+    <message>
+        <source>Text for fild Engine</source>
+        <translation>Текст для поля Engine</translation>
+    </message>
+    <message>
+        <source>Apply Engine field text for new reports</source>
+        <translation>Применить текст для поля Engine к вновь создаваемым отчетам</translation>
+    </message>
+    <message>
+        <source>Create common report</source>
+        <translation>Создавать общий отчет</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>

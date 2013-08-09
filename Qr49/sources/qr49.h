@@ -25,7 +25,6 @@
 #include <QSharedPointer>
 #include <QMainWindow>
 #include <QTableWidget>
-#include <QDoubleValidator>
 #include <QRegExpValidator>
 #include <QObject>
 #include <QEvent>
@@ -34,6 +33,8 @@
 #include <QDir>
 #include <QFont>
 #include <QRegExp>
+#include <QPlainTextEdit>
+#include <QCheckBox>
 
 #include "txCommonParameters.h"
 #include "txCalculationOptions.h"
@@ -44,6 +45,7 @@
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "dataimportdialog.h"
+#include "reportprocessingsettingsdialog.h"
 
 namespace Ui {
 
@@ -73,6 +75,11 @@ private:
     PreferencesDialog *m_preferencesDialog;
     CheckoutDataDialog *m_checkoutDataDialog;
     DataImportDialog *m_dataImportDialog;
+    ReportProcessingSettingsDialog *m_reportprocsetdialog;
+
+    QPlainTextEdit *m_engFieldTextEdit;
+    QCheckBox *m_applyEngFieldText;
+    QCheckBox *m_createCommonReport;
 
     QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
     QSharedPointer<toxic::txCommonParameters> m_commonParameters;
@@ -99,7 +106,6 @@ private:
     bool fillTableFullLoadCurve(const QString &);
     bool fillParameters();
     bool arithmeticOperation(const QString &);
-    void arithmeticOperationIsAvailable(const bool);
     void tableCellChangedConnect(const bool);
     void getUndoRedoCounters(QTableWidget *);
     void setUndoRedoButtonState();
@@ -148,6 +154,7 @@ private slots:
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
     void on_action_Preferences_triggered();
+    void on_action_ReportsProcessing_triggered();
     void on_action_UserManual_triggered();
     void on_action_StandardsDescription_triggered();
     void on_action_AboutQr49_triggered();

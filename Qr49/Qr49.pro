@@ -35,7 +35,8 @@ SOURCES += sources/preferencesdialog.cpp \
     sources/main.cpp \
     sources/qr49.cpp \
     sources/dataimportdialog.cpp \
-    sources/tablewidgetfunctions.cpp
+    sources/tablewidgetfunctions.cpp \
+    sources/reportprocessingsettingsdialog.cpp
 
 HEADERS += sources/preferencesdialog.h \
     sources/checkoutdatadialog.h \
@@ -45,14 +46,16 @@ HEADERS += sources/preferencesdialog.h \
     sources/qr49.h \
     sources/dataimportdialog.h \
     sources/tablewidgetfunctions.h \
-    sources/constants.h
+    sources/constants.h \
+    sources/reportprocessingsettingsdialog.h
 
 FORMS += sources/preferencesdialog.ui \
     sources/checkoutdatadialog.ui \
     sources/valuedialog.ui \
     sources/filtermassdialog.ui \
     sources/qr49.ui \
-    sources/dataimportdialog.ui
+    sources/dataimportdialog.ui \
+    sources/reportprocessingsettingsdialog.ui
 
 RESOURCES = sources/qr49.qrc
 
