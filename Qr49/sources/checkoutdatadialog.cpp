@@ -42,7 +42,7 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
     const QString newCheckoutDataFileName(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Save Checkout Data As..."),
+                    tr("Save checkout data as..."),
                     "Qr49_CheckoutData.dat",
                     QString::fromLatin1("Data files (*.dat);;All files (*)"),
                     0,

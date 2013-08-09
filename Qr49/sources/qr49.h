@@ -126,9 +126,9 @@ private slots:
     void on_action_ReportToPDF_triggered();
     void on_action_SaveReportAndExportToPDF_triggered();
     void on_action_CloseReport_triggered();
+    void on_action_CopyLastResultsTo_triggered();
     void on_action_PrintReport_triggered();
     void on_action_PrintSelectedCells_triggered();
-    void on_action_Preferences_triggered();
     void on_action_Quit_triggered();
     void on_action_UndoTable_triggered();
     void on_action_RedoTable_triggered();
@@ -147,6 +147,7 @@ private slots:
     void on_action_Toolbar_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
+    void on_action_Preferences_triggered();
     void on_action_UserManual_triggered();
     void on_action_StandardsDescription_triggered();
     void on_action_AboutQr49_triggered();

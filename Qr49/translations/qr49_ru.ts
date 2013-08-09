@@ -4,12 +4,12 @@
 <context>
     <name>CheckoutDataDialog</name>
     <message>
-        <source>Save Checkout Data As...</source>
-        <translation>Сохранить отладочные данные как...</translation>
-    </message>
-    <message>
         <source> could not be saved!</source>
         <translation> невозможно сохранить!</translation>
+    </message>
+    <message>
+        <source>Save checkout data as...</source>
+        <translation>Сохранить отладочные данные как...</translation>
     </message>
 </context>
 <context>
@@ -90,10 +90,6 @@
         <translation>Неизвестный разделитель для парсинга выбранного файла!</translation>
     </message>
     <message>
-        <source>Open Data File...</source>
-        <translation>Открыть файл с данными...</translation>
-    </message>
-    <message>
         <source>Invalid destination table!</source>
         <translation>Неверная таблица назначения!</translation>
     </message>
@@ -134,10 +130,6 @@
         <translation>Невозможно создать каталог для шаблонов!</translation>
     </message>
     <message>
-        <source>Save Template...</source>
-        <translation>Сохранить шаблон...</translation>
-    </message>
-    <message>
         <source>File not selected!</source>
         <translation>Файл не выбран!</translation>
     </message>
@@ -170,8 +162,16 @@
         <translation>О</translation>
     </message>
     <message>
-        <source>Open Template...</source>
+        <source>Open data file...</source>
+        <translation>Открыть файл с данными...</translation>
+    </message>
+    <message>
+        <source>Open template...</source>
         <translation>Открыть шаблон...</translation>
+    </message>
+    <message>
+        <source>Save template...</source>
+        <translation>Сохранить шаблон...</translation>
     </message>
 </context>
 <context>
@@ -268,14 +268,6 @@
         <translation>Недопустимая операция &quot;Деление на ноль&quot;!</translation>
     </message>
     <message>
-        <source>Open Report...</source>
-        <translation>Открыть отчет...</translation>
-    </message>
-    <message>
-        <source>Export Report to PDF...</source>
-        <translation>Экспортировать отчет в PDF...</translation>
-    </message>
-    <message>
         <source>Arithmetic operation is impossible!</source>
         <translation>Арифметическая операция невозможна!</translation>
     </message>
@@ -292,10 +284,6 @@
         <translation>О программе Qr49</translation>
     </message>
     <message>
-        <source>Open Source Data File...</source>
-        <translation>Открыть файл исходных данных...</translation>
-    </message>
-    <message>
         <source>Illegal table cell value!</source>
         <translation>Недопустимое значение для ячейки таблицы!</translation>
     </message>
@@ -310,10 +298,6 @@
     <message>
         <source>F12</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Save Report As...</source>
-        <translation>Сохранить отчет как...</translation>
     </message>
     <message>
         <source>Ctrl+S</source>
@@ -658,14 +642,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Open Calculation Options File...</source>
-        <translation>Открыть файл настроек расчета...</translation>
-    </message>
-    <message>
-        <source>Save Options...</source>
-        <translation>Сохранить настройки расчета...</translation>
-    </message>
-    <message>
         <source>Ne_interim
 [kW]</source>
         <translation>Ne_interim
@@ -714,10 +690,6 @@
     <message>
         <source>Ctrl+B</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Save Source Data File As...</source>
-        <translation>Сохранить файл исходных данных как...</translation>
     </message>
     <message>
         <source>rd
@@ -1218,18 +1190,6 @@
         <translation>Не могу заполнить таблицу!</translation>
     </message>
     <message>
-        <source>Print</source>
-        <translation>Печать</translation>
-    </message>
-    <message>
-        <source>Report...</source>
-        <translation>Отчет...</translation>
-    </message>
-    <message>
-        <source>Selected cells...</source>
-        <translation>Выбранные ячейки...</translation>
-    </message>
-    <message>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+P</translation>
     </message>
@@ -1597,12 +1557,64 @@
         <translation>Удалить строки</translation>
     </message>
     <message>
-        <source>Shift+Del</source>
+        <source>No selected rows!</source>
+        <translation>Нет выбранных строк!</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <source>Print report...</source>
+        <translation>Печать отчета...</translation>
+    </message>
+    <message>
+        <source>Shift+F9</source>
         <translation></translation>
     </message>
     <message>
-        <source>No selected rows!</source>
-        <translation>Нет выбранных строк!</translation>
+        <source>Shift+F1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Print selected cells...</source>
+        <translation>Печать выделенных ячеек...</translation>
+    </message>
+    <message>
+        <source>Copy last results to...</source>
+        <translation>Копировать последние результаты в...</translation>
+    </message>
+    <message>
+        <source>Open source data file...</source>
+        <translation>Открыть файл с исходными данными...</translation>
+    </message>
+    <message>
+        <source>Save source data file as...</source>
+        <translation>Сохранить файл с исходными данными как...</translation>
+    </message>
+    <message>
+        <source>Open calculation options file...</source>
+        <translation>Открыть файл с параметрами расчета...</translation>
+    </message>
+    <message>
+        <source>Save options...</source>
+        <translation>Сохранить параметры...</translation>
+    </message>
+    <message>
+        <source>No last results! First, calculate something.</source>
+        <translation>Нет последних результатов! Сначала сделайте какой-нибудь расчет.</translation>
+    </message>
+    <message>
+        <source>Select directory...</source>
+        <translation>Выберите каталог...</translation>
+    </message>
+    <message>
+        <source>Nothing to copy!</source>
+        <translation>Нечего копировать!</translation>
+    </message>
+    <message>
+        <source>All files from selected directory were copied.</source>
+        <translation>Все файлы из выбранного каталога скопированы.</translation>
     </message>
 </context>
 <context>

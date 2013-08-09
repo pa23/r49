@@ -167,7 +167,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
     m_dataFileName = QFileDialog::getOpenFileName(
                 this,
-                tr("Open Data File..."),
+                tr("Open data file..."),
                 m_dataDirName,
                 QString::fromLatin1("Text files (*.txt);;"
                                     "Data files (*.dat);;"
@@ -358,7 +358,7 @@ void DataImportDialog::on_pushButton_OpenTemplate_clicked() {
     QString templFileName =
             QFileDialog::getOpenFileName(
                 this,
-                tr("Open Template..."),
+                tr("Open template..."),
                 m_templdir.absolutePath(),
                 QString::fromLatin1("All files (*)")
                 );
@@ -407,7 +407,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
     const QString filename(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Save Template..."),
+                    tr("Save template..."),
                     m_templdir.absolutePath()
                     + QDir::separator()
                     + QDateTime::currentDateTime().

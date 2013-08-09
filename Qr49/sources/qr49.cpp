@@ -959,7 +959,7 @@ void MainWindow::on_action_LoadSourceData_triggered() {
     const QString anotherSourceFile(
                 QFileDialog::getOpenFileName(
                     this,
-                    tr("Open Source Data File..."),
+                    tr("Open source data file..."),
                     dir,
                     QString::fromLatin1("Data files (*.dat);;All files (*)"),
                     0,
@@ -1205,7 +1205,7 @@ void MainWindow::on_action_SaveSourceDataAs_triggered() {
     const QString newSourceDataFileName(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Save Source Data File As..."),
+                    tr("Save source data file as..."),
                     "noname.dat",
                     QString::fromLatin1("Data files (*.dat);;All files (*)"),
                     0,
@@ -1270,7 +1270,7 @@ void MainWindow::on_action_LoadCalculationOptions_triggered() {
     const QString anotherOptions(
                 QFileDialog::getOpenFileName(
                     this,
-                    tr("Open Calculation Options File..."),
+                    tr("Open calculation options file..."),
                     dir,
                     QString::fromLatin1("Config files (*.conf);;All files (*)"),
                     0,
@@ -1311,7 +1311,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
     const QString optionsFileName(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Save Options..."),
+                    tr("Save options..."),
                     "noname.conf",
                     QString::fromLatin1("Config files (*.conf);;All files (*)"),
                     0,
@@ -1387,7 +1387,7 @@ void MainWindow::on_action_OpenReport_triggered() {
     const QString anotherReport(
                 QFileDialog::getOpenFileName(
                     this,
-                    tr("Open Report..."),
+                    tr("Open report..."),
                     dir,
                     QString::fromLatin1("Text files (*.txt);;All files (*)"),
                     0,
@@ -1418,7 +1418,7 @@ void MainWindow::on_action_SaveReportAs_triggered() {
     const QString newReportFileName(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Save Report As..."),
+                    tr("Save report as..."),
                     ui->comboBox_OpenedReports->currentText(),
                     QString::fromLatin1("Text files (*.txt);;All files (*)"),
                     0,
@@ -1481,7 +1481,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
     const QString newReportFileName(
                 QFileDialog::getSaveFileName(
                     this,
-                    tr("Export Report to PDF..."),
+                    tr("Export report to PDF..."),
                     filename,
                     QString::fromLatin1("PDF files (*.pdf);;All files (*)"),
                     0,
@@ -1525,6 +1525,54 @@ void MainWindow::on_action_CloseReport_triggered() {
     }
 
     ui->tabWidget_Data->setCurrentIndex(3);
+}
+
+void MainWindow::on_action_CopyLastResultsTo_triggered() {
+
+    if ( m_lastReportsDir.absolutePath().isEmpty() ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("No last results! First, calculate something.")
+                    );
+        return;
+    }
+
+    const QString newResultsDirName(
+                QFileDialog::getExistingDirectory(
+                    this,
+                    tr("Select directory..."),
+                    m_lastReportsDir.absolutePath()
+                    )
+                );
+
+    if ( newResultsDirName.isEmpty() ) {
+
+        return;
+    }
+
+    const QString filter("*");
+    QStringList fileNamesToCopy(
+                m_lastReportsDir.entryList(QDir::nameFiltersFromString(filter), QDir::Files)
+                );
+
+    if ( fileNamesToCopy.isEmpty() ) {
+
+        QMessageBox::warning(this, "Qr49", tr("Nothing to copy!"));
+        return;
+    }
+
+    for ( ptrdiff_t i=0; i<fileNamesToCopy.size(); i++ ) {
+
+        QFile::copy(m_lastReportsDir.absolutePath()+QDir::separator()+fileNamesToCopy[i],
+                    newResultsDirName+QDir::separator()+fileNamesToCopy[i]);
+    }
+
+    QMessageBox::information(this,
+                             "Qr49",
+                             tr("All files from selected directory were copied.")
+                             );
 }
 
 void MainWindow::on_action_PrintReport_triggered() {
@@ -1627,102 +1675,65 @@ void MainWindow::on_action_PrintSelectedCells_triggered() {
     }
 }
 
-void MainWindow::on_action_Preferences_triggered() {
-
-    QLineEdit *myLineEdit_filenameSourceEU3 =
-            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
-    QLineEdit *myLineEdit_filenameSourceEU0 =
-            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
-    QLineEdit *myLineEdit_filenamePoints =
-            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
-    QLineEdit *myLineEdit_filenamePowers =
-            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
-    QLineEdit *myLineEdit_dirnameReports =
-            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
-    QDoubleSpinBox *myDoubleSpinBox_Dn =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
-    QDoubleSpinBox *myDoubleSpinBox_ConcO2air =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
-    QDoubleSpinBox *myDoubleSpinBox_Rr =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
-    QDoubleSpinBox *myDoubleSpinBox_L0 =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
-    QDoubleSpinBox *myDoubleSpinBox_L =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
-    QDoubleSpinBox *myDoubleSpinBox_ConcCO2air =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
-    QDoubleSpinBox *myDoubleSpinBox_WH =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
-    QDoubleSpinBox *myDoubleSpinBox_WO2 =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
-    QDoubleSpinBox *myDoubleSpinBox_WN =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
-    QDoubleSpinBox *myDoubleSpinBox_muNO2 =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
-    QDoubleSpinBox *myDoubleSpinBox_muCO =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
-    QDoubleSpinBox *myDoubleSpinBox_muCH =
-            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
-
-    if ( !myLineEdit_filenameSourceEU3 ||
-         !myLineEdit_filenameSourceEU0 ||
-         !myLineEdit_filenamePoints    ||
-         !myLineEdit_filenamePowers    ||
-         !myLineEdit_dirnameReports    ||
-         !myDoubleSpinBox_Dn           ||
-         !myDoubleSpinBox_ConcO2air    ||
-         !myDoubleSpinBox_Rr           ||
-         !myDoubleSpinBox_L0           ||
-         !myDoubleSpinBox_L            ||
-         !myDoubleSpinBox_ConcCO2air   ||
-         !myDoubleSpinBox_WH           ||
-         !myDoubleSpinBox_WO2          ||
-         !myDoubleSpinBox_WN           ||
-         !myDoubleSpinBox_muNO2        ||
-         !myDoubleSpinBox_muCO         ||
-         !myDoubleSpinBox_muCH ) {
-
-        QMessageBox::critical(
-                    this,
-                    "Qr49",
-                    QString::fromLatin1(Q_FUNC_INFO)
-                    + ":::"
-                    + tr("Child object not found!")
-                    );
-        return;
-    }
-
-    //
-
-    myLineEdit_filenameSourceEU3->setText(m_commonParameters->val_srcFileNameEU3());
-    myLineEdit_filenameSourceEU0->setText(m_commonParameters->val_srcFileNameEU0());
-    myLineEdit_filenamePoints->setText(m_commonParameters->val_srcFileNamePoints());
-    myLineEdit_filenamePowers->setText(m_commonParameters->val_srcFileNameRedPwr());
-    myLineEdit_dirnameReports->setText(m_commonParameters->val_reportsDirName());
-    myDoubleSpinBox_Dn->setValue(m_commonParameters->val_Dn());
-    myDoubleSpinBox_ConcO2air->setValue(m_commonParameters->val_concO2air());
-    myDoubleSpinBox_Rr->setValue(m_commonParameters->val_Rr());
-    myDoubleSpinBox_L0->setValue(m_commonParameters->val_L0());
-    myDoubleSpinBox_L->setValue(m_commonParameters->val_L());
-    myDoubleSpinBox_ConcCO2air->setValue(m_commonParameters->val_concCO2air());
-    myDoubleSpinBox_WH->setValue(m_commonParameters->val_WH());
-    myDoubleSpinBox_WO2->setValue(m_commonParameters->val_WO2());
-    myDoubleSpinBox_WN->setValue(m_commonParameters->val_WN());
-    myDoubleSpinBox_muNO2->setValue(m_commonParameters->val_muNO2());
-    myDoubleSpinBox_muCO->setValue(m_commonParameters->val_muCO());
-    myDoubleSpinBox_muCH->setValue(m_commonParameters->val_muCH());
-
-    //
-
-    if ( m_preferencesDialog->exec() == QDialog::Accepted ) {
-
-        readPreferences();
-    }
-}
-
 void MainWindow::on_action_Quit_triggered() {
 
     close();
+}
+
+void MainWindow::on_action_UndoTable_triggered() {
+
+    tableCellChangedConnect(false);
+
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
+
+        m_undoRedo_TableEU0->undoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
+
+        m_undoRedo_TableEU3->undoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
+
+        m_undoRedo_TablePoints->undoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
+
+        m_undoRedo_TableFullLoadCurve->undoTable();
+        getUndoRedoCounters(m_table);
+    }
+
+    tableCellChangedConnect(true);
+}
+
+void MainWindow::on_action_RedoTable_triggered() {
+
+    tableCellChangedConnect(false);
+
+    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
+
+        m_undoRedo_TableEU0->redoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
+
+        m_undoRedo_TableEU3->redoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
+
+        m_undoRedo_TablePoints->redoTable();
+        getUndoRedoCounters(m_table);
+    }
+    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
+
+        m_undoRedo_TableFullLoadCurve->redoTable();
+        getUndoRedoCounters(m_table);
+    }
+
+    tableCellChangedConnect(true);
 }
 
 void MainWindow::on_action_CutFromTable_triggered() {
@@ -2270,6 +2281,99 @@ void MainWindow::on_action_CheckoutData_triggered() {
     myLineEdit_file->setText(m_lastCheckoutDataFileName);
 
     m_checkoutDataDialog->exec();
+}
+
+void MainWindow::on_action_Preferences_triggered() {
+
+    QLineEdit *myLineEdit_filenameSourceEU3 =
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU3");
+    QLineEdit *myLineEdit_filenameSourceEU0 =
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenameSourceEU0");
+    QLineEdit *myLineEdit_filenamePoints =
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePoints");
+    QLineEdit *myLineEdit_filenamePowers =
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_filenamePowers");
+    QLineEdit *myLineEdit_dirnameReports =
+            m_preferencesDialog->findChild<QLineEdit *>("lineEdit_dirnameReports");
+    QDoubleSpinBox *myDoubleSpinBox_Dn =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Dn");
+    QDoubleSpinBox *myDoubleSpinBox_ConcO2air =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcO2air");
+    QDoubleSpinBox *myDoubleSpinBox_Rr =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_Rr");
+    QDoubleSpinBox *myDoubleSpinBox_L0 =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L0");
+    QDoubleSpinBox *myDoubleSpinBox_L =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_L");
+    QDoubleSpinBox *myDoubleSpinBox_ConcCO2air =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_ConcCO2air");
+    QDoubleSpinBox *myDoubleSpinBox_WH =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WH");
+    QDoubleSpinBox *myDoubleSpinBox_WO2 =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WO2");
+    QDoubleSpinBox *myDoubleSpinBox_WN =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_WN");
+    QDoubleSpinBox *myDoubleSpinBox_muNO2 =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muNO2");
+    QDoubleSpinBox *myDoubleSpinBox_muCO =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCO");
+    QDoubleSpinBox *myDoubleSpinBox_muCH =
+            m_preferencesDialog->findChild<QDoubleSpinBox *>("doubleSpinBox_muCH");
+
+    if ( !myLineEdit_filenameSourceEU3 ||
+         !myLineEdit_filenameSourceEU0 ||
+         !myLineEdit_filenamePoints    ||
+         !myLineEdit_filenamePowers    ||
+         !myLineEdit_dirnameReports    ||
+         !myDoubleSpinBox_Dn           ||
+         !myDoubleSpinBox_ConcO2air    ||
+         !myDoubleSpinBox_Rr           ||
+         !myDoubleSpinBox_L0           ||
+         !myDoubleSpinBox_L            ||
+         !myDoubleSpinBox_ConcCO2air   ||
+         !myDoubleSpinBox_WH           ||
+         !myDoubleSpinBox_WO2          ||
+         !myDoubleSpinBox_WN           ||
+         !myDoubleSpinBox_muNO2        ||
+         !myDoubleSpinBox_muCO         ||
+         !myDoubleSpinBox_muCH ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    QString::fromLatin1(Q_FUNC_INFO)
+                    + ":::"
+                    + tr("Child object not found!")
+                    );
+        return;
+    }
+
+    //
+
+    myLineEdit_filenameSourceEU3->setText(m_commonParameters->val_srcFileNameEU3());
+    myLineEdit_filenameSourceEU0->setText(m_commonParameters->val_srcFileNameEU0());
+    myLineEdit_filenamePoints->setText(m_commonParameters->val_srcFileNamePoints());
+    myLineEdit_filenamePowers->setText(m_commonParameters->val_srcFileNameRedPwr());
+    myLineEdit_dirnameReports->setText(m_commonParameters->val_reportsDirName());
+    myDoubleSpinBox_Dn->setValue(m_commonParameters->val_Dn());
+    myDoubleSpinBox_ConcO2air->setValue(m_commonParameters->val_concO2air());
+    myDoubleSpinBox_Rr->setValue(m_commonParameters->val_Rr());
+    myDoubleSpinBox_L0->setValue(m_commonParameters->val_L0());
+    myDoubleSpinBox_L->setValue(m_commonParameters->val_L());
+    myDoubleSpinBox_ConcCO2air->setValue(m_commonParameters->val_concCO2air());
+    myDoubleSpinBox_WH->setValue(m_commonParameters->val_WH());
+    myDoubleSpinBox_WO2->setValue(m_commonParameters->val_WO2());
+    myDoubleSpinBox_WN->setValue(m_commonParameters->val_WN());
+    myDoubleSpinBox_muNO2->setValue(m_commonParameters->val_muNO2());
+    myDoubleSpinBox_muCO->setValue(m_commonParameters->val_muCO());
+    myDoubleSpinBox_muCH->setValue(m_commonParameters->val_muCH());
+
+    //
+
+    if ( m_preferencesDialog->exec() == QDialog::Accepted ) {
+
+        readPreferences();
+    }
 }
 
 void MainWindow::on_action_UserManual_triggered() {
@@ -2872,62 +2976,6 @@ void MainWindow::saveStateForAllTables() {
     m_undoRedo_TableEU3->saveState();
     m_undoRedo_TablePoints->saveState();
     m_undoRedo_TableFullLoadCurve->saveState();
-}
-
-void MainWindow::on_action_UndoTable_triggered() {
-
-    tableCellChangedConnect(false);
-
-    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
-
-        m_undoRedo_TableEU0->undoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
-
-        m_undoRedo_TableEU3->undoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
-
-        m_undoRedo_TablePoints->undoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
-
-        m_undoRedo_TableFullLoadCurve->undoTable();
-        getUndoRedoCounters(m_table);
-    }
-
-    tableCellChangedConnect(true);
-}
-
-void MainWindow::on_action_RedoTable_triggered() {
-
-    tableCellChangedConnect(false);
-
-    if ( m_table == ui->tableWidget_SrcDataEU0 ) {
-
-        m_undoRedo_TableEU0->redoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
-
-        m_undoRedo_TableEU3->redoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_SrcDataPoints ) {
-
-        m_undoRedo_TablePoints->redoTable();
-        getUndoRedoCounters(m_table);
-    }
-    else if ( m_table == ui->tableWidget_FullLoadCurve ) {
-
-        m_undoRedo_TableFullLoadCurve->redoTable();
-        getUndoRedoCounters(m_table);
-    }
-
-    tableCellChangedConnect(true);
 }
 
 void MainWindow::abcCalculation() {

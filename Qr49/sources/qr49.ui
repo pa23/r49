@@ -878,13 +878,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <widget class="QMenu" name="menuPrint">
-     <property name="title">
-      <string>Print</string>
-     </property>
-     <addaction name="action_PrintReport"/>
-     <addaction name="action_PrintSelectedCells"/>
-    </widget>
     <addaction name="action_DataImport"/>
     <addaction name="action_LoadSourceData"/>
     <addaction name="action_SaveSourceData"/>
@@ -899,9 +892,10 @@
     <addaction name="action_SaveReportAndExportToPDF"/>
     <addaction name="action_CloseReport"/>
     <addaction name="separator"/>
-    <addaction name="menuPrint"/>
+    <addaction name="action_CopyLastResultsTo"/>
     <addaction name="separator"/>
-    <addaction name="action_Preferences"/>
+    <addaction name="action_PrintReport"/>
+    <addaction name="action_PrintSelectedCells"/>
     <addaction name="separator"/>
     <addaction name="action_Quit"/>
    </widget>
@@ -951,10 +945,17 @@
     </property>
     <addaction name="action_Toolbar"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="action_Preferences"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuCalculation"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -2180,7 +2181,7 @@
      <normaloff>:/icons/icons/file-print.png</normaloff>:/icons/icons/file-print.png</iconset>
    </property>
    <property name="text">
-    <string>Report...</string>
+    <string>Print report...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -2487,6 +2488,9 @@
    <property name="text">
     <string>Checkout data</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F9</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
    </property>
@@ -2494,6 +2498,9 @@
   <action name="action_StandardsDescription">
    <property name="text">
     <string>Standards description</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F1</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -2579,7 +2586,7 @@
   </action>
   <action name="action_PrintSelectedCells">
    <property name="text">
-    <string>Selected cells...</string>
+    <string>Print selected cells...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+P</string>
@@ -2635,6 +2642,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_CopyLastResultsTo">
+   <property name="text">
+    <string>Copy last results to...</string>
    </property>
   </action>
  </widget>
