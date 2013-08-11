@@ -1111,7 +1111,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         QFile SrcDataEU0File(filenameSourceEU0);
 
-        if ( !SrcDataEU0File.open(QIODevice::WriteOnly) ) {
+        if ( !SrcDataEU0File.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1141,7 +1141,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         QFile SrcDataEU3File(filenameSourceEU3);
 
-        if ( !SrcDataEU3File.open(QIODevice::WriteOnly) ) {
+        if ( !SrcDataEU3File.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1176,7 +1176,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         QFile SrcDataPointsFile(filenamePoints);
 
-        if ( !SrcDataPointsFile.open(QIODevice::WriteOnly) ) {
+        if ( !SrcDataPointsFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1216,7 +1216,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         QFile SrcDataPowersFile(filenamePowers);
 
-        if ( !SrcDataPowersFile.open(QIODevice::WriteOnly) ) {
+        if ( !SrcDataPowersFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1263,7 +1263,7 @@ void MainWindow::on_action_SaveSourceDataAs_triggered() {
 
         QFile SrcDataFile(newSourceDataFileName);
 
-        if ( !SrcDataFile.open(QIODevice::WriteOnly) ) {
+        if ( !SrcDataFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1369,7 +1369,7 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
 
         QFile savedOptions(optionsFileName);
 
-        if ( !savedOptions.open(QIODevice::WriteOnly) ) {
+        if ( !savedOptions.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -1476,7 +1476,7 @@ void MainWindow::on_action_SaveReportAs_triggered() {
 
         QFile reportFile(newReportFileName);
 
-        if ( !reportFile.open(QIODevice::WriteOnly) ) {
+        if ( !reportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,
@@ -2219,14 +2219,36 @@ void MainWindow::on_action_Execute_triggered() {
 
                 QString engFieldText = m_engFieldTextEdit->toPlainText();
 
-                if ( !engFieldText.isEmpty() && m_applyEngFieldText->isChecked() ) {
+                try {
 
-                    if ( reports.size() > 1 ) {
+                    if ( !engFieldText.isEmpty() && m_applyEngFieldText->isChecked() ) {
 
-                        toxic::changeEngineInfo(m_lastReportsDir.absoluteFilePath(reports[1]), engFieldText);
+                        if ( reports.size() > 1 ) {
+
+                            toxic::changeEngineInfo(
+                                        m_lastReportsDir.absoluteFilePath(reports[1]),
+                                        engFieldText
+                                    );
+                        }
+
+                        toxic::changeEngineInfo(m_lastReportFileName, engFieldText);
                     }
 
-                    toxic::changeEngineInfo(m_lastReportFileName, engFieldText);
+                    if ( m_createCommonReport->isChecked() && (reports.size() > 1) )  {
+
+                        ui->comboBox_OpenedReports->insertItem(
+                                    2,
+                                    toxic::createCommonReport(
+                                        m_lastReportFileName,
+                                        m_lastReportsDir.absoluteFilePath(reports[1])
+                                    )
+                                );
+                    }
+                }
+                catch(const toxic::txError &toxerr) {
+
+                    QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
+                    return;
                 }
 
                 //
@@ -2329,7 +2351,7 @@ void MainWindow::on_action_CheckoutData_triggered() {
     QFile arrayFile(m_lastCheckoutDataFileName);
     QString data;
 
-    if ( arrayFile.open(QIODevice::ReadOnly) ) {
+    if ( arrayFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
         data.append(arrayFile.readAll());
     }
@@ -2857,7 +2879,7 @@ void MainWindow::reportChanged(const QString &path) {
 
     QFile reportFile(path);
 
-    if ( reportFile.open(QIODevice::ReadOnly) ) {
+    if ( reportFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
         ui->plainTextEdit_Report->setPlainText(reportFile.readAll());
     }

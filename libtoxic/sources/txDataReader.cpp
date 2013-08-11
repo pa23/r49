@@ -36,7 +36,7 @@ void txDataReader::readFile(const QString &fileName,
 
     QFile dataFile(fileName);
 
-    if ( !dataFile.open(QIODevice::ReadOnly) ) {
+    if ( !dataFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
         throw txError("Can not open data file " + fileName + "!");
     }
 

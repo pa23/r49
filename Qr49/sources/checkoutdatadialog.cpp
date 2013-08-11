@@ -56,7 +56,7 @@ void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
         QFile checkoutDataFile(newCheckoutDataFileName);
 
-        if ( !checkoutDataFile.open(QIODevice::WriteOnly) ) {
+        if ( !checkoutDataFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             QMessageBox::critical(
                         this,

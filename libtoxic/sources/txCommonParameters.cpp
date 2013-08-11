@@ -143,14 +143,14 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
                 + QString::number(m_muCH)
                 + "\n";
 
-        if ( cfgFile1.open(QIODevice::WriteOnly) ) {
+        if ( cfgFile1.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             cfgFile1.write(myPreferences.toUtf8());
             cfgFile1.close();
 
             cfgFile.setFileName(cfgFile1.fileName());
         }
-        else if ( cfgFile2.open(QIODevice::WriteOnly) ) {
+        else if ( cfgFile2.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
             cfgFile2.write(myPreferences.toUtf8());
             cfgFile2.close();
@@ -164,7 +164,7 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
         return;
     }
 
-    if ( !cfgFile.open(QIODevice::ReadOnly) ) {
+    if ( !cfgFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
         throw txError("Can not open config file " + cfgFileName + "!");
     }
 

@@ -113,7 +113,7 @@ void txCalculationOptions::readCalcConfigFile(const QString &calcConfigFileName)
 
     QFile calcConfFile(calcConfigFileName);
 
-    if ( !calcConfFile.open(QIODevice::ReadOnly) ) {
+    if ( !calcConfFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
         throw txError("Can not open file " + calcConfigFileName + "!");
     }
 

@@ -1783,7 +1783,7 @@
     </message>
     <message>
         <source>Apply Engine field text for new reports</source>
-        <translation>Применить текст для поля Engine к вновь создаваемым отчетам</translation>
+        <translation>Применять текст для поля Engine к вновь создаваемым отчетам</translation>
     </message>
     <message>
         <source>Create common report</source>

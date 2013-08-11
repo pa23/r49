@@ -191,14 +191,14 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
                            + QDir::separator()
                            + CONFIGFILENAME);
 
-    if ( preferencesFile1.open(QIODevice::WriteOnly) ) {
+    if ( preferencesFile1.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
         QTextStream in(&preferencesFile1);
         in << myPreferences;
 
         preferencesFile1.close();
     }
-    else if ( preferencesFile2.open(QIODevice::WriteOnly) ) {
+    else if ( preferencesFile2.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
         QTextStream in(&preferencesFile2);
         in << myPreferences;

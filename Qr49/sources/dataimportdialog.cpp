@@ -280,7 +280,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
                     + QDir::separator()
                     + ui->comboBox_Templates->currentText());
 
-    if ( !templFile.open(QIODevice::ReadOnly) ) {
+    if ( !templFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
         QMessageBox::critical(this, "Qr49", "Can not open selected template file!");
         m_manual = true;
@@ -375,7 +375,7 @@ void DataImportDialog::on_pushButton_OpenTemplate_clicked() {
 
     QFile templFile(templFileName);
 
-    if ( !templFile.open(QIODevice::ReadOnly) ) {
+    if ( !templFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
         QMessageBox::critical(
                     this,
@@ -426,7 +426,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
     QFile savedTemplate(filename);
 
-    if ( !savedTemplate.open(QIODevice::WriteOnly) ) {
+    if ( !savedTemplate.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 
         QMessageBox::critical(
                     this,
