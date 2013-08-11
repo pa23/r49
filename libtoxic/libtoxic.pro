@@ -25,10 +25,10 @@ TARGET = toxic
 
 TEMPLATE = lib
 
-VERSION = 7.2.4
+VERSION = 7.3.0
 VER_MAJ = 7
-VER_MIN = 2
-VER_PAT = 4
+VER_MIN = 3
+VER_PAT = 0
 
 HEADERS += \
     sources/txAuxiliaryFunctions.h \
@@ -45,7 +45,8 @@ HEADERS += \
     sources/txEmissionsBase.h \
     sources/txCalculationInterface.h \
     sources/txReducedPower.h \
-    sources/txPointsOfCycle.h
+    sources/txPointsOfCycle.h \
+    sources/txReportsProcessing.h
 
 SOURCES += \
     sources/txAuxiliaryFunctions.cpp \
@@ -60,7 +61,8 @@ SOURCES += \
     sources/txEmissionsBase.cpp \
     sources/txReducedPower.cpp \
     sources/txPointsOfCycle.cpp \
-    sources/txIdentification.cpp
+    sources/txIdentification.cpp \
+    sources/txReportsProcessing.cpp
 
 QMAKE_CXXFLAGS += -std=c++11 -W -pedantic
 

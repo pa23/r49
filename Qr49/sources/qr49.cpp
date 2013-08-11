@@ -41,6 +41,7 @@
 #include "txCommonParameters.h"
 #include "txAuxiliaryFunctions.h"
 #include "txError.h"
+#include "txReportsProcessing.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -295,6 +296,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
         m_dejavusansmonoFont_10.setPointSize(10);
     }
+
+    m_engFieldTextEdit->setFont(m_dejavusansmonoFont_10);
 
     //
 
@@ -1119,12 +1122,12 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             return;
         }
 
-        SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toLatin1().data());
+        SrcDataEU0File.write(toxic::SRCDATACAPTIONS_6.join(" ").toUtf8());
         SrcDataEU0File.write("\n");
 
         for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU0File.write(m_table->item(0, j)->text().toLatin1().data());
+            SrcDataEU0File.write(m_table->item(0, j)->text().toUtf8());
             SrcDataEU0File.write(" ");
         }
 
@@ -1149,12 +1152,12 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             return;
         }
 
-        SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toLatin1().data());
+        SrcDataEU3File.write(toxic::SRCDATACAPTIONS_11.join(" ").toUtf8());
         SrcDataEU3File.write("\n");
 
         for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-            SrcDataEU3File.write(m_table->item(0, j)->text().toLatin1().data());
+            SrcDataEU3File.write(m_table->item(0, j)->text().toUtf8());
             SrcDataEU3File.write(" ");
         }
 
@@ -1184,7 +1187,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             return;
         }
 
-        SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toLatin1().data());
+        SrcDataPointsFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toUtf8());
         SrcDataPointsFile.write("\n");
 
         for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
@@ -1192,7 +1195,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPointsFile.
-                        write(m_table->item(i, j)->text().toLatin1().data());
+                        write(m_table->item(i, j)->text().toUtf8());
                 SrcDataPointsFile.
                         write(" ");
             }
@@ -1224,7 +1227,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             return;
         }
 
-        SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toLatin1().data());
+        SrcDataPowersFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toUtf8());
         SrcDataPowersFile.write("\n");
 
         for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
@@ -1232,7 +1235,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
                 SrcDataPowersFile.
-                        write(m_table->item(i, j)->text().toLatin1().data());
+                        write(m_table->item(i, j)->text().toUtf8());
                 SrcDataPowersFile.
                         write(" ");
             }
@@ -1273,22 +1276,22 @@ void MainWindow::on_action_SaveSourceDataAs_triggered() {
 
         if ( m_table == ui->tableWidget_SrcDataEU0 ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toLatin1().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_6.join(" ").toUtf8());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_SrcDataEU3 ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toLatin1().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_11.join(" ").toUtf8());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toLatin1().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_EMISSIONS.join(" ").toUtf8());
             SrcDataFile.write("\n");
         }
         else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
-            SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toLatin1().data());
+            SrcDataFile.write(toxic::SRCDATACAPTIONS_REDPOWER.join(" ").toUtf8());
             SrcDataFile.write("\n");
         }
 
@@ -1296,7 +1299,7 @@ void MainWindow::on_action_SaveSourceDataAs_triggered() {
 
             for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
 
-                SrcDataFile.write(m_table->item(i, j)->text().toLatin1().data());
+                SrcDataFile.write(m_table->item(i, j)->text().toUtf8());
                 SrcDataFile.write(" ");
             }
 
@@ -2211,6 +2214,23 @@ void MainWindow::on_action_Execute_triggered() {
 
                 ui->comboBox_OpenedReports->insertItem(0, m_lastReportFileName);
                 ui->comboBox_OpenedReports->setCurrentIndex(0);
+
+                //
+
+                QString engFieldText = m_engFieldTextEdit->toPlainText();
+
+                if ( !engFieldText.isEmpty() && m_applyEngFieldText->isChecked() ) {
+
+                    if ( reports.size() > 1 ) {
+
+                        toxic::changeEngineInfo(m_lastReportsDir.absoluteFilePath(reports[1]), engFieldText);
+                    }
+
+                    toxic::changeEngineInfo(m_lastReportFileName, engFieldText);
+                }
+
+                //
+
                 reportChanged(m_lastReportFileName);
             }
         }

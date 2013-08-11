@@ -25,7 +25,7 @@
     <widget class="QPlainTextEdit" name="plainTextEdit_CheckoutData">
      <property name="font">
       <font>
-       <family>Liberation Mono</family>
+       <family>DejaVu Sans Mono</family>
        <pointsize>10</pointsize>
       </font>
      </property>

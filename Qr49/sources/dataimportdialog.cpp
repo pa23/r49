@@ -437,7 +437,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
         return;
     }
 
-    savedTemplate.write(ui->plainTextEdit_importLog->toPlainText().toLatin1());
+    savedTemplate.write(ui->plainTextEdit_importLog->toPlainText().toUtf8());
     savedTemplate.close();
 
     ui->plainTextEdit_importLog->clear();

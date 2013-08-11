@@ -3,9 +3,9 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: txIdentification.h
+    File: txReportsProcessing.h
 
-    Copyright (C) 2012-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2013 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,27 +19,23 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TXIDENTIFICATION_H
-#define TXIDENTIFICATION_H
+#ifndef TXREPORTSPROCESSING_H
+#define TXREPORTSPROCESSING_H
 
 #include <QString>
 
 namespace toxic {
 
-#define TOXIC_VERSION "7.3.0"
+void changeEngineInfo(
+        const QString &, // path to report file
+        const QString &  // text for Engine field
+        );
 
-struct toxicIdentification {
-
-    QString name() const;
-    QString version() const;
-    QString description() const;
-    QString copyrightYears() const;
-    QString authors() const;
-    QString codeHosting() const;
-    QString authorsBlog() const;
-    QString licenseInformation() const;
-};
+QString createCommonReport( // return path to common report
+        const QString &,    // path to gaseous emissions report
+        const QString &     // path to PT emissions report
+        );
 
 } // namespace toxic
 
-#endif // TXIDENTIFICATION_H
+#endif // TXREPORTSPROCESSING_H
