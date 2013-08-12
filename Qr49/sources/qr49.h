@@ -176,6 +176,8 @@ private slots:
     void kapercCalculation();
     void smokeBaseChanged();
 
+    void on_pushButton_OpenDirectory_clicked();
+
 };
 
 #endif // QR49_H

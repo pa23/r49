@@ -1632,6 +1632,14 @@
         <source>Insert row above current</source>
         <translation>Вставить строку над текущей</translation>
     </message>
+    <message>
+        <source>Open directory</source>
+        <translation>Открыть каталог</translation>
+    </message>
+    <message>
+        <source>Can not open directory!</source>
+        <translation>Невозможно открыть каталог!</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>

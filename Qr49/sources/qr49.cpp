@@ -47,6 +47,7 @@
 #include <QVector>
 #include <QMessageBox>
 #include <QFile>
+#include <QFileInfo>
 #include <QDir>
 #include <QStringList>
 #include <QTextDocument>
@@ -3156,4 +3157,19 @@ void MainWindow::smokeBaseChanged() {
 
     ka1mCalculation();
     kapercCalculation();
+}
+
+void MainWindow::on_pushButton_OpenDirectory_clicked() {
+
+    QFileInfo fileInfo(ui->comboBox_OpenedReports->currentText());
+
+    if ( !QDesktopServices::
+         openUrl(
+             QUrl::fromLocalFile(fileInfo.absoluteDir().absolutePath())
+             )
+         ) {
+
+        QMessageBox::warning(this, "Qr49", tr("Can not open directory!"));
+        return;
+    }
 }

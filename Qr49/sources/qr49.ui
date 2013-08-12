@@ -842,7 +842,25 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QComboBox" name="comboBox_OpenedReports"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QComboBox" name="comboBox_OpenedReports">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_OpenDirectory">
+              <property name="text">
+               <string>Open directory</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QPlainTextEdit" name="plainTextEdit_Report">
@@ -1564,8 +1582,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1793,8 +1811,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1932,8 +1950,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2056,8 +2074,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">
