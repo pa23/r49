@@ -196,7 +196,7 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
     if ( scount > dcount ) {
 
-        addRows(m_dtable, scount);
+        addRows(m_dtable, scount-dcount, ADDROWS_BOTTOM);
     }
 
     ptrdiff_t tmp_sj = 0;

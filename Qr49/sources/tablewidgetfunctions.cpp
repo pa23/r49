@@ -25,24 +25,42 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
-void addRows(QTableWidget *table, const ptrdiff_t newNumber) {
+void addRows(
+        QTableWidget *table,
+        const ptrdiff_t newRowsNumber,
+        const ptrdiff_t mode
+        ) {
 
-    for (ptrdiff_t i=table->rowCount(); i<newNumber; i++) {
+    ptrdiff_t n = 0;
 
-        table->setRowCount(i+1);
-        table->setRowHeight(i, tableRowHeight);
-        //table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    if ( mode == ADDROWS_ABOVE ) {
 
-        table->setItem(i, 0, new QTableWidgetItem(QString::number(i+1, 'f', 0)));
-        table->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        n = table->currentRow();
+    }
+    else if ( mode == ADDROWS_BELOW ) {
 
-        table->setItem(i, 1, new QTableWidgetItem("0"));
-        table->item(i, 1)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        n = table->currentRow() + 1;
+    }
+    else if ( mode == ADDROWS_BOTTOM ) {
 
-        for (ptrdiff_t j=2; j<table->columnCount(); j++) {
+        n = table->rowCount();
+    }
 
-            table->setItem(i, j, new QTableWidgetItem("0.000"));
-            table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        }
+    for ( ptrdiff_t i=0; i<newRowsNumber; i++ ) {
+
+        table->insertRow(n);
+        formatRow(table, n);
+    }
+}
+
+void formatRow(QTableWidget *table, ptrdiff_t i) {
+
+    table->setRowHeight(i, tableRowHeight);
+    //table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+    for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
+
+        table->setItem(i, j, new QTableWidgetItem("0"));
+        table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
 }

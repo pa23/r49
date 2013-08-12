@@ -70,7 +70,7 @@ void UndoRedoTable::undoTable() {
 
     if ( m_table->rowCount() < m_data[m_position].count() ) {
 
-        addRows(m_table, m_data[m_position].count());
+        addRows(m_table, m_data[m_position].count()-m_table->rowCount(), ADDROWS_BOTTOM);
     }
     else if ( m_table->rowCount() > m_data[m_position].count() ) {
 

@@ -936,8 +936,9 @@
     <addaction name="separator"/>
     <addaction name="action_LowerAccuracy"/>
     <addaction name="separator"/>
-    <addaction name="action_AddRow"/>
-    <addaction name="action_DeleteRows"/>
+    <addaction name="action_InsertRowAboveCurrent"/>
+    <addaction name="action_InsertRowBelowCurrent"/>
+    <addaction name="action_DeleteSelectedRows"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -2222,9 +2223,9 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="action_AddRow">
+  <action name="action_InsertRowBelowCurrent">
    <property name="text">
-    <string>Add row</string>
+    <string>Insert row below current</string>
    </property>
    <property name="shortcut">
     <string>F11</string>
@@ -2634,9 +2635,9 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="action_DeleteRows">
+  <action name="action_DeleteSelectedRows">
    <property name="text">
-    <string>Delete rows</string>
+    <string>Delete selected rows</string>
    </property>
    <property name="shortcut">
     <string>F12</string>
@@ -2653,6 +2654,17 @@
   <action name="action_ReportsProcessing">
    <property name="text">
     <string>Reports processing...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_InsertRowAboveCurrent">
+   <property name="text">
+    <string>Insert row above current</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F11</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>

@@ -1210,10 +1210,6 @@
         <translation>Через знач. дымности и массу PT</translation>
     </message>
     <message>
-        <source>Add row</source>
-        <translation>Добавить строку</translation>
-    </message>
-    <message>
         <source>Save report as...</source>
         <translation>Сохранить отчет как...</translation>
     </message>
@@ -1553,10 +1549,6 @@
         <translation>Удалить последнюю строку</translation>
     </message>
     <message>
-        <source>Delete rows</source>
-        <translation>Удалить строки</translation>
-    </message>
-    <message>
         <source>No selected rows!</source>
         <translation>Нет выбранных строк!</translation>
     </message>
@@ -1623,6 +1615,22 @@
     <message>
         <source>Child object not found! Restart program!</source>
         <translation>Дочерний объект не найден! Перезапустите программу!</translation>
+    </message>
+    <message>
+        <source>Delete selected rows</source>
+        <translation>Удалить выбранные строки</translation>
+    </message>
+    <message>
+        <source>Shift+F11</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Insert row below current</source>
+        <translation>Вставить строку под текущей</translation>
+    </message>
+    <message>
+        <source>Insert row above current</source>
+        <translation>Вставить строку над текущей</translation>
     </message>
 </context>
 <context>

@@ -1169,7 +1169,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         if ( m_table->rowCount() == 0 ) {
 
-            on_action_AddRow_triggered();
+            on_action_InsertRowBelowCurrent_triggered();
         }
 
         const QString filenamePoints = m_commonParameters->val_srcFileNamePoints();
@@ -1209,7 +1209,7 @@ void MainWindow::on_action_SaveSourceData_triggered() {
 
         if ( m_table->rowCount() == 0 ) {
 
-            on_action_AddRow_triggered();
+            on_action_InsertRowBelowCurrent_triggered();
         }
 
         const QString filenamePowers = m_commonParameters->val_srcFileNameRedPwr();
@@ -1839,13 +1839,12 @@ void MainWindow::on_action_PasteToTable_triggered() {
     //
 
     const ptrdiff_t destRows = m_table->rowCount() - m_table->currentRow();
-    const ptrdiff_t totalRows = m_table->currentRow() + numRows;
 
     tableCellChangedConnect(false);
 
     if ( numRows > destRows ) {
 
-        addRows(m_table, totalRows);
+        addRows(m_table, numRows-destRows, ADDROWS_BOTTOM);
     }
 
     //
@@ -1996,7 +1995,7 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
     saveTableState();
 }
 
-void MainWindow::on_action_AddRow_triggered() {
+void MainWindow::on_action_InsertRowAboveCurrent_triggered() {
 
     if ( m_table != ui->tableWidget_SrcDataPoints &&
          m_table != ui->tableWidget_FullLoadCurve ) {
@@ -2010,13 +2009,33 @@ void MainWindow::on_action_AddRow_triggered() {
     }
 
     tableCellChangedConnect(false);
-    addRows(m_table, m_table->rowCount()+1);
+    addRows(m_table, 1, ADDROWS_ABOVE);
     tableCellChangedConnect(true);
 
     saveTableState();
 }
 
-void MainWindow::on_action_DeleteRows_triggered() {
+void MainWindow::on_action_InsertRowBelowCurrent_triggered() {
+
+    if ( m_table != ui->tableWidget_SrcDataPoints &&
+         m_table != ui->tableWidget_FullLoadCurve ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("This action is not available for the current table!")
+                    );
+        return;
+    }
+
+    tableCellChangedConnect(false);
+    addRows(m_table, 1, ADDROWS_BELOW);
+    tableCellChangedConnect(true);
+
+    saveTableState();
+}
+
+void MainWindow::on_action_DeleteSelectedRows_triggered() {
 
     if ( m_table != ui->tableWidget_SrcDataPoints &&
          m_table != ui->tableWidget_FullLoadCurve ) {
