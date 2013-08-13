@@ -377,9 +377,6 @@
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QTableWidget" name="tableWidget_SrcDataPoints">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ContiguousSelection</enum>
-               </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>80</number>
                </attribute>
@@ -658,9 +655,6 @@
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
               <widget class="QTableWidget" name="tableWidget_FullLoadCurve">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ContiguousSelection</enum>
-               </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>80</number>
                </attribute>
@@ -1582,8 +1576,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>186</width>
-          <height>243</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1811,8 +1805,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>250</width>
-          <height>169</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1950,8 +1944,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
-          <height>137</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2074,8 +2068,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>152</width>
-          <height>114</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">

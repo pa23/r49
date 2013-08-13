@@ -899,30 +899,37 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
         return false;
     }
 
-    if ( m_valueDialog->exec() == QDialog::Accepted ) {
+    if ( m_valueDialog->exec() == QDialog::Rejected ) {
 
-        if ( m_table->selectedRanges().isEmpty() ) {
+        return true;
+    }
 
-            QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
-            return false;
-        }
+    if ( m_table->selectedRanges().isEmpty() ) {
 
-        QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
+        QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
+        return false;
+    }
 
-        double x = 0.0;
-        double y = value->value();
+    QTableWidgetSelectionRange selectedRange;
 
-        if ( (y == 0.0) && (operation == "divide") ) {
+    double x = 0.0;
+    double y = value->value();
 
-            QMessageBox::warning(
-                        this,
-                        "Qr49",
-                        tr("Illegal operation \"Divide by zero\"!")
-                        );
-            return false;
-        }
+    if ( (y == 0.0) && (operation == "divide") ) {
 
-        tableCellChangedConnect(false);
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Illegal operation \"Divide by zero\"!")
+                    );
+        return false;
+    }
+
+    tableCellChangedConnect(false);
+
+    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
+
+        selectedRange = m_table->selectedRanges()[n];
 
         for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
 
@@ -959,9 +966,9 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
             }
         }
 
-        tableCellChangedConnect(true);
     }
 
+    tableCellChangedConnect(true);
     saveTableState();
 
     return true;
@@ -1663,6 +1670,14 @@ void MainWindow::on_action_PrintSelectedCells_triggered() {
                     );
         return;
     }
+    else if ( m_table->selectedRanges().size() > 1 ) {
+
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Only first range will be printed!")
+                    );
+    }
 
     //
 
@@ -1792,31 +1807,48 @@ void MainWindow::on_action_CutFromTable_triggered() {
 
 void MainWindow::on_action_CopyFromTable_triggered() {
 
-    if ( !m_table->selectedRanges().isEmpty() ) {
+    if ( m_table->selectedRanges().isEmpty() ) {
 
-        QTableWidgetSelectionRange selectedRange =
-                m_table->selectedRanges().first();
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("No selected cells to copy!")
+                    );
+        return;
+    }
+    else if ( m_table->selectedRanges().size() > 1 ) {
 
-        QString str;
+        QMessageBox::information(
+                    this,
+                    "Qr49",
+                    tr("Only first range will be copied!")
+                    );
+    }
 
-        for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+    //
 
-            for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
+    QTableWidgetSelectionRange selectedRange =
+            m_table->selectedRanges().first();
 
-                str += m_table->item(selectedRange.topRow()+i,
-                                   selectedRange.leftColumn()+j)->text();
+    QString str;
 
-                if ( j != (selectedRange.columnCount()-1) ) {
+    for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
 
-                    str += "\t";
-                }
+        for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
+
+            str += m_table->item(selectedRange.topRow()+i,
+                                 selectedRange.leftColumn()+j)->text();
+
+            if ( j != (selectedRange.columnCount()-1) ) {
+
+                str += "\t";
             }
-
-            str += "\n";
         }
 
-        QApplication::clipboard()->setText(str);
+        str += "\n";
     }
+
+    QApplication::clipboard()->setText(str);
 }
 
 void MainWindow::on_action_PasteToTable_triggered() {
@@ -1862,32 +1894,37 @@ void MainWindow::on_action_PasteToTable_triggered() {
     }
 
     tableCellChangedConnect(true);
-
     saveTableState();
 }
 
 void MainWindow::on_action_DeleteFromTable_triggered() {
 
-    if ( !m_table->selectedRanges().isEmpty() ) {
+    if ( m_table->selectedRanges().isEmpty() ) {
 
-        QTableWidgetSelectionRange selectedRange =
-                m_table->selectedRanges().first();
+        return;
+    }
 
-        tableCellChangedConnect(false);
+    QTableWidgetSelectionRange selectedRange;
+
+    tableCellChangedConnect(false);
+
+    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
+
+        selectedRange = m_table->selectedRanges()[n];
 
         for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
 
             for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
                 m_table->item(selectedRange.topRow()+i,
-                            selectedRange.leftColumn()+j)->setText("0");
+                              selectedRange.leftColumn()+j)->setText("0");
             }
         }
 
-        tableCellChangedConnect(true);
-
-        saveTableState();
     }
+
+    tableCellChangedConnect(true);
+    saveTableState();
 }
 
 void MainWindow::on_action_Add_triggered() {
@@ -1960,7 +1997,7 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
         return;
     }
 
-    QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
+    QTableWidgetSelectionRange selectedRange;
 
     QString cellstr;
     double cellval = 0.0;
@@ -1968,31 +2005,36 @@ void MainWindow::on_action_LowerAccuracy_triggered() {
 
     tableCellChangedConnect(false);
 
-    for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
 
-        for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
+        selectedRange = m_table->selectedRanges()[n];
 
-            cellstr = m_table->item(
-                        selectedRange.topRow()+i, selectedRange.leftColumn()+j
-                        )->text();
-            cellval = cellstr.toDouble();
-            parts = cellstr.split(".", QString::SkipEmptyParts);
+        for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
 
-            if ( parts.size() == 2 ) {
+            for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
 
-                m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
-                        setText(QString::number(cellval, 'f', parts[1].size()-1));
-            }
-            else {
+                cellstr = m_table->item(
+                            selectedRange.topRow()+i, selectedRange.leftColumn()+j
+                            )->text();
+                cellval = cellstr.toDouble();
+                parts = cellstr.split(".", QString::SkipEmptyParts);
 
-                m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
-                        setText(QString::number(cellval, 'f', 0));
+                if ( parts.size() == 2 ) {
+
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(cellval, 'f', parts[1].size()-1));
+                }
+                else {
+
+                    m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            setText(QString::number(cellval, 'f', 0));
+                }
             }
         }
+
     }
 
     tableCellChangedConnect(true);
-
     saveTableState();
 }
 
@@ -2055,11 +2097,16 @@ void MainWindow::on_action_DeleteSelectedRows_triggered() {
         return;
     }
 
-    QTableWidgetSelectionRange selRange = m_table->selectedRanges().first();
+    QTableWidgetSelectionRange selectedRange;
 
-    for ( ptrdiff_t i=selRange.bottomRow(); i>=selRange.topRow(); i-- ) {
+    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
 
-        m_table->removeRow(i);
+        selectedRange = m_table->selectedRanges()[n];
+
+        for ( ptrdiff_t i=selectedRange.bottomRow(); i>=selectedRange.topRow(); i-- ) {
+
+            m_table->removeRow(i);
+        }
     }
 
     saveTableState();

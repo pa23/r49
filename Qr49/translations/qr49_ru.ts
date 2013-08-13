@@ -1640,6 +1640,18 @@
         <source>Can not open directory!</source>
         <translation>Невозможно открыть каталог!</translation>
     </message>
+    <message>
+        <source>Only first range will be printed!</source>
+        <translation>Будет распечатан только первый диапазон!</translation>
+    </message>
+    <message>
+        <source>No selected cells to copy!</source>
+        <translation>Нет выбранных для копирования ячеек!</translation>
+    </message>
+    <message>
+        <source>Only first range will be copied!</source>
+        <translation>Будет скопирован только первый диапазон!</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
