@@ -94,6 +94,9 @@ private:
     ptrdiff_t m_undoCount;
     ptrdiff_t m_redoCount;
 
+    bool m_savingReportNeeded;
+    QString m_changedReportFileName;
+
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
     void readPreferences();
@@ -112,12 +115,18 @@ private:
     void saveTableState();
     void saveStateForAllTables();
 
+    void saveReport(const QString &);
+
     QDir m_lastReportsDir;
     QString m_lastCheckoutDataFileName;
     QString m_lastReportFileName;
     QFont m_monospacedFont_8;
     QFont m_monospacedFont_10;
     QFont m_dejavusansmonoFont_10;
+
+protected:
+
+     void closeEvent(QCloseEvent *event);
 
 private slots:
 
@@ -166,6 +175,7 @@ private slots:
     void standardChanged(const int);
     void PTcalcChanged(const int);
     void reportChanged(const QString &);
+    void reportTextChanged(bool);
     void tabChanged(const int);
     void tableCellChanged(const int, const int);
 

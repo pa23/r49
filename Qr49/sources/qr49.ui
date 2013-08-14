@@ -838,6 +838,9 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
+             <widget class="QLabel" name="label_unsavedReport"/>
+            </item>
+            <item>
              <widget class="QComboBox" name="comboBox_OpenedReports">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1576,8 +1579,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1805,8 +1808,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1944,8 +1947,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2068,8 +2071,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2677,6 +2680,17 @@
    </property>
    <property name="shortcut">
     <string>Shift+F11</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_SaveReport">
+   <property name="text">
+    <string>Save report</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>

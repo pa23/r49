@@ -1652,6 +1652,14 @@
         <source>Only first range will be copied!</source>
         <translation>Будет скопирован только первый диапазон!</translation>
     </message>
+    <message>
+        <source>Save report</source>
+        <translation>Сохранить отчет</translation>
+    </message>
+    <message>
+        <source>Report was changed. Save it?</source>
+        <translation>Отчет был изменен. Сохранить изменения?</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>

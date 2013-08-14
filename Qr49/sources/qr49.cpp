@@ -90,7 +90,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
     m_undoCount(0),
-    m_redoCount(0) {
+    m_redoCount(0),
+
+    m_savingReportNeeded(false) {
 
     ui->setupUi(this);
 
@@ -158,6 +160,11 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(activated(QString)),
             this,
             SLOT(reportChanged(const QString &)));
+
+    connect(ui->plainTextEdit_Report,
+            SIGNAL(undoAvailable(bool)),
+            this,
+            SLOT(reportTextChanged(bool)));
 
     connect(ui->tabWidget_Data,
             SIGNAL(currentChanged(int)),
@@ -388,6 +395,23 @@ MainWindow::~MainWindow() {
     delete m_dataImportDialog;
     delete m_reportprocsetdialog;
     delete m_regExpValidator;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+
+    if ( m_savingReportNeeded ) {
+
+        if ( QMessageBox::question(this,
+                                   "Qr49"
+                                   , tr("Report was changed. Save it?"),
+                                   QMessageBox::Yes,
+                                   QMessageBox::No) == QMessageBox::Yes ) {
+
+            saveReport(m_changedReportFileName);
+        }
+    }
+
+    event->accept();
 }
 
 void MainWindow::writeProgramSettings() {
@@ -1482,23 +1506,11 @@ void MainWindow::on_action_SaveReportAs_triggered() {
 
     if ( !newReportFileName.isEmpty() ) {
 
-        QFile reportFile(newReportFileName);
+        saveReport(newReportFileName);
 
-        if ( !reportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
-
-            QMessageBox::critical(
-                        this,
-                        "Qr49",
-                        newReportFileName
-                        + tr(" could not be saved!")
-                        );
-            return;
-        }
-
-        QTextStream fout(&reportFile);
-        fout << ui->plainTextEdit_Report->toPlainText();
-
-        reportFile.close();
+        m_savingReportNeeded = false;
+        m_changedReportFileName.clear();
+        ui->label_unsavedReport->setText("");
 
         ui->comboBox_OpenedReports->
                 removeItem(ui->comboBox_OpenedReports->currentIndex());
@@ -2939,6 +2951,18 @@ void MainWindow::PTcalcChanged(const int currptcalc) {
 
 void MainWindow::reportChanged(const QString &path) {
 
+    if ( m_savingReportNeeded ) {
+
+        if ( QMessageBox::question(this,
+                                   "Qr49"
+                                   , tr("Report was changed. Save it?"),
+                                   QMessageBox::Yes,
+                                   QMessageBox::No) == QMessageBox::Yes ) {
+
+            saveReport(m_changedReportFileName);
+        }
+    }
+
     QFile reportFile(path);
 
     if ( reportFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
@@ -2956,6 +2980,28 @@ void MainWindow::reportChanged(const QString &path) {
     }
 
     reportFile.close();
+
+    //
+
+    m_savingReportNeeded = false;
+    m_changedReportFileName.clear();
+    ui->label_unsavedReport->setText("");
+}
+
+void MainWindow::reportTextChanged(bool b) {
+
+    m_savingReportNeeded = b;
+
+    if ( b ) {
+
+        m_changedReportFileName = ui->comboBox_OpenedReports->currentText();
+        ui->label_unsavedReport->setText("*");
+    }
+    else {
+
+        m_changedReportFileName.clear();
+        ui->label_unsavedReport->setText("");
+    }
 }
 
 void MainWindow::tabChanged(const int tab) {
@@ -3121,6 +3167,27 @@ void MainWindow::saveStateForAllTables() {
     m_undoRedo_TableEU3->saveState();
     m_undoRedo_TablePoints->saveState();
     m_undoRedo_TableFullLoadCurve->saveState();
+}
+
+void MainWindow::saveReport(const QString &newReportFileName) {
+
+    QFile reportFile(newReportFileName);
+
+    if ( !reportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    newReportFileName
+                    + tr(" could not be saved!")
+                    );
+        return;
+    }
+
+    QTextStream fout(&reportFile);
+    fout << ui->plainTextEdit_Report->toPlainText();
+
+    reportFile.close();
 }
 
 void MainWindow::abcCalculation() {
