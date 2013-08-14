@@ -2097,16 +2097,11 @@ void MainWindow::on_action_DeleteSelectedRows_triggered() {
         return;
     }
 
-    QTableWidgetSelectionRange selectedRange;
+    QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
 
-    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
+    for ( ptrdiff_t i=selectedRange.bottomRow(); i>=selectedRange.topRow(); i-- ) {
 
-        selectedRange = m_table->selectedRanges()[n];
-
-        for ( ptrdiff_t i=selectedRange.bottomRow(); i>=selectedRange.topRow(); i-- ) {
-
-            m_table->removeRow(i);
-        }
+        m_table->removeRow(i);
     }
 
     saveTableState();
