@@ -1429,8 +1429,9 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
              << "mCH[g/h]";
     }
 
-    if ( ptcalc == PTCALC_THROUGHSMOKE ||
-         ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+    if ( m_gPTcalc == GPTCALC_YES &&
+         (ptcalc == PTCALC_THROUGHSMOKE ||
+          ptcalc == PTCALC_THROUGHSMOKEANDPTMASS) ) {
         fout << "gPTs[g/kWh]";
     }
 

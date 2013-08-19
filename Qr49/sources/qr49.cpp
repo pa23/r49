@@ -2766,44 +2766,8 @@ void MainWindow::taskChanged(const int currtask) {
 
         ui->doubleSpinBox_Vh->setEnabled(false);
         ui->comboBox_standard->setEnabled(true);
-        ui->comboBox_chargingType->setEnabled(true);
 
-        const ptrdiff_t currstd = ui->comboBox_standard->currentIndex();
-
-        if ( (currstd == toxic::STD_C1) ||
-             (currstd == toxic::STD_D1) ||
-             (currstd == toxic::STD_D2) ||
-             (currstd == toxic::STD_E1) ||
-             (currstd == toxic::STD_E2) ||
-             (currstd == toxic::STD_E3) ||
-             (currstd == toxic::STD_E5) ||
-             (currstd == toxic::STD_F ) ||
-             (currstd == toxic::STD_G1) ||
-             (currstd == toxic::STD_G2) ) {
-
-            ui->comboBox_FuelType->setEnabled(true);
-        }
-        else {
-
-            ui->comboBox_FuelType->setEnabled(false);
-        }
-
-        ui->comboBox_NOxSample->setEnabled(true);
-        ui->comboBox_PTcalc->setEnabled(true);
-
-        if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHPTMASS ||
-             ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHSMOKEANDPTMASS ) {
-
-            ui->doubleSpinBox_PTmass->setEnabled(true);
-            ui->pushButton_EnterPTmass->setEnabled(true);
-        }
-        else {
-
-            ui->doubleSpinBox_PTmass->setEnabled(false);
-            ui->pushButton_EnterPTmass->setEnabled(false);
-        }
-
-        ui->comboBox_AddPointsCalc->setEnabled(true);
+        standardChanged(ui->comboBox_standard->currentIndex());
 
         ui->checkBox_reports->setEnabled(true);
 
@@ -2872,13 +2836,71 @@ void MainWindow::taskChanged(const int currtask) {
 
 void MainWindow::standardChanged(const int currstd) {
 
+    if ( ui->comboBox_task->currentIndex() != toxic::TASK_POINTS ) {
+
+        ui->comboBox_chargingType->setEnabled(true);
+
+        if ( (currstd == toxic::STD_C1) ||
+             (currstd == toxic::STD_D1) ||
+             (currstd == toxic::STD_D2) ||
+             (currstd == toxic::STD_E1) ||
+             (currstd == toxic::STD_E2) ||
+             (currstd == toxic::STD_E3) ||
+             (currstd == toxic::STD_E5) ||
+             (currstd == toxic::STD_F ) ||
+             (currstd == toxic::STD_G1) ||
+             (currstd == toxic::STD_G2) ) {
+
+            ui->comboBox_FuelType->setEnabled(true);
+        }
+        else {
+
+            ui->comboBox_FuelType->setEnabled(false);
+        }
+
+        ui->comboBox_NOxSample->setEnabled(true);
+
+        if ( (currstd == toxic::STD_EU0          ) ||
+             (currstd == toxic::STD_OST3700123481) ||
+             (currstd == toxic::STD_GOST17220597 ) ||
+             (currstd == toxic::STD_C1) ||
+             (currstd == toxic::STD_D1) ||
+             (currstd == toxic::STD_D2) ||
+             (currstd == toxic::STD_E1) ||
+             (currstd == toxic::STD_E2) ||
+             (currstd == toxic::STD_E3) ||
+             (currstd == toxic::STD_E5) ||
+             (currstd == toxic::STD_F ) ||
+             (currstd == toxic::STD_G1) ||
+             (currstd == toxic::STD_G2) ) {
+
+            ui->comboBox_PTcalc->setEnabled(false);
+            ui->doubleSpinBox_PTmass->setEnabled(false);
+            ui->pushButton_EnterPTmass->setEnabled(false);
+        }
+        else {
+
+            ui->comboBox_PTcalc->setEnabled(true);
+
+            if ( ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_NO ||
+                 ui->comboBox_PTcalc->currentIndex() == toxic::PTCALC_THROUGHSMOKE ) {
+
+                ui->doubleSpinBox_PTmass->setEnabled(false);
+                ui->pushButton_EnterPTmass->setEnabled(false);
+            }
+            else {
+
+                ui->doubleSpinBox_PTmass->setEnabled(true);
+                ui->pushButton_EnterPTmass->setEnabled(true);
+            }
+        }
+    }
+
     if ( (currstd == toxic::STD_EU6) ||
          (currstd == toxic::STD_EU5) ||
          (currstd == toxic::STD_EU4) ||
          (currstd == toxic::STD_EU3) ) {
 
-        ui->comboBox_chargingType->setEnabled(true);
-        ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(true);
 
         if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
@@ -2891,45 +2913,26 @@ void MainWindow::standardChanged(const int currstd) {
             getUndoRedoCounters(m_table);
         }
     }
-    else if ( (currstd == toxic::STD_C1) ||
-              (currstd == toxic::STD_D1) ||
-              (currstd == toxic::STD_D2) ||
-              (currstd == toxic::STD_E1) ||
-              (currstd == toxic::STD_E2) ||
-              (currstd == toxic::STD_E3) ||
-              (currstd == toxic::STD_E5) ||
-              (currstd == toxic::STD_F ) ||
-              (currstd == toxic::STD_G1) ||
-              (currstd == toxic::STD_G2) ) {
-
-        ui->comboBox_chargingType->setEnabled(true);
-        ui->comboBox_FuelType->setEnabled(true);
-        ui->comboBox_AddPointsCalc->setEnabled(false);
-
-        if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
-
-            ui->tableWidget_SrcDataEU0->setEnabled(true);
-            ui->tableWidget_SrcDataEU0->setFocus();
-
-            getUndoRedoCounters(m_table);
-
-            ui->tableWidget_SrcDataEU3->setEnabled(false);
-        }
-    }
     else {
 
-        ui->comboBox_chargingType->setEnabled(true);
-        ui->comboBox_FuelType->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
 
         if ( ui->comboBox_task->currentIndex() == toxic::TASK_POINTS ) {
 
-            ui->tableWidget_SrcDataEU0->setEnabled(true);
-            ui->tableWidget_SrcDataEU0->setFocus();
+            if ( currstd == toxic::STD_FREECALC ) {
 
-            getUndoRedoCounters(m_table);
+                ui->tableWidget_SrcDataEU0->setEnabled(false);
+                ui->tableWidget_SrcDataEU3->setEnabled(false);
+            }
+            else {
 
-            ui->tableWidget_SrcDataEU3->setEnabled(false);
+                ui->tableWidget_SrcDataEU0->setEnabled(true);
+                ui->tableWidget_SrcDataEU0->setFocus();
+
+                ui->tableWidget_SrcDataEU3->setEnabled(false);
+
+                getUndoRedoCounters(m_table);
+            }
         }
     }
 }
