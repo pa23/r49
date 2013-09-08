@@ -26,7 +26,7 @@
 #include <QDir>
 
 const QString QR49NAME = "Qr49";
-const QString QR49VERSION = "3.9.1";
+const QString QR49VERSION = "3.9.2";
 const QString CONFIGFILENAME =
         "r49data"
         + QString(QDir::separator())
@@ -35,6 +35,6 @@ const QString TEMPLATEDIRNAME =
         "r49data"
         + QString(QDir::separator())
         + "Templates";
-const QString DOCDIRNAME = "r49data/Documentation";
+const QString DOCDIRNAME = "r49data/Documentation"; // only relative path
 
 #endif // CONSTANTS_H

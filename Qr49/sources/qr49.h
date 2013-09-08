@@ -124,6 +124,8 @@ private:
     QFont m_monospacedFont_10;
     QFont m_dejavusansmonoFont_10;
 
+    QString appPath;
+
 protected:
 
      void closeEvent(QCloseEvent *event);

@@ -368,6 +368,8 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(editingFinished()),
             this,
             SLOT(ka1mCalculation()));
+
+    appPath = QDir::currentPath() + "/";
 }
 
 MainWindow::~MainWindow() {
@@ -2544,15 +2546,14 @@ void MainWindow::on_action_ReportsProcessing_triggered() {
 void MainWindow::on_action_UserManual_triggered() {
 
     const QString userManualLocation1 =
-            DOCDIRNAME
-            + "/r49_user_manual_ru.pdf";
-
+            appPath + DOCDIRNAME + "/r49_user_manual_ru.pdf";
     const QString userManualLocation2 =
             "/usr/share/r49/doc/r49_user_manual_ru.pdf";
 
     if ( QFile::exists(userManualLocation1) ) {
 
-        if ( !QDesktopServices::openUrl(QUrl(userManualLocation1)) ) {
+        if ( !QDesktopServices::openUrl(
+                 QUrl::fromLocalFile(userManualLocation1) ) ) {
 
             QMessageBox::warning(this,
                                  "Qr49",
@@ -2582,15 +2583,14 @@ void MainWindow::on_action_UserManual_triggered() {
 void MainWindow::on_action_StandardsDescription_triggered() {
 
     const QString standardDescLocation1 =
-            DOCDIRNAME
-            + "/diesel_engine_standards_ru.html";
-
+            appPath + DOCDIRNAME + "/diesel_engine_standards_ru.html";
     const QString standardDescLocation2 =
             "/usr/share/r49/doc/diesel_engine_standards_ru.html";
 
     if ( QFile::exists(standardDescLocation1) ) {
 
-        if ( !QDesktopServices::openUrl(QUrl(standardDescLocation1)) ) {
+        if ( !QDesktopServices::openUrl(
+                 QUrl::fromLocalFile(standardDescLocation1) ) ) {
 
             QMessageBox::warning(this,
                                  "Qr49",
