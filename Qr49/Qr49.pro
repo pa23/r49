@@ -25,7 +25,7 @@ TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.9.2
+VERSION = 3.9.3
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
@@ -109,7 +109,7 @@ updateqm.input = TRANSLATIONS
 updateqm.output = qr49_ru.qm
 updateqm.commands = \
     lrelease Qr49.pro &&\
-    $(MKDIR) ${DESTDIR}translations/ &&\
-    $(COPY) translations/*.qm ${DESTDIR}translations/
+    $(MKDIR) ${DESTDIR}langs/ &&\
+    $(COPY) translations/*.qm ${DESTDIR}langs/
 updateqm.CONFIG += no_link target_predeps
 QMAKE_EXTRA_COMPILERS += updateqm

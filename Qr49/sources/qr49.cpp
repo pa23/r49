@@ -1560,7 +1560,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(15, 15, 15, 15, QPrinter::Millimeter);
+    printer.setPageMargins(10, 15, 10, 10, QPrinter::Millimeter);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(newReportFileName);
     printer.setFontEmbeddingEnabled(true);
@@ -1659,7 +1659,7 @@ void MainWindow::on_action_PrintReport_triggered() {
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(15, 15, 15, 15, QPrinter::Millimeter);
+    printer.setPageMargins(10, 15, 10, 10, QPrinter::Millimeter);
 
     QPrintDialog printDialog(&printer, this);
 
