@@ -29,7 +29,7 @@
 #include "dataimportdialog.h"
 #include "tablewidgetfunctions.h"
 #include "constants.h"
-#include "reportprocessingsettingsdialog.h"
+#include "reportsettingsdialog.h"
 
 #include "txCalculationOptions.h"
 #include "txConstants.h"
@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_preferencesDialog(new PreferencesDialog(this)),
     m_checkoutDataDialog(new CheckoutDataDialog(0)),
     m_dataImportDialog(new DataImportDialog(this)),
-    m_reportprocsetdialog(new ReportProcessingSettingsDialog(this)),
+    m_reportsetdialog(new ReportSettingsDialog(this)),
 
     m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    m_engFieldTextEdit = m_reportprocsetdialog->
+    m_engFieldTextEdit = m_reportsetdialog->
             findChild<QPlainTextEdit *>("plainTextEdit_FieldEngineText");
     if ( !m_engFieldTextEdit ) {
         QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
@@ -123,17 +123,9 @@ MainWindow::MainWindow(QWidget *parent) :
                               + tr("Child object not found! Restart program!"));
     }
 
-    m_applyEngFieldText = m_reportprocsetdialog->
+    m_applyEngFieldText = m_reportsetdialog->
             findChild<QCheckBox *>("checkBox_ApplyEngineFieldText");
     if ( !m_applyEngFieldText ) {
-        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
-                              + ":::"
-                              + tr("Child object not found! Restart program!"));
-    }
-
-    m_createCommonReport = m_reportprocsetdialog->
-            findChild<QCheckBox *>("checkBox_CreateCommonReport");
-    if ( !m_createCommonReport ) {
         QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
                               + ":::"
                               + tr("Child object not found! Restart program!"));
@@ -156,12 +148,12 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(PTcalcChanged(const int)));
 
-    connect(ui->comboBox_OpenedReports,
+    connect(ui->comboBox_OpenedReportsTXT,
             SIGNAL(activated(QString)),
             this,
             SLOT(reportChanged(const QString &)));
 
-    connect(ui->plainTextEdit_Report,
+    connect(ui->plainTextEdit_ReportTXT,
             SIGNAL(undoAvailable(bool)),
             this,
             SLOT(reportTextChanged(bool)));
@@ -257,7 +249,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         m_monospacedFont_10.setPointSize(10);
 
-        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
+        ui->plainTextEdit_ReportTXT->setFont(m_monospacedFont_10);
 
         QPlainTextEdit *myPlainTextEdit_CheckoutData =
                 m_checkoutDataDialog->findChild<QPlainTextEdit *>
@@ -395,7 +387,7 @@ MainWindow::~MainWindow() {
     delete m_preferencesDialog;
     delete m_checkoutDataDialog;
     delete m_dataImportDialog;
-    delete m_reportprocsetdialog;
+    delete m_reportsetdialog;
     delete m_regExpValidator;
 }
 
@@ -437,7 +429,6 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/lastReportFileName", m_lastReportFileName);
     m_qr49settings.setValue("/engFieldText", m_engFieldTextEdit->toPlainText());
     m_qr49settings.setValue("/applyEngFieldText", m_applyEngFieldText->isChecked());
-    m_qr49settings.setValue("/createCommonReport", m_createCommonReport->isChecked());
     m_qr49settings.endGroup();
 }
 
@@ -462,7 +453,6 @@ void MainWindow::readProgramSettings() {
     m_lastReportFileName = m_qr49settings.value("/lastReportFileName", "").toString();
     m_engFieldTextEdit->setPlainText(m_qr49settings.value("/engFieldText", "").toString());
     m_applyEngFieldText->setChecked(m_qr49settings.value("/applyEngFieldText", false).toBool());
-    m_createCommonReport->setChecked(m_qr49settings.value("/createCommonReport", false).toBool());
     m_qr49settings.endGroup();
 
     if ( ui->action_Toolbar->isChecked() ) {
@@ -1477,8 +1467,8 @@ void MainWindow::on_action_OpenReport_triggered() {
 
     if ( !anotherReport.isEmpty() ) {
 
-        ui->comboBox_OpenedReports->insertItem(0, anotherReport);
-        ui->comboBox_OpenedReports->setCurrentIndex(0);
+        ui->comboBox_OpenedReportsTXT->insertItem(0, anotherReport);
+        ui->comboBox_OpenedReportsTXT->setCurrentIndex(0);
         reportChanged(anotherReport);
         ui->tabWidget_Data->setCurrentIndex(3);
     }
@@ -1486,7 +1476,7 @@ void MainWindow::on_action_OpenReport_triggered() {
 
 void MainWindow::on_action_SaveReportAs_triggered() {
 
-    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+    if ( ui->plainTextEdit_ReportTXT->document()->isEmpty() ) {
 
         QMessageBox::information(
                     this,
@@ -1500,7 +1490,7 @@ void MainWindow::on_action_SaveReportAs_triggered() {
                 QFileDialog::getSaveFileName(
                     this,
                     tr("Save report as..."),
-                    ui->comboBox_OpenedReports->currentText(),
+                    ui->comboBox_OpenedReportsTXT->currentText(),
                     QString::fromLatin1("Text files (*.txt);;All files (*)"),
                     0,
                     0)
@@ -1514,10 +1504,10 @@ void MainWindow::on_action_SaveReportAs_triggered() {
         m_changedReportFileName.clear();
         ui->label_unsavedReport->setText("");
 
-        ui->comboBox_OpenedReports->
-                removeItem(ui->comboBox_OpenedReports->currentIndex());
-        ui->comboBox_OpenedReports->insertItem(0, newReportFileName);
-        ui->comboBox_OpenedReports->setCurrentIndex(0);
+        ui->comboBox_OpenedReportsTXT->
+                removeItem(ui->comboBox_OpenedReportsTXT->currentIndex());
+        ui->comboBox_OpenedReportsTXT->insertItem(0, newReportFileName);
+        ui->comboBox_OpenedReportsTXT->setCurrentIndex(0);
         reportChanged(newReportFileName);
         ui->tabWidget_Data->setCurrentIndex(3);
     }
@@ -1525,7 +1515,7 @@ void MainWindow::on_action_SaveReportAs_triggered() {
 
 void MainWindow::on_action_ReportToPDF_triggered() {
 
-    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+    if ( ui->plainTextEdit_ReportTXT->document()->isEmpty() ) {
 
         QMessageBox::information(
                     this,
@@ -1535,7 +1525,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
         return;
     }
 
-    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+    if ( ui->plainTextEdit_ReportTXT->document()->isEmpty() ) {
 
         QMessageBox::warning(
                     this,
@@ -1545,7 +1535,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
         return;
     }
 
-    const QString filename = ui->comboBox_OpenedReports->currentText() + ".pdf";
+    const QString filename = ui->comboBox_OpenedReportsTXT->currentText() + ".pdf";
 
     const QString newReportFileName(
                 QFileDialog::getSaveFileName(
@@ -1568,7 +1558,7 @@ void MainWindow::on_action_ReportToPDF_triggered() {
     QTextDocument txtDoc;
     txtDoc.setDefaultFont(m_monospacedFont_8);
     txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
-    txtDoc.setPlainText(ui->plainTextEdit_Report->toPlainText());
+    txtDoc.setPlainText(ui->plainTextEdit_ReportTXT->toPlainText());
     txtDoc.print(&printer);
 }
 
@@ -1580,17 +1570,17 @@ void MainWindow::on_action_SaveReportAndExportToPDF_triggered() {
 
 void MainWindow::on_action_CloseReport_triggered() {
 
-    if ( ui->comboBox_OpenedReports->count() == 1 ) {
+    if ( ui->comboBox_OpenedReportsTXT->count() == 1 ) {
 
-        ui->comboBox_OpenedReports->removeItem(0);
-        ui->plainTextEdit_Report->setPlainText("");
+        ui->comboBox_OpenedReportsTXT->removeItem(0);
+        ui->plainTextEdit_ReportTXT->setPlainText("");
     }
     else {
 
-        ui->comboBox_OpenedReports->
-                removeItem(ui->comboBox_OpenedReports->currentIndex());
+        ui->comboBox_OpenedReportsTXT->
+                removeItem(ui->comboBox_OpenedReportsTXT->currentIndex());
 
-        reportChanged(ui->comboBox_OpenedReports->currentText());
+        reportChanged(ui->comboBox_OpenedReportsTXT->currentText());
     }
 
     ui->tabWidget_Data->setCurrentIndex(3);
@@ -1646,15 +1636,15 @@ void MainWindow::on_action_CopyLastResultsTo_triggered() {
 
 void MainWindow::on_action_PrintReport_triggered() {
 
-    if ( ui->plainTextEdit_Report->document()->isEmpty() ) {
+//    if ( ui->plainTextEdit_ReportTXT->document()->isEmpty() ) {
 
-        QMessageBox::information(
-                    this,
-                    "Qr49",
-                    tr("Report is empty!")
-                    );
-        return;
-    }
+//        QMessageBox::information(
+//                    this,
+//                    "Qr49",
+//                    tr("Report is empty!")
+//                    );
+//        return;
+//    }
 
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
@@ -1665,11 +1655,13 @@ void MainWindow::on_action_PrintReport_triggered() {
 
     if ( printDialog.exec() == QDialog::Accepted ) {
 
-        QTextDocument txtDoc;
-        txtDoc.setDefaultFont(m_monospacedFont_8);
-        txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
-        txtDoc.setPlainText(ui->plainTextEdit_Report->toPlainText());
-        txtDoc.print(&printer);
+//        QTextDocument txtDoc;
+//        txtDoc.setDefaultFont(m_monospacedFont_8);
+//        txtDoc.setPageSize(QSizeF(printer.width(), printer.height()));
+//        txtDoc.setPlainText(ui->plainTextEdit_ReportTXT->toPlainText());
+//        txtDoc.print(&printer);
+
+        ui->webView_ReportHTML->print(&printer);
     }
 }
 
@@ -2281,15 +2273,15 @@ void MainWindow::on_action_Execute_triggered() {
 
                 if ( reports.size() > 1 ) {
 
-                    ui->comboBox_OpenedReports->
+                    ui->comboBox_OpenedReportsTXT->
                             insertItem(0, m_lastReportsDir.absoluteFilePath(reports[1]));
                 }
 
                 m_lastReportFileName =
                         m_lastReportsDir.absoluteFilePath(reports.first());
 
-                ui->comboBox_OpenedReports->insertItem(0, m_lastReportFileName);
-                ui->comboBox_OpenedReports->setCurrentIndex(0);
+                ui->comboBox_OpenedReportsTXT->insertItem(0, m_lastReportFileName);
+                ui->comboBox_OpenedReportsTXT->setCurrentIndex(0);
 
                 //
 
@@ -2308,17 +2300,6 @@ void MainWindow::on_action_Execute_triggered() {
                         }
 
                         toxic::changeEngineInfo(m_lastReportFileName, engFieldText);
-                    }
-
-                    if ( m_createCommonReport->isChecked() && (reports.size() > 1) )  {
-
-                        ui->comboBox_OpenedReports->insertItem(
-                                    2,
-                                    toxic::createCommonReport(
-                                        m_lastReportFileName,
-                                        m_lastReportsDir.absoluteFilePath(reports[1])
-                                    )
-                                );
                     }
                 }
                 catch(const toxic::txError &toxerr) {
@@ -2540,7 +2521,7 @@ void MainWindow::on_action_Preferences_triggered() {
 
 void MainWindow::on_action_ReportsProcessing_triggered() {
 
-    m_reportprocsetdialog->exec();
+    m_reportsetdialog->exec();
 }
 
 void MainWindow::on_action_UserManual_triggered() {
@@ -2728,7 +2709,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tab_cycPointsCalc->setEnabled(true);
         ui->tab_cycEmissCalc->setEnabled(false);
         ui->tab_redPowerCalc->setEnabled(false);
-        ui->tab_reports->setEnabled(false);
+        ui->tab_ReportsTXT->setEnabled(false);
 
         if ( currstd == toxic::STD_FREECALC ) {
 
@@ -2774,7 +2755,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tab_cycPointsCalc->setEnabled(false);
         ui->tab_cycEmissCalc->setEnabled(true);
         ui->tab_redPowerCalc->setEnabled(false);
-        ui->tab_reports->setEnabled(true);
+        ui->tab_ReportsTXT->setEnabled(true);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
@@ -2805,7 +2786,7 @@ void MainWindow::taskChanged(const int currtask) {
         ui->tab_cycPointsCalc->setEnabled(false);
         ui->tab_cycEmissCalc->setEnabled(false);
         ui->tab_redPowerCalc->setEnabled(true);
-        ui->tab_reports->setEnabled(true);
+        ui->tab_ReportsTXT->setEnabled(true);
 
         ui->tableWidget_SrcDataEU0->setEnabled(false);
         ui->tableWidget_SrcDataEU3->setEnabled(false);
@@ -2970,7 +2951,7 @@ void MainWindow::reportChanged(const QString &path) {
 
     if ( reportFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
-        ui->plainTextEdit_Report->setPlainText(reportFile.readAll());
+        ui->plainTextEdit_ReportTXT->setPlainText(reportFile.readAll());
     }
     else {
 
@@ -2997,7 +2978,7 @@ void MainWindow::reportTextChanged(bool b) {
 
     if ( b ) {
 
-        m_changedReportFileName = ui->comboBox_OpenedReports->currentText();
+        m_changedReportFileName = ui->comboBox_OpenedReportsTXT->currentText();
         ui->label_unsavedReport->setText("*");
     }
     else {
@@ -3188,7 +3169,7 @@ void MainWindow::saveReport(const QString &newReportFileName) {
     }
 
     QTextStream fout(&reportFile);
-    fout << ui->plainTextEdit_Report->toPlainText();
+    fout << ui->plainTextEdit_ReportTXT->toPlainText();
 
     reportFile.close();
 }
@@ -3273,7 +3254,7 @@ void MainWindow::smokeBaseChanged() {
 
 void MainWindow::on_pushButton_OpenDirectory_clicked() {
 
-    QFileInfo fileInfo(ui->comboBox_OpenedReports->currentText());
+    QFileInfo fileInfo(ui->comboBox_OpenedReportsTXT->currentText());
 
     if ( !QDesktopServices::
          openUrl(

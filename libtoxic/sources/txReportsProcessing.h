@@ -31,11 +31,6 @@ void changeEngineInfo(
         const QString &  // text for Engine field
         );
 
-QString createCommonReport( // return path to common report
-        const QString &,    // path to gaseous emissions report
-        const QString &     // path to PT emissions report
-        );
-
 } // namespace toxic
 
 #endif // TXREPORTSPROCESSING_H

@@ -3,7 +3,7 @@
     Calculation of modes and specific emissions for stationary
     diesel engine test cycles.
 
-    File: reportprocessingsettingsdialog.cpp
+    File: reportsettingsdialog.cpp
 
     Copyright (C) 2013 Artem Petrov <pa2311@gmail.com>
 
@@ -19,17 +19,17 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "reportprocessingsettingsdialog.h"
-#include "ui_reportprocessingsettingsdialog.h"
+#include "reportsettingsdialog.h"
+#include "ui_reportsettingsdialog.h"
 
-ReportProcessingSettingsDialog::ReportProcessingSettingsDialog(QWidget *parent) :
+ReportSettingsDialog::ReportSettingsDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ReportProcessingSettingsDialog) {
+    ui(new Ui::ReportSettingsDialog) {
 
     ui->setupUi(this);
 }
 
-ReportProcessingSettingsDialog::~ReportProcessingSettingsDialog() {
+ReportSettingsDialog::~ReportSettingsDialog() {
 
     delete ui;
 }

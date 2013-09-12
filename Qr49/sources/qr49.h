@@ -45,7 +45,7 @@
 #include "checkoutdatadialog.h"
 #include "undoredotable.h"
 #include "dataimportdialog.h"
-#include "reportprocessingsettingsdialog.h"
+#include "reportsettingsdialog.h"
 
 namespace Ui {
 
@@ -75,11 +75,10 @@ private:
     PreferencesDialog *m_preferencesDialog;
     CheckoutDataDialog *m_checkoutDataDialog;
     DataImportDialog *m_dataImportDialog;
-    ReportProcessingSettingsDialog *m_reportprocsetdialog;
+    ReportSettingsDialog *m_reportsetdialog;
 
     QPlainTextEdit *m_engFieldTextEdit;
     QCheckBox *m_applyEngFieldText;
-    QCheckBox *m_createCommonReport;
 
     QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
     QSharedPointer<toxic::txCommonParameters> m_commonParameters;

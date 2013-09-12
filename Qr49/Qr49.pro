@@ -19,13 +19,13 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui widgets printsupport
+QT += core gui widgets printsupport webkitwidgets
 
 TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.9.3
+VERSION = 3.10.0
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
@@ -36,7 +36,7 @@ SOURCES += sources/preferencesdialog.cpp \
     sources/qr49.cpp \
     sources/dataimportdialog.cpp \
     sources/tablewidgetfunctions.cpp \
-    sources/reportprocessingsettingsdialog.cpp
+    sources/reportsettingsdialog.cpp
 
 HEADERS += sources/preferencesdialog.h \
     sources/checkoutdatadialog.h \
@@ -47,7 +47,7 @@ HEADERS += sources/preferencesdialog.h \
     sources/dataimportdialog.h \
     sources/tablewidgetfunctions.h \
     sources/constants.h \
-    sources/reportprocessingsettingsdialog.h
+    sources/reportsettingsdialog.h
 
 FORMS += sources/preferencesdialog.ui \
     sources/checkoutdatadialog.ui \
@@ -55,7 +55,7 @@ FORMS += sources/preferencesdialog.ui \
     sources/filtermassdialog.ui \
     sources/qr49.ui \
     sources/dataimportdialog.ui \
-    sources/reportprocessingsettingsdialog.ui
+    sources/reportsettingsdialog.ui
 
 RESOURCES = sources/qr49.qrc
 
