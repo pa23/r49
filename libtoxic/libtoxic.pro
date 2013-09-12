@@ -67,7 +67,7 @@ SOURCES += \
 QMAKE_CXXFLAGS += -std=c++11 -W -pedantic
 
 unix: {
-    DESTDIR = ../r49-bin/unix
+    DESTDIR = ../r49-bin/unix/libs/r49
     RCC_DIR = build/unix/rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/unix/debug
@@ -80,7 +80,7 @@ unix: {
 }
 
 win32: {
-    DESTDIR = ../r49-bin/win
+    DESTDIR = ../r49-bin/win/libs/r49
     RCC_DIR = build/win/rc
     CONFIG (debug, debug|release) {
         OBJECTS_DIR = build/win/debug
