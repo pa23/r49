@@ -64,6 +64,7 @@ private:
     QString saveCheckoutData() const;
     QString saveReportGAS() const;
     QString saveReportPT() const;
+    QString saveReportHTML() const;
 
     int m_NOxCalcMethod;
     enum { NOXCALCMETHOD_DIRECT, NOXCALCMETHOD_REVERCE };

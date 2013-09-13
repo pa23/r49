@@ -222,6 +222,13 @@ QString txEmissionsOnR49R96::createReports() {
         message += saveReportPT();
     }
 
+    if ( (currstd >= STD_EU6)   &&
+         (currstd <= STD_R96K5) &&
+         (currstd != STD_OST3700123481) &&
+         (currstd != STD_GOST17220597) ) {
+        message += saveReportHTML();
+    }
+
     return message;
 }
 
@@ -2007,6 +2014,205 @@ QString txEmissionsOnR49R96::saveReportPT() const {
         fout << qSetFieldWidth(0)
              << "\n\n";
     }
+
+    reportFile.close();
+
+    return "libtoxic: Report file \"" + fullPath + "\" created.\n";
+}
+
+QString txEmissionsOnR49R96::saveReportHTML() const {
+
+    QDir reportDir;
+
+    const QString fullPath =
+            reportDir.relativeFilePath(m_fullReportsPath)
+            + QDir::separator()
+            + "Report_"
+            + m_calculationOptions->defStandardName(
+                m_calculationOptions->val_standard()
+                )
+            + "_"
+            + m_currTime
+            + ".html";
+
+    QFile reportFile(fullPath);
+
+    if ( !reportFile.open(QFile::WriteOnly) ) {
+        throw txError("Can not open file " + fullPath + "!");
+    }
+
+    QTextStream fout(&reportFile);
+
+    const int currstd = m_calculationOptions->val_standard();
+    const int ptcalc = m_calculationOptions->val_PTcalc();
+
+    fout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><title>r49: report on cycle</title><style type=\"text/css\">@media print { table { page-break-inside: avoid; } } @page { size: landscape; } body { font-family: 'DejaVu Sans Mono'; font-size: 8pt; font-style: normal; margin: 0; padding: 10px; } table { width: 100%; border-collapse: collapse; margin-bottom: 5px; } td { border: 1px solid black; padding: 5px; } .auxtable { margin-bottom: 0px; } .auxtd { border: 0px; padding: 0px; } .auxtdnum { border: 0px; padding: 0px; text-align: right; } .pageheadcont { padding: 3px; width: 33%; vertical-align: center; text-align: center; } .blockheadcont { padding: 3px; vertical-align: center; text-align: left; background-color: #D3D3D3; } .objcont { vertical-align: top; }</style></head><body><table><tbody><tr><td class=\"pageheadcont\">"
+         << toxicIdentification{}.name()
+         << " version "
+         << toxicIdentification{}.version()
+         << "<td class=\"pageheadcont\"><b>";
+
+    if ( currstd == STD_EU6 || currstd == STD_EU5 || currstd == STD_EU4 ||
+         currstd == STD_EU3 ) {
+        fout << "Report on ESC ";
+    }
+    else {
+        fout << "Report on cycle ";
+    }
+
+    fout << m_calculationOptions->defStandardName(currstd)
+         << "</b></td><td class=\"pageheadcont\">Date_Time: "
+         << m_currTime
+         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Tested object</b></td><td class=\"blockheadcont\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">";
+
+    QFile engDescrFile("r49data/engdescr.conf");
+
+    if ( engDescrFile.exists() ) {
+
+        //
+    }
+    else {
+
+        fout << "Engine:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Turbocharger:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel pump:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Injectors:</td><td class=\"auxtd\">-</td></tr>";
+    }
+
+    fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">";
+
+    QFile techFluidsFile("r49data/techfluids.conf");
+
+    if ( techFluidsFile.exists() ) {
+
+        //
+    }
+    else {
+
+        fout << "Fuel type:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Cetane number:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, ppm:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Motor oil:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Coolant:</td><td class=\"auxtd\">-</td></tr>";
+    }
+
+    fout << "</tbody></table></td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Specific emissions</b></td><td class=\"blockheadcont\"><b>Check points</b></td><td class=\"blockheadcont\"><b>Test conditions</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">Limitation</td><td class=\"auxtdnum\">Calculation</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">";
+
+    if ( currstd == STD_R96H8 || currstd == STD_R96I8 ||
+         currstd == STD_R96J8 || currstd == STD_R96K8 ||
+         currstd == STD_R96H5 || currstd == STD_R96I5 ||
+         currstd == STD_R96J5 || currstd == STD_R96K5 ) {
+
+        const double gNOxCHLimit = NOxCHLimit(currstd);
+        const double gCOLimit = COLimit(currstd);
+
+        fout << "gNOx+gCH[g/kWh]</td><td class=\"auxtdnum\">"
+             << gNOxCHLimit
+             << "</td><td class=\"auxtdnum\">"
+             << m_gNOx + m_gCH
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( (m_gNOx + m_gCH) <= gNOxCHLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr><tr><td class=\"auxtd\">gNOx[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">"
+             << m_gNOx
+             << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">"
+             << m_gCH
+             << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCO[g/kWh]</td><td class=\"auxtdnum\">"
+             << gCOLimit
+             << "</td><td class=\"auxtdnum\">"
+             << m_gCO
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gCO <= gCOLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr>";
+    }
+    else {
+
+        const double gNOxLimit = NOxLimit(currstd);
+        const double gCOLimit = COLimit(currstd);
+        const double gCHLimit = CHLimit(currstd);
+
+        fout << "gNOx[g/kWh]</td><td class=\"auxtdnum\">"
+             << gNOxLimit
+             << "</td><td class=\"auxtdnum\">"
+             << m_gNOx
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gNOx <= gNOxLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr><tr><td class=\"auxtd\">gCO[g/kWh]</td><td class=\"auxtdnum\">"
+             << gCOLimit
+             << "</td><td class=\"auxtdnum\">"
+             << m_gCO
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gCO <= gCOLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\">"
+             << gCHLimit
+             << "</td><td class=\"auxtdnum\">"
+             << m_gCH
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gCH <= gCHLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr>";
+    }
+
+    const double gPTLimit = PTLimit(currstd);
+
+    fout << "<tr><td class=\"auxtd\">gPT[g/kWh]</td><td class=\"auxtdnum\">"
+         << gPTLimit
+         << "</td><td class=\"auxtdnum\">"
+         << m_gPT
+         << "</td><td class=\"auxtdnum\">";
+
+    if ( m_gPT <= gPTLimit ) {
+        fout << "OK";
+    }
+    else {
+        fout << "FAILED";
+    }
+
+    fout << "</td></tr></tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\">Point</td><td class=\"auxtdnum\">gNOm[g/kWh]</td><td class=\"auxtdnum\">gNOc[g/kWh]</td><td class=\"auxtdnum\">diff[%]</td><td class=\"auxtdnum\"></td></tr>";
+
+    // ////////
+
+    fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">Inlet air temperature, oC:</td><td class=\"auxtdnum\">"
+         << m_t0Mean
+         << "</td></tr><tr><td class=\"auxtd\">Barometric pressure, kPa:</td><td class=\"auxtdnum\">"
+         << m_B0Mean
+         << "</td></tr><tr><td class=\"auxtd\">Relative humidity, %:</td><td class=\"auxtdnum\">"
+         << m_RaMean
+         << "</td></tr><tr><td class=\"auxtd\">Atmospheric factor:</td><td class=\"auxtdnum\">min "
+         << QString::number(minVal(ma_fa))
+         << "</td></tr><tr><td class=\"auxtd\"></td><td class=\"auxtdnum\">max "
+         << QString::number(maxVal(ma_fa))
+         << "</td></tr><tr><td class=\"auxtd\">"
+         << m_testConditions
+         << "</td></tr></tbody></table></td></tr></tbody></table>";
+
+    // ////////
 
     reportFile.close();
 

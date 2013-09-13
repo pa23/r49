@@ -76,6 +76,10 @@ double rhoAir(
 
 bool zeroArray(const QVector<double> &);
 
+double minVal(const QVector<double> &);
+
+double maxVal(const QVector<double> &);
+
 } // namespace toxic
 
 #endif // TXAUXILIARYFUNCTIONS_H

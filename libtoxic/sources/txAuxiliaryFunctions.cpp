@@ -138,4 +138,32 @@ bool zeroArray(const QVector<double> &data) {
     }
 }
 
+double minVal(const QVector<double> &v) {
+
+    double min = v[0];
+
+    for ( auto it=v.begin(); it!=v.end(); ++it ) {
+
+        if ( *it < min ) {
+            min = *it;
+        }
+    }
+
+    return min;
+}
+
+double maxVal(const QVector<double> &v) {
+
+    double max = v[0];
+
+    for ( auto it=v.begin(); it!=v.end(); ++it ) {
+
+        if ( *it > max ) {
+            max = *it;
+        }
+    }
+
+    return max;
+}
+
 } // namespace toxic

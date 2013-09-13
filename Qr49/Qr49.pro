@@ -19,7 +19,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-QT += core gui widgets printsupport webkitwidgets
+QT += core gui widgets printsupport
 
 TARGET = Qr49
 

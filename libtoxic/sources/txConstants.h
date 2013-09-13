@@ -132,8 +132,10 @@ enum {
 };
 
 enum {
-    // after modification fix Emissions*::checkSrcData() and
+    // after modification fix:
+    // Emissions*::checkSrcData()
     // EmissionsOnCycle::EmissionsOnCycle()
+    // txEmissionsOnR49R96::saveReportHTML()
     STD_EU6,     // realized in EmissionsOnR49R96
     STD_EU5,
     STD_EU4,

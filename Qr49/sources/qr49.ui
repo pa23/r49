@@ -830,9 +830,9 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tab_ReportsTXT">
+        <widget class="QWidget" name="tab_Reports">
          <attribute name="title">
-          <string>Reports TXT</string>
+          <string>Reports</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
@@ -841,7 +841,7 @@
              <widget class="QLabel" name="label_unsavedReport"/>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox_OpenedReportsTXT">
+             <widget class="QComboBox" name="comboBox_OpenedReports">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -851,7 +851,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_OpenDirectoryTXT">
+             <widget class="QPushButton" name="pushButton_OpenDirectory">
               <property name="text">
                <string>Open directory</string>
               </property>
@@ -860,7 +860,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEdit_ReportTXT">
+           <widget class="QPlainTextEdit" name="plainTextEdit_Report">
             <property name="font">
              <font>
               <family>DejaVu Sans Mono</family>
@@ -869,41 +869,6 @@
             </property>
             <property name="lineWrapMode">
              <enum>QPlainTextEdit::NoWrap</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab_ReportsHTML">
-         <attribute name="title">
-          <string>Reports HTML</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_10">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QComboBox" name="comboBox_OpenedReportsHTML">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_OpenDirectoryHTML">
-              <property name="text">
-               <string>Open directory</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QWebView" name="webView_ReportHTML">
-            <property name="renderHints">
-             <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
             </property>
            </widget>
           </item>
@@ -921,7 +886,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1076,8 +1041,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>311</width>
-          <height>247</height>
+          <width>300</width>
+          <height>271</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1097,8 +1062,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>293</width>
-              <height>537</height>
+              <width>265</width>
+              <height>451</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1614,8 +1579,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>186</width>
-          <height>243</height>
+          <width>143</width>
+          <height>203</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1843,8 +1808,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>250</width>
-          <height>169</height>
+          <width>212</width>
+          <height>141</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1982,8 +1947,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
-          <height>137</height>
+          <width>182</width>
+          <height>115</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2106,8 +2071,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>152</width>
-          <height>114</height>
+          <width>127</width>
+          <height>96</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2733,16 +2698,9 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKitWidgets/QWebView</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>tableWidget_SrcDataPoints</tabstop>
-  <tabstop>comboBox_OpenedReportsTXT</tabstop>
+  <tabstop>comboBox_OpenedReports</tabstop>
   <tabstop>tableWidget_SrcDataEU0</tabstop>
   <tabstop>tableWidget_SrcDataEU3</tabstop>
   <tabstop>tableWidget_FullLoadCurve</tabstop>
