@@ -176,64 +176,65 @@ void txCommonParameters::readConfigFile(const QString &cfgFileName) {
 
         s = cfgFile.readLine().trimmed();
 
-        if ( !s.isEmpty() && !s.contains(rx) ) {
-
-            elements = s.split("=");
-
-            if ( elements[0] == "src_file_name_EU3" ) {
-                m_srcFileNameEU3 = elements[1];
-            }
-            else if ( elements[0] == "src_file_name_EU0" ) {
-                m_srcFileNameEU0 = elements[1];
-            }
-            else if ( elements[0] == "src_file_name_points" ) {
-                m_srcFileNamePoints = elements[1];
-            }
-            else if ( elements[0] == "src_file_name_redpwr" ) {
-                m_srcFileNameRedPwr = elements[1];
-            }
-            else if ( elements[0] == "reports_dir_name" ) {
-                m_reportsDirName = elements[1];
-            }
-            else if ( elements[0] == "Dn" ) {
-                m_Dn = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "conc_O2air" ) {
-                m_concO2air = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "Rr" ) {
-                m_Rr = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "L0" ) {
-                m_L0 = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "L" ) {
-                m_L = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "conc_CO2air" ) {
-                m_concCO2air = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "WH" ) {
-                m_WH = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "WO2" ) {
-                m_WO2 = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "WN" ) {
-                m_WN = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "muNO2" ) {
-                m_muNO2 = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "muCO" ) {
-                m_muCO = (elements[1]).toDouble();
-            }
-            else if ( elements[0] == "muCH" ) {
-                m_muCH = (elements[1]).toDouble();
-            }
-
-            elements.clear();
+        if ( s.isEmpty() || s.contains(rx) ) {
+            continue;
         }
+
+        elements = s.split("=");
+
+        if ( elements[0] == "src_file_name_EU3" ) {
+            m_srcFileNameEU3 = elements[1];
+        }
+        else if ( elements[0] == "src_file_name_EU0" ) {
+            m_srcFileNameEU0 = elements[1];
+        }
+        else if ( elements[0] == "src_file_name_points" ) {
+            m_srcFileNamePoints = elements[1];
+        }
+        else if ( elements[0] == "src_file_name_redpwr" ) {
+            m_srcFileNameRedPwr = elements[1];
+        }
+        else if ( elements[0] == "reports_dir_name" ) {
+            m_reportsDirName = elements[1];
+        }
+        else if ( elements[0] == "Dn" ) {
+            m_Dn = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "conc_O2air" ) {
+            m_concO2air = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "Rr" ) {
+            m_Rr = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "L0" ) {
+            m_L0 = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "L" ) {
+            m_L = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "conc_CO2air" ) {
+            m_concCO2air = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "WH" ) {
+            m_WH = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "WO2" ) {
+            m_WO2 = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "WN" ) {
+            m_WN = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "muNO2" ) {
+            m_muNO2 = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "muCO" ) {
+            m_muCO = (elements[1]).toDouble();
+        }
+        else if ( elements[0] == "muCH" ) {
+            m_muCH = (elements[1]).toDouble();
+        }
+
+        elements.clear();
     }
 
     elements.clear();

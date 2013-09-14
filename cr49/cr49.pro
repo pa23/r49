@@ -43,10 +43,10 @@ unix: {
         ../libtoxic/sources
     LIBS += -L../r49-bin/unix/libs/r49 \
         -ltoxic \
-        -Wl,-rpath,. \
-        -Wl,-rpath,libs/r49 \
-        -Wl,-rpath,libs/Qt \
-        -Wl,-rpath,libs/common
+        -Wl,--rpath=. \
+        -Wl,--rpath=libs/r49 \
+        -Wl,--rpath=libs/Qt \
+        -Wl,--rpath=libs/common
     DESTDIR = ../r49-bin/unix
     MOC_DIR = build/unix/moc
     RCC_DIR = build/unix/rc
@@ -65,10 +65,10 @@ win32: {
         ../libtoxic/sources
     LIBS += -L../r49-bin/win/libs/r49 \
         -ltoxic7 \
-        -Wl,-rpath,. \
-        -Wl,-rpath,libs/r49 \
-        -Wl,-rpath,libs/Qt \
-        -Wl,-rpath,libs/common
+        -Wl,--rpath=. \
+        -Wl,--rpath=libs/r49 \
+        -Wl,--rpath=libs/Qt \
+        -Wl,--rpath=libs/common
     DESTDIR = ../r49-bin/win
     MOC_DIR = build/win/moc
     RCC_DIR = build/win/rc

@@ -33,10 +33,11 @@
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
 
 #include <cmath>
-
-#include <QDebug>
 
 namespace toxic {
 
@@ -930,7 +931,7 @@ void txEmissionsOnR49R96::calc_gCO() {
     double summ_mCO = 0;
     double summ_Ne_netto = 0;
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -959,7 +960,7 @@ void txEmissionsOnR49R96::calc_gCH() {
     double summ_mCH = 0;
     double summ_Ne_netto = 0;
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -999,7 +1000,7 @@ void txEmissionsOnR49R96::calc_gPT() {
     const double Rr = m_commonParameters->val_Rr();
     double summ_Ne_netto = 0;
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -1072,7 +1073,7 @@ void txEmissionsOnR49R96::calc_Means() {
     double summ_B0 = 0;
     double summ_Ra = 0;
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -1363,7 +1364,7 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -1511,10 +1512,12 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
              << "diff[%]";
         fout << qSetFieldWidth(0)
              << "\n"
-             << qSetFieldWidth(COLUMNWIDTH-1);
+             << qSetFieldWidth(COLUMNWIDTH-1)
+             << qSetRealNumberPrecision(0);
         fout << (ESCPOINTSNUMBER+1)
-             << ma_n[ESCPOINTSNUMBER]
-             << ma_Ne_netto[ESCPOINTSNUMBER]
+             << ma_n[ESCPOINTSNUMBER];
+        fout << qSetRealNumberPrecision(PRECISION);
+        fout << ma_Ne_netto[ESCPOINTSNUMBER]
              << ma_Me_netto[ESCPOINTSNUMBER]
              << ma_Gair[ESCPOINTSNUMBER]
              << ma_Gfuel[ESCPOINTSNUMBER]
@@ -1524,10 +1527,12 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
              << m_diffNOx1;
         fout << qSetFieldWidth(0)
              << "\n"
-             << qSetFieldWidth(COLUMNWIDTH-1);
+             << qSetFieldWidth(COLUMNWIDTH-1)
+             << qSetRealNumberPrecision(0);
         fout << (ESCPOINTSNUMBER+2)
-             << ma_n[ESCPOINTSNUMBER+1]
-             << ma_Ne_netto[ESCPOINTSNUMBER+1]
+             << ma_n[ESCPOINTSNUMBER+1];
+        fout << qSetRealNumberPrecision(PRECISION);
+        fout << ma_Ne_netto[ESCPOINTSNUMBER+1]
              << ma_Me_netto[ESCPOINTSNUMBER+1]
              << ma_Gair[ESCPOINTSNUMBER+1]
              << ma_Gfuel[ESCPOINTSNUMBER+1]
@@ -1537,10 +1542,12 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
              << m_diffNOx2;
         fout << qSetFieldWidth(0)
              << "\n"
-             << qSetFieldWidth(COLUMNWIDTH-1);
+             << qSetFieldWidth(COLUMNWIDTH-1)
+             << qSetRealNumberPrecision(0);
         fout << (ESCPOINTSNUMBER+3)
-             << ma_n[ESCPOINTSNUMBER+2]
-             << ma_Ne_netto[ESCPOINTSNUMBER+2]
+             << ma_n[ESCPOINTSNUMBER+2];
+        fout << qSetRealNumberPrecision(PRECISION);
+        fout << ma_Ne_netto[ESCPOINTSNUMBER+2]
              << ma_Me_netto[ESCPOINTSNUMBER+2]
              << ma_Gair[ESCPOINTSNUMBER+2]
              << ma_Gfuel[ESCPOINTSNUMBER+2]
@@ -1895,7 +1902,7 @@ QString txEmissionsOnR49R96::saveReportPT() const {
     fout << qSetFieldWidth(0)
          << "\n";
 
-    double n = 0;
+    ptrdiff_t n = 0;
     if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
         n = ESCPOINTSNUMBER;
     }
@@ -2063,33 +2070,101 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     fout << m_calculationOptions->defStandardName(currstd)
          << "</b></td><td class=\"pageheadcont\">Date_Time: "
          << m_currTime
-         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Tested object</b></td><td class=\"blockheadcont\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">";
+         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Tested object</b></td><td class=\"blockheadcont\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
 
     QFile engDescrFile("r49data/engdescr.conf");
 
     if ( engDescrFile.exists() ) {
 
-        //
+        if ( !engDescrFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+            engDescrFile.close();
+            throw txError("Can not open engine description file "
+                          + engDescrFile.fileName() + "!");
+        }
+
+        QString str;
+        QStringList elements;
+        QRegExp comment("^//");
+
+        while ( !engDescrFile.atEnd() ) {
+
+            str = engDescrFile.readLine().trimmed();
+
+            if ( str.isEmpty() || str.contains(comment) ) {
+                continue;
+            }
+
+            elements = str.split("=");
+
+            if ( elements.size() != 2 ) {
+                continue;
+            }
+
+            fout << "<tr><td class=\"auxtd\">"
+                 << elements[0] + ":"
+                 << "</td><td class=\"auxtd\">"
+                 << elements[1]
+                 << "</td></tr>";
+
+            elements.clear();
+        }
+
+        engDescrFile.close();
     }
     else {
 
-        fout << "Engine:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Turbocharger:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel pump:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Injectors:</td><td class=\"auxtd\">-</td></tr>";
+        fout << "<tr><td class=\"auxtd\">Engine:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Turbocharger:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel pump:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Injectors:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">HEX-file:</td><td class=\"auxtd\">...</td></tr>";
     }
 
-    fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">";
+    fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
 
     QFile techFluidsFile("r49data/techfluids.conf");
 
     if ( techFluidsFile.exists() ) {
 
-        //
+        if ( !techFluidsFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+            techFluidsFile.close();
+            throw txError("Can not open engine description file "
+                          + techFluidsFile.fileName() + "!");
+        }
+
+        QString str;
+        QStringList elements;
+        QRegExp comment("^//");
+
+        while ( !techFluidsFile.atEnd() ) {
+
+            str = techFluidsFile.readLine().trimmed();
+
+            if ( str.isEmpty() || str.contains(comment) ) {
+                continue;
+            }
+
+            elements = str.split("=");
+
+            if ( elements.size() != 2 ) {
+                continue;
+            }
+
+            fout << "<tr><td class=\"auxtd\">"
+                 << elements[0] + ":"
+                 << "</td><td class=\"auxtd\">"
+                 << elements[1]
+                 << "</td></tr>";
+
+            elements.clear();
+        }
+
+        techFluidsFile.close();
     }
     else {
 
-        fout << "Fuel type:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Cetane number:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, ppm:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Motor oil:</td><td class=\"auxtd\">-</td></tr><tr><td class=\"auxtd\">Coolant:</td><td class=\"auxtd\">-</td></tr>";
+        fout << "<tr><td class=\"auxtd\">Fuel type:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Cetane number:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, ppm:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Motor oil:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Coolant:</td><td class=\"auxtd\">...</td></tr>";
     }
 
-    fout << "</tbody></table></td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Specific emissions</b></td><td class=\"blockheadcont\"><b>Check points</b></td><td class=\"blockheadcont\"><b>Test conditions</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">Limitation</td><td class=\"auxtdnum\">Calculation</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">";
+    fout << "</tbody></table></td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Specific emissions</b></td><td class=\"blockheadcont\"><b>Check points</b></td><td class=\"blockheadcont\"><b>Test conditions</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">Limitation</td><td class=\"auxtdnum\">CalcRes</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">";
 
     if ( currstd == STD_R96H8 || currstd == STD_R96I8 ||
          currstd == STD_R96J8 || currstd == STD_R96K8 ||
@@ -2100,33 +2175,63 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
         const double gCOLimit = COLimit(currstd);
 
         fout << "gNOx+gCH[g/kWh]</td><td class=\"auxtdnum\">"
-             << gNOxCHLimit
-             << "</td><td class=\"auxtdnum\">"
-             << m_gNOx + m_gCH
+             << QString::number(gNOxCHLimit, 'f', 3)
              << "</td><td class=\"auxtdnum\">";
 
-        if ( (m_gNOx + m_gCH) <= gNOxCHLimit ) {
-            fout << "OK";
+        if ( (m_gNOx + m_gCH) == 0.0 ) {
+
+            fout << "-</td><td class=\"auxtdnum\">-";
         }
         else {
-            fout << "FAILED";
+
+            fout << QString::number(m_gNOx + m_gCH, 'f', 3)
+                 << "</td><td class=\"auxtdnum\">";
+
+            if ( (m_gNOx + m_gCH) <= gNOxCHLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "FAILED";
+            }
         }
 
-        fout << "</td></tr><tr><td class=\"auxtd\">gNOx[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">"
-             << m_gNOx
-             << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">"
-             << m_gCH
-             << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCO[g/kWh]</td><td class=\"auxtdnum\">"
-             << gCOLimit
-             << "</td><td class=\"auxtdnum\">"
-             << m_gCO
+        fout << "</td></tr><tr><td class=\"auxtd\">gNOx[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">";
+
+        if ( m_gNOx == 0.0 ) {
+            fout << "-";
+        }
+        else {
+            fout << QString::number(m_gNOx, 'f', 3);
+        }
+
+        fout << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">";
+
+        if ( m_gCH == 0.0 ) {
+            fout << "-";
+        }
+        else {
+            fout << QString::number(m_gCH, 'f', 3);
+        }
+
+        fout << "</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">gCO[g/kWh]</td><td class=\"auxtdnum\">"
+             << QString::number(gCOLimit, 'f', 3)
              << "</td><td class=\"auxtdnum\">";
 
-        if ( m_gCO <= gCOLimit ) {
-            fout << "OK";
+        if ( m_gCO == 0.0 ) {
+
+            fout << "-</td><td class=\"auxtdnum\">-";
         }
         else {
-            fout << "FAILED";
+
+            fout << QString::number(m_gCO, 'f', 3)
+                 << "</td><td class=\"auxtdnum\">";
+
+            if ( m_gCO <= gCOLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "FAILED";
+            }
         }
 
         fout << "</td></tr>";
@@ -2138,38 +2243,166 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
         const double gCHLimit = CHLimit(currstd);
 
         fout << "gNOx[g/kWh]</td><td class=\"auxtdnum\">"
-             << gNOxLimit
-             << "</td><td class=\"auxtdnum\">"
-             << m_gNOx
+             << QString::number(gNOxLimit, 'f', 3)
              << "</td><td class=\"auxtdnum\">";
 
-        if ( m_gNOx <= gNOxLimit ) {
-            fout << "OK";
+        if ( m_gNOx == 0.0 ) {
+
+            fout << "-</td><td class=\"auxtdnum\">-";
         }
         else {
-            fout << "FAILED";
+
+            fout << QString::number(m_gNOx, 'f', 3)
+                 << "</td><td class=\"auxtdnum\">";
+
+            if ( m_gNOx <= gNOxLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "FAILED";
+            }
         }
 
         fout << "</td></tr><tr><td class=\"auxtd\">gCO[g/kWh]</td><td class=\"auxtdnum\">"
-             << gCOLimit
-             << "</td><td class=\"auxtdnum\">"
-             << m_gCO
+             << QString::number(gCOLimit, 'f', 3)
              << "</td><td class=\"auxtdnum\">";
 
-        if ( m_gCO <= gCOLimit ) {
+        if ( m_gCO == 0.0 ) {
+
+            fout << "-</td><td class=\"auxtdnum\">-";
+        }
+        else {
+
+            fout << QString::number(m_gCO, 'f', 3)
+                 << "</td><td class=\"auxtdnum\">";
+
+            if ( m_gCO <= gCOLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "FAILED";
+            }
+        }
+
+        fout << "</td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\">"
+             << QString::number(gCHLimit, 'f', 3)
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gCH == 0.0 ) {
+
+            fout << "-</td><td class=\"auxtdnum\">-";
+        }
+        else {
+
+            fout << QString::number(m_gCH, 'f', 3)
+                 << "</td><td class=\"auxtdnum\">";
+
+            if ( m_gCH <= gCHLimit ) {
+                fout << "OK";
+            }
+            else {
+                fout << "FAILED";
+            }
+        }
+
+        fout << "</td></tr>";
+    }
+
+    const double gPTLimit = PTLimit(currstd);
+
+    fout << "<tr><td class=\"auxtd\">gPT[g/kWh]</td><td class=\"auxtdnum\">"
+         << QString::number(gPTLimit, 'f', 3)
+         << "</td><td class=\"auxtdnum\">";
+
+    if ( m_gPT == 0.0 ) {
+
+        fout << "-</td><td class=\"auxtdnum\">-";
+    }
+    else {
+
+        fout << QString::number(m_gPT, 'f', 3)
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( m_gPT <= gPTLimit ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+    }
+
+    fout << "</td></tr></tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\">Point</td><td class=\"auxtdnum\">n[min-1]</td><td class=\"auxtdnum\">Me_n[Nm]</td><td class=\"auxtdnum\">gNOm[g/kWh]</td><td class=\"auxtdnum\">gNOc[g/kWh]</td><td class=\"auxtdnum\">diff[%]</td><td class=\"auxtdnum\"></td></tr>";
+
+    if ( m_calculationOptions->val_addPointsCalc() == ADDPOINTSCALC_NO ) {
+
+        for ( ptrdiff_t i=0; i<ESCADDPOINTSNUMBER; i++ ) {
+
+            fout << "<tr><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td></tr>";
+        }
+    }
+    else {
+
+        fout << "<tr><td class=\"auxtdnum\">"
+             << QString::number(ESCPOINTSNUMBER+1, 'f', 0)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(ma_n[ESCPOINTSNUMBER], 'f', 0)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(ma_Me_netto[ESCPOINTSNUMBER], 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx1m, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx1c, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_diffNOx1, 'f', 2)
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( (m_diffNOx1 >= -10.0) && (m_diffNOx1 <= 10.0) ) {
             fout << "OK";
         }
         else {
             fout << "FAILED";
         }
 
-        fout << "</td></tr><tr><td class=\"auxtd\">gCH[g/kWh]</td><td class=\"auxtdnum\">"
-             << gCHLimit
+        fout << "</td></tr>";
+
+        fout << "<tr><td class=\"auxtdnum\">"
+             << QString::number(ESCPOINTSNUMBER+2, 'f', 0)
              << "</td><td class=\"auxtdnum\">"
-             << m_gCH
+             << QString::number(ma_n[ESCPOINTSNUMBER+1], 'f', 0)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(ma_Me_netto[ESCPOINTSNUMBER+1], 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx2m, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx2c, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_diffNOx2, 'f', 2)
              << "</td><td class=\"auxtdnum\">";
 
-        if ( m_gCH <= gCHLimit ) {
+        if ( (m_diffNOx2 >= -10.0) && (m_diffNOx2 <= 10.0) ) {
+            fout << "OK";
+        }
+        else {
+            fout << "FAILED";
+        }
+
+        fout << "</td></tr>";
+
+        fout << "<tr><td class=\"auxtdnum\">"
+             << QString::number(ESCPOINTSNUMBER+3, 'f', 0)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(ma_n[ESCPOINTSNUMBER+2], 'f', 0)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(ma_Me_netto[ESCPOINTSNUMBER+2], 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx3m, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_gNOx3c, 'f', 2)
+             << "</td><td class=\"auxtdnum\">"
+             << QString::number(m_diffNOx3, 'f', 2)
+             << "</td><td class=\"auxtdnum\">";
+
+        if ( (m_diffNOx3 >= -10.0) && (m_diffNOx3 <= 10.0) ) {
             fout << "OK";
         }
         else {
@@ -2179,40 +2412,252 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
         fout << "</td></tr>";
     }
 
-    const double gPTLimit = PTLimit(currstd);
-
-    fout << "<tr><td class=\"auxtd\">gPT[g/kWh]</td><td class=\"auxtdnum\">"
-         << gPTLimit
-         << "</td><td class=\"auxtdnum\">"
-         << m_gPT
-         << "</td><td class=\"auxtdnum\">";
-
-    if ( m_gPT <= gPTLimit ) {
-        fout << "OK";
-    }
-    else {
-        fout << "FAILED";
-    }
-
-    fout << "</td></tr></tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\">Point</td><td class=\"auxtdnum\">gNOm[g/kWh]</td><td class=\"auxtdnum\">gNOc[g/kWh]</td><td class=\"auxtdnum\">diff[%]</td><td class=\"auxtdnum\"></td></tr>";
-
-    // ////////
-
     fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtd\">Inlet air temperature, oC:</td><td class=\"auxtdnum\">"
-         << m_t0Mean
+         << QString::number(m_t0Mean, 'f', 2)
          << "</td></tr><tr><td class=\"auxtd\">Barometric pressure, kPa:</td><td class=\"auxtdnum\">"
-         << m_B0Mean
+         << QString::number(m_B0Mean, 'f', 2)
          << "</td></tr><tr><td class=\"auxtd\">Relative humidity, %:</td><td class=\"auxtdnum\">"
-         << m_RaMean
+         << QString::number(m_RaMean, 'f', 2)
          << "</td></tr><tr><td class=\"auxtd\">Atmospheric factor:</td><td class=\"auxtdnum\">min "
-         << QString::number(minVal(ma_fa))
+         << QString::number(minVal(ma_fa), 'f', 2)
          << "</td></tr><tr><td class=\"auxtd\"></td><td class=\"auxtdnum\">max "
-         << QString::number(maxVal(ma_fa))
+         << QString::number(maxVal(ma_fa), 'f', 2)
          << "</td></tr><tr><td class=\"auxtd\">"
          << m_testConditions
          << "</td></tr></tbody></table></td></tr></tbody></table>";
 
-    // ////////
+    fout << "<table><tbody><tr><td class=\"blockheadcont\"><b>Measured and calculated data</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
+
+    ptrdiff_t n = 0;
+    if ( m_numberOfPoints == ESCPOINTSNUMBER+ESCADDPOINTSNUMBER ) {
+        n = ESCPOINTSNUMBER;
+    }
+    else {
+        n = m_numberOfPoints;
+    }
+
+    fout << "<tr><td class=\"auxtd\">Point</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(i+1, 'f', 0)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\"><hr></td></tr>";
+
+    fout << "<tr><td class=\"auxtd\">n[min-1]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_n[i], 'f', 0)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">Ne_n[kW]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_Ne_netto[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">Gair[kg/h]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_Gair[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">Gfuel[kg/h]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_Gfuel[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    if ( m_EGRcalc == EGRCALC_YES ) {
+
+        fout << "<tr><td class=\"auxtd\">alpha_res[kg/h]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_alpha_res[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+    else {
+
+        fout << "<tr><td class=\"auxtd\">alpha[kg/h]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_alpha[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+
+    if ( m_smoke == SMOKE_KA1M ) {
+
+        fout << "<tr><td class=\"auxtd\">Ka[m-1]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_Ka1m[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+    else if ( m_smoke == SMOKE_KAPERC ) {
+
+        fout << "<tr><td class=\"auxtd\">Ka[%]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_KaPerc[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+    else if ( m_smoke == SMOKE_FSN ) {
+
+        fout << "<tr><td class=\"auxtd\">FSN[-]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_FSN[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+
+    fout << "<tr><td class=\"auxtd\">C_NOx[ppm]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_CNOx[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">mNOx[g/h]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_mNOx[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">gNOx[g/kWh]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_gNOx[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">C_CO[ppm]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_CCO[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">gCO[g/kWh]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_gCO[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">C_CH[ppm]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_CCH[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    fout << "<tr><td class=\"auxtd\">gCH[g/kWh]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_gCH[i], 'f', 2)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    if ( m_EGRcalc == EGRCALC_YES ) {
+
+        fout << "<tr><td class=\"auxtd\">rEGR[%]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_rEGR[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
+
+    fout << "<tr><td class=\"auxtd\">fa[-]</td>";
+    for ( ptrdiff_t i=0; i<n; i++ ) {
+        fout << "<td class=\"auxtdnum\">"
+             << QString::number(ma_fa[i], 'f', 3)
+             << "</td>";
+    }
+    fout << "</tr>";
+
+    if ( (ptcalc == PTCALC_THROUGHPTMASS) ||
+         (ptcalc == PTCALC_THROUGHSMOKEANDPTMASS) ) {
+
+        fout << "<tr><td class=\"auxtd\"><hr></td></tr>";
+
+        fout << "<tr><td class=\"auxtd\">tauf[s]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_tauf[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">qmdew[g/s]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_qmdew[i], 'f', 3)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">rd[-]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_rd[i], 'f', 3)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">qmedf[kg/h]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_qmedf[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">msepi[g]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_msepi[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\"><hr></td></tr>";
+
+        fout << "<tr><td class=\"auxtd\">mf = "
+             << QString::number(m_calculationOptions->val_PTmass(), 'f', 3)
+             << " mg</td></tr>";
+    }
+
+    fout << "</tbody></table></td></tr></tbody></table></body></html>";
 
     reportFile.close();
 
