@@ -23,6 +23,7 @@
 #define TXAUXILIARYFUNCTIONS_H
 
 #include <QVector>
+#include <QString>
 
 namespace toxic {
 
@@ -79,6 +80,8 @@ bool zeroArray(const QVector<double> &);
 double minVal(const QVector<double> &);
 
 double maxVal(const QVector<double> &);
+
+QString objDescr();
 
 } // namespace toxic
 

@@ -25,6 +25,11 @@
 
 #include <cmath>
 
+#include <QString>
+#include <QStringList>
+#include <QFile>
+#include <QRegExp>
+
 namespace toxic {
 
 void ABC(double n_hi,
@@ -164,6 +169,93 @@ double maxVal(const QVector<double> &v) {
     }
 
     return max;
+}
+
+QString objDescr() {
+
+    QFile engDescrFile("r49data/engdescr.conf");
+
+    if ( !engDescrFile.exists() ) {
+        return "...";
+    }
+
+    if ( !engDescrFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+        throw txError("Can not open engine description file "
+                      + engDescrFile.fileName() + "!");
+    }
+
+    QString str;
+    QStringList elements;
+    QRegExp comment("^//");
+
+    QStringList formattedBlocks;
+    QString formattedDescr;
+
+    while ( !engDescrFile.atEnd() ) {
+
+        str = engDescrFile.readLine().trimmed();
+
+        if ( str.isEmpty() || str.contains(comment) ) {
+            continue;
+        }
+
+        elements = str.split("=");
+
+        if ( elements.size() != 2 ) {
+            continue;
+        }
+
+        formattedBlocks.push_back(elements[0] + " " + elements[1] + "; ");
+
+        elements.clear();
+    }
+
+    engDescrFile.close();
+
+    if ( formattedBlocks.isEmpty() ) {
+        return "...";
+    }
+
+    if ( formattedBlocks.size() == 1 ) {
+
+        QString retstr = formattedBlocks[0];
+        retstr.truncate(retstr.size()-2);
+
+        return retstr;
+    }
+    else {
+
+        QString currStr = formattedBlocks[0];
+        ptrdiff_t currStrNum = 0;
+        ptrdiff_t maxStrWidth = 110;
+
+        for ( ptrdiff_t i=1; i<formattedBlocks.size(); i++ ) {
+
+            if ( currStrNum > 0 ) {
+                maxStrWidth = 135;
+            }
+
+            if ( (currStr.size() + formattedBlocks[i].size()) <= maxStrWidth ) {
+
+                currStr.append(formattedBlocks[i]);
+            }
+            else {
+
+                formattedDescr.append(currStr);
+                currStr = "\n                         ";
+                currStr.append(formattedBlocks[i]);
+
+                currStrNum++;
+            }
+        }
+
+        formattedDescr.append(currStr);
+    }
+
+    formattedDescr.truncate(formattedDescr.size()-2);
+
+    return formattedDescr;
 }
 
 } // namespace toxic

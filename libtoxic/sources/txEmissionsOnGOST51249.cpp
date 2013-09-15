@@ -599,7 +599,9 @@ QString txEmissionsOnGOST51249::saveReportGAS() const {
          << "    DateTime: "
          << m_currTime
          << "\n\n"
-         << "Engine                 : ...\n";
+         << "Object                 : "
+         << objDescr()
+         << "\n";
     fout << fixed << qSetRealNumberPrecision(PRECISION);
     fout << "Environment parameters : t0_mean = "
          << m_t0Mean

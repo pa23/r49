@@ -1260,7 +1260,9 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
          << "    DateTime: "
          << m_currTime
          << "\n\n"
-         << "Engine                 : ...\n";
+         << "Object                 : "
+         << objDescr()
+         << "\n";
     fout << fixed << qSetRealNumberPrecision(PRECISION);
     fout << "Environment parameters : t0_mean = "
          << m_t0Mean
@@ -1820,7 +1822,9 @@ QString txEmissionsOnR49R96::saveReportPT() const {
          << "    DateTime: "
          << m_currTime
          << "\n\n"
-         << "Engine                 : ...\n";
+         << "Object                 : "
+         << objDescr()
+         << "\n";
     fout << fixed << qSetRealNumberPrecision(PRECISION);
     fout << "Environment parameters : t0_mean = "
          << m_t0Mean
@@ -2078,7 +2082,6 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
 
         if ( !engDescrFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
-            engDescrFile.close();
             throw txError("Can not open engine description file "
                           + engDescrFile.fileName() + "!");
         }
@@ -2125,7 +2128,6 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
 
         if ( !techFluidsFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
-            techFluidsFile.close();
             throw txError("Can not open engine description file "
                           + techFluidsFile.fileName() + "!");
         }
