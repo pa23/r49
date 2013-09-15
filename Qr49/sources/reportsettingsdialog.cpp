@@ -22,6 +22,11 @@
 #include "reportsettingsdialog.h"
 #include "ui_reportsettingsdialog.h"
 
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+
 ReportSettingsDialog::ReportSettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ReportSettingsDialog) {
@@ -36,7 +41,41 @@ ReportSettingsDialog::~ReportSettingsDialog() {
 
 void ReportSettingsDialog::on_pushButton_OK_clicked() {
 
-    // save files
+    QFile engDescrFile("r49data/engdescr.conf");
+
+    if ( !engDescrFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Engine description could not be saved!")
+                    );
+        return;
+    }
+
+    QTextStream fout1(&engDescrFile);
+    fout1 << ui->plainTextEdit_EngineDescription->toPlainText();
+
+    engDescrFile.close();
+
+    QFile techFluidsFile("r49data/techfluids.conf");
+
+    if ( !techFluidsFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    tr("Technical fluids description could not be saved!")
+                    );
+        return;
+    }
+
+    QTextStream fout2(&techFluidsFile);
+    fout2 << ui->plainTextEdit_TechnicalFluids->toPlainText();
+
+    techFluidsFile.close();
+
+    hide();
 }
 
 void ReportSettingsDialog::on_pushButton_Cancel_clicked() {

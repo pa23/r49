@@ -2464,6 +2464,78 @@ void MainWindow::on_action_Preferences_triggered() {
 
 void MainWindow::on_action_ReportSettings_triggered() {
 
+    QPlainTextEdit *myPlainTextEdit_EngineDescription =
+            m_reportsetdialog->findChild<QPlainTextEdit *>("plainTextEdit_EngineDescription");
+    QPlainTextEdit *myPlainTextEdit_TechnicalFluids =
+            m_reportsetdialog->findChild<QPlainTextEdit *>("plainTextEdit_TechnicalFluids");
+
+    if ( !myPlainTextEdit_EngineDescription ||
+         !myPlainTextEdit_TechnicalFluids ) {
+
+        QMessageBox::critical(
+                    this,
+                    "Qr49",
+                    QString::fromLatin1(Q_FUNC_INFO)
+                    + ":::"
+                    + tr("Child objects not found!")
+                    );
+        return;
+    }
+
+    QFile engDescrFile("r49data/engdescr.conf");
+
+    if ( !engDescrFile.exists() ) {
+
+        myPlainTextEdit_EngineDescription->
+                setPlainText(
+                    "//\n// This is engine description file.\n"
+                    "// Parameter-Value delimeter is \"=\" symbol.\n"
+                    "// Text after \"//\" is comment.\n//\n\n"
+                    );
+    }
+    else {
+
+        if ( engDescrFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+            myPlainTextEdit_EngineDescription->
+                    setPlainText(QString(engDescrFile.readAll()));
+        }
+        else {
+
+            QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
+            return;
+        }
+
+        engDescrFile.close();
+    }
+
+    QFile techFluidsFile("r49data/techfluids.conf");
+
+    if ( !techFluidsFile.exists() ) {
+
+        myPlainTextEdit_TechnicalFluids->
+                setPlainText(
+                    "//\n// This is technical fluids description file.\n"
+                    "// Parameter-Value delimeter is \"=\" symbol.\n"
+                    "// Text after \"//\" is comment.\n//\n\n"
+                    );
+    }
+    else {
+
+        if ( techFluidsFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+            myPlainTextEdit_TechnicalFluids->
+                    setPlainText(QString(techFluidsFile.readAll()));
+        }
+        else {
+
+            QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
+            return;
+        }
+
+        techFluidsFile.close();
+    }
+
     m_reportsetdialog->exec();
 }
 
