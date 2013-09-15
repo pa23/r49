@@ -2053,7 +2053,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     const int currstd = m_calculationOptions->val_standard();
     const int ptcalc = m_calculationOptions->val_PTcalc();
 
-    fout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><title>r49: report on cycle</title><style type=\"text/css\">@media print { table { page-break-inside: avoid; } } @page { size: landscape; } body { font-family: 'DejaVu Sans Mono'; font-size: 8pt; font-style: normal; margin: 0; padding: 10px; } table { width: 100%; border-collapse: collapse; margin-bottom: 5px; } td { border: 1px solid black; padding: 5px; } .auxtable { margin-bottom: 0px; } .auxtd { border: 0px; padding: 0px; } .auxtdnum { border: 0px; padding: 0px; text-align: right; } .pageheadcont { padding: 3px; width: 33%; vertical-align: center; text-align: center; } .blockheadcont { padding: 3px; vertical-align: center; text-align: left; background-color: #D3D3D3; } .objcont { vertical-align: top; }</style></head><body><table><tbody><tr><td class=\"pageheadcont\">"
+    fout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><title>r49: report on cycle</title><style type=\"text/css\">@media print { table { page-break-inside: avoid; } } @page { size: landscape; } body { font-family: 'DejaVu Sans Mono'; font-size: 8pt; font-style: normal; margin: 0; padding: 10px; } table { width: 100%; border-collapse: collapse; margin-bottom: 5px; } td { border: 1px solid black; padding: 5px; } .auxtable { margin-bottom: 0px; } .auxtd { border: 0px; padding: 0px; } .auxtdnum { border: 0px; padding: 0px; text-align: right; } .pageheadcont { padding: 3px; width: 33%; text-align: center; } .blockheadcont { padding: 3px; text-align: left; background-color: #D3D3D3; } .blockheadcont50 { padding: 3px; width: 50%; text-align: left; background-color: #D3D3D3; } .objcont { vertical-align: top; }</style></head><body><table><tbody><tr><td class=\"pageheadcont\">"
          << toxicIdentification{}.name()
          << " version "
          << toxicIdentification{}.version()
@@ -2070,7 +2070,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     fout << m_calculationOptions->defStandardName(currstd)
          << "</b></td><td class=\"pageheadcont\">Date_Time: "
          << m_currTime
-         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Tested object</b></td><td class=\"blockheadcont\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
+         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont50\"><b>Tested object</b></td><td class=\"blockheadcont50\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
 
     QFile engDescrFile("r49data/engdescr.conf");
 
@@ -2114,7 +2114,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     }
     else {
 
-        fout << "<tr><td class=\"auxtd\">Engine:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Turbocharger:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel pump:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Injectors:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">HEX-file:</td><td class=\"auxtd\">...</td></tr>";
+        fout << "<tr><td class=\"auxtd\">Engine:</td></tr><tr><td class=\"auxtd\">Turbocharger:</td></tr><tr><td class=\"auxtd\">Injectors:</td></tr><tr><td class=\"auxtd\">HEX-file:</td></tr>";
     }
 
     fout << "</tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
@@ -2161,7 +2161,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     }
     else {
 
-        fout << "<tr><td class=\"auxtd\">Fuel type:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Cetane number:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, ppm:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Motor oil:</td><td class=\"auxtd\">...</td></tr><tr><td class=\"auxtd\">Coolant:</td><td class=\"auxtd\">...</td></tr>";
+        fout << "<tr><td class=\"auxtd\">Fuel type:</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, g/kg:</td></tr><tr><td class=\"auxtd\">Motor oil:</td></tr><tr><td class=\"auxtd\">Coolant:</td></tr>";
     }
 
     fout << "</tbody></table></td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Specific emissions</b></td><td class=\"blockheadcont\"><b>Check points</b></td><td class=\"blockheadcont\"><b>Test conditions</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">Limitation</td><td class=\"auxtdnum\">CalcRes</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">";
