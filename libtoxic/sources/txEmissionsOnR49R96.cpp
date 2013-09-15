@@ -2339,7 +2339,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
 
         for ( ptrdiff_t i=0; i<ESCADDPOINTSNUMBER; i++ ) {
 
-            fout << "<tr><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td></tr>";
+            fout << "<tr><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td><td class=\"auxtdnum\">-</td></tr>";
         }
     }
     else {
@@ -2532,61 +2532,70 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
         fout << "</tr>";
     }
 
-    fout << "<tr><td class=\"auxtd\">C_NOx[ppm]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_CNOx[i], 'f', 2)
-             << "</td>";
-    }
-    fout << "</tr>";
+    if ( m_NOxCalcMethod != -1 ) {
 
-    fout << "<tr><td class=\"auxtd\">mNOx[g/h]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_mNOx[i], 'f', 2)
-             << "</td>";
-    }
-    fout << "</tr>";
+        fout << "<tr><td class=\"auxtd\">C_NOx[ppm]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_CNOx[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
 
-    fout << "<tr><td class=\"auxtd\">gNOx[g/kWh]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_gNOx[i], 'f', 2)
-             << "</td>";
-    }
-    fout << "</tr>";
+        fout << "<tr><td class=\"auxtd\">mNOx[g/h]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_mNOx[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
 
-    fout << "<tr><td class=\"auxtd\">C_CO[ppm]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_CCO[i], 'f', 2)
-             << "</td>";
+        fout << "<tr><td class=\"auxtd\">gNOx[g/kWh]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_gNOx[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
     }
-    fout << "</tr>";
 
-    fout << "<tr><td class=\"auxtd\">gCO[g/kWh]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_gCO[i], 'f', 2)
-             << "</td>";
-    }
-    fout << "</tr>";
+    if ( m_gCOcalc == GCOCALC_YES ) {
 
-    fout << "<tr><td class=\"auxtd\">C_CH[ppm]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_CCH[i], 'f', 2)
-             << "</td>";
-    }
-    fout << "</tr>";
+        fout << "<tr><td class=\"auxtd\">C_CO[ppm]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_CCO[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
 
-    fout << "<tr><td class=\"auxtd\">gCH[g/kWh]</td>";
-    for ( ptrdiff_t i=0; i<n; i++ ) {
-        fout << "<td class=\"auxtdnum\">"
-             << QString::number(ma_gCH[i], 'f', 2)
-             << "</td>";
+        fout << "<tr><td class=\"auxtd\">gCO[g/kWh]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_gCO[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
     }
-    fout << "</tr>";
+
+    if ( m_gCHcalc == GCHCALC_YES ) {
+
+        fout << "<tr><td class=\"auxtd\">C_CH[ppm]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_CCH[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">gCH[g/kWh]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_gCH[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+    }
 
     if ( m_EGRcalc == EGRCALC_YES ) {
 
