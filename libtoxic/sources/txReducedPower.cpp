@@ -235,7 +235,9 @@ void txReducedPower::prepSrcArrays(
          zeroArray(ma_Gfuel) ||
          (m_calculationOptions->val_Vh() < 0.0000001) ) {
 
-        throw txError("Incorrect source data!");
+        throw txError("Incorrect source data!\n"
+                      "Please check Vh value and arrays of values "
+                      "n, Me, t0, B0, Ra, pk and Gfuel.");
     }
 }
 
