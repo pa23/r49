@@ -1579,8 +1579,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>186</width>
-          <height>243</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1808,8 +1808,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>250</width>
-          <height>169</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1947,8 +1947,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
-          <height>137</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2071,8 +2071,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>152</width>
-          <height>114</height>
+          <width>300</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2625,7 +2625,7 @@
     <string>Randomize...</string>
    </property>
    <property name="shortcut">
-    <string>F4</string>
+    <string>Ctrl+R</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -2669,6 +2669,9 @@
   <action name="action_ReportSettings">
    <property name="text">
     <string>Report settings...</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>

@@ -1434,10 +1434,6 @@
         <translation>Относительная влажность воздуха.</translation>
     </message>
     <message>
-        <source>Report window is empty!</source>
-        <translation>Окно отчета не содержит данных!</translation>
-    </message>
-    <message>
         <source>User manual (RU)</source>
         <translation>Руководство пользователя</translation>
     </message>
@@ -1448,10 +1444,6 @@
     <message>
         <source>Randomize...</source>
         <translation>Рандомизировать...</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation></translation>
     </message>
     <message>
         <source>Qr49: randomize</source>
@@ -1609,14 +1601,6 @@
         <translation>Все файлы из выбранного каталога скопированы.</translation>
     </message>
     <message>
-        <source>Reports processing...</source>
-        <translation>Обработка отчетов...</translation>
-    </message>
-    <message>
-        <source>Child object not found! Restart program!</source>
-        <translation>Дочерний объект не найден! Перезапустите программу!</translation>
-    </message>
-    <message>
         <source>Delete selected rows</source>
         <translation>Удалить выбранные строки</translation>
     </message>
@@ -1659,6 +1643,22 @@
     <message>
         <source>Report was changed. Save it?</source>
         <translation>Отчет был изменен. Сохранить изменения?</translation>
+    </message>
+    <message>
+        <source>Report settings...</source>
+        <translation>Настройки отчетов...</translation>
+    </message>
+    <message>
+        <source>Child objects not found!</source>
+        <translation>Дочерние объекты не найдены!</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>F3</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1808,26 +1808,51 @@
     </message>
 </context>
 <context>
-    <name>ReportProcessingSettingsDialog</name>
+    <name>ReportSettingsDialog</name>
     <message>
-        <source>Qr49: Report processing settings</source>
-        <translation>Qr49: Настройки обработки отчетов</translation>
+        <source>Qr49: Report settings</source>
+        <translation>Qr49: Настройки отчетов</translation>
     </message>
     <message>
-        <source>Text for fild Engine</source>
-        <translation>Текст для поля Engine</translation>
+        <source>Engine description</source>
+        <translation>Описание двигателя</translation>
     </message>
     <message>
-        <source>Apply Engine field text for new reports</source>
-        <translation>Применять текст для поля Engine к вновь создаваемым отчетам</translation>
+        <source>//
+// This is engine description file.
+// Parameter-Value delimeter is &quot;=&quot; symbol.
+// Text after &quot;//&quot; is comment.
+//
+</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Create common report</source>
-        <translation>Создавать общий отчет</translation>
+        <source>Technical fluids</source>
+        <translation>Технические жидкости</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
+        <source>//
+// This is technical fluids description file.
+// Parameter-Value delimeter is &quot;=&quot; symbol.
+// Text after &quot;//&quot; is comment.
+//</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>Engine description could not be saved!</source>
+        <translation>Не могу сохранить описание двигателя!</translation>
+    </message>
+    <message>
+        <source>Technical fluids description could not be saved!</source>
+        <translation>Не могу сохранить описание технических жидкостей!</translation>
     </message>
 </context>
 <context>
