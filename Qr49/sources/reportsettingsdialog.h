@@ -37,6 +37,11 @@ public:
     explicit ReportSettingsDialog(QWidget *parent = 0);
     ~ReportSettingsDialog();
 
+private slots:
+
+    void on_pushButton_OK_clicked();
+    void on_pushButton_Cancel_clicked();
+
 private:
 
     Ui::ReportSettingsDialog *ui;

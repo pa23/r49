@@ -77,9 +77,6 @@ private:
     DataImportDialog *m_dataImportDialog;
     ReportSettingsDialog *m_reportsetdialog;
 
-    QPlainTextEdit *m_engFieldTextEdit;
-    QCheckBox *m_applyEngFieldText;
-
     QSharedPointer<toxic::txCalculationOptions> m_calculationOptions;
     QSharedPointer<toxic::txCommonParameters> m_commonParameters;
 
@@ -165,7 +162,7 @@ private slots:
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
     void on_action_Preferences_triggered();
-    void on_action_ReportsProcessing_triggered();
+    void on_action_ReportSettings_triggered();
     void on_action_UserManual_triggered();
     void on_action_StandardsDescription_triggered();
     void on_action_AboutQr49_triggered();

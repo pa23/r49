@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>618</width>
-    <height>386</height>
+    <width>640</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,34 +20,82 @@
    <iconset resource="qr49.qrc">
     <normaloff>:/icons/icons/toxic.png</normaloff>:/icons/icons/toxic.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="sizeConstraint">
     <enum>QLayout::SetFixedSize</enum>
    </property>
    <item>
-    <widget class="QCheckBox" name="checkBox_ApplyEngineFieldText">
-     <property name="text">
-      <string>Apply Engine field text for new reports</string>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPlainTextEdit" name="plainTextEdit_FieldEngineText">
-     <property name="minimumSize">
-      <size>
-       <width>600</width>
-       <height>300</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>DejaVu Sans Mono</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="lineWrapMode">
-      <enum>QPlainTextEdit::NoWrap</enum>
-     </property>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Engine description</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEdit_EngineDescription">
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>DejaVu Sans Mono</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
+         <property name="plainText">
+          <string>//
+// This is engine description file.
+// Parameter-Value delimeter is &quot;=&quot; symbol.
+// Text after &quot;//&quot; is comment.
+//
+</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Technical fluids</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEdit_TechnicalFluids">
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>DejaVu Sans Mono</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
+         <property name="plainText">
+          <string>//
+// This is technical fluids description file.
+// Parameter-Value delimeter is &quot;=&quot; symbol.
+// Text after &quot;//&quot; is comment.
+//</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>
@@ -79,9 +127,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Close">
+      <widget class="QPushButton" name="pushButton_OK">
        <property name="text">
-        <string>Close</string>
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_Cancel">
+       <property name="text">
+        <string>Cancel</string>
        </property>
       </widget>
      </item>
@@ -92,22 +147,5 @@
  <resources>
   <include location="qr49.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushButton_Close</sender>
-   <signal>clicked()</signal>
-   <receiver>ReportSettingsDialog</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>549</x>
-     <y>377</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>199</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

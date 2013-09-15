@@ -886,7 +886,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -966,7 +966,7 @@
      <string>Settings</string>
     </property>
     <addaction name="action_Preferences"/>
-    <addaction name="action_ReportsProcessing"/>
+    <addaction name="action_ReportSettings"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1041,8 +1041,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>271</height>
+          <width>311</width>
+          <height>247</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1062,8 +1062,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>265</width>
-              <height>451</height>
+              <width>293</width>
+              <height>537</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1579,8 +1579,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>143</width>
-          <height>203</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1808,8 +1808,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>212</width>
-          <height>141</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1947,8 +1947,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>182</width>
-          <height>115</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2071,8 +2071,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>127</width>
-          <height>96</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2666,7 +2666,7 @@
     <string>Copy last results to...</string>
    </property>
   </action>
-  <action name="action_ReportsProcessing">
+  <action name="action_ReportSettings">
    <property name="text">
     <string>Report settings...</string>
    </property>

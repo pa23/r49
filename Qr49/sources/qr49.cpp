@@ -41,7 +41,6 @@
 #include "txCommonParameters.h"
 #include "txAuxiliaryFunctions.h"
 #include "txError.h"
-#include "txReportsProcessing.h"
 
 #include <QSharedPointer>
 #include <QVector>
@@ -112,24 +111,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_contextMenu->addMenu(ui->menuFile);
     m_contextMenu->addMenu(ui->menuEdit);
     m_contextMenu->addMenu(ui->menuCalculation);
-
-    //
-
-    m_engFieldTextEdit = m_reportsetdialog->
-            findChild<QPlainTextEdit *>("plainTextEdit_FieldEngineText");
-    if ( !m_engFieldTextEdit ) {
-        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
-                              + ":::"
-                              + tr("Child object not found! Restart program!"));
-    }
-
-    m_applyEngFieldText = m_reportsetdialog->
-            findChild<QCheckBox *>("checkBox_ApplyEngineFieldText");
-    if ( !m_applyEngFieldText ) {
-        QMessageBox::critical(this, "Qr49", QString::fromLatin1(Q_FUNC_INFO)
-                              + ":::"
-                              + tr("Child object not found! Restart program!"));
-    }
 
     //
 
@@ -297,8 +278,6 @@ MainWindow::MainWindow(QWidget *parent) :
         m_dejavusansmonoFont_10.setPointSize(10);
     }
 
-    m_engFieldTextEdit->setFont(m_dejavusansmonoFont_10);
-
     //
 
     connect(ui->doubleSpinBox_nhi,
@@ -427,8 +406,6 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/lastReportsDir", m_lastReportsDir.absolutePath());
     m_qr49settings.setValue("/lastCheckoutDataFileName", m_lastCheckoutDataFileName);
     m_qr49settings.setValue("/lastReportFileName", m_lastReportFileName);
-    m_qr49settings.setValue("/engFieldText", m_engFieldTextEdit->toPlainText());
-    m_qr49settings.setValue("/applyEngFieldText", m_applyEngFieldText->isChecked());
     m_qr49settings.endGroup();
 }
 
@@ -451,8 +428,6 @@ void MainWindow::readProgramSettings() {
     m_lastReportsDir.setPath(m_qr49settings.value("/lastReportsDir", "").toString());
     m_lastCheckoutDataFileName = m_qr49settings.value("/lastCheckoutDataFileName", "").toString();
     m_lastReportFileName = m_qr49settings.value("/lastReportFileName", "").toString();
-    m_engFieldTextEdit->setPlainText(m_qr49settings.value("/engFieldText", "").toString());
-    m_applyEngFieldText->setChecked(m_qr49settings.value("/applyEngFieldText", false).toBool());
     m_qr49settings.endGroup();
 
     if ( ui->action_Toolbar->isChecked() ) {
@@ -2278,31 +2253,6 @@ void MainWindow::on_action_Execute_triggered() {
 
                 //
 
-                QString engFieldText = m_engFieldTextEdit->toPlainText();
-
-                try {
-
-                    if ( !engFieldText.isEmpty() && m_applyEngFieldText->isChecked() ) {
-
-                        if ( reports.size() > 1 ) {
-
-                            toxic::changeEngineInfo(
-                                        m_lastReportsDir.absoluteFilePath(reports[1]),
-                                        engFieldText
-                                    );
-                        }
-
-                        toxic::changeEngineInfo(m_lastReportFileName, engFieldText);
-                    }
-                }
-                catch(const toxic::txError &toxerr) {
-
-                    QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
-                    return;
-                }
-
-                //
-
                 reportChanged(m_lastReportFileName);
             }
         }
@@ -2512,7 +2462,7 @@ void MainWindow::on_action_Preferences_triggered() {
     }
 }
 
-void MainWindow::on_action_ReportsProcessing_triggered() {
+void MainWindow::on_action_ReportSettings_triggered() {
 
     m_reportsetdialog->exec();
 }

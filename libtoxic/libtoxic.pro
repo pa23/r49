@@ -45,8 +45,7 @@ HEADERS += \
     sources/txEmissionsBase.h \
     sources/txCalculationInterface.h \
     sources/txReducedPower.h \
-    sources/txPointsOfCycle.h \
-    sources/txReportsProcessing.h
+    sources/txPointsOfCycle.h
 
 SOURCES += \
     sources/txAuxiliaryFunctions.cpp \
@@ -61,8 +60,7 @@ SOURCES += \
     sources/txEmissionsBase.cpp \
     sources/txReducedPower.cpp \
     sources/txPointsOfCycle.cpp \
-    sources/txIdentification.cpp \
-    sources/txReportsProcessing.cpp
+    sources/txIdentification.cpp
 
 QMAKE_CXXFLAGS += -std=c++11 -W -pedantic
 

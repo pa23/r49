@@ -33,3 +33,13 @@ ReportSettingsDialog::~ReportSettingsDialog() {
 
     delete ui;
 }
+
+void ReportSettingsDialog::on_pushButton_OK_clicked() {
+
+    // save files
+}
+
+void ReportSettingsDialog::on_pushButton_Cancel_clicked() {
+
+    hide();
+}
