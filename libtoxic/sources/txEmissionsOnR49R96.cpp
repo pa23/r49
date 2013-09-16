@@ -1256,10 +1256,20 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
         fout << "    Report on cycle ";
     }
 
-    fout << m_calculationOptions->defStandardName(currstd)
-         << "    DateTime: "
-         << m_currTime
-         << "\n\n"
+    fout << m_calculationOptions->defStandardName(currstd);
+
+    if ( m_calculationOptions->val_testDate().isEmpty() ) {
+
+        fout << "    Date of calculation: "
+             << m_currTime;
+    }
+    else {
+
+        fout << "    Date of test: "
+             << m_calculationOptions->val_testDate();
+    }
+
+    fout << "\n\n"
          << "Object                 : "
          << objDescr()
          << "\n";
@@ -1818,10 +1828,20 @@ QString txEmissionsOnR49R96::saveReportPT() const {
          << " version "
          << toxicIdentification{}.version()
          << "    Report on cycle "
-         << m_calculationOptions->defStandardName(currstd)
-         << "    DateTime: "
-         << m_currTime
-         << "\n\n"
+         << m_calculationOptions->defStandardName(currstd);
+
+    if ( m_calculationOptions->val_testDate().isEmpty() ) {
+
+        fout << "    Date of calculation: "
+             << m_currTime;
+    }
+    else {
+
+        fout << "    Date of test: "
+             << m_calculationOptions->val_testDate();
+    }
+
+    fout << "\n\n"
          << "Object                 : "
          << objDescr()
          << "\n";
@@ -2057,7 +2077,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     const int currstd = m_calculationOptions->val_standard();
     const int ptcalc = m_calculationOptions->val_PTcalc();
 
-    fout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><title>r49: report on cycle</title><style type=\"text/css\">@media print { table { page-break-inside: avoid; } } @page { size: landscape; } body { font-family: 'DejaVu Sans Mono'; font-size: 8pt; font-style: normal; margin: 0; padding: 10px; } table { width: 100%; border-collapse: collapse; margin-bottom: 5px; } td { border: 1px solid black; padding: 5px; } .auxtable { margin-bottom: 0px; } .auxtd { border: 0px; padding: 0px; } .auxtdnum { border: 0px; padding: 0px; text-align: right; } .pageheadcont { padding: 3px; width: 33%; text-align: center; } .blockheadcont { padding: 3px; text-align: left; background-color: #D3D3D3; } .blockheadcont50 { padding: 3px; width: 50%; text-align: left; background-color: #D3D3D3; } .objcont { vertical-align: top; }</style></head><body><table><tbody><tr><td class=\"pageheadcont\">"
+    fout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><title>r49: report on cycle</title><style type=\"text/css\">@media print { table { page-break-inside: avoid; } } @page { size: landscape; } body { font-family: Times; font-size: 8pt; font-style: normal; margin: 0; padding: 10px; } hr { height: 1px; color: #000000; background: #000000; border: 0; } table { width: 100%; border-collapse: collapse; margin-bottom: 5px; } td { border: 1px solid black; padding: 5px; } .auxtable { margin-bottom: 0px; } .auxtd { border: 0px; padding: 0px; } .auxtdnum { border: 0px; padding: 0px; text-align: right; } .pageheadcont { padding: 3px; width: 33%; text-align: center; } .blockheadcont { padding: 3px; text-align: left; background-color: #D3D3D3; } .blockheadcont50 { padding: 3px; width: 50%; text-align: left; background-color: #D3D3D3; } .objcont { vertical-align: top; }</style></head><body><table><tbody><tr><td class=\"pageheadcont\">"
          << toxicIdentification{}.name()
          << " version "
          << toxicIdentification{}.version()
@@ -2072,9 +2092,20 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     }
 
     fout << m_calculationOptions->defStandardName(currstd)
-         << "</b></td><td class=\"pageheadcont\">Date_Time: "
-         << m_currTime
-         << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont50\"><b>Tested object</b></td><td class=\"blockheadcont50\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
+         << "</b></td><td class=\"pageheadcont\">";
+
+    if ( m_calculationOptions->val_testDate().isEmpty() ) {
+
+        fout << "Date of calculation: "
+             << m_currTime;
+    }
+    else {
+
+        fout << "Date of test: "
+             << m_calculationOptions->val_testDate();
+    }
+
+    fout << "</td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont50\"><b>Tested object</b></td><td class=\"blockheadcont50\"><b>Technical fluids</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody>";
 
     QFile engDescrFile("r49data/engdescr.conf");
 
@@ -2163,7 +2194,7 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
     }
     else {
 
-        fout << "<tr><td class=\"auxtd\">Fuel type:</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, g/kg:</td></tr><tr><td class=\"auxtd\">Motor oil:</td></tr><tr><td class=\"auxtd\">Coolant:</td></tr>";
+        fout << "<tr><td class=\"auxtd\">Fuel type:</td></tr><tr><td class=\"auxtd\">Fuel density, kg/m3:</td></tr><tr><td class=\"auxtd\">Fuel sulphur content, mg/kg:</td></tr><tr><td class=\"auxtd\">Motor oil:</td></tr><tr><td class=\"auxtd\">Coolant:</td></tr>";
     }
 
     fout << "</tbody></table></td></tr></tbody></table><table><tbody><tr><td class=\"blockheadcont\"><b>Specific emissions</b></td><td class=\"blockheadcont\"><b>Check points</b></td><td class=\"blockheadcont\"><b>Test conditions</b></td></tr><tr><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\"></td><td class=\"auxtdnum\">Limitation</td><td class=\"auxtdnum\">CalcRes</td><td class=\"auxtdnum\"></td></tr><tr><td class=\"auxtd\">";
@@ -2625,6 +2656,14 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
         for ( ptrdiff_t i=0; i<n; i++ ) {
             fout << "<td class=\"auxtdnum\">"
                  << QString::number(ma_tauf[i], 'f', 2)
+                 << "</td>";
+        }
+        fout << "</tr>";
+
+        fout << "<tr><td class=\"auxtd\">qmdw[g/s]</td>";
+        for ( ptrdiff_t i=0; i<n; i++ ) {
+            fout << "<td class=\"auxtdnum\">"
+                 << QString::number(ma_qmdw[i], 'f', 3)
                  << "</td>";
         }
         fout << "</tr>";

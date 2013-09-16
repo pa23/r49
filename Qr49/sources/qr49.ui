@@ -1063,7 +1063,7 @@
               <x>0</x>
               <y>0</y>
               <width>293</width>
-              <height>537</height>
+              <height>594</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1546,6 +1546,40 @@
               </widget>
              </item>
              <item>
+              <widget class="QLabel" name="label_52">
+               <property name="text">
+                <string>Date of test</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QDateEdit" name="dateEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="displayFormat">
+                  <string>dd-MM-yyyy</string>
+                 </property>
+                 <property name="calendarPopup">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_resetDate">
+                 <property name="text">
+                  <string>Reset</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
               <widget class="QCheckBox" name="checkBox_reports">
                <property name="text">
                 <string>Create reports</string>
@@ -1579,8 +1613,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>186</width>
+          <height>243</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1808,8 +1842,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>250</width>
+          <height>169</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1947,8 +1981,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>238</width>
+          <height>137</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2071,8 +2105,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>247</height>
+          <width>152</width>
+          <height>114</height>
          </rect>
         </property>
         <attribute name="label">

@@ -105,6 +105,10 @@ void txCalculationOptions::setAddPointsCalc(const QString &addPointsCalc_) {
     m_addPointsCalc = defAddPointsCalc(addPointsCalc_);
 }
 
+void txCalculationOptions::setTestDate(const QString &testDate_) {
+    m_testDate = testDate_;
+}
+
 void txCalculationOptions::setCalcConfigFile(const QString &calcConfigFile_) {
     m_calcConfigFile = calcConfigFile_;
 }
@@ -154,6 +158,9 @@ void txCalculationOptions::readCalcConfigFile(const QString &calcConfigFileName)
             }
             else if ( elements[0] == "addPointsCalc" ) {
                 m_addPointsCalc = defAddPointsCalc(elements[1]);
+            }
+            else if ( elements[0] == "testDate" ) {
+                m_testDate = elements[1];
             }
             else if ( elements[0] == "calcConfigFile" ) {
                 m_calcConfigFile = elements[1];

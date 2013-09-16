@@ -25,7 +25,7 @@
 #include <QString>
 #include <QDir>
 
-const QString CR49INFO = "cr49 v1.2.1";
+const QString CR49INFO = "cr49 v1.3.0";
 const QString CONFIGFILENAME =
         "r49data"
         + QString(QDir::separator())

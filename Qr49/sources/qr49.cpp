@@ -438,6 +438,8 @@ void MainWindow::readProgramSettings() {
 
         ui->toolBar->setVisible(false);
     }
+
+    ui->dateEdit->setDate(QDate::currentDate());
 }
 
 void MainWindow::tableCellChangedConnect(const bool b) {
@@ -836,6 +838,7 @@ bool MainWindow::fillParameters() {
     m_calculationOptions->setPTcalc(ui->comboBox_PTcalc->currentIndex());
     m_calculationOptions->setPTmass(ui->doubleSpinBox_PTmass->value());
     m_calculationOptions->setAddPointsCalc(ui->comboBox_AddPointsCalc->currentIndex());
+    m_calculationOptions->setTestDate(ui->dateEdit->text());
 
     return true;
 }
@@ -1346,6 +1349,11 @@ void MainWindow::on_action_LoadCalculationOptions_triggered() {
         ui->doubleSpinBox_PTmass->setValue(m_calculationOptions->val_PTmass());
         ui->comboBox_AddPointsCalc->setCurrentIndex(m_calculationOptions->val_addPointsCalc());
 
+        QStringList tstdate = m_calculationOptions->val_testDate().split("-");
+        if ( tstdate.size() == 3 ) {
+            ui->dateEdit->setDate(QDate(tstdate[2].toInt(), tstdate[1].toInt(), tstdate[0].toInt()));
+        }
+
         taskChanged(ui->comboBox_task->currentIndex());
         standardChanged(ui->comboBox_standard->currentIndex());
         PTcalcChanged(ui->comboBox_PTcalc->currentIndex());
@@ -1416,6 +1424,10 @@ void MainWindow::on_action_SaveCalculationOptionsAs_triggered() {
              << "addPointsCalc"
              << "="
              << QString::number(ui->comboBox_AddPointsCalc->currentIndex())
+             << "\n"
+             << "testDate"
+             << "="
+             << ui->dateEdit->text()
              << "\n"
              << "calcConfigFile"
              << "="
@@ -1856,14 +1868,27 @@ void MainWindow::on_action_PasteToTable_triggered() {
 
     //
 
-    for ( ptrdiff_t i=0; i<numRows; i++ ) {
+    if ( numRows == 0 ) {
 
-        QStringList columns = rows[i].split('\t');
+        QStringList columns = rows[0].split('\t');
 
         for ( ptrdiff_t j=0; j<numColumns; j++ ) {
 
-            m_table->item(m_table->currentRow()+i,
+            m_table->item(m_table->currentRow(),
                         m_table->currentColumn()+j)->setText(columns[j]);
+        }
+    }
+    else {
+
+        for ( ptrdiff_t i=0; i<numRows; i++ ) {
+
+            QStringList columns = rows[i].split('\t');
+
+            for ( ptrdiff_t j=0; j<numColumns; j++ ) {
+
+                m_table->item(m_table->currentRow()+i,
+                            m_table->currentColumn()+j)->setText(columns[j]);
+            }
         }
     }
 
@@ -2692,6 +2717,11 @@ void MainWindow::on_pushButton_EnterPTmass_clicked() {
     }
 }
 
+void MainWindow::on_pushButton_resetDate_clicked() {
+
+    ui->dateEdit->setDate(QDate::currentDate());
+}
+
 void MainWindow::taskChanged(const int currtask) {
 
     if ( currtask == toxic::TASK_POINTS ) {
@@ -2718,6 +2748,9 @@ void MainWindow::taskChanged(const int currtask) {
 
             ui->comboBox_AddPointsCalc->setEnabled(false);
         }
+
+        ui->dateEdit->setEnabled(false);
+        ui->pushButton_resetDate->setEnabled(false);
 
         ui->checkBox_reports->setEnabled(false);
 
@@ -2795,6 +2828,8 @@ void MainWindow::taskChanged(const int currtask) {
         ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
+        ui->dateEdit->setEnabled(false);
+        ui->pushButton_resetDate->setEnabled(false);
 
         ui->checkBox_reports->setEnabled(false);
 
@@ -2825,6 +2860,8 @@ void MainWindow::taskChanged(const int currtask) {
         ui->doubleSpinBox_PTmass->setEnabled(false);
         ui->pushButton_EnterPTmass->setEnabled(false);
         ui->comboBox_AddPointsCalc->setEnabled(false);
+        ui->dateEdit->setEnabled(false);
+        ui->pushButton_resetDate->setEnabled(false);
 
         ui->checkBox_reports->setEnabled(false);
     }
@@ -2931,6 +2968,9 @@ void MainWindow::standardChanged(const int currstd) {
             }
         }
     }
+
+    ui->dateEdit->setEnabled(true);
+    ui->pushButton_resetDate->setEnabled(true);
 }
 
 void MainWindow::PTcalcChanged(const int currptcalc) {

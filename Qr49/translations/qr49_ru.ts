@@ -1660,6 +1660,18 @@
         <source>F3</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Date of test</source>
+        <translation>Дата испытаний</translation>
+    </message>
+    <message>
+        <source>dd-MM-yyyy</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation>Сбросить</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>

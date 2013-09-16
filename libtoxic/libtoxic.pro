@@ -25,9 +25,9 @@ TARGET = toxic
 
 TEMPLATE = lib
 
-VERSION = 7.4.0
+VERSION = 7.5.0
 VER_MAJ = 7
-VER_MIN = 4
+VER_MIN = 5
 VER_PAT = 0
 
 HEADERS += \

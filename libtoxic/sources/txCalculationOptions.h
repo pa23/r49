@@ -84,6 +84,11 @@ public:
         return m_addPointsCalc;
     }
 
+    void setTestDate(const QString &);
+    QString val_testDate() const {
+        return m_testDate;
+    }
+
     void setCalcConfigFile(const QString &);
     QString val_calcConfigFile() const {
         return m_calcConfigFile;
@@ -112,6 +117,7 @@ private:
     int m_PTcalc;
     double m_PTmass;
     int m_addPointsCalc;
+    QString m_testDate;
     QString m_calcConfigFile;
 
 };

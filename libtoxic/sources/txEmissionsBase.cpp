@@ -324,6 +324,7 @@ QString txEmissionsBase::saveCalcOptions() const {
          << "PTcalc"         << "=" << m_calculationOptions->val_PTcalc()         << "\n"
          << "PTmass"         << "=" << m_calculationOptions->val_PTmass()         << "\n"
          << "addPointsCalc"  << "=" << m_calculationOptions->val_addPointsCalc()  << "\n"
+         << "testDate"       << "=" << m_calculationOptions->val_testDate()       << "\n"
          << "calcConfigFile" << "=" << m_calculationOptions->val_calcConfigFile() << "\n";
 
     confFile.close();

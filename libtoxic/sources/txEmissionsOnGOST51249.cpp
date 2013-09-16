@@ -595,10 +595,20 @@ QString txEmissionsOnGOST51249::saveReportGAS() const {
          << " version "
          << toxicIdentification{}.version()
          << "    Report on cycle "
-         << m_calculationOptions->defStandardName(currstd)
-         << "    DateTime: "
-         << m_currTime
-         << "\n\n"
+         << m_calculationOptions->defStandardName(currstd);
+
+    if ( m_calculationOptions->val_testDate().isEmpty() ) {
+
+        fout << "    Date of calculation: "
+             << m_currTime;
+    }
+    else {
+
+        fout << "    Date of test: "
+             << m_calculationOptions->val_testDate();
+    }
+
+    fout << "\n\n"
          << "Object                 : "
          << objDescr()
          << "\n";

@@ -169,6 +169,7 @@ private slots:
     void on_action_AboutQt_triggered();
 
     void on_pushButton_EnterPTmass_clicked();
+    void on_pushButton_resetDate_clicked();
     void taskChanged(const int);
     void standardChanged(const int);
     void PTcalcChanged(const int);

@@ -105,6 +105,7 @@ void showHelp() {
             "  --PTmass=<NUMBER>\n"
             "    NUMBER - total PT mass on all filters, mg.\n"
             "  --addPointsCalc={yes|no*}\n"
+            "  --testDate=<dd-MM-yyyy>\n"
             "  --calcConfigFile=<FILE>\n"
             "* - default values.\n\n";
 
@@ -215,6 +216,9 @@ void parsingParameters(const QSharedPointer<toxic::txCalculationOptions> &calcop
         }
         else if ( param == "--addPointsCalc" ) {
             calcopts->setAddPointsCalc(value);
+        }
+        else if ( param == "--testDate" ) {
+            calcopts->setTestDate(value);
         }
         else if ( param == "--calcConfigFile" ) {
             calcopts->setCalcConfigFile(value);
