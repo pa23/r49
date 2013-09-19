@@ -1158,30 +1158,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Smoke values converting</source>
-        <translation>Конверт. значений дымности</translation>
-    </message>
-    <message>
-        <source>L</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>m</source>
-        <translation>м</translation>
-    </message>
-    <message>
-        <source>Ka</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>m-1</source>
-        <translation>м-1</translation>
-    </message>
-    <message>
-        <source>%</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Can not load monospaced font excalib.ttf from program resources!</source>
         <translation>Не могу загрузить шрифт excalib.ttf из ресурсов программы!</translation>
     </message>
@@ -1671,6 +1647,35 @@
     <message>
         <source>Reset</source>
         <translation>Сбросить</translation>
+    </message>
+    <message>
+        <source>Calculators</source>
+        <translation>Калькуляторы</translation>
+    </message>
+    <message>
+        <source>Convert smoke values</source>
+        <translation>Конвертировать значения дымности</translation>
+    </message>
+    <message>
+        <source>F10</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Smoke values converting function usage:
+1. Select source column (Ka[m-1] or Ka[%]) by click on column&apos;s header.
+2. Activate menu item &quot;Calculation -&gt; Convert smoke values&quot;. Results will be displayed in adjacent column.
+</source>
+        <translation>Использование функции конвертирования значений дымности:
+1. Выберите столбец с исходными значениями (Ka[м-1] или Ka[%]), щелкнув по его заголовку.
+2. Активируйте пункт меню &quot;Расчет -&gt; Конвертировать значения дымности&quot;. Результаты будут отображены в соседнем столбце.</translation>
+    </message>
+    <message>
+        <source>Minimize</source>
+        <translation>Свернуть</translation>
+    </message>
+    <message>
+        <source>Shift+Esc</source>
+        <translation></translation>
     </message>
 </context>
 <context>

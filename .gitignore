@@ -11,3 +11,15 @@ cr49/build
 Makefile
 r49.pro.user
 r49-bin
+Qr49/Makefile.Debug
+Qr49/Makefile.Release
+Qr49/object_script.Qr49.Debug
+Qr49/object_script.Qr49.Release
+cr49/Makefile.Debug
+cr49/Makefile.Release
+cr49/cr49_resource.rc
+libtoxic/Makefile.Debug
+libtoxic/Makefile.Release
+libtoxic/object_script.toxic.Debug
+libtoxic/object_script.toxic.Release
+libtoxic/toxic_resource.rc

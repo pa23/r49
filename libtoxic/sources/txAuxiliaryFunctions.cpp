@@ -131,8 +131,8 @@ bool zeroArray(const QVector<double> &data) {
 
     double sum = 0;
 
-    for ( auto it=data.begin(); it!=data.end(); ++it ) {
-        sum += *it;
+    for ( double elem : data ) {
+        sum += elem;
     }
 
     if ( sum < 0.0000001 ) {
@@ -147,10 +147,10 @@ double minVal(const QVector<double> &v) {
 
     double min = v[0];
 
-    for ( auto it=v.begin(); it!=v.end(); ++it ) {
+    for ( double elem : v ) {
 
-        if ( *it < min ) {
-            min = *it;
+        if ( elem < min ) {
+            min = elem;
         }
     }
 
@@ -161,10 +161,10 @@ double maxVal(const QVector<double> &v) {
 
     double max = v[0];
 
-    for ( auto it=v.begin(); it!=v.end(); ++it ) {
+    for ( double elem : v ) {
 
-        if ( *it > max ) {
-            max = *it;
+        if ( elem > max ) {
+            max = elem;
         }
     }
 

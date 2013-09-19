@@ -325,21 +325,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(nfanCalculation()));
 
-    connect(ui->doubleSpinBox_L,
-            SIGNAL(editingFinished()),
-            this,
-            SLOT(smokeBaseChanged()));
-
-    connect(ui->doubleSpinBox_Ka1m,
-            SIGNAL(editingFinished()),
-            this,
-            SLOT(kapercCalculation()));
-
-    connect(ui->doubleSpinBox_KaPerc,
-            SIGNAL(editingFinished()),
-            this,
-            SLOT(ka1mCalculation()));
-
     appPath = QDir::currentPath() + "/";
 }
 
@@ -1724,6 +1709,11 @@ void MainWindow::on_action_PrintSelectedCells_triggered() {
     }
 }
 
+void MainWindow::on_action_Minimize_triggered() {
+
+    showMinimized();
+}
+
 void MainWindow::on_action_Quit_triggered() {
 
     close();
@@ -2392,6 +2382,64 @@ void MainWindow::on_action_CheckoutData_triggered() {
     myLineEdit_file->setText(m_lastCheckoutDataFileName);
 
     m_checkoutDataDialog->exec();
+}
+
+void MainWindow::on_action_SmokeValuesConverting_triggered() {
+
+    if ( m_table->selectedRanges().isEmpty() ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Smoke values converting function usage:\n"
+                       "1. Select source column (Ka[m-1] or Ka[%]) by click on column's header.\n"
+                       "2. Activate menu item \"Calculation -> Convert smoke values\". "
+                       "Results will be displayed in adjacent column.\n")
+                    );
+        return;
+    }
+
+    QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
+
+    if ( (selectedRange.columnCount() != 1) ||
+         (!ui->tableWidget_SrcDataPoints->
+          horizontalHeaderItem(selectedRange.leftColumn())->text().contains("Ka")) ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Smoke values converting function usage:\n"
+                       "1. Select source column (Ka[m-1] or Ka[%]) by click on column's header.\n"
+                       "2. Activate menu item \"Calculation -> Convert smoke values\". "
+                       "Results will be displayed in adjacent column.\n")
+                    );
+        return;
+    }
+
+    tableCellChangedConnect(false);
+
+    if ( ui->tableWidget_SrcDataPoints->
+         horizontalHeaderItem(selectedRange.leftColumn())->text().contains("%") ) {
+
+        for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+
+            ui->tableWidget_SrcDataPoints->
+                    item(i, selectedRange.leftColumn()-1)->
+                    setText(QString::number(toxic::Ka1m(ui->tableWidget_SrcDataPoints->item(i, selectedRange.leftColumn())->text().toDouble(), m_commonParameters->val_L()), 'f', 3));
+        }
+    }
+    else {
+
+        for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+
+            ui->tableWidget_SrcDataPoints->
+                    item(i, selectedRange.leftColumn()+1)->
+                    setText(QString::number(toxic::KaPerc(ui->tableWidget_SrcDataPoints->item(i, selectedRange.leftColumn())->text().toDouble(), m_commonParameters->val_L()), 'f', 3));
+        }
+    }
+
+    tableCellChangedConnect(true);
+    saveTableState();
 }
 
 void MainWindow::on_action_Preferences_triggered() {
@@ -3285,26 +3333,6 @@ void MainWindow::nfanCalculation() {
                                      ui->doubleSpinBox_nRated->value())
                         )
                     );
-}
-
-void MainWindow::ka1mCalculation() {
-
-    ui->doubleSpinBox_Ka1m->
-            setValue(toxic::Ka1m(ui->doubleSpinBox_KaPerc->value(),
-                                 ui->doubleSpinBox_L->value()));
-}
-
-void MainWindow::kapercCalculation() {
-
-    ui->doubleSpinBox_KaPerc->
-            setValue(toxic::KaPerc(ui->doubleSpinBox_Ka1m->value(),
-                                   ui->doubleSpinBox_L->value()));
-}
-
-void MainWindow::smokeBaseChanged() {
-
-    ka1mCalculation();
-    kapercCalculation();
 }
 
 void MainWindow::on_pushButton_OpenDirectory_clicked() {

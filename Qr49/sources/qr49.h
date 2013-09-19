@@ -142,6 +142,7 @@ private slots:
     void on_action_CopyLastResultsTo_triggered();
     void on_action_PrintReport_triggered();
     void on_action_PrintSelectedCells_triggered();
+    void on_action_Minimize_triggered();
     void on_action_Quit_triggered();
     void on_action_UndoTable_triggered();
     void on_action_RedoTable_triggered();
@@ -161,6 +162,7 @@ private slots:
     void on_action_Toolbar_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
+    void on_action_SmokeValuesConverting_triggered();
     void on_action_Preferences_triggered();
     void on_action_ReportSettings_triggered();
     void on_action_UserManual_triggered();
@@ -181,9 +183,6 @@ private slots:
     void abcCalculation();
     void gairCalculation();
     void nfanCalculation();
-    void ka1mCalculation();
-    void kapercCalculation();
-    void smokeBaseChanged();
 
     void on_pushButton_OpenDirectory_clicked();
 
