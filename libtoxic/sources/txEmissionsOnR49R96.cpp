@@ -2366,7 +2366,8 @@ QString txEmissionsOnR49R96::saveReportHTML() const {
 
     fout << "</td></tr></tbody></table></td><td class=\"objcont\"><table class=\"auxtable\"><tbody><tr><td class=\"auxtdnum\">Point</td><td class=\"auxtdnum\">n[min-1]</td><td class=\"auxtdnum\">Me_n[Nm]</td><td class=\"auxtdnum\">gNOm[g/kWh]</td><td class=\"auxtdnum\">gNOc[g/kWh]</td><td class=\"auxtdnum\">diff[%]</td><td class=\"auxtdnum\"></td></tr>";
 
-    if ( m_calculationOptions->val_addPointsCalc() == ADDPOINTSCALC_NO ) {
+    if ( (currstd >= STD_R96E8 && currstd <= STD_R96K5) ||
+         m_calculationOptions->val_addPointsCalc() == ADDPOINTSCALC_NO ) {
 
         for ( ptrdiff_t i=0; i<ESCADDPOINTSNUMBER; i++ ) {
 

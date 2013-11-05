@@ -596,10 +596,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Checkout data</source>
-        <translation>Отладочные данные</translation>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
@@ -1676,6 +1672,10 @@
     <message>
         <source>Shift+Esc</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Checkout data...</source>
+        <translation>Отладочные данные...</translation>
     </message>
 </context>
 <context>

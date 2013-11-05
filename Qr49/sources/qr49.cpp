@@ -70,6 +70,8 @@
 #include <QDesktopServices>
 #include <QDateTime>
 
+#include <regex>
+
 MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
@@ -2332,33 +2334,21 @@ void MainWindow::on_action_Execute_triggered() {
 
 void MainWindow::on_action_CheckoutData_triggered() {
 
-    QPushButton *myPushButton_AltCopy =
-            m_checkoutDataDialog->findChild<QPushButton *>("pushButton_AltCopy");
-
-    if ( ui->comboBox_task->currentIndex() == toxic::TASK_REDUCEDPOWER ) {
-
-        myPushButton_AltCopy->setEnabled(true);
-    }
-    else {
-
-        myPushButton_AltCopy->setEnabled(false);
-    }
-
-    //
-
     QPlainTextEdit *myPlainTextEdit_CheckoutData =
             m_checkoutDataDialog->findChild<QPlainTextEdit *>("plainTextEdit_CheckoutData");
     QLineEdit *myLineEdit_file =
             m_checkoutDataDialog->findChild<QLineEdit *>("lineEdit_file");
+    QPushButton *myPushButton_AltCopy =
+            m_checkoutDataDialog->findChild<QPushButton *>("pushButton_AltCopy");
 
-    if ( !myPlainTextEdit_CheckoutData ) {
+    if ( !myPlainTextEdit_CheckoutData || !myLineEdit_file || !myPushButton_AltCopy ) {
 
         QMessageBox::critical(
                     this,
                     "Qr49",
                     QString::fromLatin1(Q_FUNC_INFO)
                     + ":::"
-                    + tr("Child object not found!")
+                    + tr("Child objects not found!")
                     );
         return;
     }
@@ -2367,11 +2357,9 @@ void MainWindow::on_action_CheckoutData_triggered() {
     QString data;
 
     if ( arrayFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
-
         data.append(arrayFile.readAll());
     }
     else {
-
         QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
         return;
     }
@@ -2380,6 +2368,13 @@ void MainWindow::on_action_CheckoutData_triggered() {
 
     myPlainTextEdit_CheckoutData->setPlainText(data);
     myLineEdit_file->setText(m_lastCheckoutDataFileName);
+
+    if ( std::regex_match(myLineEdit_file->text().toStdString(), std::regex("(.*)(_R85_)(.*)")) ) {
+        myPushButton_AltCopy->setEnabled(true);
+    }
+    else {
+        myPushButton_AltCopy->setEnabled(false);
+    }
 
     m_checkoutDataDialog->exec();
 }

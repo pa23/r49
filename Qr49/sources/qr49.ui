@@ -2447,7 +2447,7 @@
   </action>
   <action name="action_CheckoutData">
    <property name="text">
-    <string>Checkout data</string>
+    <string>Checkout data...</string>
    </property>
    <property name="shortcut">
     <string>Shift+F9</string>

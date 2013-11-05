@@ -92,8 +92,6 @@ private:
     QVector<double> ma_ps;
     QVector<double> ma_fa;
     QVector<double> ma_alphad;
-    QVector<double> ma_Ne_brake_corrected;
-    QVector<double> ma_Me_brake_corrected;
     QVector<double> ma_Ne_reduced;
     QVector<double> ma_Ne_netto_reduced;
     QVector<double> ma_Me_netto_reduced;

@@ -93,8 +93,6 @@ void txReducedPower::calculate() {
     ma_ps.clear();                 ma_ps.resize(m_numberOfPoints);
     ma_fa.clear();                 ma_fa.resize(m_numberOfPoints);
     ma_alphad.clear();             ma_alphad.resize(m_numberOfPoints);
-    ma_Ne_brake_corrected.clear(); ma_Ne_brake_corrected.resize(m_numberOfPoints);
-    ma_Me_brake_corrected.clear(); ma_Me_brake_corrected.resize(m_numberOfPoints);
     ma_Ne_reduced.clear();         ma_Ne_reduced.resize(m_numberOfPoints);
     ma_Ne_netto_reduced.clear();   ma_Ne_netto_reduced.resize(m_numberOfPoints);
     ma_Me_netto_reduced.clear();   ma_Me_netto_reduced.resize(m_numberOfPoints);
@@ -150,11 +148,9 @@ void txReducedPower::calculate() {
                           "is out-of-range (0.9..1.1)!");
         }
 
-        ma_Ne_brake_corrected[i] = ma_Ne_brutto[i] + ma_N_k[i];
-        ma_Me_brake_corrected[i] = ma_Ne_brake_corrected[i] * 9550.0 / ma_n[i];
-        ma_Ne_reduced[i] = ma_alphad[i] * ma_Ne_brake_corrected[i];
+        ma_Ne_reduced[i] = ma_alphad[i] * ma_Ne_brutto[i];
         ma_N_fan[i] = N_fan(m_N_fan_rated, ma_n[i], m_n_rated);
-        ma_Ne_netto_reduced[i] = ma_Ne_reduced[i] - ma_N_fan[i];
+        ma_Ne_netto_reduced[i] = ma_Ne_reduced[i] - ma_N_fan[i] + ma_N_k[i];
         ma_Me_netto_reduced[i] = ma_Ne_netto_reduced[i] * 9550.0 / ma_n[i];
         ma_ge_netto_reduced[i] = ma_Gfuel[i] / ma_Ne_netto_reduced[i] * 1000.0;
     }
@@ -333,8 +329,7 @@ QString txReducedPower::saveCheckoutData() const {
     fout << "Ne_b[kW]"      << "ge_b[g/kWh]"  << "qcs[mg/cyc.l]"
          << "fm[-]"         << "pa[kPa]"      << "ps[kPa]"
          << "fa[-]"         << "alphad[-]"    << "Ne_r[kW]"
-         << "N_br[kW]"      << "M_br[Nm]"     << "Ne_nr[kW]"
-         << "Me_nr[Nm]"     << "ge_nr[g/kWh]";
+         << "Ne_nr[kW]"     << "Me_nr[Nm]"     << "ge_nr[g/kWh]";
     fout << qSetFieldWidth(0)
          << "\n"
          << fixed
@@ -357,9 +352,8 @@ QString txReducedPower::saveCheckoutData() const {
         fout << qSetRealNumberPrecision(PRECISION+2);
         fout << ma_fa[i] << ma_alphad[i];
         fout << qSetRealNumberPrecision(PRECISION);
-        fout << ma_Ne_reduced[i]         << ma_Ne_brake_corrected[i]
-             << ma_Me_brake_corrected[i] << ma_Ne_netto_reduced[i]
-             << ma_Me_netto_reduced[i]   << ma_ge_netto_reduced[i];
+        fout << ma_Ne_reduced[i]       << ma_Ne_netto_reduced[i]
+             << ma_Me_netto_reduced[i] << ma_ge_netto_reduced[i];
         fout << qSetFieldWidth(0)
              << "\n";
     }

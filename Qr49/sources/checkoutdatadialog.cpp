@@ -92,7 +92,6 @@ void CheckoutDataDialog::on_pushButton_AltCopy_clicked() {
     QString str;
 
     for ( ptrdiff_t i=0; i<strs.size(); i++ ) {
-
         arr.push_back(strs[i].split(QRegExp("[ ]+")));
     }
 
@@ -184,12 +183,12 @@ void CheckoutDataDialog::on_pushButton_AltCopy_clicked() {
             str += arr[i][26] + "\n";
         }
     }
-    for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // N_br
+    for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // N_r
         if ( i != arr.size()-1 ) {
-            str += arr[i][28] + "\t";
+            str += arr[i][27] + "\t";
         }
         else {
-            str += arr[i][28] + "\n";
+            str += arr[i][27] + "\n";
         }
     }
     for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // N_fan
@@ -202,26 +201,26 @@ void CheckoutDataDialog::on_pushButton_AltCopy_clicked() {
     }
     for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // Ne_nr
         if ( i != arr.size()-1 ) {
-            str += arr[i][30] + "\t";
+            str += arr[i][28] + "\t";
         }
         else {
-            str += arr[i][30] + "\n";
+            str += arr[i][28] + "\n";
         }
     }
     for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // Me_nr
         if ( i != arr.size()-1 ) {
-            str += arr[i][31] + "\t";
+            str += arr[i][29] + "\t";
         }
         else {
-            str += arr[i][31] + "\n";
+            str += arr[i][29] + "\n";
         }
     }
     for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // ge_nr
         if ( i != arr.size()-1 ) {
-            str += arr[i][32] + "\t";
+            str += arr[i][30] + "\t";
         }
         else {
-            str += arr[i][32] + "\n";
+            str += arr[i][30] + "\n";
         }
     }
     for ( ptrdiff_t i=1; i<arr.size(); i++ ) { // t_c

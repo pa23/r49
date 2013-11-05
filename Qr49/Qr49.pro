@@ -25,7 +25,7 @@ TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.10.2
+VERSION = 3.10.3
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
