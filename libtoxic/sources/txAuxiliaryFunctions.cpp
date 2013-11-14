@@ -143,32 +143,48 @@ bool zeroArray(const QVector<double> &data) {
     }
 }
 
+double sum(const QVector<double> &v) {
+
+    double ret = 0;
+
+    for ( double elem : v ) {
+        ret += elem;
+    }
+
+    return ret;
+}
+
 double minVal(const QVector<double> &v) {
 
-    double min = v[0];
+    double ret = v[0];
 
     for ( double elem : v ) {
 
-        if ( elem < min ) {
-            min = elem;
+        if ( elem < ret ) {
+            ret = elem;
         }
     }
 
-    return min;
+    return ret;
 }
 
 double maxVal(const QVector<double> &v) {
 
-    double max = v[0];
+    double ret = v[0];
 
     for ( double elem : v ) {
 
-        if ( elem > max ) {
-            max = elem;
+        if ( elem > ret ) {
+            ret = elem;
         }
     }
 
-    return max;
+    return ret;
+}
+
+double mean(const QVector<double> &v) {
+
+    return sum(v) / v.size();
 }
 
 QString objDescr() {

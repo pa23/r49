@@ -886,7 +886,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -931,6 +931,8 @@
     </property>
     <addaction name="action_Execute"/>
     <addaction name="action_CheckoutData"/>
+    <addaction name="separator"/>
+    <addaction name="action_Statistic"/>
     <addaction name="separator"/>
     <addaction name="action_SmokeValuesConverting"/>
    </widget>
@@ -1044,8 +1046,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>300</width>
-          <height>352</height>
+          <width>311</width>
+          <height>340</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1065,8 +1067,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>265</width>
-              <height>501</height>
+              <width>293</width>
+              <height>594</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1616,8 +1618,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>202</width>
-          <height>540</height>
+          <width>286</width>
+          <height>663</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2647,9 +2649,6 @@
    <property name="text">
     <string>Convert smoke values</string>
    </property>
-   <property name="shortcut">
-    <string>F10</string>
-   </property>
   </action>
   <action name="action_Minimize">
    <property name="text">
@@ -2657,6 +2656,14 @@
    </property>
    <property name="shortcut">
     <string>Shift+Esc</string>
+   </property>
+  </action>
+  <action name="action_Statistic">
+   <property name="text">
+    <string>Statistic...</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
  </widget>

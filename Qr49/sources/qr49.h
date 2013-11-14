@@ -162,6 +162,7 @@ private slots:
     void on_action_Toolbar_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
+    void on_action_Statistic_triggered();
     void on_action_SmokeValuesConverting_triggered();
     void on_action_Preferences_triggered();
     void on_action_ReportSettings_triggered();

@@ -77,9 +77,10 @@ double rhoAir(
 
 bool zeroArray(const QVector<double> &);
 
+double sum(const QVector<double> &);
 double minVal(const QVector<double> &);
-
 double maxVal(const QVector<double> &);
+double mean(const QVector<double> &);
 
 QString objDescr();
 

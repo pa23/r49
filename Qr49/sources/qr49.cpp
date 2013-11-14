@@ -2379,6 +2379,42 @@ void MainWindow::on_action_CheckoutData_triggered() {
     m_checkoutDataDialog->exec();
 }
 
+void MainWindow::on_action_Statistic_triggered() {
+
+    if ( m_table->selectedRanges().isEmpty() ) {
+
+        QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
+        return;
+    }
+
+    QTableWidgetSelectionRange selectedRange;
+    QVector<double> v;
+
+    for ( ptrdiff_t n=0; n<m_table->selectedRanges().size(); n++ ) {
+
+        selectedRange = m_table->selectedRanges()[n];
+
+        for ( ptrdiff_t i=0; i<selectedRange.rowCount(); i++ ) {
+
+            for ( ptrdiff_t j=0; j<selectedRange.columnCount(); j++ ) {
+
+                v.push_back(m_table->
+                            item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
+                            text().toDouble());
+            }
+        }
+    }
+
+    QMessageBox::information(this, "Qr49",
+                             QString("<table border=\"1\">")
+                             + "<tr><td>" + tr("Number") + "</td><td>" + QString::number(v.size())         + "</td></tr>"
+                             + "<tr><td>" + tr("Sum")    + "</td><td>" + QString::number(toxic::sum(v))    + "</td></tr>"
+                             + "<tr><td>" + tr("Min")    + "</td><td>" + QString::number(toxic::minVal(v)) + "</td></tr>"
+                             + "<tr><td>" + tr("Max")    + "</td><td>" + QString::number(toxic::maxVal(v)) + "</td></tr>"
+                             + "<tr><td>" + tr("Mean")   + "</td><td>" + QString::number(toxic::mean(v))   + "</td></tr>"
+                             + "</table>");
+}
+
 void MainWindow::on_action_SmokeValuesConverting_triggered() {
 
     if ( m_table->selectedRanges().isEmpty() ) {

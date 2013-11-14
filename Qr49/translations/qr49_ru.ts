@@ -1677,6 +1677,30 @@
         <source>Checkout data...</source>
         <translation>Отладочные данные...</translation>
     </message>
+    <message>
+        <source>Statistic...</source>
+        <translation>Статистика...</translation>
+    </message>
+    <message>
+        <source>Number</source>
+        <translation>Количество</translation>
+    </message>
+    <message>
+        <source>Sum</source>
+        <translation>Сумма</translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation>Минимум</translation>
+    </message>
+    <message>
+        <source>Max</source>
+        <translation>Максимум</translation>
+    </message>
+    <message>
+        <source>Mean</source>
+        <translation>Среднее</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
