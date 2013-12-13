@@ -62,7 +62,7 @@ const QStringList SRCDATACAPTIONS_EMISSIONS = (
             << "t0[oC]"
             << "B0[kPa]"
             << "Ra[%]"
-            << "dPn[mmH2O]"
+            << "dPn[kPa]"
             << "Gair[kg/h]"
             << "Gfuel[kg/h]"
             << "C_NOx[ppm]"

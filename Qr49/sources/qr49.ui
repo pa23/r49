@@ -467,7 +467,7 @@
                <column>
                 <property name="text">
                  <string>dPn
-[mmH2O]</string>
+[kPa]</string>
                 </property>
                 <property name="toolTip">
                  <string>Negative pressure on the measuring nozzle.</string>
@@ -1618,7 +1618,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>286</width>
+          <width>262</width>
           <height>663</height>
          </rect>
         </property>
@@ -1931,7 +1931,7 @@
             <item row="3" column="1">
              <widget class="QDoubleSpinBox" name="doubleSpinBox_dPn">
               <property name="decimals">
-               <number>2</number>
+               <number>3</number>
               </property>
               <property name="maximum">
                <double>1000.000000000000000</double>
@@ -1941,7 +1941,7 @@
             <item row="3" column="2">
              <widget class="QLabel" name="label_34">
               <property name="text">
-               <string>mmH2O</string>
+               <string>kPa</string>
               </property>
              </widget>
             </item>
