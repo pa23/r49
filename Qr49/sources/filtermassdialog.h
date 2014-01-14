@@ -5,7 +5,7 @@
 
     File: filtermassdialog.h
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,12 +31,10 @@ class FilterMassDialog : public QDialog {
     Q_OBJECT
 
 public:
-
     explicit FilterMassDialog(QWidget *parent = 0);
     ~FilterMassDialog();
 
 private:
-
     Ui::FilterMassDialog ui;
 
 };

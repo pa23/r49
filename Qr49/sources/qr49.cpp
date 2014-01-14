@@ -5,7 +5,7 @@
 
     File: qr49.cpp
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@
 #include <QUrl>
 #include <QDesktopServices>
 #include <QDateTime>
+#include <QTranslator>
 
 #include <regex>
 
@@ -393,12 +394,15 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/lastReportsDir", m_lastReportsDir.absolutePath());
     m_qr49settings.setValue("/lastCheckoutDataFileName", m_lastCheckoutDataFileName);
     m_qr49settings.setValue("/lastReportFileName", m_lastReportFileName);
+    m_qr49settings.setValue("/action_english_checked", ui->action_English->isChecked());
+    m_qr49settings.setValue("/action_russian_checked", ui->action_Russian->isChecked());
     m_qr49settings.endGroup();
 }
 
 void MainWindow::readProgramSettings() {
 
     m_qr49settings.beginGroup("/Settings");
+
     setGeometry(m_qr49settings.value("/window_geometry", QRect(20, 40, 0, 0)).toRect());
     restoreState(m_qr49settings.value("/toolbars_state").toByteArray());
     ui->action_Toolbar->setChecked(m_qr49settings.value("/action_toolbar_checked", true).toBool());
@@ -415,15 +419,28 @@ void MainWindow::readProgramSettings() {
     m_lastReportsDir.setPath(m_qr49settings.value("/lastReportsDir", "").toString());
     m_lastCheckoutDataFileName = m_qr49settings.value("/lastCheckoutDataFileName", "").toString();
     m_lastReportFileName = m_qr49settings.value("/lastReportFileName", "").toString();
+    ui->action_English->setChecked(m_qr49settings.value("/action_english_checked", true).toBool());
+    ui->action_Russian->setChecked(m_qr49settings.value("/action_russian_checked", false).toBool());
+
     m_qr49settings.endGroup();
 
     if ( ui->action_Toolbar->isChecked() ) {
-
         ui->toolBar->setVisible(true);
     }
     else {
-
         ui->toolBar->setVisible(false);
+    }
+
+    if ( launching ) {
+
+        launching = false;
+
+        if ( ui->action_English->isChecked() ) {
+            on_action_English_triggered();
+        }
+        else {
+            on_action_Russian_triggered();
+        }
     }
 
     ui->dateEdit->setDate(QDate::currentDate());
@@ -501,11 +518,9 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *cme) {
 void MainWindow::readPreferences() {
 
     try {
-
         m_commonParameters->readConfigFile(CONFIGFILENAME);
     }
     catch(const toxic::txError &toxerr) {
-
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return;
     }
@@ -601,11 +616,9 @@ bool MainWindow::fillTableEU0(const QString &filename) {
             readerSourceDataEU0(new toxic::txDataReader());
 
     try{
-
         readerSourceDataEU0->readFile(filename, " ");
     }
     catch(const toxic::txError &toxerr) {
-
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
@@ -614,7 +627,6 @@ bool MainWindow::fillTableEU0(const QString &filename) {
             readerSourceDataEU0->val_data();
 
     if ( arraySourceDataEU0.isEmpty() ) {
-
         return false;
     }
 
@@ -648,11 +660,9 @@ bool MainWindow::fillTableEU3(const QString &filename) {
             readerSourceDataEU3(new toxic::txDataReader());
 
     try{
-
         readerSourceDataEU3->readFile(filename, " ");
     }
     catch(const toxic::txError &toxerr) {
-
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
@@ -660,7 +670,6 @@ bool MainWindow::fillTableEU3(const QString &filename) {
     QVector< QVector<double> > arraySourceDataEU3 = readerSourceDataEU3->val_data();
 
     if ( arraySourceDataEU3.isEmpty() ) {
-
         return false;
     }
 
@@ -691,11 +700,9 @@ bool MainWindow::fillTablePoints(const QString &filename) {
             readerSourceDataPoints(new toxic::txDataReader());
 
     try{
-
         readerSourceDataPoints->readFile(filename, " ");
     }
     catch(const toxic::txError &toxerr) {
-
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
@@ -704,7 +711,6 @@ bool MainWindow::fillTablePoints(const QString &filename) {
             readerSourceDataPoints->val_data();
 
     if ( arraySourceDataPoints.isEmpty() ) {
-
         return false;
     }
 
@@ -753,11 +759,9 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
             readerFullLoadCurve(new toxic::txDataReader());
 
     try{
-
         readerFullLoadCurve->readFile(filename, " ");
     }
     catch(const toxic::txError &toxerr) {
-
         QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
         return false;
     }
@@ -766,7 +770,6 @@ bool MainWindow::fillTableFullLoadCurve(const QString &filename) {
             readerFullLoadCurve->val_data();
 
     if ( arrayFullLoadCurve.isEmpty() ) {
-
         return false;
     }
 
@@ -851,27 +854,21 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
     value->selectAll();
 
     if ( operation == "add" ) {
-
         m_valueDialog->setWindowTitle(tr("Qr49: add"));
     }
     else if ( operation == "multiply" ) {
-
         m_valueDialog->setWindowTitle(tr("Qr49: multiply"));
     }
     else if ( operation == "divide" ) {
-
         m_valueDialog->setWindowTitle(tr("Qr49: divide"));
     }
     else if ( operation == "equal" ) {
-
         m_valueDialog->setWindowTitle(tr("Qr49: equal"));
     }
     else if ( operation == "randomize" ) {
-
         m_valueDialog->setWindowTitle(tr("Qr49: randomize"));
     }
     else {
-
         QMessageBox::critical(
                     this,
                     "Qr49",
@@ -881,12 +878,10 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
     }
 
     if ( m_valueDialog->exec() == QDialog::Rejected ) {
-
         return true;
     }
 
     if ( m_table->selectedRanges().isEmpty() ) {
-
         QMessageBox::warning(this, "Qr49", tr("No selected cells!"));
         return false;
     }
@@ -920,27 +915,22 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
                         text().toDouble();
 
                 if ( operation == "add" ) {
-
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x+y, 'f', 3));
                 }
                 else if ( operation == "multiply" ) {
-
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x*y, 'f', 3));
                 }
                 else if ( operation == "divide" ) {
-
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(x/y, 'f', 3));
                 }
                 else if ( operation == "equal" ) {
-
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number(y, 'f', 3));
                 }
                 else if ( operation == "randomize" ) {
-
                     m_table->item(selectedRange.topRow()+i, selectedRange.leftColumn()+j)->
                             setText(QString::number((x-y)+2*y*static_cast<double>(qrand())/RAND_MAX, 'f', 3));
                 }
@@ -958,15 +948,12 @@ bool MainWindow::arithmeticOperation(const QString &operation) {
 void MainWindow::on_action_DataImport_triggered() {
 
     if ( m_table == ui->tableWidget_SrcDataPoints ) {
-
         m_dataImportDialog->init(2, m_table);
     }
     else if ( m_table == ui->tableWidget_FullLoadCurve ) {
-
         m_dataImportDialog->init(3, m_table);
     }
     else {
-
         QMessageBox::critical(
                     this,
                     "Qr49",
@@ -978,12 +965,10 @@ void MainWindow::on_action_DataImport_triggered() {
     tableCellChangedConnect(false);
 
     if ( m_dataImportDialog->exec() == QDialog::Accepted ) {
-
         tableCellChangedConnect(true);
         saveTableState();
     }
     else {
-
         tableCellChangedConnect(true);
     }
 }
@@ -1157,7 +1142,6 @@ void MainWindow::on_action_SaveSourceData_triggered() {
     else if ( m_table == ui->tableWidget_SrcDataPoints ) {
 
         if ( m_table->rowCount() == 0 ) {
-
             on_action_InsertRowBelowCurrent_triggered();
         }
 
@@ -1197,7 +1181,6 @@ void MainWindow::on_action_SaveSourceData_triggered() {
     else if ( m_table == ui->tableWidget_FullLoadCurve ) {
 
         if ( m_table->rowCount() == 0 ) {
-
             on_action_InsertRowBelowCurrent_triggered();
         }
 
@@ -1316,12 +1299,10 @@ void MainWindow::on_action_LoadCalculationOptions_triggered() {
     if ( !anotherOptions.isEmpty() ) {
 
         try {
-
             m_calculationOptions->readCalcConfigFile(anotherOptions);
             m_calculationOptions->setCalcConfigFile("");
         }
         catch(const toxic::txError &toxerr) {
-
             QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
@@ -1512,7 +1493,6 @@ void MainWindow::on_action_ReportToPDF_triggered() {
                 );
 
     if ( newReportFileName.isEmpty() ) {
-
         return;
     }
 
@@ -1576,7 +1556,6 @@ void MainWindow::on_action_CopyLastResultsTo_triggered() {
                 );
 
     if ( newResultsDirName.isEmpty() ) {
-
         return;
     }
 
@@ -1818,7 +1797,6 @@ void MainWindow::on_action_CopyFromTable_triggered() {
                                  selectedRange.leftColumn()+j)->text();
 
             if ( j != (selectedRange.columnCount()-1) ) {
-
                 str += "\t";
             }
         }
@@ -1854,7 +1832,6 @@ void MainWindow::on_action_PasteToTable_triggered() {
     tableCellChangedConnect(false);
 
     if ( numRows > destRows ) {
-
         addRows(m_table, numRows-destRows, ADDROWS_BOTTOM);
     }
 
@@ -2091,7 +2068,6 @@ void MainWindow::on_action_DeleteSelectedRows_triggered() {
     QTableWidgetSelectionRange selectedRange = m_table->selectedRanges().first();
 
     for ( ptrdiff_t i=selectedRange.bottomRow(); i>=selectedRange.topRow(); i-- ) {
-
         m_table->removeRow(i);
     }
 
@@ -2101,13 +2077,52 @@ void MainWindow::on_action_DeleteSelectedRows_triggered() {
 void MainWindow::on_action_Toolbar_triggered() {
 
     if ( ui->action_Toolbar->isChecked() ) {
-
         ui->toolBar->setVisible(true);
     }
     else {
-
         ui->toolBar->setVisible(false);
     }
+}
+
+void MainWindow::on_action_English_triggered() {
+
+    ui->action_English->setChecked(true);
+    ui->action_Russian->setChecked(false);
+
+    writeProgramSettings();
+
+    qApp->removeTranslator(translator);
+    translator = new QTranslator(this);
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+
+    readProgramSettings();
+}
+
+void MainWindow::on_action_Russian_triggered() {
+
+    ui->action_English->setChecked(false);
+    ui->action_Russian->setChecked(true);
+
+    writeProgramSettings();
+
+    qApp->removeTranslator(translator);
+    translator = new QTranslator(this);
+
+    if ( !translator->load("langs/qr49_ru.qm") &&
+         !translator->load("/usr/share/r49/translations/qr49_ru.qm") ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Can not load russian translation for GUI!")
+                    );
+    }
+
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+
+    readProgramSettings();
 }
 
 void MainWindow::on_action_Execute_triggered() {
@@ -2211,11 +2226,9 @@ void MainWindow::on_action_Execute_triggered() {
         if ( ui->checkBox_reports->isChecked() ) {
 
             try {
-
                 message += myEmissions->createReports();
             }
             catch(const toxic::txError &toxerr) {
-
                 QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
                 return;
             }
@@ -2237,7 +2250,6 @@ void MainWindow::on_action_Execute_triggered() {
             //
 
             if ( ui->comboBox_standard->currentIndex() == toxic::STD_FREECALC ) {
-
                 ui->tabWidget_Data->setCurrentIndex(1);
             }
             else {
@@ -2252,12 +2264,10 @@ void MainWindow::on_action_Execute_triggered() {
                                     );
 
                 if ( reports.isEmpty() ) {
-
                     QMessageBox::warning(this, "Qr49", tr("Cannot find the report files!"));
                 }
 
                 if ( reports.size() > 1 ) {
-
                     ui->comboBox_OpenedReports->
                             insertItem(0, m_lastReportsDir.absoluteFilePath(reports[1]));
                 }
@@ -2279,7 +2289,6 @@ void MainWindow::on_action_Execute_triggered() {
         QSharedPointer<toxic::txReducedPower> myReducedPower;
 
         try {
-
             myReducedPower = QSharedPointer<toxic::txReducedPower>
                     (new toxic::txReducedPower(m_commonParameters, m_calculationOptions));
 
@@ -2289,7 +2298,6 @@ void MainWindow::on_action_Execute_triggered() {
             message += myReducedPower->createReports();
         }
         catch(const toxic::txError &toxerr) {
-
             QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
@@ -2561,7 +2569,6 @@ void MainWindow::on_action_Preferences_triggered() {
     //
 
     if ( m_preferencesDialog->exec() == QDialog::Accepted ) {
-
         readPreferences();
     }
 }
@@ -2605,7 +2612,6 @@ void MainWindow::on_action_ReportSettings_triggered() {
                     setPlainText(QString(engDescrFile.readAll()));
         }
         else {
-
             QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
             return;
         }
@@ -2632,7 +2638,6 @@ void MainWindow::on_action_ReportSettings_triggered() {
                     setPlainText(QString(techFluidsFile.readAll()));
         }
         else {
-
             QMessageBox::critical(this, "Qr49", tr("Can not open file!"));
             return;
         }
@@ -2733,7 +2738,7 @@ void MainWindow::on_action_AboutQr49_triggered() {
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
             "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R "
             "51249-99)."
-            "<br><br>Copyright (C) 2009-2013 Artem Petrov "
+            "<br><br>Copyright (C) 2009-2014 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Source code hosting: <a href= \"https://github.com/pa23/r49\">"
             "https://github.com/pa23/r49</a>"
@@ -2966,7 +2971,6 @@ void MainWindow::standardChanged(const int currstd) {
             ui->comboBox_FuelType->setEnabled(true);
         }
         else {
-
             ui->comboBox_FuelType->setEnabled(false);
         }
 
@@ -3111,12 +3115,10 @@ void MainWindow::reportTextChanged(bool b) {
     m_savingReportNeeded = b;
 
     if ( b ) {
-
         m_changedReportFileName = ui->comboBox_OpenedReports->currentText();
         ui->label_unsavedReport->setText("*");
     }
     else {
-
         m_changedReportFileName.clear();
         ui->label_unsavedReport->setText("");
     }
@@ -3125,42 +3127,34 @@ void MainWindow::reportTextChanged(bool b) {
 void MainWindow::tabChanged(const int tab) {
 
     if ( tab == 3 ) {
-
         ui->menuEdit->setEnabled(false);
     }
     else {
 
         if ( tab == 0 ) {
-
             ui->comboBox_task->setCurrentIndex(0);
             taskChanged(ui->comboBox_task->currentIndex());
         }
         else if ( tab == 1 ) {
-
             ui->comboBox_task->setCurrentIndex(1);
             taskChanged(ui->comboBox_task->currentIndex());
         }
         else if ( tab == 2 ) {
-
             ui->comboBox_task->setCurrentIndex(2);
             taskChanged(ui->comboBox_task->currentIndex());
         }
 
         if ( m_undoCount == 0 ) {
-
             ui->action_UndoTable->setEnabled(false);
         }
         else {
-
             ui->action_UndoTable->setEnabled(true);
         }
 
         if ( m_redoCount == 0 ) {
-
             ui->action_RedoTable->setEnabled(false);
         }
         else {
-
             ui->action_RedoTable->setEnabled(true);
         }
 
@@ -3187,7 +3181,6 @@ void MainWindow::tableCellChanged(const int n, const int m) {
     //
 
     if ( n != m_table->rowCount()-1 ) {
-
         m_table->setCurrentCell(n+1, m);
     }
 }
@@ -3322,7 +3315,6 @@ void MainWindow::abcCalculation() {
     double n_ref = 0;
 
     try {
-
         toxic::ABC(n_hi, n_lo, &A, &B, &C, &a1, &a2, &a3, &n_ref);
     }
     catch(const toxic::txError &toxerr) {

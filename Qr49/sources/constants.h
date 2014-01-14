@@ -5,7 +5,7 @@
 
     File: constants.h
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include <QDir>
 
 const QString QR49NAME = "Qr49";
-const QString QR49VERSION = "3.11.1";
+const QString QR49VERSION = "3.12.0";
 const QString CONFIGFILENAME =
         "r49data"
         + QString(QDir::separator())

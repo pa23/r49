@@ -5,7 +5,7 @@
 
     File: dataimportdialog.h
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ class DataImportDialog : public QDialog {
     Q_OBJECT
 
 public:
-
     explicit DataImportDialog(QWidget *parent = 0);
     ~DataImportDialog();
 
@@ -48,7 +47,6 @@ public:
               QTableWidget *);
 
 private:
-
     Ui::DataImportDialog *ui;
 
     QString m_delimiter;
@@ -67,7 +65,6 @@ private:
     void updateTemplList();
 
 private slots:
-
     void on_pushButton_SelectDataFile_clicked();
     void on_pushButton_NextManual_clicked();
     void on_pushButton_NextAuto_clicked();

@@ -5,7 +5,7 @@
 
     File: preferencesdialog.cpp
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,7 +49,6 @@ void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
                 );
 
     if ( !anotherDirnameReports.isEmpty() ) {
-
         ui.lineEdit_dirnameReports->setText(anotherDirnameReports);
     }
 }
@@ -67,7 +66,6 @@ void PreferencesDialog::on_pushButton_filenameSourceEU3_clicked() {
                 );
 
     if ( !anotherFilenameSourceEU3.isEmpty() ) {
-
         ui.lineEdit_filenameSourceEU3->setText(anotherFilenameSourceEU3);
     }
 }
@@ -85,7 +83,6 @@ void PreferencesDialog::on_pushButton_filenameSourceEU0_clicked() {
                 );
 
     if ( !anotherFilenameSourceEU0.isEmpty() ) {
-
         ui.lineEdit_filenameSourceEU0->setText(anotherFilenameSourceEU0);
     }
 }
@@ -103,7 +100,6 @@ void PreferencesDialog::on_pushButton_filenamePoints_clicked() {
                 );
 
     if ( !anotherFilenamePoints.isEmpty() ) {
-
         ui.lineEdit_filenamePoints->setText(anotherFilenamePoints);
     }
 }
@@ -121,7 +117,6 @@ void PreferencesDialog::on_pushButton_filenamePowers_clicked() {
                 );
 
     if ( !anotherFilenamePowers.isEmpty() ) {
-
         ui.lineEdit_filenamePowers->setText(anotherFilenamePowers);
     }
 }
@@ -206,7 +201,6 @@ void PreferencesDialog::on_pushButton_OK_clicked() {
         preferencesFile2.close();
     }
     else {
-
         QMessageBox::critical(
                     this,
                     "Qr49",

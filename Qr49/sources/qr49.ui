@@ -886,7 +886,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -964,7 +964,15 @@
     <property name="title">
      <string>View</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="action_English"/>
+     <addaction name="action_Russian"/>
+    </widget>
     <addaction name="action_Toolbar"/>
+    <addaction name="menuLanguage"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -1046,8 +1054,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>311</width>
-          <height>340</height>
+          <width>300</width>
+          <height>349</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1067,8 +1075,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>293</width>
-              <height>594</height>
+              <width>268</width>
+              <height>531</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1618,8 +1626,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>262</width>
-          <height>663</height>
+          <width>286</width>
+          <height>600</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2664,6 +2672,25 @@
    </property>
    <property name="shortcut">
     <string>F10</string>
+   </property>
+  </action>
+  <action name="action_English">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="action_Russian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Russian</string>
    </property>
   </action>
  </widget>

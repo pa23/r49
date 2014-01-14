@@ -5,7 +5,7 @@
 
     File: tablewidgetfunctions.cpp
 
-    Copyright (C) 2011-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,15 +34,12 @@ void addRows(
     ptrdiff_t n = 0;
 
     if ( mode == ADDROWS_ABOVE ) {
-
         n = table->currentRow();
     }
     else if ( mode == ADDROWS_BELOW ) {
-
         n = table->currentRow() + 1;
     }
     else if ( mode == ADDROWS_BOTTOM ) {
-
         n = table->rowCount();
     }
 

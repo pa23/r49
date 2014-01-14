@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>CheckoutDataDialog</name>
     <message>
@@ -468,12 +468,6 @@
 [%]</source>
         <translation>Ra
 [%]</translation>
-    </message>
-    <message>
-        <source>dPn
-[mmH2O]</source>
-        <translation>dPn
-[ммH2O]</translation>
     </message>
     <message>
         <source>Gair
@@ -1122,10 +1116,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>mmH2O</source>
-        <translation>ммH2O</translation>
-    </message>
-    <message>
         <source>kg/h</source>
         <translation>кг/ч</translation>
     </message>
@@ -1700,6 +1690,28 @@
     <message>
         <source>Mean</source>
         <translation>Среднее</translation>
+    </message>
+    <message>
+        <source>dPn
+[kPa]</source>
+        <translation>dPn
+[кПа]</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Язык</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>English</translation>
+    </message>
+    <message>
+        <source>Russian</source>
+        <translation>Русский</translation>
+    </message>
+    <message>
+        <source>Can not load russian translation for GUI!</source>
+        <translation>Невозможно загрузить файл перевода интерфейса на русский язык!</translation>
     </message>
 </context>
 <context>

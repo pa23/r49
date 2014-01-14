@@ -5,7 +5,7 @@
 
     File: reportsettingsdialog.h
 
-    Copyright (C) 2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2013-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,17 +33,14 @@ class ReportSettingsDialog : public QDialog {
     Q_OBJECT
 
 public:
-
     explicit ReportSettingsDialog(QWidget *parent = 0);
     ~ReportSettingsDialog();
 
 private slots:
-
     void on_pushButton_OK_clicked();
     void on_pushButton_Cancel_clicked();
 
 private:
-
     Ui::ReportSettingsDialog *ui;
 
 };

@@ -5,7 +5,7 @@
 
     File: main.cpp
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,15 +35,15 @@ int main(int argc, char **argv) {
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    QTranslator translator;
+//    QTranslator translator;
 
-    if ( !translator.load("langs/qr49_" + QLocale::system().name()) ) {
+//    if ( !translator.load("langs/qr49_" + QLocale::system().name()) ) {
 
-        translator.load("/usr/share/r49/translations/qr49_"
-                        + QLocale::system().name());
-    }
+//        translator.load("/usr/share/r49/translations/qr49_"
+//                        + QLocale::system().name());
+//    }
 
-    a.installTranslator(&translator);
+//    a.installTranslator(&translator);
 
     MainWindow w;
     w.show();

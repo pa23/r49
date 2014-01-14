@@ -5,7 +5,7 @@
 
     File: main.cpp
 
-    Copyright (C) 2011-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ void showVersion() {
 
 void showAbout() {
 
-    cout << "Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>"
+    cout << "Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>"
             "\n\nSource code hosting: https://github.com/pa23/r49\n"
             "Author's blog (RU): http://pa2311.blogspot.com\n\n"
             "This program is free software: you can redistribute "

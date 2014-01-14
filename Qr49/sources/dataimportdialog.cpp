@@ -5,7 +5,7 @@
 
     File: dataimportdialog.cpp
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -91,11 +91,9 @@ void DataImportDialog::init(const ptrdiff_t tlid,
     const QDir templdir2(QDir::homePath() + QDir::separator() + TEMPLATEDIRNAME);
 
     if ( templdir1.exists() ) {
-
         m_templdir = templdir1;
     }
     else if ( templdir2.exists() ) {
-
         m_templdir = templdir2;
     }
     else {
@@ -103,7 +101,6 @@ void DataImportDialog::init(const ptrdiff_t tlid,
         if ( !commondir.exists() ) {
 
             if ( !commondir.mkdir(commondir.absolutePath()) ) {
-
                 QMessageBox::critical(
                             this,
                             "Qr49",
@@ -114,15 +111,12 @@ void DataImportDialog::init(const ptrdiff_t tlid,
         }
 
         if ( templdir1.mkdir(templdir1.absolutePath()) ) {
-
             m_templdir = templdir1;
         }
         else if ( templdir2.mkdir(templdir2.absolutePath()) ) {
-
             m_templdir = templdir2;
         }
         else {
-
             QMessageBox::critical(
                         this,
                         "Qr49",
@@ -142,12 +136,10 @@ void DataImportDialog::updateTemplList() {
     ui->comboBox_Templates->clear();
 
     for ( ptrdiff_t i=0; i<templfiles.size(); i++ ) {
-
         ui->comboBox_Templates->addItem(templfiles[i]);
     }
 
     if ( ui->comboBox_Templates->count() != 0 ) {
-
         ui->comboBox_Templates->setCurrentIndex(0);
     }
 }
@@ -155,13 +147,11 @@ void DataImportDialog::updateTemplList() {
 void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
 
     if ( !m_dtable ) {
-
         QMessageBox::critical(
                     this,
                     "Qr49",
                     tr("Invalid pointer to the destination table!")
                     );
-
         return;
     }
 
@@ -177,11 +167,9 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     m_dataDirName = fileInfo.absolutePath();
 
     if ( !m_dataFileName.isEmpty() ) {
-
         ui->lineEdit_DataFile->setText(m_dataFileName);
     }
     else {
-
         QMessageBox::critical(this,
                               "Qr49",
                               tr("You have to select data file!")
@@ -195,7 +183,6 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
     const ptrdiff_t dcount = m_dtable->rowCount();
 
     if ( scount > dcount ) {
-
         addRows(m_dtable, scount-dcount, ADDROWS_BOTTOM);
     }
 
@@ -203,7 +190,6 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
     ptrdiff_t tmp_dj = 0;
 
     if ( m_manual ) {
-
         tmp_sj = ui->comboBox_AnotherParameter->currentIndex();
         tmp_dj = ui->comboBox_r49parameter->currentIndex();
     }
@@ -456,29 +442,23 @@ void DataImportDialog::combosUpdate(const QString &str) {
     //
 
     if (ui->comboBox_delimiter->currentText() == "tab") {
-
         m_delimiter = "\t";
     }
     else if (ui->comboBox_delimiter->currentText() == ";") {
-
         m_delimiter = ";";
     }
     else if (ui->comboBox_delimiter->currentText() == ",") {
-
         m_delimiter = ",";
     }
     else if (ui->comboBox_delimiter->currentText() == "space") {
-
         m_delimiter = " ";
     }
     else {
-
         QMessageBox::critical(
                     this,
                     "Qr49",
                     tr("Unknown delimiter for selected file parsing!")
                     );
-
         return;
     }
 
@@ -495,11 +475,9 @@ void DataImportDialog::combosUpdate(const QString &str) {
                 importedDataReader(new toxic::txDataReader());
 
         try{
-
             importedDataReader->readFile(m_dataFileName, m_delimiter);
         }
         catch(const toxic::txError &toxerr) {
-
             QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
             return;
         }
@@ -508,17 +486,14 @@ void DataImportDialog::combosUpdate(const QString &str) {
         m_headersImportedData = importedDataReader->val_headers();
 
         if (m_table_lid == 2) {
-
             ui->comboBox_r49parameter->
                     addItems(toxic::SRCDATACAPTIONS_EMISSIONS);
         }
         else if (m_table_lid == 3) {
-
             ui->comboBox_r49parameter->
                     addItems(toxic::SRCDATACAPTIONS_REDPOWER);
         }
         else {
-
             QMessageBox::critical(this,
                                   "Qr49",
                                   tr("Invalid destination table!")
@@ -526,7 +501,6 @@ void DataImportDialog::combosUpdate(const QString &str) {
         }
 
         if ( !m_headersImportedData.isEmpty() ) {
-
             ui->comboBox_AnotherParameter->
                     addItems(m_headersImportedData[0].split(m_delimiter));
         }
@@ -538,13 +512,10 @@ void DataImportDialog::on_pushButton_Close_clicked() {
     ui->plainTextEdit_importLog->clear();
 
     if ( m_destTableDataChanged ) {
-
         m_destTableDataChanged = false;
-
         accept();
     }
     else {
-
         reject();
     }
 }

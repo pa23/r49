@@ -5,7 +5,7 @@
 
     File: qr49.h
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include <QRegExp>
 #include <QPlainTextEdit>
 #include <QCheckBox>
+#include <QTranslator>
 
 #include "txCommonParameters.h"
 #include "txCalculationOptions.h"
@@ -58,14 +59,14 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
-
     Ui::MainWindow *ui;
 
+    bool launching = true;
+    QTranslator *translator;
     QSettings m_qr49settings;
     QMenu *m_contextMenu;
     QTableWidget *m_table;
@@ -123,11 +124,9 @@ private:
     QString appPath;
 
 protected:
-
      void closeEvent(QCloseEvent *event);
 
 private slots:
-
     void on_action_DataImport_triggered();
     void on_action_LoadSourceData_triggered();
     void on_action_SaveSourceData_triggered();
@@ -160,6 +159,8 @@ private slots:
     void on_action_InsertRowBelowCurrent_triggered();
     void on_action_DeleteSelectedRows_triggered();
     void on_action_Toolbar_triggered();
+    void on_action_English_triggered();
+    void on_action_Russian_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
     void on_action_Statistic_triggered();

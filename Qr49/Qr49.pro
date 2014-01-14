@@ -5,7 +5,7 @@
 #
 #    File: Qr49.pro
 #
-#    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.11.1
+VERSION = 3.12.0
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \

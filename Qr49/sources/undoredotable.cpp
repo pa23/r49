@@ -5,7 +5,7 @@
 
     File: undoredotable.cpp
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,7 +39,6 @@ void UndoRedoTable::saveState() {
     if ( (m_data.count() - m_position) > 1 ) {
 
         for ( ptrdiff_t i=(m_data.count()-1); i>m_position; i-- ) {
-
             m_data.remove(i);
         }
     }
@@ -50,7 +49,6 @@ void UndoRedoTable::saveState() {
     for ( ptrdiff_t i=0; i<m_table->rowCount(); i++ ) {
 
         for ( ptrdiff_t j=0; j<m_table->columnCount(); j++ ) {
-
             row.push_back(m_table->item(i, j)->text());
         }
 
@@ -69,18 +67,15 @@ void UndoRedoTable::undoTable() {
     m_position--;
 
     if ( m_table->rowCount() < m_data[m_position].count() ) {
-
         addRows(m_table, m_data[m_position].count()-m_table->rowCount(), ADDROWS_BOTTOM);
     }
     else if ( m_table->rowCount() > m_data[m_position].count() ) {
-
         m_table->setRowCount(m_data[m_position].count());
     }
 
     for ( ptrdiff_t i=0; i<m_data[m_position].count(); i++ ) {
 
         for ( ptrdiff_t j=0; j<m_data[m_position][i].count(); j++ ) {
-
             m_table->item(i, j)->setText(m_data[m_position][i][j]);
         }
     }

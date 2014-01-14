@@ -5,7 +5,7 @@
 
     File: checkoutdatadialog.h
 
-    Copyright (C) 2009-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,16 +31,13 @@ class CheckoutDataDialog : public QDialog {
     Q_OBJECT
 
 public:
-
     explicit CheckoutDataDialog(QWidget *parent = 0);
     ~CheckoutDataDialog();
 
 private:
-
     Ui::CheckoutDataDialogClass ui;
 
 private slots:
-
     void on_pushButton_SaveAs_clicked();
     void on_pushButton_Copy_clicked();
     void on_pushButton_AltCopy_clicked();

@@ -5,7 +5,7 @@
 
     File: txIdentification.cpp
 
-    Copyright (C) 2012-2013 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2012-2014 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ QString toxicIdentification::description() const {
 }
 
 QString toxicIdentification::copyrightYears() const {
-    return "2009-2013";
+    return "2009-2014";
 }
 
 QString toxicIdentification::authors() const {
