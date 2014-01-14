@@ -385,6 +385,7 @@ void MainWindow::writeProgramSettings() {
     m_qr49settings.setValue("/task_index", ui->comboBox_task->currentIndex());
     m_qr49settings.setValue("/Vh_value", ui->doubleSpinBox_Vh->value());
     m_qr49settings.setValue("/standard_index", ui->comboBox_standard->currentIndex());
+    m_qr49settings.setValue("/chargingType_index", ui->comboBox_chargingType->currentIndex());
     m_qr49settings.setValue("/fuelType_index", ui->comboBox_FuelType->currentIndex());
     m_qr49settings.setValue("/NOxSample_index", ui->comboBox_NOxSample->currentIndex());
     m_qr49settings.setValue("/PTcalc_index", ui->comboBox_PTcalc->currentIndex());
@@ -410,6 +411,7 @@ void MainWindow::readProgramSettings() {
     ui->comboBox_task->setCurrentIndex(m_qr49settings.value("/task_index", ui->comboBox_task->currentIndex()).toInt());
     ui->doubleSpinBox_Vh->setValue(m_qr49settings.value("/Vh_value", 0).toDouble());
     ui->comboBox_standard->setCurrentIndex(m_qr49settings.value("/standard_index", ui->comboBox_standard->currentIndex()).toInt());
+    ui->comboBox_chargingType->setCurrentIndex(m_qr49settings.value("/chargingType_index", ui->comboBox_chargingType->currentIndex()).toInt());
     ui->comboBox_FuelType->setCurrentIndex(m_qr49settings.value("/fuelType_index", ui->comboBox_FuelType->currentIndex()).toInt());
     ui->comboBox_NOxSample->setCurrentIndex(m_qr49settings.value("/NOxSample_index", ui->comboBox_NOxSample->currentIndex()).toInt());
     ui->comboBox_PTcalc->setCurrentIndex(m_qr49settings.value("/PTcalc_index", ui->comboBox_PTcalc->currentIndex()).toInt());
