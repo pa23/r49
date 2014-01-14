@@ -2741,8 +2741,10 @@ void MainWindow::on_action_AboutQr49_triggered() {
             + toxic::toxicIdentification{}.name()
             + " v"
             + toxic::toxicIdentification{}.version()
-            + "</b><br><br>Date of build: "
+            + "</b><br><br>Build: "
             + QString(__DATE__)
+            + " "
+            + QString(__TIME__)
             + "<br><br>Calculation of modes and specific emissions for "
             "stationary diesel engine test cycles (UN ECE Regulation No. 49, "
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
