@@ -2091,10 +2091,14 @@ void MainWindow::on_action_English_triggered() {
 
     writeProgramSettings();
 
+    tableCellChangedConnect(false);
+
     qApp->removeTranslator(translator);
     translator = new QTranslator(this);
     qApp->installTranslator(translator);
     ui->retranslateUi(this);
+
+    tableCellChangedConnect(true);
 
     readProgramSettings();
 }
@@ -2105,6 +2109,8 @@ void MainWindow::on_action_Russian_triggered() {
     ui->action_Russian->setChecked(true);
 
     writeProgramSettings();
+
+    tableCellChangedConnect(false);
 
     qApp->removeTranslator(translator);
     translator = new QTranslator(this);
@@ -2121,6 +2127,8 @@ void MainWindow::on_action_Russian_triggered() {
 
     qApp->installTranslator(translator);
     ui->retranslateUi(this);
+
+    tableCellChangedConnect(true);
 
     readProgramSettings();
 }
