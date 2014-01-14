@@ -208,10 +208,6 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Qr49</source>
-        <translation>Qr49</translation>
-    </message>
-    <message>
         <source>OST..EU2, r96**, GOST 30574 Cycle Points Calculation</source>
         <translation>Расчет точек циклов ОСТ..Евро-2, Правила 96**, ГОСТ 30574</translation>
     </message>
