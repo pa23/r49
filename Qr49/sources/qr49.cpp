@@ -2134,6 +2134,52 @@ void MainWindow::on_action_Russian_triggered() {
     readProgramSettings();
 }
 
+void MainWindow::on_action_OptimizeTalbleCells_triggered() {
+
+    m_table->resizeRowsToContents();
+    m_table->resizeColumnsToContents();
+}
+
+void MainWindow::on_action_ExpandTableColumns_triggered() {
+
+    ptrdiff_t maxWidth = 0;
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+
+        if ( m_table->columnWidth(i) > maxWidth ) {
+            maxWidth = m_table->columnWidth(i);
+        }
+    }
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+        m_table->setColumnWidth(i, maxWidth);
+    }
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+        m_table->setColumnWidth(i, maxWidth+1);
+    }
+}
+
+void MainWindow::on_action_ConstrictTableColumns_triggered() {
+
+    ptrdiff_t maxWidth = 0;
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+
+        if ( m_table->columnWidth(i) > maxWidth ) {
+            maxWidth = m_table->columnWidth(i);
+        }
+    }
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+        m_table->setColumnWidth(i, maxWidth);
+    }
+
+    for ( ptrdiff_t i=0; i<m_table->columnCount(); i++ ) {
+        m_table->setColumnWidth(i, maxWidth-1);
+    }
+}
+
 void MainWindow::on_action_Execute_triggered() {
 
     QVector< QVector<double> > array_DataForCalc;

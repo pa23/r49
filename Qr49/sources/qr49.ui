@@ -878,6 +878,10 @@
     </widget>
     <addaction name="action_Toolbar"/>
     <addaction name="menuLanguage"/>
+    <addaction name="separator"/>
+    <addaction name="action_OptimizeTalbleCells"/>
+    <addaction name="action_ExpandTableColumns"/>
+    <addaction name="action_ConstrictTableColumns"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -1531,7 +1535,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>237</width>
+          <width>286</width>
           <height>600</height>
          </rect>
         </property>
@@ -2596,6 +2600,30 @@
    </property>
    <property name="text">
     <string>Russian</string>
+   </property>
+  </action>
+  <action name="action_OptimizeTalbleCells">
+   <property name="text">
+    <string>Optimize talble cells</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+\</string>
+   </property>
+  </action>
+  <action name="action_ExpandTableColumns">
+   <property name="text">
+    <string>Expand table columns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+&gt;</string>
+   </property>
+  </action>
+  <action name="action_ConstrictTableColumns">
+   <property name="text">
+    <string>Constrict table columns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+&lt;</string>
    </property>
   </action>
  </widget>

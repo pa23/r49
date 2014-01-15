@@ -162,6 +162,9 @@ private slots:
     void on_action_Toolbar_triggered();
     void on_action_English_triggered();
     void on_action_Russian_triggered();
+    void on_action_OptimizeTalbleCells_triggered();
+    void on_action_ExpandTableColumns_triggered();
+    void on_action_ConstrictTableColumns_triggered();
     void on_action_Execute_triggered();
     void on_action_CheckoutData_triggered();
     void on_action_Statistic_triggered();

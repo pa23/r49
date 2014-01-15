@@ -1709,6 +1709,30 @@
         <source>Boost pressure after cooler</source>
         <translation>Давление наддувочного воздуха после охладителя</translation>
     </message>
+    <message>
+        <source>Optimize talble cells</source>
+        <translation>Оптимизировать размеры ячеек таблицы</translation>
+    </message>
+    <message>
+        <source>Ctrl+\</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Expand table columns</source>
+        <translation>Расширить колонки таблицы</translation>
+    </message>
+    <message>
+        <source>Ctrl+&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Constrict table columns</source>
+        <translation>Сузить колонки таблицы</translation>
+    </message>
+    <message>
+        <source>Ctrl+&lt;</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
