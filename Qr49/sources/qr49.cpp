@@ -92,9 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_regExp("[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?"),
 
     m_undoCount(0),
-    m_redoCount(0),
-
-    m_savingReportNeeded(false) {
+    m_redoCount(0) {
 
     ui->setupUi(this);
 
@@ -202,84 +200,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //
 
-    QFile excalibFont(":/fonts/fonts/excalib.ttf");
-    excalibFont.open(QIODevice::ReadOnly);
-
-    const ptrdiff_t fontid1 =
-            QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
-
-    excalibFont.close();
-
-    if ( fontid1 == -1 ) {
-
-        QMessageBox::warning(
-                    this,
-                    "Qr49",
-                    tr("Can not load monospaced font excalib.ttf "
-                       "from program resources!")
-                    );
-    }
-    else {
-
-        m_monospacedFont_8.setFamily(
-                    QFontDatabase::applicationFontFamilies(fontid1).first()
-                    );
-
-        m_monospacedFont_8.setPointSize(8);
-
-        m_monospacedFont_10.setFamily(
-                    QFontDatabase::applicationFontFamilies(fontid1).first()
-                    );
-
-        m_monospacedFont_10.setPointSize(10);
-
-        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
-
-        QPlainTextEdit *myPlainTextEdit_CheckoutData =
-                m_checkoutDataDialog->findChild<QPlainTextEdit *>
-                ("plainTextEdit_CheckoutData");
-
-        if ( !myPlainTextEdit_CheckoutData ) {
-
-            QMessageBox::critical(
-                        this,
-                        "Qr49",
-                        QString::fromLatin1(Q_FUNC_INFO)
-                        + ":::"
-                        + tr("Child object not found!")
-                        );
-
-            return;
-        }
-
-        myPlainTextEdit_CheckoutData->setFont(m_monospacedFont_10);
-    }
-
-    QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
-    dejavuFont.open(QIODevice::ReadOnly);
-
-    const ptrdiff_t fontid2 =
-            QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
-
-    dejavuFont.close();
-
-    if ( fontid2 == -1 ) {
-
-        QMessageBox::warning(
-                    this,
-                    "Qr49",
-                    tr("Can not load monospaced font DejaVuSansMono.ttf "
-                       "from program resources!")
-                    );
-    }
-    else {
-
-        m_dejavusansmonoFont_10.setFamily(
-                    QFontDatabase::applicationFontFamilies(fontid2).first()
-                    );
-
-        m_dejavusansmonoFont_10.setPointSize(10);
-    }
+    setFonts();
 
     //
 
@@ -373,6 +294,88 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     }
 
     event->accept();
+}
+
+void MainWindow::setFonts() {
+
+    QFile excalibFont(":/fonts/fonts/excalib.ttf");
+    excalibFont.open(QIODevice::ReadOnly);
+
+    const ptrdiff_t fontid1 =
+            QFontDatabase::addApplicationFontFromData(excalibFont.readAll());
+
+    excalibFont.close();
+
+    if ( fontid1 == -1 ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Can not load monospaced font excalib.ttf "
+                       "from program resources!")
+                    );
+    }
+    else {
+
+        m_monospacedFont_8.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid1).first()
+                    );
+
+        m_monospacedFont_8.setPointSize(8);
+
+        m_monospacedFont_10.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid1).first()
+                    );
+
+        m_monospacedFont_10.setPointSize(10);
+
+        ui->plainTextEdit_Report->setFont(m_monospacedFont_10);
+
+        QPlainTextEdit *myPlainTextEdit_CheckoutData =
+                m_checkoutDataDialog->findChild<QPlainTextEdit *>
+                ("plainTextEdit_CheckoutData");
+
+        if ( !myPlainTextEdit_CheckoutData ) {
+
+            QMessageBox::critical(
+                        this,
+                        "Qr49",
+                        QString::fromLatin1(Q_FUNC_INFO)
+                        + ":::"
+                        + tr("Child object not found!")
+                        );
+
+            return;
+        }
+
+        myPlainTextEdit_CheckoutData->setFont(m_monospacedFont_10);
+    }
+
+    QFile dejavuFont(":/fonts/fonts/DejaVuSansMono.ttf");
+    dejavuFont.open(QIODevice::ReadOnly);
+
+    const ptrdiff_t fontid2 =
+            QFontDatabase::addApplicationFontFromData(dejavuFont.readAll());
+
+    dejavuFont.close();
+
+    if ( fontid2 == -1 ) {
+
+        QMessageBox::warning(
+                    this,
+                    "Qr49",
+                    tr("Can not load monospaced font DejaVuSansMono.ttf "
+                       "from program resources!")
+                    );
+    }
+    else {
+
+        m_dejavusansmonoFont_10.setFamily(
+                    QFontDatabase::applicationFontFamilies(fontid2).first()
+                    );
+
+        m_dejavusansmonoFont_10.setPointSize(10);
+    }
 }
 
 void MainWindow::writeProgramSettings() {
@@ -2092,7 +2095,6 @@ void MainWindow::on_action_English_triggered() {
     ui->action_Russian->setChecked(false);
 
     writeProgramSettings();
-
     tableCellChangedConnect(false);
 
     qApp->removeTranslator(translator);
@@ -2101,7 +2103,6 @@ void MainWindow::on_action_English_triggered() {
     ui->retranslateUi(this);
 
     tableCellChangedConnect(true);
-
     readProgramSettings();
 }
 
@@ -2111,7 +2112,6 @@ void MainWindow::on_action_Russian_triggered() {
     ui->action_Russian->setChecked(true);
 
     writeProgramSettings();
-
     tableCellChangedConnect(false);
 
     qApp->removeTranslator(translator);
@@ -2131,7 +2131,6 @@ void MainWindow::on_action_Russian_triggered() {
     ui->retranslateUi(this);
 
     tableCellChangedConnect(true);
-
     readProgramSettings();
 }
 

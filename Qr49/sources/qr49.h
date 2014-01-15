@@ -91,11 +91,12 @@ private:
     ptrdiff_t m_undoCount;
     ptrdiff_t m_redoCount;
 
-    bool m_savingReportNeeded;
+    bool m_savingReportNeeded = false;
     QString m_changedReportFileName;
 
     bool eventFilter(QObject *, QEvent *);
     void contextMenuEvent(QContextMenuEvent *);
+    void setFonts();
     void readPreferences();
     void writeProgramSettings();
     void readProgramSettings();

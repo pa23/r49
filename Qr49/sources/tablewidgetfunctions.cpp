@@ -34,7 +34,13 @@ void addRows(
     ptrdiff_t n = 0;
 
     if ( mode == ADDROWS_ABOVE ) {
-        n = table->currentRow();
+
+        if ( table->rowCount() == 0 ) {
+            n = table->currentRow() + 1;
+        }
+        else {
+            n = table->currentRow();
+        }
     }
     else if ( mode == ADDROWS_BELOW ) {
         n = table->currentRow() + 1;

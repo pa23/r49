@@ -72,18 +72,13 @@
                <attribute name="verticalHeaderDefaultSectionSize">
                 <number>20</number>
                </attribute>
-               <row>
-                <property name="text">
-                 <string/>
-                </property>
-               </row>
                <column>
                 <property name="text">
                  <string>idle
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine idle speed.</string>
+                 <string>Engine idle speed</string>
                 </property>
                </column>
                <column>
@@ -92,7 +87,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine interim speed.</string>
+                 <string>Engine interim speed</string>
                 </property>
                </column>
                <column>
@@ -101,7 +96,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine rated speed.</string>
+                 <string>Engine rated speed</string>
                 </property>
                </column>
                <column>
@@ -110,7 +105,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Power to drive the fan at rated engine power.</string>
+                 <string>Power to drive the fan at rated engine power</string>
                 </property>
                </column>
                <column>
@@ -119,7 +114,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at interim speed.</string>
+                 <string>Engine power at interim speed</string>
                 </property>
                </column>
                <column>
@@ -128,39 +123,9 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Rated engine power.</string>
+                 <string>Rated engine power</string>
                 </property>
                </column>
-               <item row="0" column="0">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="1">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="2">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="3">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="4">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="5">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
@@ -192,18 +157,13 @@
                <attribute name="verticalHeaderDefaultSectionSize">
                 <number>20</number>
                </attribute>
-               <row>
-                <property name="text">
-                 <string/>
-                </property>
-               </row>
                <column>
                 <property name="text">
                  <string>n_hi
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>High engine speed (70% of rated power).</string>
+                 <string>High engine speed (70% of rated power)</string>
                 </property>
                </column>
                <column>
@@ -212,7 +172,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Low engine speed (50% of rated power).</string>
+                 <string>Low engine speed (50% of rated power)</string>
                 </property>
                </column>
                <column>
@@ -221,7 +181,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine idle speed.</string>
+                 <string>Engine idle speed</string>
                 </property>
                </column>
                <column>
@@ -230,7 +190,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine rated speed.</string>
+                 <string>Engine rated speed</string>
                 </property>
                </column>
                <column>
@@ -239,7 +199,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Power to drive the fan at rated engine power.</string>
+                 <string>Power to drive the fan at rated engine power</string>
                 </property>
                </column>
                <column>
@@ -248,7 +208,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed A.</string>
+                 <string>Engine power at speed A</string>
                 </property>
                </column>
                <column>
@@ -257,7 +217,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed B.</string>
+                 <string>Engine power at speed B</string>
                 </property>
                </column>
                <column>
@@ -266,7 +226,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed C.</string>
+                 <string>Engine power at speed C</string>
                 </property>
                </column>
                <column>
@@ -275,7 +235,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed a1.</string>
+                 <string>Engine power at speed a1</string>
                 </property>
                </column>
                <column>
@@ -284,7 +244,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed a2.</string>
+                 <string>Engine power at speed a2</string>
                 </property>
                </column>
                <column>
@@ -293,64 +253,9 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine power at speed a3.</string>
+                 <string>Engine power at speed a3</string>
                 </property>
                </column>
-               <item row="0" column="0">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="1">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="2">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="3">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="4">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="5">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="6">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="7">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="8">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="9">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
-               <item row="0" column="10">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
@@ -389,7 +294,7 @@
 [-]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Cycle point.</string>
+                 <string>Cycle point</string>
                 </property>
                </column>
                <column>
@@ -398,7 +303,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine speed.</string>
+                 <string>Engine speed</string>
                 </property>
                </column>
                <column>
@@ -407,7 +312,7 @@
 [Nm]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine effective torque (brutto).</string>
+                 <string>Engine effective torque (brutto)</string>
                 </property>
                </column>
                <column>
@@ -416,7 +321,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine effective power (brutto).</string>
+                 <string>Engine effective power (brutto)</string>
                 </property>
                </column>
                <column>
@@ -425,7 +330,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Power to drive the fan.</string>
+                 <string>Power to drive the fan</string>
                 </property>
                </column>
                <column>
@@ -434,7 +339,7 @@
 [-]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Weighting coefficient for cycle point.</string>
+                 <string>Weighting coefficient for cycle point</string>
                 </property>
                </column>
                <column>
@@ -443,7 +348,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Environment temperature.</string>
+                 <string>Environment temperature</string>
                 </property>
                </column>
                <column>
@@ -452,7 +357,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Barometric pressure.</string>
+                 <string>Barometric pressure</string>
                 </property>
                </column>
                <column>
@@ -461,7 +366,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Relative air humidity.</string>
+                 <string>Relative air humidity</string>
                 </property>
                </column>
                <column>
@@ -470,7 +375,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Negative pressure on the measuring nozzle.</string>
+                 <string>Negative pressure on the measuring nozzle</string>
                 </property>
                </column>
                <column>
@@ -479,7 +384,7 @@
 [kg/h]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Air mass flow.</string>
+                 <string>Air mass flow</string>
                 </property>
                </column>
                <column>
@@ -488,7 +393,7 @@
 [kg/h]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Fuel mass flow.</string>
+                 <string>Fuel mass flow</string>
                 </property>
                </column>
                <column>
@@ -497,7 +402,7 @@
 [ppm]</string>
                 </property>
                 <property name="toolTip">
-                 <string>NOx concentration in exhaust gases.</string>
+                 <string>NOx concentration in exhaust gases</string>
                 </property>
                </column>
                <column>
@@ -506,7 +411,7 @@
 [g/kWh]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Specific NOx emission.</string>
+                 <string>Specific NOx emission</string>
                 </property>
                </column>
                <column>
@@ -515,7 +420,7 @@
 [ppm]</string>
                 </property>
                 <property name="toolTip">
-                 <string>CO concentration in exhaust gases.</string>
+                 <string>CO concentration in exhaust gases</string>
                 </property>
                </column>
                <column>
@@ -524,7 +429,7 @@
 [ppm]</string>
                 </property>
                 <property name="toolTip">
-                 <string>CH concentration in exhaust gases.</string>
+                 <string>CH concentration in exhaust gases</string>
                 </property>
                </column>
                <column>
@@ -533,7 +438,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>CO2 concentration in intake pipe of engine.</string>
+                 <string>CO2 concentration in intake pipe of engine</string>
                 </property>
                </column>
                <column>
@@ -542,7 +447,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>CO2 concentration in exhaust gases.</string>
+                 <string>CO2 concentration in exhaust gases</string>
                 </property>
                </column>
                <column>
@@ -551,7 +456,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>O2 concentration in exhaust gases.</string>
+                 <string>O2 concentration in exhaust gases</string>
                 </property>
                </column>
                <column>
@@ -560,7 +465,7 @@
 [m-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Opacity value.</string>
+                 <string>Opacity value</string>
                 </property>
                </column>
                <column>
@@ -569,7 +474,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Opacity value.</string>
+                 <string>Opacity value</string>
                 </property>
                </column>
                <column>
@@ -578,7 +483,7 @@
 [-]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Filter smoke number.</string>
+                 <string>Filter smoke number</string>
                 </property>
                </column>
                <column>
@@ -587,7 +492,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Backpressure.</string>
+                 <string>Backpressure</string>
                 </property>
                </column>
                <column>
@@ -596,7 +501,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Smart sampler probe temperatire.</string>
+                 <string>Smart sampler probe temperatire</string>
                 </property>
                </column>
                <column>
@@ -605,7 +510,7 @@
 [s]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Filter response time.</string>
+                 <string>Filter response time</string>
                 </property>
                </column>
                <column>
@@ -614,7 +519,7 @@
 [g/s]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Dilution air mass flow rate on wet basis.</string>
+                 <string>Dilution air mass flow rate on wet basis</string>
                 </property>
                </column>
                <column>
@@ -623,7 +528,7 @@
 [g/s]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Diluted exhaust gas mass flow rate on wet basis.</string>
+                 <string>Diluted exhaust gas mass flow rate on wet basis</string>
                 </property>
                </column>
                <column>
@@ -632,7 +537,7 @@
 [-]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Dilution ratio.</string>
+                 <string>Dilution ratio</string>
                 </property>
                </column>
               </widget>
@@ -667,7 +572,7 @@
 [-]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Cycle point.</string>
+                 <string>Cycle point</string>
                 </property>
                </column>
                <column>
@@ -676,7 +581,7 @@
 [min-1]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine speed.</string>
+                 <string>Engine speed</string>
                 </property>
                </column>
                <column>
@@ -685,7 +590,7 @@
 [Nm]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Engine effective torque (brutto).</string>
+                 <string>Engine effective torque (brutto)</string>
                 </property>
                </column>
                <column>
@@ -694,7 +599,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Environment temperature.</string>
+                 <string>Environment temperature</string>
                 </property>
                </column>
                <column>
@@ -703,7 +608,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Barometric pressure.</string>
+                 <string>Barometric pressure</string>
                 </property>
                </column>
                <column>
@@ -712,7 +617,7 @@
 [%]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Relative air humidity.</string>
+                 <string>Relative air humidity</string>
                 </property>
                </column>
                <column>
@@ -721,7 +626,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Negative pressure in the intake pipe.</string>
+                 <string>Negative pressure in the intake pipe</string>
                 </property>
                </column>
                <column>
@@ -730,7 +635,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Boost pressure.</string>
+                 <string>Boost pressure</string>
                 </property>
                </column>
                <column>
@@ -739,7 +644,7 @@
 [kg/h]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Fuel mass flow.</string>
+                 <string>Fuel mass flow</string>
                 </property>
                </column>
                <column>
@@ -748,7 +653,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Power expended on drive of auxiliary units.</string>
+                 <string>Power expended on drive of auxiliary units</string>
                 </property>
                </column>
                <column>
@@ -757,7 +662,7 @@
 [kW]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Power to drive the fan.</string>
+                 <string>Power to drive the fan</string>
                 </property>
                </column>
                <column>
@@ -766,7 +671,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Cooland fluid temperature.</string>
+                 <string>Cooland fluid temperature</string>
                 </property>
                </column>
                <column>
@@ -775,7 +680,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Oil temperature.</string>
+                 <string>Oil temperature</string>
                 </property>
                </column>
                <column>
@@ -784,7 +689,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Boost temperature.</string>
+                 <string>Boost temperature</string>
                 </property>
                </column>
                <column>
@@ -793,7 +698,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Boost temperature after cooler.</string>
+                 <string>Boost temperature after cooler</string>
                 </property>
                </column>
                <column>
@@ -802,7 +707,7 @@
 [oC]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Fuel temperature.</string>
+                 <string>Fuel temperature</string>
                 </property>
                </column>
                <column>
@@ -811,7 +716,7 @@
 [kPa]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Boost pressure after cooler.</string>
+                 <string>Boost pressure after cooler</string>
                 </property>
                </column>
                <column>
@@ -820,7 +725,7 @@
 [kg/h]</string>
                 </property>
                 <property name="toolTip">
-                 <string>Air mass flow.</string>
+                 <string>Air mass flow</string>
                 </property>
                </column>
               </widget>
