@@ -2104,6 +2104,8 @@ void MainWindow::on_action_English_triggered() {
 
     tableCellChangedConnect(true);
     readProgramSettings();
+
+    getUndoRedoCounters(m_table);
 }
 
 void MainWindow::on_action_Russian_triggered() {
@@ -2132,6 +2134,8 @@ void MainWindow::on_action_Russian_triggered() {
 
     tableCellChangedConnect(true);
     readProgramSettings();
+
+    getUndoRedoCounters(m_table);
 }
 
 void MainWindow::on_action_OptimizeTalbleCells_triggered() {
