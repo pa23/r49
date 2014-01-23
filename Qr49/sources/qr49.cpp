@@ -2801,6 +2801,7 @@ void MainWindow::on_action_AboutQr49_triggered() {
             "51249-99)."
             "<br><br>Copyright (C) 2009-2014 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
+            "<br><br>Special thanks to Dmitry Epaneshnikov for a set of icons."
             "<br><br>Source code hosting: <a href= \"https://github.com/pa23/r49\">"
             "https://github.com/pa23/r49</a>"
             "<br>Author's blog (RU): "
