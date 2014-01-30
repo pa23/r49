@@ -33,6 +33,7 @@ class FilterMassDialog : public QDialog {
 public:
     explicit FilterMassDialog(QWidget *parent = 0);
     ~FilterMassDialog();
+    void retranslate();
 
 private:
     Ui::FilterMassDialog ui;

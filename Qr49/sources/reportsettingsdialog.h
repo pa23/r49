@@ -35,6 +35,7 @@ class ReportSettingsDialog : public QDialog {
 public:
     explicit ReportSettingsDialog(QWidget *parent = 0);
     ~ReportSettingsDialog();
+    void retranslate();
 
 private slots:
     void on_pushButton_OK_clicked();

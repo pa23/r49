@@ -36,8 +36,6 @@
 #include <QVector>
 #include <QDateTime>
 
-#include <QDebug>
-
 #include "txDataReader.h"
 #include "txError.h"
 #include "txConstants.h"
@@ -69,8 +67,11 @@ DataImportDialog::DataImportDialog(QWidget *parent) :
 }
 
 DataImportDialog::~DataImportDialog() {
-
     delete ui;
+}
+
+void DataImportDialog::retranslate() {
+    ui->retranslateUi(this);
 }
 
 void DataImportDialog::init(const ptrdiff_t tlid,

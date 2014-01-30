@@ -37,6 +37,10 @@ CheckoutDataDialog::CheckoutDataDialog(QWidget *parent) :
 CheckoutDataDialog::~CheckoutDataDialog() {
 }
 
+void CheckoutDataDialog::retranslate() {
+    ui.retranslateUi(this);
+}
+
 void CheckoutDataDialog::on_pushButton_SaveAs_clicked() {
 
     const QString newCheckoutDataFileName(

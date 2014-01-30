@@ -29,3 +29,7 @@ ValueDialog::ValueDialog(QWidget *parent) :
 
 ValueDialog::~ValueDialog() {
 }
+
+void ValueDialog::retranslate() {
+    ui.retranslateUi(this);
+}

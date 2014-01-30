@@ -29,3 +29,7 @@ FilterMassDialog::FilterMassDialog(QWidget *parent) :
 
 FilterMassDialog::~FilterMassDialog() {
 }
+
+void FilterMassDialog::retranslate() {
+    ui.retranslateUi(this);
+}

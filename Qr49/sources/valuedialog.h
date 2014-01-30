@@ -33,6 +33,7 @@ class ValueDialog : public QDialog {
 public:
     explicit ValueDialog(QWidget *parent = 0);
     ~ValueDialog();
+    void retranslate();
 
 private:
     Ui::ValueDialog ui;

@@ -38,6 +38,10 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 PreferencesDialog::~PreferencesDialog() {
 }
 
+void PreferencesDialog::retranslate() {
+    ui.retranslateUi(this);
+}
+
 void PreferencesDialog::on_pushButton_dirnameReports_clicked() {
 
     const QString anotherDirnameReports(

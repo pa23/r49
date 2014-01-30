@@ -33,6 +33,7 @@ class PreferencesDialog : public QDialog {
 public:
     explicit PreferencesDialog(QWidget *parent = 0);
     ~PreferencesDialog();
+    void retranslate();
 
 private:
     Ui::PreferencesDialogClass ui;

@@ -42,6 +42,7 @@ class DataImportDialog : public QDialog {
 public:
     explicit DataImportDialog(QWidget *parent = 0);
     ~DataImportDialog();
+    void retranslate();
 
     void init(const ptrdiff_t, // table local id
               QTableWidget *);

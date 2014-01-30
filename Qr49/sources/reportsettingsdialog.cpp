@@ -35,8 +35,11 @@ ReportSettingsDialog::ReportSettingsDialog(QWidget *parent) :
 }
 
 ReportSettingsDialog::~ReportSettingsDialog() {
-
     delete ui;
+}
+
+void ReportSettingsDialog::retranslate() {
+    ui->retranslateUi(this);
 }
 
 void ReportSettingsDialog::on_pushButton_OK_clicked() {

@@ -2100,7 +2100,14 @@ void MainWindow::on_action_English_triggered() {
     qApp->removeTranslator(translator);
     translator = new QTranslator(this);
     qApp->installTranslator(translator);
+
     ui->retranslateUi(this);
+    m_filterMassDialog->retranslate();
+    m_valueDialog->retranslate();
+    m_preferencesDialog->retranslate();
+    m_checkoutDataDialog->retranslate();
+    m_dataImportDialog->retranslate();
+    m_reportsetdialog->retranslate();
 
     tableCellChangedConnect(true);
     readProgramSettings();
@@ -2130,7 +2137,14 @@ void MainWindow::on_action_Russian_triggered() {
     }
 
     qApp->installTranslator(translator);
+
     ui->retranslateUi(this);
+    m_filterMassDialog->retranslate();
+    m_valueDialog->retranslate();
+    m_preferencesDialog->retranslate();
+    m_checkoutDataDialog->retranslate();
+    m_dataImportDialog->retranslate();
+    m_reportsetdialog->retranslate();
 
     tableCellChangedConnect(true);
     readProgramSettings();

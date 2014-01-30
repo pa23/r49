@@ -33,6 +33,7 @@ class CheckoutDataDialog : public QDialog {
 public:
     explicit CheckoutDataDialog(QWidget *parent = 0);
     ~CheckoutDataDialog();
+    void retranslate();
 
 private:
     Ui::CheckoutDataDialogClass ui;
