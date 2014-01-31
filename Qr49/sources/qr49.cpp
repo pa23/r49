@@ -1832,12 +1832,23 @@ void MainWindow::on_action_PasteToTable_triggered() {
 
     //
 
-    const ptrdiff_t destRows = m_table->rowCount() - m_table->currentRow();
+    ptrdiff_t destRows = 0;
+
+    if ( m_table->currentRow() < 0 ) {
+        destRows = m_table->rowCount();
+    }
+    else {
+        destRows = m_table->rowCount() - m_table->currentRow();
+    }
 
     tableCellChangedConnect(false);
 
     if ( numRows > destRows ) {
         addRows(m_table, numRows-destRows, ADDROWS_BOTTOM);
+    }
+
+    if ( (m_table->rowCount() > 0) && (m_table->currentRow() < 0) ) {
+        m_table->setCurrentCell(0, 0);
     }
 
     //
@@ -1849,7 +1860,7 @@ void MainWindow::on_action_PasteToTable_triggered() {
         for ( ptrdiff_t j=0; j<numColumns; j++ ) {
 
             m_table->item(m_table->currentRow(),
-                        m_table->currentColumn()+j)->setText(columns[j]);
+                          m_table->currentColumn()+j)->setText(columns[j]);
         }
     }
     else {
@@ -1861,7 +1872,7 @@ void MainWindow::on_action_PasteToTable_triggered() {
             for ( ptrdiff_t j=0; j<numColumns; j++ ) {
 
                 m_table->item(m_table->currentRow()+i,
-                            m_table->currentColumn()+j)->setText(columns[j]);
+                              m_table->currentColumn()+j)->setText(columns[j]);
             }
         }
     }
@@ -1873,7 +1884,6 @@ void MainWindow::on_action_PasteToTable_triggered() {
 void MainWindow::on_action_DeleteFromTable_triggered() {
 
     if ( m_table->selectedRanges().isEmpty() ) {
-
         return;
     }
 

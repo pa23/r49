@@ -34,23 +34,20 @@ void addRows(
     ptrdiff_t n = 0;
 
     if ( mode == ADDROWS_ABOVE ) {
-
-        if ( table->rowCount() == 0 ) {
-            n = table->currentRow() + 1;
-        }
-        else {
+        if ( table->currentRow() > -1 ) {
             n = table->currentRow();
         }
     }
     else if ( mode == ADDROWS_BELOW ) {
-        n = table->currentRow() + 1;
+        if ( table->currentRow() > -1 ) {
+            n = table->currentRow() + 1;
+        }
     }
     else if ( mode == ADDROWS_BOTTOM ) {
         n = table->rowCount();
     }
 
     for ( ptrdiff_t i=0; i<newRowsNumber; i++ ) {
-
         table->insertRow(n);
         formatRow(table, n);
     }
@@ -62,7 +59,6 @@ void formatRow(QTableWidget *table, ptrdiff_t i) {
     //table->verticalHeader()->setDefaultAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     for ( ptrdiff_t j=0; j<table->columnCount(); j++ ) {
-
         table->setItem(i, j, new QTableWidgetItem("0"));
         table->item(i, j)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
