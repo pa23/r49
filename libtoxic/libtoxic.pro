@@ -5,7 +5,7 @@
 #
 #    File: libtoxic.pro
 #
-#    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2016 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ TARGET = toxic
 
 TEMPLATE = lib
 
-VERSION = 7.5.3
+VERSION = 7.5.4
 
 HEADERS += \
     sources/txAuxiliaryFunctions.h \

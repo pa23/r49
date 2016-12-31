@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>282</width>
+    <width>288</width>
     <height>166</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Qr49: PT Filter Mass</string>
+   <string>PT Filter Mass</string>
   </property>
   <property name="windowIcon">
    <iconset resource="qr49.qrc">

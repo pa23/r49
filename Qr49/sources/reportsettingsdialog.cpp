@@ -5,7 +5,7 @@
 
     File: reportsettingsdialog.cpp
 
-    Copyright (C) 2013-2014 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2013-2016 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 #include "reportsettingsdialog.h"
 #include "ui_reportsettingsdialog.h"
+#include "constants.h"
 
 #include <QString>
 #include <QFile>
@@ -50,7 +51,7 @@ void ReportSettingsDialog::on_pushButton_OK_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("Engine description could not be saved!")
                     );
         return;
@@ -67,7 +68,7 @@ void ReportSettingsDialog::on_pushButton_OK_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("Technical fluids description could not be saved!")
                     );
         return;

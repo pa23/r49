@@ -5,7 +5,7 @@
 
     File: txEmissionsOnR49R96.cpp
 
-    Copyright (C) 2012-2014 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2012-2016 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1483,8 +1483,9 @@ QString txEmissionsOnR49R96::saveReportGAS() const {
                  << ma_mCH[i];
         }
 
-        if ( ptcalc == PTCALC_THROUGHSMOKE ||
-             ptcalc == PTCALC_THROUGHSMOKEANDPTMASS ) {
+        if ( m_gPTcalc == GPTCALC_YES &&
+             (ptcalc == PTCALC_THROUGHSMOKE ||
+              ptcalc == PTCALC_THROUGHSMOKEANDPTMASS) ) {
             fout << ma_gPT[i];
         }
 

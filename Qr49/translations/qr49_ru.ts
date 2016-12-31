@@ -15,10 +15,6 @@
 <context>
     <name>CheckoutDataDialogClass</name>
     <message>
-        <source>Qr49: Checkout Data</source>
-        <translation>Qr49: Отладочные данные</translation>
-    </message>
-    <message>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
@@ -38,13 +34,13 @@
         <source>Alt Copy</source>
         <translation>Копировать (НАМИ)</translation>
     </message>
+    <message>
+        <source>Checkout Data</source>
+        <translation>Отладочные данные</translation>
+    </message>
 </context>
 <context>
     <name>DataImportDialog</name>
-    <message>
-        <source>Qr49: Data import</source>
-        <translation>Qr49: Импорт данных</translation>
-    </message>
     <message>
         <source>Data file</source>
         <translation>Файл с данными</translation>
@@ -173,13 +169,13 @@
         <source>Save template...</source>
         <translation>Сохранить шаблон...</translation>
     </message>
+    <message>
+        <source>Data import</source>
+        <translation>Импорт данных</translation>
+    </message>
 </context>
 <context>
     <name>FilterMassDialog</name>
-    <message>
-        <source>Qr49: PT Filter Mass</source>
-        <translation>Qr49: массы фильтров ТЧ</translation>
-    </message>
     <message>
         <source>1st Filter Weight (Clean), mg</source>
         <translation>Вес 1-го фильтра (чистый), мг</translation>
@@ -203,6 +199,10 @@
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>PT Filter Mass</source>
+        <translation>Массы фильтров ТЧ</translation>
     </message>
 </context>
 <context>
@@ -240,22 +240,6 @@
         <translation>О библиотеке Qt</translation>
     </message>
     <message>
-        <source>Qr49: add</source>
-        <translation>Qr49: Прибавить</translation>
-    </message>
-    <message>
-        <source>Qr49: multiply</source>
-        <translation>Qr49: умножить</translation>
-    </message>
-    <message>
-        <source>Qr49: divide</source>
-        <translation>Qr49: разделить</translation>
-    </message>
-    <message>
-        <source>Qr49: equal</source>
-        <translation>Qr49: равно</translation>
-    </message>
-    <message>
         <source>No selected cells!</source>
         <translation>Нет выбранных ячеек!</translation>
     </message>
@@ -274,10 +258,6 @@
     <message>
         <source>Unknown calculation task!</source>
         <translation>Неизвестная задача!</translation>
-    </message>
-    <message>
-        <source>About Qr49</source>
-        <translation>О программе Qr49</translation>
     </message>
     <message>
         <source>Illegal table cell value!</source>
@@ -1228,10 +1208,6 @@
         <translation>Рандомизировать...</translation>
     </message>
     <message>
-        <source>Qr49: randomize</source>
-        <translation>Qr49: рандомизировать</translation>
-    </message>
-    <message>
         <source>Lower accuracy</source>
         <translation>Понизить точность</translation>
     </message>
@@ -1733,6 +1709,30 @@
         <source>Ctrl+&lt;</source>
         <translation></translation>
     </message>
+    <message>
+        <source>About program</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>Addition</source>
+        <translation>Сложение</translation>
+    </message>
+    <message>
+        <source>Multiplication</source>
+        <translation>Умножение</translation>
+    </message>
+    <message>
+        <source>Division</source>
+        <translation>Деление</translation>
+    </message>
+    <message>
+        <source>Equality</source>
+        <translation>Равенство</translation>
+    </message>
+    <message>
+        <source>Randomization</source>
+        <translation>Рандомизация</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1751,10 +1751,6 @@
 </context>
 <context>
     <name>PreferencesDialogClass</name>
-    <message>
-        <source>Qr49: Preferences</source>
-        <translation>Qr49: Параметры</translation>
-    </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
@@ -1879,13 +1875,13 @@
         <source>r49data/TempSourceData/SourceData3-FullLoadCurve.dat</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Настройки</translation>
+    </message>
 </context>
 <context>
     <name>ReportSettingsDialog</name>
-    <message>
-        <source>Qr49: Report settings</source>
-        <translation>Qr49: Настройки отчетов</translation>
-    </message>
     <message>
         <source>Engine description</source>
         <translation>Описание двигателя</translation>
@@ -1927,13 +1923,13 @@
         <source>Technical fluids description could not be saved!</source>
         <translation>Не могу сохранить описание технических жидкостей!</translation>
     </message>
+    <message>
+        <source>Report settings</source>
+        <translation>Настройки отчетов</translation>
+    </message>
 </context>
 <context>
     <name>ValueDialog</name>
-    <message>
-        <source>Qr49: </source>
-        <translation>Qr49: </translation>
-    </message>
     <message>
         <source>Value</source>
         <translation>Значение</translation>

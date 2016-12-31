@@ -20,7 +20,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Qr49: Preferences</string>
+   <string>Preferences</string>
   </property>
   <property name="windowIcon">
    <iconset resource="qr49.qrc">

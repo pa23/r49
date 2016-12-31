@@ -5,7 +5,7 @@
 #
 #    File: Qr49.pro
 #
-#    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
+#    Copyright (C) 2009-2016 Artem Petrov <pa2311@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,10 +25,7 @@ TARGET = Qr49
 
 TEMPLATE = app
 
-VERSION = 3.12.5
-VER_MAJ = 3
-VER_MIN = 12
-VER_PAT = 5
+VERSION = 3.12.6
 
 SOURCES += sources/preferencesdialog.cpp \
     sources/undoredotable.cpp \
@@ -61,8 +58,6 @@ FORMS += sources/preferencesdialog.ui \
     sources/reportsettingsdialog.ui
 
 RESOURCES = sources/qr49.qrc
-
-TRANSLATIONS = translations/qr49_ru.ts
 
 RC_FILE += sources/qr49.rc
 
@@ -112,11 +107,15 @@ win32: {
     }
 }
 
+TRANSLATIONS = translations/qr49_ru.ts
+
 updateqm.input = TRANSLATIONS
 updateqm.output = qr49_ru.qm
-updateqm.commands = \
-    lrelease Qr49.pro &&\
-    $(MKDIR) ${DESTDIR}langs/ &&\
-    $(COPY) translations/*.qm ${DESTDIR}langs/
+unix: {
+    updateqm.commands = lrelease Qr49.pro && $(MKDIR) ${DESTDIR}/langs && $(COPY) translations/*.qm ${DESTDIR}/langs
+}
+win32: {
+    updateqm.commands = lrelease Qr49.pro && $(MKDIR) ${DESTDIR}\\langs && $(COPY) translations\\*.qm ${DESTDIR}\\langs
+}
 updateqm.CONFIG += no_link target_predeps
 QMAKE_EXTRA_COMPILERS += updateqm

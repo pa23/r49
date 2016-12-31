@@ -5,7 +5,7 @@
 
     File: dataimportdialog.cpp
 
-    Copyright (C) 2009-2014 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2016 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -104,7 +104,7 @@ void DataImportDialog::init(const ptrdiff_t tlid,
             if ( !commondir.mkdir(commondir.absolutePath()) ) {
                 QMessageBox::critical(
                             this,
-                            "Qr49",
+                            QR49NAME,
                             tr("Can not create common directory!")
                             );
                 return;
@@ -120,7 +120,7 @@ void DataImportDialog::init(const ptrdiff_t tlid,
         else {
             QMessageBox::critical(
                         this,
-                        "Qr49",
+                        QR49NAME,
                         tr("Can not create directory for templates!")
                         );
             return;
@@ -150,7 +150,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     if ( !m_dtable ) {
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("Invalid pointer to the destination table!")
                     );
         return;
@@ -172,7 +172,7 @@ void DataImportDialog::on_pushButton_SelectDataFile_clicked() {
     }
     else {
         QMessageBox::critical(this,
-                              "Qr49",
+                              QR49NAME,
                               tr("You have to select data file!")
                               );
     }
@@ -204,7 +204,7 @@ void DataImportDialog::on_pushButton_NextManual_clicked() {
 
             QMessageBox::warning(
                         this,
-                        "Qr49",
+                        QR49NAME,
                         tr("Wrong index! Copying skipped!")
                         );
             return;
@@ -269,7 +269,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
     if ( !templFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
-        QMessageBox::critical(this, "Qr49", "Can not open selected template file!");
+        QMessageBox::critical(this, QR49NAME, "Can not open selected template file!");
         m_manual = true;
         return;
     }
@@ -291,7 +291,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
         if ( templstrlst.size() != 2 ) {
 
-            QMessageBox::critical(this, "Qr49", "Incorrect template file!");
+            QMessageBox::critical(this, QR49NAME, "Incorrect template file!");
             templFile.close();
             m_manual = true;
             return;
@@ -305,7 +305,7 @@ void DataImportDialog::on_pushButton_NextAuto_clicked() {
 
     if ( capts_49.isEmpty() || capts_a.isEmpty() ) {
 
-        QMessageBox::critical(this, "Qr49", "Incorrect or empty template file!");
+        QMessageBox::critical(this, QR49NAME, "Incorrect or empty template file!");
         m_manual = true;
         return;
     }
@@ -354,7 +354,7 @@ void DataImportDialog::on_pushButton_OpenTemplate_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("File not selected!")
                     );
         return;
@@ -366,7 +366,7 @@ void DataImportDialog::on_pushButton_OpenTemplate_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     templFile.fileName()
                     + tr(" could not be opened!")
                     );
@@ -385,7 +385,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
         QMessageBox::information(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("Template is empty!")
                     );
         return;
@@ -405,7 +405,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("File not selected!")
                     );
         return;
@@ -417,7 +417,7 @@ void DataImportDialog::on_pushButton_SaveTemplate_clicked() {
 
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     savedTemplate.fileName()
                     + tr(" could not be opened!")
                     );
@@ -457,7 +457,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
     else {
         QMessageBox::critical(
                     this,
-                    "Qr49",
+                    QR49NAME,
                     tr("Unknown delimiter for selected file parsing!")
                     );
         return;
@@ -479,7 +479,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
             importedDataReader->readFile(m_dataFileName, m_delimiter);
         }
         catch(const toxic::txError &toxerr) {
-            QMessageBox::critical(this, "Qr49", toxerr.val_toxicErrMsg());
+            QMessageBox::critical(this, QR49NAME, toxerr.val_toxicErrMsg());
             return;
         }
 
@@ -496,7 +496,7 @@ void DataImportDialog::combosUpdate(const QString &str) {
         }
         else {
             QMessageBox::critical(this,
-                                  "Qr49",
+                                  QR49NAME,
                                   tr("Invalid destination table!")
                                   );
         }

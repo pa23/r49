@@ -5,7 +5,7 @@
 
     File: tablewidgetfunctions.cpp
 
-    Copyright (C) 2011-2014 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2011-2016 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
