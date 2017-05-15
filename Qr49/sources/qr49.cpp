@@ -5,7 +5,7 @@
 
     File: qr49.cpp
 
-    Copyright (C) 2009-2016 Artem Petrov <pa2311@gmail.com>
+    Copyright (C) 2009-2017 Artem Petrov <pa2311@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@
 #include <QDesktopServices>
 #include <QDateTime>
 #include <QTranslator>
+#include <QDirIterator>
 
 #include <regex>
 
@@ -2320,15 +2321,14 @@ void MainWindow::on_action_Execute_triggered() {
 
             m_lastReportsDir = myEmissions->lastReportDir();
 
-            const QString csvfilter("*.dat");
-            QStringList csvfiles(m_lastReportsDir.entryList(
-                                     QDir::nameFiltersFromString(csvfilter),
-                                     QDir::Files,
-                                     QDir::Time)
-                                 );
-
-            m_lastCheckoutDataFileName =
-                    m_lastReportsDir.absoluteFilePath(csvfiles.first());
+            QDirIterator dit(m_lastReportsDir, QDirIterator::NoIteratorFlags);
+            while ( dit.hasNext() ) {
+                const QString ditem = dit.next();
+                if ( dit.fileName().startsWith("CheckoutData") ) {
+                    m_lastCheckoutDataFileName = ditem;
+                    break;
+                }
+            }
 
             //
 
@@ -2350,13 +2350,24 @@ void MainWindow::on_action_Execute_triggered() {
                     QMessageBox::warning(this, QR49NAME, tr("Cannot find the report files!"));
                 }
 
-                if ( reports.size() > 1 ) {
-                    ui->comboBox_OpenedReports->
-                            insertItem(0, m_lastReportsDir.absoluteFilePath(reports[1]));
+                QString repgas;
+                QString reppt;
+                QDirIterator dit(m_lastReportsDir, QDirIterator::NoIteratorFlags);
+                while ( dit.hasNext() ) {
+                    const QString ditem = dit.next();
+                    if ( dit.fileName().startsWith("ReportGAS") ) {
+                        repgas = ditem;
+                    }
+                    else if ( dit.fileName().startsWith("ReportPT") ) {
+                        reppt = ditem;
+                    }
                 }
 
-                m_lastReportFileName =
-                        m_lastReportsDir.absoluteFilePath(reports.first());
+                if ( !reppt.isEmpty() ) {
+                    ui->comboBox_OpenedReports->insertItem(0, reppt);
+                }
+
+                m_lastReportFileName = repgas;
 
                 ui->comboBox_OpenedReports->insertItem(0, m_lastReportFileName);
                 ui->comboBox_OpenedReports->setCurrentIndex(0);
@@ -2389,15 +2400,14 @@ void MainWindow::on_action_Execute_triggered() {
 
         m_lastReportsDir = myReducedPower->lastReportDir();
 
-        const QString csvfilter("*.dat");
-        QStringList csvfiles(m_lastReportsDir.entryList(
-                                 QDir::nameFiltersFromString(csvfilter),
-                                 QDir::Files,
-                                 QDir::Time)
-                             );
-
-        m_lastCheckoutDataFileName =
-                m_lastReportsDir.absoluteFilePath(csvfiles.first());
+        QDirIterator dit(m_lastReportsDir, QDirIterator::NoIteratorFlags);
+        while ( dit.hasNext() ) {
+            const QString ditem = dit.next();
+            if ( dit.fileName().startsWith("CheckoutData") ) {
+                m_lastCheckoutDataFileName = ditem;
+                break;
+            }
+        }
     }
     else if ( ui->comboBox_task->currentIndex() == toxic::TASK_ABCSPEEDS ) {
 
@@ -2823,7 +2833,7 @@ void MainWindow::on_action_AboutQr49_triggered() {
             "UN ECE Regulation No. 96, UN ECE Regulation No. 85, "
             "OST 37.001.234-81, GOST 17.2.2.05-97, GOST 30574-98, GOST R "
             "51249-99)."
-            "<br><br>Copyright (C) 2009-2016 Artem Petrov "
+            "<br><br>Copyright (C) 2009-2017 Artem Petrov "
             "<a href= \"mailto:pa2311@gmail.com\" >pa2311@gmail.com</a>"
             "<br><br>Special thanks to Dmitry Epaneshnikov for a set of icons."
             "<br><br>Source code hosting: <a href= \"https://github.com/pa23/r49\">"
